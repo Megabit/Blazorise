@@ -17,6 +17,6 @@
     [CascadingParameter] protected Blazorise.AntDesign.Components.BarBrand ParentAntDesignBarBrand { get; set; }
 
     string ItemClassNames => ParentAntDesignBarBrand is not null
-        ? $"{ClassNames} b-ant-menu-brand-item"
+        ? $"{ClassNames} ant-menu-brand-item"
         : ClassNames;
 }

@@ -1,9 +1,9 @@
-.b-ant-range-slider {
+.ant-range-slider {
     > .ant-slider-handle {
         pointer-events: none;
     }
 
-    > .b-ant-range-slider-tooltip {
+    > .ant-range-slider-tooltip {
         top: 0;
         visibility: hidden;
         opacity: 0;
@@ -39,7 +39,7 @@
         }
     }
 
-    > .b-ant-range-slider-input {
+    > .ant-range-slider-input {
         position: absolute;
         top: 0;
         left: 0;
@@ -88,14 +88,14 @@
         }
     }
 
-    &:hover > .b-ant-range-slider-tooltip,
-    &:focus-within > .b-ant-range-slider-tooltip {
+    &:hover > .ant-range-slider-tooltip,
+    &:focus-within > .ant-range-slider-tooltip {
         visibility: visible;
         opacity: 1;
     }
 
     &[aria-disabled='true'] {
-        > .b-ant-range-slider-input {
+        > .ant-range-slider-input {
             &::-webkit-slider-thumb {
                 cursor: not-allowed;
             }
@@ -105,28 +105,14 @@
             }
         }
     }
-}
 
-.b-ant-range-slider.ant-input-status-success {
-    --ant-slider-track-bg: var(--ant-color-success);
-    --ant-slider-track-hover-bg: var(--ant-color-success);
-    --ant-slider-handle-color: var(--ant-color-success);
-    --ant-slider-handle-active-color: var(--ant-color-success);
-    --ant-slider-dot-active-border-color: var(--ant-color-success);
-}
-
-.b-ant-range-slider.ant-input-status-warning {
-    --ant-slider-track-bg: var(--ant-color-warning);
-    --ant-slider-track-hover-bg: var(--ant-color-warning);
-    --ant-slider-handle-color: var(--ant-color-warning);
-    --ant-slider-handle-active-color: var(--ant-color-warning);
-    --ant-slider-dot-active-border-color: var(--ant-color-warning);
-}
-
-.b-ant-range-slider.ant-input-status-error {
-    --ant-slider-track-bg: var(--ant-color-error);
-    --ant-slider-track-hover-bg: var(--ant-color-error);
-    --ant-slider-handle-color: var(--ant-color-error);
-    --ant-slider-handle-active-color: var(--ant-color-error);
-    --ant-slider-dot-active-border-color: var(--ant-color-error);
+    @each $status, $color in $ant-status-colors {
+        &.ant-input-status-#{$status} {
+            --ant-slider-track-bg: #{$color};
+            --ant-slider-track-hover-bg: #{$color};
+            --ant-slider-handle-color: #{$color};
+            --ant-slider-handle-active-color: #{$color};
+            --ant-slider-dot-active-border-color: #{$color};
+        }
+    }
 }

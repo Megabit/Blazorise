@@ -1,4 +1,7 @@
-.b-ant-file-picker {
+.ant-file-picker {
+    display: inline-block;
+    width: 100%;
+
     > .ant-upload.ant-upload-select.ant-upload-select-text {
         display: inline-flex;
         align-items: center;
@@ -7,7 +10,7 @@
         border-radius: var(--ant-border-radius);
     }
 
-    .b-ant-file-picker-drop-text {
+    .ant-file-picker-drop-text {
         margin-top: var(--ant-margin-xs);
         padding: var(--ant-padding-xxs) var(--ant-padding-sm);
         color: var(--ant-color-text-description);
@@ -17,16 +20,16 @@
         border-radius: var(--ant-border-radius-sm);
     }
 
-    .b-ant-file-picker-files-container {
+    .ant-file-picker-files-container {
         margin-top: var(--ant-margin-sm);
     }
 
-    .b-ant-file-picker-files {
+    .ant-file-picker-files {
         margin-top: var(--ant-margin-xs);
     }
 
-    .b-ant-file-picker-file,
-    .b-ant-file-picker-dropdown-item {
+    .ant-file-picker-file,
+    .ant-file-picker-dropdown-item {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -43,26 +46,26 @@
         }
     }
 
-    .b-ant-file-picker-item-main {
+    .ant-file-picker-item-main {
         flex: 1 1 auto;
         min-width: 0;
         width: 100%;
         overflow: hidden;
     }
 
-    .b-ant-file-picker-item-meta {
+    .ant-file-picker-item-meta {
         min-width: 0;
         width: 100%;
         overflow: hidden;
     }
 
-    .b-ant-file-picker-item-actions {
+    .ant-file-picker-item-actions {
         flex: 0 0 auto;
         min-width: 0;
         margin-inline-start: auto;
     }
 
-    .b-file-picker-file-name {
+    .ant-file-picker-file-name {
         display: inline-flex;
         align-items: center;
         max-width: 100%;
@@ -75,22 +78,22 @@
         white-space: nowrap;
     }
 
-    .b-file-picker-file-relativepath,
-    .b-file-picker-file-size,
-    .b-file-picker-file-status {
+    .ant-file-picker-file-relativepath,
+    .ant-file-picker-file-size,
+    .ant-file-picker-file-status {
         display: block;
         margin-inline-end: var(--ant-margin-xs);
         color: var(--ant-color-text-description);
         font-size: var(--ant-font-size-sm);
     }
 
-    .b-file-picker-file-relativepath:empty,
-    .b-file-picker-file-size:empty,
-    .b-file-picker-file-status:empty {
+    .ant-file-picker-file-relativepath:empty,
+    .ant-file-picker-file-size:empty,
+    .ant-file-picker-file-status:empty {
         display: none;
     }
 
-    .b-file-picker-file-status {
+    .ant-file-picker-file-status {
         margin-top: var(--ant-margin-xxs);
     }
 
@@ -108,12 +111,12 @@
         border-radius: 0;
     }
 
-    .b-ant-file-picker-item-buttons {
+    .ant-file-picker-item-buttons {
         display: inline-flex;
         gap: var(--ant-margin-xs);
     }
 
-    .b-ant-file-picker-item-action {
+    .ant-file-picker-item-action {
         width: var(--ant-size-lg);
         min-width: var(--ant-size-lg);
         height: var(--ant-size-lg);
@@ -132,7 +135,7 @@
         }
     }
 
-    .b-ant-file-picker-item-action-remove {
+    .ant-file-picker-item-action-remove {
         color: var(--ant-color-error);
 
         &:hover,
@@ -141,7 +144,7 @@
         }
     }
 
-    .b-ant-file-picker-dropdown-menu {
+    .ant-file-picker-dropdown-menu {
         min-width: calc(var(--ant-control-height-lg) * 8);
     }
 
@@ -151,22 +154,22 @@
     }
 
     @media (max-width: 575.98px) {
-        .b-ant-file-picker-file,
-        .b-ant-file-picker-dropdown-item {
+        .ant-file-picker-file,
+        .ant-file-picker-dropdown-item {
             flex-wrap: wrap;
         }
 
-        .b-ant-file-picker-item-main,
-        .b-ant-file-picker-item-actions {
+        .ant-file-picker-item-main,
+        .ant-file-picker-item-actions {
             flex: 0 0 100%;
             width: 100%;
         }
 
-        .b-ant-file-picker-item-actions {
+        .ant-file-picker-item-actions {
             margin-inline-start: 0;
         }
 
-        .b-ant-file-picker-item-buttons {
+        .ant-file-picker-item-buttons {
             display: flex;
             justify-content: flex-end;
             width: 100%;

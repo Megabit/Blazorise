@@ -1,43 +1,29 @@
-.EasyMDEContainer.b-markdown-valid.b-markdown-valid {
-    .editor-toolbar,
-    .CodeMirror,
-    .editor-preview-side,
-    .editor-preview-full,
-    .editor-statusbar {
-        border-color: var(--b-theme-success, var(--ant-success-color));
-    }
-}
+.EasyMDEContainer {
+    @each $state, $color in $markdown-validation-colors {
+        &.b-markdown-#{$state}.b-markdown-#{$state} {
+            .editor-toolbar,
+            .CodeMirror,
+            .editor-preview-side,
+            .editor-preview-full,
+            .editor-statusbar {
+                border-color: $color;
+            }
 
-.EasyMDEContainer.b-markdown-warning.b-markdown-warning {
-    .editor-toolbar,
-    .CodeMirror,
-    .editor-preview-side,
-    .editor-preview-full,
-    .editor-statusbar {
-        border-color: var(--b-theme-warning, var(--ant-color-warning));
-    }
+            @if $state == warning {
+                + .ant-form-item-explain-none,
+                + .valid-feedback,
+                + .ant-form-item-explain:not([role]) + .valid-feedback {
+                    display: none;
+                }
 
-    + .ant-form-item-explain-none,
-    + .valid-feedback,
-    + .ant-form-item-explain:not([role]) + .valid-feedback {
-        display: none;
-    }
-
-    + .ant-form-item-explain[role='status'],
-    + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='status'],
-    + .valid-feedback + .ant-form-item-explain[role='status'],
-    + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role='status'] {
-        display: block;
-        color: var(--b-theme-warning, var(--ant-color-warning));
-    }
-}
-
-.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid {
-    .editor-toolbar,
-    .CodeMirror,
-    .editor-preview-side,
-    .editor-preview-full,
-    .editor-statusbar {
-        border-color: var(--b-theme-danger, var(--ant-error-color));
+                + .ant-form-item-explain[role='status'],
+                + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='status'],
+                + .valid-feedback + .ant-form-item-explain[role='status'],
+                + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role='status'] {
+                    display: block;
+                    color: $color;
+                }
+            }
+        }
     }
 }

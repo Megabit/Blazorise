@@ -15,49 +15,21 @@
     > .b-richtextedit-editor + .b-richtextedit-toolbar {
         border-top: 0;
     }
-}
 
-.b-richtextedit.ant-input-status-success {
-    > .b-richtextedit-editor.ql-bubble,
-    > .b-richtextedit-toolbar.ql-bubble,
-    > .ql-toolbar.ql-bubble {
-        border-style: solid;
-        border-width: var(--ant-line-width);
-    }
+    @each $status, $color in $validation-status-colors {
+        &.ant-input-status-#{$status} {
+            > .b-richtextedit-editor.ql-bubble,
+            > .b-richtextedit-toolbar.ql-bubble,
+            > .ql-toolbar.ql-bubble {
+                border-style: solid;
+                border-width: var(--ant-line-width);
+            }
 
-    > .b-richtextedit-editor.ql-container,
-    > .b-richtextedit-toolbar.ql-toolbar,
-    > .ql-toolbar.ql-bubble {
-        border-color: var(--b-theme-success, var(--ant-color-success));
-    }
-}
-
-.b-richtextedit.ant-input-status-warning {
-    > .b-richtextedit-editor.ql-bubble,
-    > .b-richtextedit-toolbar.ql-bubble,
-    > .ql-toolbar.ql-bubble {
-        border-style: solid;
-        border-width: var(--ant-line-width);
-    }
-
-    > .b-richtextedit-editor.ql-container,
-    > .b-richtextedit-toolbar.ql-toolbar,
-    > .ql-toolbar.ql-bubble {
-        border-color: var(--b-theme-warning, var(--ant-color-warning));
-    }
-}
-
-.b-richtextedit.ant-input-status-error {
-    > .b-richtextedit-editor.ql-bubble,
-    > .b-richtextedit-toolbar.ql-bubble,
-    > .ql-toolbar.ql-bubble {
-        border-style: solid;
-        border-width: var(--ant-line-width);
-    }
-
-    > .b-richtextedit-editor.ql-container,
-    > .b-richtextedit-toolbar.ql-toolbar,
-    > .ql-toolbar.ql-bubble {
-        border-color: var(--b-theme-danger, var(--ant-color-error));
+            > .b-richtextedit-editor.ql-container,
+            > .b-richtextedit-toolbar.ql-toolbar,
+            > .ql-toolbar.ql-bubble {
+                border-color: $color;
+            }
+        }
     }
 }

@@ -61,7 +61,7 @@
             margin-inline-end: 0;
         }
 
-        > .b-ant-pagination-link {
+        > .ant-pagination-link {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -83,36 +83,36 @@
             }
         }
 
-        &:not(.ant-pagination-item-active):not(.ant-pagination-disabled) > .b-ant-pagination-link:hover,
-        &:not(.ant-pagination-item-active):not(.ant-pagination-disabled) > .b-ant-pagination-link:focus {
+        &:not(.ant-pagination-item-active):not(.ant-pagination-disabled) > .ant-pagination-link:hover,
+        &:not(.ant-pagination-item-active):not(.ant-pagination-disabled) > .ant-pagination-link:focus {
             color: var(--ant-color-primary-hover);
             background-color: var(--ant-pagination-hover-bg);
         }
 
-        &:not(.ant-pagination-item-active):not(.ant-pagination-disabled) > .b-ant-pagination-link:focus-visible {
+        &:not(.ant-pagination-item-active):not(.ant-pagination-disabled) > .ant-pagination-link:focus-visible {
             box-shadow: var(--ant-pagination-active-shadow);
         }
 
-        &.ant-pagination-item-active > .b-ant-pagination-link {
+        &.ant-pagination-item-active > .ant-pagination-link {
             font-weight: var(--ant-font-weight-strong);
             color: var(--ant-pagination-item-active-color);
             background-color: var(--ant-pagination-item-active-bg);
         }
 
-        &.ant-pagination-item-active:not(.ant-pagination-disabled) > .b-ant-pagination-link:hover,
-        &.ant-pagination-item-active:not(.ant-pagination-disabled) > .b-ant-pagination-link:focus {
+        &.ant-pagination-item-active:not(.ant-pagination-disabled) > .ant-pagination-link:hover,
+        &.ant-pagination-item-active:not(.ant-pagination-disabled) > .ant-pagination-link:focus {
             color: var(--ant-pagination-item-active-color-hover);
             background-color: var(--ant-pagination-item-active-bg);
         }
 
-        &.ant-pagination-disabled > .b-ant-pagination-link {
+        &.ant-pagination-disabled > .ant-pagination-link {
             color: var(--ant-color-text-disabled);
             background-color: transparent;
             cursor: not-allowed;
             pointer-events: none;
         }
 
-        &.ant-pagination-item-active.ant-pagination-disabled > .b-ant-pagination-link {
+        &.ant-pagination-item-active.ant-pagination-disabled > .ant-pagination-link {
             color: var(--ant-pagination-item-active-color-disabled);
             background-color: var(--ant-pagination-item-active-bg-disabled);
         }

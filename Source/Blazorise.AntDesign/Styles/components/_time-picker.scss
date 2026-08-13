@@ -1,162 +1,164 @@
-.ant-time-picker-container {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    anchor-name: --ant-timepicker-anchor;
-    anchor-scope: --ant-timepicker-anchor;
-
-    &.ant-time-picker-container-open {
-        z-index: var(--ant-picker-z-index-popup);
-    }
-}
-
-.ant-time-picker-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: calc(var(--ant-picker-z-index-popup) - 1);
-    background: transparent;
-    pointer-events: none;
-}
-
-.ant-time-picker-dropdown.ant-picker-panel-container {
-    position: absolute;
-    inset-block-start: calc(100% + var(--ant-margin-xxs));
-    inset-inline-start: 0;
-    z-index: var(--ant-picker-z-index-popup);
-    width: auto;
-    min-width: calc(var(--ant-picker-time-column-width) * 3 + var(--ant-padding-xs) * 5);
-    max-width: calc(100vw - 1rem);
-    padding: var(--ant-padding-xs);
-    border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
-    border-radius: var(--ant-border-radius-lg);
-    color: var(--ant-color-text);
-    background: var(--ant-color-bg-elevated);
-    box-shadow: var(--ant-box-shadow-secondary);
-    outline: 0;
-    pointer-events: auto;
-
-    &.ant-time-picker-dropdown-inline {
+.ant-time-picker {
+    &-container {
         position: relative;
-        inset: auto;
-        margin-block-start: var(--ant-margin-xxs);
-        z-index: auto;
-    }
-}
+        display: inline-block;
+        width: 100%;
+        anchor-name: --ant-timepicker-anchor;
+        anchor-scope: --ant-timepicker-anchor;
 
-@supports (position-anchor: --ant-timepicker-anchor) and (anchor-scope: --ant-timepicker-anchor) {
-    .ant-time-picker-dropdown.ant-picker-panel-container.ant-time-picker-dropdown-floating {
+        &.ant-time-picker-container-open {
+            z-index: var(--ant-picker-z-index-popup);
+        }
+    }
+
+    &-backdrop {
         position: fixed;
-        position-anchor: --ant-timepicker-anchor;
-        inset: auto;
-        top: anchor(bottom);
-        inset-inline-start: anchor(start);
-        margin-block-start: var(--ant-margin-xxs);
-        position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
-    }
-}
-
-.ant-time-picker-panel {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: var(--ant-margin-xxs);
-    min-height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
-    font-family: var(--ant-font-family);
-    font-size: var(--ant-font-size);
-    line-height: 1;
-}
-
-.ant-time-picker-column {
-    display: flex;
-    flex: 0 0 var(--ant-picker-time-column-width);
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    width: var(--ant-picker-time-column-width);
-    height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
-    border-radius: var(--ant-border-radius-sm);
-    background: transparent;
-    transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
-
-    &:hover,
-    &:focus-within,
-    &.ant-time-picker-column-focused {
-        background: var(--ant-picker-cell-hover-bg);
-    }
-}
-
-.ant-time-picker-input {
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-radius: inherit;
-    outline: 0;
-    appearance: auto;
-    color: var(--ant-color-text);
-    background: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: 400;
-    line-height: 1;
-    text-align: center;
-
-    &::-webkit-inner-spin-button,
-    &::-webkit-outer-spin-button {
-        height: auto;
-        opacity: 1;
-        cursor: pointer;
+        inset: 0;
+        z-index: calc(var(--ant-picker-z-index-popup) - 1);
+        background: transparent;
+        pointer-events: none;
     }
 
-    &:disabled {
-        color: var(--ant-color-text-disabled);
-        cursor: not-allowed;
-    }
-}
-
-.ant-time-picker-separator {
-    flex: 0 0 var(--ant-padding-xs);
-    width: var(--ant-padding-xs);
-    color: var(--ant-color-text);
-    font-size: var(--ant-font-size);
-    font-weight: 400;
-    line-height: 1;
-    text-align: center;
-}
-
-.ant-time-picker-meridiem {
-    display: inline-flex;
-    flex: 0 0 var(--ant-picker-time-column-width);
-    align-items: center;
-    justify-content: center;
-    min-width: var(--ant-picker-time-column-width);
-    height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
-    margin-inline-start: var(--ant-margin-xxs);
-    padding: 0;
-    border: 0;
-    border-radius: var(--ant-border-radius-sm);
-    appearance: none;
-    background: transparent;
-    box-shadow: none;
-    color: var(--ant-color-text);
-    font-family: inherit;
-    font-size: var(--ant-font-size);
-    font-weight: 400;
-    line-height: 1;
-    cursor: pointer;
-    transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
-
-    &:hover:not(:disabled),
-    &:focus-visible,
-    &.ant-time-picker-column-focused {
+    &-dropdown.ant-picker-panel-container {
+        position: absolute;
+        inset-block-start: calc(100% + var(--ant-margin-xxs));
+        inset-inline-start: 0;
+        z-index: var(--ant-picker-z-index-popup);
+        width: auto;
+        min-width: calc(var(--ant-picker-time-column-width) * 3 + var(--ant-padding-xs) * 5);
+        max-width: calc(100vw - 1rem);
+        padding: var(--ant-padding-xs);
+        border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
+        border-radius: var(--ant-border-radius-lg);
+        color: var(--ant-color-text);
+        background: var(--ant-color-bg-elevated);
+        box-shadow: var(--ant-box-shadow-secondary);
         outline: 0;
-        background: var(--ant-picker-cell-hover-bg);
+        pointer-events: auto;
+
+        &.ant-time-picker-dropdown-inline {
+            position: relative;
+            inset: auto;
+            margin-block-start: var(--ant-margin-xxs);
+            z-index: auto;
+        }
     }
 
-    &:disabled {
-        color: var(--ant-color-text-disabled);
-        cursor: not-allowed;
+    @supports (position-anchor: --ant-timepicker-anchor) and (anchor-scope: --ant-timepicker-anchor) {
+        &-dropdown.ant-picker-panel-container.ant-time-picker-dropdown-floating {
+            position: fixed;
+            position-anchor: --ant-timepicker-anchor;
+            inset: auto;
+            top: anchor(bottom);
+            inset-inline-start: anchor(start);
+            margin-block-start: var(--ant-margin-xxs);
+            position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+        }
+    }
+
+    &-panel {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: var(--ant-margin-xxs);
+        min-height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+        font-family: var(--ant-font-family);
+        font-size: var(--ant-font-size);
+        line-height: 1;
+    }
+
+    &-column {
+        display: flex;
+        flex: 0 0 var(--ant-picker-time-column-width);
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: var(--ant-picker-time-column-width);
+        height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+        border-radius: var(--ant-border-radius-sm);
+        background: transparent;
+        transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+
+        &:hover,
+        &:focus-within,
+        &.ant-time-picker-column-focused {
+            background: var(--ant-picker-cell-hover-bg);
+        }
+    }
+
+    &-input {
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: inherit;
+        outline: 0;
+        appearance: auto;
+        color: var(--ant-color-text);
+        background: transparent;
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: 400;
+        line-height: 1;
+        text-align: center;
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+            height: auto;
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        &:disabled {
+            color: var(--ant-color-text-disabled);
+            cursor: not-allowed;
+        }
+    }
+
+    &-separator {
+        flex: 0 0 var(--ant-padding-xs);
+        width: var(--ant-padding-xs);
+        color: var(--ant-color-text);
+        font-size: var(--ant-font-size);
+        font-weight: 400;
+        line-height: 1;
+        text-align: center;
+    }
+
+    &-meridiem {
+        display: inline-flex;
+        flex: 0 0 var(--ant-picker-time-column-width);
+        align-items: center;
+        justify-content: center;
+        min-width: var(--ant-picker-time-column-width);
+        height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+        margin-inline-start: var(--ant-margin-xxs);
+        padding: 0;
+        border: 0;
+        border-radius: var(--ant-border-radius-sm);
+        appearance: none;
+        background: transparent;
+        box-shadow: none;
+        color: var(--ant-color-text);
+        font-family: inherit;
+        font-size: var(--ant-font-size);
+        font-weight: 400;
+        line-height: 1;
+        cursor: pointer;
+        transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+
+        &:hover:not(:disabled),
+        &:focus-visible,
+        &.ant-time-picker-column-focused {
+            outline: 0;
+            background: var(--ant-picker-cell-hover-bg);
+        }
+
+        &:disabled {
+            color: var(--ant-color-text-disabled);
+            cursor: not-allowed;
+        }
     }
 }

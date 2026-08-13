@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BarToggler
 @if ( ParentBar.Mode == BarMode.Horizontal )
 {
-    <li class="ant-menu-item ant-menu-item-only-child b-ant-menu-toggler-container" role="menuitem">
+    <li class="ant-menu-item ant-menu-item-only-child ant-menu-toggler-container" role="menuitem">
         <a @ref="@ElementRef" id="@ElementId" role="button" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
             <span class="ant-menu-title-content">
                 <span class="anticon ant-menu-item-icon">

@@ -1,4 +1,4 @@
-@include emit-initial-bar-breakpoints(".b-bar-initial", $breakpoint-observer-breakpoints, $bar-initial-breakpoints);
+@include emit-initial-bar-breakpoints(".ant-bar-initial", $breakpoint-observer-breakpoints, $bar-initial-breakpoints);
 
 .ant-menu-submenu-horizontal > .ant-menu-submenu-title {
     display: flex;
@@ -80,34 +80,34 @@
     left: auto;
 }
 
-.b-layout-header .ant-menu {
+.ant-layout-header .ant-menu {
     line-height: inherit;
 }
 
-.b-bar-initial {
+.ant-bar-initial {
     display: none !important;
 }
 
 @media (min-width: 768px) {
-    .b-bar-initial.ant-bar-expand-sm {
+    .ant-bar-initial.ant-bar-expand-sm {
         display: flex !important;
     }
 }
 
 @media (min-width: 992px) {
-    .b-bar-initial.ant-bar-expand-md {
+    .ant-bar-initial.ant-bar-expand-md {
         display: flex !important;
     }
 }
 
 @media (min-width: 1200px) {
-    .b-bar-initial.ant-bar-expand-lg {
+    .ant-bar-initial.ant-bar-expand-lg {
         display: flex !important;
     }
 }
 
 @media (min-width: 1400px) {
-    .b-bar-initial.ant-bar-expand-xl {
+    .ant-bar-initial.ant-bar-expand-xl {
         display: flex !important;
     }
 }
@@ -360,7 +360,7 @@
     }
 }
 
-.b-layout-header {
+.ant-layout-header {
     .ant-menu {
         border-bottom: 0;
 
@@ -384,7 +384,7 @@
     align-items: center;
 
     &[data-broken=false] {
-        > .b-ant-menu-toggler-container {
+        > .ant-menu-toggler-container {
             display: none;
         }
     }
@@ -393,12 +393,12 @@
         flex-wrap: wrap;
         height: auto;
 
-        > .b-ant-menu-brand-item {
+        > .ant-menu-brand-item {
             order: 0;
             flex: none;
         }
 
-        > .b-ant-menu-toggler-container {
+        > .ant-menu-toggler-container {
             order: 1;
             display: flex;
             margin-inline-start: auto;
@@ -419,9 +419,9 @@
             }
         }
 
-        > .ant-menu-item:not(.b-ant-menu-brand-item):not(.b-ant-menu-toggler-container),
+        > .ant-menu-item:not(.ant-menu-brand-item):not(.ant-menu-toggler-container),
         > .ant-menu-submenu,
-        > .b-ant-menu-end-spacer {
+        > .ant-menu-end-spacer {
             order: 2;
             flex: 0 0 100%;
             width: 100%;
@@ -429,25 +429,25 @@
             margin: 0 !important;
         }
 
-        > .b-ant-menu-end-spacer {
+        > .ant-menu-end-spacer {
             display: none;
         }
 
         &[data-collapse=hide] {
-            > .ant-menu-item:not(.b-ant-menu-brand-item):not(.b-ant-menu-toggler-container),
+            > .ant-menu-item:not(.ant-menu-brand-item):not(.ant-menu-toggler-container),
             > .ant-menu-submenu,
-            > .b-ant-menu-end-spacer {
+            > .ant-menu-end-spacer {
                 display: none;
             }
         }
 
         &:not([data-collapse=hide]) {
-            > .ant-menu-item:not(.b-ant-menu-brand-item):not(.b-ant-menu-toggler-container),
+            > .ant-menu-item:not(.ant-menu-brand-item):not(.ant-menu-toggler-container),
             > .ant-menu-submenu {
                 display: block;
             }
 
-            > .ant-menu-item:not(.b-ant-menu-brand-item):not(.b-ant-menu-toggler-container) > a,
+            > .ant-menu-item:not(.ant-menu-brand-item):not(.ant-menu-toggler-container) > a,
             > .ant-menu-submenu > .ant-menu-submenu-title {
                 display: flex;
                 align-items: center;
@@ -585,7 +585,7 @@
     height: 100%;
 }
 
-.ant-menu.ant-menu-root.ant-menu-horizontal > .b-ant-menu-end-spacer {
+.ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-end-spacer {
     flex: auto;
     min-width: 0;
     height: 100%;
@@ -855,22 +855,22 @@
     width: auto !important;
 }
 
-.b-ant-menu-brand-item {
+.ant-menu-brand-item {
     margin-inline: 0 !important;
 }
 
-.ant-menu-horizontal > .b-ant-menu-brand-item {
+.ant-menu-horizontal > .ant-menu-brand-item {
     width: auto !important;
 }
 
-.ant-menu-horizontal > .b-ant-menu-brand-item > a {
+.ant-menu-horizontal > .ant-menu-brand-item > a {
     display: inline-flex;
     align-items: center;
     height: 100%;
 }
 
-.ant-menu-inline > .b-ant-menu-brand-item,
-.ant-menu-vertical > .b-ant-menu-brand-item {
+.ant-menu-inline > .ant-menu-brand-item,
+.ant-menu-vertical > .ant-menu-brand-item {
     width: 100% !important;
     height: var(--ant-menu-brand-height);
     line-height: var(--ant-menu-brand-height);
@@ -878,8 +878,8 @@
     border-radius: 0;
 }
 
-.ant-menu-inline > .b-ant-menu-brand-item > a,
-.ant-menu-vertical > .b-ant-menu-brand-item > a {
+.ant-menu-inline > .ant-menu-brand-item > a,
+.ant-menu-vertical > .ant-menu-brand-item > a {
     display: flex;
     align-items: center;
     width: 100%;
@@ -899,12 +899,12 @@
     }
 }
 
-.b-ant-menu-toggler-container .ant-menu-title-content {
+.ant-menu-toggler-container .ant-menu-title-content {
     display: inline-flex;
     align-items: center;
 }
 
-.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=false] > .b-ant-menu-toggler-container {
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=false] > .ant-menu-toggler-container {
     display: none;
 }
 
@@ -1151,7 +1151,7 @@
             padding-inline: 0 !important;
         }
 
-        > .ant-menu-item:not(.b-ant-menu-brand-item) > a,
+        > .ant-menu-item:not(.ant-menu-brand-item) > a,
         > .ant-menu-submenu > .ant-menu-submenu-title {
             justify-content: flex-start;
             box-sizing: border-box;
@@ -1191,7 +1191,7 @@
             margin-inline-end: 0 !important;
         }
 
-        > .b-ant-menu-brand-item > a {
+        > .ant-menu-brand-item > a {
             box-sizing: border-box;
             width: 100%;
             margin: 0 !important;
@@ -1349,7 +1349,7 @@
 .ant-menu.ant-menu-root {
     &.ant-menu-inline,
     &.ant-menu-vertical {
-        > .b-ant-menu-brand-item {
+        > .ant-menu-brand-item {
             background: transparent !important;
         }
     }
@@ -1357,8 +1357,8 @@
     &.ant-menu-dark {
         &.ant-menu-inline,
         &.ant-menu-vertical {
-            > .b-ant-menu-brand-item > a,
-            > .b-ant-menu-brand-item > a.active {
+            > .ant-menu-brand-item > a,
+            > .ant-menu-brand-item > a.active {
                 background: transparent !important;
                 color: var(--ant-menu-dark-item-color);
             }
@@ -1368,8 +1368,8 @@
     &.ant-menu-light {
         &.ant-menu-inline,
         &.ant-menu-vertical {
-            > .b-ant-menu-brand-item > a,
-            > .b-ant-menu-brand-item > a.active {
+            > .ant-menu-brand-item > a,
+            > .ant-menu-brand-item > a.active {
                 background: transparent !important;
                 color: var(--ant-menu-item-color);
             }

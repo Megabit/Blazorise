@@ -5,23 +5,23 @@
         overflow: hidden;
         opacity: 1;
         transition: grid-template-rows var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), opacity var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
-    }
 
-    .ant-collapse-panel.ant-collapse-panel-hidden {
-        display: grid;
-        grid-template-rows: 0fr;
-        opacity: 0;
-    }
+        > .ant-collapse-body {
+            min-height: 0;
+            overflow: hidden;
+            transition: padding-block var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+        }
 
-    .ant-collapse-panel > .ant-collapse-body {
-        min-height: 0;
-        overflow: hidden;
-        transition: padding-block var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
-    }
+        &.ant-collapse-panel-hidden {
+            display: grid;
+            grid-template-rows: 0fr;
+            opacity: 0;
 
-    .ant-collapse-panel.ant-collapse-panel-hidden > .ant-collapse-body {
-        padding-top: 0;
-        padding-bottom: 0;
+            > .ant-collapse-body {
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+        }
     }
 
     .ant-collapse-title {
@@ -37,7 +37,7 @@
         }
     }
 
-    .b-ant-accordion-toggle {
+    .ant-accordion-toggle {
         display: block;
         width: 100%;
         padding: 0;
@@ -50,14 +50,14 @@
         box-shadow: none;
         appearance: none;
         cursor: pointer;
-    }
 
-    .b-ant-accordion-toggle:hover,
-    .b-ant-accordion-toggle:focus,
-    .b-ant-accordion-toggle:active {
-        color: inherit;
-        background: transparent;
-        border-color: transparent;
-        box-shadow: none;
+        &:hover,
+        &:focus,
+        &:active {
+            color: inherit;
+            background: transparent;
+            border-color: transparent;
+            box-shadow: none;
+        }
     }
 }

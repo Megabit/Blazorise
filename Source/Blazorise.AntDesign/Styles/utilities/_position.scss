@@ -22,31 +22,15 @@
 }
 
 @each $name, $value in $position-values {
-    .ant-top-#{$name} {
-        top: #{$value} !important;
-    }
-
-    .ant-bottom-#{$name} {
-        bottom: #{$value} !important;
-    }
-
-    .ant-left-#{$name} {
-        left: #{$value} !important;
-    }
-
-    .ant-right-#{$name} {
-        right: #{$value} !important;
+    @each $side in $position-sides {
+        .ant-#{$side}-#{$name} {
+            #{$side}: $value !important;
+        }
     }
 }
 
-.ant-translate-middle {
-    transform: translate(-50%, -50%) !important;
-}
-
-.ant-translate-middle-x {
-    transform: translateX(-50%) !important;
-}
-
-.ant-translate-middle-y {
-    transform: translateY(-50%) !important;
+@each $name, $value in $translate-values {
+    .ant-translate-#{$name} {
+        transform: $value !important;
+    }
 }

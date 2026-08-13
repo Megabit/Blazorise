@@ -12,7 +12,7 @@
     }
 }
 
-.b-ant-addons {
+.ant-addons {
     display: block;
     width: 100%;
 
@@ -49,7 +49,7 @@
 
                 > .control > .ant-btn,
                 > .dropdown .ant-btn,
-                > .b-ant-dropdown .ant-btn,
+                > .ant-dropdown-root .ant-btn,
                 > .ant-btn {
                     border-top-left-radius: 0;
                     border-bottom-left-radius: 0;
@@ -62,7 +62,7 @@
 
                 > .control > .ant-btn,
                 > .dropdown .ant-btn,
-                > .b-ant-dropdown .ant-btn,
+                > .ant-dropdown-root .ant-btn,
                 > .ant-btn {
                     border-top-right-radius: 0;
                     border-bottom-right-radius: 0;
@@ -71,7 +71,7 @@
 
             &:has(> .control > .ant-btn),
             &:has(> .dropdown .ant-btn),
-            &:has(> .b-ant-dropdown .ant-btn),
+            &:has(> .ant-dropdown-root .ant-btn),
             &:has(> .ant-btn) {
                 padding: 0;
                 background: transparent;
@@ -80,7 +80,7 @@
 
             > .control,
             > .dropdown,
-            > .b-ant-dropdown,
+            > .ant-dropdown-root,
             > .ant-select,
             > .ant-picker,
             > .ant-input-number,
@@ -96,7 +96,7 @@
 
             > .control > .ant-btn,
             > .dropdown .ant-btn,
-            > .b-ant-dropdown .ant-btn,
+            > .ant-dropdown-root .ant-btn,
             > .ant-btn {
                 width: auto;
                 min-width: max-content;
@@ -107,16 +107,16 @@
             }
 
             > .dropdown,
-            > .b-ant-dropdown,
+            > .ant-dropdown-root,
             > .dropdown .ant-dropdown-menu,
-            > .b-ant-dropdown .ant-dropdown-menu {
+            > .ant-dropdown-root .ant-dropdown-menu {
                 text-align: start;
             }
         }
 
         > .ant-input,
         > textarea.ant-input,
-        > .b-ant-select-root,
+        > .ant-select-root,
         > .ant-picker,
         > .ant-input-number {
             position: relative;
@@ -127,7 +127,7 @@
             width: 0;
         }
 
-        > .b-ant-select-root {
+        > .ant-select-root {
             > .ant-select {
                 display: flex;
                 align-items: stretch;
@@ -151,11 +151,11 @@
         > .ant-input-group-addon + textarea.ant-input,
         > .ant-input-group-addon + .ant-picker,
         > .ant-input-group-addon + .ant-input-number,
-        > .ant-input-group-addon + .b-input-color-picker.ant-color-picker-trigger {
+        > .ant-input-group-addon + .ant-input-color-picker.ant-color-picker-trigger {
             border-inline-start: 0;
         }
 
-        > .ant-input-group-addon + .b-ant-select-root .ant-select-selector {
+        > .ant-input-group-addon + .ant-select-root .ant-select-selector {
             border-inline-start: 0;
         }
 
@@ -175,30 +175,30 @@
         > .ant-input-number + textarea.ant-input,
         > .ant-input-number + .ant-picker,
         > .ant-input-number + .ant-input-number,
-        > :is( .ant-input, textarea.ant-input, .ant-picker, .ant-input-number, .b-ant-select-root, .b-input-color-picker.ant-color-picker-trigger ) + .b-input-color-picker.ant-color-picker-trigger,
-        > .b-input-color-picker.ant-color-picker-trigger + :is( .ant-input, textarea.ant-input, .ant-picker, .ant-input-number, .b-input-color-picker.ant-color-picker-trigger ) {
+        > :is( .ant-input, textarea.ant-input, .ant-picker, .ant-input-number, .ant-select-root, .ant-input-color-picker.ant-color-picker-trigger ) + .ant-input-color-picker.ant-color-picker-trigger,
+        > .ant-input-color-picker.ant-color-picker-trigger + :is( .ant-input, textarea.ant-input, .ant-picker, .ant-input-number, .ant-input-color-picker.ant-color-picker-trigger ) {
             border-inline-start: 0;
         }
 
-        > .ant-input + .b-ant-select-root .ant-select-selector,
-        > textarea.ant-input + .b-ant-select-root .ant-select-selector,
-        > .ant-picker + .b-ant-select-root .ant-select-selector,
-        > .ant-input-number + .b-ant-select-root .ant-select-selector,
-        > .b-ant-select-root + .ant-input,
-        > .b-ant-select-root + textarea.ant-input,
-        > .b-ant-select-root + .ant-picker,
-        > .b-ant-select-root + .ant-input-number,
-        > .b-ant-select-root + .b-ant-select-root .ant-select-selector,
-        > .b-input-color-picker.ant-color-picker-trigger + .b-ant-select-root .ant-select-selector {
+        > .ant-input + .ant-select-root .ant-select-selector,
+        > textarea.ant-input + .ant-select-root .ant-select-selector,
+        > .ant-picker + .ant-select-root .ant-select-selector,
+        > .ant-input-number + .ant-select-root .ant-select-selector,
+        > .ant-select-root + .ant-input,
+        > .ant-select-root + textarea.ant-input,
+        > .ant-select-root + .ant-picker,
+        > .ant-select-root + .ant-input-number,
+        > .ant-select-root + .ant-select-root .ant-select-selector,
+        > .ant-input-color-picker.ant-color-picker-trigger + .ant-select-root .ant-select-selector {
             border-inline-start: 0;
         }
 
         > .ant-input + .ant-input-group-addon,
         > textarea.ant-input + .ant-input-group-addon,
-        > .b-ant-select-root + .ant-input-group-addon,
+        > .ant-select-root + .ant-input-group-addon,
         > .ant-picker + .ant-input-group-addon,
         > .ant-input-number + .ant-input-group-addon,
-        > .b-input-color-picker.ant-color-picker-trigger + .ant-input-group-addon {
+        > .ant-input-color-picker.ant-color-picker-trigger + .ant-input-group-addon {
             border-inline-start: 0;
         }
 
@@ -208,11 +208,11 @@
         > .ant-picker:not(:first-child):focus-within,
         > .ant-input-number:not(:first-child).ant-input-number-focused,
         > .ant-input-number:not(:first-child):focus-within,
-        > .b-input-color-picker.ant-color-picker-trigger:not(:first-child):focus-within {
+        > .ant-input-color-picker.ant-color-picker-trigger:not(:first-child):focus-within {
             z-index: 2;
         }
 
-        > .b-ant-select-root:not(:first-child) > .ant-select.ant-select-focused {
+        > .ant-select-root:not(:first-child) > .ant-select.ant-select-focused {
             z-index: 2;
         }
 
@@ -231,17 +231,17 @@
             box-shadow: inset var(--ant-line-width) 0 0 0 var(--ant-input-number-active-border-color), var(--ant-input-number-active-shadow);
         }
 
-        > .b-ant-select-root:not(:first-child) > .ant-select.ant-select-focused .ant-select-selector {
+        > .ant-select-root:not(:first-child) > .ant-select.ant-select-focused .ant-select-selector {
             border-color: var(--ant-select-active-border-color);
             box-shadow: inset var(--ant-line-width) 0 0 0 var(--ant-select-active-border-color);
         }
 
-        > .b-ant-select-root:not(:first-child) > .ant-select {
+        > .ant-select-root:not(:first-child) > .ant-select {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
 
-        > .b-ant-select-root:not(:last-child) > .ant-select {
+        > .ant-select-root:not(:last-child) > .ant-select {
             margin-inline-end: -1px;
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
@@ -251,7 +251,7 @@
         > textarea.ant-input:not(:first-child),
         > .ant-picker:not(:first-child),
         > .ant-input-number:not(:first-child),
-        > .b-input-color-picker.ant-color-picker-trigger:not(:first-child) {
+        > .ant-input-color-picker.ant-color-picker-trigger:not(:first-child) {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
@@ -260,17 +260,17 @@
         > textarea.ant-input:not(:last-child),
         > .ant-picker:not(:last-child),
         > .ant-input-number:not(:last-child),
-        > .b-input-color-picker.ant-color-picker-trigger:not(:last-child) {
+        > .ant-input-color-picker.ant-color-picker-trigger:not(:last-child) {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }
 
-        > .b-ant-select-root:not(:first-child) > .ant-select .ant-select-selector {
+        > .ant-select-root:not(:first-child) > .ant-select .ant-select-selector {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
 
-        > .b-ant-select-root:not(:last-child) > .ant-select .ant-select-selector {
+        > .ant-select-root:not(:last-child) > .ant-select .ant-select-selector {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
             border-inline-end-color: var(--ant-color-border);
@@ -278,7 +278,7 @@
     }
 }
 
-.b-ant-addons-has-button .ant-input-group-addon {
+.ant-addons-has-button .ant-input-group-addon {
     &:last-child .ant-btn {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
@@ -301,7 +301,7 @@
 
                 > .control .ant-btn,
                 > .dropdown .ant-btn,
-                > .b-ant-dropdown .ant-btn,
+                > .ant-dropdown-root .ant-btn,
                 > .ant-btn {
                     height: $height;
                     padding-inline: $button-padding-inline;
@@ -318,27 +318,27 @@
 
             > .ant-picker,
             > .ant-input-number,
-            > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input),
-            > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+            > .ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input),
+            > .ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
                 height: $height;
                 min-height: $height;
                 font-size: $font-size;
             }
 
-            > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+            > .ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
                 padding-block: 0;
             }
 
-            > .b-ant-select-root > .ant-select .ant-select-arrow {
+            > .ant-select-root > .ant-select .ant-select-arrow {
                 height: calc(#{$height} - 2px);
             }
 
-            > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
-            > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder {
+            > .ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
+            > .ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder {
                 line-height: calc(#{$height} - 2px);
             }
 
-            > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selection-search-input,
+            > .ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selection-search-input,
             > .ant-input-number .ant-input-number-input {
                 height: calc(#{$height} - 2px);
             }
@@ -346,8 +346,6 @@
     }
 }
 
-@include addons-size('xs', 10px, var(--ant-control-height-xs), var(--ant-padding-xxs), var(--ant-padding-xxs), var(--ant-padding-xxs));
-@include addons-size('sm', var(--ant-font-size-sm), var(--ant-control-height-sm), var(--ant-input-padding-inline-sm), var(--ant-input-padding-inline-sm), var(--ant-input-padding-inline-sm));
-@include addons-size('md', var(--ant-font-size), calc(var(--ant-control-height) + var(--ant-size-unit)), var(--ant-padding-sm), var(--ant-input-padding-inline), var(--ant-padding-sm));
-@include addons-size('lg', var(--ant-font-size-lg), var(--ant-control-height-lg), var(--ant-button-padding-inline-lg), var(--ant-input-padding-inline-lg), var(--ant-button-padding-inline-lg));
-@include addons-size('xl', var(--ant-font-size-xl), calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2), var(--ant-padding), var(--ant-padding-sm), var(--ant-padding));
+@each $name, $sizes in $addon-sizes {
+    @include addons-size($name, nth($sizes, 1), nth($sizes, 2), nth($sizes, 3), nth($sizes, 4), nth($sizes, 5));
+}

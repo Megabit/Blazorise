@@ -69,7 +69,7 @@
         justify-content: end;
     }
 
-    &.b-ant-progress-stacked {
+    &.ant-progress-stacked {
         .ant-progress-rail {
             display: flex;
             align-items: stretch;
@@ -150,37 +150,21 @@
         }
     }
 
-    &.b-ant-progress-xs {
-        .ant-progress-rail {
-            height: 4px;
-        }
-    }
-
-    &.b-ant-progress-md {
-        .ant-progress-rail {
-            height: 12px;
-        }
-    }
-
-    &.b-ant-progress-lg {
-        .ant-progress-rail {
-            height: 16px;
-        }
-    }
-
-    &.b-ant-progress-xl {
-        .ant-progress-rail {
-            height: 20px;
+    @each $name, $height in $progress-sizes {
+        &.ant-progress-#{$name} {
+            .ant-progress-rail {
+                height: $height;
+            }
         }
     }
 }
 
-.b-ant-progress-track-striped {
+.ant-progress-track-striped {
     @include gradient-striped();
     background-size: 1rem 1rem;
 }
 
-@keyframes b-ant-progress-bar-stripes {
+@keyframes ant-progress-bar-stripes {
     from {
         background-position: 1rem 0;
     }
@@ -190,11 +174,11 @@
     }
 }
 
-.b-ant-progress-track-animated {
-    animation: b-ant-progress-bar-stripes 1s linear infinite;
+.ant-progress-track-animated {
+    animation: ant-progress-bar-stripes 1s linear infinite;
 }
 
-.b-ant-progress-track-indeterminate {
+.ant-progress-track-indeterminate {
     width: 100% !important;
     overflow: hidden;
     background: transparent !important;
@@ -208,15 +192,15 @@
     }
 
     &::before {
-        animation: b-ant-progress-indeterminate 2s ease infinite;
+        animation: ant-progress-indeterminate 2s ease infinite;
     }
 
     &::after {
-        animation: b-ant-progress-indeterminate-short 2s ease .5s infinite;
+        animation: ant-progress-indeterminate-short 2s ease .5s infinite;
     }
 }
 
-@keyframes b-ant-progress-indeterminate {
+@keyframes ant-progress-indeterminate {
     0% {
         left: -5%;
         width: 5%;
@@ -228,7 +212,7 @@
     }
 }
 
-@keyframes b-ant-progress-indeterminate-short {
+@keyframes ant-progress-indeterminate-short {
     0% {
         left: -80%;
         width: 80%;
@@ -241,7 +225,7 @@
 }
 
 @mixin ant-progress-track-variant($name, $color) {
-    .ant-progress .b-ant-progress-track-#{$name} {
+    .ant-progress .ant-progress-track-#{$name} {
         --b-ant-progress-track-background: #{$color};
         background-color: #{$color};
 
@@ -252,17 +236,11 @@
     }
 }
 
-@include ant-progress-track-variant(primary, var(--b-theme-background-primary, var(--ant-color-primary)));
-@include ant-progress-track-variant(secondary, var(--b-theme-background-secondary, var(--ant-color-text-secondary)));
-@include ant-progress-track-variant(success, var(--b-theme-background-success, var(--ant-color-success)));
-@include ant-progress-track-variant(info, var(--b-theme-background-info, var(--ant-color-info)));
-@include ant-progress-track-variant(warning, var(--b-theme-background-warning, var(--ant-color-warning)));
-@include ant-progress-track-variant(danger, var(--b-theme-background-danger, var(--ant-color-error)));
-@include ant-progress-track-variant(light, var(--b-theme-background-light, var(--ant-color-fill-quaternary)));
-@include ant-progress-track-variant(dark, var(--b-theme-background-dark, var(--ant-color-text)));
-@include ant-progress-track-variant(link, var(--b-theme-background-link, var(--ant-color-link)));
+@each $name, $color in $background-variants {
+    @include ant-progress-track-variant($name, $color);
+}
 
-.b-page-progress {
+.ant-page-progress {
     position: fixed;
     top: 0;
     left: 0;
@@ -272,42 +250,36 @@
     height: 4px;
     pointer-events: none;
 
-    .b-page-progress-indicator {
+    .ant-page-progress-indicator {
         width: 0;
         height: 100%;
         background-color: var(--ant-progress-default-color);
         box-shadow: 0 0 8px color-mix(in srgb, var(--ant-progress-default-color) 35%, transparent);
         transition: width 1s;
 
-        &.b-page-progress-indicator-indeterminate {
+        &.ant-page-progress-indicator-indeterminate {
             width: 30%;
-            animation: b-ant-running-page-progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            animation: ant-running-page-progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
     }
 
-    &.b-page-progress-active {
+    &.ant-page-progress-active {
         display: block;
     }
 }
 
 @mixin ant-page-progress-variant($name, $color) {
-    .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-#{$name} {
+    .ant-page-progress .ant-page-progress-indicator.ant-page-progress-indicator-#{$name} {
         background-color: #{$color};
         box-shadow: 0 0 8px color-mix(in srgb, #{$color} 35%, transparent);
     }
 }
 
-@include ant-page-progress-variant(primary, var(--b-theme-background-primary, var(--ant-color-primary)));
-@include ant-page-progress-variant(secondary, var(--b-theme-background-secondary, var(--ant-color-text-secondary)));
-@include ant-page-progress-variant(success, var(--b-theme-background-success, var(--ant-color-success)));
-@include ant-page-progress-variant(info, var(--b-theme-background-info, var(--ant-color-info)));
-@include ant-page-progress-variant(warning, var(--b-theme-background-warning, var(--ant-color-warning)));
-@include ant-page-progress-variant(danger, var(--b-theme-background-danger, var(--ant-color-error)));
-@include ant-page-progress-variant(light, var(--b-theme-background-light, var(--ant-color-fill-quaternary)));
-@include ant-page-progress-variant(dark, var(--b-theme-background-dark, var(--ant-color-text)));
-@include ant-page-progress-variant(link, var(--b-theme-background-link, var(--ant-color-link)));
+@each $name, $color in $background-variants {
+    @include ant-page-progress-variant($name, $color);
+}
 
-@keyframes b-ant-running-page-progress {
+@keyframes ant-running-page-progress {
     0% {
         margin-left: 0;
         margin-right: 100%;

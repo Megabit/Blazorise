@@ -29,14 +29,14 @@ function syncThumb(root) {
 
     const groupRect = group.getBoundingClientRect();
     const itemRect = selectedItem.getBoundingClientRect();
-    const colorClass = Array.from(selectedItem.classList).find(x => x.startsWith('b-ant-segmented-item-'));
+    const colorClass = Array.from(selectedItem.classList).find(x => x.startsWith('ant-segmented-item-'));
 
     Array.from(thumb.classList)
-        .filter(x => x.startsWith('b-ant-segmented-thumb-'))
+        .filter(x => x.startsWith('ant-segmented-thumb-'))
         .forEach(x => thumb.classList.remove(x));
 
     if (colorClass) {
-        thumb.classList.add(colorClass.replace('b-ant-segmented-item-', 'b-ant-segmented-thumb-'));
+        thumb.classList.add(colorClass.replace('ant-segmented-item-', 'ant-segmented-thumb-'));
     }
 
     thumb.style.opacity = '1';

@@ -1,18 +1,14 @@
-﻿.b-ant-text {
-    &-left {
-        text-align: left !important;
+﻿.ant-text {
+    @each $name, $value in $text-alignments {
+        &-#{$name} {
+            text-align: $value !important;
+        }
     }
 
-    &-right {
-        text-align: right !important;
-    }
-
-    &-center {
-        text-align: center !important;
-    }
-
-    &-justify {
-        text-align: justify !important;
+    @each $name, $value in $text-transforms {
+        &-#{$name} {
+            text-transform: $value !important;
+        }
     }
 }
 
@@ -23,7 +19,7 @@
         @each $name, $fs in $font-sizes {
             $lh: map-get($line-heights, $name);
 
-            .b-ant-font-size#{$infix}-#{$name} {
+            .ant-font-size#{$infix}-#{$name} {
                 font-size: $fs;
                 line-height: $lh;
             }
@@ -31,20 +27,36 @@
     }
 }
 
-.b-ant-typography-wrap {
-    white-space: normal !important;
+.ant-typography {
+    &-wrap {
+        white-space: normal !important;
+    }
+
+    &-nowrap {
+        white-space: nowrap !important;
+    }
+
+    &-italic {
+        font-style: italic !important;
+    }
 }
 
-.b-ant-typography-nowrap {
-    white-space: nowrap !important;
-}
+.ant-typography {
+    &-ellipsis {
+        display: inline-block !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
 
-.ant-typography-ellipsis {
-    display: inline-block !important;
-    max-width: 100% !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
+    @each $names, $color in $typography-colors {
+        @each $name in $names {
+            &-#{$name} {
+                color: $color !important;
+            }
+        }
+    }
 }
 
 .ant-unordered-list {
@@ -52,22 +64,6 @@
         padding-left: 0;
         list-style: none;
     }
-}
-
-.b-ant-text-lowercase {
-    text-transform: lowercase !important;
-}
-
-.b-ant-text-uppercase {
-    text-transform: uppercase !important;
-}
-
-.b-ant-text-capitalize {
-    text-transform: capitalize !important;
-}
-
-.b-ant-typography-italic {
-    font-style: italic !important;
 }
 
 ol.ant-ordered-list {
@@ -93,149 +89,18 @@ ol.ant-ordered-list {
     }
 }
 
-.b-ant-font-weight {
-    &-bold {
-        font-weight: 700;
-    }
-
-    &-semibold {
-        font-weight: 600;
-    }
-
-    &-normal,
-    &-default {
-        font-weight: 400;
-    }
-
-    &-light {
-        font-weight: 300;
+.ant-font-weight {
+    @each $name, $value in $font-weights {
+        &-#{$name} {
+            font-weight: $value;
+        }
     }
 }
 
-.b-ant-text-decoration {
-    &-underline {
-        text-decoration: underline !important;
+.ant-text-decoration {
+    @each $name, $value in $text-decorations {
+        &-#{$name} {
+            text-decoration: $value !important;
+        }
     }
-
-    &-overline {
-        text-decoration: overline !important;
-    }
-
-    &-line-through {
-        text-decoration: line-through !important;
-    }
-
-    &-inherit {
-        text-decoration: inherit !important;
-    }
-
-    &-none {
-        text-decoration: none !important;
-    }
-}
-
-.ant-typography-secondary {
-    color: var(--ant-color-text-description) !important;
-}
-
-.ant-typography-primary {
-    color: var(--b-theme-text-primary, var(--ant-color-primary)) !important;
-}
-
-.ant-typography-success {
-    color: var(--b-theme-text-success, var(--ant-color-success)) !important;
-}
-
-.ant-typography-info {
-    color: var(--b-theme-text-info, var(--ant-color-info)) !important;
-}
-
-.ant-typography-warning {
-    color: var(--b-theme-text-warning, var(--ant-color-warning)) !important;
-}
-
-.ant-typography-danger,
-.ant-typography-error {
-    color: var(--b-theme-text-danger, var(--ant-color-error)) !important;
-}
-
-.ant-typography-light {
-    color: var(--b-theme-text-light, #fafafa) !important;
-}
-
-.ant-typography-dark {
-    color: var(--b-theme-text-dark, #343a40) !important;
-}
-
-.ant-typography-body {
-    color: var(--b-theme-text-body, var(--ant-color-text)) !important;
-}
-
-.ant-typography-body-emphasis {
-    color: var(--b-theme-text-body-emphasis, var(--ant-color-text-heading)) !important;
-}
-
-.ant-typography-muted {
-    color: var(--b-theme-text-muted, var(--ant-color-text-description)) !important;
-}
-
-.ant-typography-muted-emphasis {
-    color: var(--b-theme-text-muted-emphasis, var(--ant-color-text-secondary)) !important;
-}
-
-.ant-typography-white {
-    color: var(--b-theme-text-white, var(--ant-color-text-light-solid)) !important;
-}
-
-.ant-typography-white-emphasis {
-    color: var(--b-theme-text-white-emphasis, var(--b-theme-text-white, var(--ant-color-text-light-solid))) !important;
-}
-
-.ant-typography-black-50 {
-    color: var(--b-theme-text-black-50, rgba(0, 0, 0, .5)) !important;
-}
-
-.ant-typography-black-50-emphasis {
-    color: var(--b-theme-text-black-50-emphasis, rgba(0, 0, 0, 0.7)) !important;
-}
-
-.ant-typography-white-50 {
-    color: var(--b-theme-text-white-50, rgba(255, 255, 255, .5)) !important;
-}
-
-.ant-typography-white-50-emphasis {
-    color: var(--b-theme-text-white-50-emphasis, rgba(255, 255, 255, 0.8)) !important;
-}
-
-.ant-typography-primary-emphasis {
-    color: var(--b-theme-text-primary-emphasis, var(--ant-color-primary-active)) !important;
-}
-
-.ant-typography-secondary-emphasis {
-    color: var(--b-theme-text-secondary-emphasis, var(--ant-color-text-heading)) !important;
-}
-
-.ant-typography-success-emphasis {
-    color: var(--b-theme-text-success-emphasis, var(--ant-color-success-active)) !important;
-}
-
-.ant-typography-info-emphasis {
-    color: var(--b-theme-text-info-emphasis, var(--ant-color-info-active)) !important;
-}
-
-.ant-typography-warning-emphasis {
-    color: var(--b-theme-text-warning-emphasis, var(--ant-color-warning-active)) !important;
-}
-
-.ant-typography-danger-emphasis,
-.ant-typography-error-emphasis {
-    color: var(--b-theme-text-danger-emphasis, var(--ant-color-error-active)) !important;
-}
-
-.ant-typography-light-emphasis {
-    color: var(--b-theme-text-light-emphasis, var(--b-theme-text-light, var(--ant-color-text-light-solid))) !important;
-}
-
-.ant-typography-dark-emphasis {
-    color: var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading)) !important;
 }

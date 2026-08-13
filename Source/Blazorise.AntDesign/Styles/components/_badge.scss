@@ -24,15 +24,9 @@
 }
 
 .ant-tag {
-    @include ant-tag-variant( primary, var(--b-theme-primary, var(--ant-color-primary)), var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-primary-subtle, var(--ant-color-primary-border)), var(--b-theme-text-primary-emphasis, var(--ant-color-primary)) );
-
-    @include ant-tag-variant( secondary, var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-secondary-subtle, var(--ant-color-border)), var(--b-theme-text-secondary-emphasis, var(--ant-color-text-secondary)) );
-
-    @include ant-tag-variant( light, var(--b-theme-light, var(--ant-color-fill-quaternary)), var(--b-theme-background-light-subtle, var(--ant-color-bg-container)), var(--b-theme-border-light-subtle, var(--ant-color-border)), var(--b-theme-text-light-emphasis, var(--ant-color-text)), var(--ant-color-text) );
-
-    @include ant-tag-variant( dark, var(--b-theme-dark, var(--ant-color-text-secondary)), var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary)), var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading)) );
-
-    @include ant-tag-variant( link, transparent, transparent, transparent, var(--b-theme-link, var(--ant-color-link)), var(--b-theme-link, var(--ant-color-link)) );
+    @each $name, $colors in $tag-variants {
+        @include ant-tag-variant($name, nth($colors, 1), nth($colors, 2), nth($colors, 3), nth($colors, 4), nth($colors, 5));
+    }
 
     &.ant-tag-link:not(.ant-tag-disabled).ant-tag-outlined,
     &.ant-tag-link:not(.ant-tag-disabled).ant-tag-solid,
@@ -49,39 +43,11 @@
         border-color: transparent;
     }
 
-    &.ant-tag-light-subtle {
-        color: var(--b-theme-text-light-emphasis, var(--ant-color-text));
-        background-color: var(--b-theme-background-light-subtle, var(--ant-color-bg-container));
-        border-color: var(--b-theme-border-light-subtle, var(--ant-color-border));
-    }
-
-    &.ant-tag-dark-subtle {
-        color: var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading));
-        background-color: var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter));
-        border-color: var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary));
-    }
-
-    &.ant-tag-success-subtle {
-        color: var(--b-theme-text-success-emphasis, var(--ant-color-success));
-        background-color: var(--b-theme-background-success-subtle, var(--ant-color-success-bg));
-        border-color: var(--b-theme-border-success-subtle, var(--ant-color-success-border));
-    }
-
-    &.ant-tag-processing-subtle {
-        color: var(--b-theme-text-info-emphasis, var(--ant-color-info));
-        background-color: var(--b-theme-background-info-subtle, var(--ant-color-info-bg));
-        border-color: var(--b-theme-border-info-subtle, var(--ant-color-info-border));
-    }
-
-    &.ant-tag-warning-subtle {
-        color: var(--b-theme-text-warning-emphasis, var(--ant-color-warning));
-        background-color: var(--b-theme-background-warning-subtle, var(--ant-color-warning-bg));
-        border-color: var(--b-theme-border-warning-subtle, var(--ant-color-warning-border));
-    }
-
-    &.ant-tag-error-subtle {
-        color: var(--b-theme-text-danger-emphasis, var(--ant-color-error));
-        background-color: var(--b-theme-background-danger-subtle, var(--ant-color-error-bg));
-        border-color: var(--b-theme-border-danger-subtle, var(--ant-color-error-border));
+    @each $name, $colors in $tag-subtle-variants {
+        &.ant-tag-#{$name}-subtle {
+            color: nth($colors, 1);
+            background-color: nth($colors, 2);
+            border-color: nth($colors, 3);
+        }
     }
 }

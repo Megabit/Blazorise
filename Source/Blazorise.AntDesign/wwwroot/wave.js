@@ -61,7 +61,7 @@ function showWave(root, targetSelector) {
 
     cleanupWave(target);
 
-    target.classList.add('b-ant-wave-host');
+    target.classList.add('ant-wave-host');
 
     const wave = document.createElement('div');
     const waveColor = getTargetWaveColor(target);

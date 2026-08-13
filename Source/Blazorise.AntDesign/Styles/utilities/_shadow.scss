@@ -1,15 +1,7 @@
-﻿.ant-shadow-sm {
-    box-shadow: var(--ant-box-shadow-secondary) !important;
-}
+﻿@each $name, $value in $shadow-values {
+    $suffix: if($name == default, "", "-#{$name}");
 
-.ant-shadow {
-    box-shadow: var(--ant-box-shadow) !important;
-}
-
-.ant-shadow-lg {
-    box-shadow: var(--ant-box-shadow-tertiary) !important;
-}
-
-.ant-shadow-none {
-    box-shadow: none !important;
+    .ant-shadow#{$suffix} {
+        box-shadow: $value !important;
+    }
 }

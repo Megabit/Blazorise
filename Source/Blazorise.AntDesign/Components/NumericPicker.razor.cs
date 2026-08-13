@@ -69,7 +69,7 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
 
     private void BuildNumericWrapperClasses( ClassBuilder builder )
     {
-        builder.Append( "b-ant-numeric-picker" );
+        builder.Append( "ant-numeric-picker" );
         AppendWrapperUtilities( builder );
 
         if ( numericWrapperWidth != null )

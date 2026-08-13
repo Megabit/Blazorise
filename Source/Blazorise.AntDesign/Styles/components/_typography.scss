@@ -1,37 +1,21 @@
 .ant-typography {
-    &.b-ant-display-1,
-    &.b-ant-display-2,
-    &.b-ant-display-3,
-    &.b-ant-display-4 {
+    &.ant-display-1,
+    &.ant-display-2,
+    &.ant-display-3,
+    &.ant-display-4 {
         color: var(--ant-color-text-heading);
         margin-bottom: 0.5em;
     }
 
-    &.b-ant-display-1 {
-        font-size: calc(var(--ant-font-size-heading-1) * 1.58);
-        font-weight: 300;
-        line-height: var(--ant-line-height-heading-1);
+    @each $level, $sizes in $display-heading-sizes {
+        &.ant-display-#{$level} {
+            font-size: nth($sizes, 1);
+            font-weight: 300;
+            line-height: nth($sizes, 2);
+        }
     }
 
-    &.b-ant-display-2 {
-        font-size: calc(var(--ant-font-size-heading-1) * 1.45);
-        font-weight: 300;
-        line-height: var(--ant-line-height-heading-1);
-    }
-
-    &.b-ant-display-3 {
-        font-size: calc(var(--ant-font-size-heading-1) * 1.18);
-        font-weight: 300;
-        line-height: var(--ant-line-height-heading-1);
-    }
-
-    &.b-ant-display-4 {
-        font-size: calc(var(--ant-font-size-heading-2) * 1.17);
-        font-weight: 300;
-        line-height: var(--ant-line-height-heading-2);
-    }
-
-    &.b-ant-lead {
+    &.ant-lead {
         font-size: 1.25rem;
         font-weight: 300;
         margin-bottom: 1rem;
@@ -53,21 +37,21 @@
     > :last-child {
         margin-bottom: 0;
     }
-}
 
-.ant-blockquote-footer {
-    display: block;
-    margin-top: var(--ant-margin-sm);
-    font-size: var(--ant-font-size-sm);
-    color: var(--ant-color-text-description);
+    &-footer {
+        display: block;
+        margin-top: var(--ant-margin-sm);
+        font-size: var(--ant-font-size-sm);
+        color: var(--ant-color-text-description);
 
-    &::before {
-        content: "\2014\00A0";
-    }
+        &::before {
+            content: "\2014\00A0";
+        }
 
-    cite {
-        color: inherit;
-        font-style: normal;
+        cite {
+            color: inherit;
+            font-style: normal;
+        }
     }
 }
 

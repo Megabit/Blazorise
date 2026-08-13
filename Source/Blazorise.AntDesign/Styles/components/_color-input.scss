@@ -13,15 +13,15 @@
             font-size: $font-size;
         }
 
-        &.b-input-color-picker:is(:not([data-color]), [data-color=''], [data-color='null']) {
+        &.ant-input-color-picker:is(:not([data-color]), [data-color=''], [data-color='null']) {
             width: $height;
             min-width: $height;
         }
     }
 }
 
-.b-ant-color-input,
-.b-input-color-picker.ant-color-picker-trigger {
+.ant-color-input,
+.ant-input-color-picker.ant-color-picker-trigger {
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
@@ -72,7 +72,7 @@
         white-space: nowrap;
     }
 
-    .b-ant-color-input-native {
+    .ant-color-input-native {
         position: absolute;
         inset: 0;
         width: 100%;
@@ -94,7 +94,7 @@
         outline: 0;
     }
 
-    .b-input-color-picker-preview {
+    .ant-input-color-picker-preview {
         position: static;
         z-index: auto;
         width: auto;
@@ -104,12 +104,12 @@
         justify-content: flex-start;
     }
 
-    .b-input-color-picker-preview::before {
+    .ant-input-color-picker-preview::before {
         display: none;
         content: none;
     }
 
-    .b-input-color-picker-curent-color {
+    .ant-input-color-picker-current-color {
         display: block;
         box-sizing: border-box;
         flex: none;
@@ -118,13 +118,13 @@
         box-shadow: inset 0 0 0 var(--ant-line-width) var(--ant-color-fill-secondary), inset 0 0 1px 0 var(--ant-color-text-quaternary);
     }
 
-    .b-input-color-picker-curent-value:empty {
+    .ant-input-color-picker-current-value:empty {
         display: none;
     }
 
-    &.b-input-color-picker:not([data-color]),
-    &.b-input-color-picker[data-color=''],
-    &.b-input-color-picker[data-color='null'] {
+    &.ant-input-color-picker:not([data-color]),
+    &.ant-input-color-picker[data-color=''],
+    &.ant-input-color-picker[data-color='null'] {
         width: var(--ant-control-height);
         min-width: var(--ant-control-height);
     }
@@ -139,13 +139,11 @@
         color: var(--ant-color-text-disabled);
     }
 
-    &.ant-color-picker-trigger-disabled .b-ant-color-input-native {
+    &.ant-color-picker-trigger-disabled .ant-color-input-native {
         cursor: not-allowed;
     }
 
-    @include color-picker-size('xs', 10px, var(--ant-control-height-xs));
-    @include color-picker-size('sm', var(--ant-font-size-sm), var(--ant-control-height-sm));
-    @include color-picker-size('md', var(--ant-font-size), calc(var(--ant-control-height) + var(--ant-size-unit)));
-    @include color-picker-size('lg', var(--ant-font-size-lg), var(--ant-control-height-lg));
-    @include color-picker-size('xl', var(--ant-font-size-xl), calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2));
+    @each $name, $sizes in $color-picker-sizes {
+        @include color-picker-size($name, nth($sizes, 1), nth($sizes, 2));
+    }
 }
