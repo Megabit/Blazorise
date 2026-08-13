@@ -21,6 +21,9 @@ public partial class CustomWorkQuotePage
 
     private static readonly string[] EngagementOptions =
     {
+        "Live Expert Support (150 EUR/hour)",
+        "Priority Expert Support (200 EUR/hour)",
+        "Emergency Expert Support (from 250 EUR/hour)",
         "Feature Sponsorship (fixed price)",
         "Custom Development (Time & Materials)",
         "Not sure",
@@ -29,6 +32,7 @@ public partial class CustomWorkQuotePage
     private static readonly string[] BudgetOptions =
     {
         "Not sure",
+        "Expert support session (from 150 EUR)",
         "Small (3.500–7.500 EUR)",
         "Medium (8.000–18.000 EUR)",
         "Large (18.000–45.000+ EUR)",
