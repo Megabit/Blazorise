@@ -18,52 +18,56 @@
     }
 }
 
-.form-control-xs {
-    height: $input-height-xs;
-    padding: $input-padding-y-xs $input-padding-x-xs;
-    font-size: $input-font-size-xs;
-    line-height: $input-line-height-xs;
-    border-radius: $input-border-radius-xs;
+.form-control {
+    &-xs {
+        height: $input-height-xs;
+        padding: $input-padding-y-xs $input-padding-x-xs;
+        font-size: $input-font-size-xs;
+        line-height: $input-line-height-xs;
+        border-radius: $input-border-radius-xs;
+    }
+
+    &-md {
+        height: $input-height-md;
+        padding: $input-padding-y-md $input-padding-x-md;
+        font-size: $input-font-size-md;
+        line-height: $input-line-height-md;
+        border-radius: $input-border-radius-md;
+    }
+
+    &-xl {
+        height: $input-height-xl;
+        padding: $input-padding-y-xl $input-padding-x-xl;
+        font-size: $input-font-size-xl;
+        line-height: $input-line-height-xl;
+        border-radius: $input-border-radius-xl;
+    }
 }
 
-.form-control-md {
-    height: $input-height-md;
-    padding: $input-padding-y-md $input-padding-x-md;
-    font-size: $input-font-size-md;
-    line-height: $input-line-height-md;
-    border-radius: $input-border-radius-md;
-}
+.form-select {
+    &-xs {
+        height: $custom-select-height-xs;
+        padding-top: $custom-select-padding-y-xs;
+        padding-bottom: $custom-select-padding-y-xs;
+        padding-left: $custom-select-padding-x-xs;
+        font-size: $custom-select-font-size-xs;
+    }
 
-.form-control-xl {
-    height: $input-height-xl;
-    padding: $input-padding-y-xl $input-padding-x-xl;
-    font-size: $input-font-size-xl;
-    line-height: $input-line-height-xl;
-    border-radius: $input-border-radius-xl;
-}
+    &-md {
+        height: $custom-select-height-md;
+        padding-top: $custom-select-padding-y-md;
+        padding-bottom: $custom-select-padding-y-md;
+        padding-left: $custom-select-padding-x-md;
+        font-size: $custom-select-font-size-md;
+    }
 
-.form-select-xs {
-    height: $custom-select-height-xs;
-    padding-top: $custom-select-padding-y-xs;
-    padding-bottom: $custom-select-padding-y-xs;
-    padding-left: $custom-select-padding-x-xs;
-    font-size: $custom-select-font-size-xs;
-}
-
-.form-select-md {
-    height: $custom-select-height-md;
-    padding-top: $custom-select-padding-y-md;
-    padding-bottom: $custom-select-padding-y-md;
-    padding-left: $custom-select-padding-x-md;
-    font-size: $custom-select-font-size-md;
-}
-
-.form-select-xl {
-    height: $custom-select-height-xl;
-    padding-top: $custom-select-padding-y-xl;
-    padding-bottom: $custom-select-padding-y-xl;
-    padding-left: $custom-select-padding-x-xl;
-    font-size: $custom-select-font-size-xl;
+    &-xl {
+        height: $custom-select-height-xl;
+        padding-top: $custom-select-padding-y-xl;
+        padding-bottom: $custom-select-padding-y-xl;
+        padding-left: $custom-select-padding-x-xl;
+        font-size: $custom-select-font-size-xl;
+    }
 }
 
 @mixin color-picker-size($padding, $border-radius) {

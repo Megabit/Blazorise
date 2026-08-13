@@ -1,4 +1,4 @@
-﻿.badge-close {
+.badge-close {
     cursor: pointer;
 
     &::before {
@@ -21,7 +21,8 @@
     }
 }
 
-.badge, .badge-close {
+.badge,
+.badge-close {
     @each $color-name, $color-value in $theme-colors-text {
         &.text-bg-#{$color-name}-subtle {
             color: var(--#{$prefix}#{$color-name}-text-emphasis, #{$color-value});

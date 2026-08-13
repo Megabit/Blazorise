@@ -1,7 +1,9 @@
-﻿li.list-group-item-action {
+li.list-group-item-action {
     cursor: pointer;
 }
 
-.list-group-scrollable {
-    overflow-y: scroll;
+.list-group {
+    &-scrollable {
+        overflow-y: scroll;
+    }
 }
