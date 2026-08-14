@@ -1,8 +1,10 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Pdf;
 using Blazorise.Reporting.Internal;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -56,6 +58,12 @@ public partial class Report : BaseComponent, IReportCommandExecutor
     /// </summary>
     public Task<ReportDefinition> GetDefinition()
         => designer?.GetDefinition() ?? Task.FromResult( ReportContext.CloneDefinition( Definition ) );
+
+    /// <summary>
+    /// Creates a PDF document definition from the current report state.
+    /// </summary>
+    public Task<PdfDocumentDefinition> GetPdfDocument( CancellationToken cancellationToken = default )
+        => designer?.GetPdfDocument( cancellationToken ) ?? Task.FromResult<PdfDocumentDefinition>( null );
 
     /// <summary>
     /// Loads a persistent report definition.

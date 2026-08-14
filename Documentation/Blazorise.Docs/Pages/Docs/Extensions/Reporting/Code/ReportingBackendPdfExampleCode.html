@@ -1,0 +1,49 @@
+<div class="blazorise-codeblock">
+<div class="csharp"><pre>
+<span class="keyword">using</span> System;
+<span class="keyword">using</span> System.Collections.Generic;
+<span class="keyword">using</span> System.IO;
+<span class="keyword">using</span> System.Threading;
+<span class="keyword">using</span> System.Threading.Tasks;
+<span class="keyword">using</span> Blazorise.Pdf;
+<span class="keyword">using</span> Blazorise.Reporting;
+<span class="keyword">using</span> Microsoft.Extensions.DependencyInjection;
+
+<span class="keyword">public</span> <span class="keyword">sealed</span> <span class="keyword">class</span> ScheduledReportPdfService
+{
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IServiceScopeFactory scopeFactory;
+
+    <span class="keyword">public</span> ScheduledReportPdfService( IServiceScopeFactory scopeFactory )
+    {
+        <span class="keyword">this</span>.scopeFactory = scopeFactory;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">async</span> Task GenerateAsync(
+        <span class="keyword">string</span> reportJson,
+        IReadOnlyList&lt;UpcomingItem&gt; upcomingItems,
+        Stream destination,
+        CancellationToken cancellationToken = <span class="keyword">default</span> )
+    {
+        <span class="keyword">await</span> <span class="keyword">using</span> AsyncServiceScope scope = scopeFactory.CreateAsyncScope();
+        IReportRenderer reportRenderer = scope.ServiceProvider.GetRequiredService&lt;IReportRenderer&gt;();
+        IPdfGenerator pdfGenerator = scope.ServiceProvider.GetRequiredService&lt;IPdfGenerator&gt;();
+        ReportDefinition definition = ReportJsonSerializer.Deserialize( reportJson );
+
+        PdfDocumentDefinition document = <span class="keyword">await</span> reportRenderer.RenderAsync( definition, <span class="keyword">new</span>()
+        {
+            DataSources = <span class="keyword">new</span> Dictionary&lt;<span class="keyword">string</span>, <span class="keyword">object</span>&gt;
+            {
+                [<span class="string">&quot;UpcomingItems&quot;</span>] = upcomingItems,
+            },
+        }, cancellationToken );
+
+        <span class="keyword">await</span> pdfGenerator.GenerateToStreamAsync( document, destination, <span class="keyword">new</span>()
+        {
+            FileName = <span class="string">&quot;upcoming-items.pdf&quot;</span>,
+        }, cancellationToken );
+    }
+}
+
+<span class="keyword">public</span> <span class="keyword">sealed</span> record UpcomingItem( <span class="keyword">string</span> Title, DateTime StartsAt );
+</pre></div>
+</div>

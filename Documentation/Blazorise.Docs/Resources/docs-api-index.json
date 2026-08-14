@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-12T08:04:48.6573610Z",
+  "generatedUtc": "2026-08-13T21:22:16.9818289Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -96585,6 +96585,17 @@
           "parameters": []
         },
         {
+          "name": "GetPdfDocument",
+          "returnTypeName": "Task<PdfDocumentDefinition>",
+          "summary": "Creates a PDF document definition from the current report state.",
+          "parameters": [
+            {
+              "name": "cancellationToken",
+              "typeName": "CancellationToken"
+            }
+          ]
+        },
+        {
           "name": "GetState",
           "returnTypeName": "Task<ReportState>",
           "summary": "Gets the current interactive report designer state.",
@@ -97978,6 +97989,47 @@
           "typeName": "double",
           "defaultValue": "0",
           "summary": "Vertical position within the containing report container, in points.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.Reporting.ReportRenderOptions",
+      "typeName": "ReportRenderOptions",
+      "summary": "$\"\"\"\r\n       Defines runtime data used when rendering a persisted report definition.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "DataSources",
+          "type": "IDictionary<,>",
+          "typeName": "IDictionary<string, object>",
+          "defaultValue": "new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase )",
+          "summary": "Gets or sets runtime data keyed by the data source names persisted in the report definition.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DefaultData",
+          "type": "object",
+          "typeName": "object",
+          "defaultValue": "null",
+          "summary": "Gets or sets fallback runtime data used by report expressions and a single object data source.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ElementPlugins",
+          "type": "IEnumerable<>",
+          "typeName": "IEnumerable<IReportElementPlugin>",
+          "defaultValue": "null",
+          "summary": "Gets or sets custom report element plugins available only to this render operation.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Parameters",
+          "type": "IDictionary<,>",
+          "typeName": "IDictionary<string, object>",
+          "defaultValue": "new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase )",
+          "summary": "Gets or sets parameter values supplied to data source providers.",
           "isBlazoriseEnum": false
         }
       ],

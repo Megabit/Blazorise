@@ -331,7 +331,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( definition is not null && ( CurrentMode != ReportMode.Preview || HasPreviewFormats ) )
         {
             if ( CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf )
-                await ResolvePdfPreviewOperation( definition, resolveDataSources: true );
+                await ResolvePdfPreviewOperation();
             else
                 await ResolveDataSources( definition, CurrentMode == ReportMode.Preview );
         }
@@ -488,59 +488,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     {
         ReportDefinitionHelper.ApplyRowsLimit( definition, BlazoriseLicenseLimitsHelper.GetReportingRowsLimit( LicenseChecker ) );
 
-        if ( definition?.DataSources is null || definition.DataSources.Count == 0 )
-            return IsOperationCurrent( mutationVersion, cancellationToken );
-
-        IReportDataSourceProviderRegistry registry = DataSourceProviderRegistry;
-
-        if ( registry is null )
-            throw new InvalidOperationException( "No report data source provider registry is available." );
-
-        foreach ( ReportDataSourceDefinition dataSource in definition.DataSources )
+        await DataSourceResolver.ResolveAsync( definition, new()
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            if ( dataSource is null )
-                continue;
-
-            IReportDataSourceProvider provider = registry.FindProvider( dataSource.ProviderType );
-
-            if ( provider is null )
-                throw new InvalidOperationException( $"No report data source provider is registered for '{dataSource.ProviderType}'." );
-
-            try
-            {
-                if ( loadData && ShouldLoadDataSource( provider, dataSource ) )
-                {
-                    ReportDataSourceResult result = await provider.LoadDataAsync( dataSource, new()
-                    {
-                        DefaultData = Data,
-                    }, cancellationToken );
-
-                    if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
-                        return false;
-
-                    if ( result is null )
-                        throw new InvalidOperationException( $"The '{dataSource.Name}' data source returned no result." );
-
-                    dataSource.Data = result.Data;
-                    dataSource.Schema = result.Schema ?? dataSource.Schema;
-                }
-                else if ( dataSource.Schema is null )
-                {
-                    ReportDataSourceSchema schema = await provider.GetSchemaAsync( dataSource, cancellationToken );
-
-                    if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
-                        return false;
-
-                    dataSource.Schema = schema;
-                }
-            }
-            catch ( OperationCanceledException ) when ( cancellationToken.IsCancellationRequested )
-            {
-                return false;
-            }
-        }
+            DefaultData = Data,
+            LoadData = loadData,
+        }, cancellationToken );
 
         return IsOperationCurrent( mutationVersion, cancellationToken );
     }
@@ -571,12 +523,6 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 Data = Data,
             } );
         }
-    }
-
-    private static bool ShouldLoadDataSource( IReportDataSourceProvider provider, ReportDataSourceDefinition dataSource )
-    {
-        return dataSource?.Data is null
-            || string.Equals( provider?.Type, DataSetReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase );
     }
 
     private async Task SetStatusBarVisible( bool visible )
@@ -1130,7 +1076,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             designerState.EditingElementKey = null;
 
             if ( format == ReportPreviewFormat.Pdf )
-                await ResolvePdfPreviewOperation( RootDefinition, resolveDataSources: true );
+                await ResolvePdfPreviewOperation();
             else
                 await ResolveDataSources( RootDefinition, loadData: true );
 
@@ -1174,13 +1120,6 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
             if ( result is null && !pdfPreviewPending )
             {
-                Task<bool> resolveDataSourcesTask = ResolveDataSourcesOperation( RootDefinition, true );
-                await NotifyPdfProgress( new( Localize( "Resolving data" ) ), yieldRender: true );
-
-                if ( !await resolveDataSourcesTask )
-                    return;
-
-                operationMutationVersion = renderMutationVersion;
                 result = await ResolvePdfPreview();
             }
 
@@ -1205,7 +1144,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         }
     }
 
-    private async Task<PdfGenerationResult> ResolvePdfPreviewOperation( ReportDefinition definition, bool resolveDataSources )
+    private async Task<PdfGenerationResult> ResolvePdfPreviewOperation()
     {
         int operationMutationVersion = renderMutationVersion;
 
@@ -1213,23 +1152,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         {
             PdfGenerationResult result;
 
-            if ( IsPdfPreviewPending )
-                result = await ResolvePdfPreview();
-            else
-            {
-                if ( resolveDataSources )
-                {
-                    Task<bool> resolveDataSourcesTask = ResolveDataSourcesOperation( definition, loadData: true );
-                    await NotifyPdfProgress( new( Localize( "Resolving data" ) ), yieldRender: true );
-
-                    if ( !await resolveDataSourcesTask )
-                        return null;
-
-                    operationMutationVersion = renderMutationVersion;
-                }
-
-                result = await ResolvePdfPreview();
-            }
+            result = await ResolvePdfPreview();
 
             if ( result is not null && operationMutationVersion == renderMutationVersion )
             {
@@ -1305,7 +1228,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             if ( !IsOperationCurrent( mutationVersion, cancellationToken ) )
                 return null;
 
-            PdfDocumentDefinition pdfDocument = ReportPdfDocumentBuilder.Build( definition, Data, ElementPluginRegistry, cancellationToken );
+            PdfDocumentDefinition pdfDocument = await ReportRenderer.RenderAsync( definition, new()
+            {
+                DefaultData = Data,
+                ElementPlugins = ElementPlugins,
+            }, cancellationToken );
             cancellationToken.ThrowIfCancellationRequested();
 
             PdfGenerationResult result = await PdfGenerator.GenerateAsync( pdfDocument, new()
@@ -1340,6 +1267,15 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             await NotifyOperationFailed( Localize( "Generate PDF preview" ), exception );
             return null;
         }
+    }
+
+    internal Task<PdfDocumentDefinition> GetPdfDocument( CancellationToken cancellationToken = default )
+    {
+        return ReportRenderer.RenderAsync( RootDefinition, new()
+        {
+            DefaultData = Data,
+            ElementPlugins = ElementPlugins,
+        }, cancellationToken );
     }
 
     private async Task OnPdfGeneratorProgressed( PdfGenerationProgress progress, int mutationVersion, CancellationToken cancellationToken )
@@ -1586,7 +1522,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         NotifyDefinitionNormalized( normalizationDiagnostics );
 
         if ( CurrentMode == ReportMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf )
-            await ResolvePdfPreviewOperation( definition, resolveDataSources: false );
+            await ResolvePdfPreviewOperation();
 
         if ( notifyDefinitionChanged )
             await NotifyDefinitionChanged( definition );
@@ -4020,6 +3956,9 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     private IReportDataSourceProviderRegistry DataSourceProviderRegistry
         => dataSourceProviderRegistry ??= ServiceProvider.GetService<IReportDataSourceProviderRegistry>();
 
+    private ReportDataSourceResolver DataSourceResolver
+        => ServiceProvider.GetRequiredService<ReportDataSourceResolver>();
+
     internal IReportElementPluginRegistry ElementPluginRegistry
         => elementPluginRegistry ??= new ReportElementPluginRegistry(
             ( ServiceProvider.GetService<IReportElementPluginRegistry>()?.Plugins ?? [] )
@@ -4076,6 +4015,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     /// PDF generator used by the report viewer download command.
     /// </summary>
     [Inject] private IPdfGenerator PdfGenerator { get; set; }
+
+    /// <summary>
+    /// Renderer used to create PDF document definitions from reports.
+    /// </summary>
+    [Inject] private IReportRenderer ReportRenderer { get; set; }
 
     /// <summary>
     /// Message service used to confirm destructive report commands.
