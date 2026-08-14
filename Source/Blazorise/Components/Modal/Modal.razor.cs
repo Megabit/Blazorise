@@ -685,8 +685,9 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
 
     /// <summary>
     /// Specifies if the modal should keep the input focus at all times.
+    /// When not defined, the global <see cref="BlazoriseOptions.ModalFocusTrap"/> option is used, which defaults to <c>true</c>.
     /// </summary>
-    [Parameter] public bool FocusTrap { get; set; }
+    [Parameter] public bool FocusTrap { get; set; } = true;
 
     /// <summary>
     /// Centers the modal vertically.

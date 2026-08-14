@@ -1,4 +1,5 @@
 const focusTrapHandlers = new WeakMap();
+const focusTrapElements = new Set();
 
 const focusableSelector = [
     "a[href]",
@@ -31,7 +32,7 @@ export function initialize(element, elementId) {
             return;
         }
 
-        if (!isFocusTrapVisible(element)) {
+        if (!isTopFocusTrap(element)) {
             return;
         }
 
@@ -72,6 +73,7 @@ export function initialize(element, elementId) {
 
     element.ownerDocument.addEventListener("keydown", keydownHandler, true);
     focusTrapHandlers.set(element, keydownHandler);
+    focusTrapElements.add(element);
 }
 
 export function destroy(element, elementId) {
@@ -87,6 +89,8 @@ export function destroy(element, elementId) {
         element.ownerDocument.removeEventListener("keydown", keydownHandler, true);
         focusTrapHandlers.delete(element);
     }
+
+    focusTrapElements.delete(element);
 }
 
 export function focus(element, elementId) {
@@ -118,6 +122,18 @@ function getFocusableElements(element) {
         }))
         .sort(compareTabOrder)
         .map((entry) => entry.element);
+}
+
+function isTopFocusTrap(element) {
+    let topFocusTrap;
+
+    for (const focusTrapElement of focusTrapElements) {
+        if (focusTrapElement.ownerDocument === element.ownerDocument && isFocusTrapVisible(focusTrapElement)) {
+            topFocusTrap = focusTrapElement;
+        }
+    }
+
+    return topFocusTrap === element;
 }
 
 function isFocusTrapVisible(element) {
