@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using Blazorise;
 using Blazorise.Pdf;
 using Blazorise.Reporting;
+using Blazorise.Reporting.Internal;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 using Xunit;
 #endregion
 
@@ -16,6 +18,20 @@ namespace Blazorise.Tests.Extensions.Reporting;
 
 public class ReportRendererIntegrationTest : BunitContext
 {
+    private readonly CountingProvider countingProvider = new();
+
+    public ReportRendererIntegrationTest()
+    {
+        Services.AddBlazoriseTests()
+            .AddBootstrapProviders()
+            .AddEmptyIconProvider()
+            .AddTestData()
+            .AddBlazoriseReporting();
+        Services.AddSingleton<IReportDataSourceProvider>( countingProvider );
+        Services.AddScoped<IModalService, ModalService>();
+        JSInterop.AddBlazoriseUtilities();
+    }
+
     [Fact]
     public async Task RenderAsync_Should_Render_Custom_Plugin()
     {
@@ -66,6 +82,7 @@ public class ReportRendererIntegrationTest : BunitContext
     {
         ServiceCollection services = new();
 
+        services.AddSingleton<IJSRuntime>( JSInterop.JSRuntime );
         services.AddBlazorise().AddBlazoriseReporting();
 
         ServiceDescriptor descriptor = Assert.Single( services, descriptor => descriptor.ServiceType == typeof( IReportRenderer ) );
@@ -79,7 +96,6 @@ public class ReportRendererIntegrationTest : BunitContext
     [Fact]
     public async Task Mounted_Report_And_Backend_Renderer_Should_Create_Equivalent_Pdf_Definitions()
     {
-        Services.AddBlazorise().AddBlazoriseReporting();
         ReportDefinition definition = CreateDataDefinition();
         object data = new[] { new DataItem( "Parity" ) };
         IRenderedComponent<Report> component = Render<Report>( parameters => parameters
@@ -101,20 +117,26 @@ public class ReportRendererIntegrationTest : BunitContext
     [Fact]
     public void Pdf_Preview_Should_Load_Provider_Once()
     {
-        CountingProvider provider = new();
-        Services.AddBlazorise().AddBlazoriseReporting();
-        Services.AddSingleton<IReportDataSourceProvider>( provider );
         ReportDefinition definition = CreateDataDefinition();
-        definition.DataSources[0].ProviderType = provider.Type;
+        definition.DataSources[0].ProviderType = countingProvider.Type;
 
-        Render<Report>( parameters => parameters
+        IRenderedComponent<Report> component = Render<Report>( parameters => parameters
             .Add( report => report.Definition, definition )
             .Add( report => report.DefinitionMode, ReportDefinitionMode.UseDefinitionOnly )
             .Add( report => report.Mode, ReportMode.Preview )
             .Add( report => report.PreviewFormat, ReportPreviewFormat.Pdf )
             .Add( report => report.PreviewFormats, ReportPreviewFormat.Pdf ) );
+        IRenderedComponent<_ReportDesigner> designer = component.FindComponent<_ReportDesigner>();
 
-        Assert.Equal( 1, provider.LoadCount );
+        designer.WaitForAssertion( () =>
+        {
+            ReportPdfPreviewContext preview = designer.Instance.PdfPreviewContext;
+
+            Assert.NotNull( preview );
+            Assert.NotEmpty( preview.Content );
+            Assert.Equal( "application/pdf", preview.ContentType );
+            Assert.Equal( 1, countingProvider.LoadCount );
+        }, TestExtensions.WaitTime );
     }
 
     private static ReportDefinition CreateStaticDefinition( ReportElementDefinition element )
