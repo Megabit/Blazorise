@@ -32,6 +32,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Gantt\Blazorise.Gantt.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.PivotGrid\Blazorise.PivotGrid.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting\Blazorise.Reporting.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting.DataSources.Csv\Blazorise.Reporting.DataSources.Csv.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting.DataSources.Sql\Blazorise.Reporting.DataSources.Sql.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting.DataSources.WebApi\Blazorise.Reporting.DataSources.WebApi.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Scheduler\Blazorise.Scheduler.csproj" />

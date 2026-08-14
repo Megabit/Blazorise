@@ -1,7 +1,9 @@
 #region Using directives
 using System;
 using Blazorise.CodeEditor;
+using Blazorise.Licensing;
 using Blazorise.Pdf;
+using Blazorise.Reporting.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 #endregion
@@ -30,6 +32,11 @@ public static class Config
         services.AddBlazorisePdf();
         services.TryAddScoped<IReportDataSourceProviderRegistry, ReportDataSourceProviderRegistry>();
         services.TryAddScoped<IReportElementPluginRegistry, ReportElementPluginRegistry>();
+        services.TryAddScoped<ReportDataSourceResolver>();
+        services.TryAddScoped<IReportRenderer>( serviceProvider => new ReportRenderer(
+            serviceProvider.GetRequiredService<ReportDataSourceResolver>(),
+            serviceProvider.GetRequiredService<IReportElementPluginRegistry>(),
+            serviceProvider.GetService<BlazoriseLicenseChecker>() ) );
         services.TryAddEnumerable( ServiceDescriptor.Scoped<IReportDataSourceProvider, ObjectReportDataSourceProvider>() );
         services.TryAddEnumerable( ServiceDescriptor.Scoped<IReportDataSourceProvider, DataSetReportDataSourceProvider>() );
 

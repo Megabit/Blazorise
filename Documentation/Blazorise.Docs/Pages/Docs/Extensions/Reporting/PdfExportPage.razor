@@ -27,6 +27,62 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Backend PDF">
+        Generate a PDF from a saved report in a scheduled job, hosted service, API endpoint, or other backend code. No <Code Tag>Report</Code> component or browser interaction is required.
+    </DocsPageSectionHeader>
+    <DocsPageParagraph>
+        A <Code>ReportDefinition</Code> is the saved report design. It describes the pages, bands, elements, formulas, and data-source connections, but it does not persist the actual runtime data. This allows an end user to design the report once while the backend supplies current data each time the report is generated.
+    </DocsPageParagraph>
+    <DocsPageParagraph>
+        Call <Code>AddBlazoriseReporting</Code> during application startup to register the two services used by this process:
+    </DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>
+                <Code>IReportRenderer</Code> understands the report definition. It resolves the report's data sources and converts the report into a <Code>PdfDocumentDefinition</Code>, which describes the pages and elements that must appear in the PDF.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Code>IPdfGenerator</Code> takes that document definition and creates the actual PDF file. It can return the PDF as bytes or write it directly to a stream.
+            </Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+    <DocsPageParagraph>
+        The backend workflow is:
+    </DocsPageParagraph>
+    <OrderedList>
+        <OrderedListItem>
+            <Paragraph>
+                Load the persisted report JSON and deserialize it into a <Code>ReportDefinition</Code>.
+            </Paragraph>
+        </OrderedListItem>
+        <OrderedListItem>
+            <Paragraph>
+                Create <Code>ReportRenderOptions</Code> for the current run. Use <Code>DataSources</Code> to attach runtime data by the same names used in the designer. For example, the <Code>UpcomingItems</Code> key supplies data to the designer data source named <Code>UpcomingItems</Code>. Values can be objects, collections, <Code>DataTable</Code>, or <Code>DataSet</Code> instances. <Code>DefaultData</Code> is available for a report that uses one default object source.
+            </Paragraph>
+        </OrderedListItem>
+        <OrderedListItem>
+            <Paragraph>
+                Call <Code>IReportRenderer.RenderAsync</Code>. The renderer works on a copy of the saved definition, validates and resolves its data, and applies the same pagination, expressions, running totals, plugins, and row limits as the interactive PDF preview.
+            </Paragraph>
+        </OrderedListItem>
+        <OrderedListItem>
+            <Paragraph>
+                Pass the returned <Code>PdfDocumentDefinition</Code> to <Code>IPdfGenerator</Code> to produce the PDF bytes or write them to the destination stream.
+            </Paragraph>
+        </OrderedListItem>
+    </OrderedList>
+    <DocsPageParagraph>
+        SQL, CSV, Web API, and custom data sources work slightly differently. Their saved definitions contain the provider type and provider settings, so the renderer can ask the registered provider to load the data. You only need to add one of these sources to <Code>ReportRenderOptions.DataSources</Code> when you want to supply its data directly instead of loading it through the provider. Use <Code>ReportRenderOptions.Parameters</Code> for values that a provider needs only for the current run.
+    </DocsPageParagraph>
+    <DocsPageParagraph>
+        <Code>IReportRenderer</Code> and <Code>IPdfGenerator</Code> are scoped because they use the data-source providers and other services from the current dependency-injection scope. Controllers, Razor components, and other scoped services can inject them directly. A hosted service is normally a singleton and has no current scope, so it must create an <Code>IServiceScope</Code> or <Code>AsyncServiceScope</Code> for each report operation and resolve both services from that scope, as shown below.
+    </DocsPageParagraph>
+    <DocsPageSectionSource Code="ReportingBackendPdfExample" CodeTitle="ScheduledReportPdfService.cs" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Fonts">
         Register fonts when PDF export must use the same font family as the designer and HTML preview.
     </DocsPageSectionHeader>

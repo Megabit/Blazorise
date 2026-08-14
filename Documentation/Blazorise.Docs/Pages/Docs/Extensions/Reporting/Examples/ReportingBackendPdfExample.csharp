@@ -1,0 +1,45 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using Blazorise.Pdf;
+using Blazorise.Reporting;
+using Microsoft.Extensions.DependencyInjection;
+
+public sealed class ScheduledReportPdfService
+{
+    private readonly IServiceScopeFactory scopeFactory;
+
+    public ScheduledReportPdfService( IServiceScopeFactory scopeFactory )
+    {
+        this.scopeFactory = scopeFactory;
+    }
+
+    public async Task GenerateAsync(
+        string reportJson,
+        IReadOnlyList<UpcomingItem> upcomingItems,
+        Stream destination,
+        CancellationToken cancellationToken = default )
+    {
+        await using AsyncServiceScope scope = scopeFactory.CreateAsyncScope();
+        IReportRenderer reportRenderer = scope.ServiceProvider.GetRequiredService<IReportRenderer>();
+        IPdfGenerator pdfGenerator = scope.ServiceProvider.GetRequiredService<IPdfGenerator>();
+        ReportDefinition definition = ReportJsonSerializer.Deserialize( reportJson );
+
+        PdfDocumentDefinition document = await reportRenderer.RenderAsync( definition, new()
+        {
+            DataSources = new Dictionary<string, object>
+            {
+                ["UpcomingItems"] = upcomingItems,
+            },
+        }, cancellationToken );
+
+        await pdfGenerator.GenerateToStreamAsync( document, destination, new()
+        {
+            FileName = "upcoming-items.pdf",
+        }, cancellationToken );
+    }
+}
+
+public sealed record UpcomingItem( string Title, DateTime StartsAt );
