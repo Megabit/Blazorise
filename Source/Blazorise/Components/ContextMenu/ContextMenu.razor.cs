@@ -437,6 +437,8 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
 
     internal int EffectiveSubmenuHoverCloseDelay => SubmenuHoverCloseDelay;
 
+    internal bool IsFloatingPositionInitialized => floatingPositionInitialized;
+
     private string RootSelector => $"[data-context-menu-id='{ElementId}']";
 
     private string ResolvedTargetSelector
