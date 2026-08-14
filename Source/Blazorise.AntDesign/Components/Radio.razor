@@ -89,11 +89,11 @@ else
 
     string RadioSizeClass
         => ThemeSize != Blazorise.Size.Default
-            ? $"b-ant-radio-{ClassProvider.ToSize( ThemeSize )}"
+            ? $"ant-radio-{ClassProvider.ToSize( ThemeSize )}"
             : null;
 
     string RadioColorClass
         => AsButton
-            ? $"b-ant-segmented-item-{ClassProvider.ToColor( ButtonColor )}"
+            ? $"ant-segmented-item-{ClassProvider.ToColor( ButtonColor )}"
             : null;
 }

@@ -1,4 +1,4 @@
-﻿.page-item:not(.disabled) .page-link {
+.page-item:not(.disabled) .page-link {
     cursor: pointer;
 }
 
@@ -26,14 +26,16 @@
     }
 }
 
-.pagination-xs {
-    @include pagination-size($pagination-padding-y-xs, $pagination-padding-x-xs, $font-size-xs, $line-height-xs, $border-radius-xs);
-}
+.pagination {
+    &-xs {
+        @include pagination-size($pagination-padding-y-xs, $pagination-padding-x-xs, $font-size-xs, $line-height-xs, $border-radius-xs);
+    }
 
-.pagination-md {
-    @include pagination-size($pagination-padding-y-md, $pagination-padding-x-md, $font-size-md, $line-height-md, $border-radius-md);
-}
+    &-md {
+        @include pagination-size($pagination-padding-y-md, $pagination-padding-x-md, $font-size-md, $line-height-md, $border-radius-md);
+    }
 
-.pagination-xl {
-    @include pagination-size($pagination-padding-y-xl, $pagination-padding-x-xl, $font-size-xl, $line-height-xl, $border-radius-xl);
+    &-xl {
+        @include pagination-size($pagination-padding-y-xl, $pagination-padding-x-xl, $font-size-xl, $line-height-xl, $border-radius-xl);
+    }
 }

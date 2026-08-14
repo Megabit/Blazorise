@@ -1,20 +1,22 @@
-﻿.b-layout-header {
-    &-fixed {
-        z-index: $zindex-fixed;
+.b-layout {
+    &-header {
+        &-fixed {
+            z-index: $zindex-fixed;
+        }
     }
-}
 
-.b-layout-footer {
-    &-fixed {
-        z-index: $zindex-fixed;
+    &-footer {
+        &-fixed {
+            z-index: $zindex-fixed;
+        }
     }
-}
 
-.b-layout-sider-content {
-    z-index: $zindex-fixed + 1;
-}
+    &-sider-content {
+        z-index: $zindex-fixed + 1;
+    }
 
-.b-layout-header:not(.b-layout-header-fixed) > .navbar[data-mode=horizontal] .dropdown-menu[data-visible=true],
-.b-layout-header-fixed:has(> .navbar[data-mode=horizontal] .dropdown-menu[data-visible=true]) {
-    z-index: $zindex-fixed + 2;
+    &-header:not(.b-layout-header-fixed) > .navbar[data-mode=horizontal] .dropdown-menu[data-visible=true],
+    &-header-fixed:has(> .navbar[data-mode=horizontal] .dropdown-menu[data-visible=true]) {
+        z-index: $zindex-fixed + 2;
+    }
 }

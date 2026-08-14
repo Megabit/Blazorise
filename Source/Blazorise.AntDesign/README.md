@@ -44,7 +44,7 @@ Examples:
 
 This lets `antd.css` do most of the work and reduces provider maintenance.
 
-### 2. Use provider-owned `b-ant-*` classes only when needed
+### 2. Use provider-owned `ant-*` classes only when needed
 
 Provider classes are for cases where:
 
@@ -55,10 +55,10 @@ Provider classes are for cases where:
 
 Typical provider hooks:
 
-- `b-ant-*` for component-specific provider behavior
-- `b-ant-<component>-<state>` for provider-only state hooks
+- `ant-*` for component-specific provider behavior
+- `ant-<component>-<state>` for provider-only state hooks
 
-Do not invent fake `ant-*` classes that do not exist in Ant Design.
+Reuse an upstream Ant Design class only when its documented semantics match the rendered element. Otherwise, use a clearly named provider-owned `ant-*` hook and define it in this provider.
 
 ### 3. Prefer tokens over hardcoded Sass colors
 
@@ -126,16 +126,16 @@ Good:
 Bad:
 
 - custom wrapper with no AntD class while expecting `antd.css` to style it
-- fake AntD names that do not exist upstream
+- assigning an upstream AntD class to markup that does not implement that class's expected structure or behavior
 
-### Use `b-ant-*` only for provider hooks
+### Use `ant-*` only for provider hooks
 
 These are acceptable:
 
-- `b-ant-color-input`
-- `b-ant-addons`
-- `b-ant-file-picker-item`
-- `b-ant-layout-root`
+- `ant-color-input`
+- `ant-addons`
+- `ant-file-picker-item`
+- `ant-layout-root`
 
 These should not become the main styling path if AntD already has a class for that node.
 
@@ -143,10 +143,10 @@ These should not become the main styling path if AntD already has a class for th
 
 For provider-specific states, use explicit names:
 
-- `b-ant-modal-opening`
-- `b-ant-modal-closing`
-- `b-ant-offcanvas-opening`
-- `b-ant-offcanvas-closing`
+- `ant-modal-opening`
+- `ant-modal-closing`
+- `ant-offcanvas-opening`
+- `ant-offcanvas-closing`
 
 Do not hide provider behavior inside ambiguous generic names.
 
@@ -154,12 +154,12 @@ Do not hide provider behavior inside ambiguous generic names.
 
 If AntD already exposes a meaningful class, prefer it.
 
-If Blazorise needs a provider-only utility, use `b-ant-*`.
+If Blazorise needs a provider-only utility, use `ant-*`.
 
 Examples:
 
 - keep `ant-typography-*` for typography colors
-- keep `b-ant-typography-wrap` / `nowrap` / `italic` for provider-only utility hooks that AntD does not provide directly
+- keep `ant-typography-wrap` / `nowrap` / `italic` for provider-only utility hooks that AntD does not provide directly
 
 ## Styling Guidelines
 
@@ -324,7 +324,7 @@ When implementing or fixing a component:
 2. Compare it with the expected AntD structure.
 3. Fix class placement and structure first.
 4. Use AntD tokens and variables for styling.
-5. Add `b-ant-*` hooks only for provider-specific gaps.
+5. Add `ant-*` hooks only for provider-specific gaps.
 6. Remove obsolete selectors/classes after the change stabilizes.
 
 ## Final Rule

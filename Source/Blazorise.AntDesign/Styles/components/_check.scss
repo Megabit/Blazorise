@@ -1,4 +1,4 @@
-.b-ant-checkbox-root {
+.ant-checkbox-root {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
@@ -13,12 +13,12 @@
 .ant-checkbox-wrapper {
     cursor: pointer;
 
-    &.b-ant-checkbox-block {
+    &.ant-checkbox-block {
         display: flex;
         width: fit-content;
     }
 
-    &.b-ant-checkbox-inline {
+    &.ant-checkbox-inline {
         display: inline-flex;
     }
 
@@ -26,7 +26,7 @@
         cursor: not-allowed;
     }
 
-    &.b-ant-checkbox-block + .b-ant-checkbox-block {
+    &.ant-checkbox-block + .ant-checkbox-block {
         margin-top: var(--ant-margin-xs);
     }
 
@@ -47,7 +47,7 @@
 }
 
 @mixin checkbox($size, $width) {
-    .ant-checkbox-wrapper.b-ant-checkbox-#{$size} {
+    .ant-checkbox-wrapper.ant-checkbox-#{$size} {
         .ant-checkbox {
             width: $width;
             height: $width;
@@ -61,7 +61,7 @@
         }
     }
 
-    .ant-checkbox.b-ant-checkbox-#{$size} {
+    .ant-checkbox.ant-checkbox-#{$size} {
         width: $width;
         height: $width;
 
@@ -74,8 +74,6 @@
     }
 }
 
-@include checkbox('xs', calc(var(--ant-control-interactive-size) / 2));
-@include checkbox('sm', calc(var(--ant-control-interactive-size) * .75));
-@include checkbox('md', calc(var(--ant-control-interactive-size) + var(--ant-size-unit)));
-@include checkbox('lg', calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2));
-@include checkbox('xl', calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3));
+@each $name, $size in $checkbox-sizes {
+    @include checkbox($name, $size);
+}

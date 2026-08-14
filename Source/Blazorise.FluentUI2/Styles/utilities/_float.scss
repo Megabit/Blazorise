@@ -1,9 +1,11 @@
-.fui-Float-start {
-    float: left !important;
-    float: inline-start !important;
-}
+.fui-Float {
+    &-start {
+        float: left !important;
+        float: inline-start !important;
+    }
 
-.fui-Float-end {
-    float: right !important;
-    float: inline-end !important;
+    &-end {
+        float: right !important;
+        float: inline-end !important;
+    }
 }

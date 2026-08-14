@@ -112,9 +112,7 @@
             text-align: center;
         }
 
-        @each $name, $value in $theme-colors {
-            $color: $value;
-            $color-invert: color-yiq($value);
+        @each $name, $color in $theme-colors {
 
             &.is-#{$name} {
                 &::before {

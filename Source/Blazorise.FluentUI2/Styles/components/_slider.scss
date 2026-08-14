@@ -76,9 +76,11 @@
     }
 }
 
-.fui-Slider__container {
-    display: flex;
-    align-items: center;
+.fui-Slider {
+    &__container {
+        display: flex;
+        align-items: center;
+    }
 }
 
 .fui-RangeSlider {

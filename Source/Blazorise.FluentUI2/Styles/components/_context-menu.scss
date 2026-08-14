@@ -32,12 +32,14 @@
     z-index: var(--zIndexPopover);
 }
 
-.fui-ContextMenuPopover[data-context-menu-keyboard-navigation="false"] {
-    &:focus,
-    [role="menu"]:focus,
-    [data-context-menu-item="true"]:focus {
-        outline: none;
-        box-shadow: none;
+.fui-ContextMenuPopover {
+    &[data-context-menu-keyboard-navigation="false"] {
+        &:focus,
+        [role="menu"]:focus,
+        [data-context-menu-item="true"]:focus {
+            outline: none;
+            box-shadow: none;
+        }
     }
 }
 
@@ -127,26 +129,34 @@
     cursor: pointer;
 }
 
-.fui-ContextMenuToolbarItem:hover,
-.fui-ContextMenuToolbarItem:focus {
-    background-color: var(--colorNeutralBackground1Hover);
-    color: var(--colorNeutralForeground2Hover);
+.fui-ContextMenuToolbarItem {
+    &:hover,
+    &:focus {
+        background-color: var(--colorNeutralBackground1Hover);
+        color: var(--colorNeutralForeground2Hover);
+    }
 }
 
-.fui-ContextMenuToolbarItem-active {
-    background-color: var(--colorNeutralBackground1Selected);
-    color: var(--colorNeutralForeground2Selected);
+.fui-ContextMenuToolbarItem {
+    &-active {
+        background-color: var(--colorNeutralBackground1Selected);
+        color: var(--colorNeutralForeground2Selected);
+    }
 }
 
-.fui-ContextMenuToolbarItem:disabled,
-.fui-ContextMenuToolbarItem-disabled {
-    color: var(--colorNeutralForegroundDisabled);
-    cursor: not-allowed;
-    pointer-events: none;
+.fui-ContextMenuToolbarItem {
+    &:disabled,
+    &-disabled {
+        color: var(--colorNeutralForegroundDisabled);
+        cursor: not-allowed;
+        pointer-events: none;
+    }
 }
 
-.fui-ContextMenuToolbarItem-endAligned {
-    margin-inline-start: auto;
+.fui-ContextMenuToolbarItem {
+    &-endAligned {
+        margin-inline-start: auto;
+    }
 }
 
 .fui-ContextMenuSubmenu {

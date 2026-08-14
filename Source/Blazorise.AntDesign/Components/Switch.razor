@@ -11,7 +11,7 @@
     </button>
     @if ( ChildContent is not null )
     {
-        <span class="b-ant-switch-label" @onclick="@HandleLabelClick">@ChildContent</span>
+        <span class="ant-switch-label" @onclick="@HandleLabelClick">@ChildContent</span>
     }
 </span>
 @Feedback
@@ -43,8 +43,8 @@
 
     private void BuildWrapperClasses( ClassBuilder builder )
     {
-        builder.Append( "b-ant-switch-wrapper" );
-        builder.Append( IsDisabled ? "b-ant-switch-wrapper-disabled" : null );
+        builder.Append( "ant-switch-wrapper" );
+        builder.Append( IsDisabled ? "ant-switch-wrapper-disabled" : null );
         builder.Append( Classes?.Wrapper );
         AppendWrapperUtilities( builder );
     }

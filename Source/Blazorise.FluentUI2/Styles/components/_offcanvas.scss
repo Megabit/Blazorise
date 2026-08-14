@@ -1,19 +1,21 @@
-.fui-OverlayDrawer__backdrop {
-    will-change: opacity, visibility;
-    transition-timing-function: var(--curveEasyEase);
-    transition-property: opacity, visibility;
-    opacity: 0;
-    transition-duration: var(--durationGentle);
-    inset: 0px;
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: flex;
-    z-index: var(--zIndexDrawerBackdrop);
-    visibility: hidden;
+.fui-OverlayDrawer {
+    &__backdrop {
+        will-change: opacity, visibility;
+        transition-timing-function: var(--curveEasyEase);
+        transition-property: opacity, visibility;
+        opacity: 0;
+        transition-duration: var(--durationGentle);
+        inset: 0px;
+        position: fixed;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: flex;
+        z-index: var(--zIndexDrawerBackdrop);
+        visibility: hidden;
 
-    &.fui-OverlayDrawer__backdrop-show {
-        opacity: 1;
-        visibility: visible;
+        &.fui-OverlayDrawer__backdrop-show {
+            opacity: 1;
+            visibility: visible;
+        }
     }
 }
 

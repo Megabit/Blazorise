@@ -840,6 +840,14 @@ public class AntDesignThemeGenerator : ThemeGenerator
             .AppendLine( "}" );
     }
 
+    protected override void GenerateProgressVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeProgressOptions progressOptions )
+    {
+        sb
+            .Append( $".ant-page-progress .ant-page-progress-indicator.ant-page-progress-indicator-{variant}" ).Append( "{" )
+            .Append( $"background-color: {Var( ThemeVariables.VariantPageProgressIndicator( variant ) )};" )
+            .AppendLine( "}" );
+    }
+
     protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
     {
         var backgroundColor = ParseColor( inBackgroundColor );
@@ -948,7 +956,13 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
     {
-        base.GenerateProgressStyles( sb, theme, options );
+        if ( !string.IsNullOrEmpty( options?.PageProgressDefaultColor ) )
+        {
+            sb
+                .Append( ".ant-page-progress .ant-page-progress-indicator" ).Append( "{" )
+                .Append( $"background-color: {options.PageProgressDefaultColor};" )
+                .AppendLine( "}" );
+        }
     }
 
     protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )

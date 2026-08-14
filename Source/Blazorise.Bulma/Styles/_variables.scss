@@ -30,12 +30,46 @@ $grid-rows: 12 !default;
 $grid-row-columns: 6 !default;
 $grid-breakpoints: ( xs: 0, mobile: $mobile, tablet: $tablet, desktop: $desktop, widescreen: $widescreen, fullhd: $fullhd, quadhd: $quadhd ) !default;
 
+$breakpoint-observer-breakpoints: (
+    mobile: map-get($grid-breakpoints, mobile),
+    tablet: map-get($grid-breakpoints, tablet),
+    desktop: map-get($grid-breakpoints, desktop),
+    widescreen: map-get($grid-breakpoints, widescreen),
+    fullhd: map-get($grid-breakpoints, fullhd),
+    quadhd: map-get($grid-breakpoints, quadhd),
+) !default;
+
+$breakpoint-observer-map: (
+    mobile: mobile,
+    tablet: tablet,
+    desktop: desktop,
+    widescreen: widescreen,
+    fullhd: fullhd,
+    quadhd: quadhd,
+) !default;
+
+$bar-initial-breakpoints: (
+    "navbar-expand-mobile": mobile,
+    "navbar-expand-tablet": tablet,
+    "navbar-expand-desktop": desktop,
+    "navbar-expand-widescreen": widescreen,
+    "navbar-expand-fullhd": fullhd,
+    "navbar-expand-quadhd": quadhd,
+) !default;
+
 $dimensions: 256 512 !default;
 
 $size-8: 0.65rem !default;
 
 $size-extra-small: $size-8 !default;
 $size-extra-large: $size-3 !default;
+
+$component-sizes: ( extra-small: $size-extra-small, small: $size-small, medium: $size-medium, large: $size-large, extra-large: $size-extra-large ) !default;
+$component-extra-sizes: ( extra-small: $size-extra-small, extra-large: $size-extra-large ) !default;
+
+$validation-state-colors: ( success: $success, warning: $warning, danger: $danger ) !default;
+$slider-validation-state-colors: ( success: $success, danger: $danger ) !default;
+$markdown-validation-states: ( valid: success, warning: warning, invalid: danger ) !default;
 
 $switch-background: rgba(0,0,0,.125) !default;
 $switch-border: .1rem solid transparent !default;
@@ -76,6 +110,7 @@ $sizes-percentages: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667
 $box-shadow-sm: 0 .125rem .25rem rgba($black, .075) !default;
 $box-shadow: 0 .5rem 1rem rgba($black, .15) !default;
 $box-shadow-lg: 0 1rem 3rem rgba($black, .175) !default;
+$box-shadow-values: ( small: $box-shadow-sm, default: $box-shadow, large: $box-shadow-lg, none: none ) !default;
 
 $dropdown-padding-y: .5rem !default;
 $dropdown-item-padding-y: .375rem !default;
@@ -112,3 +147,27 @@ $list-group-action-active-bg: $background !default;
 // Position
 
 $position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;
+$position-types: ( static: static, relative: relative, absolute: absolute, fixed: fixed, sticky: sticky ) !default;
+$position-sides: ( top, bottom, left, right ) !default;
+$translate-values: ( middle: translate(-50%, -50%), middle-x: translateX(-50%), middle-y: translateY(-50%) ) !default;
+
+// Utility generation
+
+$vertical-alignments: ( baseline: baseline, top: top, middle: middle, bottom: bottom, text-bottom: text-bottom, text-top: text-top ) !default;
+$border-sides: ( top, right, bottom, left ) !default;
+$border-sizes: ( 1, 2, 3, 4, 5 ) !default;
+$border-radius-values: ( small: $radius-small, normal: $radius, large: $radius-large, rounded: $radius-rounded ) !default;
+$object-fit-values: ( contain: contain, cover: cover, fill: fill, scale: scale-down, none: none ) !default;
+$sizing-properties: ( width: width, height: height ) !default;
+$spacing-properties: ( margin: m, padding: p ) !default;
+$flex-grow-shrink-properties: ( grow, shrink ) !default;
+$flex-binary-values: ( 0, 1 ) !default;
+$flex-basis-values: ( 0: 0, auto: auto, full: 100% ) !default;
+$flex-utilities: (
+    flex-direction: ( row: row, column: column, row-reverse: row-reverse, column-reverse: column-reverse ),
+    flex-wrap: ( wrap: wrap, nowrap: nowrap, wrap-reverse: wrap-reverse ),
+    justify-content: ( flex-start: flex-start, flex-end: flex-end, center: center, space-between: space-between, space-around: space-around ),
+    align-items: ( flex-start: flex-start, flex-end: flex-end, center: center, baseline: baseline, stretch: stretch ),
+    align-self: ( auto: auto, flex-start: flex-start, flex-end: flex-end, center: center, baseline: baseline, stretch: stretch ),
+    align-content: ( flex-start: flex-start, flex-end: flex-end, center: center, space-between: space-between, space-around: space-around, stretch: stretch )
+) !default;

@@ -3,7 +3,7 @@
         @include media-breakpoint-up($breakpoint) {
             $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-            @each $prop, $abbrev in (margin: m, padding: p) {
+            @each $prop, $abbrev in $spacing-properties {
                 @each $size, $length in $spacers {
                     .#{$abbrev}#{$infix}-#{$size} {
                         #{$prop}: $length !important;
@@ -63,37 +63,39 @@
 
     @include media-breakpoint-up($breakpoint) {
         @each $size, $gutter in $gutters {
-            .columns.is-gutter#{$infix}-#{$size} {
-                margin-right: calc(#{$gutter} * -.5);
-                margin-left: calc(#{$gutter} * -.5);
-                margin-top: calc(-1 * #{$gutter});
+            .columns {
+                &.is-gutter#{$infix}-#{$size} {
+                    margin-right: calc(#{$gutter} * -.5);
+                    margin-left: calc(#{$gutter} * -.5);
+                    margin-top: calc(-1 * #{$gutter});
 
-                > * {
-                    padding-top: 0;
-                    padding-bottom: 0;
-                    padding-right: calc(#{$gutter} * .5);
-                    padding-left: calc(#{$gutter} * .5);
-                    margin-top: #{$gutter};
+                    > * {
+                        padding-top: 0;
+                        padding-bottom: 0;
+                        padding-right: calc(#{$gutter} * .5);
+                        padding-left: calc(#{$gutter} * .5);
+                        margin-top: #{$gutter};
+                    }
                 }
-            }
 
-            .columns.is-gutter-x#{$infix}-#{$size} {
-                margin-right: calc(#{$gutter} * -.5);
-                margin-left: calc(#{$gutter} * -.5);
+                &.is-gutter-x#{$infix}-#{$size} {
+                    margin-right: calc(#{$gutter} * -.5);
+                    margin-left: calc(#{$gutter} * -.5);
 
-                > * {
-                    padding-right: calc(#{$gutter} * .5);
-                    padding-left: calc(#{$gutter} * .5);
+                    > * {
+                        padding-right: calc(#{$gutter} * .5);
+                        padding-left: calc(#{$gutter} * .5);
+                    }
                 }
-            }
 
-            .columns.is-gutter-y#{$infix}-#{$size} {
-                margin-top: calc(-1 * #{$gutter});
+                &.is-gutter-y#{$infix}-#{$size} {
+                    margin-top: calc(-1 * #{$gutter});
 
-                > * {
-                    padding-top: 0;
-                    padding-bottom: 0;
-                    margin-top: #{$gutter};
+                    > * {
+                        padding-top: 0;
+                        padding-bottom: 0;
+                        margin-top: #{$gutter};
+                    }
                 }
             }
         }

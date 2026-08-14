@@ -83,23 +83,15 @@
             cursor: pointer;
         }
 
-        &.is-success {
-            &::-webkit-slider-thumb {
-                background-color: $success;
-            }
+        @each $state, $color in $slider-validation-state-colors {
+            &.is-#{$state} {
+                &::-webkit-slider-thumb {
+                    background-color: $color;
+                }
 
-            &::-moz-range-thumb {
-                background-color: $success;
-            }
-        }
-
-        &.is-danger {
-            &::-webkit-slider-thumb {
-                background-color: $danger;
-            }
-
-            &::-moz-range-thumb {
-                background-color: $danger;
+                &::-moz-range-thumb {
+                    background-color: $color;
+                }
             }
         }
     }

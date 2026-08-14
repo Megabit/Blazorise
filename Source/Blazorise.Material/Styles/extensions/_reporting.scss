@@ -13,17 +13,19 @@ body .b-report {
     --b-report-tree-view-row-gap: .375rem;
 }
 
-.b-report-designer-layout {
-    .mui-dock-pane-header-action > :is(.material-icons, .material-icons-outlined, .material-icons-sharp, .material-icons-two-tone) {
-        font-size: .875rem;
+.b-report {
+    &-designer-layout {
+        .mui-dock-pane-header-action > :is(.material-icons, .material-icons-outlined, .material-icons-sharp, .material-icons-two-tone) {
+            font-size: .875rem;
+        }
     }
-}
 
-.b-report-tree-view {
-    &-toggle,
-    &-icon {
-        > :is(.material-icons, .material-icons-outlined, .material-icons-sharp, .material-icons-two-tone) {
-            font-size: 1rem;
+    &-tree-view {
+        &-toggle,
+        &-icon {
+            > :is(.material-icons, .material-icons-outlined, .material-icons-sharp, .material-icons-two-tone) {
+                font-size: 1rem;
+            }
         }
     }
 }

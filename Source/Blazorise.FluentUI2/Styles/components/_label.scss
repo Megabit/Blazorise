@@ -29,6 +29,8 @@
     }
 }
 
-.fui-Label-pointer {
-    cursor: pointer;
+.fui-Label {
+    &-pointer {
+        cursor: pointer;
+    }
 }

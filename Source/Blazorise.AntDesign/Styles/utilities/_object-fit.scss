@@ -2,24 +2,10 @@
     @include media-breakpoint-up($breakpoint) {
         $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-        .ant-object-fit#{$infix}-contain {
-            object-fit: contain !important;
-        }
-
-        .ant-object-fit#{$infix}-cover {
-            object-fit: cover !important;
-        }
-
-        .ant-object-fit#{$infix}-fill {
-            object-fit: fill !important;
-        }
-
-        .ant-object-fit#{$infix}-scale {
-            object-fit: scale-down !important;
-        }
-
-        .ant-object-fit#{$infix}-none {
-            object-fit: none !important;
+        @each $name, $value in $object-fit-values {
+            .ant-object-fit#{$infix}-#{$name} {
+                object-fit: $value !important;
+            }
         }
     }
 }

@@ -85,21 +85,7 @@
 }
 
 .custom-switch {
-    @include switch('xs');
-}
-
-.custom-switch {
-    @include switch('sm');
-}
-
-.custom-switch {
-    @include switch('md');
-}
-
-.custom-switch {
-    @include switch('lg');
-}
-
-.custom-switch {
-    @include switch('xl');
+    @each $size in ('xs', 'sm', 'md', 'lg', 'xl') {
+        @include switch($size);
+    }
 }

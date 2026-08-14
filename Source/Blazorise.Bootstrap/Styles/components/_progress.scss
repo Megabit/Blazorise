@@ -1,4 +1,4 @@
-﻿.b-page-progress {
+.b-page-progress {
     .b-page-progress-indicator {
         @each $name, $value in $theme-colors {
             $color: $value;
@@ -12,29 +12,29 @@
 
 .progress {
     position: relative;
-}
 
-.progress-indeterminate,
-.progress-linear {
-    .progress-bar {
-        &:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            background-color: inherit;
-            animation: animation-indeterminate 2s ease infinite;
-        }
+    &-indeterminate,
+    &-linear {
+        .progress-bar {
+            &:before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                background-color: inherit;
+                animation: animation-indeterminate 2s ease infinite;
+            }
 
-        &:after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            background-color: inherit;
-            animation: animation-indeterminate-short 2s ease 0.5s infinite;
+            &:after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                background-color: inherit;
+                animation: animation-indeterminate-short 2s ease 0.5s infinite;
+            }
         }
     }
 }

@@ -27,13 +27,13 @@
             @if $grid-columns > 0 {
                 @for $i from 1 through $grid-rows {
                     &.are-grid-rows#{$infix}-#{$i} {
-                        grid-template-rows: repeat($i,minmax(0,1fr));
+                        grid-template-rows: repeat($i, minmax(0, 1fr));
                     }
                 }
 
                 @for $i from 1 through $grid-columns {
                     &.are-grid-columns#{$infix}-#{$i} {
-                        grid-template-columns: repeat($i,minmax(0,1fr));
+                        grid-template-columns: repeat($i, minmax(0, 1fr));
                     }
                 }
             }

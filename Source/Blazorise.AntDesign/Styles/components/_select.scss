@@ -48,7 +48,7 @@
     }
 }
 
-.b-ant-dropdown-overlay .ant-select-dropdown {
+.ant-dropdown-overlay .ant-select-dropdown {
     z-index: calc(var(--ant-dropdown-z-index-popup) + 1);
 }
 
@@ -180,6 +180,6 @@
     }
 }
 
-@include select-size('xs', 10px, 16px, 14px);
-@include select-size('md', 14px, 36px, 34px);
-@include select-size('xl', 18px, 48px, 45px);
+@each $name, $sizes in $select-sizes {
+    @include select-size($name, nth($sizes, 1), nth($sizes, 2), nth($sizes, 3));
+}

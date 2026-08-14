@@ -36,32 +36,4 @@
     }
 }
 
-$breakpoint-observer-breakpoints: (
-    "xxs": 0,
-    "xs": map-get($grid-breakpoints, "xs"),
-    "sm": map-get($grid-breakpoints, "sm"),
-    "md": map-get($grid-breakpoints, "md"),
-    "lg": map-get($grid-breakpoints, "lg"),
-    "xl": map-get($grid-breakpoints, "xl"),
-    "xxl": 2560px,
-);
-
-$breakpoint-observer-map: (
-    "xxs": mobile,
-    "xs": mobile,
-    "sm": tablet,
-    "md": desktop,
-    "lg": widescreen,
-    "xl": fullhd,
-    "xxl": quadhd,
-);
-
-$bar-initial-breakpoints: (
-    "ant-bar-expand-sm": "sm",
-    "ant-bar-expand-md": "md",
-    "ant-bar-expand-lg": "lg",
-    "ant-bar-expand-xl": "xl",
-    "ant-bar-expand-xxl": "xxl",
-);
-
 @include emit-breakpoint-observer($breakpoint-observer-breakpoints, $breakpoint-observer-map);

@@ -37,7 +37,7 @@
         margin-inline-start: 0.5rem;
     }
 
-    @each $color in (primary, secondary, tertiary, error, success, warning, info, light, dark) {
+    @each $color in $mui-contextual-colors {
         @include make-alert-variant($color, $color);
     }
 

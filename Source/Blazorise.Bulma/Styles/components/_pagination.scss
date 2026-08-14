@@ -1,9 +1,7 @@
 ﻿.pagination {
-    &.is-extra-small {
-        font-size: $size-extra-small;
-    }
-
-    &.is-extra-large {
-        font-size: $size-extra-large;
+    @each $name, $size in $component-extra-sizes {
+        &.is-#{$name} {
+            font-size: $size;
+        }
     }
 }

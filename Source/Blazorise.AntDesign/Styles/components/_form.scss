@@ -15,18 +15,18 @@
     border-color: var(--b-theme-warning, var(--ant-color-warning));
 }
 
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback,
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role='status'],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role='alert'],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback,
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='status'],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='alert'],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback + .ant-form-item-explain[role='status'],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback + .ant-form-item-explain[role='alert'],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role='status'],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role='alert'],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role='status'] + .ant-form-item-explain[role='alert'],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='status'] + .ant-form-item-explain[role='alert'] {
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .ant-select-root) + .valid-feedback,
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .ant-select-root) + .ant-form-item-explain[role='status'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .ant-select-root) + .ant-form-item-explain[role='alert'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback,
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='status'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='alert'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .ant-select-root) + .valid-feedback + .ant-form-item-explain[role='status'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .ant-select-root) + .valid-feedback + .ant-form-item-explain[role='alert'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role='status'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role='alert'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .ant-select-root) + .ant-form-item-explain[role='status'] + .ant-form-item-explain[role='alert'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-input-number, .b-richtextedit, .ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='status'] + .ant-form-item-explain[role='alert'] {
     display: none;
 }
 

@@ -1,11 +1,3 @@
-$mui-object-fit-values: (
-    none: none,
-    contain: contain,
-    cover: cover,
-    fill: fill,
-    scale: scale-down
-) !default;
-
 @mixin make-object-fit-utilities($infix: "") {
     @each $name, $value in $mui-object-fit-values {
         .mui-object-fit#{$infix}-#{$name} {

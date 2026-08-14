@@ -191,6 +191,31 @@
     .datepicker-day {
         width: 2.25rem;
         height: 2.25rem;
+
+        &.is-today {
+            border-color: $primary;
+        }
+
+        &.is-in-range {
+            border-radius: 0;
+            background: rgba($primary, .15);
+        }
+
+        &.is-range-start {
+            border-radius: 0;
+            border-start-start-radius: $radius;
+            border-end-start-radius: $radius;
+        }
+
+        &.is-range-end {
+            border-radius: 0;
+            border-start-end-radius: $radius;
+            border-end-end-radius: $radius;
+        }
+
+        &.is-range-start.is-range-end {
+            border-radius: $radius;
+        }
     }
 
     .datepicker-month {
@@ -199,77 +224,56 @@
         border-radius: $radius-small;
     }
 
-    .datepicker-day.is-today {
-        border-color: $primary;
-    }
+    .datepicker-calendar[data-week-mode="true"] {
+        .datepicker-week-number[data-week-hovered="true"],
+        .datepicker-day[data-week-hovered="true"] {
+            background: rgba($primary, .1);
+        }
 
-    .datepicker-day.is-in-range {
-        border-radius: 0;
-        background: rgba($primary, .15);
-    }
-
-    .datepicker-day.is-range-start {
-        border-radius: 0;
-        border-start-start-radius: $radius;
-        border-end-start-radius: $radius;
-    }
-
-    .datepicker-day.is-range-end {
-        border-radius: 0;
-        border-start-end-radius: $radius;
-        border-end-end-radius: $radius;
-    }
-
-    .datepicker-day.is-range-start.is-range-end {
-        border-radius: $radius;
-    }
-
-    .datepicker-calendar[data-week-mode="true"] .datepicker-week-number[data-week-hovered="true"],
-    .datepicker-calendar[data-week-mode="true"] .datepicker-day[data-week-hovered="true"] {
-        background: rgba($primary, .1);
-    }
-
-    .datepicker-calendar[data-week-mode="true"] .datepicker-week-number[data-week-hovered="true"] {
-        align-self: stretch;
-        height: auto;
-        border-radius: $radius;
-        opacity: 1;
-    }
-
-    .datepicker-calendar[data-week-mode="true"] .datepicker-day[data-week-hovered="true"] {
-        justify-self: stretch;
-        width: auto;
-        border-radius: 0;
-    }
-
-    .datepicker-calendar[data-week-mode="true"] .datepicker-day.is-in-range {
-        justify-self: stretch;
-        width: auto;
-    }
-
-    .datepicker-calendar[data-week-mode="true"] .datepicker-day[data-week-hover-start="true"] {
-        border-start-start-radius: $radius;
-        border-end-start-radius: $radius;
-    }
-
-    .datepicker-calendar[data-week-mode="true"] .datepicker-day[data-week-hover-end="true"] {
-        border-start-end-radius: $radius;
-        border-end-end-radius: $radius;
-    }
-
-    .datepicker-calendar[data-week-mode="true"] .datepicker-week[data-week-fully-selected="true"] {
-        border-radius: $radius;
-        background: $primary;
-    }
-
-    .datepicker-calendar[data-week-mode="true"] .datepicker-week[data-week-selected="true"] {
-        .datepicker-week-number {
+        .datepicker-week-number[data-week-hovered="true"] {
             align-self: stretch;
             height: auto;
             border-radius: $radius;
             opacity: 1;
-            background: $primary;
-            color: $white !important;
+        }
+
+        .datepicker-day {
+            &[data-week-hovered="true"] {
+                justify-self: stretch;
+                width: auto;
+                border-radius: 0;
+            }
+
+            &.is-in-range {
+                justify-self: stretch;
+                width: auto;
+            }
+
+            &[data-week-hover-start="true"] {
+                border-start-start-radius: $radius;
+                border-end-start-radius: $radius;
+            }
+
+            &[data-week-hover-end="true"] {
+                border-start-end-radius: $radius;
+                border-end-end-radius: $radius;
+            }
+        }
+
+        .datepicker-week {
+            &[data-week-fully-selected="true"] {
+                border-radius: $radius;
+                background: $primary;
+            }
+
+            &[data-week-selected="true"] .datepicker-week-number {
+                align-self: stretch;
+                height: auto;
+                border-radius: $radius;
+                opacity: 1;
+                background: $primary;
+                color: $white !important;
+            }
         }
     }
 

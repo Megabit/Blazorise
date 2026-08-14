@@ -1,23 +1,5 @@
-﻿.is-vertical-align-baseline {
-    vertical-align: baseline !important;
-}
-
-.is-vertical-align-top {
-    vertical-align: top !important;
-}
-
-.is-vertical-align-middle {
-    vertical-align: middle !important;
-}
-
-.is-vertical-align-bottom {
-    vertical-align: bottom !important;
-}
-
-.is-vertical-align-text-bottom {
-    vertical-align: text-bottom !important;
-}
-
-.is-vertical-align-text-top {
-    vertical-align: text-top !important;
+﻿@each $name, $value in $vertical-alignments {
+    .is-vertical-align-#{$name} {
+        vertical-align: $value !important;
+    }
 }

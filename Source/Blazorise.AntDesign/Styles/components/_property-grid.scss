@@ -6,137 +6,139 @@
     min-height: 0;
     min-width: 0;
     overflow: hidden;
-}
 
-.ant-property-grid-viewport {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    gap: var(--ant-padding-sm);
-    min-height: 0;
-    min-width: 0;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-}
+    &-viewport {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        gap: var(--ant-padding-sm);
+        min-height: 0;
+        min-width: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
 
-.ant-property-grid-toolbar {
-    display: flex;
-    flex: 0 0 auto;
-    align-items: center;
-    gap: var(--ant-padding-xs);
-    min-width: 0;
-}
+    &-toolbar {
+        display: flex;
+        flex: 0 0 auto;
+        align-items: center;
+        gap: var(--ant-padding-xs);
+        min-width: 0;
 
-.ant-property-grid-toolbar-button {
-    flex: 0 0 auto;
-}
+        &-button {
+            flex: 0 0 auto;
+        }
 
-.ant-property-grid-toolbar-search {
-    flex: 1 1 calc(var(--ant-size-unit) * 64);
-    min-width: calc(var(--ant-size-unit) * 40);
-    max-width: calc(var(--ant-size-unit) * 88);
-    margin-inline-start: auto;
-}
+        &-search {
+            flex: 1 1 calc(var(--ant-size-unit) * 64);
+            min-width: calc(var(--ant-size-unit) * 40);
+            max-width: calc(var(--ant-size-unit) * 88);
+            margin-inline-start: auto;
+        }
+    }
 
-.ant-property-grid-empty {
-    padding: var(--ant-padding-sm);
-    color: var(--ant-color-text-secondary);
-    font-size: var(--ant-font-size-sm);
-}
+    &-empty {
+        padding: var(--ant-padding-sm);
+        color: var(--ant-color-text-secondary);
+        font-size: var(--ant-font-size-sm);
+    }
 
-.ant-property-grid-help {
-    flex: 0 0 auto;
-    padding: var(--ant-padding-xs) var(--ant-padding-sm);
-    border-top: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
-}
+    &-help {
+        flex: 0 0 auto;
+        padding: var(--ant-padding-xs) var(--ant-padding-sm);
+        border-top: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
 
-.ant-property-grid-help-title {
-    font-size: var(--ant-font-size);
-    font-weight: var(--ant-font-weight-strong);
-}
+        &-title {
+            font-size: var(--ant-font-size);
+            font-weight: var(--ant-font-weight-strong);
+        }
 
-.ant-property-grid-help-description {
-    margin-top: var(--ant-margin-xxs);
-    color: var(--ant-color-text-secondary);
-    font-size: var(--ant-font-size-sm);
-}
+        &-description {
+            margin-top: var(--ant-margin-xxs);
+            color: var(--ant-color-text-secondary);
+            font-size: var(--ant-font-size-sm);
+        }
+    }
 
-.ant-property-grid-group,
-.ant-property-grid-group-body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--ant-padding-xxs);
-    min-width: 0;
-}
-
-.ant-property-grid-group-header {
-    font-size: var(--ant-font-size);
-    font-weight: var(--ant-font-weight-strong);
-}
-
-.ant-property-grid-group-toggle {
-    display: flex;
-    align-items: center;
-    gap: var(--ant-margin-xxs);
-    width: 100%;
-    padding: 0;
-    border: 0;
-    color: inherit;
-    background: transparent;
-    font: inherit;
-    font-weight: inherit;
-    text-align: start;
-    cursor: pointer;
-}
-
-.ant-property-grid-item {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    gap: var(--ant-padding-xxs);
-    align-items: center;
-    min-width: 0;
-}
-
-.ant-property-grid-item-selected {
-    background: var(--ant-control-item-bg-active);
-}
-
-.ant-property-grid-item:focus-visible {
-    outline: var(--ant-line-width) solid var(--ant-color-primary);
-    outline-offset: var(--ant-line-width);
-}
-
-.ant-property-grid-item-label {
-    min-width: 0;
-    padding-inline-end: var(--ant-padding-xxs);
-    overflow: hidden;
-    font-size: var(--ant-font-size);
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.ant-property-grid-item-body {
-    min-width: 0;
-
-    > * {
-        width: 100%;
+    &-group,
+    &-group-body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--ant-padding-xxs);
         min-width: 0;
     }
 
-    > .b-ant-select-root > .ant-select {
-        width: 100%;
+    &-group {
+        &-header {
+            font-size: var(--ant-font-size);
+            font-weight: var(--ant-font-weight-strong);
+        }
+
+        &-toggle {
+            display: flex;
+            align-items: center;
+            gap: var(--ant-margin-xxs);
+            width: 100%;
+            padding: 0;
+            border: 0;
+            color: inherit;
+            background: transparent;
+            font: inherit;
+            font-weight: inherit;
+            text-align: start;
+            cursor: pointer;
+        }
+    }
+
+    &-item {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+        gap: var(--ant-padding-xxs);
+        align-items: center;
         min-width: 0;
-    }
-}
 
-.ant-property-grid-item[data-property-grid-editor="color"] {
-    .ant-color-picker-trigger-text {
-        display: none;
-    }
+        &-selected {
+            background: var(--ant-control-item-bg-active);
+        }
 
-    .b-ant-addons > .ant-input-wrapper.ant-input-group > .b-input-color-picker.ant-color-picker-trigger {
-        flex: none;
-        width: auto;
-        min-width: auto;
+        &:focus-visible {
+            outline: var(--ant-line-width) solid var(--ant-color-primary);
+            outline-offset: var(--ant-line-width);
+        }
+
+        &-label {
+            min-width: 0;
+            padding-inline-end: var(--ant-padding-xxs);
+            overflow: hidden;
+            font-size: var(--ant-font-size);
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        &-body {
+            min-width: 0;
+
+            > * {
+                width: 100%;
+                min-width: 0;
+            }
+
+            > .ant-select-root > .ant-select {
+                width: 100%;
+                min-width: 0;
+            }
+        }
+
+        &[data-property-grid-editor="color"] {
+            .ant-color-picker-trigger-text {
+                display: none;
+            }
+
+            .ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-color-picker.ant-color-picker-trigger {
+                flex: none;
+                width: auto;
+                min-width: auto;
+            }
+        }
     }
 }

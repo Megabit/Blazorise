@@ -36,31 +36,4 @@
     }
 }
 
-$breakpoint-observer-breakpoints: (
-    mobile: map-get($grid-breakpoints, mobile),
-    tablet: map-get($grid-breakpoints, tablet),
-    desktop: map-get($grid-breakpoints, desktop),
-    widescreen: map-get($grid-breakpoints, widescreen),
-    fullhd: map-get($grid-breakpoints, fullhd),
-    quadhd: map-get($grid-breakpoints, quadhd),
-);
-
-$breakpoint-observer-map: (
-    mobile: mobile,
-    tablet: tablet,
-    desktop: desktop,
-    widescreen: widescreen,
-    fullhd: fullhd,
-    quadhd: quadhd,
-);
-
-$bar-initial-breakpoints: (
-    "navbar-expand-mobile": mobile,
-    "navbar-expand-tablet": tablet,
-    "navbar-expand-desktop": desktop,
-    "navbar-expand-widescreen": widescreen,
-    "navbar-expand-fullhd": fullhd,
-    "navbar-expand-quadhd": quadhd,
-);
-
 @include emit-breakpoint-observer($breakpoint-observer-breakpoints, $breakpoint-observer-map);

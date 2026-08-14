@@ -1,56 +1,56 @@
-.b-is-autocomplete .dropdown-menu {
-    width: 100%;
-    z-index: $zindex-dropdown + 1;
-    max-height: var(--autocomplete-menu-max-height, 200px);
-    overflow-y: scroll;
-
-    .dropdown-item.focus {
-        color: #1e2125 !important;
-        background-color: #e9ecef;
-    }
-}
-
-.b-is-autocomplete.b-is-autocomplete-multipleselection {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    max-width: 100%;
-    width: 100%;
-    cursor: text;
-    min-height: calc(1.5em + .75rem + 2px);
-    height: auto;
-    border: $input-border-width solid $input-border-color;
-    border-radius: $input-border-radius;
-
-    > input.form-control:not(.is-valid, .is-warning, .is-invalid) {
-        border: none;
-    }
-
-    > input.form-control {
-        display: inline-block;
-        box-shadow: none;
-        outline: none;
-        background-color: transparent;
-        max-width: inherit;
-        width: auto;
-        flex-grow: 1;
-    }
-
-    > .badge {
-        margin-top: 0.25rem;
-        margin-bottom: 0.25rem;
-        line-height: 1.5;
-        flex-grow: initial;
-    }
-
-    .dropdown-menu {
-        top: 100%;
-    }
-
-    @include form-control-focus
-}
-
 .b-is-autocomplete {
+    .dropdown-menu {
+        width: 100%;
+        z-index: $zindex-dropdown + 1;
+        max-height: var(--autocomplete-menu-max-height, 200px);
+        overflow-y: scroll;
+
+        .dropdown-item.focus {
+            color: #1e2125 !important;
+            background-color: #e9ecef;
+        }
+    }
+
+    &.b-is-autocomplete-multipleselection {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        max-width: 100%;
+        width: 100%;
+        cursor: text;
+        min-height: calc(1.5em + .75rem + 2px);
+        height: auto;
+        border: $input-border-width solid $input-border-color;
+        border-radius: $input-border-radius;
+
+        > input.form-control:not(.is-valid, .is-warning, .is-invalid) {
+            border: none;
+        }
+
+        > input.form-control {
+            display: inline-block;
+            box-shadow: none;
+            outline: none;
+            background-color: transparent;
+            max-width: inherit;
+            width: auto;
+            flex-grow: 1;
+        }
+
+        > .badge {
+            margin-top: 0.25rem;
+            margin-bottom: 0.25rem;
+            line-height: 1.5;
+            flex-grow: initial;
+        }
+
+        .dropdown-menu {
+            top: 100%;
+        }
+
+        @include form-control-focus
+    }
+
     &.is-valid,
     &.is-warning,
     &.is-invalid {

@@ -74,73 +74,33 @@
         animation-timing-function: linear;
     }
 
-    &-secondary.ant-btn-variant-solid {
-        @include ant-btn-solid-vars(var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--ant-color-text-light-solid));
-        --ant-btn-border-color: transparent;
-        --ant-btn-border-color-hover: transparent;
-        --ant-btn-border-color-active: transparent;
-        --ant-btn-compact-connect-border-color: transparent;
+    @each $name, $colors in $button-solid-variants {
+        &-#{$name}.ant-btn-variant-solid {
+            @include ant-btn-solid-vars(nth($colors, 1), nth($colors, 2));
+
+            @if $name == secondary {
+                --ant-btn-border-color: transparent;
+                --ant-btn-border-color-hover: transparent;
+                --ant-btn-border-color-active: transparent;
+                --ant-btn-compact-connect-border-color: transparent;
+            }
+        }
     }
 
-    &-success.ant-btn-variant-solid {
-        @include ant-btn-solid-vars(var(--b-theme-success, var(--ant-color-success)), var(--ant-color-text-light-solid));
-    }
+    @each $name, $color in $button-outline-variants {
+        &-outline-#{$name}.ant-btn-variant-outlined,
+        &-outline-#{$name}.ant-btn-variant-dashed {
+            @include ant-btn-outline-vars($color);
 
-    &-info.ant-btn-variant-solid {
-        @include ant-btn-solid-vars(var(--b-theme-info, var(--ant-color-info)), var(--ant-color-text-light-solid));
-    }
-
-    &-warning.ant-btn-variant-solid {
-        @include ant-btn-solid-vars(var(--b-theme-warning, var(--ant-color-warning)), var(--ant-color-text));
-    }
-
-    &-light.ant-btn-variant-solid {
-        @include ant-btn-solid-vars(var(--b-theme-light, var(--ant-color-fill-quaternary)), var(--ant-color-text));
-    }
-
-    &-dark.ant-btn-variant-solid {
-        @include ant-btn-solid-vars(var(--b-theme-dark, var(--ant-color-text)), var(--ant-color-text-light-solid));
-    }
-
-    &-outline-secondary.ant-btn-variant-outlined,
-    &-outline-secondary.ant-btn-variant-dashed {
-        @include ant-btn-outline-vars(var(--b-theme-secondary, var(--ant-color-text-secondary)));
-    }
-
-    &-outline-success.ant-btn-variant-outlined,
-    &-outline-success.ant-btn-variant-dashed {
-        @include ant-btn-outline-vars(var(--b-theme-success, var(--ant-color-success)));
-    }
-
-    &-outline-info.ant-btn-variant-outlined,
-    &-outline-info.ant-btn-variant-dashed {
-        @include ant-btn-outline-vars(var(--b-theme-info, var(--ant-color-info)));
-    }
-
-    &-outline-warning.ant-btn-variant-outlined,
-    &-outline-warning.ant-btn-variant-dashed {
-        @include ant-btn-outline-vars(var(--b-theme-warning, var(--ant-color-warning)));
-    }
-
-    &-outline-light.ant-btn-variant-outlined,
-    &-outline-light.ant-btn-variant-dashed {
-        @include ant-btn-outline-vars(var(--b-theme-light, var(--ant-color-fill-quaternary)));
-        --ant-btn-border-color-hover: var(--b-theme-light, var(--ant-color-fill-quaternary));
-        --ant-btn-border-color-active: var(--b-theme-light, var(--ant-color-fill-secondary));
-        --ant-btn-text-color-hover: var(--ant-color-text);
-        --ant-btn-text-color-active: var(--ant-color-text);
-        --ant-btn-bg-color-hover: var(--b-theme-light, var(--ant-color-fill-quaternary));
-        --ant-btn-bg-color-active: var(--ant-color-fill-secondary);
-    }
-
-    &-outline-dark.ant-btn-variant-outlined,
-    &-outline-dark.ant-btn-variant-dashed {
-        @include ant-btn-outline-vars(var(--b-theme-dark, var(--ant-color-text)));
-    }
-
-    &-outline-link.ant-btn-variant-outlined,
-    &-outline-link.ant-btn-variant-dashed {
-        @include ant-btn-outline-vars(var(--b-theme-link, var(--ant-color-link)));
+            @if $name == light {
+                --ant-btn-border-color-hover: var(--b-theme-light, var(--ant-color-fill-quaternary));
+                --ant-btn-border-color-active: var(--b-theme-light, var(--ant-color-fill-secondary));
+                --ant-btn-text-color-hover: var(--ant-color-text);
+                --ant-btn-text-color-active: var(--ant-color-text);
+                --ant-btn-bg-color-hover: var(--b-theme-light, var(--ant-color-fill-quaternary));
+                --ant-btn-bg-color-active: var(--ant-color-fill-secondary);
+            }
+        }
     }
 }
 
@@ -152,7 +112,7 @@
 
     > .ant-btn-secondary.ant-btn-variant-solid:not(:first-child),
     > span:not(:first-child):has(> .ant-btn-secondary.ant-btn-variant-solid),
-    > .b-ant-dropdown:not(:first-child):has(> .ant-btn-secondary.ant-btn-variant-solid) {
+    > .ant-dropdown-root:not(:first-child):has(> .ant-btn-secondary.ant-btn-variant-solid) {
         margin-inline-start: 0;
     }
 
@@ -169,34 +129,14 @@
     }
 }
 
-.ant-btn-xs {
-    padding: 0px 7px;
-    font-size: 10px;
-    height: 16px;
-}
-
-.ant-btn-sm {
-    padding: 0 var(--ant-button-padding-inline-sm);
-    font-size: var(--ant-font-size-sm);
-    height: var(--ant-control-height-sm);
-}
-
-.ant-btn-md {
-    padding: 4.5px 11px;
-    font-size: 14px;
-    height: 36px;
-}
-
-.ant-btn-lg {
-    padding: var(--ant-input-padding-block-lg) calc(var(--ant-button-padding-inline-lg) - var(--ant-line-width) * 2);
-    font-size: var(--ant-font-size-lg);
-    height: var(--ant-control-height-lg);
-}
-
-.ant-btn-xl {
-    padding: 8.5px 15px;
-    font-size: 18px;
-    height: 48px;
+.ant-btn {
+    @each $name, $properties in $control-sizes {
+        &-#{$name} {
+            padding: map-get($properties, button-padding);
+            font-size: map-get($properties, font-size);
+            height: map-get($properties, height);
+        }
+    }
 }
 
 .ant-btn-group-xs > .ant-btn,

@@ -1,20 +1,20 @@
-﻿.b-ant-switch-wrapper {
+﻿.ant-switch-wrapper {
     display: inline-flex;
     align-items: center;
     gap: var(--ant-margin-xs);
     vertical-align: middle;
 
-    &.b-ant-switch-wrapper-disabled {
+    &.ant-switch-wrapper-disabled {
         cursor: not-allowed;
     }
 
-    .b-ant-switch-label {
+    .ant-switch-label {
         color: var(--ant-color-text);
         cursor: pointer;
         user-select: none;
     }
 
-    &.b-ant-switch-wrapper-disabled .b-ant-switch-label {
+    &.ant-switch-wrapper-disabled .ant-switch-label {
         color: var(--ant-color-text-disabled);
         cursor: not-allowed;
     }
@@ -43,15 +43,9 @@
     }
 }
 
-@include ant-switch-variant(primary, var(--b-theme-primary, var(--ant-color-primary)));
-@include ant-switch-variant(secondary, var(--b-theme-secondary, var(--ant-color-text-secondary)));
-@include ant-switch-variant(success, var(--b-theme-success, var(--ant-color-success)));
-@include ant-switch-variant(danger, var(--b-theme-danger, var(--ant-color-error)));
-@include ant-switch-variant(warning, var(--b-theme-warning, var(--ant-color-warning)));
-@include ant-switch-variant(info, var(--b-theme-info, var(--ant-color-info)));
-@include ant-switch-variant(light, var(--b-theme-light, var(--ant-color-fill-quaternary)));
-@include ant-switch-variant(dark, var(--b-theme-dark, var(--ant-color-text)));
-@include ant-switch-variant(link, var(--b-theme-link, var(--ant-color-link)));
+@each $name, $color in $switch-variants {
+    @include ant-switch-variant($name, $color);
+}
 
 @mixin switch($size, $height, $min-width, $checked-margin-left, $font-size) {
     &-#{$size} {
@@ -113,11 +107,9 @@
 }
 
 .ant-switch {
-    @include switch('xs', calc(var(--ant-switch-track-height-sm) - var(--ant-padding-xxs)), calc(var(--ant-switch-track-min-width-sm) - var(--ant-padding-xxs) - var(--ant-line-width) * 2), calc((calc(var(--ant-switch-track-height-sm) - var(--ant-padding-xxs)) - 3px) * -1), calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2));
-    @include switch('sm', var(--ant-switch-track-height-sm), var(--ant-switch-track-min-width-sm), calc((var(--ant-switch-track-height-sm) - 3px) * -1), var(--ant-font-size-sm));
-    @include switch('md', calc(var(--ant-switch-track-height) + var(--ant-line-width) * 2), calc(var(--ant-control-height-lg) * 2.25), calc((calc(var(--ant-switch-track-height) + var(--ant-line-width) * 2) - 3px) * -1), var(--ant-font-size-sm));
-    @include switch('lg', calc(var(--ant-switch-track-height) + var(--ant-padding-xxs) + var(--ant-line-width) * 2), calc(var(--ant-control-height-lg) * 2.25), calc((calc(var(--ant-switch-track-height) + var(--ant-padding-xxs) + var(--ant-line-width) * 2) - 3px) * -1), var(--ant-font-size-sm));
-    @include switch('xl', calc(var(--ant-switch-track-height) + var(--ant-padding-xs) + var(--ant-line-width) * 2), calc(var(--ant-control-height-lg) * 4), calc((calc(var(--ant-switch-track-height) + var(--ant-padding-xs) + var(--ant-line-width) * 2) - 3px) * -1), var(--ant-font-size-sm));
+    @each $name, $sizes in $switch-sizes {
+        @include switch($name, nth($sizes, 1), nth($sizes, 2), nth($sizes, 3), nth($sizes, 4));
+    }
 
     .ant-switch-handle {
         border-radius: 1000px;

@@ -67,21 +67,7 @@
 }
 
 .form-check.form-switch {
-    @include switch('xs');
-}
-
-.form-check.form-switch {
-    @include switch('sm');
-}
-
-.form-check.form-switch {
-    @include switch('md');
-}
-
-.form-check.form-switch {
-    @include switch('lg');
-}
-
-.form-check.form-switch {
-    @include switch('xl');
+    @each $size in ('xs', 'sm', 'md', 'lg', 'xl') {
+        @include switch($size);
+    }
 }

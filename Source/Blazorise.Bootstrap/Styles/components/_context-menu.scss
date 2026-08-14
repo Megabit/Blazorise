@@ -1,112 +1,112 @@
 .context-menu {
     display: contents;
-}
 
-.context-menu-toggle {
-    display: contents;
-}
-
-.context-menu-menu,
-.context-menu-submenu-menu {
-    min-width: $dropdown-min-width;
-    max-width: min(24rem, calc(100vw - 1rem));
-    max-height: calc(100vh - 1rem);
-    overflow-y: auto;
-}
-
-.context-menu-menu {
-    position: fixed;
-    display: block;
-    z-index: $zindex-popover;
-}
-
-.context-menu-menu[data-context-menu-keyboard-navigation="false"] {
-    &:focus,
-    [role="menu"]:focus,
-    [data-context-menu-item="true"]:focus {
-        outline: none;
-        box-shadow: none;
+    &-toggle {
+        display: contents;
     }
-}
 
-.context-menu-item {
-    cursor: pointer;
-}
+    &-menu,
+    &-submenu-menu {
+        min-width: $dropdown-min-width;
+        max-width: min(24rem, calc(100vw - 1rem));
+        max-height: calc(100vh - 1rem);
+        overflow-y: auto;
+    }
 
-.context-menu-item-content {
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
-    width: 100%;
-}
+    &-menu {
+        position: fixed;
+        display: block;
+        z-index: $zindex-popover;
 
-.context-menu-item-check {
-    display: inline-block;
-}
+        &[data-context-menu-keyboard-navigation="false"] {
+            &:focus,
+            [role="menu"]:focus,
+            [data-context-menu-item="true"]:focus {
+                outline: none;
+                box-shadow: none;
+            }
+        }
+    }
 
-.context-menu-item-shortcut {
-    margin-left: auto;
-}
+    &-item {
+        cursor: pointer;
 
-.context-menu-header {
-    cursor: default;
-}
+        &-content {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            width: 100%;
+        }
 
-.context-menu-toolbar {
-    display: flex;
-    align-items: center;
-    gap: .25rem;
-    padding: .25rem;
-}
+        &-check {
+            display: inline-block;
+        }
 
-.context-menu-toolbar-item {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: .375rem;
-    min-width: 2rem;
-    min-height: 2rem;
-    padding: .25rem .5rem;
-    color: $dropdown-link-color;
-    background: transparent;
-    border: 0;
-    border-radius: $dropdown-border-radius;
-    cursor: pointer;
-}
+        &-shortcut {
+            margin-left: auto;
+        }
+    }
 
-.context-menu-toolbar-item:hover,
-.context-menu-toolbar-item:focus {
-    color: $dropdown-link-hover-color;
-    background-color: $dropdown-link-hover-bg;
-}
+    &-header {
+        cursor: default;
+    }
 
-.context-menu-toolbar-item.active {
-    color: $dropdown-link-active-color;
-    background-color: $dropdown-link-active-bg;
-}
+    &-toolbar {
+        display: flex;
+        align-items: center;
+        gap: .25rem;
+        padding: .25rem;
 
-.context-menu-toolbar-item:disabled,
-.context-menu-toolbar-item.disabled {
-    color: $dropdown-link-disabled-color;
-    cursor: default;
-    pointer-events: none;
-}
+        &-item {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .375rem;
+            min-width: 2rem;
+            min-height: 2rem;
+            padding: .25rem .5rem;
+            color: $dropdown-link-color;
+            background: transparent;
+            border: 0;
+            border-radius: $dropdown-border-radius;
+            cursor: pointer;
 
-.context-menu-toolbar-item-end-aligned {
-    margin-inline-start: auto;
-}
+            &:hover,
+            &:focus {
+                color: $dropdown-link-hover-color;
+                background-color: $dropdown-link-hover-bg;
+            }
 
-.context-menu-submenu {
-    position: relative;
-}
+            &.active {
+                color: $dropdown-link-active-color;
+                background-color: $dropdown-link-active-bg;
+            }
 
-.context-menu-submenu-trigger {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    cursor: default;
-}
+            &:disabled,
+            &.disabled {
+                color: $dropdown-link-disabled-color;
+                cursor: default;
+                pointer-events: none;
+            }
 
-.context-menu-submenu-menu {
-    z-index: $zindex-popover + 1;
+            &-end-aligned {
+                margin-inline-start: auto;
+            }
+        }
+    }
+
+    &-submenu {
+        position: relative;
+
+        &-trigger {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            cursor: default;
+        }
+
+        &-menu {
+            z-index: $zindex-popover + 1;
+        }
+    }
 }

@@ -59,3 +59,120 @@ $grid-columns: 12 !default;
 $grid-gutter-width: 1rem !default;
 $container-padding-x: $grid-gutter-width !default;
 $grid-row-columns: 6 !default;
+
+$breakpoint-observer-breakpoints: $grid-breakpoints !default;
+$breakpoint-observer-map: (
+    xs: mobile,
+    sm: tablet,
+    md: desktop,
+    lg: widescreen,
+    xl: fullhd,
+    xxl: quadhd
+) !default;
+$bar-initial-breakpoints: (
+    "mui-bar-expand-sm": sm,
+    "mui-bar-expand-md": md,
+    "mui-bar-expand-lg": lg,
+    "mui-bar-expand-xl": xl,
+    "mui-bar-expand-xxl": xxl
+) !default;
+
+$display-values: (none, inline, inline-block, block, flex, inline-flex, table, table-row, table-cell) !default;
+$flex-directions: (row, row-reverse, column, column-reverse) !default;
+$justify-content-values: (start: flex-start, end: flex-end, center: center, between: space-between, around: space-around) !default;
+$align-items-values: (start: flex-start, end: flex-end, center: center, baseline: baseline, stretch: stretch) !default;
+$align-self-values: (auto: auto, start: flex-start, end: flex-end, center: center, baseline: baseline, stretch: stretch) !default;
+$align-content-values: (start: flex-start, end: flex-end, center: center, between: space-between, around: space-around, stretch: stretch) !default;
+$flex-wrap-values: (wrap, nowrap, wrap-reverse) !default;
+$flex-basis-values: (0, auto, full) !default;
+$flex-order-values: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12) !default;
+$mui-overflow-values: (visible, hidden, scroll, auto) !default;
+$mui-object-fit-values: (none: none, contain: contain, cover: cover, fill: fill, scale: scale-down) !default;
+$mui-positions: (static, relative, absolute, fixed, sticky) !default;
+$mui-position-values: (0: 0, 50: 50%, 100: 100%) !default;
+$mui-spacing-properties: (margin: mui-margin, padding: mui-padding) !default;
+$mui-vertical-alignment-values: (baseline: baseline, top: top, middle: middle, bottom: bottom, text-top: text-top, text-bottom: text-bottom) !default;
+
+$mui-heading-sizes: (1: 3.5625rem, 2: 2.8125rem, 3: 2.25rem, 4: 2rem, 5: 1.75rem, 6: 1.5rem) !default;
+$mui-display-sizes: (1: 5rem, 2: 4.5rem, 3: 4rem, 4: 3.5rem) !default;
+$mui-text-sizes: (
+    xs: 0.75rem,
+    sm: var(--mui-font-size-sm),
+    md: var(--mui-font-size),
+    lg: var(--mui-font-size-lg),
+    xl: 1.5rem,
+    1: 3.5625rem,
+    2: 2.8125rem,
+    3: 2.25rem,
+    4: 2rem,
+    5: 1.75rem,
+    6: 1.5rem
+) !default;
+$mui-text-weights: (light: 300, normal: 400, semibold: 600, bold: 700) !default;
+
+$mui-border-color: var(--mui-outline-variant) !default;
+$mui-border-radius: 0.5rem !default;
+$mui-border-pill-radius: 50rem !default;
+$mui-border-widths: (0: 0, 1: 1px, 2: 2px, 3: 3px, 4: 4px, 5: 5px) !default;
+$mui-border-sides: (
+    top: (physical: top, logical: top),
+    end: (physical: right, logical: inline-end),
+    bottom: (physical: bottom, logical: bottom),
+    start: (physical: left, logical: inline-start)
+) !default;
+$mui-border-colors: (
+    primary: var(--mui-primary),
+    secondary: var(--mui-secondary),
+    tertiary: var(--mui-tertiary),
+    success: var(--mui-success),
+    danger: var(--mui-error),
+    error: var(--mui-error),
+    warning: var(--mui-warning),
+    info: var(--mui-info),
+    light: var(--mui-light),
+    dark: var(--mui-dark),
+    white: #fff
+) !default;
+$mui-border-subtle-colors: map-merge((white: rgb(255 255 255 / 50%)), $theme-colors-border-subtle) !default;
+
+$mui-contextual-colors: (primary, secondary, tertiary, error, success, warning, info, light, dark) !default;
+$mui-scheduler-on-colors: (
+    primary: var(--mui-on-primary),
+    secondary: var(--mui-on-secondary),
+    tertiary: var(--mui-on-tertiary),
+    success: var(--mui-on-success),
+    warning: var(--mui-on-warning),
+    info: var(--mui-on-info),
+    danger: var(--mui-on-error),
+    error: var(--mui-on-error),
+    light: var(--mui-on-light),
+    dark: var(--mui-on-dark)
+) !default;
+$mui-list-contextual-colors: (
+    primary: ("base": var(--mui-primary), "on-base": var(--mui-on-primary), "container": var(--mui-primary-container), "on-container": var(--mui-on-primary-container)),
+    secondary: ("base": var(--mui-secondary), "on-base": var(--mui-on-secondary), "container": var(--mui-secondary-container), "on-container": var(--mui-on-secondary-container)),
+    tertiary: ("base": var(--mui-tertiary), "on-base": var(--mui-on-tertiary), "container": var(--mui-tertiary-container), "on-container": var(--mui-on-tertiary-container)),
+    success: ("base": var(--mui-success), "on-base": var(--mui-on-success), "container": var(--mui-success-container), "on-container": var(--mui-on-success-container)),
+    danger: ("base": var(--mui-error), "on-base": var(--mui-on-error), "container": var(--mui-error-container), "on-container": var(--mui-on-error-container)),
+    error: ("base": var(--mui-error), "on-base": var(--mui-on-error), "container": var(--mui-error-container), "on-container": var(--mui-on-error-container)),
+    warning: ("base": var(--mui-warning), "on-base": var(--mui-on-warning), "container": var(--mui-warning-container), "on-container": var(--mui-on-warning-container)),
+    info: ("base": var(--mui-info), "on-base": var(--mui-on-info), "container": var(--mui-info-container), "on-container": var(--mui-on-info-container)),
+    light: ("base": var(--mui-light), "on-base": var(--mui-on-light), "container": var(--mui-light-container), "on-container": var(--mui-on-light-container)),
+    dark: ("base": var(--mui-dark), "on-base": var(--mui-on-dark), "container": var(--mui-dark-container), "on-container": var(--mui-on-dark-container))
+) !default;
+$mui-ripple-targets: (
+    ".mui-button",
+    ".mui-dropdown-item",
+    ".mui-tabs > .mui-tab-item > .mui-tab-link",
+    ".mui-pagination > .mui-pagination-item > .mui-pagination-link",
+    ".mui-breadcrumb > .mui-breadcrumb-item > .mui-breadcrumb-link",
+    ".mui-bar-link",
+    ".mui-bar-brand",
+    ".mui-bar-toggler",
+    ".mui-list > .mui-list-item.mui-list-item-action",
+    ".mui-list > .mui-list-item > a:only-child",
+    ".mui-list > .mui-list-item > details > summary",
+    ".mui-button-close",
+    ".mui-chip.mui-chip-link",
+    ".mui-chip > .mui-chip-close"
+) !default;

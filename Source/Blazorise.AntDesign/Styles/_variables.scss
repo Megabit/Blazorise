@@ -22,6 +22,34 @@ $grid-rows: 6 !default;
 $grid-row-columns: 6 !default;
 $grid-breakpoints: ( "xxs": 0, "xs": $mobile, "sm": $tablet, "md": $desktop, "lg": $widescreen, "xl": $fullhd ) !default;
 
+$breakpoint-observer-breakpoints: (
+    "xxs": 0,
+    "xs": map-get($grid-breakpoints, "xs"),
+    "sm": map-get($grid-breakpoints, "sm"),
+    "md": map-get($grid-breakpoints, "md"),
+    "lg": map-get($grid-breakpoints, "lg"),
+    "xl": map-get($grid-breakpoints, "xl"),
+    "xxl": 2560px,
+) !default;
+
+$breakpoint-observer-map: (
+    "xxs": mobile,
+    "xs": mobile,
+    "sm": tablet,
+    "md": desktop,
+    "lg": widescreen,
+    "xl": fullhd,
+    "xxl": quadhd,
+) !default;
+
+$bar-initial-breakpoints: (
+    "ant-bar-expand-sm": "sm",
+    "ant-bar-expand-md": "md",
+    "ant-bar-expand-lg": "lg",
+    "ant-bar-expand-xl": "xl",
+    "ant-bar-expand-xxl": "xxl",
+) !default;
+
 // Typography
 $font-sizes: ( xs: calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2), sm: var(--ant-font-size-sm), md: var(--ant-font-size), lg: var(--ant-font-size-lg), xl: var(--ant-font-size-xl), 1: var(--ant-font-size-heading-1), 2: var(--ant-font-size-heading-2), 3: var(--ant-font-size-heading-3), 4: var(--ant-font-size-heading-4), 5: var(--ant-font-size-heading-5), 6: var(--ant-font-size) ) !default;
 $line-heights: ( xs: var(--ant-line-height-sm), sm: var(--ant-line-height-sm), md: var(--ant-line-height), lg: var(--ant-line-height-lg), xl: var(--ant-line-height-lg), 1: var(--ant-line-height-heading-1), 2: var(--ant-line-height-heading-2), 3: var(--ant-line-height-heading-3), 4: var(--ant-line-height-heading-4), 5: var(--ant-line-height-heading-5), 6: var(--ant-line-height) ) !default;
@@ -34,6 +62,300 @@ $sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 
 $position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;
 
 $overflows: auto, hidden, visible, scroll !default;
+
+// Rule generation
+
+$vertical-alignments: ( baseline: baseline, top: top, middle: middle, bottom: bottom, text-bottom: text-bottom, text-top: text-top ) !default;
+$background-variants: (
+    primary: var(--b-theme-background-primary, var(--ant-color-primary)),
+    secondary: var(--b-theme-background-secondary, var(--ant-color-text-secondary)),
+    success: var(--b-theme-background-success, var(--ant-color-success)),
+    info: var(--b-theme-background-info, var(--ant-color-info)),
+    warning: var(--b-theme-background-warning, var(--ant-color-warning)),
+    danger: var(--b-theme-background-danger, var(--ant-color-error)),
+    light: var(--b-theme-background-light, var(--ant-color-fill-quaternary)),
+    dark: var(--b-theme-background-dark, var(--ant-color-text)),
+    link: var(--b-theme-background-link, var(--ant-color-link))
+) !default;
+$background-subtle-variants: (
+    primary: var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)),
+    secondary: var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)),
+    success: var(--b-theme-background-success-subtle, var(--ant-color-success-bg)),
+    info: var(--b-theme-background-info-subtle, var(--ant-color-info-bg)),
+    warning: var(--b-theme-background-warning-subtle, var(--ant-color-warning-bg)),
+    danger: var(--b-theme-background-danger-subtle, var(--ant-color-error-bg)),
+    light: var(--b-theme-background-light-subtle, var(--ant-color-fill-quaternary)),
+    dark: var(--b-theme-background-dark-subtle, var(--ant-color-fill-secondary)),
+    link: var(--b-theme-background-link-subtle, var(--ant-color-primary-bg))
+) !default;
+$border-sides: ( top, right, bottom, left ) !default;
+$border-sizes: ( 1, 2, 3, 4, 5 ) !default;
+$border-color-variants: (
+    primary: ( var(--b-theme-border-primary, var(--ant-color-primary)), var(--b-theme-border-primary-subtle, var(--ant-color-primary-border)) ),
+    secondary: ( var(--b-theme-border-secondary, var(--ant-color-text-secondary)), var(--b-theme-border-secondary-subtle, var(--ant-color-border)) ),
+    success: ( var(--b-theme-border-success, var(--ant-color-success)), var(--b-theme-border-success-subtle, var(--ant-color-success-border)) ),
+    info: ( var(--b-theme-border-info, var(--ant-color-info)), var(--b-theme-border-info-subtle, var(--ant-color-info-border)) ),
+    warning: ( var(--b-theme-border-warning, var(--ant-color-warning)), var(--b-theme-border-warning-subtle, var(--ant-color-warning-border)) ),
+    danger: ( var(--b-theme-border-danger, var(--ant-color-error)), var(--b-theme-border-danger-subtle, var(--ant-color-error-border)) ),
+    light: ( var(--b-theme-border-light, var(--ant-color-border)), var(--b-theme-border-light-subtle, var(--ant-color-border-secondary)) ),
+    dark: ( var(--b-theme-border-dark, var(--ant-color-text)), var(--b-theme-border-dark-subtle, var(--ant-color-border)) ),
+    link: ( var(--b-theme-border-link, var(--ant-color-link)), var(--b-theme-border-link-subtle, var(--ant-color-primary-border)) )
+) !default;
+$display-values: ( none: none, inline: inline, inline-block: inline-block, block: block, table: table, table-row: table-row, table-cell: table-cell, flex: flex, inline-flex: inline-flex ) !default;
+$flex-direction-values: ( row: row, column: column, row-reverse: row-reverse, column-reverse: column-reverse ) !default;
+$flex-utilities: (
+    flex-direction: $flex-direction-values,
+    flex-wrap: ( wrap: wrap, nowrap: nowrap, wrap-reverse: wrap-reverse ),
+    justify-content: ( flex-start: flex-start, flex-end: flex-end, center: center, space-between: space-between, space-around: space-around ),
+    align-items: ( flex-start: flex-start, flex-end: flex-end, center: center, baseline: baseline, stretch: stretch ),
+    align-self: ( auto: auto, flex-start: flex-start, flex-end: flex-end, center: center, baseline: baseline, stretch: stretch ),
+    align-content: ( flex-start: flex-start, flex-end: flex-end, center: center, space-between: space-between, space-around: space-around, stretch: stretch )
+) !default;
+$flex-grow-shrink-properties: ( grow, shrink ) !default;
+$flex-binary-values: ( 0, 1 ) !default;
+$flex-basis-values: ( 0: 0, auto: auto, full: 100% ) !default;
+$object-fit-values: ( contain: contain, cover: cover, fill: fill, scale: scale-down, none: none ) !default;
+$position-sides: ( top, bottom, left, right ) !default;
+$translate-values: ( middle: translate(-50%, -50%), middle-x: translateX(-50%), middle-y: translateY(-50%) ) !default;
+$shadow-values: ( sm: var(--ant-box-shadow-secondary), default: var(--ant-box-shadow), lg: var(--ant-box-shadow-tertiary), none: none ) !default;
+$sizing-properties: ( width: width, height: height ) !default;
+$spacing-properties: ( margin: m, padding: p ) !default;
+$gap-excluded-sizes: ( 2, 3, 4 ) !default;
+$validation-status-colors: (
+    success: var(--b-theme-success, var(--ant-color-success)),
+    warning: var(--b-theme-warning, var(--ant-color-warning)),
+    error: var(--b-theme-danger, var(--ant-color-error))
+) !default;
+$ant-status-colors: ( success: var(--ant-color-success), warning: var(--ant-color-warning), error: var(--ant-color-error) ) !default;
+$ant-status-outlines: ( success: var(--ant-success-color-outline), warning: var(--ant-color-warning-outline), error: var(--ant-error-color-outline) ) !default;
+$markdown-validation-colors: (
+    valid: var(--b-theme-success, var(--ant-success-color)),
+    warning: var(--b-theme-warning, var(--ant-color-warning)),
+    invalid: var(--b-theme-danger, var(--ant-error-color))
+) !default;
+$rating-colors: (
+    primary: var(--b-theme-text-primary, var(--ant-color-primary)),
+    secondary: var(--b-theme-text-secondary, var(--ant-color-text-secondary)),
+    success: var(--b-theme-text-success, var(--ant-color-success)),
+    info: var(--b-theme-text-info, var(--ant-color-info)),
+    warning: var(--b-theme-text-warning, var(--ant-color-warning)),
+    danger: var(--b-theme-text-danger, var(--ant-color-error)),
+    light: var(--b-theme-text-light, var(--ant-color-text-light-solid)),
+    dark: var(--b-theme-text-dark, var(--ant-color-text-heading)),
+    link: var(--b-theme-text-link, var(--ant-color-link))
+) !default;
+$figure-sizes: ( 16, 24, 32, 48, 64, 96, 128, 256, 512 ) !default;
+$control-sizes: (
+    xs: ( input-padding: 0 7px, button-padding: 0 7px, font-size: 10px, height: 16px ),
+    sm: ( input-padding: 0 var(--ant-input-padding-inline-sm), button-padding: 0 var(--ant-button-padding-inline-sm), font-size: var(--ant-font-size-sm), height: var(--ant-control-height-sm) ),
+    md: ( input-padding: 4.5px 11px, button-padding: 4.5px 11px, font-size: 14px, height: 36px ),
+    lg: ( input-padding: var(--ant-input-padding-block-lg) calc(var(--ant-button-padding-inline-lg) - var(--ant-line-width) * 2), button-padding: var(--ant-input-padding-block-lg) calc(var(--ant-button-padding-inline-lg) - var(--ant-line-width) * 2), font-size: var(--ant-font-size-lg), height: var(--ant-control-height-lg) ),
+    xl: ( input-padding: 8.5px 15px, button-padding: 8.5px 15px, font-size: 18px, height: 48px )
+) !default;
+$input-number-sizes: (
+    sm: ( font-size: var(--ant-font-size-sm), height: var(--ant-control-height-sm), padding-block: 0, padding-inline: var(--ant-input-padding-inline-sm) ),
+    xs: ( font-size: 10px, height: 16px, padding-block: 0, padding-inline: 7px ),
+    md: ( font-size: var(--ant-font-size), height: calc(var(--ant-control-height) + var(--ant-size-unit)), padding-block: calc(var(--ant-input-padding-block) + .5px), padding-inline: var(--ant-input-padding-inline) ),
+    lg: ( font-size: var(--ant-font-size-lg), height: var(--ant-control-height-lg), padding-block: calc(var(--ant-input-padding-block-lg) - .5px), padding-inline: calc(var(--ant-button-padding-inline-lg) - var(--ant-line-width) * 2) ),
+    xl: ( font-size: 18px, height: 48px, padding-block: 8.5px, padding-inline: 15px )
+) !default;
+$alert-variants: (
+    primary: ( var(--b-theme-text-primary-emphasis, var(--ant-color-primary)), var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-primary-subtle, var(--ant-color-primary-border)) ),
+    secondary: ( var(--b-theme-text-secondary-emphasis, var(--ant-color-text-secondary)), var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-secondary-subtle, var(--ant-color-border)) ),
+    danger: ( var(--b-theme-text-danger-emphasis, var(--ant-color-error)), var(--b-theme-background-danger-subtle, var(--ant-color-error-bg)), var(--b-theme-border-danger-subtle, var(--ant-color-error-border)) ),
+    light: ( var(--b-theme-text-light-emphasis, var(--ant-color-text)), var(--b-theme-background-light-subtle, var(--ant-color-bg-container)), var(--b-theme-border-light-subtle, var(--ant-color-border)) ),
+    dark: ( var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading)), var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary)) ),
+    link: ( var(--b-theme-link, var(--ant-color-link)), var(--b-theme-background-link-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-link-subtle, var(--ant-color-primary-border)) )
+) !default;
+$card-background-variants: (
+    primary: var(--ant-color-text-light-solid),
+    secondary: var(--ant-color-text-light-solid),
+    success: var(--ant-color-text-light-solid),
+    info: var(--ant-color-text-light-solid),
+    danger: var(--ant-color-text-light-solid),
+    warning: var(--ant-color-text),
+    light: var(--ant-color-text),
+    dark: var(--ant-color-text-light-solid),
+    link: var(--ant-color-text-light-solid)
+) !default;
+$hero-variants: (
+    primary: ( var(--b-theme-background-primary, var(--ant-color-primary)), var(--ant-color-text-light-solid) ),
+    secondary: ( var(--b-theme-background-secondary, var(--ant-color-text-secondary)), var(--ant-color-text-light-solid) ),
+    success: ( var(--b-theme-background-success, var(--ant-color-success)), var(--ant-color-text-light-solid) ),
+    info: ( var(--b-theme-background-info, var(--ant-color-info)), var(--ant-color-text-light-solid) ),
+    warning: ( var(--b-theme-background-warning, var(--ant-color-warning)), var(--ant-color-text) ),
+    danger: ( var(--b-theme-background-danger, var(--ant-color-error)), var(--ant-color-text-light-solid) ),
+    light: ( var(--b-theme-background-light, var(--ant-color-fill-quaternary)), var(--ant-color-text) ),
+    dark: ( var(--b-theme-background-dark, var(--ant-color-text)), var(--ant-color-text-light-solid) ),
+    link: ( var(--b-theme-background-link, var(--ant-color-link)), var(--ant-color-text-light-solid) )
+) !default;
+$display-heading-sizes: (
+    1: ( calc(var(--ant-font-size-heading-1) * 1.58), var(--ant-line-height-heading-1) ),
+    2: ( calc(var(--ant-font-size-heading-1) * 1.45), var(--ant-line-height-heading-1) ),
+    3: ( calc(var(--ant-font-size-heading-1) * 1.18), var(--ant-line-height-heading-1) ),
+    4: ( calc(var(--ant-font-size-heading-2) * 1.17), var(--ant-line-height-heading-2) )
+) !default;
+$modal-sizes: ( sm: var(--ant-modal-sm-width), lg: var(--ant-modal-lg-width), xl: var(--ant-modal-xl-width) ) !default;
+$drawer-sizes: ( sm: 320px, lg: 520px, xl: 720px ) !default;
+$drawer-placements: ( left, right, top, bottom ) !default;
+$progress-sizes: ( xs: 4px, md: 12px, lg: 16px, xl: 20px ) !default;
+$tag-variants: (
+    primary: ( var(--b-theme-primary, var(--ant-color-primary)), var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-primary-subtle, var(--ant-color-primary-border)), var(--b-theme-text-primary-emphasis, var(--ant-color-primary)), var(--ant-color-text-light-solid) ),
+    secondary: ( var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-secondary-subtle, var(--ant-color-border)), var(--b-theme-text-secondary-emphasis, var(--ant-color-text-secondary)), var(--ant-color-text-light-solid) ),
+    light: ( var(--b-theme-light, var(--ant-color-fill-quaternary)), var(--b-theme-background-light-subtle, var(--ant-color-bg-container)), var(--b-theme-border-light-subtle, var(--ant-color-border)), var(--b-theme-text-light-emphasis, var(--ant-color-text)), var(--ant-color-text) ),
+    dark: ( var(--b-theme-dark, var(--ant-color-text-secondary)), var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary)), var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading)), var(--ant-color-text-light-solid) ),
+    link: ( transparent, transparent, transparent, var(--b-theme-link, var(--ant-color-link)), var(--b-theme-link, var(--ant-color-link)) )
+) !default;
+$tag-subtle-variants: (
+    light: ( var(--b-theme-text-light-emphasis, var(--ant-color-text)), var(--b-theme-background-light-subtle, var(--ant-color-bg-container)), var(--b-theme-border-light-subtle, var(--ant-color-border)) ),
+    dark: ( var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading)), var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary)) ),
+    success: ( var(--b-theme-text-success-emphasis, var(--ant-color-success)), var(--b-theme-background-success-subtle, var(--ant-color-success-bg)), var(--b-theme-border-success-subtle, var(--ant-color-success-border)) ),
+    processing: ( var(--b-theme-text-info-emphasis, var(--ant-color-info)), var(--b-theme-background-info-subtle, var(--ant-color-info-bg)), var(--b-theme-border-info-subtle, var(--ant-color-info-border)) ),
+    warning: ( var(--b-theme-text-warning-emphasis, var(--ant-color-warning)), var(--b-theme-background-warning-subtle, var(--ant-color-warning-bg)), var(--b-theme-border-warning-subtle, var(--ant-color-warning-border)) ),
+    error: ( var(--b-theme-text-danger-emphasis, var(--ant-color-error)), var(--b-theme-background-danger-subtle, var(--ant-color-error-bg)), var(--b-theme-border-danger-subtle, var(--ant-color-error-border)) )
+) !default;
+$checkbox-sizes: (
+    xs: calc(var(--ant-control-interactive-size) / 2),
+    sm: calc(var(--ant-control-interactive-size) * .75),
+    md: calc(var(--ant-control-interactive-size) + var(--ant-size-unit)),
+    lg: calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2),
+    xl: calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3)
+) !default;
+$color-picker-sizes: (
+    xs: ( 10px, var(--ant-control-height-xs) ),
+    sm: ( var(--ant-font-size-sm), var(--ant-control-height-sm) ),
+    md: ( var(--ant-font-size), calc(var(--ant-control-height) + var(--ant-size-unit)) ),
+    lg: ( var(--ant-font-size-lg), var(--ant-control-height-lg) ),
+    xl: ( var(--ant-font-size-xl), calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2) )
+) !default;
+$addon-sizes: (
+    xs: ( 10px, var(--ant-control-height-xs), var(--ant-padding-xxs), var(--ant-padding-xxs), var(--ant-padding-xxs) ),
+    sm: ( var(--ant-font-size-sm), var(--ant-control-height-sm), var(--ant-input-padding-inline-sm), var(--ant-input-padding-inline-sm), var(--ant-input-padding-inline-sm) ),
+    md: ( var(--ant-font-size), calc(var(--ant-control-height) + var(--ant-size-unit)), var(--ant-padding-sm), var(--ant-input-padding-inline), var(--ant-padding-sm) ),
+    lg: ( var(--ant-font-size-lg), var(--ant-control-height-lg), var(--ant-button-padding-inline-lg), var(--ant-input-padding-inline-lg), var(--ant-button-padding-inline-lg) ),
+    xl: ( var(--ant-font-size-xl), calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2), var(--ant-padding), var(--ant-padding-sm), var(--ant-padding) )
+) !default;
+$picker-sizes: ( xs: ( 10px, 16px, 0, 7px ), md: ( 14px, 36px, 4.5px, 11px ), xl: ( 18px, 48px, 8.5px, 15px ) ) !default;
+$select-sizes: ( xs: ( 10px, 16px, 14px ), md: ( 14px, 36px, 34px ), xl: ( 18px, 48px, 45px ) ) !default;
+$segmented-variants: (
+    primary: ( var(--b-theme-primary, var(--ant-color-primary)), var(--ant-color-text-light-solid) ),
+    secondary: ( var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--ant-color-text-light-solid) ),
+    success: ( var(--b-theme-success, var(--ant-color-success)), var(--ant-color-text-light-solid) ),
+    info: ( var(--b-theme-info, var(--ant-color-info)), var(--ant-color-text-light-solid) ),
+    warning: ( var(--b-theme-warning, var(--ant-color-warning)), var(--ant-color-text) ),
+    danger: ( var(--b-theme-danger, var(--ant-color-error)), var(--ant-color-text-light-solid) ),
+    light: ( var(--b-theme-light, var(--ant-color-fill-quaternary)), var(--ant-color-text) ),
+    dark: ( var(--b-theme-dark, var(--ant-color-text)), var(--ant-color-text-light-solid) ),
+    link: ( var(--b-theme-link, var(--ant-color-link)), var(--ant-color-text-light-solid) )
+) !default;
+$radio-sizes: (
+    xs: ( calc(var(--ant-control-interactive-size) / 2), var(--ant-control-height-xs), calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2), calc(var(--ant-padding-xs) - var(--ant-line-width)) ),
+    sm: ( calc(var(--ant-control-interactive-size) * .75), var(--ant-control-height-sm), var(--ant-font-size-sm), calc(var(--ant-padding-xs) - var(--ant-line-width)) ),
+    md: ( calc(var(--ant-control-interactive-size) * 1.25), calc(var(--ant-control-height) + var(--ant-padding-xxs)), var(--ant-font-size), var(--ant-input-padding-inline) ),
+    lg: ( calc(var(--ant-control-interactive-size) * 1.5), var(--ant-control-height-lg), var(--ant-font-size-lg), var(--ant-button-padding-inline-lg) ),
+    xl: ( calc(var(--ant-control-interactive-size) * 1.75), calc(var(--ant-control-height-lg) + var(--ant-padding-xs)), var(--ant-font-size-xl), var(--ant-padding) )
+) !default;
+$steps-variants: (
+    primary: var(--b-theme-primary, var(--ant-color-primary)),
+    secondary: var(--b-theme-secondary, var(--ant-color-text-secondary)),
+    success: var(--b-theme-success, var(--ant-color-success)),
+    info: var(--b-theme-info, var(--ant-color-info)),
+    warning: var(--b-theme-warning, var(--ant-color-warning)),
+    danger: var(--b-theme-danger, var(--ant-color-error)),
+    light: var(--b-theme-light, var(--ant-color-text-light-solid)),
+    dark: var(--b-theme-dark, var(--ant-color-text-heading)),
+    link: var(--b-theme-link, var(--ant-color-link))
+) !default;
+$switch-sizes: (
+    xs: ( calc(var(--ant-switch-track-height-sm) - var(--ant-padding-xxs)), calc(var(--ant-switch-track-min-width-sm) - var(--ant-padding-xxs) - var(--ant-line-width) * 2), calc((calc(var(--ant-switch-track-height-sm) - var(--ant-padding-xxs)) - 3px) * -1), calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2) ),
+    sm: ( var(--ant-switch-track-height-sm), var(--ant-switch-track-min-width-sm), calc((var(--ant-switch-track-height-sm) - 3px) * -1), var(--ant-font-size-sm) ),
+    md: ( calc(var(--ant-switch-track-height) + var(--ant-line-width) * 2), calc(var(--ant-control-height-lg) * 2.25), calc((calc(var(--ant-switch-track-height) + var(--ant-line-width) * 2) - 3px) * -1), var(--ant-font-size-sm) ),
+    lg: ( calc(var(--ant-switch-track-height) + var(--ant-padding-xxs) + var(--ant-line-width) * 2), calc(var(--ant-control-height-lg) * 2.25), calc((calc(var(--ant-switch-track-height) + var(--ant-padding-xxs) + var(--ant-line-width) * 2) - 3px) * -1), var(--ant-font-size-sm) ),
+    xl: ( calc(var(--ant-switch-track-height) + var(--ant-padding-xs) + var(--ant-line-width) * 2), calc(var(--ant-control-height-lg) * 4), calc((calc(var(--ant-switch-track-height) + var(--ant-padding-xs) + var(--ant-line-width) * 2) - 3px) * -1), var(--ant-font-size-sm) )
+) !default;
+$switch-variants: (
+    primary: var(--b-theme-primary, var(--ant-color-primary)),
+    secondary: var(--b-theme-secondary, var(--ant-color-text-secondary)),
+    success: var(--b-theme-success, var(--ant-color-success)),
+    danger: var(--b-theme-danger, var(--ant-color-error)),
+    warning: var(--b-theme-warning, var(--ant-color-warning)),
+    info: var(--b-theme-info, var(--ant-color-info)),
+    light: var(--b-theme-light, var(--ant-color-fill-quaternary)),
+    dark: var(--b-theme-dark, var(--ant-color-text)),
+    link: var(--b-theme-link, var(--ant-color-link))
+) !default;
+$table-contextual-variants: (
+    primary: ( var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-primary-subtle, var(--ant-color-primary-border)) ),
+    secondary: ( var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-secondary-subtle, var(--ant-color-border)) ),
+    success: ( var(--b-theme-background-success-subtle, var(--ant-color-success-bg)), var(--b-theme-border-success-subtle, var(--ant-color-success-border)) ),
+    info: ( var(--b-theme-background-info-subtle, var(--ant-color-info-bg)), var(--b-theme-border-info-subtle, var(--ant-color-info-border)) ),
+    warning: ( var(--b-theme-background-warning-subtle, var(--ant-color-warning-bg)), var(--b-theme-border-warning-subtle, var(--ant-color-warning-border)) ),
+    danger: ( var(--b-theme-background-danger-subtle, var(--ant-color-error-bg)), var(--b-theme-border-danger-subtle, var(--ant-color-error-border)) ),
+    light: ( var(--b-theme-background-light-subtle, var(--ant-color-bg-container)), var(--b-theme-border-light-subtle, var(--ant-color-border)) ),
+    dark: ( var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary)) ),
+    link: ( var(--b-theme-background-link-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-link-subtle, var(--ant-color-primary-border)) )
+) !default;
+$list-group-contextual-variants: (
+    primary: ( var(--b-theme-text-primary, var(--ant-color-primary)), var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)), var(--b-theme-background-primary, var(--ant-color-primary)), var(--ant-color-text-light-solid) ),
+    secondary: ( var(--b-theme-text-secondary, var(--ant-color-text-secondary)), var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)), var(--b-theme-background-secondary, var(--ant-color-text-secondary)), var(--ant-color-text-light-solid) ),
+    success: ( var(--b-theme-text-success, var(--ant-color-success)), var(--b-theme-background-success-subtle, var(--ant-color-success-bg)), var(--b-theme-background-success, var(--ant-color-success)), var(--ant-color-text-light-solid) ),
+    info: ( var(--b-theme-text-info, var(--ant-color-info)), var(--b-theme-background-info-subtle, var(--ant-color-info-bg)), var(--b-theme-background-info, var(--ant-color-info)), var(--ant-color-text-light-solid) ),
+    warning: ( var(--b-theme-text-warning, var(--ant-color-warning)), var(--b-theme-background-warning-subtle, var(--ant-color-warning-bg)), var(--b-theme-background-warning, var(--ant-color-warning)), var(--ant-color-text) ),
+    danger: ( var(--b-theme-text-danger, var(--ant-color-error)), var(--b-theme-background-danger-subtle, var(--ant-color-error-bg)), var(--b-theme-background-danger, var(--ant-color-error)), var(--ant-color-text-light-solid) ),
+    light: ( var(--b-theme-text-light, var(--ant-color-text)), var(--b-theme-background-light-subtle, var(--ant-color-bg-container)), var(--b-theme-background-light, var(--ant-color-fill-quaternary)), var(--ant-color-text) ),
+    dark: ( var(--b-theme-text-dark, var(--ant-color-text-heading)), var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter)), var(--b-theme-background-dark, var(--ant-color-text)), var(--ant-color-text-light-solid) ),
+    link: ( var(--b-theme-text-link, var(--ant-color-link)), var(--b-theme-background-link-subtle, var(--ant-color-primary-bg)), var(--b-theme-background-link, var(--ant-color-link)), var(--ant-color-text-light-solid) )
+) !default;
+$button-solid-variants: (
+    secondary: ( var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--ant-color-text-light-solid) ),
+    success: ( var(--b-theme-success, var(--ant-color-success)), var(--ant-color-text-light-solid) ),
+    info: ( var(--b-theme-info, var(--ant-color-info)), var(--ant-color-text-light-solid) ),
+    warning: ( var(--b-theme-warning, var(--ant-color-warning)), var(--ant-color-text) ),
+    light: ( var(--b-theme-light, var(--ant-color-fill-quaternary)), var(--ant-color-text) ),
+    dark: ( var(--b-theme-dark, var(--ant-color-text)), var(--ant-color-text-light-solid) )
+) !default;
+$button-outline-variants: (
+    secondary: var(--b-theme-secondary, var(--ant-color-text-secondary)),
+    success: var(--b-theme-success, var(--ant-color-success)),
+    info: var(--b-theme-info, var(--ant-color-info)),
+    warning: var(--b-theme-warning, var(--ant-color-warning)),
+    light: var(--b-theme-light, var(--ant-color-fill-quaternary)),
+    dark: var(--b-theme-dark, var(--ant-color-text)),
+    link: var(--b-theme-link, var(--ant-color-link))
+) !default;
+$text-alignments: ( left: left, right: right, center: center, justify: justify ) !default;
+$text-transforms: ( lowercase: lowercase, uppercase: uppercase, capitalize: capitalize ) !default;
+$font-weights: ( bold: 700, semibold: 600, normal: 400, default: 400, light: 300 ) !default;
+$text-decorations: ( underline: underline, overline: overline, line-through: line-through, inherit: inherit, none: none ) !default;
+$typography-colors: (
+    secondary: var(--ant-color-text-description),
+    primary: var(--b-theme-text-primary, var(--ant-color-primary)),
+    success: var(--b-theme-text-success, var(--ant-color-success)),
+    info: var(--b-theme-text-info, var(--ant-color-info)),
+    warning: var(--b-theme-text-warning, var(--ant-color-warning)),
+    ( danger, error ): var(--b-theme-text-danger, var(--ant-color-error)),
+    light: var(--b-theme-text-light, #fafafa),
+    dark: var(--b-theme-text-dark, #343a40),
+    body: var(--b-theme-text-body, var(--ant-color-text)),
+    body-emphasis: var(--b-theme-text-body-emphasis, var(--ant-color-text-heading)),
+    muted: var(--b-theme-text-muted, var(--ant-color-text-description)),
+    muted-emphasis: var(--b-theme-text-muted-emphasis, var(--ant-color-text-secondary)),
+    white: var(--b-theme-text-white, var(--ant-color-text-light-solid)),
+    white-emphasis: var(--b-theme-text-white-emphasis, var(--b-theme-text-white, var(--ant-color-text-light-solid))),
+    black-50: var(--b-theme-text-black-50, rgba(0, 0, 0, .5)),
+    black-50-emphasis: var(--b-theme-text-black-50-emphasis, rgba(0, 0, 0, .7)),
+    white-50: var(--b-theme-text-white-50, rgba(255, 255, 255, .5)),
+    white-50-emphasis: var(--b-theme-text-white-50-emphasis, rgba(255, 255, 255, .8)),
+    primary-emphasis: var(--b-theme-text-primary-emphasis, var(--ant-color-primary-active)),
+    secondary-emphasis: var(--b-theme-text-secondary-emphasis, var(--ant-color-text-heading)),
+    success-emphasis: var(--b-theme-text-success-emphasis, var(--ant-color-success-active)),
+    info-emphasis: var(--b-theme-text-info-emphasis, var(--ant-color-info-active)),
+    warning-emphasis: var(--b-theme-text-warning-emphasis, var(--ant-color-warning-active)),
+    ( danger-emphasis, error-emphasis ): var(--b-theme-text-danger-emphasis, var(--ant-color-error-active)),
+    light-emphasis: var(--b-theme-text-light-emphasis, var(--b-theme-text-light, var(--ant-color-text-light-solid))),
+    dark-emphasis: var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading))
+) !default;
+$tooltip-placement-borders: ( top: top, bottom: bottom, left: left, right: right ) !default;
 
 html {
     --ant-primary-color: #1677ff;

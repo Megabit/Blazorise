@@ -1,31 +1,31 @@
-.ant-table-fixed-header thead tr th.b-ant-dropdown-table-fixed-header-visible {
+.ant-table-fixed-header thead tr th.ant-dropdown-table-fixed-header-visible {
     z-index: 2;
 }
 
-.b-ant-dropdown-position-strategy {
+.ant-dropdown-position-strategy {
     width: max-content;
     top: 0;
     left: 0;
+
+    &-absolute {
+        position: absolute;
+    }
+
+    &-fixed {
+        position: fixed;
+    }
 }
 
-.b-ant-dropdown-position-strategy-absolute {
-    position: absolute;
-}
-
-.b-ant-dropdown-position-strategy-fixed {
-    position: fixed;
-}
-
-.b-ant-dropdown {
+.ant-dropdown-root {
     display: inline-block;
     vertical-align: top;
 }
 
-.b-ant-dropdown-group {
+.ant-dropdown-group {
     display: inline-flex;
     white-space: nowrap;
 
-    &.b-ant-dropdown-disabled.b-is-autocomplete {
+    &.ant-dropdown-disabled.b-is-autocomplete {
         background-color: var(--ant-color-fill-quaternary);
     }
 }
@@ -35,11 +35,11 @@
     border: 0;
 }
 
-.b-ant-dropdown-group.ant-dropdown-button.b-is-autocomplete {
+.ant-dropdown-group.ant-dropdown-button.b-is-autocomplete {
     width: 100%;
 }
 
-.b-ant-dropdown.b-is-autocomplete:not(.b-is-autocomplete-multipleselection) {
+.ant-dropdown-root.b-is-autocomplete:not(.b-is-autocomplete-multipleselection) {
     display: block;
     width: 100%;
 
@@ -54,7 +54,7 @@
     animation-name: fadeIn;
 }
 
-.b-ant-dropdown-overlay:has(.b-ant-select-root, .b-is-autocomplete) {
+.ant-dropdown-overlay:has(.ant-select-root, .b-is-autocomplete) {
     overflow: visible;
 
     > .ant-dropdown-menu {
@@ -62,12 +62,12 @@
         overflow: visible;
     }
 
-    .b-ant-dropdown-overlay {
+    .ant-dropdown-overlay {
         z-index: calc(var(--ant-dropdown-z-index-popup) + 1);
     }
 }
 
-.b-ant-dropdown-menu-scrollable > .ant-dropdown-menu {
+.ant-dropdown-menu-scrollable > .ant-dropdown-menu {
     max-height: var(--dropdown-list-menu-max-height, 200px);
     overflow-y: auto;
 }
@@ -128,34 +128,18 @@
         border-radius: var(--ant-border-radius);
     }
 
-    &.ant-input-status-success {
-        border-color: var(--ant-color-success);
-    }
+    @each $status, $color in $ant-status-colors {
+        $outline: map-get($ant-status-outlines, $status);
 
-    &.ant-input-status-warning {
-        border-color: var(--ant-color-warning);
-    }
+        &.ant-input-status-#{$status} {
+            border-color: $color;
 
-    &.ant-input-status-error {
-        border-color: var(--ant-color-error);
-    }
-
-    &.ant-input-status-success.focus {
-        border-color: var(--ant-color-success);
-        -webkit-box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-success-color-outline);
-        box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-success-color-outline);
-    }
-
-    &.ant-input-status-warning.focus {
-        border-color: var(--ant-color-warning);
-        -webkit-box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-warning-outline);
-        box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-warning-outline);
-    }
-
-    &.ant-input-status-error.focus {
-        border-color: var(--ant-color-error);
-        -webkit-box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-error-color-outline);
-        box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-error-color-outline);
+            &.focus {
+                border-color: $color;
+                -webkit-box-shadow: 0 0 0 var(--ant-control-outline-width) $outline;
+                box-shadow: 0 0 0 var(--ant-control-outline-width) $outline;
+            }
+        }
     }
 
     &.ant-input-status-success > input.ant-input,

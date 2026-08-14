@@ -1,4 +1,4 @@
-﻿.placeholder {
+.placeholder {
   display: inline-block;
   min-height: 1em;
   vertical-align: middle;
@@ -10,25 +10,25 @@
     display: inline-block;
     content: "";
   }
-}
 
-// Sizing
-.placeholder-xs {
-  min-height: .6em;
-}
+  // Sizing
+  &-xs {
+    min-height: .6em;
+  }
 
-.placeholder-sm {
-  min-height: .8em;
-}
+  &-sm {
+    min-height: .8em;
+  }
 
-.placeholder-lg {
-  min-height: 1.2em;
-}
+  &-lg {
+    min-height: 1.2em;
+  }
 
-// Animation
-.placeholder-glow {
-  .placeholder {
-    animation: placeholder-glow 2s ease-in-out infinite;
+  // Animation
+  &-glow {
+    .placeholder {
+      animation: placeholder-glow 2s ease-in-out infinite;
+    }
   }
 }
 
@@ -38,10 +38,12 @@
   }
 }
 
-.placeholder-wave {
-  mask-image: linear-gradient(130deg, $black 55%, rgba(0, 0, 0, (1 - $placeholder-opacity-min)) 75%, $black 95%);
-  mask-size: 200% 100%;
-  animation: placeholder-wave 2s linear infinite;
+.placeholder {
+  &-wave {
+    mask-image: linear-gradient(130deg, $black 55%, rgba(0, 0, 0, (1 - $placeholder-opacity-min)) 75%, $black 95%);
+    mask-size: 200% 100%;
+    animation: placeholder-wave 2s linear infinite;
+  }
 }
 
 @keyframes placeholder-wave {

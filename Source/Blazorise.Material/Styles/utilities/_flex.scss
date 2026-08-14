@@ -1,12 +1,3 @@
-$flex-directions: (row, row-reverse, column, column-reverse) !default;
-$justify-content-values: (start: flex-start, end: flex-end, center: center, between: space-between, around: space-around) !default;
-$align-items-values: (start: flex-start, end: flex-end, center: center, baseline: baseline, stretch: stretch) !default;
-$align-self-values: (auto: auto, start: flex-start, end: flex-end, center: center, baseline: baseline, stretch: stretch) !default;
-$align-content-values: (start: flex-start, end: flex-end, center: center, between: space-between, around: space-around, stretch: stretch) !default;
-$flex-wrap-values: (wrap, nowrap, wrap-reverse) !default;
-$flex-basis-values: (0, auto, full) !default;
-$flex-order-values: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12) !default;
-
 @mixin make-flex-utilities($infix: "") {
     @each $direction in $flex-directions {
         .mui-flex#{$infix}-#{$direction} {

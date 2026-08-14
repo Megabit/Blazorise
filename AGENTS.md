@@ -72,7 +72,11 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 - Always preserve consistent `CRLF` line endings per file; never introduce mixed `LF`/`CRLF` endings in the same file.
 - Do not add a trailing newline at EOF, except in `*.css` and `*.scss` files; keep all other file endings without an extra line.
 - When editing `*.scss` files, do not manually edit generated `*.css` files; CSS will be generated manually by the team.
+- In `*.scss` files, use native SCSS syntax to reduce repetition: group selectors that share declarations, nest related descendants, modifiers, states, and pseudo-selectors under their common parent with `&`, and use loops, maps, or mixins for repeated rule families.
+- Keep SCSS nesting logical and reasonably shallow, and preserve the compiled selector specificity, cascade order, and behavior; do not nest unrelated selectors merely because they appear in the same file.
+- Define reusable SCSS maps and lists in the provider's `_variables.scss` file instead of declaring them inline in component or utility partials.
 - When styling provider components, always use the CSS provider's native CSS variables or design tokens whenever suitable tokens exist.
+- Provider-owned CSS classes must follow the current provider's native naming convention and prefix (for example, `ant-*` in AntDesign); do not introduce shared `b-*` class names for provider-specific selectors or runtime hooks.
 - Introduce new CSS variables only when the provider does not expose suitable native variables.
 - For providers without native CSS variables but with SCSS variables, prefer the provider's SCSS variables for compiled defaults and override the relevant selectors and values in the provider theme generator for runtime Blazorise theming.
 - Any new CSS variables must follow the CSS provider's established variable naming convention; do not invent a provider prefix or use a shared cross-provider naming convention.

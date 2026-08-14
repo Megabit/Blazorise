@@ -36,23 +36,4 @@
     }
 }
 
-$breakpoint-observer-breakpoints: $grid-breakpoints;
-
-$breakpoint-observer-map: (
-    xs: mobile,
-    sm: tablet,
-    md: desktop,
-    lg: widescreen,
-    xl: fullhd,
-    xxl: quadhd,
-);
-
-$bar-initial-breakpoints: (
-    "fui-bar-expand-sm": sm,
-    "fui-bar-expand-md": md,
-    "fui-bar-expand-lg": lg,
-    "fui-bar-expand-xl": xl,
-    "fui-bar-expand-xxl": xxl,
-);
-
 @include emit-breakpoint-observer($breakpoint-observer-breakpoints, $breakpoint-observer-map);

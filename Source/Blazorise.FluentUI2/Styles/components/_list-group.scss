@@ -198,15 +198,17 @@
 }
 
 
-.fui-ListGroup-flush {
-    border-radius: 0;
-
-    > .fui-ListGroupItem {
+.fui-ListGroup {
+    &-flush {
         border-radius: 0;
-        border-width: 0 0 var(--strokeWidthThin);
 
-        &:last-child {
-            border-bottom-width: 0;
+        > .fui-ListGroupItem {
+            border-radius: 0;
+            border-width: 0 0 var(--strokeWidthThin);
+
+            &:last-child {
+                border-bottom-width: 0;
+            }
         }
     }
 }

@@ -55,15 +55,9 @@
     --b-ant-table-row-bg: var(--ant-color-bg-container);
     --b-ant-table-row-striped-bg: var(--ant-color-fill-quaternary);
 
-    @include ant-table-contextual(primary, var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-primary-subtle, var(--ant-color-primary-border)));
-    @include ant-table-contextual(secondary, var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-secondary-subtle, var(--ant-color-border)));
-    @include ant-table-contextual(success, var(--b-theme-background-success-subtle, var(--ant-color-success-bg)), var(--b-theme-border-success-subtle, var(--ant-color-success-border)));
-    @include ant-table-contextual(info, var(--b-theme-background-info-subtle, var(--ant-color-info-bg)), var(--b-theme-border-info-subtle, var(--ant-color-info-border)));
-    @include ant-table-contextual(warning, var(--b-theme-background-warning-subtle, var(--ant-color-warning-bg)), var(--b-theme-border-warning-subtle, var(--ant-color-warning-border)));
-    @include ant-table-contextual(danger, var(--b-theme-background-danger-subtle, var(--ant-color-error-bg)), var(--b-theme-border-danger-subtle, var(--ant-color-error-border)));
-    @include ant-table-contextual(light, var(--b-theme-background-light-subtle, var(--ant-color-bg-container)), var(--b-theme-border-light-subtle, var(--ant-color-border)));
-    @include ant-table-contextual(dark, var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary)));
-    @include ant-table-contextual(link, var(--b-theme-background-link-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-link-subtle, var(--ant-color-primary-border)));
+    @each $name, $colors in $table-contextual-variants {
+        @include ant-table-contextual($name, nth($colors, 1), nth($colors, 2));
+    }
 
     .ant-table-caption {
         padding: var(--ant-table-cell-padding-block) var(--ant-table-cell-padding-inline);

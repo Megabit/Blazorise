@@ -1,4 +1,4 @@
-﻿@each $name, $value in $position-values {
+@each $name, $value in $position-values {
     .top-#{$name} {
         top: #{$value} !important;
     }
@@ -18,12 +18,12 @@
 
 .translate-middle {
     transform: translate(-50%, -50%) !important;
-}
 
-.translate-middle-x {
-    transform: translateX(-50%) !important;
-}
+    &-x {
+        transform: translateX(-50%) !important;
+    }
 
-.translate-middle-y {
-    transform: translateY(-50%) !important;
+    &-y {
+        transform: translateY(-50%) !important;
+    }
 }

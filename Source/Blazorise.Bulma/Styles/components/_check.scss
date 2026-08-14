@@ -286,29 +286,13 @@ $checkradio-top-offset: 0rem !default;
 
     @include checkbox-size($size-normal);
 
-    &.is-extra-small {
-        @include checkbox-size($size-extra-small);
+    @each $name, $size in $component-sizes {
+        &.is-#{$name} {
+            @include checkbox-size($size);
+        }
     }
 
-    &.is-small {
-        @include checkbox-size($size-small);
-    }
-
-    &.is-medium {
-        @include checkbox-size($size-medium);
-    }
-
-    &.is-large {
-        @include checkbox-size($size-large);
-    }
-
-    &.is-extra-large {
-        @include checkbox-size($size-extra-large);
-    }
-
-    @each $name, $value in $theme-colors {
-        $color: $value;
-
+    @each $name, $color in $theme-colors {
         &.is-#{$name} {
             &.has-background-color {
                 + label {
@@ -405,9 +389,7 @@ $checkradio-top-offset: 0rem !default;
             }
         }
 
-        @each $name, $value in $theme-colors {
-            $color: $value;
-
+        @each $name, $color in $theme-colors {
             &.is-#{$name} {
                 + label {
                     &::after,
@@ -468,29 +450,13 @@ $checkradio-top-offset: 0rem !default;
 
     @include radio-size($size-normal);
 
-    &.is-extra-small {
-        @include radio-size($size-extra-small);
+    @each $name, $size in $component-sizes {
+        &.is-#{$name} {
+            @include radio-size($size);
+        }
     }
 
-    &.is-small {
-        @include radio-size($size-small);
-    }
-
-    &.is-medium {
-        @include radio-size($size-medium);
-    }
-
-    &.is-large {
-        @include radio-size($size-large);
-    }
-
-    &.is-extra-large {
-        @include radio-size($size-extra-large);
-    }
-
-    @each $name, $value in $theme-colors {
-        $color: $value;
-
+    @each $name, $color in $theme-colors {
         &.is-#{$name} {
             &.has-background-color {
                 + label {

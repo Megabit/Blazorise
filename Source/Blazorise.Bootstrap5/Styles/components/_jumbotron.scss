@@ -1,4 +1,4 @@
-﻿.jumbotron {
+.jumbotron {
     padding: $jumbotron-padding ($jumbotron-padding / 2);
     margin-bottom: $jumbotron-padding;
     color: $jumbotron-color;
@@ -8,16 +8,13 @@
     @include media-breakpoint-up(sm) {
         padding: ($jumbotron-padding * 2) $jumbotron-padding;
     }
-}
 
-.jumbotron-fluid {
-    padding-right: 0;
-    padding-left: 0;
-    border-radius: 0;
-}
+    &-fluid {
+        padding-right: 0;
+        padding-left: 0;
+        border-radius: 0;
+    }
 
-
-.jumbotron {
     @each $name, $value in $theme-colors {
         $color: $value;
         $color-invert: color-contrast($value);

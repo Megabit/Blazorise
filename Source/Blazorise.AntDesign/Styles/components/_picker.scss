@@ -105,6 +105,6 @@
     }
 }
 
-@include picker-size('xs', 10px, 16px, 0, 7px);
-@include picker-size('md', 14px, 36px, 4.5px, 11px);
-@include picker-size('xl', 18px, 48px, 8.5px, 15px);
+@each $name, $sizes in $picker-sizes {
+    @include picker-size($name, nth($sizes, 1), nth($sizes, 2), nth($sizes, 3), nth($sizes, 4));
+}

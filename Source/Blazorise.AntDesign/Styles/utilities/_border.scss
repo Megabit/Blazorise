@@ -1,41 +1,19 @@
 ﻿.ant-border {
     border: var(--ant-line-width) solid var(--ant-color-border) !important;
-}
 
-.ant-border-top {
-    border-top: var(--ant-line-width) solid var(--ant-color-border) !important;
-}
+    @each $side in $border-sides {
+        &-#{$side} {
+            border-#{$side}: var(--ant-line-width) solid var(--ant-color-border) !important;
+        }
 
-.ant-border-right {
-    border-right: var(--ant-line-width) solid var(--ant-color-border) !important;
-}
+        &-#{$side}-0 {
+            border-#{$side}: 0 !important;
+        }
+    }
 
-.ant-border-bottom {
-    border-bottom: var(--ant-line-width) solid var(--ant-color-border) !important;
-}
-
-.ant-border-left {
-    border-left: var(--ant-line-width) solid var(--ant-color-border) !important;
-}
-
-.ant-border-0 {
-    border: 0 !important;
-}
-
-.ant-border-top-0 {
-    border-top: 0 !important;
-}
-
-.ant-border-right-0 {
-    border-right: 0 !important;
-}
-
-.ant-border-bottom-0 {
-    border-bottom: 0 !important;
-}
-
-.ant-border-left-0 {
-    border-left: 0 !important;
+    &-0 {
+        border: 0 !important;
+    }
 }
 
 @mixin ant-border-color-variant($name, $color, $subtle-color: null) {
@@ -80,42 +58,39 @@
 
 .ant-rounded {
     border-radius: var(--ant-border-radius) !important;
-}
 
-.ant-rounded-top {
-    border-top-left-radius: var(--ant-border-radius) !important;
-    border-top-right-radius: var(--ant-border-radius) !important;
-}
+    &-top {
+        border-top-left-radius: var(--ant-border-radius) !important;
+        border-top-right-radius: var(--ant-border-radius) !important;
+    }
 
-.ant-rounded-right {
-    border-top-right-radius: var(--ant-border-radius) !important;
-    border-bottom-right-radius: var(--ant-border-radius) !important;
-}
+    &-right {
+        border-top-right-radius: var(--ant-border-radius) !important;
+        border-bottom-right-radius: var(--ant-border-radius) !important;
+    }
 
-.ant-rounded-bottom {
-    border-bottom-right-radius: var(--ant-border-radius) !important;
-    border-bottom-left-radius: var(--ant-border-radius) !important;
-}
+    &-bottom {
+        border-bottom-right-radius: var(--ant-border-radius) !important;
+        border-bottom-left-radius: var(--ant-border-radius) !important;
+    }
 
-.ant-rounded-left {
-    border-top-left-radius: var(--ant-border-radius) !important;
-    border-bottom-left-radius: var(--ant-border-radius) !important;
-}
+    &-left {
+        border-top-left-radius: var(--ant-border-radius) !important;
+        border-bottom-left-radius: var(--ant-border-radius) !important;
+    }
 
-.ant-rounded-circle {
-    border-radius: 50% !important;
-}
+    &-circle {
+        border-radius: 50% !important;
+    }
 
-.ant-rounded-pill {
-    border-radius: 50rem !important;
-}
+    &-pill {
+        border-radius: 50rem !important;
+    }
 
-.ant-rounded-0 {
-    border-radius: 0 !important;
+    &-0 {
+        border-radius: 0 !important;
+    }
 }
-
-$border-sides: ("top", "right", "bottom", "left");
-$border-sizes: (1, 2, 3, 4, 5);
 
 @each $size in $border-sizes {
     .ant-border-#{$size} {
@@ -129,12 +104,6 @@ $border-sizes: (1, 2, 3, 4, 5);
     }
 }
 
-@include ant-border-color-variant(primary, var(--b-theme-border-primary, var(--ant-color-primary)), var(--b-theme-border-primary-subtle, var(--ant-color-primary-border)));
-@include ant-border-color-variant(secondary, var(--b-theme-border-secondary, var(--ant-color-text-secondary)), var(--b-theme-border-secondary-subtle, var(--ant-color-border)));
-@include ant-border-color-variant(success, var(--b-theme-border-success, var(--ant-color-success)), var(--b-theme-border-success-subtle, var(--ant-color-success-border)));
-@include ant-border-color-variant(info, var(--b-theme-border-info, var(--ant-color-info)), var(--b-theme-border-info-subtle, var(--ant-color-info-border)));
-@include ant-border-color-variant(warning, var(--b-theme-border-warning, var(--ant-color-warning)), var(--b-theme-border-warning-subtle, var(--ant-color-warning-border)));
-@include ant-border-color-variant(danger, var(--b-theme-border-danger, var(--ant-color-error)), var(--b-theme-border-danger-subtle, var(--ant-color-error-border)));
-@include ant-border-color-variant(light, var(--b-theme-border-light, var(--ant-color-border)), var(--b-theme-border-light-subtle, var(--ant-color-border-secondary)));
-@include ant-border-color-variant(dark, var(--b-theme-border-dark, var(--ant-color-text)), var(--b-theme-border-dark-subtle, var(--ant-color-border)));
-@include ant-border-color-variant(link, var(--b-theme-border-link, var(--ant-color-link)), var(--b-theme-border-link-subtle, var(--ant-color-primary-border)));
+@each $name, $colors in $border-color-variants {
+    @include ant-border-color-variant($name, nth($colors, 1), nth($colors, 2));
+}

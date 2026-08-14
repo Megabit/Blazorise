@@ -1,6 +1,8 @@
-﻿.fui-Container,
-.fui-Container-fluid {
-    @include make-container();
+﻿.fui-Container {
+    &,
+    &-fluid {
+        @include make-container();
+    }
 }
 
 // Responsive containers that are 100% wide until a breakpoint

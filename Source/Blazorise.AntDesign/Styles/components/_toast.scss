@@ -1,4 +1,4 @@
-@keyframes b-ant-toast-in {
+@keyframes ant-toast-in {
     0% {
         opacity: 0;
         transform: translateY(-8px) scale(.98);
@@ -10,7 +10,7 @@
     }
 }
 
-@keyframes b-ant-toast-out {
+@keyframes ant-toast-out {
     0% {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -35,11 +35,11 @@
         pointer-events: auto;
     }
 
-    &.b-ant-notification-fixed {
+    &.ant-notification-fixed {
         position: fixed;
     }
 
-    &.b-ant-notification-absolute {
+    &.ant-notification-absolute {
         position: absolute;
     }
 
@@ -69,11 +69,11 @@
         inset: auto 24px 24px auto;
     }
 
-    .ant-notification-notice-pure-panel.b-ant-toast-opening {
-        animation: b-ant-toast-in var(--toast-animation-duration, 300ms) both;
+    .ant-notification-notice-pure-panel.ant-toast-opening {
+        animation: ant-toast-in var(--toast-animation-duration, 300ms) both;
     }
 
-    .ant-notification-notice-pure-panel.b-ant-toast-closing {
-        animation: b-ant-toast-out var(--toast-animation-duration, 300ms) both;
+    .ant-notification-notice-pure-panel.ant-toast-closing {
+        animation: ant-toast-out var(--toast-animation-duration, 300ms) both;
     }
 }
