@@ -3,6 +3,7 @@ $mui-tooltip-arrow-width: 1rem;
 $mui-tooltip-arrow-height: .5rem;
 
 .mui-tooltip {
+    --mui-tooltip-state-display: none;
     --mui-tooltip-state-opacity: 0;
     --mui-tooltip-state-scale: .8;
     --mui-tooltip-state-visibility: hidden;
@@ -19,6 +20,7 @@ $mui-tooltip-arrow-height: .5rem;
     &[data-tooltip-trigger='mouse-enter-focus']:is(:hover, :focus-visible, :has(:focus-visible)),
     &[data-tooltip-trigger='focus']:focus-within,
     &[data-tooltip-trigger='mouse-enter-click']:hover {
+        --mui-tooltip-state-display: block;
         --mui-tooltip-state-opacity: 1;
         --mui-tooltip-state-scale: 1;
         --mui-tooltip-state-visibility: visible;
@@ -44,7 +46,7 @@ $mui-tooltip-arrow-height: .5rem;
     position-visibility: anchors-visible;
     container-type: anchored;
     z-index: var(--mui-tooltip-z-index, var(--mui-zindex-tooltip));
-    display: block;
+    display: var(--mui-tooltip-state-display);
     width: max-content;
     max-width: calc(100vw - 1rem);
     margin: 0;
@@ -52,10 +54,16 @@ $mui-tooltip-arrow-height: .5rem;
     scale: var(--mui-tooltip-state-scale);
     visibility: var(--mui-tooltip-state-visibility);
     pointer-events: none;
-    transition-property: opacity, scale, visibility;
-    transition-duration: var(--mui-tooltip-fade-duration, 0ms), var(--mui-tooltip-fade-duration, 0ms), 0ms;
-    transition-delay: var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-visibility-delay);
-    transition-timing-function: cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), linear;
+    transition-property: opacity, scale, visibility, display;
+    transition-duration: var(--mui-tooltip-fade-duration, 0ms), var(--mui-tooltip-fade-duration, 0ms), 0ms, 0ms;
+    transition-delay: var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-visibility-delay), var(--mui-tooltip-state-visibility-delay);
+    transition-timing-function: cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), linear, linear;
+    transition-behavior: allow-discrete;
+
+    @starting-style {
+        opacity: 0;
+        scale: .8;
+    }
 
     &:has(> .mui-tooltip-surface > .mui-tooltip-arrow) {
         --mui-tooltip-offset: calc(#{$mui-tooltip-anchor-spacing} + #{$mui-tooltip-arrow-height});

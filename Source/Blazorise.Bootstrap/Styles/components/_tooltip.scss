@@ -1,4 +1,5 @@
 .tooltip-host {
+    --tooltip-state-display: none;
     --tooltip-state-opacity: 0;
     --tooltip-state-visibility: hidden;
     --tooltip-state-opacity-delay: var(--tooltip-hide-delay, 0ms);
@@ -14,6 +15,7 @@
     &[data-tooltip-trigger='mouse-enter-focus']:is(:hover, :focus-visible, :has(:focus-visible)),
     &[data-tooltip-trigger='focus']:focus-within,
     &[data-tooltip-trigger='mouse-enter-click']:hover {
+        --tooltip-state-display: block;
         --tooltip-state-opacity: var(--tooltip-opacity, #{$tooltip-opacity});
         --tooltip-state-visibility: visible;
         --tooltip-state-opacity-delay: var(--tooltip-show-delay, 0ms);
@@ -36,7 +38,7 @@
     position-visibility: anchors-visible;
     container-type: anchored;
     z-index: var(--tooltip-z-index, $zindex-tooltip);
-    display: block;
+    display: var(--tooltip-state-display);
     width: max-content;
     max-width: calc(100vw - 1rem);
     margin: $tooltip-margin;
@@ -46,10 +48,15 @@
     opacity: var(--tooltip-state-opacity);
     visibility: var(--tooltip-state-visibility);
     pointer-events: none;
-    transition-property: opacity, visibility;
-    transition-duration: var(--tooltip-fade-duration, 0ms), 0ms;
-    transition-delay: var(--tooltip-state-opacity-delay), var(--tooltip-state-visibility-delay);
-    transition-timing-function: linear, linear;
+    transition-property: opacity, visibility, display;
+    transition-duration: var(--tooltip-fade-duration, 0ms), 0ms, 0ms;
+    transition-delay: var(--tooltip-state-opacity-delay), var(--tooltip-state-visibility-delay), var(--tooltip-state-visibility-delay);
+    transition-timing-function: linear, linear, linear;
+    transition-behavior: allow-discrete;
+
+    @starting-style {
+        opacity: 0;
+    }
 
     &[data-tooltip-placement^='top'] {
         bottom: calc(anchor(top) + #{$tooltip-arrow-height});

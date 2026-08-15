@@ -1999,6 +1999,7 @@ td:focus {
   }
 }
 .tw-tooltip {
+  --tw-tooltip-state-display: none;
   --tw-tooltip-state-opacity: 0;
   --tw-tooltip-state-visibility: hidden;
   --tw-tooltip-state-opacity-delay: var(--tw-tooltip-hide-delay, 0ms);
@@ -2009,6 +2010,7 @@ td:focus {
   display: inline-block;
 }
 .tw-tooltip[data-tooltip-active=true], .tw-tooltip[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-visible, :has(:focus-visible)), .tw-tooltip[data-tooltip-trigger=focus]:focus-within, .tw-tooltip[data-tooltip-trigger=mouse-enter-click]:hover {
+  --tw-tooltip-state-display: inline-block;
   --tw-tooltip-state-opacity: 1;
   --tw-tooltip-state-visibility: visible;
   --tw-tooltip-state-opacity-delay: var(--tw-tooltip-show-delay, 0ms);
@@ -2026,17 +2028,23 @@ td:focus {
   position-anchor: var(--tw-tooltip-anchor);
   position-visibility: anchors-visible;
   z-index: var(--tw-tooltip-z-index, 10);
-  display: inline-block;
+  display: var(--tw-tooltip-state-display);
   width: max-content;
   max-width: calc(100vw - 1rem);
   margin: 0;
   opacity: var(--tw-tooltip-state-opacity);
   visibility: var(--tw-tooltip-state-visibility);
   pointer-events: none;
-  transition-property: opacity, visibility;
-  transition-duration: var(--tw-tooltip-fade-duration, 0ms), 0ms;
-  transition-delay: var(--tw-tooltip-state-opacity-delay), var(--tw-tooltip-state-visibility-delay);
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), linear;
+  transition-property: opacity, visibility, display;
+  transition-duration: var(--tw-tooltip-fade-duration, 0ms), 0ms, 0ms;
+  transition-delay: var(--tw-tooltip-state-opacity-delay), var(--tw-tooltip-state-visibility-delay), var(--tw-tooltip-state-visibility-delay);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), linear, linear;
+  transition-behavior: allow-discrete;
+}
+@starting-style {
+  .tw-tooltip-content {
+    opacity: 0;
+  }
 }
 .tw-tooltip-content:not(:has(> .tw-tooltip-surface > .tw-tooltip-arrow))[data-tooltip-placement^=top], .tw-tooltip-content:not(:has(> .tw-tooltip-surface > .tw-tooltip-arrow))[data-tooltip-placement^=bottom] {
   position-try-fallbacks: flip-block;

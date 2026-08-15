@@ -9759,6 +9759,7 @@ body.modal-open {
   }
 }
 .mui-tooltip {
+  --mui-tooltip-state-display: none;
   --mui-tooltip-state-opacity: 0;
   --mui-tooltip-state-scale: .8;
   --mui-tooltip-state-visibility: hidden;
@@ -9770,6 +9771,7 @@ body.modal-open {
   display: inline-block;
 }
 .mui-tooltip[data-tooltip-active=true], .mui-tooltip[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-visible, :has(:focus-visible)), .mui-tooltip[data-tooltip-trigger=focus]:focus-within, .mui-tooltip[data-tooltip-trigger=mouse-enter-click]:hover {
+  --mui-tooltip-state-display: block;
   --mui-tooltip-state-opacity: 1;
   --mui-tooltip-state-scale: 1;
   --mui-tooltip-state-visibility: visible;
@@ -9792,7 +9794,7 @@ body.modal-open {
   position-visibility: anchors-visible;
   container-type: anchored;
   z-index: var(--mui-tooltip-z-index, var(--mui-zindex-tooltip));
-  display: block;
+  display: var(--mui-tooltip-state-display);
   width: max-content;
   max-width: calc(100vw - 1rem);
   margin: 0;
@@ -9800,10 +9802,17 @@ body.modal-open {
   scale: var(--mui-tooltip-state-scale);
   visibility: var(--mui-tooltip-state-visibility);
   pointer-events: none;
-  transition-property: opacity, scale, visibility;
-  transition-duration: var(--mui-tooltip-fade-duration, 0ms), var(--mui-tooltip-fade-duration, 0ms), 0ms;
-  transition-delay: var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-visibility-delay);
-  transition-timing-function: cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), linear;
+  transition-property: opacity, scale, visibility, display;
+  transition-duration: var(--mui-tooltip-fade-duration, 0ms), var(--mui-tooltip-fade-duration, 0ms), 0ms, 0ms;
+  transition-delay: var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-visibility-delay), var(--mui-tooltip-state-visibility-delay);
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), linear, linear;
+  transition-behavior: allow-discrete;
+}
+@starting-style {
+  .mui-tooltip-content {
+    opacity: 0;
+    scale: 0.8;
+  }
 }
 .mui-tooltip-content:has(> .mui-tooltip-surface > .mui-tooltip-arrow) {
   --mui-tooltip-offset: calc(0.25rem + 0.5rem);

@@ -1,4 +1,5 @@
 .bulma-tooltip-host {
+    --bulma-tooltip-state-display: none;
     --bulma-tooltip-state-opacity: 0;
     --bulma-tooltip-state-visibility: hidden;
     --bulma-tooltip-state-opacity-delay: var(--bulma-tooltip-hide-delay, 0ms);
@@ -14,6 +15,7 @@
     &[data-tooltip-trigger='mouse-enter-focus']:is(:hover, :focus-visible, :has(:focus-visible)),
     &[data-tooltip-trigger='focus']:focus-within,
     &[data-tooltip-trigger='mouse-enter-click']:hover {
+        --bulma-tooltip-state-display: block;
         --bulma-tooltip-state-opacity: 1;
         --bulma-tooltip-state-visibility: visible;
         --bulma-tooltip-state-opacity-delay: var(--bulma-tooltip-show-delay, 0ms);
@@ -36,17 +38,22 @@
     position-visibility: anchors-visible;
     container-type: anchored;
     z-index: var(--bulma-tooltip-z-index, 1020);
-    display: block;
+    display: var(--bulma-tooltip-state-display);
     width: max-content;
     max-width: calc(100vw - 1rem);
     margin: 0;
     opacity: var(--bulma-tooltip-state-opacity);
     visibility: var(--bulma-tooltip-state-visibility);
     pointer-events: none;
-    transition-property: opacity, visibility;
-    transition-duration: var(--bulma-tooltip-fade-duration, 0ms), 0ms;
-    transition-delay: var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-visibility-delay);
-    transition-timing-function: cubic-bezier(.2, 0, 0, 1), linear;
+    transition-property: opacity, visibility, display;
+    transition-duration: var(--bulma-tooltip-fade-duration, 0ms), 0ms, 0ms;
+    transition-delay: var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-visibility-delay), var(--bulma-tooltip-state-visibility-delay);
+    transition-timing-function: cubic-bezier(.2, 0, 0, 1), linear, linear;
+    transition-behavior: allow-discrete;
+
+    @starting-style {
+        opacity: 0;
+    }
 
     &[data-tooltip-placement^='top'] {
         bottom: calc(anchor(top) + 6px);

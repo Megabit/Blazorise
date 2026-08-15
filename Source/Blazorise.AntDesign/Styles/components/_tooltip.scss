@@ -1,4 +1,5 @@
 .ant-tooltip-host {
+    --ant-tooltip-state-display: none;
     --ant-tooltip-state-opacity: 0;
     --ant-tooltip-state-visibility: hidden;
     --ant-tooltip-state-scale: .85;
@@ -15,6 +16,7 @@
     &[data-tooltip-trigger='mouse-enter-focus']:is(:hover, :focus-visible, :has(:focus-visible)),
     &[data-tooltip-trigger='focus']:focus-within,
     &[data-tooltip-trigger='mouse-enter-click']:hover {
+        --ant-tooltip-state-display: block;
         --ant-tooltip-state-opacity: 1;
         --ant-tooltip-state-visibility: visible;
         --ant-tooltip-state-scale: 1;
@@ -129,7 +131,7 @@
     position-visibility: anchors-visible;
     container-type: anchored;
     z-index: var(--ant-tooltip-z-index, var(--ant-tooltip-z-index-popup));
-    display: block;
+    display: var(--ant-tooltip-state-display);
     width: max-content;
     max-width: calc(100vw - 1rem);
     margin: 0;
@@ -137,10 +139,16 @@
     visibility: var(--ant-tooltip-state-visibility);
     scale: var(--ant-tooltip-state-scale);
     pointer-events: none;
-    transition-property: opacity, scale, visibility;
-    transition-duration: var(--ant-tooltip-fade-duration, 0ms), var(--ant-tooltip-fade-duration, 0ms), 0ms;
-    transition-delay: var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-visibility-delay);
-    transition-timing-function: var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), linear;
+    transition-property: opacity, scale, visibility, display;
+    transition-duration: var(--ant-tooltip-fade-duration, 0ms), var(--ant-tooltip-fade-duration, 0ms), 0ms, 0ms;
+    transition-delay: var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-visibility-delay), var(--ant-tooltip-state-visibility-delay);
+    transition-timing-function: var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), linear, linear;
+    transition-behavior: allow-discrete;
+
+    @starting-style {
+        opacity: 0;
+        scale: .85;
+    }
 
     &[data-tooltip-placement^='top'] {
         bottom: calc(anchor(top) + 6px);

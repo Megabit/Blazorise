@@ -3957,6 +3957,7 @@ td:focus {
 }
 
 .tooltip-host {
+  --tooltip-state-display: none;
   --tooltip-state-opacity: 0;
   --tooltip-state-visibility: hidden;
   --tooltip-state-opacity-delay: var(--tooltip-hide-delay, 0ms);
@@ -3967,6 +3968,7 @@ td:focus {
   display: inline-block;
 }
 .tooltip-host[data-tooltip-active=true], .tooltip-host[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-visible, :has(:focus-visible)), .tooltip-host[data-tooltip-trigger=focus]:focus-within, .tooltip-host[data-tooltip-trigger=mouse-enter-click]:hover {
+  --tooltip-state-display: block;
   --tooltip-state-opacity: var(--tooltip-opacity, 0.9);
   --tooltip-state-visibility: visible;
   --tooltip-state-opacity-delay: var(--tooltip-show-delay, 0ms);
@@ -3986,7 +3988,7 @@ td:focus {
   position-visibility: anchors-visible;
   container-type: anchored;
   z-index: var(--tooltip-z-index, 1070);
-  display: block;
+  display: var(--tooltip-state-display);
   width: max-content;
   max-width: calc(100vw - 1rem);
   margin: 0;
@@ -4009,10 +4011,16 @@ td:focus {
   opacity: var(--tooltip-state-opacity);
   visibility: var(--tooltip-state-visibility);
   pointer-events: none;
-  transition-property: opacity, visibility;
-  transition-duration: var(--tooltip-fade-duration, 0ms), 0ms;
-  transition-delay: var(--tooltip-state-opacity-delay), var(--tooltip-state-visibility-delay);
-  transition-timing-function: linear, linear;
+  transition-property: opacity, visibility, display;
+  transition-duration: var(--tooltip-fade-duration, 0ms), 0ms, 0ms;
+  transition-delay: var(--tooltip-state-opacity-delay), var(--tooltip-state-visibility-delay), var(--tooltip-state-visibility-delay);
+  transition-timing-function: linear, linear, linear;
+  transition-behavior: allow-discrete;
+}
+@starting-style {
+  .tooltip {
+    opacity: 0;
+  }
 }
 .tooltip[data-tooltip-placement^=top] {
   bottom: calc(anchor(top) + 0.4rem);

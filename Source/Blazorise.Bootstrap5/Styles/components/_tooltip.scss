@@ -11,6 +11,7 @@
     --bs-tooltip-opacity: #{$tooltip-opacity};
     --bs-tooltip-arrow-width: #{$tooltip-arrow-width};
     --bs-tooltip-arrow-height: #{$tooltip-arrow-height};
+    --bs-tooltip-state-display: none;
     --bs-tooltip-state-opacity: 0;
     --bs-tooltip-state-visibility: hidden;
     --bs-tooltip-state-opacity-delay: var(--bs-tooltip-hide-delay, 0ms);
@@ -26,6 +27,7 @@
     &[data-tooltip-trigger='mouse-enter-focus']:is(:hover, :focus-visible, :has(:focus-visible)),
     &[data-tooltip-trigger='focus']:focus-within,
     &[data-tooltip-trigger='mouse-enter-click']:hover {
+        --bs-tooltip-state-display: block;
         --bs-tooltip-state-opacity: 1;
         --bs-tooltip-state-visibility: visible;
         --bs-tooltip-state-opacity-delay: var(--bs-tooltip-show-delay, 0ms);
@@ -61,7 +63,7 @@
     position-visibility: anchors-visible;
     container-type: anchored;
     z-index: var(--bs-tooltip-zindex);
-    display: block;
+    display: var(--bs-tooltip-state-display);
     width: max-content;
     max-width: calc(100vw - 1rem);
     margin: var(--bs-tooltip-margin);
@@ -71,10 +73,15 @@
     opacity: calc(var(--bs-tooltip-opacity) * var(--bs-tooltip-state-opacity));
     visibility: var(--bs-tooltip-state-visibility);
     pointer-events: none;
-    transition-property: opacity, visibility;
-    transition-duration: var(--bs-tooltip-fade-duration, 0ms), 0ms;
-    transition-delay: var(--bs-tooltip-state-opacity-delay), var(--bs-tooltip-state-visibility-delay);
-    transition-timing-function: cubic-bezier(.2, 0, 0, 1), linear;
+    transition-property: opacity, visibility, display;
+    transition-duration: var(--bs-tooltip-fade-duration, 0ms), 0ms, 0ms;
+    transition-delay: var(--bs-tooltip-state-opacity-delay), var(--bs-tooltip-state-visibility-delay), var(--bs-tooltip-state-visibility-delay);
+    transition-timing-function: cubic-bezier(.2, 0, 0, 1), linear, linear;
+    transition-behavior: allow-discrete;
+
+    @starting-style {
+        opacity: 0;
+    }
 
     &[data-tooltip-placement^='top'] {
         bottom: calc(anchor(top) + var(--bs-tooltip-arrow-height));

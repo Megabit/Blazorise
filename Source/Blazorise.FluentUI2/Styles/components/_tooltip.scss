@@ -1,4 +1,5 @@
 .fui-Tooltip {
+    --fui-tooltip-state-display: none;
     --fui-tooltip-state-opacity: 0;
     --fui-tooltip-state-visibility: hidden;
     --fui-tooltip-state-opacity-delay: var(--fui-tooltip-hide-delay, 0ms);
@@ -14,6 +15,7 @@
     &[data-tooltip-trigger='mouse-enter-focus']:is(:hover, :focus-visible, :has(:focus-visible)),
     &[data-tooltip-trigger='focus']:focus-within,
     &[data-tooltip-trigger='mouse-enter-click']:hover {
+        --fui-tooltip-state-display: block;
         --fui-tooltip-state-opacity: 1;
         --fui-tooltip-state-visibility: visible;
         --fui-tooltip-state-opacity-delay: var(--fui-tooltip-show-delay, 0ms);
@@ -32,17 +34,22 @@
     position-visibility: anchors-visible;
     container-type: anchored;
     z-index: var(--fui-tooltip-z-index, var(--zIndexTooltip));
-    display: block;
+    display: var(--fui-tooltip-state-display);
     width: max-content;
     max-width: min(var(--fui-tooltip-max-width, 240px), calc(100vw - 1rem));
     margin: 0;
     opacity: var(--fui-tooltip-state-opacity);
     visibility: var(--fui-tooltip-state-visibility);
     pointer-events: none;
-    transition-property: opacity, visibility;
-    transition-duration: var(--fui-tooltip-fade-duration, 0ms), 0ms;
-    transition-delay: var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-visibility-delay);
-    transition-timing-function: cubic-bezier(.2, 0, 0, 1), linear;
+    transition-property: opacity, visibility, display;
+    transition-duration: var(--fui-tooltip-fade-duration, 0ms), 0ms, 0ms;
+    transition-delay: var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-visibility-delay), var(--fui-tooltip-state-visibility-delay);
+    transition-timing-function: cubic-bezier(.2, 0, 0, 1), linear, linear;
+    transition-behavior: allow-discrete;
+
+    @starting-style {
+        opacity: 0;
+    }
 
     &:has(> .fui-Tooltip__surface > .fui-Tooltip__arrow) {
         --fui-tooltip-offset: 10px;
