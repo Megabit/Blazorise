@@ -14,6 +14,7 @@ public class TooltipComponentTest : BunitContext
     public TooltipComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseUtilities();
         JSInterop.AddBlazoriseDocumentObserver();
     }
 
@@ -37,7 +38,7 @@ public class TooltipComponentTest : BunitContext
         Assert.Equal( "tooltip", content.GetAttribute( "role" ) );
         Assert.Equal( "top", content.GetAttribute( "data-tooltip-placement" ) );
         Assert.Equal( "Tooltip text", component.Find( ".tooltip-inner" ).TextContent );
-        Assert.NotNull( component.Find( ".tooltip-arrow" ) );
+        Assert.NotNull( component.Find( ".arrow" ) );
         Assert.Contains( "--tooltip-anchor: --tooltip-", style );
         Assert.Contains( "--tooltip-show-delay: 75ms", style );
         Assert.Contains( "--tooltip-hide-delay: 100ms", style );
@@ -135,9 +136,8 @@ public class TooltipComponentTest : BunitContext
             builder.AddAttribute( 3, nameof( Tooltip.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "Target" ) ) );
             builder.CloseComponent();
         };
-        IRenderedComponent<ThemeProvider> component = Render<ThemeProvider>( parameters => parameters
-            .Add( x => x.Theme, theme )
-            .Add( x => x.WriteVariables, false )
+        IRenderedComponent<CascadingValue<Theme>> component = Render<CascadingValue<Theme>>( parameters => parameters
+            .Add( x => x.Value, theme )
             .Add( x => x.ChildContent, tooltipContent ) );
 
         string style = component.Find( ".tooltip-host" ).GetAttribute( "style" );
