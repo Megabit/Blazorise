@@ -417,9 +417,9 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
 
     private string AnchorId => anchorId ?? ElementId;
 
-    private string TooltipElementId => HasText ? $"{ElementId}-content" : null;
+    private string TooltipElementId => HasContent ? $"{ElementId}-content" : null;
 
-    private bool HasText => !string.IsNullOrEmpty( Text );
+    private bool HasContent => TooltipContent is not null || !string.IsNullOrEmpty( Text );
 
     private int EffectiveShowDelay => ( ShowDelay ?? Options?.TooltipOptions?.ShowDelay ) ?? 0;
 
@@ -452,8 +452,11 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     [Inject] protected IDocumentObserver DocumentObserver { get; set; }
 
     /// <summary>
-    /// Specifies a regular tooltip's content.
+    /// Specifies the tooltip's text or HTML content.
     /// </summary>
+    /// <remarks>
+    /// This content is ignored when <see cref="TooltipContent"/> is supplied.
+    /// </remarks>
     [Parameter] public string Text { get; set; }
 
     /// <summary>
@@ -525,7 +528,15 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     [Parameter] public string AppendTo { get; set; }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="Tooltip"/>.
+    /// Specifies custom content to be rendered inside the tooltip.
+    /// </summary>
+    /// <remarks>
+    /// When supplied, this content takes precedence over <see cref="Text"/>.
+    /// </remarks>
+    [Parameter] public RenderFragment TooltipContent { get; set; }
+
+    /// <summary>
+    /// Specifies the target content wrapped by this <see cref="Tooltip"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

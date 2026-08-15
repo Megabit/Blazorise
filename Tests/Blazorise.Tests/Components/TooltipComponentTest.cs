@@ -49,6 +49,28 @@ public class TooltipComponentTest : BunitContext
     }
 
     [Fact]
+    public void TooltipContent_ShouldTakePrecedenceOverText()
+    {
+        RenderFragment tooltipContent = builder =>
+        {
+            builder.OpenElement( 0, "strong" );
+            builder.AddContent( 1, "Rich tooltip content" );
+            builder.CloseElement();
+        };
+        IRenderedComponent<Tooltip> component = Render<Tooltip>( parameters => parameters
+            .Add( x => x.Text, "Fallback text" )
+            .Add( x => x.TooltipContent, tooltipContent )
+            .AddChildContent( "Target" ) );
+
+        IElement host = component.Find( ".tooltip-host" );
+        IElement content = component.Find( ".tooltip" );
+
+        Assert.Equal( content.Id, host.GetAttribute( "aria-describedby" ) );
+        Assert.Equal( "Rich tooltip content", component.Find( ".tooltip-inner strong" ).TextContent );
+        Assert.DoesNotContain( "Fallback text", component.Find( ".tooltip-inner" ).TextContent );
+    }
+
+    [Fact]
     public void TriggerTargetId_ShouldSubscribeToExternalTargetEvents()
     {
         IRenderedComponent<Tooltip> component = Render<Tooltip>( parameters => parameters

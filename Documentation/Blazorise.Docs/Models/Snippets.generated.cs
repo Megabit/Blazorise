@@ -6396,6 +6396,26 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Button Color=""Color.Primary"">Bottom tooltip</Button>
 </Tooltip>";
 
+        public const string TooltipRichContentExample = @"<Tooltip Multiline Padding=""Padding.Is3"">
+    <ChildContent>
+        <Button Color=""Color.Primary"">Rich content</Button>
+    </ChildContent>
+    <TooltipContent>
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.CheckCircle"" TextColor=""TextColor.Success"" />
+                <Heading Size=""HeadingSize.Is6"" TextWeight=""TextWeight.SemiBold"" Margin=""Margin.Is0"">
+                    Deployment ready
+                </Heading>
+            </Div>
+            <Paragraph TextSize=""TextSize.Small"" Margin=""Margin.Is0"">
+                All production checks passed successfully.
+            </Paragraph>
+            <Small TextColor=""TextColor.Info"">Updated just now</Small>
+        </Div>
+    </TooltipContent>
+</Tooltip>";
+
         public const string TooltipTextTruncateExample = @"<Tooltip Text=""Lorem Ipsum is simply dummy text of the printing and typesetting industry..."" Multiline Inline>
     <Text TextOverflow=""TextOverflow.Truncate"" Display=""Display.InlineBlock"" Style=""max-width: 200px; cursor: pointer;"" TextColor=""TextColor.Muted"">
         Lorem Ipsum is simply dummy text of the printing and typesetting industry...

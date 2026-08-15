@@ -73,6 +73,25 @@
                         <Tooltip Text="<span style='color: aqua;'>Hello</span>, this is a <strong>bolded content</strong>!">
                             <Button Color="Color.Primary">Html content</Button>
                         </Tooltip>
+                        <Tooltip Multiline Padding="Padding.Is3">
+                            <ChildContent>
+                                <Button Color="Color.Primary">Rich content</Button>
+                            </ChildContent>
+                            <TooltipContent>
+                                <Div Flex="Flex.Column" Gap="Gap.Is2">
+                                    <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                                        <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" />
+                                        <Heading Size="HeadingSize.Is6" TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">
+                                            Deployment ready
+                                        </Heading>
+                                    </Div>
+                                    <Paragraph TextSize="TextSize.Small" Margin="Margin.Is0">
+                                        All production checks passed successfully.
+                                    </Paragraph>
+                                    <Small TextColor="TextColor.Info">Updated just now</Small>
+                                </Div>
+                            </TooltipContent>
+                        </Tooltip>
                     </Column>
                 </Row>
             </CardBody>

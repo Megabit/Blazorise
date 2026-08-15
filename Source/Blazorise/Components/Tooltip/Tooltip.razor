@@ -4,11 +4,18 @@
     <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-describedby="@TooltipElementId" data-tooltip-host data-tooltip-trigger="@TriggerString" data-tooltip-active="@ActiveString" data-tooltip-inline="@InlineString" data-tooltip-interactive="@InteractiveString" data-tooltip-multiline="@MultilineString" @attributes="@Attributes" @onclick="HandleClick" @onkeydown="HandleKeyDown">
         @ChildContent
 
-        @if ( HasText )
+        @if ( HasContent )
         {
             <div id="@TooltipElementId" class="@TooltipContentClassNames" role="tooltip" data-tooltip-placement="@PlacementString" @onclick:stopPropagation="@Interactive">
                 <div class="@TooltipSurfaceClassNames" style="@TooltipSurfaceStyleNames">
-                    @((MarkupString)Text)
+                    @if ( TooltipContent is not null )
+                    {
+                        @TooltipContent
+                    }
+                    else
+                    {
+                        @((MarkupString)Text)
+                    }
                     @if ( ShowArrow )
                     {
                         <span class="@TooltipArrowClassNames"></span>

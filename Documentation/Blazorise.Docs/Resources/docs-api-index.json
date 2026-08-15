@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-15T16:16:04.8914748Z",
+  "generatedUtc": "2026-08-15T18:12:46.0579320Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -140495,7 +140495,7 @@
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
           "typeName": "RenderFragment",
           "defaultValue": "null",
-          "summary": "Specifies the content to be rendered inside this <strong>Tooltip</strong>.",
+          "summary": "Specifies the target content wrapped by this <strong>Tooltip</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -140697,7 +140697,8 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies a regular tooltip's content.",
+          "summary": "Specifies the tooltip's text or HTML content.",
+          "remarks": "This content is ignored when <strong>TooltipContent</strong> is supplied.",
           "isBlazoriseEnum": false
         },
         {
@@ -140755,6 +140756,15 @@
           "defaultValue": "TextWeight.Default",
           "summary": "Specifies the font weight of text in the component (e.g., bold, normal).",
           "isBlazoriseEnum": true
+        },
+        {
+          "name": "TooltipContent",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
+          "typeName": "RenderFragment",
+          "defaultValue": "null",
+          "summary": "Specifies custom content to be rendered inside the tooltip.",
+          "remarks": "When supplied, this content takes precedence over <strong>Text</strong>.",
+          "isBlazoriseEnum": false
         },
         {
           "name": "Trigger",

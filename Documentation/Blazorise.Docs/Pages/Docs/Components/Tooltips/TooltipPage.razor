@@ -1,4 +1,4 @@
-﻿@page "/docs/components/tooltip"
+@page "/docs/components/tooltip"
 
 <Seo Canonical="/docs/components/tooltip" Title="Blazorise Tooltip Component" Description="Learn to use and work with the Blazorise Tooltip component, which is useful for conveying information when a user hovers, focuses, or taps on an element." />
 
@@ -23,6 +23,9 @@
     <UnorderedList>
         <UnorderedListItem>
             <Paragraph><Code>Text</Code> sets the tooltip content.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph><Code>TooltipContent</Code> renders custom Blazor content and takes precedence over <Code>Text</Code>.</Paragraph>
         </UnorderedListItem>
         <UnorderedListItem>
             <Paragraph><Code>Placement</Code> controls where the tooltip appears relative to its target.</Paragraph>
@@ -112,6 +115,15 @@
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="TooltipWithHtmlExample" Outlined FullWidth>
         <TooltipWithHtmlExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Rich content">
+        Use <Code>TooltipContent</Code> to compose tooltip content with Blazorise typography components and utility parameters. The wrapped <Code>ChildContent</Code> remains the tooltip target.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="TooltipRichContentExample" Outlined FullWidth>
+        <TooltipRichContentExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 

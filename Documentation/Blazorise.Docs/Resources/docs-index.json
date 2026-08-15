@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-15T05:30:51.9949077Z",
+  "generatedUtc": "2026-08-15T18:40:04.7329026Z",
   "pages": [
     {
       "route": "/docs",
@@ -4133,6 +4133,14 @@
           "content": "<Tooltip Text=\"<span style='color: aqua;'>Hello</span>, this is a <strong>bolded content</strong>!\">\r\n    <Button Color=\"Color.Primary\">Html content</Button>\r\n</Tooltip>",
           "title": "HTML content",
           "description": "Text can contain HTML markup. Only use this with trusted strings (or sanitize user-provided content)."
+        },
+        {
+          "code": "TooltipRichContentExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Tooltips/Examples/TooltipRichContentExample.razor",
+          "content": "<Tooltip Multiline Padding=\"Padding.Is3\">\r\n    <ChildContent>\r\n        <Button Color=\"Color.Primary\">Rich content</Button>\r\n    </ChildContent>\r\n    <TooltipContent>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\">\r\n                <Icon Name=\"IconName.CheckCircle\" TextColor=\"TextColor.Success\" />\r\n                <Heading Size=\"HeadingSize.Is6\" TextWeight=\"TextWeight.SemiBold\" Margin=\"Margin.Is0\">\r\n                    Deployment ready\r\n                </Heading>\r\n            </Div>\r\n            <Paragraph TextSize=\"TextSize.Small\" Margin=\"Margin.Is0\">\r\n                All production checks passed successfully.\r\n            </Paragraph>\r\n            <Small TextColor=\"TextColor.Info\">Updated just now</Small>\r\n        </Div>\r\n    </TooltipContent>\r\n</Tooltip>",
+          "title": "Rich content",
+          "description": "Use TooltipContent to compose tooltip content with Blazorise typography components and utility parameters. The wrapped ChildContent remains the tooltip target."
         },
         {
           "code": "TooltipDelayExample",
