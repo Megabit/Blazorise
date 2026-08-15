@@ -919,6 +919,8 @@ html {
     --ant-tooltip-border-radius: var(--ant-border-radius);
     --ant-tooltip-max-width: 250px;
     --ant-tooltip-padding: 6px 8px;
+    --ant-tooltip-arrow-offset-horizontal: 12px;
+    --ant-tooltip-arrow-offset-vertical: 8px;
     --ant-tooltip-z-index-popup: calc(var(--ant-z-index-popup-base) + 70);
     --ant-menu-active-bar-border-width: var(--ant-line-width);
     --ant-menu-active-bar-height: var(--ant-line-width-bold);

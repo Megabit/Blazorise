@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 #endregion
 
 namespace Blazorise.Bootstrap.Providers;
@@ -60,6 +60,36 @@ public class BootstrapStyleProvider : StyleProvider
         => animated
             ? $"transition-duration: {animationDuration}ms"
             : "transition-duration: unset";
+
+    #endregion
+
+    #region Tooltip
+
+    public override string TooltipTheme( ThemeTooltipOptions options )
+        => BuildStyleVariables(
+            ( "--tooltip-bg", options.BackgroundColor ),
+            ( "--tooltip-opacity", options.BackgroundColor is null ? null : "1" ),
+            ( "--tooltip-color", options.Color ),
+            ( "--tooltip-font-size", options.FontSize ),
+            ( "--tooltip-border-radius", options.BorderRadius ),
+            ( "--tooltip-max-width", options.MaxWidth ),
+            ( "--tooltip-padding", options.Padding ),
+            ( "--tooltip-fade-duration", options.FadeTime ),
+            ( "--tooltip-z-index", options.ZIndex ) );
+
+    public override string TooltipAnchor( string anchorId )
+        => $"anchor-name: --tooltip-{anchorId}; anchor-scope: --tooltip-{anchorId}; --tooltip-anchor: --tooltip-{anchorId}";
+
+    public override string TooltipShowDelay( int showDelay ) => $"--tooltip-show-delay: {showDelay}ms";
+
+    public override string TooltipHideDelay( int hideDelay ) => $"--tooltip-hide-delay: {hideDelay}ms";
+
+    public override string TooltipFadeDuration( bool fade, int fadeDuration )
+        => $"--tooltip-fade-duration: {( fade ? fadeDuration : 0 )}ms";
+
+    public override string TooltipZIndex( int? zIndex ) => zIndex.HasValue
+        ? $"--tooltip-z-index: {zIndex.Value}"
+        : null;
 
     #endregion
 

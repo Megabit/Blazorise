@@ -1473,6 +1473,12 @@ class EmptyClassProvider : IClassProvider
 
     public string Tooltip() => null;
 
+    public string TooltipContent() => null;
+
+    public string TooltipSurface() => null;
+
+    public string TooltipArrow() => null;
+
     public string TooltipPlacement( TooltipPlacement tooltipPlacement ) => null;
 
     public string TooltipMultiline( bool multiline ) => null;

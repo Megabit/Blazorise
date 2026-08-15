@@ -6,6 +6,28 @@ namespace Blazorise;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public abstract class StyleProvider : IStyleProvider
 {
+    #region Methods
+
+    protected static string BuildStyleVariables( params (string Name, string Value)[] variables )
+    {
+        StringBuilder builder = new();
+
+        foreach ( (string Name, string Value) variable in variables )
+        {
+            if ( variable.Value is null )
+                continue;
+
+            if ( builder.Length > 0 )
+                builder.Append( "; " );
+
+            builder.Append( variable.Name ).Append( ": " ).Append( variable.Value );
+        }
+
+        return builder.Length > 0 ? builder.ToString() : null;
+    }
+
+    #endregion
+
     #region Modal
 
     public abstract int DefaultModalZIndex { get; }
@@ -45,6 +67,22 @@ public abstract class StyleProvider : IStyleProvider
     public abstract string OffcanvasAnimationDuration( bool animated, int AnimationDuration );
 
     public abstract string OffcanvasBackdropAnimationDuration( bool animated, int animationDuration );
+
+    #endregion
+
+    #region Tooltip
+
+    public abstract string TooltipTheme( ThemeTooltipOptions options );
+
+    public abstract string TooltipAnchor( string anchorId );
+
+    public abstract string TooltipShowDelay( int showDelay );
+
+    public abstract string TooltipHideDelay( int hideDelay );
+
+    public abstract string TooltipFadeDuration( bool fade, int fadeDuration );
+
+    public abstract string TooltipZIndex( int? zIndex );
 
     #endregion
 

@@ -1613,6 +1613,12 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Tooltip() => "ant-tooltip-host";
 
+    public override string TooltipContent() => "ant-tooltip";
+
+    public override string TooltipSurface() => "ant-tooltip-inner";
+
+    public override string TooltipArrow() => "ant-tooltip-arrow";
+
     public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"ant-tooltip-host-{ToTooltipPlacement( tooltipPlacement )}";
 
     public override string TooltipMultiline( bool multiline ) => multiline ? "ant-tooltip-host-multiline" : null;

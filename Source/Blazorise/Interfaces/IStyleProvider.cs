@@ -48,6 +48,22 @@ public interface IStyleProvider
 
     #endregion
 
+    #region Tooltip
+
+    string TooltipTheme( ThemeTooltipOptions options );
+
+    string TooltipAnchor( string anchorId );
+
+    string TooltipShowDelay( int showDelay );
+
+    string TooltipHideDelay( int hideDelay );
+
+    string TooltipFadeDuration( bool fade, int fadeDuration );
+
+    string TooltipZIndex( int? zIndex );
+
+    #endregion
+
     #region Toast
 
     string ToastAnimationDuration( bool animated, int animationDuration );

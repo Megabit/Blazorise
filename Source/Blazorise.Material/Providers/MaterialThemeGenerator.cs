@@ -42,6 +42,14 @@ public class MaterialThemeGenerator : ThemeGenerator
         System.Drawing.Color surfaceColor = backgroundColor;
         System.Drawing.Color onSurfaceColor = onBackgroundColor;
 
+        System.Drawing.Color inverseSurfaceColor = isDarkScheme
+            ? onSurfaceColor
+            : Mix( onSurfaceColor, surfaceColor, 90d );
+
+        System.Drawing.Color inverseOnSurfaceColor = isDarkScheme
+            ? Mix( surfaceColor, onSurfaceColor, 85d )
+            : Mix( surfaceColor, onSurfaceColor, 95d );
+
         System.Drawing.Color surfaceVariantColor = Mix( onBackgroundColor, surfaceColor, isDarkScheme ? 16d : 12d );
         System.Drawing.Color onSurfaceVariantColor = Mix( onBackgroundColor, surfaceColor, isDarkScheme ? 66d : 70d );
 
@@ -80,6 +88,8 @@ public class MaterialThemeGenerator : ThemeGenerator
         SetVar( "--mui-on-background", ToHex( onBackgroundColor ) );
         SetVar( "--mui-surface", ToHex( surfaceColor ) );
         SetVar( "--mui-on-surface", ToHex( onSurfaceColor ) );
+        SetVar( "--mui-inverse-surface", ToHex( inverseSurfaceColor ) );
+        SetVar( "--mui-inverse-on-surface", ToHex( inverseOnSurfaceColor ) );
         SetVar( "--mui-surface-variant", ToHex( surfaceVariantColor ) );
         SetVar( "--mui-on-surface-variant", ToHex( onSurfaceVariantColor ) );
         SetVar( "--mui-surface-dim", ToHex( surfaceDimColor ) );

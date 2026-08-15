@@ -1,75 +1,288 @@
+$mui-tooltip-anchor-spacing: .25rem;
+$mui-tooltip-arrow-width: 1rem;
+$mui-tooltip-arrow-height: .5rem;
+
 .mui-tooltip {
-    &-inline {
+    --mui-tooltip-state-opacity: 0;
+    --mui-tooltip-state-scale: .8;
+    --mui-tooltip-state-visibility: hidden;
+    --mui-tooltip-state-opacity-delay: var(--mui-tooltip-hide-delay, 0ms);
+    --mui-tooltip-state-visibility-delay: calc(var(--mui-tooltip-hide-delay, 0ms) + var(--mui-tooltip-fade-duration, 0ms));
+    display: block;
+
+    &[data-tooltip-inline='true'],
+    &:has(> :is(button, input, select, textarea, label, [role='button'])) {
         display: inline-block;
     }
-}
 
-[data-tippy-root] {
-    z-index: var(--mui-zindex-tooltip) !important;
-}
+    &[data-tooltip-active='true'],
+    &[data-tooltip-trigger='mouse-enter-focus']:is(:hover, :focus-within),
+    &[data-tooltip-trigger='focus']:focus-within,
+    &[data-tooltip-trigger='mouse-enter-click']:hover {
+        --mui-tooltip-state-opacity: 1;
+        --mui-tooltip-state-scale: 1;
+        --mui-tooltip-state-visibility: visible;
+        --mui-tooltip-state-opacity-delay: var(--mui-tooltip-show-delay, 0ms);
+        --mui-tooltip-state-visibility-delay: var(--mui-tooltip-show-delay, 0ms);
+    }
 
-.tippy-box {
-    &[data-theme~='material'] {
-        --mui-tooltip-bg: color-mix(in srgb, var(--mui-on-surface) 92%, transparent);
-        --mui-tooltip-color: var(--mui-surface);
-        --mui-tooltip-radius: 0.25rem;
-        --mui-tooltip-padding-block: 0.3125rem;
-        --mui-tooltip-padding-inline: 0.625rem;
-        --mui-tooltip-font-size: 0.75rem;
-        --mui-tooltip-line-height: 1rem;
-        border-radius: var(--mui-tooltip-radius);
-        background-color: var(--mui-tooltip-bg);
-        color: var(--mui-tooltip-color);
-        box-shadow: var(--mui-elevate1);
-        font-family: var(--mui-font-family);
-        font-size: var(--mui-tooltip-font-size);
-        line-height: var(--mui-tooltip-line-height);
-        font-weight: 500;
-        letter-spacing: 0.025rem;
-        cursor: default;
+    &[data-tooltip-interactive='true'] > .mui-tooltip-content {
+        pointer-events: auto;
+    }
+
+    &[data-tooltip-multiline='true'] .mui-tooltip-surface {
+        max-width: var(--mui-tooltip-max-width, 12.5rem);
+        text-wrap: pretty;
+        white-space: normal;
     }
 }
 
-.tippy-box {
-    &[data-theme~='material'] > .tippy-content {
-        padding: var(--mui-tooltip-padding-block) var(--mui-tooltip-padding-inline);
-        overflow-wrap: anywhere;
+.mui-tooltip-content {
+    --mui-tooltip-offset: #{$mui-tooltip-anchor-spacing};
+    position: fixed;
+    position-anchor: var(--mui-tooltip-anchor);
+    position-visibility: anchors-visible;
+    container-type: anchored;
+    z-index: var(--mui-tooltip-z-index, var(--mui-zindex-tooltip));
+    display: block;
+    width: max-content;
+    max-width: calc(100vw - 1rem);
+    margin: 0;
+    opacity: var(--mui-tooltip-state-opacity);
+    scale: var(--mui-tooltip-state-scale);
+    visibility: var(--mui-tooltip-state-visibility);
+    pointer-events: none;
+    transition-property: opacity, scale, visibility;
+    transition-duration: var(--mui-tooltip-fade-duration, 0ms), var(--mui-tooltip-fade-duration, 0ms), 0ms;
+    transition-delay: var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-visibility-delay);
+    transition-timing-function: cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), linear;
+
+    &:has(> .mui-tooltip-surface > .mui-tooltip-arrow) {
+        --mui-tooltip-offset: calc(#{$mui-tooltip-anchor-spacing} + #{$mui-tooltip-arrow-height});
+    }
+
+    &[data-tooltip-placement^='top'] {
+        bottom: calc(anchor(top) + var(--mui-tooltip-offset));
+        position-try-fallbacks: flip-block;
+
+        &[data-tooltip-placement='top'] {
+            justify-self: anchor-center;
+        }
+
+        &[data-tooltip-placement='top-start'] {
+            left: anchor(left);
+        }
+
+        &[data-tooltip-placement='top-end'] {
+            right: anchor(right);
+        }
+    }
+
+    &[data-tooltip-placement^='bottom'] {
+        top: calc(anchor(bottom) + var(--mui-tooltip-offset));
+        position-try-fallbacks: flip-block;
+
+        &[data-tooltip-placement='bottom'] {
+            justify-self: anchor-center;
+        }
+
+        &[data-tooltip-placement='bottom-start'] {
+            left: anchor(left);
+        }
+
+        &[data-tooltip-placement='bottom-end'] {
+            right: anchor(right);
+        }
+    }
+
+    &[data-tooltip-placement^='left'] {
+        right: calc(anchor(left) + var(--mui-tooltip-offset));
+        position-try-fallbacks: flip-inline;
+
+        &[data-tooltip-placement='left'] {
+            align-self: anchor-center;
+        }
+
+        &[data-tooltip-placement='left-start'] {
+            top: anchor(top);
+        }
+
+        &[data-tooltip-placement='left-end'] {
+            bottom: anchor(bottom);
+        }
+    }
+
+    &[data-tooltip-placement^='right'] {
+        left: calc(anchor(right) + var(--mui-tooltip-offset));
+        position-try-fallbacks: flip-inline;
+
+        &[data-tooltip-placement='right'] {
+            align-self: anchor-center;
+        }
+
+        &[data-tooltip-placement='right-start'] {
+            top: anchor(top);
+        }
+
+        &[data-tooltip-placement='right-end'] {
+            bottom: anchor(bottom);
+        }
     }
 }
 
-.tippy-box {
-    &[data-theme~='material'][data-placement^='top'] > .tippy-arrow::before {
-        border-top-color: var(--mui-tooltip-bg);
+.mui-tooltip-surface {
+    position: relative;
+    isolation: isolate;
+    box-sizing: border-box;
+    min-width: 2.5rem;
+    min-height: 2rem;
+    max-width: none;
+    padding: var(--mui-tooltip-padding, .5rem .75rem);
+    border-radius: var(--mui-tooltip-border-radius, .25rem);
+    background-color: var(--mui-tooltip-background-color, var(--mui-inverse-surface));
+    color: var(--mui-tooltip-color, var(--mui-inverse-on-surface));
+    font-family: var(--mui-font-family);
+    font-size: var(--mui-tooltip-font-size, .75rem);
+    font-weight: 400;
+    letter-spacing: .025rem;
+    line-height: 1rem;
+
+    overflow-wrap: anywhere;
+    text-align: start;
+    white-space: nowrap;
+    cursor: default;
+
+    &::before {
+        content: "";
+        position: absolute;
+    }
+
+    > .mui-tooltip-arrow {
+        position: absolute;
+        z-index: -1;
+        display: block;
+        background-color: inherit;
+    }
+
+    [data-tooltip-placement^='top'] > & {
+        &::before {
+            top: 100%;
+            right: 0;
+            left: 0;
+            height: var(--mui-tooltip-offset);
+        }
+
+        > .mui-tooltip-arrow {
+            bottom: -$mui-tooltip-arrow-height;
+            left: calc(50% - #{$mui-tooltip-arrow-width * .5});
+            width: $mui-tooltip-arrow-width;
+            height: $mui-tooltip-arrow-height;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+        }
+    }
+
+    [data-tooltip-placement^='bottom'] > & {
+        &::before {
+            right: 0;
+            bottom: 100%;
+            left: 0;
+            height: var(--mui-tooltip-offset);
+        }
+
+        > .mui-tooltip-arrow {
+            top: -$mui-tooltip-arrow-height;
+            left: calc(50% - #{$mui-tooltip-arrow-width * .5});
+            width: $mui-tooltip-arrow-width;
+            height: $mui-tooltip-arrow-height;
+            clip-path: polygon(50% 0, 100% 100%, 0 100%);
+        }
+    }
+
+    [data-tooltip-placement^='left'] > & {
+        &::before {
+            top: 0;
+            bottom: 0;
+            left: 100%;
+            width: var(--mui-tooltip-offset);
+        }
+
+        > .mui-tooltip-arrow {
+            top: calc(50% - #{$mui-tooltip-arrow-width * .5});
+            right: -$mui-tooltip-arrow-height;
+            width: $mui-tooltip-arrow-height;
+            height: $mui-tooltip-arrow-width;
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
+        }
+    }
+
+    [data-tooltip-placement^='right'] > & {
+        &::before {
+            top: 0;
+            right: 100%;
+            bottom: 0;
+            width: var(--mui-tooltip-offset);
+        }
+
+        > .mui-tooltip-arrow {
+            top: calc(50% - #{$mui-tooltip-arrow-width * .5});
+            left: -$mui-tooltip-arrow-height;
+            width: $mui-tooltip-arrow-height;
+            height: $mui-tooltip-arrow-width;
+            clip-path: polygon(100% 0, 0 50%, 100% 100%);
+        }
     }
 }
 
-.tippy-box {
-    &[data-theme~='material'][data-placement^='bottom'] > .tippy-arrow::before {
-        border-bottom-color: var(--mui-tooltip-bg);
+@container anchored(fallback: flip-block) {
+    [data-tooltip-placement^='top'] > .mui-tooltip-surface::before {
+        top: auto;
+        bottom: 100%;
+    }
+
+    [data-tooltip-placement^='top'] > .mui-tooltip-surface > .mui-tooltip-arrow {
+        top: -$mui-tooltip-arrow-height;
+        bottom: auto;
+        clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    }
+
+    [data-tooltip-placement^='bottom'] > .mui-tooltip-surface::before {
+        top: 100%;
+        bottom: auto;
+    }
+
+    [data-tooltip-placement^='bottom'] > .mui-tooltip-surface > .mui-tooltip-arrow {
+        top: auto;
+        bottom: -$mui-tooltip-arrow-height;
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
     }
 }
 
-.tippy-box {
-    &[data-theme~='material'][data-placement^='left'] > .tippy-arrow::before {
-        border-left-color: var(--mui-tooltip-bg);
+@container anchored(fallback: flip-inline) {
+    [data-tooltip-placement^='left'] > .mui-tooltip-surface::before {
+        right: 100%;
+        left: auto;
+    }
+
+    [data-tooltip-placement^='left'] > .mui-tooltip-surface > .mui-tooltip-arrow {
+        right: auto;
+        left: -$mui-tooltip-arrow-height;
+        clip-path: polygon(100% 0, 0 50%, 100% 100%);
+    }
+
+    [data-tooltip-placement^='right'] > .mui-tooltip-surface::before {
+        right: auto;
+        left: 100%;
+    }
+
+    [data-tooltip-placement^='right'] > .mui-tooltip-surface > .mui-tooltip-arrow {
+        right: -$mui-tooltip-arrow-height;
+        left: auto;
+        clip-path: polygon(0 0, 100% 50%, 0 100%);
     }
 }
 
-.tippy-box {
-    &[data-theme~='material'][data-placement^='right'] > .tippy-arrow::before {
-        border-right-color: var(--mui-tooltip-bg);
-    }
-}
-
-.tippy-box {
-    &[data-theme~='material'] > .tippy-svg-arrow {
-        fill: var(--mui-tooltip-bg);
-    }
-}
-
-.tippy-box {
-    &[data-theme~='material'][data-animation='scale'][data-state='hidden'] {
-        transform: scale(0.92);
-        opacity: 0;
+@media (prefers-reduced-motion: reduce) {
+    .mui-tooltip-content {
+        transition-duration: 0ms;
     }
 }

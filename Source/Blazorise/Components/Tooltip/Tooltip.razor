@@ -1,7 +1,20 @@
-﻿@namespace Blazorise
+@namespace Blazorise
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tooltip" @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-describedby="@TooltipElementId" data-tooltip-host data-tooltip-trigger="@TriggerName" data-tooltip-active="@IsActiveValue" data-tooltip-inline="@InlineValue" data-tooltip-interactive="@InteractiveValue" data-tooltip-multiline="@MultilineValue" @attributes="@Attributes" @onclick="HandleClick" @onkeydown="HandleKeyDown">
         @ChildContent
+
+        @if ( HasText )
+        {
+            <div id="@TooltipElementId" class="@TooltipContentClassNames" role="tooltip" data-tooltip-placement="@PlacementName" @onclick:stopPropagation="@Interactive">
+                <div class="@TooltipSurfaceClassNames" style="@TooltipSurfaceStyleNames">
+                    @((MarkupString)Text)
+                    @if ( ShowArrow )
+                    {
+                        <span class="@TooltipArrowClassNames"></span>
+                    }
+                </div>
+            </div>
+        }
     </div>
 </CascadingValue>
