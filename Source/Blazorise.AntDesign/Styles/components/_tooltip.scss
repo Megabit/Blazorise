@@ -7,7 +7,7 @@
     display: block;
 
     &[data-tooltip-inline='true'],
-    &:has(> :is(button, input, select, textarea, label, [role='button'])) {
+    &[data-tooltip-inline='auto']:has(> :is(button, input, select, textarea, label, [role='button'])) {
         display: inline-block;
     }
 

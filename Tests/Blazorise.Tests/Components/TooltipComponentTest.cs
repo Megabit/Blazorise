@@ -175,6 +175,29 @@ public class TooltipComponentTest : BunitContext
     }
 
     [Fact]
+    public void Inline_WhenNotDefined_ShouldUseAutoDetection()
+    {
+        IRenderedComponent<Tooltip> component = Render<Tooltip>( parameters => parameters
+            .Add( x => x.Text, "Tooltip text" )
+            .AddChildContent( "Target" ) );
+
+        Assert.Equal( "auto", component.Find( ".tooltip-host" ).GetAttribute( "data-tooltip-inline" ) );
+    }
+
+    [Theory]
+    [InlineData( true, "true" )]
+    [InlineData( false, "false" )]
+    public void Inline_WhenExplicitlyDefined_ShouldUseParameterValue( bool inline, string expected )
+    {
+        IRenderedComponent<Tooltip> component = Render<Tooltip>( parameters => parameters
+            .Add( x => x.Text, "Tooltip text" )
+            .Add( x => x.Inline, inline )
+            .AddChildContent( "Target" ) );
+
+        Assert.Equal( expected, component.Find( ".tooltip-host" ).GetAttribute( "data-tooltip-inline" ) );
+    }
+
+    [Fact]
     public void Utilities_ShouldApplyToTooltipSurfaceByDefault()
     {
         IRenderedComponent<Tooltip> component = Render<Tooltip>( parameters => parameters

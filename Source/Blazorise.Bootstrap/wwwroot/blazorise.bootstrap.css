@@ -3963,7 +3963,7 @@ td:focus {
   --tooltip-state-visibility-delay: calc(var(--tooltip-hide-delay, 0ms) + var(--tooltip-fade-duration, 0ms));
   display: block;
 }
-.tooltip-host[data-tooltip-inline=true], .tooltip-host:has(> :is(button, input, select, textarea, label, [role=button])) {
+.tooltip-host[data-tooltip-inline=true], .tooltip-host[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
   display: inline-block;
 }
 .tooltip-host[data-tooltip-active=true], .tooltip-host[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-within), .tooltip-host[data-tooltip-trigger=focus]:focus-within, .tooltip-host[data-tooltip-trigger=mouse-enter-click]:hover {

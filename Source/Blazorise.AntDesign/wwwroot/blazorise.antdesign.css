@@ -10088,7 +10088,7 @@ a.ant-typography-disabled[aria-disabled=true] {
   --ant-tooltip-state-visibility-delay: calc(var(--ant-tooltip-hide-delay, 0ms) + var(--ant-tooltip-fade-duration, 0ms));
   display: block;
 }
-.ant-tooltip-host[data-tooltip-inline=true], .ant-tooltip-host:has(> :is(button, input, select, textarea, label, [role=button])) {
+.ant-tooltip-host[data-tooltip-inline=true], .ant-tooltip-host[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
   display: inline-block;
 }
 .ant-tooltip-host[data-tooltip-active=true], .ant-tooltip-host[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-within), .ant-tooltip-host[data-tooltip-trigger=focus]:focus-within, .ant-tooltip-host[data-tooltip-trigger=mouse-enter-click]:hover {

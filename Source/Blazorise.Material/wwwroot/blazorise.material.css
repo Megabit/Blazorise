@@ -9766,7 +9766,7 @@ body.modal-open {
   --mui-tooltip-state-visibility-delay: calc(var(--mui-tooltip-hide-delay, 0ms) + var(--mui-tooltip-fade-duration, 0ms));
   display: block;
 }
-.mui-tooltip[data-tooltip-inline=true], .mui-tooltip:has(> :is(button, input, select, textarea, label, [role=button])) {
+.mui-tooltip[data-tooltip-inline=true], .mui-tooltip[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
   display: inline-block;
 }
 .mui-tooltip[data-tooltip-active=true], .mui-tooltip[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-within), .mui-tooltip[data-tooltip-trigger=focus]:focus-within, .mui-tooltip[data-tooltip-trigger=mouse-enter-click]:hover {

@@ -5266,7 +5266,7 @@ td:focus {
   --bulma-tooltip-state-visibility-delay: calc(var(--bulma-tooltip-hide-delay, 0ms) + var(--bulma-tooltip-fade-duration, 0ms));
   display: block;
 }
-.bulma-tooltip-host[data-tooltip-inline=true], .bulma-tooltip-host:has(> :is(button, input, select, textarea, label, [role=button])) {
+.bulma-tooltip-host[data-tooltip-inline=true], .bulma-tooltip-host[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
   display: inline-block;
 }
 .bulma-tooltip-host[data-tooltip-active=true], .bulma-tooltip-host[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-within), .bulma-tooltip-host[data-tooltip-trigger=focus]:focus-within, .bulma-tooltip-host[data-tooltip-trigger=mouse-enter-click]:hover {

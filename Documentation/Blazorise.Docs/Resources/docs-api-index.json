@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-15T05:30:51.3134815Z",
+  "generatedUtc": "2026-08-15T06:25:57.4169257Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -140583,7 +140583,8 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "Force inline block instead of trying to detect the element block.",
+          "summary": "Forces the tooltip host to use inline-block layout.",
+          "remarks": "When this parameter is not supplied, inline layout is automatically detected from the target element.     Explicitly setting it to  disables automatic detection.",
           "isBlazoriseEnum": false
         },
         {

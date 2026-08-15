@@ -2005,7 +2005,7 @@ td:focus {
   --tw-tooltip-state-visibility-delay: calc(var(--tw-tooltip-hide-delay, 0ms) + var(--tw-tooltip-fade-duration, 0ms));
   display: block;
 }
-.tw-tooltip[data-tooltip-inline=true], .tw-tooltip:has(> :is(button, input, select, textarea, label, [role=button])) {
+.tw-tooltip[data-tooltip-inline=true], .tw-tooltip[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
   display: inline-block;
 }
 .tw-tooltip[data-tooltip-active=true], .tw-tooltip[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-within), .tw-tooltip[data-tooltip-trigger=focus]:focus-within, .tw-tooltip[data-tooltip-trigger=mouse-enter-click]:hover {

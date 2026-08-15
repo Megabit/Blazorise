@@ -47,6 +47,8 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
 
     private bool fadeDurationDefined;
 
+    private bool inlineDefined;
+
     private bool triggerTargetMouseActive;
 
     private bool triggerTargetFocusActive;
@@ -86,6 +88,7 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         bool newFadeDurationDefined = parameters.TryGetValue<int>( nameof( FadeDuration ), out _ );
+        inlineDefined = parameters.TryGetValue<bool>( nameof( Inline ), out _ );
 
         if ( fadeDurationDefined != newFadeDurationDefined )
         {
@@ -448,7 +451,7 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
 
     private string IsActiveValue => ( AlwaysActive || clickActive || triggerTargetMouseActive || triggerTargetFocusActive ) ? "true" : "false";
 
-    private string InlineValue => Inline ? "true" : "false";
+    private string InlineValue => inlineDefined ? ( Inline ? "true" : "false" ) : "auto";
 
     private string InteractiveValue => Interactive ? "true" : "false";
 
@@ -542,8 +545,12 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Force inline block instead of trying to detect the element block.
+    /// Forces the tooltip host to use inline-block layout.
     /// </summary>
+    /// <remarks>
+    /// When this parameter is not supplied, inline layout is automatically detected from the target element.
+    /// Explicitly setting it to <see langword="false"/> disables automatic detection.
+    /// </remarks>
     [Parameter]
     public bool Inline
     {
