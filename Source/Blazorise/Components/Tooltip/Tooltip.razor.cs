@@ -516,6 +516,15 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     [Parameter] public bool Interactive { get; set; }
 
     /// <summary>
+    /// Gets or sets the element to which the tooltip content was appended.
+    /// </summary>
+    /// <remarks>
+    /// This parameter is retained for source compatibility and has no effect. Tooltip content is rendered in place and positioned using CSS anchor positioning.
+    /// </remarks>
+    [Obsolete( "AppendTo is no longer used. Tooltip content is rendered in place and positioned using CSS anchor positioning." )]
+    [Parameter] public string AppendTo { get; set; }
+
+    /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Tooltip"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
