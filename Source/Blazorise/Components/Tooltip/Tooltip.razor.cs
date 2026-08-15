@@ -117,7 +117,7 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.TooltipPlacement( Placement ) );
         builder.Append( ClassProvider.TooltipMultiline( Multiline ) );
         builder.Append( ClassProvider.TooltipAlwaysActive( AlwaysActive ) );
-        builder.Append( ClassProvider.TooltipInline( EffectiveInline ) );
+        builder.Append( ClassProvider.TooltipInline( paramInline.GetValueOrDefault( false ) ) );
         builder.Append( ClassProvider.TooltipFade( Fade ) );
 
         base.BuildClasses( builder );
@@ -134,7 +134,7 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         builder.Append( StyleProvider.TooltipAnchor( AnchorId ) );
         builder.Append( StyleProvider.TooltipShowDelay( EffectiveShowDelay ) );
         builder.Append( StyleProvider.TooltipHideDelay( EffectiveHideDelay ) );
-        builder.Append( StyleProvider.TooltipFadeDuration( Fade, EffectiveFadeDuration ), ShouldAppendFadeDuration );
+        builder.Append( StyleProvider.TooltipFadeDuration( Fade, EffectiveFadeDuration ), ShouldApplyFadeDuration );
         builder.Append( StyleProvider.TooltipZIndex( ZIndex ) );
 
         base.BuildStyles( builder );
@@ -357,7 +357,7 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         activeTriggerEvents = DocumentEventTypes.None;
     }
 
-    private static string ToTriggerName( TooltipTrigger trigger )
+    private static string ToTriggerString( TooltipTrigger trigger )
     {
         return trigger switch
         {
@@ -425,23 +425,21 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
 
     private int EffectiveHideDelay => ( HideDelay ?? Options?.TooltipOptions?.HideDelay ) ?? 0;
 
-    private bool EffectiveInline => paramInline.GetValueOrDefault( false );
-
     private int EffectiveFadeDuration => paramFadeDuration.GetValueOrDefault( 300 );
 
-    private bool ShouldAppendFadeDuration => !Fade || paramFadeDuration.Defined || Theme?.TooltipOptions is null;
+    private bool ShouldApplyFadeDuration => !Fade || paramFadeDuration.Defined || Theme?.TooltipOptions is null;
 
-    private string PlacementName => ClassProvider.ToTooltipPlacement( Placement );
+    private string PlacementString => ClassProvider.ToTooltipPlacement( Placement );
 
-    private string TriggerName => string.IsNullOrWhiteSpace( TriggerTargetId ) ? ToTriggerName( Trigger ) : "manual";
+    private string TriggerString => string.IsNullOrWhiteSpace( TriggerTargetId ) ? ToTriggerString( Trigger ) : "manual";
 
-    private string IsActiveValue => ( AlwaysActive || activeTriggerEvents != DocumentEventTypes.None ) ? "true" : "false";
+    private string ActiveString => ( AlwaysActive || activeTriggerEvents != DocumentEventTypes.None ) ? "true" : "false";
 
-    private string InlineValue => paramInline.Defined ? ( EffectiveInline ? "true" : "false" ) : "auto";
+    private string InlineString => paramInline.Defined ? ( paramInline.Value ? "true" : "false" ) : "auto";
 
-    private string InteractiveValue => Interactive ? "true" : "false";
+    private string InteractiveString => Interactive ? "true" : "false";
 
-    private string MultilineValue => Multiline ? "true" : "false";
+    private string MultilineString => Multiline ? "true" : "false";
 
     /// <summary>
     /// Holds the information about the Blazorise global options.

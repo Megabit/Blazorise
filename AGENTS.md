@@ -82,6 +82,13 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 - Any new CSS variables must follow the CSS provider's established variable naming convention; do not invent a provider prefix or use a shared cross-provider naming convention.
 - In Razor markup, prefer Blazorise components (for example `Div`, `Span`) and Blazorise utility parameters (for example `Flex`, `Gap`, `Margin`, `Padding`) instead of raw HTML layout tags and inline styles whenever possible.
 - Naming: PascalCase for types/members; interfaces start with `I`.
+- Use `Effective{Name}` for the final semantic value after resolving parameters, parent state, global options, theme settings, and defaults. Do not use `Effective` for string formatting or serialization.
+- Prefix computed boolean members according to intent: `Is{Name}` for current state, `Has{Name}` for presence or ownership, `Can{Verb}` for capability, and `Should{Verb}` for an operation decision. `Should` must be followed by a verb such as `ShouldApply`, `ShouldRender`, or `ShouldSubscribe`.
+- Use `{Name}String` for values converted specifically for Razor markup, CSS, JavaScript, or serialization. Use `To{Name}String` for the corresponding conversion method, `Resolve{Name}` for semantic value resolution, and `Format{Name}` for display formatting.
+- Name captured parameter metadata `param{Name}` (for example, `paramInline`). Reserve `Defined` for whether a parameter was explicitly supplied instead of using it for non-empty content or ordinary state.
+- Use `{Part}ElementId`, `{Part}ClassNames`, and `{Part}StyleNames` for rendered element identifiers, class strings, and style strings; use matching `{Part}ClassBuilder`, `{Part}StyleBuilder`, `Build{Part}Classes`, and `Build{Part}Styles` names for their builders and callbacks.
+- Reserve `Value` for an actual component or domain value, `Name` for an actual name or identifier, and `State` for aggregate state. Do not use these suffixes for serialized attribute strings or individual boolean conditions.
+- Keep private names context-aware and avoid repeating the component type unless needed to remove ambiguity.
 - Dependency versions are centrally managed in `Directory.Packages.props` (don’t hardcode `Version=` in `PackageReference`).
 
 ## Component Development Conventions
