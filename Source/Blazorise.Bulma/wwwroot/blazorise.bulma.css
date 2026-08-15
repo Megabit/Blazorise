@@ -5269,7 +5269,7 @@ td:focus {
 .bulma-tooltip-host[data-tooltip-inline=true], .bulma-tooltip-host[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
   display: inline-block;
 }
-.bulma-tooltip-host[data-tooltip-active=true], .bulma-tooltip-host[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-within), .bulma-tooltip-host[data-tooltip-trigger=focus]:focus-within, .bulma-tooltip-host[data-tooltip-trigger=mouse-enter-click]:hover {
+.bulma-tooltip-host[data-tooltip-active=true], .bulma-tooltip-host[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-visible, :has(:focus-visible)), .bulma-tooltip-host[data-tooltip-trigger=focus]:focus-within, .bulma-tooltip-host[data-tooltip-trigger=mouse-enter-click]:hover {
   --bulma-tooltip-state-opacity: 1;
   --bulma-tooltip-state-visibility: visible;
   --bulma-tooltip-state-opacity-delay: var(--bulma-tooltip-show-delay, 0ms);

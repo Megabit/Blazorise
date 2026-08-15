@@ -3966,7 +3966,7 @@ td:focus {
 .tooltip-host[data-tooltip-inline=true], .tooltip-host[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
   display: inline-block;
 }
-.tooltip-host[data-tooltip-active=true], .tooltip-host[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-within), .tooltip-host[data-tooltip-trigger=focus]:focus-within, .tooltip-host[data-tooltip-trigger=mouse-enter-click]:hover {
+.tooltip-host[data-tooltip-active=true], .tooltip-host[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-visible, :has(:focus-visible)), .tooltip-host[data-tooltip-trigger=focus]:focus-within, .tooltip-host[data-tooltip-trigger=mouse-enter-click]:hover {
   --tooltip-state-opacity: var(--tooltip-opacity, 0.9);
   --tooltip-state-visibility: visible;
   --tooltip-state-opacity-delay: var(--tooltip-show-delay, 0ms);

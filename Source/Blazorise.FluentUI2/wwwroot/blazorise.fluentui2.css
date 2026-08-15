@@ -13165,7 +13165,7 @@ td:focus {
 .fui-Tooltip[data-tooltip-inline=true], .fui-Tooltip[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
   display: inline-block;
 }
-.fui-Tooltip[data-tooltip-active=true], .fui-Tooltip[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-within), .fui-Tooltip[data-tooltip-trigger=focus]:focus-within, .fui-Tooltip[data-tooltip-trigger=mouse-enter-click]:hover {
+.fui-Tooltip[data-tooltip-active=true], .fui-Tooltip[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-visible, :has(:focus-visible)), .fui-Tooltip[data-tooltip-trigger=focus]:focus-within, .fui-Tooltip[data-tooltip-trigger=mouse-enter-click]:hover {
   --fui-tooltip-state-opacity: 1;
   --fui-tooltip-state-visibility: visible;
   --fui-tooltip-state-opacity-delay: var(--fui-tooltip-show-delay, 0ms);

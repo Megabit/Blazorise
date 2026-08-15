@@ -2008,7 +2008,7 @@ td:focus {
 .tw-tooltip[data-tooltip-inline=true], .tw-tooltip[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
   display: inline-block;
 }
-.tw-tooltip[data-tooltip-active=true], .tw-tooltip[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-within), .tw-tooltip[data-tooltip-trigger=focus]:focus-within, .tw-tooltip[data-tooltip-trigger=mouse-enter-click]:hover {
+.tw-tooltip[data-tooltip-active=true], .tw-tooltip[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-visible, :has(:focus-visible)), .tw-tooltip[data-tooltip-trigger=focus]:focus-within, .tw-tooltip[data-tooltip-trigger=mouse-enter-click]:hover {
   --tw-tooltip-state-opacity: 1;
   --tw-tooltip-state-visibility: visible;
   --tw-tooltip-state-opacity-delay: var(--tw-tooltip-show-delay, 0ms);

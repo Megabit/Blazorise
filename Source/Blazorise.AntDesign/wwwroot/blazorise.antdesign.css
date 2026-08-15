@@ -10091,7 +10091,7 @@ a.ant-typography-disabled[aria-disabled=true] {
 .ant-tooltip-host[data-tooltip-inline=true], .ant-tooltip-host[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
   display: inline-block;
 }
-.ant-tooltip-host[data-tooltip-active=true], .ant-tooltip-host[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-within), .ant-tooltip-host[data-tooltip-trigger=focus]:focus-within, .ant-tooltip-host[data-tooltip-trigger=mouse-enter-click]:hover {
+.ant-tooltip-host[data-tooltip-active=true], .ant-tooltip-host[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-visible, :has(:focus-visible)), .ant-tooltip-host[data-tooltip-trigger=focus]:focus-within, .ant-tooltip-host[data-tooltip-trigger=mouse-enter-click]:hover {
   --ant-tooltip-state-opacity: 1;
   --ant-tooltip-state-visibility: visible;
   --ant-tooltip-state-scale: 1;

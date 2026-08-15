@@ -11,7 +11,7 @@
     }
 
     &[data-tooltip-active='true'],
-    &[data-tooltip-trigger='mouse-enter-focus']:is(:hover, :focus-within),
+    &[data-tooltip-trigger='mouse-enter-focus']:is(:hover, :focus-visible, :has(:focus-visible)),
     &[data-tooltip-trigger='focus']:focus-within,
     &[data-tooltip-trigger='mouse-enter-click']:hover {
         --tooltip-state-opacity: var(--tooltip-opacity, #{$tooltip-opacity});

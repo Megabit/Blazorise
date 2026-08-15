@@ -9769,7 +9769,7 @@ body.modal-open {
 .mui-tooltip[data-tooltip-inline=true], .mui-tooltip[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
   display: inline-block;
 }
-.mui-tooltip[data-tooltip-active=true], .mui-tooltip[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-within), .mui-tooltip[data-tooltip-trigger=focus]:focus-within, .mui-tooltip[data-tooltip-trigger=mouse-enter-click]:hover {
+.mui-tooltip[data-tooltip-active=true], .mui-tooltip[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-visible, :has(:focus-visible)), .mui-tooltip[data-tooltip-trigger=focus]:focus-within, .mui-tooltip[data-tooltip-trigger=mouse-enter-click]:hover {
   --mui-tooltip-state-opacity: 1;
   --mui-tooltip-state-scale: 1;
   --mui-tooltip-state-visibility: visible;
