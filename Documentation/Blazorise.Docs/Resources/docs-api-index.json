@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-15T06:25:57.4169257Z",
+  "generatedUtc": "2026-08-15T16:16:04.8914748Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -140446,6 +140446,15 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Always show tooltip, instead of just when hovering over the element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AppendTo",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the element to which the tooltip content was appended.",
+          "remarks": "This parameter is retained for source compatibility and has no effect. Tooltip content is rendered in place and positioned using CSS anchor positioning.",
           "isBlazoriseEnum": false
         },
         {
