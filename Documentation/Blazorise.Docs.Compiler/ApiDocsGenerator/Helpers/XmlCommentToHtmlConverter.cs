@@ -55,7 +55,7 @@ public class XmlCommentToHtmlConverter
         "para" => $"<p>{ProcessChildNodes( element )}</p>",
         "see" => ProcessSee( element ),
         "seealso" => ProcessSeeAlso( element ),
-        "typeparamref" => ProcessTypeParamRef( element ),
+        "paramref" or "typeparamref" => ProcessNamedReference( element ),
         "code" => $"<pre><code>{element.Value}</code></pre>",
         "c" => $"<code>{element.Value}</code>",
         _ => ProcessChildNodes( element )// For unsupported tags, process their children
@@ -63,36 +63,35 @@ public class XmlCommentToHtmlConverter
 
     private string ProcessSee( XElement element )
     {
-        var href = element.Attribute( "href" )?.Value;
+        string content = ProcessChildNodes( element );
+        string href = element.Attribute( "href" )?.Value;
 
         if ( !string.IsNullOrEmpty( href ) )
-        {
-            var content = ( element.FirstNode as XText )?.Value;
+            return $"<a href=\"{href}\">{( string.IsNullOrEmpty( content ) ? href : content )}</a>";
 
-            return $"<a href=\"{href}\">{content ?? href}</a>";
-        }
+        string langword = element.Attribute( "langword" )?.Value;
 
-        var cref = element.Attribute( "cref" )?.Value;
+        if ( !string.IsNullOrEmpty( langword ) )
+            return $"<code>{( string.IsNullOrEmpty( content ) ? langword : content )}</code>";
 
-        return cref != null
-            ? $"<strong>{EditCref( cref )}</strong>"
-            : string.Empty;
+        string cref = element.Attribute( "cref" )?.Value;
+
+        return !string.IsNullOrEmpty( cref )
+            ? $"<strong>{( string.IsNullOrEmpty( content ) ? EditCref( cref ) : content )}</strong>"
+            : content;
     }
 
-    private string ProcessSeeAlso( XElement element )
-    {
-        var href = element.Attribute( "href" )?.Value;
-        return href != null
-            ? $"<a href=\"{href}\">{href}</a>"
-            : string.Empty;
-    }
+    private string ProcessSeeAlso( XElement element ) => ProcessSee( element );
 
-    private string ProcessTypeParamRef( XElement element )
+    private string ProcessNamedReference( XElement element )
     {
-        var name = element.Attribute( "name" )?.Value;
-        return name != null
-               ? $"<typeparamref name=\"{name}\"/>"
-               : string.Empty;
+        string content = ProcessChildNodes( element );
+        string name = element.Attribute( "name" )?.Value;
+        string reference = string.IsNullOrEmpty( content ) ? name : content;
+
+        return !string.IsNullOrEmpty( reference )
+            ? $"<code>{reference}</code>"
+            : string.Empty;
     }
 
     private string ProcessChildNodes( XElement element )
