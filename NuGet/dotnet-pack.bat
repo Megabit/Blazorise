@@ -48,6 +48,7 @@ dotnet pack ../Source/Extensions/Blazorise.PivotGrid/Blazorise.PivotGrid.csproj 
 dotnet pack ../Source/Extensions/Blazorise.Scheduler/Blazorise.Scheduler.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Gantt/Blazorise.Gantt.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Maps/Blazorise.Maps.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.CodeEditor/Blazorise.CodeEditor.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 
 dotnet pack ../Source/Extensions/Blazorise.Icons.Bootstrap/Blazorise.Icons.Bootstrap.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Icons.FontAwesome/Blazorise.Icons.FontAwesome.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
