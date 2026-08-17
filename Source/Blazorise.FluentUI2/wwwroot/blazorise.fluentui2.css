@@ -13157,11 +13157,29 @@ td:focus {
 
 .fui-Tooltip {
   --fui-tooltip-state-display: none;
-  --fui-tooltip-state-opacity: 0;
+  --fui-tooltip-state-opacity: 1;
   --fui-tooltip-state-visibility: hidden;
+  --fui-tooltip-animation-scale: 1;
+  --fui-tooltip-animation-shift: 0px;
+  --fui-tooltip-animation-blur: 0px;
+  --fui-tooltip-state-scale: var(--fui-tooltip-animation-scale);
+  --fui-tooltip-state-shift: var(--fui-tooltip-animation-shift);
+  --fui-tooltip-state-blur: var(--fui-tooltip-animation-blur);
   --fui-tooltip-state-opacity-delay: var(--fui-tooltip-hide-delay, 0ms);
   --fui-tooltip-state-visibility-delay: calc(var(--fui-tooltip-hide-delay, 0ms) + var(--fui-tooltip-fade-duration, 0ms));
   display: block;
+}
+.fui-Tooltip:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) {
+  --fui-tooltip-state-opacity: 0;
+}
+.fui-Tooltip[data-tooltip-animation~=scale] {
+  --fui-tooltip-animation-scale: .96;
+}
+.fui-Tooltip[data-tooltip-animation~=shift] {
+  --fui-tooltip-animation-shift: 4px;
+}
+.fui-Tooltip[data-tooltip-animation~=blur] {
+  --fui-tooltip-animation-blur: 2px;
 }
 .fui-Tooltip[data-tooltip-inline=true], .fui-Tooltip[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
   display: inline-block;
@@ -13170,6 +13188,9 @@ td:focus {
   --fui-tooltip-state-display: block;
   --fui-tooltip-state-opacity: 1;
   --fui-tooltip-state-visibility: visible;
+  --fui-tooltip-state-scale: 1;
+  --fui-tooltip-state-shift: 0px;
+  --fui-tooltip-state-blur: 0px;
   --fui-tooltip-state-opacity-delay: var(--fui-tooltip-show-delay, 0ms);
   --fui-tooltip-state-visibility-delay: var(--fui-tooltip-show-delay, 0ms);
 }
@@ -13191,21 +13212,47 @@ td:focus {
   opacity: var(--fui-tooltip-state-opacity);
   visibility: var(--fui-tooltip-state-visibility);
   pointer-events: none;
-  transition-property: opacity, visibility, display;
-  transition-duration: var(--fui-tooltip-fade-duration, 0ms), 0ms, 0ms;
-  transition-delay: var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-visibility-delay), var(--fui-tooltip-state-visibility-delay);
-  transition-timing-function: cubic-bezier(0.2, 0, 0, 1), linear, linear;
+  transition-property: opacity, scale, translate, filter, visibility, display;
+  transition-duration: var(--fui-tooltip-fade-duration, 0ms), var(--fui-tooltip-fade-duration, 0ms), var(--fui-tooltip-fade-duration, 0ms), var(--fui-tooltip-fade-duration, 0ms), 0ms, 0ms;
+  transition-delay: var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-visibility-delay), var(--fui-tooltip-state-visibility-delay);
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), linear, linear;
   transition-behavior: allow-discrete;
 }
 @starting-style {
-  .fui-Tooltip__content {
+  .fui-Tooltip:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .fui-Tooltip__content {
     opacity: 0;
+  }
+}
+.fui-Tooltip[data-tooltip-animation~=scale] > .fui-Tooltip__content {
+  scale: var(--fui-tooltip-state-scale);
+}
+@starting-style {
+  .fui-Tooltip[data-tooltip-animation~=scale] > .fui-Tooltip__content {
+    scale: var(--fui-tooltip-animation-scale);
+  }
+}
+.fui-Tooltip[data-tooltip-animation~=blur] > .fui-Tooltip__content {
+  filter: blur(var(--fui-tooltip-state-blur));
+}
+@starting-style {
+  .fui-Tooltip[data-tooltip-animation~=blur] > .fui-Tooltip__content {
+    filter: blur(var(--fui-tooltip-animation-blur));
+  }
+}
+.fui-Tooltip[data-tooltip-animation~=shift] > .fui-Tooltip__content {
+  translate: var(--fui-tooltip-state-translate);
+}
+@starting-style {
+  .fui-Tooltip[data-tooltip-animation~=shift] > .fui-Tooltip__content {
+    translate: var(--fui-tooltip-animation-translate);
   }
 }
 .fui-Tooltip__content:has(> .fui-Tooltip__surface > .fui-Tooltip__arrow) {
   --fui-tooltip-offset: 10px;
 }
 .fui-Tooltip__content[data-tooltip-placement^=top] {
+  --fui-tooltip-state-translate: 0 var(--fui-tooltip-state-shift);
+  --fui-tooltip-animation-translate: 0 var(--fui-tooltip-animation-shift);
   bottom: calc(anchor(top) + var(--fui-tooltip-offset));
   position-try-fallbacks: flip-block;
 }
@@ -13219,6 +13266,8 @@ td:focus {
   right: anchor(right);
 }
 .fui-Tooltip__content[data-tooltip-placement^=bottom] {
+  --fui-tooltip-state-translate: 0 calc(-1 * var(--fui-tooltip-state-shift));
+  --fui-tooltip-animation-translate: 0 calc(-1 * var(--fui-tooltip-animation-shift));
   top: calc(anchor(bottom) + var(--fui-tooltip-offset));
   position-try-fallbacks: flip-block;
 }
@@ -13232,6 +13281,8 @@ td:focus {
   right: anchor(right);
 }
 .fui-Tooltip__content[data-tooltip-placement^=left] {
+  --fui-tooltip-state-translate: var(--fui-tooltip-state-shift) 0;
+  --fui-tooltip-animation-translate: var(--fui-tooltip-animation-shift) 0;
   right: calc(anchor(left) + var(--fui-tooltip-offset));
   position-try-fallbacks: flip-inline;
 }
@@ -13245,6 +13296,8 @@ td:focus {
   bottom: anchor(bottom);
 }
 .fui-Tooltip__content[data-tooltip-placement^=right] {
+  --fui-tooltip-state-translate: calc(-1 * var(--fui-tooltip-state-shift)) 0;
+  --fui-tooltip-animation-translate: calc(-1 * var(--fui-tooltip-animation-shift)) 0;
   left: calc(anchor(right) + var(--fui-tooltip-offset));
   position-try-fallbacks: flip-inline;
 }

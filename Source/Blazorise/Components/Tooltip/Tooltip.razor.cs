@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -22,6 +23,8 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     private ComponentParameterInfo<bool> paramInline;
 
     private ComponentParameterInfo<int> paramFadeDuration;
+
+    private ComponentParameterInfo<TooltipAnimation> paramAnimation;
 
     private DocumentEventTypes activeTriggerEvents;
 
@@ -53,17 +56,23 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     {
         ComponentParameterInfo<bool> previousParamInline = paramInline;
         ComponentParameterInfo<int> previousParamFadeDuration = paramFadeDuration;
+        ComponentParameterInfo<TooltipAnimation> previousParamAnimation = paramAnimation;
 
         parameters.TryGetParameter( Inline, out paramInline );
         parameters.TryGetParameter( FadeDuration, out paramFadeDuration );
+        parameters.TryGetParameter( Animation, out paramAnimation );
 
         bool classesChanged = parameters.IsParameterChanged( Placement )
                               || parameters.IsParameterChanged( Multiline )
                               || parameters.IsParameterChanged( AlwaysActive )
                               || parameters.IsParameterChanged( Fade )
+                              || paramAnimation.Changed
+                              || previousParamAnimation.Defined != paramAnimation.Defined
                               || paramInline.Changed
                               || previousParamInline.Defined != paramInline.Defined;
         bool stylesChanged = parameters.IsParameterChanged( Fade )
+                             || paramAnimation.Changed
+                             || previousParamAnimation.Defined != paramAnimation.Defined
                              || parameters.IsParameterChanged( ZIndex )
                              || parameters.IsParameterChanged( ShowDelay )
                              || parameters.IsParameterChanged( HideDelay )
@@ -118,7 +127,7 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.TooltipMultiline( Multiline ) );
         builder.Append( ClassProvider.TooltipAlwaysActive( AlwaysActive ) );
         builder.Append( ClassProvider.TooltipInline( paramInline.GetValueOrDefault( false ) ) );
-        builder.Append( ClassProvider.TooltipFade( Fade ) );
+        builder.Append( ClassProvider.TooltipFade( HasAnimation ) );
 
         base.BuildClasses( builder );
 
@@ -134,7 +143,7 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         builder.Append( StyleProvider.TooltipAnchor( AnchorId ) );
         builder.Append( StyleProvider.TooltipShowDelay( EffectiveShowDelay ) );
         builder.Append( StyleProvider.TooltipHideDelay( EffectiveHideDelay ) );
-        builder.Append( StyleProvider.TooltipFadeDuration( Fade, EffectiveFadeDuration ), ShouldApplyFadeDuration );
+        builder.Append( StyleProvider.TooltipFadeDuration( HasAnimation, EffectiveFadeDuration ), ShouldApplyFadeDuration );
         builder.Append( StyleProvider.TooltipZIndex( ZIndex ) );
 
         base.BuildStyles( builder );
@@ -357,6 +366,28 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         activeTriggerEvents = DocumentEventTypes.None;
     }
 
+    private static string ToAnimationString( TooltipAnimation animation )
+    {
+        if ( ( animation & TooltipAnimation.Auto ) != TooltipAnimation.None )
+            return "auto";
+
+        StringBuilder builder = new();
+
+        if ( ( animation & TooltipAnimation.Fade ) != TooltipAnimation.None )
+            builder.Append( "fade" );
+
+        if ( ( animation & TooltipAnimation.Scale ) != TooltipAnimation.None )
+            builder.Append( builder.Length > 0 ? " scale" : "scale" );
+
+        if ( ( animation & TooltipAnimation.Shift ) != TooltipAnimation.None )
+            builder.Append( builder.Length > 0 ? " shift" : "shift" );
+
+        if ( ( animation & TooltipAnimation.Blur ) != TooltipAnimation.None )
+            builder.Append( builder.Length > 0 ? " blur" : "blur" );
+
+        return builder.Length > 0 ? builder.ToString() : "none";
+    }
+
     private static string ToTriggerString( TooltipTrigger trigger )
     {
         return trigger switch
@@ -427,13 +458,27 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
 
     private int EffectiveFadeDuration => paramFadeDuration.GetValueOrDefault( 300 );
 
-    private bool ShouldApplyFadeDuration => !Fade || paramFadeDuration.Defined || Theme?.TooltipOptions is null;
+    private TooltipAnimation EffectiveAnimation => paramAnimation.Defined
+        ? paramAnimation.Value
+        : Fade ? TooltipAnimation.Auto : TooltipAnimation.None;
+
+    private bool HasAnimation
+        => ( EffectiveAnimation
+             & ( TooltipAnimation.Auto
+                 | TooltipAnimation.Fade
+                 | TooltipAnimation.Scale
+                 | TooltipAnimation.Shift
+                 | TooltipAnimation.Blur ) ) != TooltipAnimation.None;
+
+    private bool ShouldApplyFadeDuration => !HasAnimation || paramFadeDuration.Defined || Theme?.TooltipOptions is null;
 
     private string PlacementString => ClassProvider.ToTooltipPlacement( Placement );
 
     private string TriggerString => string.IsNullOrWhiteSpace( TriggerTargetId ) ? ToTriggerString( Trigger ) : "manual";
 
     private string ActiveString => ( AlwaysActive || activeTriggerEvents != DocumentEventTypes.None ) ? "true" : "false";
+
+    private string AnimationString => ToAnimationString( EffectiveAnimation );
 
     private string InlineString => paramInline.Defined ? ( paramInline.Value ? "true" : "false" ) : "auto";
 
@@ -491,10 +536,22 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Makes the tooltip fade transition.
     /// </summary>
+    /// <remarks>
+    /// When <see cref="Animation"/> is not supplied, setting this parameter uses the provider's preferred tooltip animation.
+    /// </remarks>
     [Parameter] public bool Fade { get; set; }
 
     /// <summary>
-    /// Duration in ms of the fade transition animation.
+    /// Specifies the visual effect used when the tooltip is shown or hidden.
+    /// </summary>
+    /// <remarks>
+    /// Effects can be combined. When supplied, this parameter takes precedence over <see cref="Fade"/>.
+    /// <see cref="TooltipAnimation.Auto"/> is provider-controlled and takes precedence when combined with another effect.
+    /// </remarks>
+    [Parameter] public TooltipAnimation Animation { get; set; }
+
+    /// <summary>
+    /// Duration in ms of the tooltip transition animation.
     /// </summary>
     [Parameter] public int FadeDuration { get; set; } = 300;
 

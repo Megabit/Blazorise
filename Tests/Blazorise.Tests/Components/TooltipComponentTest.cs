@@ -37,6 +37,7 @@ public class TooltipComponentTest : BunitContext
         Assert.Equal( content.Id, host.GetAttribute( "aria-describedby" ) );
         Assert.Equal( "tooltip", content.GetAttribute( "role" ) );
         Assert.Equal( "top", content.GetAttribute( "data-tooltip-placement" ) );
+        Assert.Equal( "auto", host.GetAttribute( "data-tooltip-animation" ) );
         Assert.Equal( "Tooltip text", component.Find( ".tooltip-inner" ).TextContent );
         Assert.NotNull( component.Find( ".arrow" ) );
         Assert.Contains( "--tooltip-anchor: --tooltip-", style );
@@ -46,6 +47,46 @@ public class TooltipComponentTest : BunitContext
         Assert.Contains( "--tooltip-z-index: 2000", style );
         Assert.DoesNotContain( "--blazorise-", style );
         this.JSInterop.VerifyNotInvoke( "initialize" );
+    }
+
+    [Theory]
+    [InlineData( TooltipAnimation.None, "none" )]
+    [InlineData( TooltipAnimation.Auto, "auto" )]
+    [InlineData( TooltipAnimation.Fade, "fade" )]
+    [InlineData( TooltipAnimation.Scale, "scale" )]
+    [InlineData( TooltipAnimation.Shift, "shift" )]
+    [InlineData( TooltipAnimation.Blur, "blur" )]
+    [InlineData( TooltipAnimation.FadeScale, "fade scale" )]
+    [InlineData( TooltipAnimation.FadeShift, "fade shift" )]
+    [InlineData( TooltipAnimation.FadeBlur, "fade blur" )]
+    [InlineData( TooltipAnimation.Fade | TooltipAnimation.Scale | TooltipAnimation.Shift | TooltipAnimation.Blur, "fade scale shift blur" )]
+    [InlineData( TooltipAnimation.Auto | TooltipAnimation.FadeBlur, "auto" )]
+    public void Animation_ShouldUseExpectedAnimationTokens( TooltipAnimation animation, string expected )
+    {
+        IRenderedComponent<Tooltip> component = Render<Tooltip>( parameters => parameters
+            .Add( x => x.Text, "Tooltip text" )
+            .Add( x => x.Animation, animation )
+            .AddChildContent( "Target" ) );
+
+        IElement host = component.Find( ".tooltip-host" );
+
+        Assert.Equal( expected, host.GetAttribute( "data-tooltip-animation" ) );
+        Assert.Contains( $"--tooltip-fade-duration: {( animation == TooltipAnimation.None ? 0 : 300 )}ms", host.GetAttribute( "style" ) );
+    }
+
+    [Fact]
+    public void Animation_WhenExplicitlyDefined_ShouldTakePrecedenceOverFade()
+    {
+        IRenderedComponent<Tooltip> component = Render<Tooltip>( parameters => parameters
+            .Add( x => x.Text, "Tooltip text" )
+            .Add( x => x.Fade, true )
+            .Add( x => x.Animation, TooltipAnimation.None )
+            .AddChildContent( "Target" ) );
+
+        IElement host = component.Find( ".tooltip-host" );
+
+        Assert.Equal( "none", host.GetAttribute( "data-tooltip-animation" ) );
+        Assert.Contains( "--tooltip-fade-duration: 0ms", host.GetAttribute( "style" ) );
     }
 
     [Fact]

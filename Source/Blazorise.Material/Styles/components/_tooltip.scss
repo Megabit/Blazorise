@@ -4,12 +4,37 @@ $mui-tooltip-arrow-height: .5rem;
 
 .mui-tooltip {
     --mui-tooltip-state-display: none;
-    --mui-tooltip-state-opacity: 0;
-    --mui-tooltip-state-scale: .8;
+    --mui-tooltip-state-opacity: 1;
+    --mui-tooltip-animation-scale: 1;
+    --mui-tooltip-animation-shift: 0px;
+    --mui-tooltip-animation-blur: 0px;
+    --mui-tooltip-state-scale: var(--mui-tooltip-animation-scale);
+    --mui-tooltip-state-shift: var(--mui-tooltip-animation-shift);
+    --mui-tooltip-state-blur: var(--mui-tooltip-animation-blur);
     --mui-tooltip-state-visibility: hidden;
     --mui-tooltip-state-opacity-delay: var(--mui-tooltip-hide-delay, 0ms);
     --mui-tooltip-state-visibility-delay: calc(var(--mui-tooltip-hide-delay, 0ms) + var(--mui-tooltip-fade-duration, 0ms));
     display: block;
+
+    &:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) {
+        --mui-tooltip-state-opacity: 0;
+    }
+
+    &[data-tooltip-animation='auto'] {
+        --mui-tooltip-animation-scale: .8;
+    }
+
+    &[data-tooltip-animation~='scale'] {
+        --mui-tooltip-animation-scale: .96;
+    }
+
+    &[data-tooltip-animation~='shift'] {
+        --mui-tooltip-animation-shift: 4px;
+    }
+
+    &[data-tooltip-animation~='blur'] {
+        --mui-tooltip-animation-blur: 2px;
+    }
 
     &[data-tooltip-inline='true'],
     &[data-tooltip-inline='auto']:has(> :is(button, input, select, textarea, label, [role='button'])) {
@@ -23,6 +48,8 @@ $mui-tooltip-arrow-height: .5rem;
         --mui-tooltip-state-display: block;
         --mui-tooltip-state-opacity: 1;
         --mui-tooltip-state-scale: 1;
+        --mui-tooltip-state-shift: 0px;
+        --mui-tooltip-state-blur: 0px;
         --mui-tooltip-state-visibility: visible;
         --mui-tooltip-state-opacity-delay: var(--mui-tooltip-show-delay, 0ms);
         --mui-tooltip-state-visibility-delay: var(--mui-tooltip-show-delay, 0ms);
@@ -51,18 +78,42 @@ $mui-tooltip-arrow-height: .5rem;
     max-width: calc(100vw - 1rem);
     margin: 0;
     opacity: var(--mui-tooltip-state-opacity);
-    scale: var(--mui-tooltip-state-scale);
     visibility: var(--mui-tooltip-state-visibility);
     pointer-events: none;
-    transition-property: opacity, scale, visibility, display;
-    transition-duration: var(--mui-tooltip-fade-duration, 0ms), var(--mui-tooltip-fade-duration, 0ms), 0ms, 0ms;
-    transition-delay: var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-visibility-delay), var(--mui-tooltip-state-visibility-delay);
-    transition-timing-function: cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), linear, linear;
+    transition-property: opacity, scale, translate, filter, visibility, display;
+    transition-duration: var(--mui-tooltip-fade-duration, 0ms), var(--mui-tooltip-fade-duration, 0ms), var(--mui-tooltip-fade-duration, 0ms), var(--mui-tooltip-fade-duration, 0ms), 0ms, 0ms;
+    transition-delay: var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-visibility-delay), var(--mui-tooltip-state-visibility-delay);
+    transition-timing-function: cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), linear, linear;
     transition-behavior: allow-discrete;
 
-    @starting-style {
-        opacity: 0;
-        scale: .8;
+    .mui-tooltip:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) > & {
+        @starting-style {
+            opacity: 0;
+        }
+    }
+
+    .mui-tooltip:is([data-tooltip-animation='auto'], [data-tooltip-animation~='scale']) > & {
+        scale: var(--mui-tooltip-state-scale);
+
+        @starting-style {
+            scale: var(--mui-tooltip-animation-scale);
+        }
+    }
+
+    .mui-tooltip[data-tooltip-animation~='blur'] > & {
+        filter: blur(var(--mui-tooltip-state-blur));
+
+        @starting-style {
+            filter: blur(var(--mui-tooltip-animation-blur));
+        }
+    }
+
+    .mui-tooltip[data-tooltip-animation~='shift'] > & {
+        translate: var(--mui-tooltip-state-translate);
+
+        @starting-style {
+            translate: var(--mui-tooltip-animation-translate);
+        }
     }
 
     &:has(> .mui-tooltip-surface > .mui-tooltip-arrow) {
@@ -70,6 +121,8 @@ $mui-tooltip-arrow-height: .5rem;
     }
 
     &[data-tooltip-placement^='top'] {
+        --mui-tooltip-state-translate: 0 var(--mui-tooltip-state-shift);
+        --mui-tooltip-animation-translate: 0 var(--mui-tooltip-animation-shift);
         bottom: calc(anchor(top) + var(--mui-tooltip-offset));
         position-try-fallbacks: flip-block;
 
@@ -87,6 +140,8 @@ $mui-tooltip-arrow-height: .5rem;
     }
 
     &[data-tooltip-placement^='bottom'] {
+        --mui-tooltip-state-translate: 0 calc(-1 * var(--mui-tooltip-state-shift));
+        --mui-tooltip-animation-translate: 0 calc(-1 * var(--mui-tooltip-animation-shift));
         top: calc(anchor(bottom) + var(--mui-tooltip-offset));
         position-try-fallbacks: flip-block;
 
@@ -104,6 +159,8 @@ $mui-tooltip-arrow-height: .5rem;
     }
 
     &[data-tooltip-placement^='left'] {
+        --mui-tooltip-state-translate: var(--mui-tooltip-state-shift) 0;
+        --mui-tooltip-animation-translate: var(--mui-tooltip-animation-shift) 0;
         right: calc(anchor(left) + var(--mui-tooltip-offset));
         position-try-fallbacks: flip-inline;
 
@@ -121,6 +178,8 @@ $mui-tooltip-arrow-height: .5rem;
     }
 
     &[data-tooltip-placement^='right'] {
+        --mui-tooltip-state-translate: calc(-1 * var(--mui-tooltip-state-shift)) 0;
+        --mui-tooltip-animation-translate: calc(-1 * var(--mui-tooltip-animation-shift)) 0;
         left: calc(anchor(right) + var(--mui-tooltip-offset));
         position-try-fallbacks: flip-inline;
 

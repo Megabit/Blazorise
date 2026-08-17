@@ -1,10 +1,32 @@
 .tw-tooltip {
     --tw-tooltip-state-display: none;
-    --tw-tooltip-state-opacity: 0;
+    --tw-tooltip-state-opacity: 1;
     --tw-tooltip-state-visibility: hidden;
+    --tw-tooltip-animation-scale: 1;
+    --tw-tooltip-animation-shift: 0px;
+    --tw-tooltip-animation-blur: 0px;
+    --tw-tooltip-state-scale: var(--tw-tooltip-animation-scale);
+    --tw-tooltip-state-shift: var(--tw-tooltip-animation-shift);
+    --tw-tooltip-state-blur: var(--tw-tooltip-animation-blur);
     --tw-tooltip-state-opacity-delay: var(--tw-tooltip-hide-delay, 0ms);
     --tw-tooltip-state-visibility-delay: calc(var(--tw-tooltip-hide-delay, 0ms) + var(--tw-tooltip-fade-duration, 0ms));
     display: block;
+
+    &:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) {
+        --tw-tooltip-state-opacity: 0;
+    }
+
+    &[data-tooltip-animation~='scale'] {
+        --tw-tooltip-animation-scale: .96;
+    }
+
+    &[data-tooltip-animation~='shift'] {
+        --tw-tooltip-animation-shift: 4px;
+    }
+
+    &[data-tooltip-animation~='blur'] {
+        --tw-tooltip-animation-blur: 2px;
+    }
 
     &[data-tooltip-inline='true'],
     &[data-tooltip-inline='auto']:has(> :is(button, input, select, textarea, label, [role='button'])) {
@@ -18,6 +40,9 @@
         --tw-tooltip-state-display: inline-block;
         --tw-tooltip-state-opacity: 1;
         --tw-tooltip-state-visibility: visible;
+        --tw-tooltip-state-scale: 1;
+        --tw-tooltip-state-shift: 0px;
+        --tw-tooltip-state-blur: 0px;
         --tw-tooltip-state-opacity-delay: var(--tw-tooltip-show-delay, 0ms);
         --tw-tooltip-state-visibility-delay: var(--tw-tooltip-show-delay, 0ms);
     }
@@ -43,14 +68,40 @@
     opacity: var(--tw-tooltip-state-opacity);
     visibility: var(--tw-tooltip-state-visibility);
     pointer-events: none;
-    transition-property: opacity, visibility, display;
-    transition-duration: var(--tw-tooltip-fade-duration, 0ms), 0ms, 0ms;
-    transition-delay: var(--tw-tooltip-state-opacity-delay), var(--tw-tooltip-state-visibility-delay), var(--tw-tooltip-state-visibility-delay);
-    transition-timing-function: cubic-bezier(.4, 0, .2, 1), linear, linear;
+    transition-property: opacity, scale, translate, filter, visibility, display;
+    transition-duration: var(--tw-tooltip-fade-duration, 0ms), var(--tw-tooltip-fade-duration, 0ms), var(--tw-tooltip-fade-duration, 0ms), var(--tw-tooltip-fade-duration, 0ms), 0ms, 0ms;
+    transition-delay: var(--tw-tooltip-state-opacity-delay), var(--tw-tooltip-state-opacity-delay), var(--tw-tooltip-state-opacity-delay), var(--tw-tooltip-state-opacity-delay), var(--tw-tooltip-state-visibility-delay), var(--tw-tooltip-state-visibility-delay);
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1), cubic-bezier(.4, 0, .2, 1), cubic-bezier(.4, 0, .2, 1), cubic-bezier(.4, 0, .2, 1), linear, linear;
     transition-behavior: allow-discrete;
 
-    @starting-style {
-        opacity: 0;
+    .tw-tooltip:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) > & {
+        @starting-style {
+            opacity: 0;
+        }
+    }
+
+    .tw-tooltip[data-tooltip-animation~='scale'] > & {
+        scale: var(--tw-tooltip-state-scale);
+
+        @starting-style {
+            scale: var(--tw-tooltip-animation-scale);
+        }
+    }
+
+    .tw-tooltip[data-tooltip-animation~='blur'] > & {
+        filter: blur(var(--tw-tooltip-state-blur));
+
+        @starting-style {
+            filter: blur(var(--tw-tooltip-animation-blur));
+        }
+    }
+
+    .tw-tooltip[data-tooltip-animation~='shift'] > & {
+        translate: var(--tw-tooltip-state-translate);
+
+        @starting-style {
+            translate: var(--tw-tooltip-animation-translate);
+        }
     }
 
     &:not(:has(> .tw-tooltip-surface > .tw-tooltip-arrow)) {
@@ -66,6 +117,8 @@
     }
 
     &[data-tooltip-placement^='top'] {
+        --tw-tooltip-state-translate: 0 var(--tw-tooltip-state-shift);
+        --tw-tooltip-animation-translate: 0 var(--tw-tooltip-animation-shift);
         bottom: calc(anchor(top) + 8px);
 
         &[data-tooltip-placement='top'] { justify-self: anchor-center; }
@@ -74,6 +127,8 @@
     }
 
     &[data-tooltip-placement^='bottom'] {
+        --tw-tooltip-state-translate: 0 calc(-1 * var(--tw-tooltip-state-shift));
+        --tw-tooltip-animation-translate: 0 calc(-1 * var(--tw-tooltip-animation-shift));
         top: calc(anchor(bottom) + 8px);
 
         &[data-tooltip-placement='bottom'] { justify-self: anchor-center; }
@@ -82,6 +137,8 @@
     }
 
     &[data-tooltip-placement^='left'] {
+        --tw-tooltip-state-translate: var(--tw-tooltip-state-shift) 0;
+        --tw-tooltip-animation-translate: var(--tw-tooltip-animation-shift) 0;
         right: calc(anchor(left) + 8px);
 
         &[data-tooltip-placement='left'] { align-self: anchor-center; }
@@ -90,6 +147,8 @@
     }
 
     &[data-tooltip-placement^='right'] {
+        --tw-tooltip-state-translate: calc(-1 * var(--tw-tooltip-state-shift)) 0;
+        --tw-tooltip-animation-translate: calc(-1 * var(--tw-tooltip-animation-shift)) 0;
         left: calc(anchor(right) + 8px);
 
         &[data-tooltip-placement='right'] { align-self: anchor-center; }

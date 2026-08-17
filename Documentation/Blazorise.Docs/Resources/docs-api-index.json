@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-15T20:59:16.3713040Z",
+  "generatedUtc": "2026-08-17T11:01:48.1771713Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -136999,7 +136999,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "\"0.3s\"",
-          "summary": "Gets or sets the duration of the tooltip fade animation.",
+          "summary": "Gets or sets the duration of the tooltip transition animation.",
           "isBlazoriseEnum": false
         },
         {
@@ -140449,6 +140449,15 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Animation",
+          "type": "global::Blazorise.TooltipAnimation",
+          "typeName": "TooltipAnimation",
+          "defaultValue": "default(TooltipAnimation)",
+          "summary": "Specifies the visual effect used when the tooltip is shown or hidden.",
+          "remarks": "Effects can be combined. When supplied, this parameter takes precedence over <strong>Fade</strong>.     <strong>Auto</strong> is provider-controlled and takes precedence when combined with another effect.",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "AppendTo",
           "type": "string",
           "typeName": "string",
@@ -140537,6 +140546,7 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Makes the tooltip fade transition.",
+          "remarks": "When <strong>Animation</strong> is not supplied, setting this parameter uses the provider's preferred tooltip animation.",
           "isBlazoriseEnum": false
         },
         {
@@ -140544,7 +140554,7 @@
           "type": "int",
           "typeName": "int",
           "defaultValue": "300",
-          "summary": "Duration in ms of the fade transition animation.",
+          "summary": "Duration in ms of the tooltip transition animation.",
           "isBlazoriseEnum": false
         },
         {

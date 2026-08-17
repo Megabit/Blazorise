@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-15T18:40:04.7329026Z",
+  "generatedUtc": "2026-08-17T11:01:48.7693889Z",
   "pages": [
     {
       "route": "/docs",
@@ -4149,6 +4149,14 @@
           "content": "<Tooltip Text=\"I'm a Blazorise Tooltip!\" ShowDelay=\"1000\" HideDelay=\"500\">\r\n    <Button Color=\"Color.Primary\">Delay: (1000, 500)</Button>\r\n</Tooltip>",
           "title": "Delay",
           "description": "Control how quickly the tooltip shows and hides after the trigger event (in milliseconds)."
+        },
+        {
+          "code": "TooltipAnimationExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Tooltips/Examples/TooltipAnimationExample.razor",
+          "content": "<Div Flex=\"Flex.Wrap\" Gap=\"Gap.Is2\">\r\n    <Tooltip Text=\"Uses the animation preferred by the active provider.\" Animation=\"TooltipAnimation.Auto\">\r\n        <Button Color=\"Color.Primary\">Auto</Button>\r\n    </Tooltip>\r\n    <Tooltip Text=\"A simple opacity transition.\" Animation=\"TooltipAnimation.Fade\">\r\n        <Button Color=\"Color.Secondary\">Fade</Button>\r\n    </Tooltip>\r\n    <Tooltip Text=\"Fades while gently scaling.\" Animation=\"TooltipAnimation.FadeScale\">\r\n        <Button Color=\"Color.Success\">Fade scale</Button>\r\n    </Tooltip>\r\n    <Tooltip Text=\"Fades toward the target.\" Animation=\"TooltipAnimation.FadeShift\">\r\n        <Button Color=\"Color.Info\">Fade shift</Button>\r\n    </Tooltip>\r\n    <Tooltip Text=\"Fades through a subtle blur.\" Animation=\"TooltipAnimation.FadeBlur\">\r\n        <Button Color=\"Color.Warning\">Fade blur</Button>\r\n    </Tooltip>\r\n    <Tooltip Text=\"Combines fade, scale, and shift effects.\" Animation=\"@( TooltipAnimation.Fade | TooltipAnimation.Scale | TooltipAnimation.Shift )\">\r\n        <Button Color=\"Color.Danger\">Combined</Button>\r\n    </Tooltip>\r\n</Div>",
+          "title": "Animation",
+          "description": "Use Animation to choose a fade, scale, directional shift, or blur effect. Combine effects with the bitwise OR operator. TooltipAnimation.Auto follows the active provider's preferred tooltip motion and takes precedence over combined effects."
         }
       ],
       "apiRefs": [

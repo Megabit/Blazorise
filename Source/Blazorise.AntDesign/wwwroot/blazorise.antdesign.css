@@ -10082,12 +10082,32 @@ a.ant-typography-disabled[aria-disabled=true] {
 
 .ant-tooltip-host {
   --ant-tooltip-state-display: none;
-  --ant-tooltip-state-opacity: 0;
+  --ant-tooltip-state-opacity: 1;
   --ant-tooltip-state-visibility: hidden;
-  --ant-tooltip-state-scale: .85;
+  --ant-tooltip-animation-scale: 1;
+  --ant-tooltip-animation-shift: 0px;
+  --ant-tooltip-animation-blur: 0px;
+  --ant-tooltip-state-scale: var(--ant-tooltip-animation-scale);
+  --ant-tooltip-state-shift: var(--ant-tooltip-animation-shift);
+  --ant-tooltip-state-blur: var(--ant-tooltip-animation-blur);
   --ant-tooltip-state-opacity-delay: var(--ant-tooltip-hide-delay, 0ms);
   --ant-tooltip-state-visibility-delay: calc(var(--ant-tooltip-hide-delay, 0ms) + var(--ant-tooltip-fade-duration, 0ms));
   display: block;
+}
+.ant-tooltip-host:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) {
+  --ant-tooltip-state-opacity: 0;
+}
+.ant-tooltip-host[data-tooltip-animation=auto] {
+  --ant-tooltip-animation-scale: .85;
+}
+.ant-tooltip-host[data-tooltip-animation~=scale] {
+  --ant-tooltip-animation-scale: .96;
+}
+.ant-tooltip-host[data-tooltip-animation~=shift] {
+  --ant-tooltip-animation-shift: 4px;
+}
+.ant-tooltip-host[data-tooltip-animation~=blur] {
+  --ant-tooltip-animation-blur: 2px;
 }
 .ant-tooltip-host[data-tooltip-inline=true], .ant-tooltip-host[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
   display: inline-block;
@@ -10097,6 +10117,8 @@ a.ant-typography-disabled[aria-disabled=true] {
   --ant-tooltip-state-opacity: 1;
   --ant-tooltip-state-visibility: visible;
   --ant-tooltip-state-scale: 1;
+  --ant-tooltip-state-shift: 0px;
+  --ant-tooltip-state-blur: 0px;
   --ant-tooltip-state-opacity-delay: var(--ant-tooltip-show-delay, 0ms);
   --ant-tooltip-state-visibility-delay: var(--ant-tooltip-show-delay, 0ms);
 }
@@ -10141,21 +10163,45 @@ a.ant-typography-disabled[aria-disabled=true] {
   margin: 0;
   opacity: var(--ant-tooltip-state-opacity);
   visibility: var(--ant-tooltip-state-visibility);
-  scale: var(--ant-tooltip-state-scale);
   pointer-events: none;
-  transition-property: opacity, scale, visibility, display;
-  transition-duration: var(--ant-tooltip-fade-duration, 0ms), var(--ant-tooltip-fade-duration, 0ms), 0ms, 0ms;
-  transition-delay: var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-visibility-delay), var(--ant-tooltip-state-visibility-delay);
-  transition-timing-function: var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), linear, linear;
+  transition-property: opacity, scale, translate, filter, visibility, display;
+  transition-duration: var(--ant-tooltip-fade-duration, 0ms), var(--ant-tooltip-fade-duration, 0ms), var(--ant-tooltip-fade-duration, 0ms), var(--ant-tooltip-fade-duration, 0ms), 0ms, 0ms;
+  transition-delay: var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-visibility-delay), var(--ant-tooltip-state-visibility-delay);
+  transition-timing-function: var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), linear, linear;
   transition-behavior: allow-discrete;
 }
 @starting-style {
-  .ant-tooltip {
+  .ant-tooltip-host:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .ant-tooltip {
     opacity: 0;
-    scale: 0.85;
+  }
+}
+.ant-tooltip-host:is([data-tooltip-animation=auto], [data-tooltip-animation~=scale]) > .ant-tooltip {
+  scale: var(--ant-tooltip-state-scale);
+}
+@starting-style {
+  .ant-tooltip-host:is([data-tooltip-animation=auto], [data-tooltip-animation~=scale]) > .ant-tooltip {
+    scale: var(--ant-tooltip-animation-scale);
+  }
+}
+.ant-tooltip-host[data-tooltip-animation~=blur] > .ant-tooltip {
+  filter: blur(var(--ant-tooltip-state-blur));
+}
+@starting-style {
+  .ant-tooltip-host[data-tooltip-animation~=blur] > .ant-tooltip {
+    filter: blur(var(--ant-tooltip-animation-blur));
+  }
+}
+.ant-tooltip-host[data-tooltip-animation~=shift] > .ant-tooltip {
+  translate: var(--ant-tooltip-state-translate);
+}
+@starting-style {
+  .ant-tooltip-host[data-tooltip-animation~=shift] > .ant-tooltip {
+    translate: var(--ant-tooltip-animation-translate);
   }
 }
 .ant-tooltip[data-tooltip-placement^=top] {
+  --ant-tooltip-state-translate: 0 var(--ant-tooltip-state-shift);
+  --ant-tooltip-animation-translate: 0 var(--ant-tooltip-animation-shift);
   bottom: calc(anchor(top) + 6px);
   position-try-fallbacks: flip-block;
 }
@@ -10173,6 +10219,8 @@ a.ant-typography-disabled[aria-disabled=true] {
   transform-origin: calc(100% - var(--ant-tooltip-arrow-offset-horizontal) - var(--ant-size-popup-arrow) / 2) bottom;
 }
 .ant-tooltip[data-tooltip-placement^=bottom] {
+  --ant-tooltip-state-translate: 0 calc(-1 * var(--ant-tooltip-state-shift));
+  --ant-tooltip-animation-translate: 0 calc(-1 * var(--ant-tooltip-animation-shift));
   top: calc(anchor(bottom) + 6px);
   position-try-fallbacks: flip-block;
 }
@@ -10190,6 +10238,8 @@ a.ant-typography-disabled[aria-disabled=true] {
   transform-origin: calc(100% - var(--ant-tooltip-arrow-offset-horizontal) - var(--ant-size-popup-arrow) / 2) top;
 }
 .ant-tooltip[data-tooltip-placement^=left] {
+  --ant-tooltip-state-translate: var(--ant-tooltip-state-shift) 0;
+  --ant-tooltip-animation-translate: var(--ant-tooltip-animation-shift) 0;
   right: calc(anchor(left) + 6px);
   position-try-fallbacks: flip-inline;
 }
@@ -10207,6 +10257,8 @@ a.ant-typography-disabled[aria-disabled=true] {
   transform-origin: right calc(100% - var(--ant-tooltip-arrow-offset-vertical) - var(--ant-size-popup-arrow) / 2);
 }
 .ant-tooltip[data-tooltip-placement^=right] {
+  --ant-tooltip-state-translate: calc(-1 * var(--ant-tooltip-state-shift)) 0;
+  --ant-tooltip-animation-translate: calc(-1 * var(--ant-tooltip-animation-shift)) 0;
   left: calc(anchor(right) + 6px);
   position-try-fallbacks: flip-inline;
 }

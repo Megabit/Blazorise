@@ -1,10 +1,32 @@
 .bulma-tooltip-host {
     --bulma-tooltip-state-display: none;
-    --bulma-tooltip-state-opacity: 0;
+    --bulma-tooltip-state-opacity: 1;
     --bulma-tooltip-state-visibility: hidden;
+    --bulma-tooltip-animation-scale: 1;
+    --bulma-tooltip-animation-shift: 0px;
+    --bulma-tooltip-animation-blur: 0px;
+    --bulma-tooltip-state-scale: var(--bulma-tooltip-animation-scale);
+    --bulma-tooltip-state-shift: var(--bulma-tooltip-animation-shift);
+    --bulma-tooltip-state-blur: var(--bulma-tooltip-animation-blur);
     --bulma-tooltip-state-opacity-delay: var(--bulma-tooltip-hide-delay, 0ms);
     --bulma-tooltip-state-visibility-delay: calc(var(--bulma-tooltip-hide-delay, 0ms) + var(--bulma-tooltip-fade-duration, 0ms));
     display: block;
+
+    &:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) {
+        --bulma-tooltip-state-opacity: 0;
+    }
+
+    &[data-tooltip-animation~='scale'] {
+        --bulma-tooltip-animation-scale: .96;
+    }
+
+    &[data-tooltip-animation~='shift'] {
+        --bulma-tooltip-animation-shift: 4px;
+    }
+
+    &[data-tooltip-animation~='blur'] {
+        --bulma-tooltip-animation-blur: 2px;
+    }
 
     &[data-tooltip-inline='true'],
     &[data-tooltip-inline='auto']:has(> :is(button, input, select, textarea, label, [role='button'])) {
@@ -18,6 +40,9 @@
         --bulma-tooltip-state-display: block;
         --bulma-tooltip-state-opacity: 1;
         --bulma-tooltip-state-visibility: visible;
+        --bulma-tooltip-state-scale: 1;
+        --bulma-tooltip-state-shift: 0px;
+        --bulma-tooltip-state-blur: 0px;
         --bulma-tooltip-state-opacity-delay: var(--bulma-tooltip-show-delay, 0ms);
         --bulma-tooltip-state-visibility-delay: var(--bulma-tooltip-show-delay, 0ms);
     }
@@ -45,17 +70,45 @@
     opacity: var(--bulma-tooltip-state-opacity);
     visibility: var(--bulma-tooltip-state-visibility);
     pointer-events: none;
-    transition-property: opacity, visibility, display;
-    transition-duration: var(--bulma-tooltip-fade-duration, 0ms), 0ms, 0ms;
-    transition-delay: var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-visibility-delay), var(--bulma-tooltip-state-visibility-delay);
-    transition-timing-function: cubic-bezier(.2, 0, 0, 1), linear, linear;
+    transition-property: opacity, scale, translate, filter, visibility, display;
+    transition-duration: var(--bulma-tooltip-fade-duration, 0ms), var(--bulma-tooltip-fade-duration, 0ms), var(--bulma-tooltip-fade-duration, 0ms), var(--bulma-tooltip-fade-duration, 0ms), 0ms, 0ms;
+    transition-delay: var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-visibility-delay), var(--bulma-tooltip-state-visibility-delay);
+    transition-timing-function: cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), linear, linear;
     transition-behavior: allow-discrete;
 
-    @starting-style {
-        opacity: 0;
+    .bulma-tooltip-host:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) > & {
+        @starting-style {
+            opacity: 0;
+        }
+    }
+
+    .bulma-tooltip-host[data-tooltip-animation~='scale'] > & {
+        scale: var(--bulma-tooltip-state-scale);
+
+        @starting-style {
+            scale: var(--bulma-tooltip-animation-scale);
+        }
+    }
+
+    .bulma-tooltip-host[data-tooltip-animation~='blur'] > & {
+        filter: blur(var(--bulma-tooltip-state-blur));
+
+        @starting-style {
+            filter: blur(var(--bulma-tooltip-animation-blur));
+        }
+    }
+
+    .bulma-tooltip-host[data-tooltip-animation~='shift'] > & {
+        translate: var(--bulma-tooltip-state-translate);
+
+        @starting-style {
+            translate: var(--bulma-tooltip-animation-translate);
+        }
     }
 
     &[data-tooltip-placement^='top'] {
+        --bulma-tooltip-state-translate: 0 var(--bulma-tooltip-state-shift);
+        --bulma-tooltip-animation-translate: 0 var(--bulma-tooltip-animation-shift);
         bottom: calc(anchor(top) + 6px);
         position-try-fallbacks: flip-block;
 
@@ -73,6 +126,8 @@
     }
 
     &[data-tooltip-placement^='bottom'] {
+        --bulma-tooltip-state-translate: 0 calc(-1 * var(--bulma-tooltip-state-shift));
+        --bulma-tooltip-animation-translate: 0 calc(-1 * var(--bulma-tooltip-animation-shift));
         top: calc(anchor(bottom) + 6px);
         position-try-fallbacks: flip-block;
 
@@ -90,6 +145,8 @@
     }
 
     &[data-tooltip-placement^='left'] {
+        --bulma-tooltip-state-translate: var(--bulma-tooltip-state-shift) 0;
+        --bulma-tooltip-animation-translate: var(--bulma-tooltip-animation-shift) 0;
         right: calc(anchor(left) + 6px);
         position-try-fallbacks: flip-inline;
 
@@ -107,6 +164,8 @@
     }
 
     &[data-tooltip-placement^='right'] {
+        --bulma-tooltip-state-translate: calc(-1 * var(--bulma-tooltip-state-shift)) 0;
+        --bulma-tooltip-animation-translate: calc(-1 * var(--bulma-tooltip-animation-shift)) 0;
         left: calc(anchor(right) + 6px);
         position-try-fallbacks: flip-inline;
 

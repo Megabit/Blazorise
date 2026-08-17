@@ -40,6 +40,9 @@
             <Paragraph><Code>ShowDelay</Code> and <Code>HideDelay</Code> delay showing and hiding (in milliseconds).</Paragraph>
         </UnorderedListItem>
         <UnorderedListItem>
+            <Paragraph><Code>Animation</Code> selects a provider-aware show and hide effect.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
             <Paragraph><Code>Inline</Code> forces the tooltip wrapper to behave as inline-block (useful when wrapping inline content).</Paragraph>
         </UnorderedListItem>
         <UnorderedListItem>
@@ -133,6 +136,15 @@
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="TooltipDelayExample" Outlined FullWidth>
         <TooltipDelayExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Animation">
+        Use <Code>Animation</Code> to choose a fade, scale, directional shift, or blur effect. Combine effects with the bitwise OR operator. <Code>TooltipAnimation.Auto</Code> follows the active provider's preferred tooltip motion and takes precedence over combined effects.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="TooltipAnimationExample" Outlined FullWidth>
+        <TooltipAnimationExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 

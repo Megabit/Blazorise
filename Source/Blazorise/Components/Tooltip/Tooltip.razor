@@ -1,7 +1,7 @@
 @namespace Blazorise
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-describedby="@TooltipElementId" data-tooltip-host data-tooltip-trigger="@TriggerString" data-tooltip-active="@ActiveString" data-tooltip-inline="@InlineString" data-tooltip-interactive="@InteractiveString" data-tooltip-multiline="@MultilineString" @attributes="@Attributes" @onclick="HandleClick" @onkeydown="HandleKeyDown">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-describedby="@TooltipElementId" data-tooltip-host data-tooltip-trigger="@TriggerString" data-tooltip-active="@ActiveString" data-tooltip-animation="@AnimationString" data-tooltip-inline="@InlineString" data-tooltip-interactive="@InteractiveString" data-tooltip-multiline="@MultilineString" @attributes="@Attributes" @onclick="HandleClick" @onkeydown="HandleKeyDown">
         @ChildContent
 
         @if ( HasContent )

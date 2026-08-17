@@ -1,10 +1,32 @@
 .tooltip-host {
     --tooltip-state-display: none;
-    --tooltip-state-opacity: 0;
+    --tooltip-state-opacity: var(--tooltip-opacity, #{$tooltip-opacity});
     --tooltip-state-visibility: hidden;
+    --tooltip-animation-scale: 1;
+    --tooltip-animation-shift: 0px;
+    --tooltip-animation-blur: 0px;
+    --tooltip-state-scale: var(--tooltip-animation-scale);
+    --tooltip-state-shift: var(--tooltip-animation-shift);
+    --tooltip-state-blur: var(--tooltip-animation-blur);
     --tooltip-state-opacity-delay: var(--tooltip-hide-delay, 0ms);
     --tooltip-state-visibility-delay: calc(var(--tooltip-hide-delay, 0ms) + var(--tooltip-fade-duration, 0ms));
     display: block;
+
+    &:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) {
+        --tooltip-state-opacity: 0;
+    }
+
+    &[data-tooltip-animation~='scale'] {
+        --tooltip-animation-scale: .96;
+    }
+
+    &[data-tooltip-animation~='shift'] {
+        --tooltip-animation-shift: 4px;
+    }
+
+    &[data-tooltip-animation~='blur'] {
+        --tooltip-animation-blur: 2px;
+    }
 
     &[data-tooltip-inline='true'],
     &[data-tooltip-inline='auto']:has(> :is(button, input, select, textarea, label, [role='button'])) {
@@ -18,6 +40,9 @@
         --tooltip-state-display: block;
         --tooltip-state-opacity: var(--tooltip-opacity, #{$tooltip-opacity});
         --tooltip-state-visibility: visible;
+        --tooltip-state-scale: 1;
+        --tooltip-state-shift: 0px;
+        --tooltip-state-blur: 0px;
         --tooltip-state-opacity-delay: var(--tooltip-show-delay, 0ms);
         --tooltip-state-visibility-delay: var(--tooltip-show-delay, 0ms);
     }
@@ -48,17 +73,45 @@
     opacity: var(--tooltip-state-opacity);
     visibility: var(--tooltip-state-visibility);
     pointer-events: none;
-    transition-property: opacity, visibility, display;
-    transition-duration: var(--tooltip-fade-duration, 0ms), 0ms, 0ms;
-    transition-delay: var(--tooltip-state-opacity-delay), var(--tooltip-state-visibility-delay), var(--tooltip-state-visibility-delay);
-    transition-timing-function: linear, linear, linear;
+    transition-property: opacity, scale, translate, filter, visibility, display;
+    transition-duration: var(--tooltip-fade-duration, 0ms), var(--tooltip-fade-duration, 0ms), var(--tooltip-fade-duration, 0ms), var(--tooltip-fade-duration, 0ms), 0ms, 0ms;
+    transition-delay: var(--tooltip-state-opacity-delay), var(--tooltip-state-opacity-delay), var(--tooltip-state-opacity-delay), var(--tooltip-state-opacity-delay), var(--tooltip-state-visibility-delay), var(--tooltip-state-visibility-delay);
+    transition-timing-function: linear, linear, linear, linear, linear, linear;
     transition-behavior: allow-discrete;
 
-    @starting-style {
-        opacity: 0;
+    .tooltip-host:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) > & {
+        @starting-style {
+            opacity: 0;
+        }
+    }
+
+    .tooltip-host[data-tooltip-animation~='scale'] > & {
+        scale: var(--tooltip-state-scale);
+
+        @starting-style {
+            scale: var(--tooltip-animation-scale);
+        }
+    }
+
+    .tooltip-host[data-tooltip-animation~='blur'] > & {
+        filter: blur(var(--tooltip-state-blur));
+
+        @starting-style {
+            filter: blur(var(--tooltip-animation-blur));
+        }
+    }
+
+    .tooltip-host[data-tooltip-animation~='shift'] > & {
+        translate: var(--tooltip-state-translate);
+
+        @starting-style {
+            translate: var(--tooltip-animation-translate);
+        }
     }
 
     &[data-tooltip-placement^='top'] {
+        --tooltip-state-translate: 0 var(--tooltip-state-shift);
+        --tooltip-animation-translate: 0 var(--tooltip-animation-shift);
         bottom: calc(anchor(top) + #{$tooltip-arrow-height});
         position-try-fallbacks: flip-block;
 
@@ -76,6 +129,8 @@
     }
 
     &[data-tooltip-placement^='bottom'] {
+        --tooltip-state-translate: 0 calc(-1 * var(--tooltip-state-shift));
+        --tooltip-animation-translate: 0 calc(-1 * var(--tooltip-animation-shift));
         top: calc(anchor(bottom) + #{$tooltip-arrow-height});
         position-try-fallbacks: flip-block;
 
@@ -93,6 +148,8 @@
     }
 
     &[data-tooltip-placement^='left'] {
+        --tooltip-state-translate: var(--tooltip-state-shift) 0;
+        --tooltip-animation-translate: var(--tooltip-animation-shift) 0;
         right: calc(anchor(left) + #{$tooltip-arrow-height});
         position-try-fallbacks: flip-inline;
 
@@ -110,6 +167,8 @@
     }
 
     &[data-tooltip-placement^='right'] {
+        --tooltip-state-translate: calc(-1 * var(--tooltip-state-shift)) 0;
+        --tooltip-animation-translate: calc(-1 * var(--tooltip-animation-shift)) 0;
         left: calc(anchor(right) + #{$tooltip-arrow-height});
         position-try-fallbacks: flip-inline;
 
