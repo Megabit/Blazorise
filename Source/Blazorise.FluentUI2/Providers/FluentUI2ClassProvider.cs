@@ -1610,6 +1610,12 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Tooltip() => "fui-Tooltip";
 
+    public override string TooltipContent() => "fui-Tooltip__content";
+
+    public override string TooltipSurface() => "fui-Tooltip__surface";
+
+    public override string TooltipArrow() => "fui-Tooltip__arrow";
+
     public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"fui-Tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
     public override string TooltipMultiline( bool multiline ) => multiline ? "fui-Tooltip-multiline" : null;

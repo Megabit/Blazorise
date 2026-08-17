@@ -6379,6 +6379,27 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Button Color=""Color.Primary"">Hover me</Button>
 </Tooltip>";
 
+        public const string TooltipAnimationExample = @"<Div Flex=""Flex.Wrap"" Gap=""Gap.Is2"">
+    <Tooltip Text=""Uses the animation preferred by the active provider."" Animation=""TooltipAnimation.Auto"">
+        <Button Color=""Color.Primary"">Auto</Button>
+    </Tooltip>
+    <Tooltip Text=""A simple opacity transition."" Animation=""TooltipAnimation.Fade"">
+        <Button Color=""Color.Secondary"">Fade</Button>
+    </Tooltip>
+    <Tooltip Text=""Fades while gently scaling."" Animation=""TooltipAnimation.FadeScale"">
+        <Button Color=""Color.Success"">Fade scale</Button>
+    </Tooltip>
+    <Tooltip Text=""Fades toward the target."" Animation=""TooltipAnimation.FadeShift"">
+        <Button Color=""Color.Info"">Fade shift</Button>
+    </Tooltip>
+    <Tooltip Text=""Fades through a subtle blur."" Animation=""TooltipAnimation.FadeBlur"">
+        <Button Color=""Color.Warning"">Fade blur</Button>
+    </Tooltip>
+    <Tooltip Text=""Combines fade, scale, and shift effects."" Animation=""@( TooltipAnimation.Fade | TooltipAnimation.Scale | TooltipAnimation.Shift )"">
+        <Button Color=""Color.Danger"">Combined</Button>
+    </Tooltip>
+</Div>";
+
         public const string TooltipDelayExample = @"<Tooltip Text=""I'm a Blazorise Tooltip!"" ShowDelay=""1000"" HideDelay=""500"">
     <Button Color=""Color.Primary"">Delay: (1000, 500)</Button>
 </Tooltip>";
@@ -6394,6 +6415,26 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 </Tooltip>
 <Tooltip Text=""Hello tooltip"" Placement=""TooltipPlacement.Bottom"">
     <Button Color=""Color.Primary"">Bottom tooltip</Button>
+</Tooltip>";
+
+        public const string TooltipRichContentExample = @"<Tooltip Multiline Padding=""Padding.Is3"">
+    <ChildContent>
+        <Button Color=""Color.Primary"">Rich content</Button>
+    </ChildContent>
+    <TooltipContent>
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.CheckCircle"" TextColor=""TextColor.Success"" />
+                <Heading Size=""HeadingSize.Is6"" TextWeight=""TextWeight.SemiBold"" Margin=""Margin.Is0"">
+                    Deployment ready
+                </Heading>
+            </Div>
+            <Paragraph TextSize=""TextSize.Small"" Margin=""Margin.Is0"">
+                All production checks passed successfully.
+            </Paragraph>
+            <Small TextColor=""TextColor.Info"">Updated just now</Small>
+        </Div>
+    </TooltipContent>
 </Tooltip>";
 
         public const string TooltipTextTruncateExample = @"<Tooltip Text=""Lorem Ipsum is simply dummy text of the printing and typesetting industry..."" Multiline Inline>

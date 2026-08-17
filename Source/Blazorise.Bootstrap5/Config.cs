@@ -29,7 +29,6 @@ public static class Config
         serviceCollection.AddBootstrap5Components();
 
         serviceCollection.AddScoped<IJSModalModule, Modules.BootstrapJSModalModule>();
-        serviceCollection.AddScoped<IJSTooltipModule, Modules.BootstrapJSTooltipModule>();
 
         Enumeration<Background>.SetNameBuilder( new Bootstrap5EnumerationNameBuilder<Background>() );
         Enumeration<TextColor>.SetNameBuilder( new Bootstrap5EnumerationNameBuilder<TextColor>() );

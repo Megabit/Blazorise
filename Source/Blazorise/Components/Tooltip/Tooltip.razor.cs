@@ -1,10 +1,12 @@
 #region Using directives
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
-using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise;
@@ -16,27 +18,106 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
 {
     #region Members
 
-    private TooltipPlacement placement = TooltipPlacement.Top;
+    private string anchorId;
 
-    private bool multiline;
+    private ComponentParameterInfo<bool> paramInline;
 
-    private bool alwaysActive;
+    private ComponentParameterInfo<int> paramFadeDuration;
 
-    private bool showArrow = true;
+    private ComponentParameterInfo<TooltipAnimation> paramAnimation;
 
-    private bool inline;
+    private DocumentEventTypes activeTriggerEvents;
 
-    private bool fade;
+    private (string TargetId, TooltipTrigger Trigger) subscribedTriggerTarget;
 
-    private int fadeDuration = 300;
+    private List<IAsyncDisposable> triggerTargetSubscriptions;
 
-    private TooltipTrigger trigger = TooltipTrigger.MouseEnterFocus;
+    #endregion
 
-    private bool autodetectInline;
+    #region Constructors
+
+    /// <summary>
+    /// A default <see cref="Tooltip"/> constructor.
+    /// </summary>
+    public Tooltip()
+    {
+        TooltipContentClassBuilder = new( BuildTooltipContentClasses );
+        TooltipSurfaceClassBuilder = new( BuildTooltipSurfaceClasses );
+        TooltipArrowClassBuilder = new( BuildTooltipArrowClasses );
+        TooltipSurfaceStyleBuilder = new( BuildTooltipSurfaceStyles );
+    }
 
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        ComponentParameterInfo<bool> previousParamInline = paramInline;
+        ComponentParameterInfo<int> previousParamFadeDuration = paramFadeDuration;
+        ComponentParameterInfo<TooltipAnimation> previousParamAnimation = paramAnimation;
+
+        parameters.TryGetParameter( Inline, out paramInline );
+        parameters.TryGetParameter( FadeDuration, out paramFadeDuration );
+        parameters.TryGetParameter( Animation, out paramAnimation );
+
+        bool classesChanged = parameters.IsParameterChanged( Placement )
+                              || parameters.IsParameterChanged( Multiline )
+                              || parameters.IsParameterChanged( AlwaysActive )
+                              || parameters.IsParameterChanged( Fade )
+                              || paramAnimation.Changed
+                              || previousParamAnimation.Defined != paramAnimation.Defined
+                              || paramInline.Changed
+                              || previousParamInline.Defined != paramInline.Defined;
+        bool stylesChanged = parameters.IsParameterChanged( Fade )
+                             || paramAnimation.Changed
+                             || previousParamAnimation.Defined != paramAnimation.Defined
+                             || parameters.IsParameterChanged( ZIndex )
+                             || parameters.IsParameterChanged( ShowDelay )
+                             || parameters.IsParameterChanged( HideDelay )
+                             || paramFadeDuration.Changed
+                             || previousParamFadeDuration.Defined != paramFadeDuration.Defined
+                             || parameters.TryGetValue<Theme>( nameof( Theme ), out _ );
+        bool triggerChanged = parameters.IsParameterChanged( Trigger )
+                              || parameters.IsParameterChanged( TriggerTargetId );
+
+        await base.SetParametersAsync( parameters );
+
+        if ( triggerChanged )
+            ResetTriggerState();
+
+        if ( classesChanged )
+            DirtyClasses();
+
+        if ( stylesChanged )
+            DirtyStyles();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        anchorId = IdGenerator.Generate;
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await SynchronizeTriggerTargetSubscriptions();
+
+        await base.OnAfterRenderAsync( firstRender );
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+            await DisposeTriggerTargetSubscriptions();
+
+        await base.DisposeAsync( disposing );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -45,79 +126,276 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.TooltipPlacement( Placement ) );
         builder.Append( ClassProvider.TooltipMultiline( Multiline ) );
         builder.Append( ClassProvider.TooltipAlwaysActive( AlwaysActive ) );
-        builder.Append( ClassProvider.TooltipInline( Inline ) );
-        builder.Append( ClassProvider.TooltipFade( Fade ) );
+        builder.Append( ClassProvider.TooltipInline( paramInline.GetValueOrDefault( false ) ) );
+        builder.Append( ClassProvider.TooltipFade( HasAnimation ) );
 
         base.BuildClasses( builder );
+
+        AppendWrapperUtilities( builder );
     }
 
     /// <inheritdoc/>
-    public override Task SetParametersAsync( ParameterView parameters )
+    protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( parameters.TryGetValue<string>( nameof( Text ), out var paramText ) && Text != paramText )
-        {
-            ExecuteAfterRender( async () => await JSModule.UpdateContent( ElementRef, ElementId, paramText ) );
-        }
+        if ( Theme?.TooltipOptions is not null )
+            builder.Append( StyleProvider.TooltipTheme( Theme.TooltipOptions ) );
 
-        // autodetect inline mode only if Inline parameter is not explicitly defined
-        autodetectInline = !parameters.TryGetValue<bool>( nameof( Inline ), out var _ );
+        builder.Append( StyleProvider.TooltipAnchor( AnchorId ) );
+        builder.Append( StyleProvider.TooltipShowDelay( EffectiveShowDelay ) );
+        builder.Append( StyleProvider.TooltipHideDelay( EffectiveHideDelay ) );
+        builder.Append( StyleProvider.TooltipFadeDuration( HasAnimation, EffectiveFadeDuration ), ShouldApplyFadeDuration );
+        builder.Append( StyleProvider.TooltipZIndex( ZIndex ) );
 
-        return base.SetParametersAsync( parameters );
+        base.BuildStyles( builder );
+
+        AppendWrapperUtilities( builder );
     }
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
+    protected override void BuildUtilityClasses( ClassBuilder builder, UtilityTarget target )
     {
-        // try to detect if inline is needed
-        ExecuteAfterRender( async () =>
+        if ( target == UtilityTarget.Wrapper )
+            base.BuildUtilityClasses( builder, target );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildUtilityStyles( StyleBuilder builder, UtilityTarget target )
+    {
+        if ( target == UtilityTarget.Wrapper )
+            base.BuildUtilityStyles( builder, target );
+    }
+
+    /// <summary>
+    /// Builds the classnames for the tooltip content element.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the classnames.</param>
+    private void BuildTooltipContentClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.TooltipContent() );
+    }
+
+    /// <summary>
+    /// Builds the classnames for the tooltip surface element.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the classnames.</param>
+    private void BuildTooltipSurfaceClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.TooltipSurface() );
+        base.BuildUtilityClasses( builder, UtilityTarget.Self );
+    }
+
+    /// <summary>
+    /// Builds the styles for the tooltip surface element.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    private void BuildTooltipSurfaceStyles( StyleBuilder builder )
+    {
+        base.BuildUtilityStyles( builder, UtilityTarget.Self );
+    }
+
+    /// <summary>
+    /// Builds the classnames for the tooltip arrow element.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the classnames.</param>
+    private void BuildTooltipArrowClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.TooltipArrow() );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        TooltipContentClassBuilder.Dirty();
+        TooltipSurfaceClassBuilder.Dirty();
+        TooltipArrowClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyStyles()
+    {
+        TooltipSurfaceStyleBuilder.Dirty();
+
+        base.DirtyStyles();
+    }
+
+    private void HandleClick()
+    {
+        if ( string.IsNullOrWhiteSpace( TriggerTargetId )
+             && Trigger is ( TooltipTrigger.Click or TooltipTrigger.MouseEnterClick ) )
+            ToggleTriggerEvent( DocumentEventTypes.Click );
+    }
+
+    private void HandleKeyDown( KeyboardEventArgs eventArgs )
+    {
+        if ( eventArgs.Key == "Escape" )
+            SetTriggerEventActive( DocumentEventTypes.Click, false );
+    }
+
+    private async Task HandleTriggerTargetEvent( DocumentEventArgs eventArgs )
+    {
+        bool activeChanged = eventArgs.Type switch
         {
-            await JSModule.Initialize( ElementRef, ElementId, new()
+            DocumentEventType.MouseEnter => SetTriggerEventActive( DocumentEventTypes.MouseEnter, true ),
+            DocumentEventType.MouseLeave => SetTriggerEventActive( DocumentEventTypes.MouseEnter, false ),
+            DocumentEventType.FocusIn => SetTriggerEventActive( DocumentEventTypes.FocusIn, true ),
+            DocumentEventType.FocusOut => SetTriggerEventActive( DocumentEventTypes.FocusIn, false ),
+            DocumentEventType.Click => ToggleTriggerEvent( DocumentEventTypes.Click ),
+            _ => false,
+        };
+
+        if ( activeChanged )
+            await InvokeAsync( StateHasChanged );
+    }
+
+    private async Task HandleOutsideClick( DocumentEventArgs eventArgs )
+    {
+        if ( !IsTriggerEventActive( DocumentEventTypes.Click ) )
+            return;
+
+        SetTriggerEventActive( DocumentEventTypes.Click, false );
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private async Task HandleDocumentKeyDown( DocumentEventArgs eventArgs )
+    {
+        if ( !IsTriggerEventActive( DocumentEventTypes.Click ) )
+            return;
+
+        SetTriggerEventActive( DocumentEventTypes.Click, false );
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private async Task SynchronizeTriggerTargetSubscriptions()
+    {
+        string triggerTargetId = string.IsNullOrWhiteSpace( TriggerTargetId ) ? null : TriggerTargetId;
+
+        (string TargetId, TooltipTrigger Trigger) triggerTarget = (triggerTargetId, Trigger);
+
+        if ( subscribedTriggerTarget == triggerTarget )
+            return;
+
+        await DisposeTriggerTargetSubscriptions();
+
+        subscribedTriggerTarget = triggerTarget;
+        ResetTriggerState();
+
+        if ( triggerTargetId is null )
+            return;
+
+        string targetSelector = CssSelectorUtilities.BuildElementIdSelector( triggerTargetId );
+        DocumentEventTypes targetEventTypes = Trigger switch
+        {
+            TooltipTrigger.Click => DocumentEventTypes.Click,
+            TooltipTrigger.Focus => DocumentEventTypes.FocusIn | DocumentEventTypes.FocusOut,
+            TooltipTrigger.MouseEnterClick => DocumentEventTypes.MouseEnter | DocumentEventTypes.MouseLeave | DocumentEventTypes.Click,
+            _ => DocumentEventTypes.MouseEnter | DocumentEventTypes.MouseLeave | DocumentEventTypes.FocusIn | DocumentEventTypes.FocusOut,
+        };
+
+        triggerTargetSubscriptions = new();
+        triggerTargetSubscriptions.Add( await DocumentObserver.Subscribe( new()
+        {
+            OwnerId = ElementId,
+            EventTypes = targetEventTypes,
+            Selector = targetSelector,
+            Handler = HandleTriggerTargetEvent,
+        } ) );
+
+        if ( Trigger is TooltipTrigger.Click or TooltipTrigger.MouseEnterClick )
+        {
+            string rootSelector = CssSelectorUtilities.BuildElementIdSelector( ElementId );
+
+            triggerTargetSubscriptions.Add( await DocumentObserver.Subscribe( new()
             {
-                Text = Text,
-                Placement = ClassProvider.ToTooltipPlacement( Placement ),
-                Multiline = Multiline,
-                AlwaysActive = AlwaysActive,
-                ShowArrow = ShowArrow,
-                Fade = Fade,
-                FadeDuration = FadeDuration,
-                Trigger = ToTippyTrigger( Trigger ),
-                TriggerTargetId = TriggerTargetId,
-                MaxWidth = Theme?.TooltipOptions?.MaxWidth,
-                AutodetectInline = autodetectInline,
-                ZIndex = ZIndex,
-                Interactive = Interactive,
-                AppendTo = AppendTo,
-                Delay = new()
-                {
-                    Show = ( ShowDelay ?? Options?.TooltipOptions?.ShowDelay ) ?? 0,
-                    Hide = ( HideDelay ?? Options?.TooltipOptions?.HideDelay ) ?? 0
-                }
-            } );
+                OwnerId = ElementId,
+                EventTypes = DocumentEventTypes.Click,
+                ExcludeSelector = $":is({targetSelector}, {rootSelector})",
+                Priority = -100,
+                Handler = HandleOutsideClick,
+            } ) );
 
-        } );
-
-        base.OnInitialized();
-    }
-
-    /// <inheritdoc/>
-    protected override async ValueTask DisposeAsync( bool disposing )
-    {
-        if ( disposing && Rendered )
-        {
-            await JSModule.SafeDestroy( ElementRef, ElementId );
+            triggerTargetSubscriptions.Add( await DocumentObserver.Subscribe( new()
+            {
+                OwnerId = ElementId,
+                EventTypes = DocumentEventTypes.KeyDown,
+                KeysFilter = new[] { "Escape" },
+                Capture = false,
+                Handler = HandleDocumentKeyDown,
+            } ) );
         }
-
-        await base.DisposeAsync( disposing );
     }
 
-    private static string ToTippyTrigger( TooltipTrigger trigger )
+    private async ValueTask DisposeTriggerTargetSubscriptions()
+    {
+        if ( triggerTargetSubscriptions is null )
+            return;
+
+        foreach ( IAsyncDisposable subscription in triggerTargetSubscriptions )
+            await subscription.DisposeAsync();
+
+        triggerTargetSubscriptions = null;
+    }
+
+    private bool IsTriggerEventActive( DocumentEventTypes eventType )
+    {
+        return ( activeTriggerEvents & eventType ) != 0;
+    }
+
+    private bool SetTriggerEventActive( DocumentEventTypes eventType, bool active )
+    {
+        bool changed = IsTriggerEventActive( eventType ) != active;
+
+        if ( active )
+            activeTriggerEvents |= eventType;
+        else
+            activeTriggerEvents &= ~eventType;
+
+        return changed;
+    }
+
+    private bool ToggleTriggerEvent( DocumentEventTypes eventType )
+    {
+        return SetTriggerEventActive( eventType, !IsTriggerEventActive( eventType ) );
+    }
+
+    private void ResetTriggerState()
+    {
+        activeTriggerEvents = DocumentEventTypes.None;
+    }
+
+    private static string ToAnimationString( TooltipAnimation animation )
+    {
+        if ( ( animation & TooltipAnimation.Auto ) != TooltipAnimation.None )
+            return "auto";
+
+        StringBuilder builder = new();
+
+        if ( ( animation & TooltipAnimation.Fade ) != TooltipAnimation.None )
+            builder.Append( "fade" );
+
+        if ( ( animation & TooltipAnimation.Scale ) != TooltipAnimation.None )
+            builder.Append( builder.Length > 0 ? " scale" : "scale" );
+
+        if ( ( animation & TooltipAnimation.Shift ) != TooltipAnimation.None )
+            builder.Append( builder.Length > 0 ? " shift" : "shift" );
+
+        if ( ( animation & TooltipAnimation.Blur ) != TooltipAnimation.None )
+            builder.Append( builder.Length > 0 ? " blur" : "blur" );
+
+        return builder.Length > 0 ? builder.ToString() : "none";
+    }
+
+    private static string ToTriggerString( TooltipTrigger trigger )
     {
         return trigger switch
         {
             TooltipTrigger.Click => "click",
-            TooltipTrigger.Focus => "focusin",
-            TooltipTrigger.MouseEnterClick => "mouseenter click",
-            _ => "mouseenter focus",
+            TooltipTrigger.Focus => "focus",
+            TooltipTrigger.MouseEnterClick => "mouse-enter-click",
+            _ => "mouse-enter-focus",
         };
     }
 
@@ -129,173 +407,168 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
+    /// Tooltip content element class builder.
+    /// </summary>
+    protected ClassBuilder TooltipContentClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Tooltip surface element class builder.
+    /// </summary>
+    protected ClassBuilder TooltipSurfaceClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Tooltip arrow element class builder.
+    /// </summary>
+    protected ClassBuilder TooltipArrowClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Tooltip surface element style builder.
+    /// </summary>
+    protected StyleBuilder TooltipSurfaceStyleBuilder { get; private set; }
+
+    /// <summary>
+    /// Gets the classnames for the tooltip content element.
+    /// </summary>
+    protected string TooltipContentClassNames => TooltipContentClassBuilder.Class;
+
+    /// <summary>
+    /// Gets the classnames for the tooltip surface element.
+    /// </summary>
+    protected string TooltipSurfaceClassNames => TooltipSurfaceClassBuilder.Class;
+
+    /// <summary>
+    /// Gets the classnames for the tooltip arrow element.
+    /// </summary>
+    protected string TooltipArrowClassNames => TooltipArrowClassBuilder.Class;
+
+    /// <summary>
+    /// Gets the styles for the tooltip surface element.
+    /// </summary>
+    protected string TooltipSurfaceStyleNames => TooltipSurfaceStyleBuilder.Styles;
+
+    private string AnchorId => anchorId ?? ElementId;
+
+    private string TooltipElementId => HasContent ? $"{ElementId}-content" : null;
+
+    private bool HasContent => TooltipContent is not null || !string.IsNullOrEmpty( Text );
+
+    private int EffectiveShowDelay => ( ShowDelay ?? Options?.TooltipOptions?.ShowDelay ) ?? 0;
+
+    private int EffectiveHideDelay => ( HideDelay ?? Options?.TooltipOptions?.HideDelay ) ?? 0;
+
+    private int EffectiveFadeDuration => paramFadeDuration.GetValueOrDefault( 300 );
+
+    private TooltipAnimation EffectiveAnimation => paramAnimation.Defined
+        ? paramAnimation.Value
+        : Fade ? TooltipAnimation.Auto : TooltipAnimation.None;
+
+    private bool HasAnimation
+        => ( EffectiveAnimation
+             & ( TooltipAnimation.Auto
+                 | TooltipAnimation.Fade
+                 | TooltipAnimation.Scale
+                 | TooltipAnimation.Shift
+                 | TooltipAnimation.Blur ) ) != TooltipAnimation.None;
+
+    private bool ShouldApplyFadeDuration => !HasAnimation || paramFadeDuration.Defined || Theme?.TooltipOptions is null;
+
+    private string PlacementString => ClassProvider.ToTooltipPlacement( Placement );
+
+    private string TriggerString => string.IsNullOrWhiteSpace( TriggerTargetId ) ? ToTriggerString( Trigger ) : "manual";
+
+    private string ActiveString => ( AlwaysActive || activeTriggerEvents != DocumentEventTypes.None ) ? "true" : "false";
+
+    private string AnimationString => ToAnimationString( EffectiveAnimation );
+
+    private string InlineString => paramInline.Defined ? ( paramInline.Value ? "true" : "false" ) : "auto";
+
+    private string InteractiveString => Interactive ? "true" : "false";
+
+    private string MultilineString => Multiline ? "true" : "false";
+
+    /// <summary>
     /// Holds the information about the Blazorise global options.
     /// </summary>
     [Inject] protected BlazoriseOptions Options { get; set; }
 
     /// <summary>
-    /// Specifies the <see cref="IJSTooltipModule"/> instance.
+    /// Gets the shared document observer used when the trigger is outside of this component.
     /// </summary>
-    [Inject] public IJSTooltipModule JSModule { get; set; }
+    [Inject] protected IDocumentObserver DocumentObserver { get; set; }
 
     /// <summary>
-    /// Specifies a regular tooltip's content.
+    /// Specifies the tooltip's text or HTML content.
     /// </summary>
+    /// <remarks>
+    /// This content is ignored when <see cref="TooltipContent"/> is supplied.
+    /// </remarks>
     [Parameter] public string Text { get; set; }
 
     /// <summary>
     /// Specifies the tooltip location relative to its component.
     /// </summary>
-    [Parameter]
-    public TooltipPlacement Placement
-    {
-        get => placement;
-        set
-        {
-            if ( placement == value )
-                return;
-
-            placement = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public TooltipPlacement Placement { get; set; } = TooltipPlacement.Top;
 
     /// <summary>
     /// Force the multiline display.
     /// </summary>
-    [Parameter]
-    public bool Multiline
-    {
-        get => multiline;
-        set
-        {
-            if ( multiline == value )
-                return;
-
-            multiline = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public bool Multiline { get; set; }
 
     /// <summary>
     /// Always show tooltip, instead of just when hovering over the element.
     /// </summary>
-    [Parameter]
-    public bool AlwaysActive
-    {
-        get => alwaysActive;
-        set
-        {
-            if ( alwaysActive == value )
-                return;
-
-            alwaysActive = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public bool AlwaysActive { get; set; }
 
     /// <summary>
     /// Specifies the tooltip arrow visibility.
     /// </summary>
-    [Parameter]
-    public bool ShowArrow
-    {
-        get => showArrow;
-        set
-        {
-            if ( showArrow == value )
-                return;
-
-            showArrow = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public bool ShowArrow { get; set; } = true;
 
     /// <summary>
-    /// Force inline block instead of trying to detect the element block.
+    /// Forces the tooltip host to use inline-block layout.
     /// </summary>
-    [Parameter]
-    public bool Inline
-    {
-        get => inline;
-        set
-        {
-            if ( inline == value )
-                return;
-
-            inline = value;
-
-            DirtyClasses();
-        }
-    }
+    /// <remarks>
+    /// When this parameter is not supplied, inline layout is automatically detected from the target element.
+    /// Explicitly setting it to <see langword="false"/> disables automatic detection.
+    /// </remarks>
+    [Parameter] public bool Inline { get; set; }
 
     /// <summary>
     /// Makes the tooltip fade transition.
     /// </summary>
-    [Parameter]
-    public bool Fade
-    {
-        get => fade;
-        set
-        {
-            if ( fade == value )
-                return;
-
-            fade = value;
-
-            DirtyClasses();
-        }
-    }
+    /// <remarks>
+    /// When <see cref="Animation"/> is not supplied, setting this parameter uses the provider's preferred tooltip animation.
+    /// </remarks>
+    [Parameter] public bool Fade { get; set; }
 
     /// <summary>
-    /// Duration in ms of the fade transition animation.
+    /// Specifies the visual effect used when the tooltip is shown or hidden.
     /// </summary>
-    [Parameter]
-    public int FadeDuration
-    {
-        get => fadeDuration;
-        set
-        {
-            if ( fadeDuration == value )
-                return;
+    /// <remarks>
+    /// Effects can be combined. When supplied, this parameter takes precedence over <see cref="Fade"/>.
+    /// <see cref="TooltipAnimation.Auto"/> is provider-controlled and takes precedence when combined with another effect.
+    /// </remarks>
+    [Parameter] public TooltipAnimation Animation { get; set; }
 
-            fadeDuration = value;
-
-            DirtyClasses();
-        }
-    }
+    /// <summary>
+    /// Duration in ms of the tooltip transition animation.
+    /// </summary>
+    [Parameter] public int FadeDuration { get; set; } = 300;
 
     /// <summary>
     /// Determines the events that cause the tooltip to show.
     /// </summary>
-    [Parameter]
-    public TooltipTrigger Trigger
-    {
-        get => trigger;
-        set
-        {
-            if ( trigger == value )
-                return;
-
-            trigger = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public TooltipTrigger Trigger { get; set; } = TooltipTrigger.MouseEnterFocus;
 
     /// <summary>
-    /// Which element the trigger event listeners are applied to (instead of the reference element).
+    /// Specifies the id of an external element that triggers the tooltip.
     /// </summary>
     [Parameter] public string TriggerTargetId { get; set; }
 
     /// <summary>
-    /// Specifies the z-index CSS on the root popper node.
+    /// Specifies the z-index of the tooltip surface.
     /// </summary>
-    [Parameter] public int? ZIndex { get; set; } = 9999;
+    [Parameter] public int? ZIndex { get; set; }
 
     /// <summary>
     /// Determines if the tooltip has interactive content inside of it, so that it can be hovered over and clicked inside without hiding.
@@ -303,12 +576,24 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     [Parameter] public bool Interactive { get; set; }
 
     /// <summary>
-    /// The element to append the tooltip to. If <see cref="Interactive"/> = true, the default behavior is appendTo: "parent".
+    /// Gets or sets the element to which the tooltip content was appended.
     /// </summary>
+    /// <remarks>
+    /// This parameter is retained for source compatibility and has no effect. Tooltip content is rendered in place and positioned using CSS anchor positioning.
+    /// </remarks>
+    [Obsolete( "AppendTo is no longer used. Tooltip content is rendered in place and positioned using CSS anchor positioning." )]
     [Parameter] public string AppendTo { get; set; }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="Tooltip"/>.
+    /// Specifies custom content to be rendered inside the tooltip.
+    /// </summary>
+    /// <remarks>
+    /// When supplied, this content takes precedence over <see cref="Text"/>.
+    /// </remarks>
+    [Parameter] public RenderFragment TooltipContent { get; set; }
+
+    /// <summary>
+    /// Specifies the target content wrapped by this <see cref="Tooltip"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

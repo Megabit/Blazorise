@@ -1486,6 +1486,12 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Tooltip();
 
+    public abstract string TooltipContent();
+
+    public abstract string TooltipSurface();
+
+    public abstract string TooltipArrow();
+
     public abstract string TooltipPlacement( TooltipPlacement tooltipPlacement );
 
     public abstract string TooltipMultiline( bool multiline );

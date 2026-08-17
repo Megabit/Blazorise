@@ -1468,6 +1468,12 @@ public interface IClassProvider
 
     string Tooltip();
 
+    string TooltipContent();
+
+    string TooltipSurface();
+
+    string TooltipArrow();
+
     string TooltipPlacement( TooltipPlacement tooltipPlacement );
 
     string TooltipMultiline( bool multiline );

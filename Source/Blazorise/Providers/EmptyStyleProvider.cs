@@ -51,6 +51,22 @@ class EmptyStyleProvider : IStyleProvider
 
     #endregion
 
+    #region Tooltip
+
+    public string TooltipTheme( ThemeTooltipOptions options ) => null;
+
+    public string TooltipAnchor( string anchorId ) => null;
+
+    public string TooltipShowDelay( int showDelay ) => null;
+
+    public string TooltipHideDelay( int hideDelay ) => null;
+
+    public string TooltipFadeDuration( bool fade, int fadeDuration ) => null;
+
+    public string TooltipZIndex( int? zIndex ) => null;
+
+    #endregion
+
     #region Toast
 
     public string ToastAnimationDuration( bool animated, int animationDuration ) => null;

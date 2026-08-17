@@ -144,6 +144,9 @@ public static class DefaultValueHelper
             var symbolInfo = semanticModel.GetSymbolInfo( expression );
             if ( symbolInfo.Symbol is IFieldSymbol { IsConst: true } fieldSymbol )
             {
+                if ( fieldSymbol.ContainingType.TypeKind == TypeKind.Enum )
+                    return fieldSymbol.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat );
+
                 // If the symbol is a constant field, return its value
                 return fieldSymbol.ConstantValue;
             }

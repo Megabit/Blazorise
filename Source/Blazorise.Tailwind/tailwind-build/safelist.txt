@@ -2894,23 +2894,6 @@
   b-table-striped
   b-toast
   b-toast-fade
-  b-tooltip
-  b-tooltip-active
-  b-tooltip-bottom
-  b-tooltip-bottom-end
-  b-tooltip-bottom-start
-  b-tooltip-fade
-  b-tooltip-inline
-  b-tooltip-left
-  b-tooltip-left-end
-  b-tooltip-left-start
-  b-tooltip-multiline
-  b-tooltip-right
-  b-tooltip-right-end
-  b-tooltip-right-start
-  b-tooltip-top
-  b-tooltip-top-end
-  b-tooltip-top-start
   basis-0
   basis-1/12
   basis-10/12

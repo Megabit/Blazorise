@@ -27,7 +27,6 @@ public static class Config
         }
 
         serviceCollection.AddScoped<IJSModalModule, Modules.FluentUI2JSModalModule>();
-        serviceCollection.AddScoped<IJSTooltipModule, Modules.FluentUI2JSTooltipModule>();
 
         Enumeration<Background>.SetNameBuilder( new FluentUI2EnumerationNameBuilder<Background>() );
         Enumeration<TextColor>.SetNameBuilder( new FluentUI2EnumerationNameBuilder<TextColor>() );

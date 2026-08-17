@@ -5259,6 +5259,258 @@ td:focus {
     opacity: 0;
   }
 }
+.bulma-tooltip-host {
+  --bulma-tooltip-state-display: none;
+  --bulma-tooltip-state-opacity: 1;
+  --bulma-tooltip-state-visibility: hidden;
+  --bulma-tooltip-animation-scale: 1;
+  --bulma-tooltip-animation-shift: 0px;
+  --bulma-tooltip-animation-blur: 0px;
+  --bulma-tooltip-state-scale: var(--bulma-tooltip-animation-scale);
+  --bulma-tooltip-state-shift: var(--bulma-tooltip-animation-shift);
+  --bulma-tooltip-state-blur: var(--bulma-tooltip-animation-blur);
+  --bulma-tooltip-state-opacity-delay: var(--bulma-tooltip-hide-delay, 0ms);
+  --bulma-tooltip-state-visibility-delay: calc(var(--bulma-tooltip-hide-delay, 0ms) + var(--bulma-tooltip-fade-duration, 0ms));
+  display: block;
+}
+.bulma-tooltip-host:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) {
+  --bulma-tooltip-state-opacity: 0;
+}
+.bulma-tooltip-host[data-tooltip-animation~=scale] {
+  --bulma-tooltip-animation-scale: .96;
+}
+.bulma-tooltip-host[data-tooltip-animation~=shift] {
+  --bulma-tooltip-animation-shift: 4px;
+}
+.bulma-tooltip-host[data-tooltip-animation~=blur] {
+  --bulma-tooltip-animation-blur: 2px;
+}
+.bulma-tooltip-host[data-tooltip-inline=true], .bulma-tooltip-host[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
+  display: inline-block;
+}
+.bulma-tooltip-host[data-tooltip-active=true], .bulma-tooltip-host[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-visible, :has(:focus-visible)), .bulma-tooltip-host[data-tooltip-trigger=focus]:focus-within, .bulma-tooltip-host[data-tooltip-trigger=mouse-enter-click]:hover {
+  --bulma-tooltip-state-display: block;
+  --bulma-tooltip-state-opacity: 1;
+  --bulma-tooltip-state-visibility: visible;
+  --bulma-tooltip-state-scale: 1;
+  --bulma-tooltip-state-shift: 0px;
+  --bulma-tooltip-state-blur: 0px;
+  --bulma-tooltip-state-opacity-delay: var(--bulma-tooltip-show-delay, 0ms);
+  --bulma-tooltip-state-visibility-delay: var(--bulma-tooltip-show-delay, 0ms);
+}
+.bulma-tooltip-host[data-tooltip-interactive=true] > .bulma-tooltip-content {
+  pointer-events: auto;
+}
+.bulma-tooltip-host[data-tooltip-multiline=true] .bulma-tooltip-surface {
+  max-width: var(--bulma-tooltip-max-width, 15rem);
+  white-space: normal;
+}
+
+.bulma-tooltip-content {
+  position: fixed;
+  position-anchor: var(--bulma-tooltip-anchor);
+  position-visibility: anchors-visible;
+  container-type: anchored;
+  z-index: var(--bulma-tooltip-z-index, 1020);
+  display: var(--bulma-tooltip-state-display);
+  width: max-content;
+  max-width: calc(100vw - 1rem);
+  margin: 0;
+  opacity: var(--bulma-tooltip-state-opacity);
+  visibility: var(--bulma-tooltip-state-visibility);
+  pointer-events: none;
+  transition-property: opacity, scale, translate, filter, visibility, display;
+  transition-duration: var(--bulma-tooltip-fade-duration, 0ms), var(--bulma-tooltip-fade-duration, 0ms), var(--bulma-tooltip-fade-duration, 0ms), var(--bulma-tooltip-fade-duration, 0ms), 0ms, 0ms;
+  transition-delay: var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-visibility-delay), var(--bulma-tooltip-state-visibility-delay);
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), linear, linear;
+  transition-behavior: allow-discrete;
+}
+@starting-style {
+  .bulma-tooltip-host:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .bulma-tooltip-content {
+    opacity: 0;
+  }
+}
+.bulma-tooltip-host[data-tooltip-animation~=scale] > .bulma-tooltip-content {
+  scale: var(--bulma-tooltip-state-scale);
+}
+@starting-style {
+  .bulma-tooltip-host[data-tooltip-animation~=scale] > .bulma-tooltip-content {
+    scale: var(--bulma-tooltip-animation-scale);
+  }
+}
+.bulma-tooltip-host[data-tooltip-animation~=blur] > .bulma-tooltip-content {
+  filter: blur(var(--bulma-tooltip-state-blur));
+}
+@starting-style {
+  .bulma-tooltip-host[data-tooltip-animation~=blur] > .bulma-tooltip-content {
+    filter: blur(var(--bulma-tooltip-animation-blur));
+  }
+}
+.bulma-tooltip-host[data-tooltip-animation~=shift] > .bulma-tooltip-content {
+  translate: var(--bulma-tooltip-state-translate);
+}
+@starting-style {
+  .bulma-tooltip-host[data-tooltip-animation~=shift] > .bulma-tooltip-content {
+    translate: var(--bulma-tooltip-animation-translate);
+  }
+}
+.bulma-tooltip-content[data-tooltip-placement^=top] {
+  --bulma-tooltip-state-translate: 0 var(--bulma-tooltip-state-shift);
+  --bulma-tooltip-animation-translate: 0 var(--bulma-tooltip-animation-shift);
+  bottom: calc(anchor(top) + 6px);
+  position-try-fallbacks: flip-block;
+}
+.bulma-tooltip-content[data-tooltip-placement^=top][data-tooltip-placement=top] {
+  justify-self: anchor-center;
+}
+.bulma-tooltip-content[data-tooltip-placement^=top][data-tooltip-placement=top-start] {
+  left: anchor(left);
+}
+.bulma-tooltip-content[data-tooltip-placement^=top][data-tooltip-placement=top-end] {
+  right: anchor(right);
+}
+.bulma-tooltip-content[data-tooltip-placement^=bottom] {
+  --bulma-tooltip-state-translate: 0 calc(-1 * var(--bulma-tooltip-state-shift));
+  --bulma-tooltip-animation-translate: 0 calc(-1 * var(--bulma-tooltip-animation-shift));
+  top: calc(anchor(bottom) + 6px);
+  position-try-fallbacks: flip-block;
+}
+.bulma-tooltip-content[data-tooltip-placement^=bottom][data-tooltip-placement=bottom] {
+  justify-self: anchor-center;
+}
+.bulma-tooltip-content[data-tooltip-placement^=bottom][data-tooltip-placement=bottom-start] {
+  left: anchor(left);
+}
+.bulma-tooltip-content[data-tooltip-placement^=bottom][data-tooltip-placement=bottom-end] {
+  right: anchor(right);
+}
+.bulma-tooltip-content[data-tooltip-placement^=left] {
+  --bulma-tooltip-state-translate: var(--bulma-tooltip-state-shift) 0;
+  --bulma-tooltip-animation-translate: var(--bulma-tooltip-animation-shift) 0;
+  right: calc(anchor(left) + 6px);
+  position-try-fallbacks: flip-inline;
+}
+.bulma-tooltip-content[data-tooltip-placement^=left][data-tooltip-placement=left] {
+  align-self: anchor-center;
+}
+.bulma-tooltip-content[data-tooltip-placement^=left][data-tooltip-placement=left-start] {
+  top: anchor(top);
+}
+.bulma-tooltip-content[data-tooltip-placement^=left][data-tooltip-placement=left-end] {
+  bottom: anchor(bottom);
+}
+.bulma-tooltip-content[data-tooltip-placement^=right] {
+  --bulma-tooltip-state-translate: calc(-1 * var(--bulma-tooltip-state-shift)) 0;
+  --bulma-tooltip-animation-translate: calc(-1 * var(--bulma-tooltip-animation-shift)) 0;
+  left: calc(anchor(right) + 6px);
+  position-try-fallbacks: flip-inline;
+}
+.bulma-tooltip-content[data-tooltip-placement^=right][data-tooltip-placement=right] {
+  align-self: anchor-center;
+}
+.bulma-tooltip-content[data-tooltip-placement^=right][data-tooltip-placement=right-start] {
+  top: anchor(top);
+}
+.bulma-tooltip-content[data-tooltip-placement^=right][data-tooltip-placement=right-end] {
+  bottom: anchor(bottom);
+}
+
+.bulma-tooltip-surface {
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  max-width: none;
+  padding: var(--bulma-tooltip-padding, 0.5rem 1rem);
+  border-radius: var(--bulma-tooltip-border-radius, 0.25rem);
+  background-color: var(--bulma-tooltip-background-color, rgba(46.053, 50.8011, 61.047, 0.9));
+  color: var(--bulma-tooltip-color, hsl(221, 14%, 100%));
+  font-family: "Inter", "SF Pro", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-size: var(--bulma-tooltip-font-size, 0.75rem);
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  text-align: start;
+  white-space: nowrap;
+  cursor: default;
+}
+.bulma-tooltip-surface::before {
+  content: "";
+  position: absolute;
+}
+.bulma-tooltip-surface > .bulma-tooltip-arrow {
+  position: absolute;
+  z-index: -1;
+  width: 6px;
+  height: 6px;
+  background-color: inherit;
+  transform: rotate(45deg);
+}
+[data-tooltip-placement^=top] > .bulma-tooltip-surface::before {
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: 6px;
+}
+[data-tooltip-placement^=top] > .bulma-tooltip-surface > .bulma-tooltip-arrow {
+  bottom: -3px;
+  left: calc(50% - 3px);
+}
+[data-tooltip-placement^=bottom] > .bulma-tooltip-surface::before {
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  height: 6px;
+}
+[data-tooltip-placement^=bottom] > .bulma-tooltip-surface > .bulma-tooltip-arrow {
+  top: -3px;
+  left: calc(50% - 3px);
+}
+[data-tooltip-placement^=left] > .bulma-tooltip-surface::before {
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  width: 6px;
+}
+[data-tooltip-placement^=left] > .bulma-tooltip-surface > .bulma-tooltip-arrow {
+  top: calc(50% - 3px);
+  right: -3px;
+}
+[data-tooltip-placement^=right] > .bulma-tooltip-surface::before {
+  top: 0;
+  right: 100%;
+  bottom: 0;
+  width: 6px;
+}
+[data-tooltip-placement^=right] > .bulma-tooltip-surface > .bulma-tooltip-arrow {
+  top: calc(50% - 3px);
+  left: -3px;
+}
+
+@container anchored(fallback: flip-block) {
+  [data-tooltip-placement^=top] > .bulma-tooltip-surface > .bulma-tooltip-arrow {
+    top: -3px;
+    bottom: auto;
+  }
+  [data-tooltip-placement^=bottom] > .bulma-tooltip-surface > .bulma-tooltip-arrow {
+    top: auto;
+    bottom: -3px;
+  }
+}
+@container anchored(fallback: flip-inline) {
+  [data-tooltip-placement^=left] > .bulma-tooltip-surface > .bulma-tooltip-arrow {
+    right: auto;
+    left: -3px;
+  }
+  [data-tooltip-placement^=right] > .bulma-tooltip-surface > .bulma-tooltip-arrow {
+    right: -3px;
+    left: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bulma-tooltip-content {
+    transition-duration: 0ms;
+  }
+}
 .b-richtextedit > .b-richtextedit-toolbar.ql-bubble,
 .b-richtextedit > .b-richtextedit-editor.ql-bubble {
   border-style: solid;

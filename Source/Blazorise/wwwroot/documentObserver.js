@@ -260,7 +260,17 @@ function createDocumentObserver() {
             return false;
         }
 
-        return !subscription.selector || !!target.closest(subscription.selector);
+        if (!subscription.selector) {
+            return true;
+        }
+
+        const matched = target.closest(subscription.selector);
+
+        if ((event.type === "mouseenter" || event.type === "mouseleave") && matched !== target) {
+            return false;
+        }
+
+        return !!matched;
     }
 
     function matchesKey(subscription, event) {
@@ -431,6 +441,10 @@ function getDocumentEventType(eventName) {
             return 21;
         case "blur":
             return 22;
+        case "mouseenter":
+            return 23;
+        case "mouseleave":
+            return 24;
         default:
             return 0;
     }

@@ -126,6 +126,16 @@ public enum DocumentEventTypes
     Blur = 1 << 21,
 
     /// <summary>
+    /// The mouseenter document event.
+    /// </summary>
+    MouseEnter = 1 << 22,
+
+    /// <summary>
+    /// The mouseleave document event.
+    /// </summary>
+    MouseLeave = 1 << 23,
+
+    /// <summary>
     /// Pointer events commonly used for drag or resize operations.
     /// </summary>
     PointerDrag = PointerMove | PointerUp | PointerCancel,

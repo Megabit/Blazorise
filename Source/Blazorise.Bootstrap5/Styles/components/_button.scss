@@ -1,9 +1,9 @@
 .btn-group {
-    > .b-tooltip:not(:last-child) > .btn {
+    > .tooltip-host:not(:last-child) > .btn {
         @include border-right-radius(0);
     }
 
-    > .b-tooltip:not(:first-child) > .btn {
+    > .tooltip-host:not(:first-child) > .btn {
         @include border-left-radius(0);
     }
 
@@ -15,11 +15,11 @@
 }
 
 .btn-group-vertical {
-    > .b-tooltip:not(:last-child) > .btn {
+    > .tooltip-host:not(:last-child) > .btn {
         @include border-bottom-radius(0);
     }
 
-    > .b-tooltip:not(:first-child) > .btn {
+    > .tooltip-host:not(:first-child) > .btn {
         @include border-top-radius(0);
     }
 }

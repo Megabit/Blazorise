@@ -1,4 +1,4 @@
-﻿namespace Blazorise;
+namespace Blazorise;
 
 /// <summary>
 /// Defines the theme options for the <see cref="Tooltip"/> component.
@@ -21,7 +21,7 @@ public record ThemeTooltipOptions : ThemeBasicOptions
     public string FontSize { get; set; } = ".875rem";
 
     /// <summary>
-    /// Gets or sets the duration of the tooltip fade animation.
+    /// Gets or sets the duration of the tooltip transition animation.
     /// </summary>
     public string FadeTime { get; set; } = "0.3s";
 

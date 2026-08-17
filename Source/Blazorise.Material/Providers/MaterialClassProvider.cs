@@ -1605,6 +1605,12 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Tooltip() => "mui-tooltip";
 
+    public override string TooltipContent() => "mui-tooltip-content";
+
+    public override string TooltipSurface() => "mui-tooltip-surface";
+
+    public override string TooltipArrow() => "mui-tooltip-arrow";
+
     public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"mui-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
     public override string TooltipMultiline( bool multiline ) => multiline ? "mui-tooltip-multiline" : null;

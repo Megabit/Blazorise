@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 #endregion
 
 namespace Blazorise.FluentUI2.Providers;
@@ -60,6 +60,35 @@ public class FluentUI2StyleProvider : StyleProvider
         => animated
             ? $"--durationGentle: {animationDuration}ms"
             : "--durationGentle: 0ms";
+
+    #endregion
+
+    #region Tooltip
+
+    public override string TooltipTheme( ThemeTooltipOptions options )
+        => BuildStyleVariables(
+            ( "--fui-tooltip-background-color", options.BackgroundColor ),
+            ( "--fui-tooltip-color", options.Color ),
+            ( "--fui-tooltip-font-size", options.FontSize ),
+            ( "--fui-tooltip-border-radius", options.BorderRadius ),
+            ( "--fui-tooltip-max-width", options.MaxWidth ),
+            ( "--fui-tooltip-padding", options.Padding ),
+            ( "--fui-tooltip-fade-duration", options.FadeTime ),
+            ( "--fui-tooltip-z-index", options.ZIndex ) );
+
+    public override string TooltipAnchor( string anchorId )
+        => $"anchor-name: --fui-tooltip-{anchorId}; anchor-scope: --fui-tooltip-{anchorId}; --fui-tooltip-anchor: --fui-tooltip-{anchorId}";
+
+    public override string TooltipShowDelay( int showDelay ) => $"--fui-tooltip-show-delay: {showDelay}ms";
+
+    public override string TooltipHideDelay( int hideDelay ) => $"--fui-tooltip-hide-delay: {hideDelay}ms";
+
+    public override string TooltipFadeDuration( bool fade, int fadeDuration )
+        => $"--fui-tooltip-fade-duration: {( fade ? fadeDuration : 0 )}ms";
+
+    public override string TooltipZIndex( int? zIndex ) => zIndex.HasValue
+        ? $"--fui-tooltip-z-index: {zIndex.Value}"
+        : null;
 
     #endregion
 

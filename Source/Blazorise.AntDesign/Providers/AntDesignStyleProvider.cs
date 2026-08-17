@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 #endregion
 
 namespace Blazorise.AntDesign.Providers;
@@ -71,6 +71,35 @@ public class AntDesignStyleProvider : StyleProvider
         => animated
             ? $"--offcanvas-backdrop-animation-duration: {animationDuration}ms"
             : "--offcanvas-backdrop-animation-duration: 0ms";
+
+    #endregion
+
+    #region Tooltip
+
+    public override string TooltipTheme( ThemeTooltipOptions options )
+        => BuildStyleVariables(
+            ( "--ant-tooltip-bg", options.BackgroundColor ),
+            ( "--ant-tooltip-color", options.Color ),
+            ( "--ant-tooltip-font-size", options.FontSize ),
+            ( "--ant-tooltip-border-radius", options.BorderRadius ),
+            ( "--ant-tooltip-max-width", options.MaxWidth ),
+            ( "--ant-tooltip-padding", options.Padding ),
+            ( "--ant-tooltip-fade-duration", options.FadeTime ),
+            ( "--ant-tooltip-z-index", options.ZIndex ) );
+
+    public override string TooltipAnchor( string anchorId )
+        => $"anchor-name: --ant-tooltip-{anchorId}; anchor-scope: --ant-tooltip-{anchorId}; --ant-tooltip-anchor: --ant-tooltip-{anchorId}";
+
+    public override string TooltipShowDelay( int showDelay ) => $"--ant-tooltip-show-delay: {showDelay}ms";
+
+    public override string TooltipHideDelay( int hideDelay ) => $"--ant-tooltip-hide-delay: {hideDelay}ms";
+
+    public override string TooltipFadeDuration( bool fade, int fadeDuration )
+        => $"--ant-tooltip-fade-duration: {( fade ? fadeDuration : 0 )}ms";
+
+    public override string TooltipZIndex( int? zIndex ) => zIndex.HasValue
+        ? $"--ant-tooltip-z-index: {zIndex.Value}"
+        : null;
 
     #endregion
 

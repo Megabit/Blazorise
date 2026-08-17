@@ -55,6 +55,35 @@ public class MaterialStyleProvider : StyleProvider
 
     #endregion
 
+    #region Tooltip
+
+    public override string TooltipTheme( ThemeTooltipOptions options )
+        => BuildStyleVariables(
+            ( "--mui-tooltip-background-color", options.BackgroundColor ),
+            ( "--mui-tooltip-color", options.Color ),
+            ( "--mui-tooltip-font-size", options.FontSize ),
+            ( "--mui-tooltip-border-radius", options.BorderRadius ),
+            ( "--mui-tooltip-max-width", options.MaxWidth ),
+            ( "--mui-tooltip-padding", options.Padding ),
+            ( "--mui-tooltip-fade-duration", options.FadeTime ),
+            ( "--mui-tooltip-z-index", options.ZIndex ) );
+
+    public override string TooltipAnchor( string anchorId )
+        => $"anchor-name: --mui-tooltip-{anchorId}; anchor-scope: --mui-tooltip-{anchorId}; --mui-tooltip-anchor: --mui-tooltip-{anchorId}";
+
+    public override string TooltipShowDelay( int showDelay ) => $"--mui-tooltip-show-delay: {showDelay}ms";
+
+    public override string TooltipHideDelay( int hideDelay ) => $"--mui-tooltip-hide-delay: {hideDelay}ms";
+
+    public override string TooltipFadeDuration( bool fade, int fadeDuration )
+        => $"--mui-tooltip-fade-duration: {( fade ? fadeDuration : 0 )}ms";
+
+    public override string TooltipZIndex( int? zIndex ) => zIndex.HasValue
+        ? $"--mui-tooltip-z-index: {zIndex.Value}"
+        : null;
+
+    #endregion
+
     #region Toast
 
     public override string ToastAnimationDuration( bool animated, int animationDuration )

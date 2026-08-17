@@ -173,56 +173,6 @@ hr.divider.divider-text::before {
     margin-right: 0;
   }
 }
-.tippy-box[data-animation=scale][data-placement^=top] {
-  transform-origin: bottom;
-}
-
-.tippy-box[data-animation=scale][data-placement^=bottom] {
-  transform-origin: top;
-}
-
-.tippy-box[data-animation=scale][data-placement^=left] {
-  transform-origin: right;
-}
-
-.tippy-box[data-animation=scale][data-placement^=right] {
-  transform-origin: left;
-}
-
-.tippy-box[data-animation=scale][data-state=hidden] {
-  transform: scale(0.5);
-  opacity: 0;
-}
-
-.tippy-box[data-theme~=blazorise] {
-  background-color: RGBA( var(--b-tooltip-background-color-r, 128), var(--b-tooltip-background-color-g, 128), var(--b-tooltip-background-color-b, 128), var(--b-tooltip-background-opacity, 0.9) );
-  color: var(--b-tooltip-color, #ffffff);
-}
-
-.tippy-box[data-theme~=blazorise][data-placement^=top] > .tippy-arrow::before {
-  border-top-color: RGBA( var(--b-tooltip-background-color-r, 128), var(--b-tooltip-background-color-g, 128), var(--b-tooltip-background-color-b, 128), var(--b-tooltip-background-opacity, 0.9) );
-}
-
-.tippy-box[data-theme~=blazorise][data-placement^=bottom] > .tippy-arrow::before {
-  border-bottom-color: RGBA( var(--b-tooltip-background-color-r, 128), var(--b-tooltip-background-color-g, 128), var(--b-tooltip-background-color-b, 128), var(--b-tooltip-background-opacity, 0.9) );
-}
-
-.tippy-box[data-theme~=blazorise][data-placement^=left] > .tippy-arrow::before {
-  border-left-color: RGBA( var(--b-tooltip-background-color-r, 128), var(--b-tooltip-background-color-g, 128), var(--b-tooltip-background-color-b, 128), var(--b-tooltip-background-opacity, 0.9) );
-}
-
-.tippy-box[data-theme~=blazorise][data-placement^=right] > .tippy-arrow::before {
-  border-right-color: RGBA( var(--b-tooltip-background-color-r, 128), var(--b-tooltip-background-color-g, 128), var(--b-tooltip-background-color-b, 128), var(--b-tooltip-background-opacity, 0.9) );
-}
-
-.tippy-box[data-theme~=blazorise] > .tippy-svg-arrow {
-  fill: RGBA( var(--b-tooltip-background-color-r, 128), var(--b-tooltip-background-color-g, 128), var(--b-tooltip-background-color-b, 128), var(--b-tooltip-background-opacity, 0.9) );
-}
-
-.b-tooltip-inline {
-  display: inline-block;
-}
-
 .b-layout {
   display: flex;
   flex: auto;
