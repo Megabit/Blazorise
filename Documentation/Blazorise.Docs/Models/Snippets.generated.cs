@@ -1970,6 +1970,59 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string DragDropAccessibleBestPracticeExample = @"<DropContainer @ref=""dropContainer"" TItem=""WorkItem"" Items=""@items"" ItemsFilter=""@(( item, dropZone ) => item.Group == dropZone)"" ItemDropped=""@OnItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
+    <ChildContent>
+        <DropZone TItem=""WorkItem"" Name=""@TodoZone"" Border=""Border.Rounded"" Background=""Background.Light"" Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"">
+            <Heading Size=""HeadingSize.Is4"" Margin=""Margin.Is3.FromBottom"">@TodoZone</Heading>
+        </DropZone>
+        <DropZone TItem=""WorkItem"" Name=""@DoneZone"" Border=""Border.Rounded"" Background=""Background.Light"" Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"">
+            <Heading Size=""HeadingSize.Is4"" Margin=""Margin.Is3.FromBottom"">@DoneZone</Heading>
+        </DropZone>
+    </ChildContent>
+    <ItemTemplate>
+        <Card @key=""@context.Id"" Shadow=""Shadow.Default"" Margin=""Margin.Is3.OnY"">
+            <CardBody>
+                <Div Display=""Display.Flex"" Flex=""Flex.AlignItems.Center.JustifyContent.Between"" Gap=""Gap.Is3"">
+                    <Text>@context.Name</Text>
+                    <Button Color=""Color.Secondary"" Size=""Size.Small"" Clicked=""@(() => MoveItem( context, context.Group == TodoZone ? DoneZone : TodoZone ))"">
+                        Move to @(context.Group == TodoZone ? DoneZone : TodoZone)
+                    </Button>
+                </Div>
+            </CardBody>
+        </Card>
+    </ItemTemplate>
+</DropContainer>
+
+@code {
+    private const string TodoZone = ""To do"";
+    private const string DoneZone = ""Done"";
+
+    private DropContainer<WorkItem> dropContainer;
+
+    private List<WorkItem> items =
+    [
+        new( 1, ""Review pull request"", TodoZone ),
+        new( 2, ""Update release notes"", TodoZone ),
+        new( 3, ""Publish package"", DoneZone ),
+    ];
+
+    private Task OnItemDropped( DraggableDroppedEventArgs<WorkItem> eventArgs )
+        => MoveItem( eventArgs.Item, eventArgs.DropZoneName );
+
+    private Task MoveItem( WorkItem item, string destination )
+    {
+        items = items
+            .Select( current => current.Id == item.Id ? current with { Group = destination } : current )
+            .ToList();
+
+        dropContainer?.Refresh();
+
+        return Task.CompletedTask;
+    }
+
+    public sealed record WorkItem( int Id, string Name, string Group );
+}";
+
         public const string DragDropReorderingExample = @"<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@((item, dropZone) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
     <ChildContent>
         @for ( int i = 1; i < 4; i++ )
@@ -5354,6 +5407,26 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     int value = 60;
 }";
 
+        public const string SliderPreciseInputBestPracticeExample = @"<Field Group>
+    <FieldLabel>Volume</FieldLabel>
+    <FieldBody>
+        <Div Display=""Display.Flex"" Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is3"">
+            <Div Flex=""Flex.Grow.Is1"">
+                <Slider TValue=""int"" @bind-Value=""@volume"" Min=""0"" Max=""100"" Step=""5"" />
+            </Div>
+            <Div Width=""Width.Is25"">
+                <NumericInput TValue=""int"" @bind-Value=""@volume"" Min=""0"" Max=""100"" Step=""5"" />
+            </Div>
+            <Text>%</Text>
+        </Div>
+        <FieldHelp>Use the slider for quick adjustments or enter an exact percentage.</FieldHelp>
+    </FieldBody>
+</Field>
+
+@code {
+    private int volume = 65;
+}";
+
         public const string SliderStepExample = @"<Paragraph>
     Current value: @value
 </Paragraph>
@@ -5493,6 +5566,79 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string BasicSwitchExample = @"<Switch TValue=""bool"">Remember me</Switch>";
+
+        public const string SwitchAsyncSettingBestPracticeExample = @"<Fields>
+    <Field>
+        <Div Display=""Display.Flex"" Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is3"">
+            <Switch TValue=""bool"" Value=""@notificationsEnabled"" ValueChanged=""@SaveSettingAsync"" Disabled=""@isSaving"">
+                Email notifications
+            </Switch>
+            @if ( !string.IsNullOrWhiteSpace( statusMessage ) )
+            {
+                <Span TextColor=""@StatusTextColor"" role=""status"" aria-live=""polite"">@statusMessage</Span>
+            }
+        </Div>
+    </Field>
+    <Field>
+        <Check TValue=""bool"" @bind-Value=""@simulateFailure"" Disabled=""@isSaving"">Simulate next save failure</Check>
+    </Field>
+</Fields>
+
+@if ( !string.IsNullOrWhiteSpace( errorMessage ) )
+{
+    <Alert Color=""Color.Danger"" Visible Margin=""Margin.Is3.FromTop"">
+        <AlertDescription>@errorMessage</AlertDescription>
+    </Alert>
+}
+
+@code {
+    private bool notificationsEnabled = true;
+    private bool simulateFailure;
+    private bool isSaving;
+    private string statusMessage = ""Saved"";
+    private string errorMessage;
+
+    private TextColor StatusTextColor
+        => isSaving
+            ? TextColor.Secondary
+            : errorMessage is null
+                ? TextColor.Success
+                : TextColor.Danger;
+
+    private async Task SaveSettingAsync( bool value )
+    {
+        bool previousValue = notificationsEnabled;
+        bool shouldFail = simulateFailure;
+
+        notificationsEnabled = value;
+        simulateFailure = false;
+        isSaving = true;
+        statusMessage = ""Saving..."";
+        errorMessage = null;
+
+        try
+        {
+            await Task.Delay( 800 );
+
+            if ( shouldFail )
+            {
+                throw new InvalidOperationException();
+            }
+
+            statusMessage = ""Saved"";
+        }
+        catch ( InvalidOperationException )
+        {
+            notificationsEnabled = previousValue;
+            statusMessage = ""Not saved"";
+            errorMessage = ""The setting could not be saved. The previous value was restored."";
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+}";
 
         public const string SwitchWithBindExample = @"<Switch TValue=""bool"" @bind-Value=""@rememberMe"">Remember Me</Switch>
 

@@ -1,4 +1,4 @@
-﻿@page "/docs/components/focus-trap"
+@page "/docs/components/focus-trap"
 
 <Seo Canonical="/docs/components/focus-trap" Title="Blazorise FocusTrap component" Description="Learn to use and work with the Blazorise TrapFocus is a component that manages focus for its descendants." />
 
@@ -30,5 +30,25 @@
         <BasicFocusTrapExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Trap Focus Only for Blocking Interactions
+</Heading>
+
+<DocsPageParagraph>
+    Use a focus trap only while a modal surface or similarly blocking interaction is active. Avoid overlapping or nested traps because they can create an unpredictable focus order or prevent keyboard users from escaping.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Enter and Exit Predictably
+</Heading>
+
+<DocsPageParagraph>
+    Move focus to a meaningful control when the trap opens and always provide an obvious keyboard-accessible way to leave the region. When the trap closes, restore focus to the control that triggered it.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(FocusTrap)]" />

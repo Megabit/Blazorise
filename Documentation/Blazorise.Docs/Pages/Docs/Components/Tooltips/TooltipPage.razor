@@ -1,4 +1,4 @@
-﻿@page "/docs/components/tooltip"
+@page "/docs/components/tooltip"
 
 <Seo Canonical="/docs/components/tooltip" Title="Blazorise Tooltip Component" Description="Learn to use and work with the Blazorise Tooltip component, which is useful for conveying information when a user hovers, focuses, or taps on an element." />
 
@@ -123,5 +123,25 @@
         <TooltipDelayExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Keep Essential Information Visible
+</Heading>
+
+<DocsPageParagraph>
+    A tooltip should contain brief supplementary information rather than essential instructions or validation feedback. Write concise text that adds useful context instead of repeating the trigger's visible label.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Support Pointer, Keyboard, and Touch
+</Heading>
+
+<DocsPageParagraph>
+    Keyboard focus should reveal the same tooltip as pointer hover, and users should not need to interact with controls inside it. Touch-only experiences cannot depend on hover, so provide a visible label or help control whenever the information is needed there.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Tooltip)]" />

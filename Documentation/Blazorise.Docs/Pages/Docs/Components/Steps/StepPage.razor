@@ -1,4 +1,4 @@
-﻿@page "/docs/components/step"
+@page "/docs/components/step"
 
 <Seo Canonical="/docs/components/step" Title="Blazorise Step component" Description="Learn to use and work with the Blazorise Step component that displays progress through numbered steps." />
 
@@ -118,5 +118,25 @@
         <StepLazyReloadStepExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Use Steps for a True Sequence
+</Heading>
+
+<DocsPageParagraph>
+    Steps suit a multi-stage task with a clear beginning and end, not general-purpose page navigation. Give each stage a short label that describes its goal and show the user's current position. Keep the sequence manageable by combining steps that are too small to stand on their own.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Protect the User's Progress
+</Heading>
+
+<DocsPageParagraph>
+    Validate the current step before allowing forward navigation, but let users return to completed steps without losing their input. If leaving the workflow would discard meaningful work, explain that consequence before navigating away.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Steps), typeof(Step), typeof(StepsContent), typeof(StepPanel)]" />

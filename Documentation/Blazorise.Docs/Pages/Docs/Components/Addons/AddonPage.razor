@@ -1,4 +1,4 @@
-﻿@page "/docs/components/addon"
+@page "/docs/components/addon"
 
 <Seo Canonical="/docs/components/addon" Title="Blazorise Addon component" Description="Learn to work with the Blazorise Addon component, which is the easiest way to add some structure to forms." />
 
@@ -123,5 +123,25 @@
         <AddonWithValidationExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Keep Context Compact
+</Heading>
+
+<DocsPageParagraph>
+    Addons work best for brief, familiar context such as currency symbols, units, or URL prefixes. Keep the field's actual label outside the addon, and avoid addon content that competes with the editable value or leaves too little input space on smaller screens.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Preserve the Meaning of the Field
+</Heading>
+
+<DocsPageParagraph>
+    Treat addon text as presentation rather than part of the submitted value, and validate the complete value in application code. When an addon contains a button, describe a clear action and provide an accessible label if the button uses only an icon.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Addons), typeof(Addon)]" />

@@ -1,4 +1,4 @@
-﻿@page "/docs/components/color-edit"
+@page "/docs/components/color-edit"
 @page "/docs/components/color-input"
 
 <Seo Canonical="/docs/components/color-input" Title="Blazorise Color component" Description="Learn to use and work with the Blazorise ColorInput component, a native color picker that allows you to select different colors." />
@@ -45,5 +45,25 @@
         <ColorInputDisabledExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Label the Color's Purpose
+</Heading>
+
+<DocsPageParagraph>
+    Provide a visible label that explains what the color controls instead of relying on the preview alone. Show the selected value as text when users need to copy, compare, or enter an exact color.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Do Not Rely on Color Alone
+</Heading>
+
+<DocsPageParagraph>
+    Pair status colors with text, icons, or patterns so the meaning remains understandable to users who cannot distinguish the colors. Validate and normalize the selected value before storing it or applying it to generated styles.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(ColorInput)]" />

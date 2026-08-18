@@ -1,4 +1,4 @@
-﻿@page "/docs/components/color-picker"
+@page "/docs/components/color-picker"
 
 <Seo Canonical="/docs/components/color-picker" Title="Blazorise ColorPicker component" Description="Learn to use and work with the Blazorise ColorPicker component that allows you to select a color using a variety of input methods." />
 
@@ -37,5 +37,25 @@
         <ColorPickerShowHueExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Support Precise Choices
+</Heading>
+
+<DocsPageParagraph>
+    Use a clear label and show the resulting color value when precision or reuse matters. Offer a sensible initial color and, when appropriate, a way to return to the product default.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Check Contrast Before Applying Colors
+</Heading>
+
+<DocsPageParagraph>
+    Validate the contrast of user-selected foreground and background colors before applying them to text or controls. When the full picker interface is unnecessary, use the more compact <Anchor To="docs/components/color-edit">ColorInput</Anchor> component.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(ColorPicker)]" />

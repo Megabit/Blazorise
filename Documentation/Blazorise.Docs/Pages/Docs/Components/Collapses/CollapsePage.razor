@@ -1,4 +1,4 @@
-﻿@page "/docs/components/collapse"
+@page "/docs/components/collapse"
 
 <Seo Canonical="/docs/components/collapse" Title="Blazorise Collapse Component" Description="Learn how to use the Blazorise Collapse component in Blazor to toggle sections, menus, and panels. Includes structure overview, header/body pattern, accessibility tips, and a basic example." />
 
@@ -75,5 +75,25 @@
         <CollapseToggleExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Use Clear Toggles
+</Heading>
+
+<DocsPageParagraph>
+    The header should describe the hidden content, and the intended toggle must be reachable and operable by keyboard. Keep the expanded state synchronized through one binding or event path, especially when the collapse can also be controlled programmatically.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Keep Essential Information Visible
+</Heading>
+
+<DocsPageParagraph>
+    Do not place critical status, validation feedback, or the only way to complete a task inside content that starts collapsed. When several related collapsible sections need coordinated behavior, use an <Anchor To="docs/components/accordion">Accordion</Anchor> instead.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Collapse), typeof(CollapseHeader), typeof(CollapseBody)]" />

@@ -1,4 +1,4 @@
-﻿@page "/docs/components/link"
+@page "/docs/components/link"
 
 <Seo Canonical="/docs/components/link" Title="Blazorise Link system" Description="The Link component allows you to easily customize anchor elements with your theme colors and typography styles." />
 
@@ -97,5 +97,25 @@
         <LinkDisabledExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Use Links for Navigation
+</Heading>
+
+<DocsPageParagraph>
+    A link should take the user to another location. Use a <Code Tag>Button</Code> for actions that change data or update the current interface. When navigation is unavailable, plain text or an explanation is usually clearer than a disabled-looking link that may still appear interactive.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Describe the Destination
+</Heading>
+
+<DocsPageParagraph>
+    Write link text that makes sense out of context instead of using "click here" or a bare URL. Let users know when a link opens a new window, begins a download, or leads to a substantially different experience.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Link)]" />

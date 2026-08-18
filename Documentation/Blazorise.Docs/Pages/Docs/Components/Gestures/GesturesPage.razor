@@ -78,4 +78,24 @@
     <Code>Gestures</Code> does not disable text selection. If a gesture surface contains text and is meant to be dragged or swiped as a single control, you may want to apply CSS such as <Code>user-select: none;</Code> to that surface. This prevents accidental text selection during mouse dragging on desktop. Avoid applying it to areas where users should be able to select or copy text.
 </DocsPageParagraph>
 
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Never Require a Gesture
+</Heading>
+
+<DocsPageParagraph>
+    Every important swipe action should also be available through a visible button or another non-gesture control. This keeps the interaction usable with keyboards, assistive technology, and devices where the gesture is difficult to perform.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Avoid Accidental Activation
+</Heading>
+
+<DocsPageParagraph>
+    Use direction and distance thresholds that ignore small or unintended movements, and avoid intercepting ordinary page scrolling unless the gesture area clearly requires it. Show feedback while the gesture is in progress, but commit state only after it completes successfully.
+</DocsPageParagraph>
+
 <ComponentApiDocs ComponentTypes="[typeof( Gestures )]" />

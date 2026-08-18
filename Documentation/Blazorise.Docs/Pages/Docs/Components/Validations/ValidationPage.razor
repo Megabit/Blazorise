@@ -1,4 +1,4 @@
-﻿@page "/docs/components/validation"
+@page "/docs/components/validation"
 
 <Seo Canonical="/docs/components/validation" Title="Blazorise Validation Component" Description="Learn to use and work with the Blazorise validation components to add simple form validation to Blazorise input components." />
 
@@ -326,5 +326,25 @@
         Checks if the file is selected.
     </DocsMethodsItem>
 </DocsMethods>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Make Errors Actionable
+</Heading>
+
+<DocsPageParagraph>
+    Place feedback next to the related field and explain how to correct the value instead of merely stating that it is invalid. Validate after meaningful interaction or submission so users are not shown errors before they have had a chance to enter a value.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Validate at the Right Layers
+</Heading>
+
+<DocsPageParagraph>
+    Long forms benefit from a validation summary, but should retain field-level messages and move focus to a useful error location after submission. Repeat all security and business validation on the server because client-side validation improves feedback but does not establish trust.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof( Validations ), typeof( Validation ), typeof( ValidationNone ), typeof( ValidationSuccess ), typeof( ValidationWarning ), typeof( ValidationError ), typeof( ValidationFeedback )]" />

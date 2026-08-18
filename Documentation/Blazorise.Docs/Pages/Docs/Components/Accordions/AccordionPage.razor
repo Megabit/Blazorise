@@ -1,4 +1,4 @@
-﻿@page "/docs/components/accordion"
+@page "/docs/components/accordion"
 
 <Seo Canonical="/docs/components/accordion" Title="Blazorise Accordion component" Description="Learn to work with the Blazorise accordion component to build a content area that can be collapsed and expanded." />
 
@@ -92,5 +92,25 @@
         </AlertDescription>
     </Alert>
 </Paragraph>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Write Clear Headers
+</Heading>
+
+<DocsPageParagraph>
+    Use short, descriptive headers so users can predict what each section contains before opening it. Keep the number of sections manageable, and split long or unrelated content into separate pages when the accordion becomes difficult to scan.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Choose the Expansion Behavior Deliberately
+</Heading>
+
+<DocsPageParagraph>
+    Allow multiple items to stay open when users need to compare information. Single-item expansion works better when the sections form a focused sequence. Essential instructions and error messages should remain visible instead of being hidden inside a collapsed item.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Accordion), typeof(AccordionToggle), typeof(AccordionItem), typeof(AccordionHeader), typeof(AccordionBody)]" />

@@ -1,4 +1,4 @@
-﻿@page "/docs/components/progress"
+@page "/docs/components/progress"
 
 <Seo Canonical="/docs/components/progress" Title="Blazorise Progress system" Description="Learn to use and work with the Blazorise Progress component, an indicators that inform users about the status of ongoing processes, such as loading an app, submitting a form, or saving updates." />
 
@@ -117,5 +117,25 @@
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="IndeterminatePageProgressExample" />
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Represent Progress Honestly
+</Heading>
+
+<DocsPageParagraph>
+    Use determinate progress only when the completed proportion is known; otherwise use the indeterminate state. Update a known value often enough to feel responsive without producing excessive rendering or network traffic.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Keep Status Near the Task
+</Heading>
+
+<DocsPageParagraph>
+    Accompany the visual bar with a concise label or status message, especially when work may pause or fail. Use <Code Tag>PageProgress</Code> for page-level loading and place a regular <Code Tag>Progress</Code> close to the specific task it represents.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Progress),typeof(ProgressBar), typeof(PageProgress)]" />

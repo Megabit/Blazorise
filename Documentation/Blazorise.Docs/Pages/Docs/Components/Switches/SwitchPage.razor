@@ -1,4 +1,4 @@
-﻿@page "/docs/components/switch"
+@page "/docs/components/switch"
 
 <Seo Canonical="/docs/components/switch" Title="Blazorise Switch component" Description="Learn to use and work with the Blazorise Switch component, which provides users the ability to choose between two distinct values." />
 
@@ -46,6 +46,32 @@
     <DocsPageSectionHeader Title="Manual event binding" />
     <DocsPageSectionContent Code="SwitchWithEventExample" Outlined FullWidth>
         <SwitchWithEventExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Use for Immediate Settings
+</Heading>
+
+<DocsPageParagraph>
+    A switch represents a setting that takes effect immediately. Use a <Anchor To="docs/components/check">Check</Anchor> when the value is submitted with a form or records agreement. Write a positive label that describes the enabled state, such as "Show notifications," and make the current state understandable without relying on color alone.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Communicate Asynchronous Changes
+</Heading>
+
+<DocsPageParagraph>
+    When changing the setting requires asynchronous work, show progress and prevent repeated changes while the request is active. If the operation fails, restore the previous value and explain why the new state could not be saved.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionContent Code="SwitchAsyncSettingBestPracticeExample" Outlined FullWidth>
+        <SwitchAsyncSettingBestPracticeExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 

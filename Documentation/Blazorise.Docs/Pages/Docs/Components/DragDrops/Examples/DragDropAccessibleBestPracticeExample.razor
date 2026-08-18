@@ -1,0 +1,54 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<DropContainer @ref="dropContainer" TItem="WorkItem" Items="@items" ItemsFilter="@(( item, dropZone ) => item.Group == dropZone)" ItemDropped="@OnItemDropped" Flex="Flex.Wrap.Grow.Is1">
+    <ChildContent>
+        <DropZone TItem="WorkItem" Name="@TodoZone" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
+            <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">@TodoZone</Heading>
+        </DropZone>
+        <DropZone TItem="WorkItem" Name="@DoneZone" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
+            <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">@DoneZone</Heading>
+        </DropZone>
+    </ChildContent>
+    <ItemTemplate>
+        <Card @key="@context.Id" Shadow="Shadow.Default" Margin="Margin.Is3.OnY">
+            <CardBody>
+                <Div Display="Display.Flex" Flex="Flex.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is3">
+                    <Text>@context.Name</Text>
+                    <Button Color="Color.Secondary" Size="Size.Small" Clicked="@(() => MoveItem( context, context.Group == TodoZone ? DoneZone : TodoZone ))">
+                        Move to @(context.Group == TodoZone ? DoneZone : TodoZone)
+                    </Button>
+                </Div>
+            </CardBody>
+        </Card>
+    </ItemTemplate>
+</DropContainer>
+
+@code {
+    private const string TodoZone = "To do";
+    private const string DoneZone = "Done";
+
+    private DropContainer<WorkItem> dropContainer;
+
+    private List<WorkItem> items =
+    [
+        new( 1, "Review pull request", TodoZone ),
+        new( 2, "Update release notes", TodoZone ),
+        new( 3, "Publish package", DoneZone ),
+    ];
+
+    private Task OnItemDropped( DraggableDroppedEventArgs<WorkItem> eventArgs )
+        => MoveItem( eventArgs.Item, eventArgs.DropZoneName );
+
+    private Task MoveItem( WorkItem item, string destination )
+    {
+        items = items
+            .Select( current => current.Id == item.Id ? current with { Group = destination } : current )
+            .ToList();
+
+        dropContainer?.Refresh();
+
+        return Task.CompletedTask;
+    }
+
+    public sealed record WorkItem( int Id, string Name, string Group );
+}
