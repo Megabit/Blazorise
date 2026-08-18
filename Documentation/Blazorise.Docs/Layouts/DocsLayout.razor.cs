@@ -94,6 +94,7 @@ public partial class DocsLayout
                || relativePath.Equals( "docs/testing", StringComparison.OrdinalIgnoreCase )
                || relativePath.Equals( "docs/theming", StringComparison.OrdinalIgnoreCase )
                || relativePath.Equals( "docs/analyzer", StringComparison.OrdinalIgnoreCase )
+               || relativePath.Equals( "docs/mcp", StringComparison.OrdinalIgnoreCase )
                || relativePath.Equals( "docs/migration", StringComparison.OrdinalIgnoreCase )
                || relativePath.Equals( "docs/usage/licensing/register-product-token", StringComparison.OrdinalIgnoreCase );
     }
