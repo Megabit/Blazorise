@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-18T10:31:48.3045538Z",
+  "generatedUtc": "2026-08-18T11:27:44.5658449Z",
   "pages": [
     {
       "route": "/docs",
@@ -6645,6 +6645,13 @@
       ]
     },
     {
+      "route": "/docs/extensions/fluent-validation/api",
+      "title": "Blazorise FluentValidation API",
+      "description": "Explore the Blazorise FluentValidation API reference for validator integration, synchronous and asynchronous validation, and service registration.",
+      "pagePath": "Pages/Docs/Extensions/FluentValidation/FluentValidationApiPage.razor",
+      "examples": []
+    },
+    {
       "route": "/docs/extensions/gantt",
       "title": "Blazorise Gantt component",
       "description": "Learn how to use the Blazorise Gantt component to plan, track, and edit project timelines with flat or hierarchical task data.",
@@ -7637,6 +7644,63 @@
           "content": "@inject IPdfGenerator PdfGenerator\r\n\r\n<Div Flex=\"Flex.Row\" Gap=\"Gap.Is2\" Margin=\"Margin.Is3.FromBottom\">\r\n    <Button Color=\"Color.Primary\" Clicked=\"@Generate\">Generate PDF</Button>\r\n</Div>\r\n\r\n@if ( generationProgress is not null )\r\n{\r\n    <Div Margin=\"Margin.Is3.FromBottom\">\r\n        <Span TextSize=\"TextSize.Small\">@GenerationStatus</Span>\r\n        <Progress Value=\"@((int)generationProgress.Percentage)\" Size=\"Size.Small\" />\r\n    </Div>\r\n}\r\n\r\n@if ( pdfSource is not null )\r\n{\r\n    <PdfViewerContainer Height=\"Height.Rem(35)\">\r\n        <PdfViewerToolbar />\r\n        <PdfViewer Source=\"@pdfSource\" />\r\n    </PdfViewerContainer>\r\n}\r\n\r\n@code {\r\n    private string pdfSource;\r\n\r\n    private PdfGenerationProgress generationProgress;\r\n\r\n    private string GenerationStatus => generationProgress.Stage switch\r\n    {\r\n        PdfGenerationStage.PreparingResources => \"Preparing resources\",\r\n        PdfGenerationStage.RenderingPages => $\"Rendering page {generationProgress.CompletedPages} of {generationProgress.TotalPages}\",\r\n        PdfGenerationStage.WritingDocument => \"Writing PDF document\",\r\n        PdfGenerationStage.Completed => \"PDF generation completed\",\r\n        _ => string.Empty,\r\n    };\r\n\r\n    private async Task Generate()\r\n    {\r\n        generationProgress = null;\r\n\r\n        PdfDocumentDefinition document = PdfDocumentBuilder.Create()\r\n            .Title( \"Invoice\" )\r\n            .Page( page =>\r\n            {\r\n                page.Text( \"Invoice summary\", 48, 48, 260, 32 )\r\n                    .FontSize( 22 )\r\n                    .Bold();\r\n            } )\r\n            .Build();\r\n\r\n        PdfGenerationResult result = await PdfGenerator.GenerateAsync( document, new()\r\n        {\r\n            FileName = \"invoice.pdf\",\r\n            Progress = OnGenerationProgress,\r\n        } );\r\n\r\n        pdfSource = BuildPdfSource( result.Content );\r\n    }\r\n\r\n    private async Task OnGenerationProgress( PdfGenerationProgress progress )\r\n    {\r\n        generationProgress = progress;\r\n\r\n        await InvokeAsync( StateHasChanged );\r\n    }\r\n\r\n    private static string BuildPdfSource( byte[] content )\r\n        => content is null || content.Length == 0\r\n            ? null\r\n            : $\"data:application/pdf;base64,{Convert.ToBase64String( content )}\";\r\n}",
           "title": "File generation",
           "description": "Inject IPdfGenerator , receive progress callbacks while the document is generated, and use the resulting PDF bytes."
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/pdf/api",
+      "title": "Blazorise PDF API",
+      "description": "Explore the Blazorise PDF API reference for declarative document components, fluent document building, PDF generation, and resource limits.",
+      "pagePath": "Pages/Docs/Extensions/Pdf/PdfApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "PdfDocument"
+        },
+        {
+          "kind": "type",
+          "name": "PdfPage"
+        },
+        {
+          "kind": "type",
+          "name": "PdfText"
+        },
+        {
+          "kind": "type",
+          "name": "PdfImage"
+        },
+        {
+          "kind": "type",
+          "name": "PdfFont"
+        },
+        {
+          "kind": "type",
+          "name": "PdfLine"
+        },
+        {
+          "kind": "type",
+          "name": "PdfRectangle"
+        },
+        {
+          "kind": "type",
+          "name": "PdfTable"
+        },
+        {
+          "kind": "type",
+          "name": "PdfTableRow"
+        },
+        {
+          "kind": "type",
+          "name": "PdfTableCell"
+        },
+        {
+          "kind": "type",
+          "name": "PdfGenerationOptions"
+        },
+        {
+          "kind": "type",
+          "name": "PdfHttpResourceOptions"
         }
       ]
     },
@@ -8663,6 +8727,23 @@
       ]
     },
     {
+      "route": "/docs/extensions/routertabs/api",
+      "title": "Blazorise RouterTabs API",
+      "description": "Explore the Blazorise RouterTabs API reference for routed tab parameters, page attributes, localization, and configuration options.",
+      "pagePath": "Pages/Docs/Extensions/RouterTabs/RouterTabsApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "RouterTabs"
+        },
+        {
+          "kind": "type",
+          "name": "RouterTabsOptions"
+        }
+      ]
+    },
+    {
       "route": "/docs/extensions/routertabs2",
       "title": "Blazorise RouterTabs component - page 2",
       "description": "Learn to use and work with the Blazorise RouterTabs to render a tab for each navigation page (page 2).",
@@ -8868,6 +8949,51 @@
           "content": "<Sidebar Data=\"@sidebarInfo\" />\r\n\r\n@code{\r\n    SidebarInfo sidebarInfo = new SidebarInfo\r\n    {\r\n        Brand = new SidebarBrandInfo\r\n        {\r\n            Text = \"Blazorise Demo\"\r\n        },\r\n        Items = new List<SidebarItemInfo>\r\n    {\r\n            new SidebarItemInfo { To = \"#\", Text = \"Dashboard\" },\r\n            new SidebarItemInfo\r\n            {\r\n                Text = \"Email\",\r\n                Icon = IconName.Mail,\r\n                SubItems = new List<SidebarItemInfo>\r\n            {\r\n                    new SidebarItemInfo { To = \"#email/inbox\", Text = \"Inbox\" },\r\n                    new SidebarItemInfo { To = \"#email/compose\", Text = \"Compose Email\" },\r\n                }\r\n            },\r\n            new SidebarItemInfo\r\n            {\r\n                Text = \"Applications\",\r\n                SubItems = new List<SidebarItemInfo>\r\n            {\r\n                    new SidebarItemInfo { To = \"#apps/todo\", Text = \"Todo List\" }\r\n                }\r\n            },\r\n        }\r\n    };\r\n}",
           "title": "Dynamic",
           "description": "You can also build sidebar dynamically by using the Data attribute and the SidebarInfo class. The SidebarInfo is fully serializable so you can save it to an external source or database."
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/sidebar/api",
+      "title": "Blazorise Sidebar API",
+      "description": "Explore the Blazorise Sidebar API reference for collapsible navigation components, dynamic sidebar data, links, labels, and nested items.",
+      "pagePath": "Pages/Docs/Extensions/Sidebar/SidebarApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Sidebar"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarContent"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarBrand"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarNavigation"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarLabel"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarItem"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarLink"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarSubItem"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarFooter"
         }
       ]
     },

@@ -1,0 +1,46 @@
+@page "/docs/extensions/fluent-validation/api"
+
+<Seo Canonical="/docs/extensions/fluent-validation/api" Title="Blazorise FluentValidation API" Description="Explore the Blazorise FluentValidation API reference for validator integration, synchronous and asynchronous validation, and service registration." />
+
+<DocsPageTitle Path="Extensions/FluentValidation/API">
+    Blazorise FluentValidation API
+</DocsPageTitle>
+
+<DocsPageLead>
+    Review the handler and registration method used to connect FluentValidation validators to Blazorise validation components.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    For setup instructions and examples, see the <Anchor To="docs/extensions/fluent-validation">FluentValidation documentation</Anchor>.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    API
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle ElementId="api-fluentvalidationhandler">
+    FluentValidationHandler
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Resolves the registered FluentValidation validator for a model and reports its result through the Blazorise validation lifecycle.
+</DocsPageParagraph>
+
+<DocsMethods Name="Method" Title="Methods">
+    <DocsMethodsItem Name="Validate" ReturnType="void" Parameters="IValidation validation, object newValidationValue">
+        Runs the matching validator synchronously and updates the validation status and messages.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ValidateAsync" ReturnType="Task" Parameters="IValidation validation, object newValidationValue, CancellationToken cancellationToken = default">
+        Runs the matching validator asynchronously and updates the validation status and messages.
+    </DocsMethodsItem>
+</DocsMethods>
+
+<DocsPageSubsectionTitle ElementId="api-addblazorisefluentvalidation">
+    AddBlazoriseFluentValidation
+</DocsPageSubsectionTitle>
+
+<DocsMethods Name="Method" Title="Extension method">
+    <DocsMethodsItem Name="AddBlazoriseFluentValidation" ReturnType="IServiceCollection" Parameters="IServiceCollection services">
+        Registers <Code>FluentValidationHandler</Code> as a scoped service and returns the service collection.
+    </DocsMethodsItem>
+</DocsMethods>

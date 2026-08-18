@@ -1,0 +1,67 @@
+@page "/docs/extensions/pdf/api"
+
+<Seo Canonical="/docs/extensions/pdf/api" Title="Blazorise PDF API" Description="Explore the Blazorise PDF API reference for declarative document components, fluent document building, PDF generation, and resource limits." />
+
+<DocsPageTitle Path="Extensions/PDF/API">
+    Blazorise PDF API
+</DocsPageTitle>
+
+<DocsPageLead>
+    Review the components, builders, services, and options used to define and generate PDF documents.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    For setup instructions and examples, see the <Anchor To="docs/extensions/pdf">PDF documentation</Anchor>.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[
+    typeof(Blazorise.Pdf.PdfDocument),
+    typeof(Blazorise.Pdf.PdfPage),
+    typeof(Blazorise.Pdf.PdfText),
+    typeof(Blazorise.Pdf.PdfImage),
+    typeof(Blazorise.Pdf.PdfFont),
+    typeof(Blazorise.Pdf.PdfLine),
+    typeof(Blazorise.Pdf.PdfRectangle),
+    typeof(Blazorise.Pdf.PdfTable),
+    typeof(Blazorise.Pdf.PdfTableRow),
+    typeof(Blazorise.Pdf.PdfTableCell),
+    typeof(Blazorise.Pdf.PdfGenerationOptions),
+    typeof(Blazorise.Pdf.PdfHttpResourceOptions)]" />
+
+<DocsPageSubsectionTitle ElementId="api-pdfdocumentbuilder">
+    PdfDocumentBuilder
+</DocsPageSubsectionTitle>
+
+<DocsMethods Name="Method" Title="Methods">
+    <DocsMethodsItem Name="Create" ReturnType="PdfDocumentBuilder">
+        Creates a new fluent PDF document builder.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Title" ReturnType="PdfDocumentBuilder" Parameters="string title">
+        Sets the document title.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="AddFont" ReturnType="PdfDocumentBuilder" Parameters="FontFamily font, or a name and font sources">
+        Adds a document-scoped font family.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="PageSetup" ReturnType="PdfDocumentBuilder" Parameters="PdfPageSize size, PdfOrientation orientation = Portrait, double width = 0, double height = 0">
+        Sets the default size and orientation for document pages.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Page" ReturnType="PdfDocumentBuilder" Parameters="Action&lt;PdfPageBuilder&gt; configure">
+        Adds and configures a page. Overloads can set the page size, orientation, width, and height.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Build" ReturnType="PdfDocumentDefinition">
+        Builds the document definition used by the PDF generator.
+    </DocsMethodsItem>
+</DocsMethods>
+
+<DocsPageSubsectionTitle ElementId="api-ipdfgenerator">
+    IPdfGenerator
+</DocsPageSubsectionTitle>
+
+<DocsMethods Name="Method" Title="Methods">
+    <DocsMethodsItem Name="GenerateAsync" ReturnType="Task&lt;PdfGenerationResult&gt;" Parameters="PdfDocumentDefinition document, PdfGenerationOptions options = null, CancellationToken cancellationToken = default">
+        Generates a complete PDF document in memory.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="GenerateToStreamAsync" ReturnType="Task" Parameters="PdfDocumentDefinition document, Stream stream, PdfGenerationOptions options = null, CancellationToken cancellationToken = default">
+        Generates a PDF directly into the supplied stream and leaves the stream open.
+    </DocsMethodsItem>
+</DocsMethods>
