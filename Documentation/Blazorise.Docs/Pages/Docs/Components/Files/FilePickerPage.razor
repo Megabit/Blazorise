@@ -1,4 +1,4 @@
-﻿@page "/docs/components/file-picker"
+@page "/docs/components/file-picker"
 
 <Seo Canonical="/docs/components/file-picker" Title="Blazorise FilePicker component" Description="Learn to use and work with the Blazorise FilePicker component, a customized, cross-browser consistent, enchanced file input control that supports single file and multiple files upload." />
 
@@ -58,5 +58,25 @@
         <FilePickerCustomExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Make Location and Selection Clear
+</Heading>
+
+<DocsPageParagraph>
+    Use recognizable names and icons, and keep the current folder and selection clear at all times. Loading, empty, error, and access-denied states should explain why content is unavailable instead of leaving the picker blank.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Protect Storage Details
+</Heading>
+
+<DocsPageParagraph>
+    Use stable identifiers for files and folders instead of assuming display names or paths are unique. Permission checks and path validation belong on the server, and internal storage paths should not be exposed unless users genuinely need them.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(FilePicker)]" />

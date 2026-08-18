@@ -1,4 +1,4 @@
-﻿@page "/docs/components/time-edit"
+@page "/docs/components/time-edit"
 @page "/docs/components/time-input"
 
 <Seo Canonical="/docs/components/time-input" Title="Blazorise TimeInput Component" Description="Learn to use and work with the Blazorise TimeInput component, which is a native time selection component that lets users select a time." />
@@ -78,5 +78,25 @@
         </TableRow>
     </TableBody>
 </Table>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Clarify the Format and Time Zone
+</Heading>
+
+<DocsPageParagraph>
+    Use a visible label and make the expected time format clear according to the user's culture. State the relevant time zone whenever the value refers to an event shared across locations.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Distinguish Empty and Invalid Values
+</Heading>
+
+<DocsPageParagraph>
+    Use a nullable value when an empty time is valid, and validate business-hour or ordering constraints when the form is processed. When selecting from regular increments is easier than entering an exact time, use a <Anchor To="docs/components/time-picker">TimePicker</Anchor>.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(TimeInput<>)]" />

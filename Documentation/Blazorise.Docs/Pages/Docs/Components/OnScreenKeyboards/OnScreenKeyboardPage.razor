@@ -96,4 +96,24 @@
     <DocsPageSectionSource Code="OnScreenKeyboardGlobalOptionsExample" CodeTitle="Program.cs" />
 </DocsPageSection>
 
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Offer an Additional Input Method
+</Heading>
+
+<DocsPageParagraph>
+    An on-screen keyboard should complement physical keyboards and assistive technology rather than replace them. Enable it only for the input types and devices that benefit from it so the keyboard does not obscure content unnecessarily.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Match the Input and Locale
+</Heading>
+
+<DocsPageParagraph>
+    Layouts, decimal separators, special characters, and action keys should reflect both the input's purpose and the user's locale. Keep password and sensitive-data behavior consistent with the underlying input, and never record keystrokes for diagnostics.
+</DocsPageParagraph>
+
 <ComponentApiDocs ComponentTypes="[typeof( OnScreenKeyboardProvider ), typeof( BaseOnScreenKeyboardInputComponent<,,> ), typeof( BlazoriseOnScreenKeyboardOptions )]" />

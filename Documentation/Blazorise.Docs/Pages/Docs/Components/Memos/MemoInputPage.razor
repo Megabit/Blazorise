@@ -1,4 +1,4 @@
-﻿@page "/docs/components/memo-edit"
+@page "/docs/components/memo-edit"
 @page "/docs/components/memo-input"
 
 <Seo Canonical="/docs/components/memo-input" Title="Blazorise MemoInput system" Description="Learn to use and work with the Blazorise MemoInput component, which is used to create multiline text input (textarea)." />
@@ -95,5 +95,25 @@
         Defining them on <Code>MemoInput</Code> will override any global settings.
     </AlertDescription>
 </Alert>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Guide Longer Input
+</Heading>
+
+<DocsPageParagraph>
+    Use a visible label and persistent help text when users need guidance about the expected content or format. Choose a useful initial height or enable auto sizing, but set practical limits so a long value does not take over the page.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Handle Frequent Updates Carefully
+</Heading>
+
+<DocsPageParagraph>
+    Delayed text updates are preferable when typing triggers search, preview, or autosave work. Communicate save progress and failures instead of implying that every keystroke is already persisted. Override the Tab key only in editing experiences where inserting tabs is expected; otherwise preserve normal keyboard navigation.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(MemoInput)]" />
