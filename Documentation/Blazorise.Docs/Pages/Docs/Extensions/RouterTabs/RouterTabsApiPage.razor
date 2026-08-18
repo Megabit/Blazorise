@@ -1,0 +1,36 @@
+@page "/docs/extensions/routertabs/api"
+
+<Seo Canonical="/docs/extensions/routertabs/api" Title="Blazorise RouterTabs API" Description="Explore the Blazorise RouterTabs API reference for routed tab parameters, page attributes, localization, and configuration options." />
+
+<DocsPageTitle Path="Extensions/RouterTabs/API">
+    Blazorise RouterTabs API
+</DocsPageTitle>
+
+<DocsPageLead>
+    Review the component, page attribute, and options used to configure router-based tabs.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    For setup instructions and examples, see the <Anchor To="docs/extensions/routertabs">RouterTabs documentation</Anchor>.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[typeof(Blazorise.Components.RouterTabs), typeof(Blazorise.Components.RouterTabsOptions)]" />
+
+<DocsPageSubsectionTitle ElementId="api-routertabspageattribute">
+    RouterTabsPageAttribute
+</DocsPageSubsectionTitle>
+
+<DocsAttributes Name="Argument" Title="Constructor arguments">
+    <DocsAttributesItem Name="Name" Type="string">
+        Sets the router tab name or localization key.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TabClass" Type="string" Default="string.Empty">
+        Sets the CSS class applied to the router tab.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TabPanelClass" Type="string" Default="string.Empty">
+        Sets the CSS class applied to the router tab panel.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closeable" Type="bool" Default="true">
+        Specifies whether the router tab can be closed.
+    </DocsAttributesItem>
+</DocsAttributes>

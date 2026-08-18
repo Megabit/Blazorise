@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-18T08:43:02.6457157Z",
+  "generatedUtc": "2026-08-18T11:27:44.5658449Z",
   "pages": [
     {
       "route": "/docs",
@@ -69,7 +69,14 @@
           "title": "Default accordion",
           "description": "Use the @@bind-Visible parameter to properly keep previously opened accordion elements unchanged."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/accordion/api",
+      "title": "Blazorise Accordion API",
+      "description": "Explore the Blazorise Accordion API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Accordions/AccordionApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -139,7 +146,14 @@
           "title": "Validation",
           "description": "When incorporating input validation within an Addon component, the user interface may become disrupted. This issue arises due to the Addon's distinct HTML and CSS structure, which is designed to accommodate specific elements. Displaying validation error messages within an Addon is one such instance that can cause complications. In the following example, we will demonstrate a solution to this issue, ensuring that the input validation process within an Addon component functions smoothly without disrupting the user interface. This example will provide a better understanding of how to effectively handle validation errors inside of an Addon."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/addon/api",
+      "title": "Blazorise Addon API",
+      "description": "Explore the Blazorise Addon API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Addons/AddonApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -195,7 +209,14 @@
           "content": "<Alert @ref=\"myAlert\" Color=\"Color.Success\">\r\n    <AlertMessage>\r\n        Alert test.\r\n    </AlertMessage>\r\n</Alert>\r\n\r\n<Button Clicked=\"@OnButtonClick\" Color=\"Color.Primary\">Show alert</Button>\r\n\r\n@code{\r\n    Alert myAlert;\r\n\r\n    Task OnButtonClick()\r\n    {\r\n        return myAlert.Show();\r\n    }\r\n}",
           "title": "Programmatically"
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/alert/api",
+      "title": "Blazorise Alert API",
+      "description": "Explore the Blazorise Alert API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Alerts/AlertApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -257,7 +278,14 @@
           "title": "Closable badges",
           "description": "To make a badge dismissible, simply handle the CloseClicked event. Once defined, Blazorise automatically renders a close icon, enabling the user to remove the badge dynamically."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/badge/api",
+      "title": "Blazorise Badge API",
+      "description": "Explore the Blazorise Badge API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Badges/BadgeApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -284,7 +312,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Bar/Examples/BarDropdownToggleToExample.razor",
           "content": "<Bar Mode=\"BarMode.VerticalInline\">\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle To=\"/docs/components/bar\" Match=\"Match.Prefix\">\r\n                        <BarIcon IconName=\"IconName.Dashboard\" />\r\n                        Bar docs\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem To=\"/docs/components/bar#bar-top-bar\">Top Bar</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/bar#bar-vertical-sidebar\">Vertical Sidebar</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/bar#bar-nested-dropdowns\">Nested Dropdowns</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n    </BarMenu>\r\n</Bar>",
-          "title": "Dropdown toggle with navigation target",
+          "title": "Navigation Target",
           "description": "BarDropdownToggle supports To the same way as other Blazorise link components. With the default Trigger=\"BarDropdownToggleTrigger.Auto\" , setting To makes the label navigate while the chevron icon toggles the submenu. This example uses Match=\"Match.Prefix\" so the parent link stays active while the example items navigate to sections of the Bar docs page."
         },
         {
@@ -292,7 +320,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Bar/Examples/BarDropdownToggleIconClickExample.razor",
           "content": "<Bar Mode=\"BarMode.VerticalInline\"\r\n     Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\">\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle To=\"/docs/components/button\"\r\n                                       Trigger=\"BarDropdownToggleTrigger.IconClick\">\r\n                        <BarIcon IconName=\"IconName.Dashboard\" />\r\n                        Components\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem To=\"/docs/components/bar\">Bar overview</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/button\">Button</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/card\">Card</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n    </BarMenu>\r\n</Bar>",
-          "title": "Dropdown trigger: icon toggles, label navigates",
+          "title": "Icon Trigger",
           "description": "This is the explicit form of the default To behavior. Use it when you want the intent to be visible in markup or when composing trigger flags elsewhere in the menu."
         },
         {
@@ -300,7 +328,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Bar/Examples/BarDropdownToggleRouteMatchExample.razor",
           "content": "<Bar Mode=\"BarMode.VerticalInline\"\r\n     Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\">\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle To=\"/docs/components/bar\"\r\n                                       Trigger=\"BarDropdownToggleTrigger.ClickAny | BarDropdownToggleTrigger.RouteMatch\">\r\n                        <BarIcon IconName=\"IconName.Dashboard\" />\r\n                        Bar docs\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem To=\"/docs/components/bar\">Overview</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/button\">Button</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/card\">Card</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n    </BarMenu>\r\n</Bar>",
-          "title": "Dropdown trigger: click anywhere + URL match",
+          "title": "Route Matching",
           "description": "When users should be able to expand from either the label or icon, combine triggers with a flags expression. In this example, Trigger=\"BarDropdownToggleTrigger.ClickAny | BarDropdownToggleTrigger.RouteMatch\" keeps the dropdown expanded whenever the current URL matches To ."
         },
         {
@@ -349,7 +377,14 @@
           "title": "Nested Dropdowns",
           "description": "To create nested dropdowns, place a BarDropdown inside an existing BarDropdownMenu . This is useful for admin, reporting, and settings menus where the top-level item groups related actions."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/bar/api",
+      "title": "Blazorise Bar API",
+      "description": "Explore the Blazorise Bar API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Bar/BarApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -397,7 +432,14 @@
           "title": "Auto mode",
           "description": "In this mode breadcrumb items will respond to navigation changes and will be activates automatically."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/breadcrumb/api",
+      "title": "Blazorise Breadcrumb API",
+      "description": "Explore the Blazorise Breadcrumb API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Breadcrumbs/BreadcrumbApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -443,7 +485,14 @@
           "title": "Conditional Actions",
           "description": "Runtime breakpoint detection is useful when the available actions should change, not only their styling. This example shows a single primary action on smaller screens and a fuller action set on larger screens."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/breakpoint-observer/api",
+      "title": "Blazorise Breakpoint Observer API",
+      "description": "Explore the Blazorise Breakpoint Observer API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/BreakpointObservers/BreakpointObserverApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -581,7 +630,14 @@
           "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsHalf\">\r\n        <FieldLabel>First name</FieldLabel>\r\n        <FieldBody>\r\n            <TextInput Value=\"John\" />\r\n        </FieldBody>\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsHalf\">\r\n        <FieldLabel>Last name</FieldLabel>\r\n        <FieldBody>\r\n            <TextInput Value=\"Smith\" />\r\n        </FieldBody>\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull\">\r\n        <FieldLabel>Email address</FieldLabel>\r\n        <FieldBody>\r\n            <TextInput Value=\"john.smith@example.com\" />\r\n        </FieldBody>\r\n    </Field>\r\n    <Field Flex=\"Flex.JustifyContent.Between\">\r\n        <Button Color=\"Color.Danger\">Delete</Button>\r\n        <Div>\r\n            <Button Color=\"Color.Secondary\">Cancel</Button>\r\n            <Button Color=\"Color.Primary\">Create account</Button>\r\n        </Div>\r\n    </Field>\r\n</Fields>",
           "description": "Buttons should be placed at the bottom of the dialog . Buttons should be aligned right . Primary action last , preceded by other actions. Dangerous actions should be aligned left, to avoid accidental clicks, especially if no confirmation step is included."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/button/api",
+      "title": "Blazorise Button API",
+      "description": "Explore the Blazorise Button API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Buttons/ButtonApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -647,7 +703,14 @@
           "title": "Background color",
           "description": "If you want to make the card standout you can set its background color. Please note, depending on the used background color you might need to adjust the text color. This can be done by setting the WhiteText parameters."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/card/api",
+      "title": "Blazorise Card API",
+      "description": "Explore the Blazorise Card API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Cards/CardApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -705,7 +768,14 @@
           "title": "Custom Templates",
           "description": "Use IndicatorTemplate , PreviousButtonTemplate , and NextButtonTemplate to replace the default navigation UI. Add Caption content to individual CarouselSlide components when slides need custom descriptive overlays."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/carousel/api",
+      "title": "Blazorise Carousel API",
+      "description": "Explore the Blazorise Carousel API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Carousels/CarouselApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -761,7 +831,14 @@
           "title": "Indeterminate",
           "description": "Use Indeterminate when a parent checkbox represents a partial selection."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/check/api",
+      "title": "Blazorise Check API",
+      "description": "Explore the Blazorise Check API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Checks/CheckApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -796,7 +873,14 @@
           "content": "@if ( visible )\r\n{\r\n    <Div>\r\n        Now you see me...\r\n        <CloseButton Clicked=\"@OnClicked\" />\r\n    </Div>\r\n}\r\n@code {\r\n    bool visible = true;\r\n\r\n    Task OnClicked()\r\n    {\r\n        visible = false;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
           "title": "With other components"
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/close-button/api",
+      "title": "Blazorise Close Button API",
+      "description": "Explore the Blazorise Close Button API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/CloseButtons/CloseButtonApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -826,7 +910,14 @@
           "title": "Programmatic Example",
           "description": "This example demonstrates programmatic control of the collapse state using a button in the header to toggle visibility."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/collapse/api",
+      "title": "Blazorise Collapse API",
+      "description": "Explore the Blazorise Collapse API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Collapses/CollapseApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -872,12 +963,6 @@
           "title": "Disabled",
           "description": "In this Blazorise example, the ColorInput component is demonstrated with the Disabled attribute. The addition of the Disabled attribute renders the ColorInput component non-interactive, meaning the user will not be able to change the color value presented. This is useful in scenarios where you want to display a color but prevent any user interaction, such as in view-only forms or to maintain consistency in certain UI states."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "ColorInput"
-        }
       ]
     },
     {
@@ -910,7 +995,14 @@
           "title": "Disabled",
           "description": "In this Blazorise example, the ColorInput component is demonstrated with the Disabled attribute. The addition of the Disabled attribute renders the ColorInput component non-interactive, meaning the user will not be able to change the color value presented. This is useful in scenarios where you want to display a color but prevent any user interaction, such as in view-only forms or to maintain consistency in certain UI states."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/color-input/api",
+      "title": "Blazorise Color Input API",
+      "description": "Explore the Blazorise Color Input API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Colors/ColorInputApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -940,7 +1032,14 @@
           "title": "Hue slider",
           "description": "In this Blazorise example, the ColorPicker component is enhanced with a hue slider, as indicated by the ShowHueSlider attribute."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/color-picker/api",
+      "title": "Blazorise Color Picker API",
+      "description": "Explore the Blazorise Color Picker API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Colors/ColorPickerApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -994,7 +1093,14 @@
           "title": "Submenus",
           "description": "Use ContextMenuSubmenu to group related commands inside a nested menu."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/context-menu/api",
+      "title": "Blazorise Context Menu API",
+      "description": "Explore the Blazorise Context Menu API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/ContextMenu/ContextMenuApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -1083,12 +1189,6 @@
           "title": "Show Picker",
           "description": "If you want to show the default picker that comes with the date input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "DateInput"
-        }
       ]
     },
     {
@@ -1136,7 +1236,14 @@
           "title": "Show Picker",
           "description": "If you want to show the default picker that comes with the date input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/date-input/api",
+      "title": "Blazorise Date Input API",
+      "description": "Explore the Blazorise Date Input API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Dates/DateInputApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -1276,7 +1383,14 @@
           "content": "<Field>\r\n    <FieldLabel>Start date</FieldLabel>\r\n    <FieldBody>\r\n        <DatePicker TValue=\"DateTime?\" Placeholder=\"DD/MM/YYYY\" />\r\n    </FieldBody>\r\n    <FieldHelp>Format: DD/MM/YYYY</FieldHelp>\r\n</Field>",
           "description": "Use a placeholder or helper to show how the input should be formatted. For example, \"12/6/2020\" represents different dates for Americans and Europeans. Helpers are preferable to placeholders, as they are always visible. Fields with placeholders are also less noticeable than empty fields, so they are susceptible to being skipped. Use placeholders when space is limited, for example when Date Picker is used as a filter in a data grid header."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/date-picker/api",
+      "title": "Blazorise Date Picker API",
+      "description": "Explore the Blazorise Date Picker API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Dates/DatePickerApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -1322,7 +1436,14 @@
           "title": "Text Content",
           "description": "Use DividerType.TextContent custom property to show text in the middle of a divider."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/divider/api",
+      "title": "Blazorise Divider API",
+      "description": "Explore the Blazorise Divider API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Dividers/DividerApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -1360,7 +1481,14 @@
           "title": "State",
           "description": "Use GetState , LoadState , or @@bind-State to persist the layout after users move, resize, hide, or activate panes. The returned state can also be edited directly for advanced layouts. Keep pane names stable and call Refresh after changing an assigned state instance in place."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/dock-layout/api",
+      "title": "Blazorise Dock Layout API",
+      "description": "Explore the Blazorise Dock Layout API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/DockLayout/DockLayoutApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -1424,7 +1552,14 @@
           "sourcePath": "Pages/Docs/Components/DragDrops/Examples/DragDropAccessibleBestPracticeExample.razor",
           "content": "<DropContainer @ref=\"dropContainer\" TItem=\"WorkItem\" Items=\"@items\" ItemsFilter=\"@(( item, dropZone ) => item.Group == dropZone)\" ItemDropped=\"@OnItemDropped\" Flex=\"Flex.Wrap.Grow.Is1\">\r\n    <ChildContent>\r\n        <DropZone TItem=\"WorkItem\" Name=\"@TodoZone\" Border=\"Border.Rounded\" Background=\"Background.Light\" Padding=\"Padding.Is3\" Margin=\"Margin.Is3\" Flex=\"Flex.Grow.Is1\">\r\n            <Heading Size=\"HeadingSize.Is4\" Margin=\"Margin.Is3.FromBottom\">@TodoZone</Heading>\r\n        </DropZone>\r\n        <DropZone TItem=\"WorkItem\" Name=\"@DoneZone\" Border=\"Border.Rounded\" Background=\"Background.Light\" Padding=\"Padding.Is3\" Margin=\"Margin.Is3\" Flex=\"Flex.Grow.Is1\">\r\n            <Heading Size=\"HeadingSize.Is4\" Margin=\"Margin.Is3.FromBottom\">@DoneZone</Heading>\r\n        </DropZone>\r\n    </ChildContent>\r\n    <ItemTemplate>\r\n        <Card @key=\"@context.Id\" Shadow=\"Shadow.Default\" Margin=\"Margin.Is3.OnY\">\r\n            <CardBody>\r\n                <Div Display=\"Display.Flex\" Flex=\"Flex.AlignItems.Center.JustifyContent.Between\" Gap=\"Gap.Is3\">\r\n                    <Text>@context.Name</Text>\r\n                    <Button Color=\"Color.Secondary\" Size=\"Size.Small\" Clicked=\"@(() => MoveItem( context, context.Group == TodoZone ? DoneZone : TodoZone ))\">\r\n                        Move to @(context.Group == TodoZone ? DoneZone : TodoZone)\r\n                    </Button>\r\n                </Div>\r\n            </CardBody>\r\n        </Card>\r\n    </ItemTemplate>\r\n</DropContainer>\r\n\r\n@code {\r\n    private const string TodoZone = \"To do\";\r\n    private const string DoneZone = \"Done\";\r\n\r\n    private DropContainer<WorkItem> dropContainer;\r\n\r\n    private List<WorkItem> items =\r\n    [\r\n        new( 1, \"Review pull request\", TodoZone ),\r\n        new( 2, \"Update release notes\", TodoZone ),\r\n        new( 3, \"Publish package\", DoneZone ),\r\n    ];\r\n\r\n    private Task OnItemDropped( DraggableDroppedEventArgs<WorkItem> eventArgs )\r\n        => MoveItem( eventArgs.Item, eventArgs.DropZoneName );\r\n\r\n    private Task MoveItem( WorkItem item, string destination )\r\n    {\r\n        items = items\r\n            .Select( current => current.Id == item.Id ? current with { Group = destination } : current )\r\n            .ToList();\r\n\r\n        dropContainer?.Refresh();\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    public sealed record WorkItem( int Id, string Name, string Group );\r\n}"
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/drag-drop/api",
+      "title": "Blazorise Drag &amp; Drop API",
+      "description": "Explore the Blazorise Drag &amp; Drop API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/DragDrops/DragDropApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -1494,10 +1629,17 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Dropdowns/Examples/NestedDropdownDirectionExample.razor",
           "content": "<Dropdown>\r\n    <DropdownToggle Color=\"Color.Primary\">Level 1</DropdownToggle>\r\n    <DropdownMenu>\r\n        <DropdownItem>Item 1.1</DropdownItem>\r\n        <Dropdown Direction=\"Direction.Up\">\r\n            <DropdownToggle>Level 2</DropdownToggle>\r\n            <DropdownMenu>\r\n                <DropdownItem>Item 2.1</DropdownItem>\r\n                <DropdownItem>Item 2.2</DropdownItem>\r\n                <Dropdown Direction=\"Direction.Down\">\r\n                    <DropdownToggle>Level 3</DropdownToggle>\r\n                    <DropdownMenu>\r\n                        <DropdownItem>Item 3.1</DropdownItem>\r\n                        <DropdownItem>Item 3.2</DropdownItem>\r\n                        <Dropdown Direction=\"Direction.Start\">\r\n                            <DropdownToggle>Level 4</DropdownToggle>\r\n                            <DropdownMenu>\r\n                                <DropdownItem>Item 4.1</DropdownItem>\r\n                                <DropdownItem>Item 4.2</DropdownItem>\r\n                            </DropdownMenu>\r\n                        </Dropdown>\r\n                    </DropdownMenu>\r\n                </Dropdown>\r\n            </DropdownMenu>\r\n        </Dropdown>\r\n    </DropdownMenu>\r\n</Dropdown>",
-          "title": "Nested submenus with direction",
+          "title": "Submenu Direction",
           "description": "Nested dropdowns with the manual Direction is also supported."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/dropdown/api",
+      "title": "Blazorise Dropdown API",
+      "description": "Explore the Blazorise Dropdown API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Dropdowns/DropdownApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -1611,7 +1753,14 @@
           "title": "Validation Indicator",
           "description": "In Blazorise, you can use the RequiredIndicator feature to automatically display an indicator (such as an asterisk) next to labels of required fields. This helps users quickly understand which inputs are mandatory and improves overall form usability."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/field/api",
+      "title": "Blazorise Field API",
+      "description": "Explore the Blazorise Field API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Fields/FieldApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -1661,7 +1810,14 @@
           "title": "Rounded",
           "description": "Making the figure rounded is easy with the Rounded attribute."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/figure/api",
+      "title": "Blazorise Figure API",
+      "description": "Explore the Blazorise Figure API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Figures/FigureApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -1743,7 +1899,14 @@
           "title": "Show Picker",
           "description": "If you want to show the default picker that comes with the file input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/file-input/api",
+      "title": "Blazorise File Input API",
+      "description": "Explore the Blazorise File Input API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Files/FileInputApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -1789,7 +1952,14 @@
           "title": "Custom",
           "description": "An example customizing the FilePicker."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/file-picker/api",
+      "title": "Blazorise File Picker API",
+      "description": "Explore the Blazorise File Picker API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Files/FilePickerApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -1810,7 +1980,14 @@
           "content": "<Card>\r\n    <CardBody>\r\n        <Switch TValue=\"bool\" @bind-Value=\"@focusTrapActive\">Active</Switch>\r\n    </CardBody>\r\n    <CardBody>\r\n        <FocusTrap Active=\"@focusTrapActive\">\r\n            <Field Horizontal>\r\n                <FieldLabel ColumnSize=\"ColumnSize.IsFull.OnTablet.Is2.OnDesktop\">First Name</FieldLabel>\r\n                <FieldBody ColumnSize=\"ColumnSize.IsFull.OnTablet.Is10.OnDesktop\">\r\n                    <TextInput Autofocus />\r\n                </FieldBody>\r\n            </Field>\r\n            <Field Horizontal>\r\n                <FieldLabel ColumnSize=\"ColumnSize.IsFull.OnTablet.Is2.OnDesktop\">Last Name</FieldLabel>\r\n                <FieldBody ColumnSize=\"ColumnSize.IsFull.OnTablet.Is10.OnDesktop\">\r\n                    <TextInput />\r\n                </FieldBody>\r\n            </Field>\r\n            <Field Horizontal>\r\n                <FieldLabel ColumnSize=\"ColumnSize.IsFull.OnTablet.Is2.OnDesktop\">Address</FieldLabel>\r\n                <FieldBody ColumnSize=\"ColumnSize.IsFull.OnTablet.Is10.OnDesktop\">\r\n                    <TextInput />\r\n                </FieldBody>\r\n            </Field>\r\n        </FocusTrap>\r\n    </CardBody>\r\n</Card>\r\n\r\n@code {\r\n    bool focusTrapActive = false;\r\n}",
           "description": "By default, the component moves the focus to its descendants as soon as it activated."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/focus-trap/api",
+      "title": "Blazorise Focus Trap API",
+      "description": "Explore the Blazorise Focus Trap API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/FocusTraps/FocusTrapApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -1856,7 +2033,14 @@
           "title": "Gesture Lifecycle",
           "description": "Use lifecycle events when the UI should update while the pointer is moving, for example a progress indicator, custom drawer motion, or swipe-to-dismiss preview."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/gestures/api",
+      "title": "Blazorise Gestures API",
+      "description": "Explore the Blazorise Gestures API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Gestures/GesturesApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -1949,7 +2133,14 @@
           "title": "Boundaries",
           "description": "If you wish to highlight the text until the next regex boundary occurs, set the UntilNextBoundary property to true, or the CaseSensitive property to true if you want a case-sensitive highlight."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/highlighter/api",
+      "title": "Blazorise Highlighter API",
+      "description": "Explore the Blazorise Highlighter API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Highlighters/HighlighterApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2003,7 +2194,14 @@
           "title": "Fallback image",
           "description": "By setting the FallbackSource parameter, you can set an fallback image that will be displayed when loading of the Source fails."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/image/api",
+      "title": "Blazorise Image API",
+      "description": "Explore the Blazorise Image API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Image/ImageApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2041,7 +2239,14 @@
           "title": "With Placeholder",
           "description": "You can control the placeholder that will be used for the mask. The Placeholder will be used when the mask is not defined. And the MaskPlaceholder will be used when the mask is defined for extra information to the user about the valid input format."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/input-mask/api",
+      "title": "Blazorise Input Mask API",
+      "description": "Explore the Blazorise Input Mask API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/InputMasks/InputMaskApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2063,7 +2268,14 @@
           "title": "Basic",
           "description": "Jumbotron is a full width card that is usually displayed at the top of the page, sometimes also referred to as a \"Hero component\". The jumbotron color should be only slightly off the background of the page to make your design feel \"light\"."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/jumbotron/api",
+      "title": "Blazorise Jumbotron API",
+      "description": "Explore the Blazorise Jumbotron API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Jumbotrons/JumbotronApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2101,7 +2313,14 @@
           "title": "View header",
           "description": "Put LayoutHeader inside the content-side layout when the header belongs to the current view rather than the whole application. This works well for dashboards, detail pages, and workspace screens with contextual actions."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/layout/api",
+      "title": "Blazorise Layout API",
+      "description": "Explore the Blazorise Layout API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Layouts/LayoutApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2171,7 +2390,14 @@
           "title": "Disabled link",
           "description": "Make links look inactive by adding the Disabled boolean attribute to any Link element. The disabled class uses pointer-events: none to try to disable the link functionality of a s, but that CSS property is not yet standardized. In addition, even in browsers that do support pointer-events: none , keyboard navigation remains unaffected, meaning that sighted keyboard users and users of assistive technologies will still be able to activate these links. So to be safe, add a tabindex=\"-1\" attribute on these links (to prevent them from receiving keyboard focus) and use custom JavaScript to disable their functionality."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/link/api",
+      "title": "Blazorise Link API",
+      "description": "Explore the Blazorise Link API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Links/LinkApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2241,7 +2467,14 @@
           "title": "Custom content",
           "description": "Add nearly any HTML within, even for linked list groups like the one below, with the help of flexbox utilities."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/list-group/api",
+      "title": "Blazorise List Group API",
+      "description": "Explore the Blazorise List Group API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/ListGroups/ListGroupApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2314,12 +2547,6 @@
           "title": "Text Delay mode",
           "description": "Because of some limitations in Blazor, sometimes there can be problems when Immediate is enabled. Basically if you try to type too fast into the text field the caret can jump randomly from current selection to the end of the text. To prevent that behaviour you need to enable Debounce . Once enabled it will slightly delay every value entered into the field to allow the Blazor engine to do it's thing. By default this option is disabled."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "MemoInput"
-        }
       ]
     },
     {
@@ -2383,7 +2610,14 @@
           "title": "Text Delay mode",
           "description": "Because of some limitations in Blazor, sometimes there can be problems when Immediate is enabled. Basically if you try to type too fast into the text field the caret can jump randomly from current selection to the end of the text. To prevent that behaviour you need to enable Debounce . Once enabled it will slightly delay every value entered into the field to allow the Blazor engine to do it's thing. By default this option is disabled."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/memo-input/api",
+      "title": "Blazorise Memo Input API",
+      "description": "Explore the Blazorise Memo Input API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Memos/MemoInputApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2437,7 +2671,14 @@
           "title": "Fullscreen",
           "description": "If the built-in sizes are not enough you can show the modal in fullscreen."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/modal/api",
+      "title": "Blazorise Modal API",
+      "description": "Explore the Blazorise Modal API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Modals/ModalApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2478,12 +2719,6 @@
           "title": "Generic type",
           "description": "Since NumericInput is a generic component you will have to specify the exact data type for the value. Most of the time it will be recognized automatically when you set the Value attribute, but if not you will just use the TValue attribute and define the type manually eg."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "NumericInput"
-        }
       ]
     },
     {
@@ -2507,7 +2742,14 @@
           "title": "Generic type",
           "description": "Since NumericInput is a generic component you will have to specify the exact data type for the value. Most of the time it will be recognized automatically when you set the Value attribute, but if not you will just use the TValue attribute and define the type manually eg."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/numeric-input/api",
+      "title": "Blazorise Numeric Input API",
+      "description": "Explore the Blazorise Numeric Input API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Numerics/NumericInputApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2557,7 +2799,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericPickerStepExample.razor",
           "content": "<NumericPicker @bind-Value=\"@value\" Step=\"10\" />\r\n\r\n@code{\r\n    decimal value;\r\n}",
-          "title": "Controlling the step value",
+          "title": "Step Value",
           "description": "Set the amount to increment or decrement the value when the spinner buttons are used with the step parameter."
         },
         {
@@ -2565,7 +2807,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericPickerMinMaxExample.razor",
           "content": "<NumericPicker @bind-Value=\"@value\" Min=\"10\" Max=\"20\" />\r\n\r\n@code{\r\n    decimal value = 15;\r\n}",
-          "title": "Setting the Min &amp; Max",
+          "title": "Value Range",
           "description": "Set the Min &amp; Max to limit the values allowed into the input."
         },
         {
@@ -2581,10 +2823,17 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericPickerMouseWheelExample.razor",
           "content": "<NumericPicker @bind-Value=\"@value\" ModifyValueOnWheel WheelOn=\"NumericWheelOn.Hover\" />\r\n\r\n@code {\r\n    decimal value;\r\n}",
-          "title": "Modify Value With Mouse Wheel",
+          "title": "Mouse Wheel",
           "description": "Sometime you want to be able to change the value by scrolling with the mouse wheel when it is focused over the input. To enable it just use the ModifyValueOnWheel parameter."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/numeric-picker/api",
+      "title": "Blazorise Numeric Picker API",
+      "description": "Explore the Blazorise Numeric Picker API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Numerics/NumericPickerApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2662,7 +2911,14 @@
           "title": "Footer",
           "description": "To show a footer in the Offcanvas just add an OffcanvasFooter component."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/offcanvas/api",
+      "title": "Blazorise Offcanvas API",
+      "description": "Explore the Blazorise Offcanvas API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Offcanvas/OffcanvasApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2768,7 +3024,14 @@
           "title": "Global option",
           "description": "If the keyboard should be available globally, enable it in Blazorise options. By default, global enablement targets text and numeric inputs only. Use OnScreenKeyboardInputType to opt date, time, and picker inputs into the global keyboard behavior."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/on-screen-keyboard/api",
+      "title": "Blazorise On-screen Keyboard API",
+      "description": "Explore the Blazorise On-screen Keyboard API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/OnScreenKeyboards/OnScreenKeyboardApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2804,7 +3067,14 @@
           "content": "<Pagination>\r\n    <PaginationItem Disabled=\"@IsPageNavigationDisabled(PREVIOUS)\" @onclick=\"Previous\">\r\n        <PaginationLink>\r\n            <span aria-hidden=\"true\">«</span>\r\n        </PaginationLink>\r\n    </PaginationItem>\r\n    @{\r\n        for (var i = 1; i <= pageItems; i++)\r\n        {\r\n            var pageNumberAsString = i.ToString();\r\n            <PaginationItem @key=\"pageNumberAsString\" Active=\"@IsActive(pageNumberAsString)\">\r\n                <PaginationLink Page=\"@pageNumberAsString\" Clicked=\"SetActive\">\r\n                    @pageNumberAsString\r\n                </PaginationLink>\r\n            </PaginationItem>\r\n        } \r\n    }\r\n    <PaginationItem Disabled=\"@IsPageNavigationDisabled(NEXT)\" @onclick=\"Next\">\r\n        <PaginationLink>\r\n            <span aria-hidden=\"true\">»</span>\r\n        </PaginationLink>\r\n    </PaginationItem>\r\n</Pagination>\r\n\r\n@code\r\n{\r\n    private const string PREVIOUS = \"previous\";\r\n    private const string NEXT = \"next\";\r\n    private string currentPage = \"2\";\r\n    private int pageItems = 5;\r\n\r\n    private bool IsActive(string page)\r\n        => currentPage == page;\r\n\r\n    private bool IsPageNavigationDisabled(string navigation )\r\n    {\r\n        if (navigation.Equals(PREVIOUS))\r\n        {\r\n            return currentPage.Equals(\"1\");\r\n        }\r\n        else if (navigation.Equals(NEXT))\r\n        {\r\n            return currentPage.Equals(pageItems.ToString());\r\n        }\r\n        return false;\r\n    }\r\n\r\n    private void Previous()\r\n    {\r\n        var currentPageAsInt = int.Parse(currentPage);\r\n        if (currentPageAsInt > 1 )\r\n        {\r\n            currentPage = (currentPageAsInt - 1).ToString();\r\n        }\r\n    }\r\n\r\n    private void Next()\r\n    {\r\n        var currentPageAsInt = int.Parse(currentPage);\r\n        if (currentPageAsInt < pageItems )\r\n        {\r\n            currentPage = (currentPageAsInt + 1).ToString();\r\n        }\r\n    }\r\n\r\n    private void SetActive(string page)\r\n        => currentPage = page;\r\n}",
           "title": "Dynamic"
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/pagination/api",
+      "title": "Blazorise Pagination API",
+      "description": "Explore the Blazorise Pagination API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Paginations/PaginationApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2882,7 +3152,14 @@
           "title": "Indeterminate",
           "description": "To make an indeterminate progress bar, simply remove Value or make it a null ."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/progress/api",
+      "title": "Blazorise Progress API",
+      "description": "Explore the Blazorise Progress API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Progresses/ProgressApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2928,7 +3205,14 @@
           "title": "Templates",
           "description": "Keep the schema-driven behavior while replacing selected parts of the UI. Templates can customize the toolbar, groups, rows, labels, editors, and actions, and their contexts provide the current definition and update callbacks."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/property-grid/api",
+      "title": "Blazorise Property Grid API",
+      "description": "Explore the Blazorise Property Grid API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/PropertyGrid/PropertyGridApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -2992,7 +3276,14 @@
           "content": "<RadioGroup TValue=\"string\" Name=\"colors\" Value=\"@checkedValue\" ValueChanged=\"@OnValueChanged\">\r\n    <Radio Value=\"@(\"red\")\">Red</Radio>\r\n    <Radio Value=\"@(\"green\")\">Green</Radio>\r\n    <Radio Value=\"@(\"blue\")\">Blue</Radio>\r\n</RadioGroup>\r\n\r\n@code{\r\n    string checkedValue = \"green\";\r\n\r\n    Task OnValueChanged(string value)\r\n    {\r\n        checkedValue = value;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
           "title": "Manual event binding"
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/radio/api",
+      "title": "Blazorise Radio API",
+      "description": "Explore the Blazorise Radio API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Radios/RadioApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -3050,7 +3341,14 @@
           "title": "Hidden tooltips",
           "description": "Set ShowValueTooltips=\"false\" when you prefer to show the selected range in surrounding text, filter chips, or field help."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/range-slider/api",
+      "title": "Blazorise Range Slider API",
+      "description": "Explore the Blazorise Range Slider API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Sliders/RangeSliderApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -3088,7 +3386,14 @@
           "title": "Show Tooltips",
           "description": "By defining the GetTooltip callback you can show the extra information to the user. Along with the tooltip Text , it is also possible to control tooltip arrow visibility, multiline mode, and placement."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/rating/api",
+      "title": "Blazorise Rating API",
+      "description": "Explore the Blazorise Rating API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Ratings/RatingApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -3109,7 +3414,14 @@
           "content": "<UnorderedList>\r\n    <Repeater Items=\"@items\" CollectionChanged=\"@OnCollectionChanged\">\r\n        <UnorderedListItem style=\"@GetColor( context )\">@context</UnorderedListItem>\r\n    </Repeater>\r\n</UnorderedList>\r\n\r\n@code{\r\n    System.Collections.ObjectModel.ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );\r\n\r\n    Task OnCollectionChanged( System.Collections.Specialized.NotifyCollectionChangedEventArgs eventArgs )\r\n    {\r\n        // do something\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private static string GetColor( int number )\r\n    {\r\n        const string letters = \"0123456789ABCDEF\";\r\n\r\n        var color = \"\";\r\n\r\n        for ( var i = 0; i < 6; i++ )\r\n        {\r\n            color += letters[( 3 * number + i ) % letters.Length];\r\n        }\r\n\r\n        return $\"color: #{color}\";\r\n    }\r\n}",
           "title": "Basic"
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/repeater/api",
+      "title": "Blazorise Repeater API",
+      "description": "Explore the Blazorise Repeater API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Repeaters/RepeaterApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -3163,7 +3475,14 @@
           "title": "Vertical bar",
           "description": "A vertical Bar can expose its width through a CSS variable. Bind its Visible state and disable the resizer while the Bar is collapsed into small mode."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/resizer/api",
+      "title": "Blazorise Resizer API",
+      "description": "Explore the Blazorise Resizer API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Resizers/ResizerApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -3216,7 +3535,14 @@
           "title": "Manual event binding",
           "description": "When using the event ValueChanged , you also must define the Value attribute."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/select/api",
+      "title": "Blazorise Select API",
+      "description": "Explore the Blazorise Select API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Selects/SelectApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -3270,26 +3596,12 @@
           "title": "Table",
           "description": "SkeletonTable allows you to scaffold a basic table structure by utilizing the Rows and Columns parameters to define the size of the table."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "Skeleton"
-        },
-        {
-          "kind": "type",
-          "name": "SkeletonItem"
-        },
-        {
-          "kind": "type",
-          "name": "SkeletonTable"
-        }
       ]
     },
     {
       "route": "/docs/components/skeleton/api",
       "title": "Blazorise Skeleton API",
-      "description": "Explore the API reference for the Blazorise Skeleton component, detailing available attributes and methods.",
+      "description": "Explore the Blazorise Skeleton API reference, including parameters, events, methods, and related loading-placeholder components for Blazor applications.",
       "pagePath": "Pages/Docs/Components/Skeletons/SkeletonApiPage.razor",
       "examples": [],
       "apiRefs": [
@@ -3342,7 +3654,14 @@
           "sourcePath": "Pages/Docs/Components/Sliders/Examples/SliderPreciseInputBestPracticeExample.razor",
           "content": "<Field Group>\r\n    <FieldLabel>Volume</FieldLabel>\r\n    <FieldBody>\r\n        <Div Display=\"Display.Flex\" Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is3\">\r\n            <Div Flex=\"Flex.Grow.Is1\">\r\n                <Slider TValue=\"int\" @bind-Value=\"@volume\" Min=\"0\" Max=\"100\" Step=\"5\" />\r\n            </Div>\r\n            <Div Width=\"Width.Is25\">\r\n                <NumericInput TValue=\"int\" @bind-Value=\"@volume\" Min=\"0\" Max=\"100\" Step=\"5\" />\r\n            </Div>\r\n            <Text>%</Text>\r\n        </Div>\r\n        <FieldHelp>Use the slider for quick adjustments or enter an exact percentage.</FieldHelp>\r\n    </FieldBody>\r\n</Field>\r\n\r\n@code {\r\n    private int volume = 65;\r\n}"
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/slider/api",
+      "title": "Blazorise Slider API",
+      "description": "Explore the Blazorise Slider API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Sliders/SliderApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -3387,7 +3706,14 @@
           "title": "Lazy Reload",
           "description": "You are able to set the Steps component to lazy load your steps everytime."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/step/api",
+      "title": "Blazorise Step API",
+      "description": "Explore the Blazorise Step API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Steps/StepApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -3440,7 +3766,14 @@
           "sourcePath": "Pages/Docs/Components/Switches/Examples/SwitchAsyncSettingBestPracticeExample.razor",
           "content": "<Fields>\r\n    <Field>\r\n        <Div Display=\"Display.Flex\" Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is3\">\r\n            <Switch TValue=\"bool\" Value=\"@notificationsEnabled\" ValueChanged=\"@SaveSettingAsync\" Disabled=\"@isSaving\">\r\n                Email notifications\r\n            </Switch>\r\n            @if ( !string.IsNullOrWhiteSpace( statusMessage ) )\r\n            {\r\n                <Span TextColor=\"@StatusTextColor\" role=\"status\" aria-live=\"polite\">@statusMessage</Span>\r\n            }\r\n        </Div>\r\n    </Field>\r\n    <Field>\r\n        <Check TValue=\"bool\" @bind-Value=\"@simulateFailure\" Disabled=\"@isSaving\">Simulate next save failure</Check>\r\n    </Field>\r\n</Fields>\r\n\r\n@if ( !string.IsNullOrWhiteSpace( errorMessage ) )\r\n{\r\n    <Alert Color=\"Color.Danger\" Visible Margin=\"Margin.Is3.FromTop\">\r\n        <AlertDescription>@errorMessage</AlertDescription>\r\n    </Alert>\r\n}\r\n\r\n@code {\r\n    private bool notificationsEnabled = true;\r\n    private bool simulateFailure;\r\n    private bool isSaving;\r\n    private string statusMessage = \"Saved\";\r\n    private string errorMessage;\r\n\r\n    private TextColor StatusTextColor\r\n        => isSaving\r\n            ? TextColor.Secondary\r\n            : errorMessage is null\r\n                ? TextColor.Success\r\n                : TextColor.Danger;\r\n\r\n    private async Task SaveSettingAsync( bool value )\r\n    {\r\n        bool previousValue = notificationsEnabled;\r\n        bool shouldFail = simulateFailure;\r\n\r\n        notificationsEnabled = value;\r\n        simulateFailure = false;\r\n        isSaving = true;\r\n        statusMessage = \"Saving...\";\r\n        errorMessage = null;\r\n\r\n        try\r\n        {\r\n            await Task.Delay( 800 );\r\n\r\n            if ( shouldFail )\r\n            {\r\n                throw new InvalidOperationException();\r\n            }\r\n\r\n            statusMessage = \"Saved\";\r\n        }\r\n        catch ( InvalidOperationException )\r\n        {\r\n            notificationsEnabled = previousValue;\r\n            statusMessage = \"Not saved\";\r\n            errorMessage = \"The setting could not be saved. The previous value was restored.\";\r\n        }\r\n        finally\r\n        {\r\n            isSaving = false;\r\n        }\r\n    }\r\n}"
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/switch/api",
+      "title": "Blazorise Switch API",
+      "description": "Explore the Blazorise Switch API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Switches/SwitchApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -3477,7 +3810,14 @@
           "title": "Lazy Reload",
           "description": "You are able to set the Tabs component to lazy load your tabs everytime."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/tab/api",
+      "title": "Blazorise Tab API",
+      "description": "Explore the Blazorise Tab API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Tabs/TabApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -3613,7 +3953,14 @@
           "title": "Caption",
           "description": "The TableCaption component is used to provide a caption or title for the table. It is typically placed at the top of the table and can be styled to match the overall design of the table. The TableCaption component is a child of the Table component and should be placed before the TableHeader and TableBody components."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/table/api",
+      "title": "Blazorise Table API",
+      "description": "Explore the Blazorise Table API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Tables/TableApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -3770,12 +4117,6 @@
           "title": "Text Delay mode",
           "description": "Because of some limitations in Blazor, sometimes there can be problems when Immediate is enabled. Basically if you try to type too fast into the text field the caret can jump randomly from current selection to the end of the text. To prevent that behaviour you need to enable Debounce . Once enabled it will slightly delay every value entered into the field to allow the Blazor engine to do it's thing. By default this option is disabled."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "TextInput"
-        }
       ]
     },
     {
@@ -3886,7 +4227,14 @@
           "title": "Text Delay mode",
           "description": "Because of some limitations in Blazor, sometimes there can be problems when Immediate is enabled. Basically if you try to type too fast into the text field the caret can jump randomly from current selection to the end of the text. To prevent that behaviour you need to enable Debounce . Once enabled it will slightly delay every value entered into the field to allow the Blazor engine to do it's thing. By default this option is disabled."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/text-input/api",
+      "title": "Blazorise Text Input API",
+      "description": "Explore the Blazorise Text Input API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Texts/TextInputApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -3932,12 +4280,6 @@
           "title": "Show Picker",
           "description": "If you want to show the default picker that comes with the time input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "TimeInput"
-        }
       ]
     },
     {
@@ -3978,7 +4320,14 @@
           "title": "Show Picker",
           "description": "If you want to show the default picker that comes with the time input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/time-input/api",
+      "title": "Blazorise Time Input API",
+      "description": "Explore the Blazorise Time Input API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Times/TimeInputApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -4056,7 +4405,14 @@
           "title": "Enable Seconds",
           "description": "By default, the time picker does not include seconds in the selection. This simplifies the input for use cases where precision to the second is not required. If you want to enable seconds in the time picker, you should assign the value true to the Seconds parameter."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/time-picker/api",
+      "title": "Blazorise Time Picker API",
+      "description": "Explore the Blazorise Time Picker API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Times/TimePickerApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -4094,7 +4450,14 @@
           "title": "Placements",
           "description": "You can use one of the following modifiers to change placements of the toast."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/toast/api",
+      "title": "Blazorise Toast API",
+      "description": "Explore the Blazorise Toast API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Toasts/ToastApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -4153,30 +4516,21 @@
           "description": "Text can contain HTML markup. Only use this with trusted strings (or sanitize user-provided content)."
         },
         {
-          "code": "TooltipRichContentExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Tooltips/Examples/TooltipRichContentExample.razor",
-          "content": "<Tooltip Multiline Padding=\"Padding.Is3\">\r\n    <ChildContent>\r\n        <Button Color=\"Color.Primary\">Rich content</Button>\r\n    </ChildContent>\r\n    <TooltipContent>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\">\r\n                <Icon Name=\"IconName.CheckCircle\" TextColor=\"TextColor.Success\" />\r\n                <Heading Size=\"HeadingSize.Is6\" TextWeight=\"TextWeight.SemiBold\" Margin=\"Margin.Is0\">\r\n                    Deployment ready\r\n                </Heading>\r\n            </Div>\r\n            <Paragraph TextSize=\"TextSize.Small\" Margin=\"Margin.Is0\">\r\n                All production checks passed successfully.\r\n            </Paragraph>\r\n            <Small TextColor=\"TextColor.Info\">Updated just now</Small>\r\n        </Div>\r\n    </TooltipContent>\r\n</Tooltip>",
-          "title": "Rich content",
-          "description": "Use TooltipContent to compose tooltip content with Blazorise typography components and utility parameters. The wrapped ChildContent remains the tooltip target."
-        },
-        {
           "code": "TooltipDelayExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Tooltips/Examples/TooltipDelayExample.razor",
           "content": "<Tooltip Text=\"I'm a Blazorise Tooltip!\" ShowDelay=\"1000\" HideDelay=\"500\">\r\n    <Button Color=\"Color.Primary\">Delay: (1000, 500)</Button>\r\n</Tooltip>",
           "title": "Delay",
           "description": "Control how quickly the tooltip shows and hides after the trigger event (in milliseconds)."
-        },
-        {
-          "code": "TooltipAnimationExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Tooltips/Examples/TooltipAnimationExample.razor",
-          "content": "<Div Flex=\"Flex.Wrap\" Gap=\"Gap.Is2\">\r\n    <Tooltip Text=\"Uses the animation preferred by the active provider.\" Animation=\"TooltipAnimation.Auto\">\r\n        <Button Color=\"Color.Primary\">Auto</Button>\r\n    </Tooltip>\r\n    <Tooltip Text=\"A simple opacity transition.\" Animation=\"TooltipAnimation.Fade\">\r\n        <Button Color=\"Color.Secondary\">Fade</Button>\r\n    </Tooltip>\r\n    <Tooltip Text=\"Fades while gently scaling.\" Animation=\"TooltipAnimation.FadeScale\">\r\n        <Button Color=\"Color.Success\">Fade scale</Button>\r\n    </Tooltip>\r\n    <Tooltip Text=\"Fades toward the target.\" Animation=\"TooltipAnimation.FadeShift\">\r\n        <Button Color=\"Color.Info\">Fade shift</Button>\r\n    </Tooltip>\r\n    <Tooltip Text=\"Fades through a subtle blur.\" Animation=\"TooltipAnimation.FadeBlur\">\r\n        <Button Color=\"Color.Warning\">Fade blur</Button>\r\n    </Tooltip>\r\n    <Tooltip Text=\"Combines fade, scale, and shift effects.\" Animation=\"@( TooltipAnimation.Fade | TooltipAnimation.Scale | TooltipAnimation.Shift )\">\r\n        <Button Color=\"Color.Danger\">Combined</Button>\r\n    </Tooltip>\r\n</Div>",
-          "title": "Animation",
-          "description": "Use Animation to choose a fade, scale, directional shift, or blur effect. Combine effects with the bitwise OR operator. TooltipAnimation.Auto follows the active provider's preferred tooltip motion and takes precedence over combined effects."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/tooltip/api",
+      "title": "Blazorise Tooltip API",
+      "description": "Explore the Blazorise Tooltip API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Tooltips/TooltipApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -4294,7 +4648,14 @@
           "title": "Text Decoration",
           "description": "Blazorise allows you to style text with various decorations. You can use underline to place a line beneath the text, line-through to strike through it, or overline to add a line above. To remove any decorations, use the none option. These styles help enhance and highlight text as needed."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/typography/api",
+      "title": "Blazorise Typography API",
+      "description": "Explore the Blazorise Typography API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Typographies/TypographyApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -4436,7 +4797,14 @@
           "title": "IValidatableObject",
           "description": "This example demonstrates how to implement validation in a Blazor component using the IValidatableObject interface for custom logic. The form contains several fields bound to a CompanyInfo model, which is validated automatically using data annotations and custom validation logic."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/components/validation/api",
+      "title": "Blazorise Validation API",
+      "description": "Explore the Blazorise Validation API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Components/Validations/ValidationApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -4558,7 +4926,14 @@
           "title": "Manual Run",
           "description": "Set Auto to false and call Run() when the animation should be started from code."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/animate/api",
+      "title": "Blazorise Animate API",
+      "description": "Explore the Blazorise Animate API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/Animate/AnimateApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -4674,7 +5049,14 @@
           "title": "Virtualization",
           "description": "Blazorise Autocomplete's Virtualize and ReadData features work together to handle large datasets efficiently. The ReadData event allows you to load only the data needed for the current interaction, without loading the entire dataset into memory. Meanwhile, the Virtualize property ensures that only the visible items are rendered in the DOM, significantly improving performance when working with large lists. In the provided example, the dataset is represented using IEnumerable for simplicity, but in real-world scenarios, you would typically use IQueryable . This allows for true deferred execution, ensuring only the required data is fetched and processed. To enable Virtualize with ReadData , you must also set the TotalItems property. The TotalItems value represents the total count of items in your dataset and is required for proper virtualization."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/autocomplete/api",
+      "title": "Blazorise Autocomplete API",
+      "description": "Explore the Blazorise Autocomplete API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/Autocomplete/AutocompleteApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -4730,7 +5112,14 @@
           "title": "Target Dimensions",
           "description": "SymbolWidth and SymbolHeight define the requested barcode symbol dimensions. The provider can render a smaller symbol when it needs to keep a valid module size."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/barcode/api",
+      "title": "Blazorise Barcode API",
+      "description": "Explore the Blazorise Barcode API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/Barcode/BarcodeApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -4792,7 +5181,14 @@
           "title": "ReCaptcha Checkbox",
           "description": "The following example demonstrates how to use the ReCaptcha integration. You can use the ReCaptchaOptions to configure the widget according to your needs."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/captcha/api",
+      "title": "Blazorise Captcha API",
+      "description": "Explore the Blazorise Captcha API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/Captcha/CaptchaApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -4854,12 +5250,6 @@
           "title": "Horizontal Bar Chart",
           "description": "By adjusting the BarChartOptions and changing the IndexAxis you can make the horizontal Bar Chart."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "Chart"
-        }
       ]
     },
     {
@@ -4891,12 +5281,6 @@
           "content": "<LineChart @ref=\"lineChartWithBoxes\" TItem=\"int\" Options=\"@lineChartWithBoxesOptions\">\r\n    <ChartAnnotation TItem=\"int\" Options=\"@boxAnnotationOptions\" />\r\n</LineChart>\r\n\r\n@code {\r\n    private LineChart<int> lineChartWithBoxes;\r\n\r\n    LineChartOptions lineChartWithBoxesOptions = new()\r\n    {\r\n        AspectRatio = 5d / 3d,\r\n        Layout = new()\r\n        {\r\n            Padding = new()\r\n            {\r\n                Top = 32,\r\n                Right = 16,\r\n                Bottom = 16,\r\n                Left = 8\r\n            }\r\n        },\r\n        Elements = new()\r\n        {\r\n            Line = new()\r\n            {\r\n                Fill = false,\r\n                Tension = 0.4,\r\n            }\r\n        },\r\n        Scales = new()\r\n        {\r\n            Y = new()\r\n            {\r\n                BeginAtZero = true,\r\n                Min = 0,\r\n                Max = 120,\r\n            }\r\n        },\r\n        Plugins = new()\r\n        {\r\n            Legend = new()\r\n            {\r\n                Display = false\r\n            }\r\n        }\r\n    };\r\n\r\n    Dictionary<string, ChartAnnotationOptions> boxAnnotationOptions = new()\r\n    {\r\n        { \"box1\", new BoxChartAnnotationOptions\r\n            {\r\n                Type = \"box\",\r\n                BackgroundColor = \"rgba(255, 245, 157, 0.2)\",\r\n                BorderWidth = 0,\r\n                XMax = 2.5,\r\n                XMin = -0.5,\r\n                Label = new()\r\n                {\r\n                    DrawTime = \"afterDraw\",\r\n                    Display = true,\r\n                    Content = \"First quarter\",\r\n                    Position = new { x = \"center\", y = \"start\" }\r\n                },\r\n            }\r\n        },\r\n        { \"box2\", new BoxChartAnnotationOptions\r\n            {\r\n                Type = \"box\",\r\n                BackgroundColor = \"rgba(188, 170, 164, 0.2)\",\r\n                BorderWidth = 0,\r\n                XMax = 5.5,\r\n                XMin = 2.5,\r\n                Label = new()\r\n                {\r\n                    DrawTime = \"afterDraw\",\r\n                    Display = true,\r\n                    Content = \"Second quarter\",\r\n                    Position = new { x = \"center\", y = \"start\" }\r\n                },\r\n            }\r\n        },\r\n        { \"box3\", new BoxChartAnnotationOptions\r\n            {\r\n                Type = \"box\",\r\n                BackgroundColor = \"rgba(165, 214, 167, 0.2)\",\r\n                BorderWidth = 0,\r\n                XMax = 8.5,\r\n                XMin = 5.5,\r\n                Label = new()\r\n                {\r\n                    DrawTime = \"afterDraw\",\r\n                    Display = true,\r\n                    Content = \"Third quarter\",\r\n                    Position = new { x = \"center\", y = \"start\" }\r\n                },\r\n            }\r\n        },\r\n        { \"box4\", new BoxChartAnnotationOptions\r\n            {\r\n                Type = \"box\",\r\n                BackgroundColor = \"rgba(159, 168, 218, 0.2)\",\r\n                BorderWidth = 0,\r\n                XMin = 8.5,\r\n                Label = new()\r\n                {\r\n                    DrawTime = \"afterDraw\",\r\n                    Display = true,\r\n                    Content = \"Fourth quarter\",\r\n                    Position = new { x = \"center\", y = \"start\" }\r\n                },\r\n            }\r\n        }\r\n    };\r\n\r\n    private static string[] Labels = new string[] { \"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\", \"10\", \"11\", \"12\" };\r\n    private static string[] BackgroundColors = new string[] { \"#4bc0c0\", \"#36a2eb\", \"#ff3d88\" };\r\n    private static string[] BorderColors = new string[] { \"#4bc0c0\", \"#36a2eb\", \"#ff3d88\" };\r\n    private Random random = new( DateTime.Now.Millisecond );\r\n\r\n    protected override async Task OnAfterRenderAsync( bool firstRender )\r\n    {\r\n        if ( firstRender )\r\n        {\r\n            await lineChartWithBoxes.Clear();\r\n            await lineChartWithBoxes.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset( 1 ) );\r\n        }\r\n    }\r\n\r\n    private LineChartDataset<int> GetLineChartDataset( int colorIndex )\r\n    {\r\n        return new()\r\n        {\r\n            Label = \"# of randoms\",\r\n            Data = RandomizeData( 2, 110 ),\r\n            BackgroundColor = BackgroundColors[colorIndex],\r\n            BorderColor = BorderColors[colorIndex],\r\n        };\r\n    }\r\n\r\n    List<int> RandomizeData( int min, int max )\r\n    {\r\n        return Enumerable.Range( 0, Labels.Count() ).Select( x => random.Next( min, max ) ).ToList();\r\n    }\r\n}",
           "title": "Box Annotations",
           "description": "Box annotations are used to draw rectangles on the chart area. This can be useful for highlighting different areas of a chart."
-        }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "ChartAnnotation"
         }
       ]
     },
@@ -4930,12 +5314,6 @@
           "title": "Scriptable Options",
           "description": "The ChartDataLabelsOptions object values also support functions as a callback. This feature allows you to change values dynamically based on the current state of data or dataset. Please note that whatever function expression you have will be transpiled to JavaScript, and it will be executed in JavaScript."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "ChartDataLabels"
-        }
       ]
     },
     {
@@ -4967,12 +5345,6 @@
           "title": "Pause/Play",
           "description": "Making the stream pause and play is very simple. You only need to add a @@ref to the ChartStreaming and the call .Pause() or .Play() methods."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "ChartStreaming"
-        }
       ]
     },
     {
@@ -4995,12 +5367,6 @@
           "sourcePath": "Pages/Docs/Extensions/ChartTrendline/Examples/ChartTrendlineExample.razor",
           "content": "@using Blazorise.Charts\r\n@using Blazorise.Charts.Trendline\r\n\r\n<Button Color=\"Color.Primary\" Clicked=\"@OnButtonClicked\">Toggle trendline and redraw</Button>\r\n\r\n<Chart @ref=\"chart\" TItem=\"double?\" Type=\"ChartType.Line\">\r\n    <ChartTrendline @ref=\"chartTrendline\" TItem=\"double?\" />\r\n</Chart>\r\n\r\n@code {\r\n    Chart<double?> chart;\r\n    ChartTrendline<double?> chartTrendline;\r\n\r\n    protected override async Task OnAfterRenderAsync( bool firstRender )\r\n    {\r\n        if ( firstRender )\r\n        {\r\n            await HandleRedraw();\r\n        }\r\n    }\r\n\r\n    bool trendlinesOn = true;\r\n    async Task OnButtonClicked()\r\n    {\r\n        trendlinesOn = !trendlinesOn;\r\n\r\n        await HandleRedraw();\r\n    }\r\n\r\n    async Task HandleRedraw()\r\n    {\r\n        await chart.Clear();\r\n\r\n        await chart.AddLabels( Labels );\r\n        await chart.AddDataSet( GetLineChartDataset() );\r\n        await chart.AddDataSet( GetLineChartDataset() );\r\n\r\n        await chart.Update();\r\n\r\n        // Add the trendline(s) after you have added the datasets and called await chart.Update();\r\n        if ( trendlinesOn )\r\n        {\r\n            // This will add a trendline to the second dataset.\r\n            // If you want to add it to the first dataset, set DatasetIndex = 0 (or don't set it at all as 0 is default)\r\n            var trendlineData = new List<ChartTrendlineData>\r\n            {\r\n                new ChartTrendlineData\r\n                {\r\n                    DatasetIndex = 1,\r\n                    Width = 10,\r\n                    Color = ChartColor.FromRgba( 54, 162, 235, .6f )\r\n                }\r\n            };\r\n\r\n            await chartTrendline.AddTrendLineOptions( trendlineData );\r\n        }\r\n    }\r\n\r\n    LineChartDataset<double?> GetLineChartDataset()\r\n    {\r\n        return new LineChartDataset<double?>\r\n        {\r\n            Label = \"# of randoms\",\r\n            Data = RandomizeData(),\r\n            BackgroundColor = BackgroundColors,\r\n            BorderColor = BorderColors,\r\n            Fill = true,\r\n            PointRadius = 2,\r\n            BorderDash = new List<int> { }\r\n        };\r\n    }\r\n\r\n    private static string[] Labels = { \"A\", \"B\", \"C\", \"D\", \"E\", \"F\" };\r\n\r\n    private static List<string> BackgroundColors = new()\r\n    {\r\n        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo\r\n        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal\r\n        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber\r\n        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red\r\n        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple\r\n        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue\r\n    };\r\n\r\n    private static List<string> BorderColors = new()\r\n    {\r\n        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo\r\n        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal\r\n        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber\r\n        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red\r\n        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple\r\n        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue\r\n    };\r\n\r\n    List<double?> RandomizeData()\r\n    {\r\n        var r = new Random( DateTime.Now.Millisecond );\r\n\r\n        return new List<double?> { r.Next( 3, 20 ) * r.NextDouble(), r.Next( 3, 30 ) * r.NextDouble(), r.Next( 3, 40 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 60 ) * r.NextDouble(), r.Next( 3, 70 ) * r.NextDouble() };\r\n    }\r\n}",
           "title": "Example"
-        }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "ChartTrendline"
         }
       ]
     },
@@ -5025,13 +5391,14 @@
           "content": "<Button Color=\"Color.Primary\" Clicked=\"@(async () => await HandleRedraw())\">Redraw</Button>\r\n\r\n<LineChart @ref=\"lineChart\" TItem=\"double\">\r\n    <ChartZoom TItem=\"double\" Options=\"@lineChartZoomOptions\" />\r\n</LineChart>\r\n\r\n@code {\r\n    LineChart<double> lineChart;\r\n\r\n    protected override async Task OnAfterRenderAsync( bool firstRender )\r\n    {\r\n        if ( firstRender )\r\n        {\r\n            await HandleRedraw();\r\n        }\r\n    }\r\n\r\n    async Task HandleRedraw()\r\n    {\r\n        await lineChart.Clear();\r\n\r\n        await lineChart.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset() );\r\n    }\r\n\r\n    LineChartDataset<double> GetLineChartDataset()\r\n    {\r\n        return new LineChartDataset<double>\r\n        {\r\n            Label = \"# of randoms\",\r\n            Data = RandomizeData(),\r\n            BackgroundColor = BackgroundColors,\r\n            BorderColor = BorderColors,\r\n            Fill = true,\r\n            PointRadius = 3,\r\n            CubicInterpolationMode = \"monotone\",\r\n        };\r\n    }\r\n\r\n    private static string[] Labels = { \"A\", \"B\", \"C\", \"D\", \"E\", \"F\" };\r\n\r\n    private static List<string> BackgroundColors = new()\r\n    {\r\n        ChartColor.FromRgba( 76, 110, 245, 0.25f ),   // Indigo\r\n        ChartColor.FromRgba( 18, 184, 134, 0.25f ),   // Teal\r\n        ChartColor.FromRgba( 245, 159, 0, 0.25f ),    // Amber\r\n        ChartColor.FromRgba( 240, 62, 62, 0.25f ),    // Red\r\n        ChartColor.FromRgba( 132, 94, 247, 0.25f ),   // Purple\r\n        ChartColor.FromRgba( 34, 139, 230, 0.25f )    // Blue\r\n    };\r\n\r\n    private static List<string> BorderColors = new()\r\n    {\r\n        ChartColor.FromRgba( 76, 110, 245, 1f ),      // Indigo\r\n        ChartColor.FromRgba( 18, 184, 134, 1f ),      // Teal\r\n        ChartColor.FromRgba( 245, 159, 0, 1f ),       // Amber\r\n        ChartColor.FromRgba( 240, 62, 62, 1f ),       // Red\r\n        ChartColor.FromRgba( 132, 94, 247, 1f ),      // Purple\r\n        ChartColor.FromRgba( 34, 139, 230, 1f )       // Blue\r\n    };\r\n\r\n    List<double> RandomizeData()\r\n    {\r\n        var r = new Random( DateTime.Now.Millisecond );\r\n\r\n        return new List<double> {\r\n            r.Next( 3, 50 ) * r.NextDouble(),\r\n            r.Next( 3, 50 ) * r.NextDouble(),\r\n            r.Next( 3, 50 ) * r.NextDouble(),\r\n            r.Next( 3, 50 ) * r.NextDouble(),\r\n            r.Next( 3, 50 ) * r.NextDouble(),\r\n            r.Next( 3, 50 ) * r.NextDouble() };\r\n    }\r\n\r\n    private ChartZoomPluginOptions lineChartZoomOptions = new()\r\n    {\r\n        Zoom = new()\r\n        {\r\n            Mode = \"y\",\r\n            Wheel = new()\r\n            {\r\n                Enabled = true,\r\n            },\r\n            Pinch = new()\r\n            {\r\n                Enabled = true\r\n            },\r\n            Drag = new()\r\n            {\r\n                Enabled = true\r\n            }\r\n        },\r\n        Limits = new()\r\n        {\r\n            Y = new()\r\n            {\r\n                Min = 0,\r\n                Max = 50,\r\n                MinRange = 25\r\n            }\r\n        },\r\n        Transition = new ChartZoomTransitionOptions()\r\n        {\r\n            Animation = new ChartAnimation()\r\n            {\r\n                Duration = 1000,\r\n                Easing = \"easeOutCubic\"\r\n            }\r\n        }\r\n    };\r\n}",
           "title": "Basic"
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "ChartZoom"
-        }
       ]
+    },
+    {
+      "route": "/docs/extensions/chart/api",
+      "title": "Blazorise Chart API",
+      "description": "Explore the Blazorise Chart API reference, including chart components, plugins, parameters, events, and methods for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/Chart/ChartApiPage.razor",
+      "examples": []
     },
     {
       "route": "/docs/extensions/code-editor",
@@ -5127,7 +5494,14 @@
           "title": "Formatting",
           "description": "A FormattingProvider connects the Format Document action to application code. Call FormatDocument from a button, or let users invoke the standard keyboard command."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/code-editor/api",
+      "title": "Blazorise Code Editor API",
+      "description": "Explore the Blazorise Code Editor API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/CodeEditor/CodeEditorApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -5181,7 +5555,14 @@
           "title": "Viewer",
           "description": "To add preview support, use a CropperViewer component. Once added you need to connect it to a Cropper by assigning the CropperState parameter. This parameter is used as a synchronization context between the cropper and a viewer."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/cropper/api",
+      "title": "Blazorise Cropper API",
+      "description": "Explore the Blazorise Cropper API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/Cropper/CropperApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -5268,7 +5649,7 @@
     {
       "route": "/docs/extensions/datagrid/api",
       "title": "Blazorise DataGrid API",
-      "description": "Explore the API reference for the Blazorise DataGrid component, detailing available attributes and methods.",
+      "description": "Explore the Blazorise DataGrid API reference, including grid and column parameters, events, editing options, paging, virtualization, and methods.",
       "pagePath": "Pages/Docs/Extensions/DataGrid/DataGridApiPage.razor",
       "examples": []
     },
@@ -5298,7 +5679,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridDynamicAutoGenerateExample.razor",
           "content": "@using System.Dynamic\r\n\r\n<DataGrid TItem=\"ExpandoObject\"\r\n          Data=\"inMemoryData\"\r\n          Responsive\r\n          ShowPager\r\n          ShowPageSizes\r\n          PageSize=\"5\"\r\n          Editable\r\n          EditMode=\"DataGridEditMode.Inline\"\r\n          NewItemCreator=\"NewItemCreator\" />\r\n\r\n@code {\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n\r\n    private List<ExpandoObject> inMemoryData;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        inMemoryData = new();\r\n        var data = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );\r\n\r\n        foreach ( var item in data )\r\n        {\r\n\r\n            IDictionary<string, object> expando = new ExpandoObject();\r\n\r\n            foreach ( var property in typeof( Employee ).GetProperties() )\r\n            {\r\n                expando.Add( property.Name, property.GetValue( item ) );\r\n            }\r\n            inMemoryData.Add( (ExpandoObject)expando );\r\n        }\r\n\r\n\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private ExpandoObject NewItemCreator()\r\n    {\r\n        IDictionary<string, object> expando = new ExpandoObject();\r\n\r\n        foreach ( var property in typeof( Employee ).GetProperties() )\r\n        {\r\n            expando.Add( property.Name,\r\n                property.PropertyType switch\r\n                {\r\n                    { } t when t == typeof( string ) => \"\",\r\n                    { IsValueType: true } => Activator.CreateInstance( property.PropertyType ) ?? \"\",\r\n                    _ => \"\" //better than null\r\n                } );\r\n        }\r\n\r\n        return (ExpandoObject)expando;\r\n    }\r\n}",
-          "title": "Auto Generate Columns Example",
+          "title": "Generated Columns",
           "description": "The Blazorise DataGrid also supports auto-generating columns based on the data structure. This feature simplifies the process of displaying data by automatically creating columns that match the properties of the bound data objects. Auto-generated columns support nullable data. If your data includes null values, ensure you provide a NewItemCreator . DataGrid requires an item with non-null values to properly generate the columns."
         }
       ]
@@ -5410,7 +5791,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridDateColumnNativeExample.razor",
           "content": "<DataGrid TItem=\"Employee\" Data=\"@employeeList\" PageSize=\"5\" Responsive Editable Filterable>\r\n    <DataGridDateColumn Field=\"@nameof( Employee.DateOfBirth )\" Caption=\"Birth Date\" Editable NativeInputMode />\r\n    <DataGridCommandColumn />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
-          "title": "Date Column with Native Mode",
+          "title": "Native Date Column",
           "description": "Column template for datetime values. Set NativeInputMode if you prefer to use the native html input variant of the date input."
         },
         {
@@ -5426,7 +5807,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridNumericColumnNativeExample.razor",
           "content": "<DataGrid TItem=\"Employee\" Data=\"@employeeList\" PageSize=\"5\" Responsive Editable Filterable>\r\n    <DataGridNumericColumn Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" Editable NativeInputMode />\r\n    <DataGridCommandColumn />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
-          "title": "Numeric Column with Native Mode",
+          "title": "Native Numeric Column",
           "description": "Column template for numeric values. Set NativeInputMode if you prefer to use the native html input variant of the numeric input."
         },
         {
@@ -5701,7 +6082,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridShowGroupingExample.razor",
           "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          Responsive\r\n          ShowPager\r\n          Groupable\r\n          ShowGrouping>\r\n    <DataGridCommandColumn />\r\n    <DataGridColumn Field=\"@nameof(Employee.Id)\" Caption=\"#\" Sortable=\"false\" />\r\n    <DataGridColumn Field=\"@nameof(Employee.FirstName)\" Caption=\"First Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof(Employee.LastName)\" Caption=\"Last Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof(Employee.Email)\" Caption=\"Email\" Editable />\r\n    <DataGridColumn Field=\"@nameof(Employee.Gender)\" Caption=\"Gender\" Editable Groupable Grouping />\r\n    <DataGridColumn Field=\"@nameof(Employee.Childrens)\" Caption=\"Children\" Editable />\r\n    <DataGridColumn Field=\"@nameof(Employee.IsActive)\" Caption=\"Active\" Editable Groupable Grouping />\r\n</DataGrid>\r\n\r\n@code{\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
-          "title": "Drag and Drop Grouping",
+          "title": "Drag Grouping",
           "description": "The ShowGrouping parameter, allows you to drag and drop groupable columns on a group area. This feature makes it easy to rearrange and experiment with different groupings, providing more flexibility and control over how you organize and analyze your data within the DataGrid. Columns should be eligible for grouping by enabling Groupable . Once enabled, the columns that are draggable will show the \"grip\" icon next to the column title."
         },
         {
@@ -5914,7 +6295,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridStateManagementExample.razor",
           "content": "<Paragraph>\r\n    <Button Color=\"Color.Primary\" Clicked=\"LoadState\">Load State</Button>\r\n    <Button Color=\"Color.Success\" Clicked=\"SaveState\">Save State</Button>\r\n    <Button Color=\"Color.Light\" Clicked=\"ResetState\">Reset State</Button>\r\n</Paragraph>\r\n\r\n<DataGrid @ref=\"dataGridRef\"\r\n          TItem=\"Employee\"\r\n          Data=\"inMemoryData\"\r\n          Responsive\r\n          Editable\r\n          Filterable\r\n          ShowPager\r\n          ShowPageSizes\r\n          ShowColumnChooser\r\n          PagerPosition=\"DataGridPagerPosition.Top\">\r\n    <DataGridColumns>\r\n        <DataGridColumn TextAlignment=\"TextAlignment.Center\" TItem=\"Employee\" Field=\"@nameof( Employee.Id )\" Caption=\"#\" Width=\"Width.Px(60)\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\">\r\n        </DataGridColumn>\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Email )\" Caption=\"Email\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.City )\" Caption=\"City\">\r\n            <CaptionTemplate>\r\n                <Icon Name=\"IconName.City\" /> @context.Caption\r\n            </CaptionTemplate>\r\n        </DataGridColumn>\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Zip )\" Caption=\"Zip\">\r\n        </DataGridColumn>\r\n        <DataGridDateColumn TItem=\"Employee\" Field=\"@nameof( Employee.DateOfBirth )\" DisplayFormat=\"{0:dd.MM.yyyy}\" Caption=\"Birth Date\" Editable />\r\n        <DataGridNumericColumn TItem=\"Employee\" Field=\"@nameof( Employee.Childrens )\" Caption=\"Childrens\" ReverseSorting=\"true\" Editable Filterable=\"false\" />\r\n        <DataGridSelectColumn TItem=\"Employee\" Field=\"@nameof( Employee.Gender )\" Caption=\"Gender\" Editable Data=\"EmployeeData.Genders\" ValueField=\"(x) => ((Gender)x).Code\" TextField=\"(x) => ((Gender)x).Description\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" Editable Width=\"Width.Px(140)\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo(\"fr-FR\")\" TextAlignment=\"TextAlignment.End\">\r\n        </DataGridColumn>\r\n        <DataGridCheckColumn TItem=\"Employee\" Field=\"@nameof(Employee.IsActive)\" Caption=\"Active\" Editable Filterable=\"false\">\r\n            <DisplayTemplate>\r\n                <Check TValue=\"bool\" Value=\"context.Item.IsActive\" Disabled ReadOnly />\r\n            </DisplayTemplate>\r\n        </DataGridCheckColumn>\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }\r\n\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n\r\n    private const string STORAGE_KEY = \"__DATAGRID_STATE__\";\r\n    private DataGrid<Employee> dataGridRef;\r\n    private IEnumerable<Employee> inMemoryData;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    protected async override Task OnAfterRenderAsync( bool firstRender )\r\n    {\r\n        if ( firstRender )\r\n        {\r\n            await LoadState();\r\n        }\r\n\r\n        await base.OnAfterRenderAsync( firstRender );\r\n    }\r\n\r\n    private async Task ResetState()\r\n    {\r\n        await LocalStorage.RemoveItemAsync( STORAGE_KEY );\r\n\r\n        DataGridState<Employee> state = new()\r\n        {\r\n            Page = 1,\r\n            PageSize = 10,\r\n        };\r\n\r\n        await dataGridRef.LoadState( state );\r\n    }\r\n\r\n    private async Task LoadState()\r\n    {\r\n        DataGridState<Employee> stateFromLocalStorage = await LocalStorage.GetItemAsync<DataGridState<Employee>>( STORAGE_KEY );\r\n\r\n        if ( stateFromLocalStorage is not null )\r\n        {\r\n            //It is of note that we must make sure the reference is contained in the DataGrid Data collection.\r\n            if ( stateFromLocalStorage.SelectedRow is not null )\r\n            {\r\n                stateFromLocalStorage.SelectedRow = inMemoryData.FirstOrDefault( x => x.Id == stateFromLocalStorage.SelectedRow.Id );\r\n            }\r\n            if ( stateFromLocalStorage.EditItem is not null )\r\n            {\r\n                stateFromLocalStorage.EditItem = inMemoryData.FirstOrDefault( x => x.Id == stateFromLocalStorage.EditItem.Id );\r\n            }\r\n            await dataGridRef.LoadState( stateFromLocalStorage );\r\n            return;\r\n        }\r\n    }\r\n\r\n    private async Task SaveState()\r\n    {\r\n        DataGridState<Employee> state = await dataGridRef.GetState();\r\n        await LocalStorage.SetItemAsync( STORAGE_KEY, state );\r\n    }\r\n}",
-          "title": "Get And Load State",
+          "title": "State Persistence",
           "description": "In the following example, we are using the LoadState method to load the DataGrid state from the LocalStorage if available. We are using the GetState method to save the DataGrid state to the LocalStorage in order to load at a later date. The page checks the LocalStorage on first render and loads the saved state if available."
         }
       ]
@@ -6008,7 +6389,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridRowSelectableMultipleSelectionExample.razor",
           "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          @bind-SelectedRow=\"@selectedEmployee\"\r\n          SelectionMode=\"DataGridSelectionMode.Multiple\"\r\n          @bind-SelectedRows=\"selectedEmployees\"\r\n          Responsive\r\n          RowSelectable=\"RowSelectableHandler\">\r\n    <DataGridMultiSelectColumn TItem=\"Employee\" Width=\"Width.Px( 30 )\"></DataGridMultiSelectColumn>\r\n    <DataGridCommandColumn TItem=\"Employee\" />\r\n    <DataGridColumn Field=\"@nameof( Employee.Id )\" Caption=\"#\" Sortable=\"false\" />\r\n    <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" Editable>\r\n        <EditTemplate>\r\n            <NumericInput TValue=\"decimal\" Value=\"@((decimal)context.CellValue)\" ValueChanged=\"@(v => context.CellValue = v)\" />\r\n        </EditTemplate>\r\n    </DataGridColumn>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    private Employee selectedEmployee;\r\n    private List<Employee> selectedEmployees;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private bool RowSelectableHandler( RowSelectableEventArgs<Employee> rowSelectableEventArgs )\r\n        => rowSelectableEventArgs.SelectReason is not DataGridSelectReason.RowClick;\r\n}",
-          "title": "RowSelectable &amp; Multiple Selection",
+          "title": "Selectable Rows",
           "description": "Here's an example of combining both RowSelectable and Multiple Selection. We've disabled regular selection through row click, and only enabled selection through clicking the provided multi select checkboxes."
         }
       ]
@@ -6208,7 +6589,14 @@
           "title": "With Search",
           "description": "The DropdownList component in Blazorise allows users to search for items in the dropdown list. By enabling Filterable property, a search box is displayed at the top of the dropdown list. Users can type in the search box to filter the list and quickly locate the desired item. This feature enhances user experience by providing a more efficient way of selecting items from a dropdown list."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/dropdownlist/api",
+      "title": "Blazorise Dropdown List API",
+      "description": "Explore the Blazorise Dropdown List API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/DropdownList/DropdownListApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -6257,6 +6645,13 @@
       ]
     },
     {
+      "route": "/docs/extensions/fluent-validation/api",
+      "title": "Blazorise FluentValidation API",
+      "description": "Explore the Blazorise FluentValidation API reference for validator integration, synchronous and asynchronous validation, and service registration.",
+      "pagePath": "Pages/Docs/Extensions/FluentValidation/FluentValidationApiPage.razor",
+      "examples": []
+    },
+    {
       "route": "/docs/extensions/gantt",
       "title": "Blazorise Gantt component",
       "description": "Learn how to use the Blazorise Gantt component to plan, track, and edit project timelines with flat or hierarchical task data.",
@@ -6291,7 +6686,7 @@
     {
       "route": "/docs/extensions/gantt/api",
       "title": "Blazorise Gantt API",
-      "description": "Blazorise Gantt component API reference.",
+      "description": "Explore the Blazorise Gantt API reference, including task parameters, columns, views, editing events, timeline options, templates, and methods.",
       "pagePath": "Pages/Docs/Extensions/Gantt/GanttApiPage.razor",
       "examples": []
     },
@@ -6434,7 +6829,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Gantt/Examples/GanttWeeklyYearViewExample.razor",
           "content": "<Gantt TItem=\"TaskItem\"\r\n       Data=\"@tasks\"\r\n       Date=\"@selectedDate\"\r\n       SelectedView=\"GanttView.Year\"\r\n       DurationField=\"Duration\"\r\n       FirstDayOfWeek=\"DayOfWeek.Monday\">\r\n    <ChildContent>\r\n        <GanttColumns>\r\n            <GanttColumn Field=\"Title\" Title=\"Task\" Expandable Width=\"Width.Px( 240 )\" />\r\n            <GanttColumn Field=\"Start\" Width=\"Width.Px( 130 )\" />\r\n            <GanttColumn Field=\"End\" Width=\"Width.Px( 130 )\" Visible=\"false\" />\r\n            <GanttColumn Field=\"Duration\" Width=\"Width.Px( 90 )\" TextAlignment=\"TextAlignment.Center\" Visible=\"false\" />\r\n        </GanttColumns>\r\n\r\n        <GanttToolbar />\r\n\r\n        <GanttViews>\r\n            <GanttYearView TimelineScale=\"GanttYearViewTimelineScale.Week\"\r\n                           TimelineCellWidth=\"42\"\r\n                           RowHeight=\"44\"\r\n                           FirstDayOfWeek=\"DayOfWeek.Monday\" />\r\n        </GanttViews>\r\n    </ChildContent>\r\n\r\n    <TimelineHeaderCellTemplate>\r\n        <Span TextSize=\"TextSize.Small\" TextWeight=\"TextWeight.SemiBold\">\r\n            @context.Label\r\n        </Span>\r\n    </TimelineHeaderCellTemplate>\r\n</Gantt>\r\n\r\n<Paragraph TextColor=\"TextColor.Muted\" Margin=\"Margin.Is2.FromTop\">\r\n    View: @selectedViewText | Year view scale: Week\r\n</Paragraph>\r\n\r\n@code {\r\n    private DateOnly selectedDate = new( DateTime.Today.Year, 1, 1 );\r\n\r\n    private string selectedViewText = GanttView.Year.ToString();\r\n\r\n    private List<TaskItem> tasks = CreateTasks();\r\n\r\n    private static List<TaskItem> CreateTasks()\r\n    {\r\n        DateTime yearStart = new( DateTime.Today.Year, 1, 1 );\r\n        DateTime planningStart = yearStart.AddDays( 91 );\r\n\r\n        List<TaskItem> result = new()\r\n        {\r\n            new() { Id = \"1\", Title = \"Release train\", Start = planningStart, End = planningStart.AddDays( 35 ) },\r\n            new() { Id = \"2\", ParentId = \"1\", Title = \"Discovery\", Start = planningStart, End = planningStart.AddDays( 7 ) },\r\n            new() { Id = \"3\", ParentId = \"1\", Title = \"Implementation\", Start = planningStart.AddDays( 7 ), End = planningStart.AddDays( 21 ) },\r\n            new() { Id = \"4\", ParentId = \"3\", Title = \"Backend services\", Start = planningStart.AddDays( 8 ), End = planningStart.AddDays( 16 ) },\r\n            new() { Id = \"5\", ParentId = \"3\", Title = \"Frontend polish\", Start = planningStart.AddDays( 14 ), End = planningStart.AddDays( 23 ) },\r\n            new() { Id = \"6\", ParentId = \"1\", Title = \"Validation\", Start = planningStart.AddDays( 21 ), End = planningStart.AddDays( 30 ) },\r\n            new() { Id = \"7\", ParentId = \"1\", Title = \"Rollout\", Start = planningStart.AddDays( 30 ), End = planningStart.AddDays( 35 ) },\r\n        };\r\n\r\n        foreach ( TaskItem item in result )\r\n        {\r\n            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );\r\n        }\r\n\r\n        return result;\r\n    }\r\n\r\n    public class TaskItem\r\n    {\r\n        public string Id { get; set; }\r\n\r\n        public string ParentId { get; set; }\r\n\r\n        public string Title { get; set; }\r\n\r\n        public DateTime Start { get; set; }\r\n\r\n        public DateTime End { get; set; }\r\n\r\n        public int Duration { get; set; }\r\n    }\r\n}",
-          "title": "Year View with Weekly Columns",
+          "title": "Year View",
           "description": "Use TimelineScale=\"GanttYearViewTimelineScale.Week\" on GanttYearView when planning is organized by weeks but users still need a full-year timeline."
         }
       ]
@@ -6482,7 +6877,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentSvgIconsCSSExample.snippet",
           "content": "<link href=\"_content/Blazorise.Icons.FluentUI/blazorise.icons.fluentui.css\" rel=\"stylesheet\" />",
-          "title": "Fluent SVG Icons CSS",
+          "title": "Fluent SVG CSS",
           "description": "As an alternative to the CSS font, Fluent icons can render as inline SVG, also at a default size of 20px. Replace FluentSystemIcons-Resizable.css with the SVG icon stylesheet."
         },
         {
@@ -6490,7 +6885,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentSvgIconsRegistrationExample.snippet",
           "content": "using Blazorise.Icons.FluentUI;\r\n\r\nbuilder.Services\r\n    .AddBlazorise()\r\n    .AddBootstrapProviders()\r\n    .AddFluentUIIcons( options => options.UseSvgIcons = true );",
-          "title": "Fluent SVG Icons Registration",
+          "title": "Fluent SVG Registration",
           "description": "Enable SVG rendering when registering the Fluent UI icon provider. Existing Icon component usage remains the same."
         },
         {
@@ -6498,7 +6893,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FontAwesomeCSSExample.snippet",
           "content": "<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.3.0.0\" rel=\"stylesheet\">",
-          "title": "Font Awesome Icons CSS",
+          "title": "Font Awesome CSS",
           "description": "Include CSS link into your index.html or _Layout.cshtml / _Host.cshtml file, depending if you're using a Blazor WebAssembly or Blazor Server side project."
         },
         {
@@ -6573,12 +6968,6 @@
           "title": "Global options",
           "description": "Defining styles on each icon can become very tedious with time. That's why we give you an option to specify them globally. This way, you will have consistent styling across the application, and you can still override them on the icon if you need to."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "Icon"
-        }
       ]
     },
     {
@@ -6587,6 +6976,19 @@
       "description": "Find out the Available Blazorise Icons, symbols that can be used to represent various options within an application.",
       "pagePath": "Pages/Docs/Extensions/Icons/AvailableIconsPage.razor",
       "examples": []
+    },
+    {
+      "route": "/docs/extensions/icons/api",
+      "title": "Blazorise Icons API",
+      "description": "Explore the Blazorise Icons API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/Icons/IconsApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Icon"
+        }
+      ]
     },
     {
       "route": "/docs/extensions/list-view",
@@ -6641,7 +7043,14 @@
           "title": "Item styling",
           "description": "Customize the look of each item by using the right callbacks."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/list-view/api",
+      "title": "Blazorise List View API",
+      "description": "Explore the Blazorise List View API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/ListView/ListViewApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -6732,7 +7141,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/LoadingIndicator/Examples/LoadingIndicatorCascadingWrapperExample.snippet",
           "content": "<LoadingIndicator FullScreen>\r\n    @Body\r\n</LoadingIndicator>",
-          "title": "Using as cascading parameter",
+          "title": "Cascading Usage",
           "description": "You can also use the wrapper as a cascading parameter."
         },
         {
@@ -6740,7 +7149,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/LoadingIndicator/Examples/LoadingIndicatorCascadingBusyExample.snippet",
           "content": "<Button Clicked=\"DoWork\" />\r\n\r\n@code\r\n{\r\n    [CascadingParameter]\r\n    LoadingIndicator loadingIndicator;\r\n\r\n    async Task DoWork()\r\n    {\r\n        await loadingIndicator.Show();\r\n        \r\n        // do work ...\r\n        \r\n        await loadingIndicator.Hide();\r\n    }\r\n}",
-          "title": "Using as cascading parameter",
+          "title": "Cascading Usage",
           "description": "You can also use the wrapper as a cascading parameter."
         },
         {
@@ -6775,7 +7184,14 @@
           "title": "Using animation",
           "description": "Loading indicator can animate its visibility state by fading into view. This is on by default for ApplicationLoadingIndicator . You can also use the Animate component to add a visual effect."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/loadingindicator/api",
+      "title": "Blazorise Loading Indicator API",
+      "description": "Explore the Blazorise Loading Indicator API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/LoadingIndicator/LoadingIndicatorApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -6813,7 +7229,14 @@
           "title": "Basic",
           "description": "To embed an animation you just need to define the Path of the animation."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/lottie-animation/api",
+      "title": "Blazorise Lottie Animation API",
+      "description": "Explore the Blazorise Lottie Animation API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/LottieAnimation/LottieAnimationApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -6883,7 +7306,14 @@
           "title": "Events",
           "description": "Handle map events and move the map programmatically with the component reference, or by updating the bound View ."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/maps/api",
+      "title": "Blazorise Maps API",
+      "description": "Explore the Blazorise Maps API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/Maps/MapsApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -6984,7 +7414,14 @@
           "title": "Custom Preview Render",
           "description": "Sometimes you don't want to render preview with the built-in parser. In those situations you can make use of PreviewRender callback to override the preview HTML."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/markdown/api",
+      "title": "Blazorise Markdown API",
+      "description": "Explore the Blazorise Markdown API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/Markdown/MarkdownApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -7046,7 +7483,14 @@
           "title": "Text mode",
           "description": "Switch to text input when the value can contain letters, such as a recovery key or grouped invitation token."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/onetimeinput/api",
+      "title": "Blazorise One Time Input API",
+      "description": "Explore the Blazorise One Time Input API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/OneTimeInput/OneTimeInputApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -7108,7 +7552,14 @@
           "title": "Custom localization",
           "description": "Override localized texts with the PasswordStrengthLocalizer parameter."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/passwordstrength/api",
+      "title": "Blazorise Password Strength API",
+      "description": "Explore the Blazorise Password Strength API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/PasswordStrength/PasswordStrengthApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -7167,7 +7618,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfHttpResourcesExample.snippet",
           "content": "PdfDocumentDefinition document = PdfDocumentBuilder.Create()\r\n    .Title( \"Remote resources\" )\r\n    .AddFont( \"Inter\", FontSource.FromUrl( \"fonts/Inter-Regular.ttf\" ) )\r\n    .Page( page =>\r\n    {\r\n        page.Image( \"images/company-logo.png\", 48, 48, 120, 48 );\r\n\r\n        page.Text( \"This font and image were resolved from URLs.\", 48, 120, 360, 24 )\r\n            .FontFamily( \"Inter\" );\r\n    } )\r\n    .Build();\r\n\r\nPdfGenerationResult result = await PdfGenerator.Generate( document );",
-          "title": "Images and fonts from URLs",
+          "title": "Remote Assets",
           "description": "After enabling URL loading, use an HTTP or HTTPS URL in PdfImage.Source or FontSource.Url . Each resource is downloaded once and reused if it appears more than once in the same PDF."
         },
         {
@@ -7193,6 +7644,63 @@
           "content": "@inject IPdfGenerator PdfGenerator\r\n\r\n<Div Flex=\"Flex.Row\" Gap=\"Gap.Is2\" Margin=\"Margin.Is3.FromBottom\">\r\n    <Button Color=\"Color.Primary\" Clicked=\"@Generate\">Generate PDF</Button>\r\n</Div>\r\n\r\n@if ( generationProgress is not null )\r\n{\r\n    <Div Margin=\"Margin.Is3.FromBottom\">\r\n        <Span TextSize=\"TextSize.Small\">@GenerationStatus</Span>\r\n        <Progress Value=\"@((int)generationProgress.Percentage)\" Size=\"Size.Small\" />\r\n    </Div>\r\n}\r\n\r\n@if ( pdfSource is not null )\r\n{\r\n    <PdfViewerContainer Height=\"Height.Rem(35)\">\r\n        <PdfViewerToolbar />\r\n        <PdfViewer Source=\"@pdfSource\" />\r\n    </PdfViewerContainer>\r\n}\r\n\r\n@code {\r\n    private string pdfSource;\r\n\r\n    private PdfGenerationProgress generationProgress;\r\n\r\n    private string GenerationStatus => generationProgress.Stage switch\r\n    {\r\n        PdfGenerationStage.PreparingResources => \"Preparing resources\",\r\n        PdfGenerationStage.RenderingPages => $\"Rendering page {generationProgress.CompletedPages} of {generationProgress.TotalPages}\",\r\n        PdfGenerationStage.WritingDocument => \"Writing PDF document\",\r\n        PdfGenerationStage.Completed => \"PDF generation completed\",\r\n        _ => string.Empty,\r\n    };\r\n\r\n    private async Task Generate()\r\n    {\r\n        generationProgress = null;\r\n\r\n        PdfDocumentDefinition document = PdfDocumentBuilder.Create()\r\n            .Title( \"Invoice\" )\r\n            .Page( page =>\r\n            {\r\n                page.Text( \"Invoice summary\", 48, 48, 260, 32 )\r\n                    .FontSize( 22 )\r\n                    .Bold();\r\n            } )\r\n            .Build();\r\n\r\n        PdfGenerationResult result = await PdfGenerator.GenerateAsync( document, new()\r\n        {\r\n            FileName = \"invoice.pdf\",\r\n            Progress = OnGenerationProgress,\r\n        } );\r\n\r\n        pdfSource = BuildPdfSource( result.Content );\r\n    }\r\n\r\n    private async Task OnGenerationProgress( PdfGenerationProgress progress )\r\n    {\r\n        generationProgress = progress;\r\n\r\n        await InvokeAsync( StateHasChanged );\r\n    }\r\n\r\n    private static string BuildPdfSource( byte[] content )\r\n        => content is null || content.Length == 0\r\n            ? null\r\n            : $\"data:application/pdf;base64,{Convert.ToBase64String( content )}\";\r\n}",
           "title": "File generation",
           "description": "Inject IPdfGenerator , receive progress callbacks while the document is generated, and use the resulting PDF bytes."
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/pdf/api",
+      "title": "Blazorise PDF API",
+      "description": "Explore the Blazorise PDF API reference for declarative document components, fluent document building, PDF generation, and resource limits.",
+      "pagePath": "Pages/Docs/Extensions/Pdf/PdfApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "PdfDocument"
+        },
+        {
+          "kind": "type",
+          "name": "PdfPage"
+        },
+        {
+          "kind": "type",
+          "name": "PdfText"
+        },
+        {
+          "kind": "type",
+          "name": "PdfImage"
+        },
+        {
+          "kind": "type",
+          "name": "PdfFont"
+        },
+        {
+          "kind": "type",
+          "name": "PdfLine"
+        },
+        {
+          "kind": "type",
+          "name": "PdfRectangle"
+        },
+        {
+          "kind": "type",
+          "name": "PdfTable"
+        },
+        {
+          "kind": "type",
+          "name": "PdfTableRow"
+        },
+        {
+          "kind": "type",
+          "name": "PdfTableCell"
+        },
+        {
+          "kind": "type",
+          "name": "PdfGenerationOptions"
+        },
+        {
+          "kind": "type",
+          "name": "PdfHttpResourceOptions"
         }
       ]
     },
@@ -7247,7 +7755,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfHttpResourcesExample.snippet",
           "content": "PdfDocumentDefinition document = PdfDocumentBuilder.Create()\r\n    .Title( \"Remote resources\" )\r\n    .AddFont( \"Inter\", FontSource.FromUrl( \"fonts/Inter-Regular.ttf\" ) )\r\n    .Page( page =>\r\n    {\r\n        page.Image( \"images/company-logo.png\", 48, 48, 120, 48 );\r\n\r\n        page.Text( \"This font and image were resolved from URLs.\", 48, 120, 360, 24 )\r\n            .FontFamily( \"Inter\" );\r\n    } )\r\n    .Build();\r\n\r\nPdfGenerationResult result = await PdfGenerator.Generate( document );",
-          "title": "Images and fonts from URLs",
+          "title": "Remote Assets",
           "description": "After enabling URL loading, use an HTTP or HTTPS URL in PdfImage.Source or FontSource.Url . Each resource is downloaded once and reused if it appears more than once in the same PDF."
         },
         {
@@ -7351,7 +7859,7 @@
     {
       "route": "/docs/extensions/pdfviewer/api",
       "title": "Blazorise PdfViewer API",
-      "description": "Explore the API reference for the Blazorise PdfViewer component, detailing available attributes and methods.",
+      "description": "Explore the Blazorise PdfViewer API reference, including document parameters, navigation events, toolbar components, and methods for Blazor applications.",
       "pagePath": "Pages/Docs/Extensions/PdfViewer/PdfViewerApiPage.razor",
       "examples": []
     },
@@ -7457,7 +7965,14 @@
           "title": "Styling",
           "description": "Use CellStyling , RowHeaderStyling , and ColumnHeaderStyling to apply conditional styling."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/pivotgrid/api",
+      "title": "Blazorise Pivot Grid API",
+      "description": "Explore the Blazorise Pivot Grid API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/PivotGrid/PivotGridApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -7615,7 +8130,14 @@
           "title": "With Text",
           "description": "QRCode doesn't have a built-in way to add text below the QR code. However, you can use Blazorise utilities to achieve this. The example below shows how to use the Flex component to center the QR code and text."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/qrcode/api",
+      "title": "Blazorise QR Code API",
+      "description": "Explore the Blazorise QR Code API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/QRCode/QRCodeApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -7721,7 +8243,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingDetailDataSourceExample.razor",
           "content": "<Report Data=\"@invoice\"\r\n        Editable\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Html\" />\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportPage Name=\"Invoice\">\r\n        <ReportHeader Name=\"Invoice header\" Height=\"72\">\r\n            <ReportText Text=\"Detail band repeats Invoice.Lines\" X=\"30\" Y=\"18\" Width=\"300\" Height=\"24\" FontSize=\"18\" Bold FontColor=\"@ReportColors.Blue\" />\r\n            <ReportText Text=\"{Header.Number} - {Customer.Name}\" X=\"30\" Y=\"45\" Width=\"360\" Height=\"18\" />\r\n        </ReportHeader>\r\n        <ReportPageHeader Name=\"Column headers\" Height=\"32\">\r\n            <ReportText Text=\"Sku\" X=\"30\" Y=\"8\" Width=\"75\" Height=\"18\" Bold />\r\n            <ReportText Text=\"Description\" X=\"120\" Y=\"8\" Width=\"210\" Height=\"18\" Bold />\r\n            <ReportText Text=\"Qty\" X=\"345\" Y=\"8\" Width=\"60\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n            <ReportText Text=\"Total\" X=\"420\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n        </ReportPageHeader>\r\n        <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n            <ReportField Field=\"Sku\" X=\"30\" Y=\"6\" Width=\"75\" Height=\"18\" />\r\n            <ReportField Field=\"Description\" X=\"120\" Y=\"6\" Width=\"210\" Height=\"18\" />\r\n            <ReportField Field=\"Quantity\" Format=\"@ReportFormats.Number( 2 )\" X=\"345\" Y=\"6\" Width=\"60\" Height=\"18\" />\r\n            <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" />\r\n        </ReportDetail>\r\n        <ReportFooter Name=\"Totals\" Height=\"45\">\r\n            <ReportLine X=\"30\" Y=\"6\" Width=\"480\" Height=\"8\" Thickness=\"1\" />\r\n            <ReportField Field=\"Header.Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"18\" Width=\"90\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n        </ReportFooter>\r\n    </ReportPage>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Header = new()\r\n        {\r\n            Number = \"INV-1001\",\r\n            Total = 1240.50m,\r\n        },\r\n        Customer = new()\r\n        {\r\n            Name = \"Northwind Traders\",\r\n        },\r\n        Lines =\r\n        [\r\n            new() { Sku = \"SRV-001\", Description = \"Implementation workshop\", Quantity = 1, Total = 640.50m },\r\n            new() { Sku = \"LIC-010\", Description = \"Reporting module license\", Quantity = 2, Total = 500.00m },\r\n            new() { Sku = \"SUP-003\", Description = \"Priority support\", Quantity = 1, Total = 100.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public InvoiceHeaderModel Header { get; set; }\r\n\r\n        public InvoiceCustomerModel Customer { get; set; }\r\n\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceHeaderModel\r\n    {\r\n        public string Number { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceCustomerModel\r\n    {\r\n        public string Name { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Sku { get; set; }\r\n\r\n        public string Description { get; set; }\r\n\r\n        public decimal Quantity { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "Detail bands and collections",
+          "title": "Detail Collections",
           "description": "Assign the detail band data source to a collection path. Fields inside the detail band are then resolved against each collection item."
         },
         {
@@ -7873,7 +8395,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingRunningTotalsExample.razor",
           "content": "<Report Data=\"@invoice\"\r\n        Editable\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Html\" />\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportRunningTotals>\r\n        <ReportRunningTotal Name=\"LineRunningTotal\"\r\n                            DataSource=\"Invoice.Lines\"\r\n                            Field=\"Total\"\r\n                            AggregateFunction=\"ReportAggregateFunction.Sum\" />\r\n    </ReportRunningTotals>\r\n    <ReportPage Name=\"Invoice\">\r\n        <ReportHeader Name=\"Invoice header\" Height=\"60\">\r\n            <ReportText Text=\"Running totals\" X=\"30\" Y=\"18\" Width=\"240\" Height=\"24\" FontSize=\"18\" Bold FontColor=\"@ReportColors.Blue\" />\r\n        </ReportHeader>\r\n        <ReportPageHeader Name=\"Column headers\" Height=\"32\">\r\n            <ReportText Text=\"Description\" X=\"30\" Y=\"8\" Width=\"210\" Height=\"18\" Bold />\r\n            <ReportText Text=\"Total\" X=\"300\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n            <ReportText Text=\"Running total\" X=\"420\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n        </ReportPageHeader>\r\n        <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n            <ReportField Field=\"Description\" X=\"30\" Y=\"6\" Width=\"210\" Height=\"18\" />\r\n            <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"300\" Y=\"6\" Width=\"90\" Height=\"18\" />\r\n            <ReportField Field=\"LineRunningTotal\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n        </ReportDetail>\r\n        <ReportFooter Name=\"Totals\" Height=\"45\">\r\n            <ReportLine X=\"30\" Y=\"6\" Width=\"480\" Height=\"8\" Thickness=\"1\" />\r\n            <ReportText Text=\"Grand total\" X=\"300\" Y=\"18\" Width=\"105\" Height=\"18\" Bold />\r\n            <ReportField Field=\"Lines.Total\" AggregateFunction=\"ReportAggregateFunction.Sum\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"18\" Width=\"90\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n        </ReportFooter>\r\n    </ReportPage>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Lines =\r\n        [\r\n            new() { Description = \"Implementation workshop\", Total = 640.50m },\r\n            new() { Description = \"Reporting module license\", Total = 500.00m },\r\n            new() { Description = \"Priority support\", Total = 100.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Description { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "Aggregates and running totals",
+          "title": "Running Totals",
           "description": "Aggregates summarize a field at render time. Running totals accumulate values as detail rows are rendered."
         }
       ]
@@ -7985,7 +8507,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingPdfExportExample.razor",
           "content": "<Report Data=\"@invoice\"\r\n        Editable\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Pdf\"\r\n                  AllowDownload\r\n                  AllowPrint>\r\n        <PdfPreviewTemplate Context=\"preview\">\r\n            <PdfViewerContainer Height=\"Height.Rem( 48 )\">\r\n                <PdfViewerToolbar ShowPrinting=\"@preview.AllowPrint\"\r\n                                  ShowDownloading=\"@preview.AllowDownload\" />\r\n                <PdfViewer Source=\"@preview.DataUrl\"\r\n                           Mode=\"PdfViewerMode.Continuous\"\r\n                           DownloadFileName=\"@preview.FileName\" />\r\n            </PdfViewerContainer>\r\n        </PdfPreviewTemplate>\r\n    </ReportViewer>\r\n    <ReportToolbar>\r\n        <ReportToolbarGroup>\r\n            <ReportToolbarPanesMenu />\r\n        </ReportToolbarGroup>\r\n        <ReportToolbarGroup>\r\n            <ReportToolbarItem Command=\"ReportCommand.PreviewHtml\" Caption=\"HTML Preview\" />\r\n            <ReportToolbarItem Command=\"ReportCommand.PreviewPdf\" Caption=\"PDF Preview\" />\r\n            <ReportToolbarItem Command=\"ReportCommand.DownloadPdf\" Caption=\"Download PDF\" />\r\n        </ReportToolbarGroup>\r\n        <Div Margin=\"Margin.IsAuto.FromStart\">\r\n            <ReportToolbarGroup>\r\n                <ReportToolbarItem Command=\"ReportCommand.Design\" Caption=\"Design\" ShowCaption />\r\n                <ReportToolbarItem Command=\"ReportCommand.Preview\" Caption=\"Preview\" ShowCaption />\r\n            </ReportToolbarGroup>\r\n        </Div>\r\n    </ReportToolbar>\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportPage Name=\"Invoice\">\r\n        <ReportHeader Name=\"PDF export header\" Height=\"84\">\r\n            <ReportText Text=\"PDF export invoice\" X=\"30\" Y=\"18\" Width=\"240\" Height=\"24\" FontSize=\"20\" Bold FontColor=\"@ReportColors.Blue\" />\r\n            <ReportText Text=\"{Customer.Name}\" X=\"30\" Y=\"48\" Width=\"240\" Height=\"18\" />\r\n            <ReportText Text=\"{Header.Number}\" X=\"405\" Y=\"48\" Width=\"105\" Height=\"18\" TextAlignment=\"TextAlignment.End\" />\r\n        </ReportHeader>\r\n        <ReportPageHeader Name=\"Column headers\" Height=\"32\">\r\n            <ReportText Text=\"Description\" X=\"30\" Y=\"8\" Width=\"270\" Height=\"18\" Bold />\r\n            <ReportText Text=\"Total\" X=\"420\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n        </ReportPageHeader>\r\n        <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n            <ReportField Field=\"Description\" X=\"30\" Y=\"6\" Width=\"270\" Height=\"18\" />\r\n            <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" FontColor=\"@ReportColors.Green\" />\r\n        </ReportDetail>\r\n        <ReportFooter Name=\"Invoice footer\" Height=\"45\">\r\n            <ReportLine X=\"30\" Y=\"6\" Width=\"480\" Height=\"8\" Thickness=\"1\" />\r\n            <ReportText Text=\"Invoice total\" X=\"300\" Y=\"18\" Width=\"105\" Height=\"18\" Bold />\r\n            <ReportField Field=\"Header.Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"18\" Width=\"90\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n        </ReportFooter>\r\n    </ReportPage>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Header = new()\r\n        {\r\n            Number = \"INV-1001\",\r\n            Total = 1240.50m,\r\n        },\r\n        Customer = new()\r\n        {\r\n            Name = \"Northwind Traders\",\r\n        },\r\n        Lines =\r\n        [\r\n            new() { Description = \"Implementation workshop\", Total = 640.50m },\r\n            new() { Description = \"Reporting module license\", Total = 500.00m },\r\n            new() { Description = \"Priority support\", Total = 100.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public InvoiceHeaderModel Header { get; set; }\r\n\r\n        public InvoiceCustomerModel Customer { get; set; }\r\n\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceHeaderModel\r\n    {\r\n        public string Number { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceCustomerModel\r\n    {\r\n        public string Name { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Description { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "PDF preview and download",
+          "title": "PDF Preview",
           "description": "Enable PDF as a preview format and provide a PdfPreviewTemplate to render the generated document with Blazorise PdfViewer or another PDF viewer."
         },
         {
@@ -8041,7 +8563,7 @@
           "kind": "csharp",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ProgressBarReportElementPluginExample.csharp",
           "content": "public sealed class ProgressBarReportElementPlugin : IReportElementPlugin, IReportElementPdfRenderer\r\n{\r\n    public const string TypeName = \"docs.progress-bar\";\r\n\r\n    public ReportElementDescriptor Descriptor { get; } = new()\r\n    {\r\n        TypeName = TypeName,\r\n        DisplayName = \"Progress Bar\",\r\n        Category = \"Custom\",\r\n        Icon = IconName.ChartBar,\r\n        Width = 200,\r\n        Height = 38,\r\n        Capabilities = ReportElementCapabilities.Default,\r\n    };\r\n\r\n    public Type RendererComponentType => typeof( ProgressBarReportElementRenderer );\r\n\r\n    public Type PropertiesComponentType => typeof( ProgressBarReportElementProperties );\r\n\r\n    public IReportElementPdfRenderer PdfRenderer => this;\r\n\r\n    public ReportCustomElementDefinition CreateElement()\r\n    {\r\n        return new()\r\n        {\r\n            Properties = new()\r\n            {\r\n                [\"caption\"] = \"Progress\",\r\n                [\"value\"] = 60,\r\n                [\"color\"] = \"#0D6EFD\",\r\n            },\r\n        };\r\n    }\r\n\r\n    public IEnumerable<PdfElementDefinition> Render( ReportElementPdfRenderContext context )\r\n    {\r\n        int value = GetValue( context.Element );\r\n        double trackHeight = Math.Min( 12, context.Element.Height );\r\n        double trackY = Math.Max( 0, context.Element.Height - trackHeight );\r\n\r\n        yield return CreateLabel( context.Element, GetCaption( context.Element ), TextAlignment.Start );\r\n        yield return CreateLabel( context.Element, $\"{value}%\", TextAlignment.End );\r\n        yield return CreateRectangle( context.Element.Width, trackY, trackHeight, \"#E9ECEF\" );\r\n        yield return CreateRectangle( context.Element.Width * value / 100d, trackY, trackHeight, GetColor( context.Element ) );\r\n    }\r\n\r\n    private static string GetCaption( ReportCustomElementDefinition element )\r\n        => element?.Properties?[\"caption\"]?.GetValue<string>() ?? \"Progress\";\r\n\r\n    private static int GetValue( ReportCustomElementDefinition element )\r\n        => Math.Clamp( element?.Properties?[\"value\"]?.GetValue<int>() ?? 0, 0, 100 );\r\n\r\n    private static string GetColor( ReportCustomElementDefinition element )\r\n        => element?.Properties?[\"color\"]?.GetValue<string>() ?? \"#0D6EFD\";\r\n\r\n    private static PdfElementDefinition CreateLabel( ReportCustomElementDefinition element, string text, TextAlignment alignment )\r\n    {\r\n        return new()\r\n        {\r\n            Type = PdfElementType.Text,\r\n            Width = element.Width,\r\n            Height = Math.Min( 14, element.Height ),\r\n            Text = text,\r\n            Wrap = false,\r\n            Font = new()\r\n            {\r\n                Size = 9,\r\n                Bold = true,\r\n                Alignment = alignment,\r\n                VerticalAlignment = VerticalAlignment.Middle,\r\n                Color = \"#212529\",\r\n            },\r\n            Border = new()\r\n            {\r\n                Width = 0,\r\n            },\r\n        };\r\n    }\r\n\r\n    private static PdfElementDefinition CreateRectangle( double width, double y, double height, string color )\r\n    {\r\n        return new()\r\n        {\r\n            Type = PdfElementType.Rectangle,\r\n            Y = y,\r\n            Width = width,\r\n            Height = height,\r\n            Border = new()\r\n            {\r\n                Width = 0,\r\n            },\r\n            Appearance = new()\r\n            {\r\n                BackgroundColor = color,\r\n            },\r\n        };\r\n    }\r\n}",
-          "title": "Plugin definition and PDF renderer",
+          "title": "PDF Plugin",
           "description": "The descriptor controls toolbox metadata and capabilities, while the factory initializes plugin-owned JSON properties. The PDF renderer maps the progress element to text and rectangle primitives positioned inside the element bounds."
         },
         {
@@ -8059,52 +8581,6 @@
           "content": "@inherits BaseReportElementPropertiesEditor\r\n\r\n<Field Horizontal>\r\n    <FieldLabel ColumnSize=\"ColumnSize.Is4\" TextSize=\"TextSize.Small\">Caption</FieldLabel>\r\n    <FieldBody ColumnSize=\"ColumnSize.Is8\">\r\n        <TextInput Value=\"@ProgressBarReportElementPlugin.GetCaption( Context.Element )\"\r\n                   ValueChanged=\"@OnCaptionChanged\"\r\n                   Size=\"Size.Small\" />\r\n    </FieldBody>\r\n</Field>\r\n\r\n<Field Horizontal>\r\n    <FieldLabel ColumnSize=\"ColumnSize.Is4\" TextSize=\"TextSize.Small\">Value</FieldLabel>\r\n    <FieldBody ColumnSize=\"ColumnSize.Is8\">\r\n        <NumericInput TValue=\"int\"\r\n                      Value=\"@ProgressBarReportElementPlugin.GetValue( Context.Element )\"\r\n                      ValueChanged=\"@OnValueChanged\"\r\n                      Min=\"0\"\r\n                      Max=\"100\"\r\n                      Immediate=\"true\"\r\n                      Size=\"Size.Small\" />\r\n    </FieldBody>\r\n</Field>\r\n\r\n<Field Horizontal>\r\n    <FieldLabel ColumnSize=\"ColumnSize.Is4\" TextSize=\"TextSize.Small\">Color</FieldLabel>\r\n    <FieldBody ColumnSize=\"ColumnSize.Is8\">\r\n        <ColorPicker Value=\"@ProgressBarReportElementPlugin.GetColor( Context.Element )\"\r\n                     ValueChanged=\"@OnColorChanged\"\r\n                     Size=\"Size.Small\" />\r\n    </FieldBody>\r\n</Field>\r\n\r\n@code {\r\n    private Task OnCaptionChanged( string value )\r\n        => Context.Update( element => element.Properties[\"caption\"] = value );\r\n\r\n    private Task OnValueChanged( int value )\r\n        => Context.Update( element => element.Properties[\"value\"] = Math.Clamp( value, 0, 100 ) );\r\n\r\n    private Task OnColorChanged( string value )\r\n        => Context.Update( element => element.Properties[\"color\"] = value );\r\n}",
           "title": "Properties editor",
           "description": "Plugin property changes are applied through the context so they participate in undo, refresh, and multi-selection updates."
-        }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "IReportElementPlugin"
-        },
-        {
-          "kind": "type",
-          "name": "IReportElementPluginRegistry"
-        },
-        {
-          "kind": "type",
-          "name": "ReportElementDescriptor"
-        },
-        {
-          "kind": "type",
-          "name": "ReportElementCapabilities"
-        },
-        {
-          "kind": "type",
-          "name": "ReportCustomElementDefinition"
-        },
-        {
-          "kind": "type",
-          "name": "BaseReportElementRenderer"
-        },
-        {
-          "kind": "type",
-          "name": "BaseReportElementPropertiesEditor"
-        },
-        {
-          "kind": "type",
-          "name": "IReportElementPdfRenderer"
-        },
-        {
-          "kind": "type",
-          "name": "ReportElementRenderContext"
-        },
-        {
-          "kind": "type",
-          "name": "ReportElementPropertiesContext"
-        },
-        {
-          "kind": "type",
-          "name": "ReportElementPdfRenderContext"
         }
       ]
     },
@@ -8190,7 +8666,7 @@
     {
       "route": "/docs/extensions/richtextedit/api",
       "title": "Blazorise RichTextEdit API",
-      "description": "Explore the API reference for the Blazorise RichTextEdit component, detailing available attributes and methods.",
+      "description": "Explore the Blazorise RichTextEdit API reference, including editor parameters, toolbar components, events, and methods for Blazor applications.",
       "pagePath": "Pages/Docs/Extensions/RichTextEdit/RichTextEditApiPage.razor",
       "examples": []
     },
@@ -8245,8 +8721,25 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/RouterTabs/Examples/RouterTabsPageAttributeExample.snippet",
           "content": "@attribute [RouterTabsPageAttribute( Name: \"Example\", Closeable: true )]",
-          "title": "Configure pages as tabs",
+          "title": "Tab Configuration",
           "description": "Use RouterTabsPageAttribute to configure how your pages will behave when rendered as tabs."
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/routertabs/api",
+      "title": "Blazorise RouterTabs API",
+      "description": "Explore the Blazorise RouterTabs API reference for routed tab parameters, page attributes, localization, and configuration options.",
+      "pagePath": "Pages/Docs/Extensions/RouterTabs/RouterTabsApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "RouterTabs"
+        },
+        {
+          "kind": "type",
+          "name": "RouterTabsOptions"
         }
       ]
     },
@@ -8355,7 +8848,7 @@
     {
       "route": "/docs/extensions/scheduler/api",
       "title": "Blazorise Scheduler API",
-      "description": "Explore the API reference for the Blazorise Scheduler component, detailing available attributes and methods.",
+      "description": "Explore the Blazorise Scheduler API reference, including appointment parameters, views, events, templates, and methods for Blazor applications.",
       "pagePath": "Pages/Docs/Extensions/Scheduler/SchedulerApiPage.razor",
       "examples": []
     },
@@ -8396,7 +8889,14 @@
           "title": "Multiple selection",
           "description": "Just like with a regular Select component, add the Multiple parameter to allow more than one option to be selected. Also, bind the Value parameter."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/selectlist/api",
+      "title": "Blazorise Select List API",
+      "description": "Explore the Blazorise Select List API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/SelectList/SelectListApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -8449,6 +8949,51 @@
           "content": "<Sidebar Data=\"@sidebarInfo\" />\r\n\r\n@code{\r\n    SidebarInfo sidebarInfo = new SidebarInfo\r\n    {\r\n        Brand = new SidebarBrandInfo\r\n        {\r\n            Text = \"Blazorise Demo\"\r\n        },\r\n        Items = new List<SidebarItemInfo>\r\n    {\r\n            new SidebarItemInfo { To = \"#\", Text = \"Dashboard\" },\r\n            new SidebarItemInfo\r\n            {\r\n                Text = \"Email\",\r\n                Icon = IconName.Mail,\r\n                SubItems = new List<SidebarItemInfo>\r\n            {\r\n                    new SidebarItemInfo { To = \"#email/inbox\", Text = \"Inbox\" },\r\n                    new SidebarItemInfo { To = \"#email/compose\", Text = \"Compose Email\" },\r\n                }\r\n            },\r\n            new SidebarItemInfo\r\n            {\r\n                Text = \"Applications\",\r\n                SubItems = new List<SidebarItemInfo>\r\n            {\r\n                    new SidebarItemInfo { To = \"#apps/todo\", Text = \"Todo List\" }\r\n                }\r\n            },\r\n        }\r\n    };\r\n}",
           "title": "Dynamic",
           "description": "You can also build sidebar dynamically by using the Data attribute and the SidebarInfo class. The SidebarInfo is fully serializable so you can save it to an external source or database."
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/sidebar/api",
+      "title": "Blazorise Sidebar API",
+      "description": "Explore the Blazorise Sidebar API reference for collapsible navigation components, dynamic sidebar data, links, labels, and nested items.",
+      "pagePath": "Pages/Docs/Extensions/Sidebar/SidebarApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Sidebar"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarContent"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarBrand"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarNavigation"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarLabel"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarItem"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarLink"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarSubItem"
+        },
+        {
+          "kind": "type",
+          "name": "SidebarFooter"
         }
       ]
     },
@@ -8562,7 +9107,14 @@
           "title": "Undo",
           "description": "The Undo() method in the SignaturePad component removes the last stroke drawn on the signature pad. Each action, or stroke, is independent, and calling Undo() will only affect the most recent one. It's an effective way to correct errors without clearing the entire pad. This function doesn't revert changes to SignaturePad's configuration, such as pen color or width, and has no effect if no strokes have been made."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/signaturepad/api",
+      "title": "Blazorise Signature Pad API",
+      "description": "Explore the Blazorise Signature Pad API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/SignaturePad/SignaturePadApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -8624,7 +9176,14 @@
           "title": "Stacked snackbars",
           "description": "When you want to show multiple snackbars stacked on top of each other you can use a wrapper component SnackbarStack . You can specify Action&lt;SnackbarOptions&gt; options when calling PushAsync() in order to specify the Snackbar parameters available below."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/snackbar/api",
+      "title": "Blazorise Snackbar API",
+      "description": "Explore the Blazorise Snackbar API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/Snackbar/SnackbarApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -8694,7 +9253,14 @@
           "title": "Size",
           "description": "Size can be changed using predefined size variants."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/spinkit/api",
+      "title": "Blazorise Spin Kit API",
+      "description": "Explore the Blazorise Spin Kit API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/SpinKit/SpinKitApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -8770,7 +9336,14 @@
           "title": "Background Image",
           "description": "Using GutterBackgroundImage can help to enhance the visual appeal of your application, or provide additional context or functionality. For instance, a background image might be used to represent the direction of resizing, or simply to better match the overall design theme of your application. This parameter accepts either a Base64 encoded string that represents an image, or a URL that points to an image resource. Remember to choose an image that will look good when stretched or repeated across the width of the gutter, and that will not distract from the usability of the splitter."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/splitter/api",
+      "title": "Blazorise Splitter API",
+      "description": "Explore the Blazorise Splitter API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/Splitter/SplitterApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -8964,40 +9537,6 @@
           "title": "Options animation",
           "description": "Configure animation through SvgChartOptions.Animation when options are built in C#."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "SvgChartAnimation"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartAnimationOptions"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartAnimationTargetOptions"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartGeometryAnimationOptions"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartOpacityAnimationOptions"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartStrokeAnimationOptions"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartTransformAnimationOptions"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartPathAnimationOptions"
-        }
       ]
     },
     {
@@ -9030,56 +9569,6 @@
           "title": "Options annotations",
           "description": "Configure annotations through SvgChartOptions.Annotations when chart options are created in C#."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "SvgChartLineAnnotation"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartBoxAnnotation"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartLabelAnnotation"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartEllipseAnnotation"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartPointAnnotation"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartAnnotationOptions"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartLineAnnotationOptions"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartBoxAnnotationOptions"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartLabelAnnotationOptions"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartEllipseAnnotationOptions"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartPointAnnotationOptions"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartAnnotationLabelOptions"
-        }
       ]
     },
     {
@@ -9103,16 +9592,6 @@
           "content": "<SvgDoughnutChart TItem=\"object\"\r\n                  Data=\"@data\"\r\n                  Options=\"@options\"\r\n                  Clicked=\"@OnPointClicked\">\r\n    <SvgChartTitle Title='@(\"Traffic sources\")' Subtitle='@(\"Centered labels on radial slices\")' />\r\n    <SvgChartTooltip Enabled />\r\n</SvgDoughnutChart>\r\n\r\n<Paragraph Margin=\"Margin.Is2.FromTop.Is0.FromBottom\">@lastEvent</Paragraph>\r\n\r\n@code {\r\n    private string lastEvent = \"Click a slice or label.\";\r\n\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 340,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n        DataLabels = new()\r\n        {\r\n            Visible = true,\r\n            Position = SvgChartDataLabelPosition.Center,\r\n            Formatter = FormatShareLabel,\r\n            Font = new()\r\n            {\r\n                Color = Color.Light,\r\n                Weight = \"700\",\r\n            },\r\n        },\r\n    };\r\n\r\n    private readonly SvgChartData<double?> data = new()\r\n    {\r\n        Labels = [\"Search\", \"Direct\", \"Social\", \"Referral\"],\r\n        Series =\r\n        [\r\n            new()\r\n            {\r\n                Name = \"Share\",\r\n                Values = [42, 27, 18, 13],\r\n            },\r\n        ],\r\n    };\r\n\r\n    private Task OnPointClicked( SvgChartPointEventArgs eventArgs )\r\n    {\r\n        lastEvent = $\"Clicked {eventArgs.Category}: {eventArgs.Value}%\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private static string FormatShareLabel( SvgChartDataLabelContext context )\r\n    {\r\n        return $\"{Convert.ToDouble( context.Value, System.Globalization.CultureInfo.InvariantCulture ):0}%\";\r\n    }\r\n}",
           "title": "Radial labels",
           "description": "Render labels inside doughnut slices by configuring SvgChartOptions.DataLabels ."
-        }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "SvgChartDataLabels"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartDataLabelsOptions"
         }
       ]
     },
@@ -9138,28 +9617,6 @@
           "title": "Plugin component",
           "description": "The plugin inherits from SvgChartPluginBase and renders SVG content using the resolved chart context."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "ISvgChartPlugin"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartPluginBase"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartPluginRenderContext"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartPluginSeries"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartPluginPlotArea"
-        }
       ]
     },
     {
@@ -9183,20 +9640,6 @@
           "content": "@using System.Threading\r\n@implements IAsyncDisposable\r\n\r\n<Button Color=\"Color.Primary\" Outline Clicked=\"@AppendValue\">\r\n    Append sample\r\n</Button>\r\n\r\n<SvgAreaChart @ref=\"chart\"\r\n              TItem=\"object\"\r\n              Data=\"@data\"\r\n              Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Rolling throughput\")' Subtitle='@(\"Retains the last 20 seconds of samples\")' />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartStreaming Enabled\r\n                       VisibleDataPoints=\"10\"\r\n                       Duration=\"@TimeSpan.FromSeconds( 20 )\"\r\n                       Animation=\"@streamingAnimation\" />\r\n    <SvgChartTimeAxis Format=\"HH:mm:ss\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n</SvgAreaChart>\r\n\r\n@code {\r\n    private static readonly TimeSpan StreamingInterval = TimeSpan.FromSeconds( 1 );\r\n\r\n    private readonly Random random = new( 24 );\r\n\r\n    private SvgAreaChart<object> chart;\r\n\r\n    private double currentThroughput = 64;\r\n\r\n    private CancellationTokenSource streamingCancellationTokenSource;\r\n\r\n    private Task streamingTask;\r\n\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Visible = false },\r\n        XAxis = new()\r\n        {\r\n            GridLines = new() { Visible = true },\r\n            Labels = new() { Step = 2, Offset = 30 },\r\n        },\r\n    };\r\n\r\n    private readonly SvgChartStreamingAnimationOptions streamingAnimation = new()\r\n    {\r\n        Duration = StreamingInterval,\r\n    };\r\n\r\n    private readonly SvgChartData<double?> data = new()\r\n    {\r\n        Series =\r\n        [\r\n            new()\r\n            {\r\n                Name = \"Throughput\",\r\n                Color = Color.Success,\r\n            },\r\n        ],\r\n    };\r\n\r\n    protected override Task OnAfterRenderAsync( bool firstRender )\r\n    {\r\n        if ( firstRender )\r\n        {\r\n            streamingCancellationTokenSource = new();\r\n            streamingTask = RunStreamingAsync( streamingCancellationTokenSource.Token );\r\n        }\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private async Task RunStreamingAsync( CancellationToken cancellationToken )\r\n    {\r\n        try\r\n        {\r\n            using PeriodicTimer timer = new( StreamingInterval );\r\n\r\n            while ( await timer.WaitForNextTickAsync( cancellationToken ) )\r\n            {\r\n                await InvokeAsync( AppendValue );\r\n            }\r\n        }\r\n        catch ( OperationCanceledException )\r\n        {\r\n        }\r\n    }\r\n\r\n    private async Task AppendValue()\r\n    {\r\n        currentThroughput = Math.Clamp( currentThroughput + random.Next( -10, 11 ), 35, 95 );\r\n\r\n        if ( chart is not null )\r\n            await chart.AppendValue( \"Throughput\", DateTimeOffset.Now, currentThroughput );\r\n    }\r\n\r\n    public async ValueTask DisposeAsync()\r\n    {\r\n        if ( streamingCancellationTokenSource is not null )\r\n        {\r\n            await streamingCancellationTokenSource.CancelAsync();\r\n            streamingCancellationTokenSource.Dispose();\r\n        }\r\n\r\n        if ( streamingTask is not null )\r\n            await streamingTask;\r\n    }\r\n}",
           "title": "Rolling window",
           "description": "Use Duration to retain only recent timestamped samples."
-        }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "SvgChart"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartStreamingOptions"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartStreamingAnimationOptions"
         }
       ]
     },
@@ -9222,16 +9665,6 @@
           "title": "Options trendlines",
           "description": "Configure multiple trendlines through SvgChartOptions.Trendlines ."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "SvgChartTrendline"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartTrendlineOptions"
-        }
       ]
     },
     {
@@ -9255,20 +9688,6 @@
           "content": "<Div Flex=\"Flex.Row\" Gap=\"Gap.Is2\" Margin=\"Margin.Is3.FromBottom\">\r\n    <Button Color=\"Color.Primary\" Outline Clicked=\"@ZoomIn\">Zoom in</Button>\r\n    <Button Color=\"Color.Light\" Clicked=\"@ResetZoom\">Reset</Button>\r\n</Div>\r\n\r\n<SvgLineChart @ref=\"chart\"\r\n              TItem=\"CpuSample\"\r\n              Items=\"@samples\"\r\n              Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"CPU utilization\")' Subtitle='@(\"Initial viewport configured declaratively\")' />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartZoom Enabled\r\n                  Mode=\"SvgChartZoomMode.X\"\r\n                  MaxZoom=\"12\"\r\n                  Viewport=\"@viewport\"\r\n                  ViewportChanged=\"@OnViewportChanged\" />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Minute )\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgLineSeries Name=\"CPU\" Value=\"@( item => item.Value )\" Color=\"Color.Primary\" StrokeWidth=\"3\" MarkerRadius=\"4\" />\r\n</SvgLineChart>\r\n\r\n@code {\r\n    private SvgLineChart<CpuSample> chart;\r\n\r\n    private SvgChartViewport viewport = new()\r\n    {\r\n        XMin = 2,\r\n        XMax = 7,\r\n    };\r\n\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Visible = false },\r\n        XAxis = new()\r\n        {\r\n            GridLines = new() { Visible = true },\r\n        },\r\n    };\r\n\r\n    private readonly List<CpuSample> samples =\r\n    [\r\n        new() { Minute = \"00:00\", Value = 45 },\r\n        new() { Minute = \"00:05\", Value = 52 },\r\n        new() { Minute = \"00:10\", Value = 49 },\r\n        new() { Minute = \"00:15\", Value = 64 },\r\n        new() { Minute = \"00:20\", Value = 72 },\r\n        new() { Minute = \"00:25\", Value = 68 },\r\n        new() { Minute = \"00:30\", Value = 77 },\r\n        new() { Minute = \"00:35\", Value = 70 },\r\n        new() { Minute = \"00:40\", Value = 74 },\r\n        new() { Minute = \"00:45\", Value = 82 },\r\n    ];\r\n\r\n    private async Task ZoomIn()\r\n    {\r\n        if ( chart is not null )\r\n            await chart.ZoomIn();\r\n    }\r\n\r\n    private async Task ResetZoom()\r\n    {\r\n        if ( chart is not null )\r\n            await chart.ResetZoom();\r\n    }\r\n\r\n    private Task OnViewportChanged( SvgChartViewport changedViewport )\r\n    {\r\n        viewport = changedViewport;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private sealed class CpuSample\r\n    {\r\n        public string Minute { get; set; }\r\n\r\n        public double Value { get; set; }\r\n    }\r\n}",
           "title": "Initial viewport",
           "description": "Start a chart already zoomed to a configured viewport and control it from a chart reference."
-        }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "SvgChartZoom"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartZoomOptions"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartViewport"
         }
       ]
     },
@@ -9365,7 +9784,14 @@
           "title": "Captions",
           "description": "You can add captions above the lists by providing strings StartCaption and EndCaption or custom templates StartCaptionTemplate and EndCaptionTemplate . Turning the captions on or off is controlled by the ShowCaptions parameter."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/transferlist/api",
+      "title": "Blazorise Transfer List API",
+      "description": "Explore the Blazorise Transfer List API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/TransferList/TransferListApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -9422,7 +9848,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/TreeView/Examples/TreeViewExpandExample.razor",
           "content": "<Button Color=\"Color.Primary\" Clicked=\"@(() => treeViewRef.ExpandAll())\">Expand all</Button>\r\n<Button Color=\"Color.Secondary\" Clicked=\"@(() => treeViewRef.CollapseAll())\">Collapse all</Button>\r\n\r\n<TreeView @ref=\"@treeViewRef\" Nodes=\"Items\" GetChildNodes=\"@(item => item.Children)\" HasChildNodes=\"@(item => item.Children?.Any() == true)\">\r\n    <NodeContent>\r\n        <Icon Name=\"IconName.Folder\" />\r\n        @context.Text\r\n    </NodeContent>\r\n</TreeView>\r\n\r\n@code {\r\n    TreeView<Item> treeViewRef;\r\n\r\n    public class Item\r\n    {\r\n        public string Text { get; set; }\r\n        public IEnumerable<Item> Children { get; set; }\r\n    }\r\n\r\n    IEnumerable<Item> Items = new[]\r\n    {\r\n        new Item { Text = \"Item 1\" },\r\n        new Item\r\n        {\r\n            Text = \"Item 2\",\r\n            Children = new []\r\n            {\r\n                new Item { Text = \"Item 2.1\" },\r\n                new Item\r\n                {\r\n                    Text = \"Item 2.2\",\r\n                    Children = new []\r\n                    {\r\n                        new Item { Text = \"Item 2.2.1\" },\r\n                        new Item { Text = \"Item 2.2.2\" },\r\n                        new Item { Text = \"Item 2.2.3\" },\r\n                        new Item { Text = \"Item 2.2.4\" }\r\n                    }\r\n                },\r\n                new Item { Text = \"Item 2.3\" },\r\n                new Item { Text = \"Item 2.4\" }\r\n            }\r\n        },\r\n        new Item { Text = \"Item 3\" },\r\n    };\r\n}",
-          "title": "Expanding and Collapsing Nodes",
+          "title": "Node Expansion",
           "description": "By default, all nodes are collapsed except for the root node(s). To expand a node, click on the triangle icon next to its label. To collapse a node, click on the triangle icon again. You can also programmatically expand or collapse nodes using the ExpandAll() and CollapseAll() property of the TreeView class."
         },
         {
@@ -9465,7 +9891,14 @@
           "title": "Virtualization",
           "description": "This example demonstrates how to use virtualization in a Blazorise TreeView component to efficiently render large hierarchical data sets. Virtualization improves performance by only rendering the visible nodes in the viewport, rather than all nodes in the tree. This is particularly useful when dealing with large numbers of nodes, as it reduces the DOM size and enhances responsiveness. For virtualization to function correctly, it is essential to specify both the Height and Overflow properties Height : Defines the fixed height of the TreeView component. Without a specified height, the tree would expand indefinitely, defeating the purpose of virtualization since all nodes would be rendered at once. Overflow : Ensures that the tree's content is scrollable. This scrollable area allows for dynamic loading of nodes as the user scrolls, effectively utilizing virtualization to render only the nodes currently in view. By default, when Virtualize is enabled, we will define Height and Overflow for you, if they are not already explicitly defined."
         }
-      ],
+      ]
+    },
+    {
+      "route": "/docs/extensions/treeview/api",
+      "title": "Blazorise Tree View API",
+      "description": "Explore the Blazorise Tree View API reference, including component parameters, events, methods, and related types for Blazor applications.",
+      "pagePath": "Pages/Docs/Extensions/TreeView/TreeViewApiPage.razor",
+      "examples": [],
       "apiRefs": [
         {
           "kind": "type",
@@ -9540,7 +9973,7 @@
     {
       "route": "/docs/extensions/video/api",
       "title": "Blazorise Video API",
-      "description": "Explore the API reference for the Blazorise Video component, detailing available attributes and methods.",
+      "description": "Explore the Blazorise Video API reference, including media source parameters, playback events, methods, and streaming options for Blazor applications.",
       "pagePath": "Pages/Docs/Extensions/Video/VideoApiPage.razor",
       "examples": []
     },
@@ -10242,7 +10675,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/McpGitHubServerEntryExample.snippet",
           "content": "{\r\n  \"blazorise-docs\": {\r\n    \"type\": \"http\",\r\n    \"url\": \"https://mcp.blazorise.com/mcp\",\r\n    \"tools\": [\r\n      \"search_docs\"\r\n    ]\r\n  }\r\n}",
-          "title": "GitHub.com coding agent entry",
+          "title": "GitHub Agent",
           "description": "Use this server object inside your mcpServers configuration on GitHub.com."
         },
         {
@@ -10503,7 +10936,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/Messages/Examples/MessageServiceUsageExample.razor",
           "content": "<Router AppAssembly=\"typeof(App).Assembly\">\r\n    <Found>...</Found>\r\n    <NotFound>...</NotFound>\r\n</Router>\r\n\r\n<MessageProvider />",
-          "title": "Step 1. Define wrapper component",
+          "title": "Step 1: Wrapper",
           "description": "IMessageService is automatically registered by Blazorise but it needs just one thing on your side to make it work. You need to place MessageProvider somewhere in your application razor code. It can be placed anywhere, but a good approach is to place it in App.razor like in the following example."
         },
         {
@@ -10542,7 +10975,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/Messages/Examples/MessageServiceUsageExample.razor",
           "content": "<Router AppAssembly=\"typeof(App).Assembly\">\r\n    <Found>...</Found>\r\n    <NotFound>...</NotFound>\r\n</Router>\r\n\r\n<MessageProvider />",
-          "title": "Step 1. Define wrapper component",
+          "title": "Step 1: Wrapper",
           "description": "IMessageService is automatically registered by Blazorise but it needs just one thing on your side to make it work. You need to place MessageProvider somewhere in your application razor code. It can be placed anywhere, but a good approach is to place it in App.razor like in the following example."
         },
         {
@@ -10567,6 +11000,19 @@
           "content": "<Button Color=\"Color.Primary\" Clicked=\"@ShowChooseDialog\">Choose an option</Button>\r\n\r\n<Paragraph>\r\n    You selected: <Strong>@selectedOption</Strong>\r\n</Paragraph>\r\n\r\n@code {\r\n    [Inject] IMessageService MessageService { get; set; }\r\n\r\n    object selectedOption;\r\n\r\n    async Task ShowChooseDialog()\r\n    {\r\n        selectedOption = await MessageService.Choose( \"Make a Selection\", \"Choose one\", options =>\r\n        {\r\n            options.Choices = new List<MessageOptionsChoice>\r\n            {\r\n                new(\"option-1\", \"Primary Option\", Color.Primary),\r\n                new(\"option-2\", \"Secondary Option\", Color.Secondary),\r\n                new(\"option-3\", \"Success Option\", Color.Success)\r\n            };\r\n        } );\r\n    }\r\n}",
           "title": "Choose",
           "description": "The Choose() method is used to show a dialog with multiple choices. It can be used to show a list of options to the user and wait for their selection."
+        }
+      ]
+    },
+    {
+      "route": "/docs/services/message-provider/api",
+      "title": "Blazorise Message Service API",
+      "description": "Explore the Blazorise MessageProvider and IMessageService API reference for message dialogs, confirmations, choices, parameters, events, and methods.",
+      "pagePath": "Pages/Docs/Services/Messages/MessageApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "MessageProvider"
         }
       ]
     },
@@ -10641,6 +11087,19 @@
       ]
     },
     {
+      "route": "/docs/services/modal-provider/api",
+      "title": "Blazorise Modal Provider API",
+      "description": "Explore the Blazorise ModalProvider and IModalService API reference for modal parameters, events, instances, and programmatic methods.",
+      "pagePath": "Pages/Docs/Services/ModalProvider/ModalProviderApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ModalProvider"
+        }
+      ]
+    },
+    {
       "route": "/docs/services/notification",
       "title": "Blazorise Notification service",
       "description": "The INotificationService is a powerful helper utility built on top of Snackbar component and is used for showing simple alerts and notifications.",
@@ -10651,7 +11110,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/Notifications/Examples/NotificationServiceInstallationExample.razor",
           "content": "dotnet add package Blazorise.Components",
-          "title": "Step 1: Download from NuGet",
+          "title": "Step 1: Install",
           "description": "Install extension from NuGet."
         },
         {
@@ -10659,7 +11118,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Snackbar/Examples/SnackbarImportsExample.snippet",
           "content": "@using Blazorise.Components\r\n@using Blazorise.Snackbar",
-          "title": "Step 2. Define Usings",
+          "title": "Step 2: Usings",
           "description": "Since notification service is created as a wrapper around the Snackbar component so it is also required to define the namespace inside of your main _Imports.razor file."
         },
         {
@@ -10667,7 +11126,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/Notifications/Examples/NotificationServiceUsageExample.razor",
           "content": "<Router AppAssembly=\"typeof(App).Assembly\">\r\n    <Found>...</Found>\r\n    <NotFound>...</NotFound>\r\n</Router>\r\n\r\n<NotificationProvider />",
-          "title": "Step 3. Define wrapper component",
+          "title": "Step 3: Wrapper",
           "description": "INotificationService is automatically registered by Blazorise but it needs just one thing on your side to make it work. You need to place NotificationProvider somewhere in your application razor code. It can be placed anywhere, but a good approach is to place it in App.razor like in the following example."
         },
         {
@@ -10675,7 +11134,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Snackbar/Examples/SnackbarResourcesExample.snippet",
           "content": "<link href=\"_content/Blazorise.Snackbar/blazorise.snackbar.css\" rel=\"stylesheet\" />",
-          "title": "Step 4. Static files",
+          "title": "Step 4: Assets",
           "description": "This step is only needed if you didn't already define any CSS files for the Snackbar component. Remember, The INotificationService is built on top of Snackbar ."
         },
         {
@@ -10707,7 +11166,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/Notifications/Examples/NotificationServiceInstallationExample.razor",
           "content": "dotnet add package Blazorise.Components",
-          "title": "Step 1: Download from NuGet",
+          "title": "Step 1: Install",
           "description": "Install extension from NuGet."
         },
         {
@@ -10715,7 +11174,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Snackbar/Examples/SnackbarImportsExample.snippet",
           "content": "@using Blazorise.Components\r\n@using Blazorise.Snackbar",
-          "title": "Step 2. Define Usings",
+          "title": "Step 2: Usings",
           "description": "Since notification service is created as a wrapper around the Snackbar component so it is also required to define the namespace inside of your main _Imports.razor file."
         },
         {
@@ -10723,7 +11182,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/Notifications/Examples/NotificationServiceUsageExample.razor",
           "content": "<Router AppAssembly=\"typeof(App).Assembly\">\r\n    <Found>...</Found>\r\n    <NotFound>...</NotFound>\r\n</Router>\r\n\r\n<NotificationProvider />",
-          "title": "Step 3. Define wrapper component",
+          "title": "Step 3: Wrapper",
           "description": "INotificationService is automatically registered by Blazorise but it needs just one thing on your side to make it work. You need to place NotificationProvider somewhere in your application razor code. It can be placed anywhere, but a good approach is to place it in App.razor like in the following example."
         },
         {
@@ -10731,7 +11190,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Snackbar/Examples/SnackbarResourcesExample.snippet",
           "content": "<link href=\"_content/Blazorise.Snackbar/blazorise.snackbar.css\" rel=\"stylesheet\" />",
-          "title": "Step 4. Static files",
+          "title": "Step 4: Assets",
           "description": "This step is only needed if you didn't already define any CSS files for the Snackbar component. Remember, The INotificationService is built on top of Snackbar ."
         },
         {
@@ -10751,6 +11210,13 @@
           "description": "You can customize the notification by passing additional options like duration, button text, icons, and layout using a configuration callback."
         }
       ]
+    },
+    {
+      "route": "/docs/services/notification-provider/api",
+      "title": "Blazorise Notification Service API",
+      "description": "Explore the Blazorise NotificationProvider and INotificationService API reference for notification parameters, events, and message methods.",
+      "pagePath": "Pages/Docs/Services/Notifications/NotificationApiPage.razor",
+      "examples": []
     },
     {
       "route": "/docs/services/offcanvas-provider",
@@ -10831,6 +11297,19 @@
       ]
     },
     {
+      "route": "/docs/services/offcanvas-provider/api",
+      "title": "Blazorise Offcanvas Provider API",
+      "description": "Explore the Blazorise OffcanvasProvider and IOffcanvasService API reference for panel parameters, events, instances, and programmatic methods.",
+      "pagePath": "Pages/Docs/Services/OffcanvasProvider/OffcanvasProviderApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "OffcanvasProvider"
+        }
+      ]
+    },
+    {
       "route": "/docs/services/page-progress",
       "title": "Blazorise Page Progress service",
       "description": "The IPageProgressService is built on top of PageProgress component and is used to show small progress bar at the top of the page.",
@@ -10841,7 +11320,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/PageProgresses/Examples/PageProgressServiceUsageExample.razor",
           "content": "<Router AppAssembly=\"typeof(App).Assembly\">\r\n    <Found>...</Found>\r\n    <NotFound>...</NotFound>\r\n</Router>\r\n\r\n<PageProgressProvider />",
-          "title": "Step 1. Define wrapper component",
+          "title": "Step 1: Wrapper",
           "description": "IPageProgressService is automatically registered by Blazorise but it needs just one thing on your side to make it work. You need to place PageProgressProvider somewhere in your application razor code. It can be placed anywhere, but a good approach is to place it in App.razor like in the following example."
         },
         {
@@ -10865,7 +11344,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/PageProgresses/Examples/PageProgressServiceUsageExample.razor",
           "content": "<Router AppAssembly=\"typeof(App).Assembly\">\r\n    <Found>...</Found>\r\n    <NotFound>...</NotFound>\r\n</Router>\r\n\r\n<PageProgressProvider />",
-          "title": "Step 1. Define wrapper component",
+          "title": "Step 1: Wrapper",
           "description": "IPageProgressService is automatically registered by Blazorise but it needs just one thing on your side to make it work. You need to place PageProgressProvider somewhere in your application razor code. It can be placed anywhere, but a good approach is to place it in App.razor like in the following example."
         },
         {
@@ -10877,6 +11356,13 @@
           "description": "Once you're done you can start using it by injecting the IPageProgressService in your page and then simple calling the built-in methods."
         }
       ]
+    },
+    {
+      "route": "/docs/services/page-progress-provider/api",
+      "title": "Blazorise Page Progress Service API",
+      "description": "Explore the Blazorise PageProgressProvider and IPageProgressService API reference for controlling page-level progress indicators.",
+      "pagePath": "Pages/Docs/Services/PageProgresses/PageProgressApiPage.razor",
+      "examples": []
     },
     {
       "route": "/docs/services/toast-provider",
@@ -10906,6 +11392,19 @@
           "content": "<Button Color=\"Color.Primary\" Clicked=\"@ShowToast\">Show toast message!</Button>\r\n\r\n@code {\r\n    [Inject] IToastService ToastService { get; set; }\r\n\r\n    Task ShowToast()\r\n    {\r\n        return ToastService.Info( \"This is a simple toast message!\", \"Hello\", BuildToastInstanceOptions );\r\n    }\r\n\r\n    private void BuildToastInstanceOptions( ToastInstanceOptions toastInstanceOptions )\r\n    {\r\n        toastInstanceOptions.ShowIcon = false;\r\n    }\r\n}",
           "title": "Hide Icon",
           "description": "The following code snippet demonstrates how to hide an active toast using the IToastService ."
+        }
+      ]
+    },
+    {
+      "route": "/docs/services/toast-provider/api",
+      "title": "Blazorise Toast Provider API",
+      "description": "Explore the Blazorise ToastProvider and IToastService API reference for toast parameters, events, methods, placement, and behavior.",
+      "pagePath": "Pages/Docs/Services/ToastProvider/ToastProviderApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ToastProvider"
         }
       ]
     },
@@ -11406,7 +11905,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideSvgRegistrationExample.snippet",
           "content": "using Blazorise;\r\nusing Blazorise.FluentUI2;\r\nusing Blazorise.Icons.FluentUI;\r\n\r\nbuilder.Services\r\n    .AddBlazorise()\r\n    .AddFluentUI2Providers()\r\n    .AddFluentUIIcons( options => options.UseSvgIcons = true );",
-          "title": "Optional: SVG icon registration",
+          "title": "Optional SVG Icons",
           "description": "When using the SVG icon stylesheet, also enable SVG rendering in the Fluent UI icon provider options."
         },
         {
@@ -11436,7 +11935,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Licensing/Examples/LicensingGuideAddKeyExample.snippet",
           "content": "services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.ProductToken = \"<your-product-token>\";\r\n    } )",
-          "title": "Add the Product Token",
+          "title": "Product Token",
           "description": "Open the solution containing your Blazor application in Visual Studio or another development environment. In the Startup class, find the ConfigureServices method. This method is used to configure the services used in your Blazor application. In the ConfigureServices method, add the following code snippet."
         }
       ]

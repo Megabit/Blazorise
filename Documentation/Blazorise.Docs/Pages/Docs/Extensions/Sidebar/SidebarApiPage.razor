@@ -1,0 +1,77 @@
+@page "/docs/extensions/sidebar/api"
+
+<Seo Canonical="/docs/extensions/sidebar/api" Title="Blazorise Sidebar API" Description="Explore the Blazorise Sidebar API reference for collapsible navigation components, dynamic sidebar data, links, labels, and nested items." />
+
+<DocsPageTitle Path="Extensions/Sidebar/API">
+    Blazorise Sidebar API
+</DocsPageTitle>
+
+<DocsPageLead>
+    Review the components and data model used to build manual or dynamic sidebars.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    For setup instructions and examples, see the <Anchor To="docs/extensions/sidebar">Sidebar documentation</Anchor>.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[
+    typeof(Blazorise.Sidebar.Sidebar),
+    typeof(Blazorise.Sidebar.SidebarContent),
+    typeof(Blazorise.Sidebar.SidebarBrand),
+    typeof(Blazorise.Sidebar.SidebarNavigation),
+    typeof(Blazorise.Sidebar.SidebarLabel),
+    typeof(Blazorise.Sidebar.SidebarItem),
+    typeof(Blazorise.Sidebar.SidebarLink),
+    typeof(Blazorise.Sidebar.SidebarSubItem),
+    typeof(Blazorise.Sidebar.SidebarFooter)]" />
+
+<DocsPageSubsectionTitle ElementId="api-sidebarinfo">
+    SidebarInfo
+</DocsPageSubsectionTitle>
+
+<DocsAttributes Name="Property" Title="Properties" ShowDefaults="false">
+    <DocsAttributesItem Name="Brand" Type="SidebarBrandInfo">
+        Defines the brand displayed in the sidebar header.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Items" Type="List&lt;SidebarItemInfo&gt;">
+        Defines the first-level dynamic sidebar items.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsPageSubsectionTitle ElementId="api-sidebarbrandinfo">
+    SidebarBrandInfo
+</DocsPageSubsectionTitle>
+
+<DocsAttributes Name="Property" Title="Properties" ShowDefaults="false">
+    <DocsAttributesItem Name="Text" Type="string">
+        Defines the brand text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="To" Type="string">
+        Defines the brand URL.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsPageSubsectionTitle ElementId="api-sidebariteminfo">
+    SidebarItemInfo
+</DocsPageSubsectionTitle>
+
+<DocsAttributes Name="Property" Title="Properties" ShowDefaults="false">
+    <DocsAttributesItem Name="Tooltip" Type="string">
+        Defines the sidebar link tooltip.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Text" Type="string">
+        Defines the sidebar link text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="To" Type="string">
+        Defines the sidebar link URL.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Icon" Type="object">
+        Defines the sidebar link icon.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Visible" Type="bool">
+        Specifies whether the item and its nested items are visible.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SubItems" Type="List&lt;SidebarItemInfo&gt;">
+        Defines the nested sidebar items.
+    </DocsAttributesItem>
+</DocsAttributes>
