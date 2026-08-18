@@ -141,11 +141,13 @@ public class DatePickerComponentTest : BunitContext
         // test
         IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
             .Add( x => x.Value, value )
-            .Add( x => x.Inline, true ) );
+            .Add( x => x.Inline, true )
+            .Add( x => x.StaticPicker, false ) );
 
         // validate
         Assert.NotNull( comp.Find( ".datepicker" ) );
         Assert.NotNull( comp.Find( ".datepicker-calendar-inline" ) );
+        Assert.DoesNotContain( "datepicker-calendar-floating", comp.Find( "[role='dialog']" ).ClassList );
         Assert.Equal( 42, comp.FindAll( ".datepicker-day" ).Count );
         Assert.DoesNotContain( "b-datepicker", comp.Markup );
         Assert.DoesNotContain( "flatpickr", comp.Markup );
