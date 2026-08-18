@@ -99,7 +99,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DatePickerContainer( bool inline, bool open ) => $"fui-DatePicker__container{( inline ? " fui-DatePicker__container-inline" : null )}{( open ? " fui-DatePicker__container-open" : null )}";
 
-    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"fui-DatePicker__calendar{( inline ? " fui-DatePicker__calendar-inline" : null )}{( staticPicker ? " fui-DatePicker__calendar-static" : " fui-DatePicker__calendar-floating" )}";
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"fui-DatePicker__calendar{( inline ? " fui-DatePicker__calendar-inline" : staticPicker ? " fui-DatePicker__calendar-static" : " fui-DatePicker__calendar-floating" )}";
 
     public override string DatePickerCalendarBackdrop() => "fui-DatePicker__backdrop";
 

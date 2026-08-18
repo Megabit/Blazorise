@@ -1144,7 +1144,7 @@ input[type=button].btn-block {
 .datepicker .datepicker-calendar.dropdown-menu:has(.datepicker-week-number) {
   width: 21.6875rem;
 }
-.datepicker .datepicker-calendar-inline {
+.datepicker .datepicker-calendar.dropdown-menu.datepicker-calendar-inline {
   position: relative;
   inset: auto;
   margin-block-start: 0.25rem;
