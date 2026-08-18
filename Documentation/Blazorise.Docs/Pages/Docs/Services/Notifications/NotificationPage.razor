@@ -41,21 +41,21 @@
 </DocsPageParagraph>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 1: Download from NuGet">
+    <DocsPageSectionHeader Title="Step 1: Install">
         Install extension from NuGet.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="NotificationServiceInstallationExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 2. Define Usings">
+    <DocsPageSectionHeader Title="Step 2: Usings">
         Since notification service is created as a wrapper around the <Code>Snackbar</Code> component so it is also required to define the namespace inside of your main <Badge Color="Color.Light">_Imports.razor</Badge> file.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="SnackbarImportsExample"></DocsPageSectionSource>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 3. Define wrapper component">
+    <DocsPageSectionHeader Title="Step 3: Wrapper">
         <Code>INotificationService</Code> is automatically registered by Blazorise but it needs just one thing on your side
         to make it work. You need to place <Code>NotificationProvider</Code> somewhere in your application razor code. It can
         be placed anywhere, but a good approach is to place it in <Code>App.razor</Code> like in the following example.
@@ -64,7 +64,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 4. Static files">
+    <DocsPageSectionHeader Title="Step 4: Assets">
         This step is only needed if you didn't already define any CSS files for the Snackbar component. Remember,  The <Code>INotificationService</Code> is built on top of <Code>Snackbar</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="SnackbarResourcesExample" />

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-18T08:18:11.3022714Z",
+  "generatedUtc": "2026-08-18T09:20:03.9993350Z",
   "pages": [
     {
       "route": "/docs",
@@ -284,7 +284,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Bar/Examples/BarDropdownToggleToExample.razor",
           "content": "<Bar Mode=\"BarMode.VerticalInline\">\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle To=\"/docs/components/bar\" Match=\"Match.Prefix\">\r\n                        <BarIcon IconName=\"IconName.Dashboard\" />\r\n                        Bar docs\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem To=\"/docs/components/bar#bar-top-bar\">Top Bar</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/bar#bar-vertical-sidebar\">Vertical Sidebar</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/bar#bar-nested-dropdowns\">Nested Dropdowns</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n    </BarMenu>\r\n</Bar>",
-          "title": "Dropdown toggle with navigation target",
+          "title": "Navigation Target",
           "description": "BarDropdownToggle supports To the same way as other Blazorise link components. With the default Trigger=\"BarDropdownToggleTrigger.Auto\" , setting To makes the label navigate while the chevron icon toggles the submenu. This example uses Match=\"Match.Prefix\" so the parent link stays active while the example items navigate to sections of the Bar docs page."
         },
         {
@@ -292,7 +292,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Bar/Examples/BarDropdownToggleIconClickExample.razor",
           "content": "<Bar Mode=\"BarMode.VerticalInline\"\r\n     Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\">\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle To=\"/docs/components/button\"\r\n                                       Trigger=\"BarDropdownToggleTrigger.IconClick\">\r\n                        <BarIcon IconName=\"IconName.Dashboard\" />\r\n                        Components\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem To=\"/docs/components/bar\">Bar overview</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/button\">Button</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/card\">Card</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n    </BarMenu>\r\n</Bar>",
-          "title": "Dropdown trigger: icon toggles, label navigates",
+          "title": "Icon Trigger",
           "description": "This is the explicit form of the default To behavior. Use it when you want the intent to be visible in markup or when composing trigger flags elsewhere in the menu."
         },
         {
@@ -300,7 +300,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Bar/Examples/BarDropdownToggleRouteMatchExample.razor",
           "content": "<Bar Mode=\"BarMode.VerticalInline\"\r\n     Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\">\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle To=\"/docs/components/bar\"\r\n                                       Trigger=\"BarDropdownToggleTrigger.ClickAny | BarDropdownToggleTrigger.RouteMatch\">\r\n                        <BarIcon IconName=\"IconName.Dashboard\" />\r\n                        Bar docs\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem To=\"/docs/components/bar\">Overview</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/button\">Button</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/card\">Card</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n    </BarMenu>\r\n</Bar>",
-          "title": "Dropdown trigger: click anywhere + URL match",
+          "title": "Route Matching",
           "description": "When users should be able to expand from either the label or icon, combine triggers with a flags expression. In this example, Trigger=\"BarDropdownToggleTrigger.ClickAny | BarDropdownToggleTrigger.RouteMatch\" keeps the dropdown expanded whenever the current URL matches To ."
         },
         {
@@ -1494,7 +1494,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Dropdowns/Examples/NestedDropdownDirectionExample.razor",
           "content": "<Dropdown>\r\n    <DropdownToggle Color=\"Color.Primary\">Level 1</DropdownToggle>\r\n    <DropdownMenu>\r\n        <DropdownItem>Item 1.1</DropdownItem>\r\n        <Dropdown Direction=\"Direction.Up\">\r\n            <DropdownToggle>Level 2</DropdownToggle>\r\n            <DropdownMenu>\r\n                <DropdownItem>Item 2.1</DropdownItem>\r\n                <DropdownItem>Item 2.2</DropdownItem>\r\n                <Dropdown Direction=\"Direction.Down\">\r\n                    <DropdownToggle>Level 3</DropdownToggle>\r\n                    <DropdownMenu>\r\n                        <DropdownItem>Item 3.1</DropdownItem>\r\n                        <DropdownItem>Item 3.2</DropdownItem>\r\n                        <Dropdown Direction=\"Direction.Start\">\r\n                            <DropdownToggle>Level 4</DropdownToggle>\r\n                            <DropdownMenu>\r\n                                <DropdownItem>Item 4.1</DropdownItem>\r\n                                <DropdownItem>Item 4.2</DropdownItem>\r\n                            </DropdownMenu>\r\n                        </Dropdown>\r\n                    </DropdownMenu>\r\n                </Dropdown>\r\n            </DropdownMenu>\r\n        </Dropdown>\r\n    </DropdownMenu>\r\n</Dropdown>",
-          "title": "Nested submenus with direction",
+          "title": "Submenu Direction",
           "description": "Nested dropdowns with the manual Direction is also supported."
         }
       ],
@@ -2557,7 +2557,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericPickerStepExample.razor",
           "content": "<NumericPicker @bind-Value=\"@value\" Step=\"10\" />\r\n\r\n@code{\r\n    decimal value;\r\n}",
-          "title": "Controlling the step value",
+          "title": "Step Value",
           "description": "Set the amount to increment or decrement the value when the spinner buttons are used with the step parameter."
         },
         {
@@ -2565,7 +2565,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericPickerMinMaxExample.razor",
           "content": "<NumericPicker @bind-Value=\"@value\" Min=\"10\" Max=\"20\" />\r\n\r\n@code{\r\n    decimal value = 15;\r\n}",
-          "title": "Setting the Min &amp; Max",
+          "title": "Value Range",
           "description": "Set the Min &amp; Max to limit the values allowed into the input."
         },
         {
@@ -2581,7 +2581,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericPickerMouseWheelExample.razor",
           "content": "<NumericPicker @bind-Value=\"@value\" ModifyValueOnWheel WheelOn=\"NumericWheelOn.Hover\" />\r\n\r\n@code {\r\n    decimal value;\r\n}",
-          "title": "Modify Value With Mouse Wheel",
+          "title": "Mouse Wheel",
           "description": "Sometime you want to be able to change the value by scrolling with the mouse wheel when it is focused over the input. To enable it just use the ModifyValueOnWheel parameter."
         }
       ],
@@ -5282,7 +5282,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridDynamicAutoGenerateExample.razor",
           "content": "@using System.Dynamic\r\n\r\n<DataGrid TItem=\"ExpandoObject\"\r\n          Data=\"inMemoryData\"\r\n          Responsive\r\n          ShowPager\r\n          ShowPageSizes\r\n          PageSize=\"5\"\r\n          Editable\r\n          EditMode=\"DataGridEditMode.Inline\"\r\n          NewItemCreator=\"NewItemCreator\" />\r\n\r\n@code {\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n\r\n    private List<ExpandoObject> inMemoryData;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        inMemoryData = new();\r\n        var data = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );\r\n\r\n        foreach ( var item in data )\r\n        {\r\n\r\n            IDictionary<string, object> expando = new ExpandoObject();\r\n\r\n            foreach ( var property in typeof( Employee ).GetProperties() )\r\n            {\r\n                expando.Add( property.Name, property.GetValue( item ) );\r\n            }\r\n            inMemoryData.Add( (ExpandoObject)expando );\r\n        }\r\n\r\n\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private ExpandoObject NewItemCreator()\r\n    {\r\n        IDictionary<string, object> expando = new ExpandoObject();\r\n\r\n        foreach ( var property in typeof( Employee ).GetProperties() )\r\n        {\r\n            expando.Add( property.Name,\r\n                property.PropertyType switch\r\n                {\r\n                    { } t when t == typeof( string ) => \"\",\r\n                    { IsValueType: true } => Activator.CreateInstance( property.PropertyType ) ?? \"\",\r\n                    _ => \"\" //better than null\r\n                } );\r\n        }\r\n\r\n        return (ExpandoObject)expando;\r\n    }\r\n}",
-          "title": "Auto Generate Columns Example",
+          "title": "Generated Columns",
           "description": "The Blazorise DataGrid also supports auto-generating columns based on the data structure. This feature simplifies the process of displaying data by automatically creating columns that match the properties of the bound data objects. Auto-generated columns support nullable data. If your data includes null values, ensure you provide a NewItemCreator . DataGrid requires an item with non-null values to properly generate the columns."
         }
       ]
@@ -5394,7 +5394,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridDateColumnNativeExample.razor",
           "content": "<DataGrid TItem=\"Employee\" Data=\"@employeeList\" PageSize=\"5\" Responsive Editable Filterable>\r\n    <DataGridDateColumn Field=\"@nameof( Employee.DateOfBirth )\" Caption=\"Birth Date\" Editable NativeInputMode />\r\n    <DataGridCommandColumn />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
-          "title": "Date Column with Native Mode",
+          "title": "Native Date Column",
           "description": "Column template for datetime values. Set NativeInputMode if you prefer to use the native html input variant of the date input."
         },
         {
@@ -5410,7 +5410,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridNumericColumnNativeExample.razor",
           "content": "<DataGrid TItem=\"Employee\" Data=\"@employeeList\" PageSize=\"5\" Responsive Editable Filterable>\r\n    <DataGridNumericColumn Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" Editable NativeInputMode />\r\n    <DataGridCommandColumn />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
-          "title": "Numeric Column with Native Mode",
+          "title": "Native Numeric Column",
           "description": "Column template for numeric values. Set NativeInputMode if you prefer to use the native html input variant of the numeric input."
         },
         {
@@ -5685,7 +5685,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridShowGroupingExample.razor",
           "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          Responsive\r\n          ShowPager\r\n          Groupable\r\n          ShowGrouping>\r\n    <DataGridCommandColumn />\r\n    <DataGridColumn Field=\"@nameof(Employee.Id)\" Caption=\"#\" Sortable=\"false\" />\r\n    <DataGridColumn Field=\"@nameof(Employee.FirstName)\" Caption=\"First Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof(Employee.LastName)\" Caption=\"Last Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof(Employee.Email)\" Caption=\"Email\" Editable />\r\n    <DataGridColumn Field=\"@nameof(Employee.Gender)\" Caption=\"Gender\" Editable Groupable Grouping />\r\n    <DataGridColumn Field=\"@nameof(Employee.Childrens)\" Caption=\"Children\" Editable />\r\n    <DataGridColumn Field=\"@nameof(Employee.IsActive)\" Caption=\"Active\" Editable Groupable Grouping />\r\n</DataGrid>\r\n\r\n@code{\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
-          "title": "Drag and Drop Grouping",
+          "title": "Drag Grouping",
           "description": "The ShowGrouping parameter, allows you to drag and drop groupable columns on a group area. This feature makes it easy to rearrange and experiment with different groupings, providing more flexibility and control over how you organize and analyze your data within the DataGrid. Columns should be eligible for grouping by enabling Groupable . Once enabled, the columns that are draggable will show the \"grip\" icon next to the column title."
         },
         {
@@ -5898,7 +5898,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridStateManagementExample.razor",
           "content": "<Paragraph>\r\n    <Button Color=\"Color.Primary\" Clicked=\"LoadState\">Load State</Button>\r\n    <Button Color=\"Color.Success\" Clicked=\"SaveState\">Save State</Button>\r\n    <Button Color=\"Color.Light\" Clicked=\"ResetState\">Reset State</Button>\r\n</Paragraph>\r\n\r\n<DataGrid @ref=\"dataGridRef\"\r\n          TItem=\"Employee\"\r\n          Data=\"inMemoryData\"\r\n          Responsive\r\n          Editable\r\n          Filterable\r\n          ShowPager\r\n          ShowPageSizes\r\n          ShowColumnChooser\r\n          PagerPosition=\"DataGridPagerPosition.Top\">\r\n    <DataGridColumns>\r\n        <DataGridColumn TextAlignment=\"TextAlignment.Center\" TItem=\"Employee\" Field=\"@nameof( Employee.Id )\" Caption=\"#\" Width=\"Width.Px(60)\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\">\r\n        </DataGridColumn>\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Email )\" Caption=\"Email\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.City )\" Caption=\"City\">\r\n            <CaptionTemplate>\r\n                <Icon Name=\"IconName.City\" /> @context.Caption\r\n            </CaptionTemplate>\r\n        </DataGridColumn>\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Zip )\" Caption=\"Zip\">\r\n        </DataGridColumn>\r\n        <DataGridDateColumn TItem=\"Employee\" Field=\"@nameof( Employee.DateOfBirth )\" DisplayFormat=\"{0:dd.MM.yyyy}\" Caption=\"Birth Date\" Editable />\r\n        <DataGridNumericColumn TItem=\"Employee\" Field=\"@nameof( Employee.Childrens )\" Caption=\"Childrens\" ReverseSorting=\"true\" Editable Filterable=\"false\" />\r\n        <DataGridSelectColumn TItem=\"Employee\" Field=\"@nameof( Employee.Gender )\" Caption=\"Gender\" Editable Data=\"EmployeeData.Genders\" ValueField=\"(x) => ((Gender)x).Code\" TextField=\"(x) => ((Gender)x).Description\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" Editable Width=\"Width.Px(140)\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo(\"fr-FR\")\" TextAlignment=\"TextAlignment.End\">\r\n        </DataGridColumn>\r\n        <DataGridCheckColumn TItem=\"Employee\" Field=\"@nameof(Employee.IsActive)\" Caption=\"Active\" Editable Filterable=\"false\">\r\n            <DisplayTemplate>\r\n                <Check TValue=\"bool\" Value=\"context.Item.IsActive\" Disabled ReadOnly />\r\n            </DisplayTemplate>\r\n        </DataGridCheckColumn>\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }\r\n\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n\r\n    private const string STORAGE_KEY = \"__DATAGRID_STATE__\";\r\n    private DataGrid<Employee> dataGridRef;\r\n    private IEnumerable<Employee> inMemoryData;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    protected async override Task OnAfterRenderAsync( bool firstRender )\r\n    {\r\n        if ( firstRender )\r\n        {\r\n            await LoadState();\r\n        }\r\n\r\n        await base.OnAfterRenderAsync( firstRender );\r\n    }\r\n\r\n    private async Task ResetState()\r\n    {\r\n        await LocalStorage.RemoveItemAsync( STORAGE_KEY );\r\n\r\n        DataGridState<Employee> state = new()\r\n        {\r\n            Page = 1,\r\n            PageSize = 10,\r\n        };\r\n\r\n        await dataGridRef.LoadState( state );\r\n    }\r\n\r\n    private async Task LoadState()\r\n    {\r\n        DataGridState<Employee> stateFromLocalStorage = await LocalStorage.GetItemAsync<DataGridState<Employee>>( STORAGE_KEY );\r\n\r\n        if ( stateFromLocalStorage is not null )\r\n        {\r\n            //It is of note that we must make sure the reference is contained in the DataGrid Data collection.\r\n            if ( stateFromLocalStorage.SelectedRow is not null )\r\n            {\r\n                stateFromLocalStorage.SelectedRow = inMemoryData.FirstOrDefault( x => x.Id == stateFromLocalStorage.SelectedRow.Id );\r\n            }\r\n            if ( stateFromLocalStorage.EditItem is not null )\r\n            {\r\n                stateFromLocalStorage.EditItem = inMemoryData.FirstOrDefault( x => x.Id == stateFromLocalStorage.EditItem.Id );\r\n            }\r\n            await dataGridRef.LoadState( stateFromLocalStorage );\r\n            return;\r\n        }\r\n    }\r\n\r\n    private async Task SaveState()\r\n    {\r\n        DataGridState<Employee> state = await dataGridRef.GetState();\r\n        await LocalStorage.SetItemAsync( STORAGE_KEY, state );\r\n    }\r\n}",
-          "title": "Get And Load State",
+          "title": "State Persistence",
           "description": "In the following example, we are using the LoadState method to load the DataGrid state from the LocalStorage if available. We are using the GetState method to save the DataGrid state to the LocalStorage in order to load at a later date. The page checks the LocalStorage on first render and loads the saved state if available."
         }
       ]
@@ -5992,7 +5992,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridRowSelectableMultipleSelectionExample.razor",
           "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          @bind-SelectedRow=\"@selectedEmployee\"\r\n          SelectionMode=\"DataGridSelectionMode.Multiple\"\r\n          @bind-SelectedRows=\"selectedEmployees\"\r\n          Responsive\r\n          RowSelectable=\"RowSelectableHandler\">\r\n    <DataGridMultiSelectColumn TItem=\"Employee\" Width=\"Width.Px( 30 )\"></DataGridMultiSelectColumn>\r\n    <DataGridCommandColumn TItem=\"Employee\" />\r\n    <DataGridColumn Field=\"@nameof( Employee.Id )\" Caption=\"#\" Sortable=\"false\" />\r\n    <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" Editable>\r\n        <EditTemplate>\r\n            <NumericInput TValue=\"decimal\" Value=\"@((decimal)context.CellValue)\" ValueChanged=\"@(v => context.CellValue = v)\" />\r\n        </EditTemplate>\r\n    </DataGridColumn>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    private Employee selectedEmployee;\r\n    private List<Employee> selectedEmployees;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private bool RowSelectableHandler( RowSelectableEventArgs<Employee> rowSelectableEventArgs )\r\n        => rowSelectableEventArgs.SelectReason is not DataGridSelectReason.RowClick;\r\n}",
-          "title": "RowSelectable &amp; Multiple Selection",
+          "title": "Selectable Rows",
           "description": "Here's an example of combining both RowSelectable and Multiple Selection. We've disabled regular selection through row click, and only enabled selection through clicking the provided multi select checkboxes."
         }
       ]
@@ -6418,7 +6418,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Gantt/Examples/GanttWeeklyYearViewExample.razor",
           "content": "<Gantt TItem=\"TaskItem\"\r\n       Data=\"@tasks\"\r\n       Date=\"@selectedDate\"\r\n       SelectedView=\"GanttView.Year\"\r\n       DurationField=\"Duration\"\r\n       FirstDayOfWeek=\"DayOfWeek.Monday\">\r\n    <ChildContent>\r\n        <GanttColumns>\r\n            <GanttColumn Field=\"Title\" Title=\"Task\" Expandable Width=\"Width.Px( 240 )\" />\r\n            <GanttColumn Field=\"Start\" Width=\"Width.Px( 130 )\" />\r\n            <GanttColumn Field=\"End\" Width=\"Width.Px( 130 )\" Visible=\"false\" />\r\n            <GanttColumn Field=\"Duration\" Width=\"Width.Px( 90 )\" TextAlignment=\"TextAlignment.Center\" Visible=\"false\" />\r\n        </GanttColumns>\r\n\r\n        <GanttToolbar />\r\n\r\n        <GanttViews>\r\n            <GanttYearView TimelineScale=\"GanttYearViewTimelineScale.Week\"\r\n                           TimelineCellWidth=\"42\"\r\n                           RowHeight=\"44\"\r\n                           FirstDayOfWeek=\"DayOfWeek.Monday\" />\r\n        </GanttViews>\r\n    </ChildContent>\r\n\r\n    <TimelineHeaderCellTemplate>\r\n        <Span TextSize=\"TextSize.Small\" TextWeight=\"TextWeight.SemiBold\">\r\n            @context.Label\r\n        </Span>\r\n    </TimelineHeaderCellTemplate>\r\n</Gantt>\r\n\r\n<Paragraph TextColor=\"TextColor.Muted\" Margin=\"Margin.Is2.FromTop\">\r\n    View: @selectedViewText | Year view scale: Week\r\n</Paragraph>\r\n\r\n@code {\r\n    private DateOnly selectedDate = new( DateTime.Today.Year, 1, 1 );\r\n\r\n    private string selectedViewText = GanttView.Year.ToString();\r\n\r\n    private List<TaskItem> tasks = CreateTasks();\r\n\r\n    private static List<TaskItem> CreateTasks()\r\n    {\r\n        DateTime yearStart = new( DateTime.Today.Year, 1, 1 );\r\n        DateTime planningStart = yearStart.AddDays( 91 );\r\n\r\n        List<TaskItem> result = new()\r\n        {\r\n            new() { Id = \"1\", Title = \"Release train\", Start = planningStart, End = planningStart.AddDays( 35 ) },\r\n            new() { Id = \"2\", ParentId = \"1\", Title = \"Discovery\", Start = planningStart, End = planningStart.AddDays( 7 ) },\r\n            new() { Id = \"3\", ParentId = \"1\", Title = \"Implementation\", Start = planningStart.AddDays( 7 ), End = planningStart.AddDays( 21 ) },\r\n            new() { Id = \"4\", ParentId = \"3\", Title = \"Backend services\", Start = planningStart.AddDays( 8 ), End = planningStart.AddDays( 16 ) },\r\n            new() { Id = \"5\", ParentId = \"3\", Title = \"Frontend polish\", Start = planningStart.AddDays( 14 ), End = planningStart.AddDays( 23 ) },\r\n            new() { Id = \"6\", ParentId = \"1\", Title = \"Validation\", Start = planningStart.AddDays( 21 ), End = planningStart.AddDays( 30 ) },\r\n            new() { Id = \"7\", ParentId = \"1\", Title = \"Rollout\", Start = planningStart.AddDays( 30 ), End = planningStart.AddDays( 35 ) },\r\n        };\r\n\r\n        foreach ( TaskItem item in result )\r\n        {\r\n            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );\r\n        }\r\n\r\n        return result;\r\n    }\r\n\r\n    public class TaskItem\r\n    {\r\n        public string Id { get; set; }\r\n\r\n        public string ParentId { get; set; }\r\n\r\n        public string Title { get; set; }\r\n\r\n        public DateTime Start { get; set; }\r\n\r\n        public DateTime End { get; set; }\r\n\r\n        public int Duration { get; set; }\r\n    }\r\n}",
-          "title": "Year View with Weekly Columns",
+          "title": "Year View",
           "description": "Use TimelineScale=\"GanttYearViewTimelineScale.Week\" on GanttYearView when planning is organized by weeks but users still need a full-year timeline."
         }
       ]
@@ -6466,7 +6466,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentSvgIconsCSSExample.snippet",
           "content": "<link href=\"_content/Blazorise.Icons.FluentUI/blazorise.icons.fluentui.css\" rel=\"stylesheet\" />",
-          "title": "Fluent SVG Icons CSS",
+          "title": "Fluent SVG CSS",
           "description": "As an alternative to the CSS font, Fluent icons can render as inline SVG, also at a default size of 20px. Replace FluentSystemIcons-Resizable.css with the SVG icon stylesheet."
         },
         {
@@ -6474,7 +6474,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentSvgIconsRegistrationExample.snippet",
           "content": "using Blazorise.Icons.FluentUI;\r\n\r\nbuilder.Services\r\n    .AddBlazorise()\r\n    .AddBootstrapProviders()\r\n    .AddFluentUIIcons( options => options.UseSvgIcons = true );",
-          "title": "Fluent SVG Icons Registration",
+          "title": "Fluent SVG Registration",
           "description": "Enable SVG rendering when registering the Fluent UI icon provider. Existing Icon component usage remains the same."
         },
         {
@@ -6482,7 +6482,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FontAwesomeCSSExample.snippet",
           "content": "<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.3.0.0\" rel=\"stylesheet\">",
-          "title": "Font Awesome Icons CSS",
+          "title": "Font Awesome CSS",
           "description": "Include CSS link into your index.html or _Layout.cshtml / _Host.cshtml file, depending if you're using a Blazor WebAssembly or Blazor Server side project."
         },
         {
@@ -6716,7 +6716,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/LoadingIndicator/Examples/LoadingIndicatorCascadingWrapperExample.snippet",
           "content": "<LoadingIndicator FullScreen>\r\n    @Body\r\n</LoadingIndicator>",
-          "title": "Using as cascading parameter",
+          "title": "Cascading Usage",
           "description": "You can also use the wrapper as a cascading parameter."
         },
         {
@@ -6724,7 +6724,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/LoadingIndicator/Examples/LoadingIndicatorCascadingBusyExample.snippet",
           "content": "<Button Clicked=\"DoWork\" />\r\n\r\n@code\r\n{\r\n    [CascadingParameter]\r\n    LoadingIndicator loadingIndicator;\r\n\r\n    async Task DoWork()\r\n    {\r\n        await loadingIndicator.Show();\r\n        \r\n        // do work ...\r\n        \r\n        await loadingIndicator.Hide();\r\n    }\r\n}",
-          "title": "Using as cascading parameter",
+          "title": "Cascading Usage",
           "description": "You can also use the wrapper as a cascading parameter."
         },
         {
@@ -7151,7 +7151,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfHttpResourcesExample.snippet",
           "content": "PdfDocumentDefinition document = PdfDocumentBuilder.Create()\r\n    .Title( \"Remote resources\" )\r\n    .AddFont( \"Inter\", FontSource.FromUrl( \"fonts/Inter-Regular.ttf\" ) )\r\n    .Page( page =>\r\n    {\r\n        page.Image( \"images/company-logo.png\", 48, 48, 120, 48 );\r\n\r\n        page.Text( \"This font and image were resolved from URLs.\", 48, 120, 360, 24 )\r\n            .FontFamily( \"Inter\" );\r\n    } )\r\n    .Build();\r\n\r\nPdfGenerationResult result = await PdfGenerator.Generate( document );",
-          "title": "Images and fonts from URLs",
+          "title": "Remote Assets",
           "description": "After enabling URL loading, use an HTTP or HTTPS URL in PdfImage.Source or FontSource.Url . Each resource is downloaded once and reused if it appears more than once in the same PDF."
         },
         {
@@ -7231,7 +7231,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfHttpResourcesExample.snippet",
           "content": "PdfDocumentDefinition document = PdfDocumentBuilder.Create()\r\n    .Title( \"Remote resources\" )\r\n    .AddFont( \"Inter\", FontSource.FromUrl( \"fonts/Inter-Regular.ttf\" ) )\r\n    .Page( page =>\r\n    {\r\n        page.Image( \"images/company-logo.png\", 48, 48, 120, 48 );\r\n\r\n        page.Text( \"This font and image were resolved from URLs.\", 48, 120, 360, 24 )\r\n            .FontFamily( \"Inter\" );\r\n    } )\r\n    .Build();\r\n\r\nPdfGenerationResult result = await PdfGenerator.Generate( document );",
-          "title": "Images and fonts from URLs",
+          "title": "Remote Assets",
           "description": "After enabling URL loading, use an HTTP or HTTPS URL in PdfImage.Source or FontSource.Url . Each resource is downloaded once and reused if it appears more than once in the same PDF."
         },
         {
@@ -7705,7 +7705,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingDetailDataSourceExample.razor",
           "content": "<Report Data=\"@invoice\"\r\n        Editable\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Html\" />\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportPage Name=\"Invoice\">\r\n        <ReportHeader Name=\"Invoice header\" Height=\"72\">\r\n            <ReportText Text=\"Detail band repeats Invoice.Lines\" X=\"30\" Y=\"18\" Width=\"300\" Height=\"24\" FontSize=\"18\" Bold FontColor=\"@ReportColors.Blue\" />\r\n            <ReportText Text=\"{Header.Number} - {Customer.Name}\" X=\"30\" Y=\"45\" Width=\"360\" Height=\"18\" />\r\n        </ReportHeader>\r\n        <ReportPageHeader Name=\"Column headers\" Height=\"32\">\r\n            <ReportText Text=\"Sku\" X=\"30\" Y=\"8\" Width=\"75\" Height=\"18\" Bold />\r\n            <ReportText Text=\"Description\" X=\"120\" Y=\"8\" Width=\"210\" Height=\"18\" Bold />\r\n            <ReportText Text=\"Qty\" X=\"345\" Y=\"8\" Width=\"60\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n            <ReportText Text=\"Total\" X=\"420\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n        </ReportPageHeader>\r\n        <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n            <ReportField Field=\"Sku\" X=\"30\" Y=\"6\" Width=\"75\" Height=\"18\" />\r\n            <ReportField Field=\"Description\" X=\"120\" Y=\"6\" Width=\"210\" Height=\"18\" />\r\n            <ReportField Field=\"Quantity\" Format=\"@ReportFormats.Number( 2 )\" X=\"345\" Y=\"6\" Width=\"60\" Height=\"18\" />\r\n            <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" />\r\n        </ReportDetail>\r\n        <ReportFooter Name=\"Totals\" Height=\"45\">\r\n            <ReportLine X=\"30\" Y=\"6\" Width=\"480\" Height=\"8\" Thickness=\"1\" />\r\n            <ReportField Field=\"Header.Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"18\" Width=\"90\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n        </ReportFooter>\r\n    </ReportPage>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Header = new()\r\n        {\r\n            Number = \"INV-1001\",\r\n            Total = 1240.50m,\r\n        },\r\n        Customer = new()\r\n        {\r\n            Name = \"Northwind Traders\",\r\n        },\r\n        Lines =\r\n        [\r\n            new() { Sku = \"SRV-001\", Description = \"Implementation workshop\", Quantity = 1, Total = 640.50m },\r\n            new() { Sku = \"LIC-010\", Description = \"Reporting module license\", Quantity = 2, Total = 500.00m },\r\n            new() { Sku = \"SUP-003\", Description = \"Priority support\", Quantity = 1, Total = 100.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public InvoiceHeaderModel Header { get; set; }\r\n\r\n        public InvoiceCustomerModel Customer { get; set; }\r\n\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceHeaderModel\r\n    {\r\n        public string Number { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceCustomerModel\r\n    {\r\n        public string Name { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Sku { get; set; }\r\n\r\n        public string Description { get; set; }\r\n\r\n        public decimal Quantity { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "Detail bands and collections",
+          "title": "Detail Collections",
           "description": "Assign the detail band data source to a collection path. Fields inside the detail band are then resolved against each collection item."
         },
         {
@@ -7857,7 +7857,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingRunningTotalsExample.razor",
           "content": "<Report Data=\"@invoice\"\r\n        Editable\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Html\" />\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportRunningTotals>\r\n        <ReportRunningTotal Name=\"LineRunningTotal\"\r\n                            DataSource=\"Invoice.Lines\"\r\n                            Field=\"Total\"\r\n                            AggregateFunction=\"ReportAggregateFunction.Sum\" />\r\n    </ReportRunningTotals>\r\n    <ReportPage Name=\"Invoice\">\r\n        <ReportHeader Name=\"Invoice header\" Height=\"60\">\r\n            <ReportText Text=\"Running totals\" X=\"30\" Y=\"18\" Width=\"240\" Height=\"24\" FontSize=\"18\" Bold FontColor=\"@ReportColors.Blue\" />\r\n        </ReportHeader>\r\n        <ReportPageHeader Name=\"Column headers\" Height=\"32\">\r\n            <ReportText Text=\"Description\" X=\"30\" Y=\"8\" Width=\"210\" Height=\"18\" Bold />\r\n            <ReportText Text=\"Total\" X=\"300\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n            <ReportText Text=\"Running total\" X=\"420\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n        </ReportPageHeader>\r\n        <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n            <ReportField Field=\"Description\" X=\"30\" Y=\"6\" Width=\"210\" Height=\"18\" />\r\n            <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"300\" Y=\"6\" Width=\"90\" Height=\"18\" />\r\n            <ReportField Field=\"LineRunningTotal\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n        </ReportDetail>\r\n        <ReportFooter Name=\"Totals\" Height=\"45\">\r\n            <ReportLine X=\"30\" Y=\"6\" Width=\"480\" Height=\"8\" Thickness=\"1\" />\r\n            <ReportText Text=\"Grand total\" X=\"300\" Y=\"18\" Width=\"105\" Height=\"18\" Bold />\r\n            <ReportField Field=\"Lines.Total\" AggregateFunction=\"ReportAggregateFunction.Sum\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"18\" Width=\"90\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n        </ReportFooter>\r\n    </ReportPage>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Lines =\r\n        [\r\n            new() { Description = \"Implementation workshop\", Total = 640.50m },\r\n            new() { Description = \"Reporting module license\", Total = 500.00m },\r\n            new() { Description = \"Priority support\", Total = 100.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Description { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "Aggregates and running totals",
+          "title": "Running Totals",
           "description": "Aggregates summarize a field at render time. Running totals accumulate values as detail rows are rendered."
         }
       ]
@@ -7969,7 +7969,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingPdfExportExample.razor",
           "content": "<Report Data=\"@invoice\"\r\n        Editable\r\n        PreviewFormats=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\">\r\n    <ReportViewer PreviewFormat=\"ReportPreviewFormat.Html | ReportPreviewFormat.Pdf\"\r\n                  DefaultPreviewFormat=\"ReportPreviewFormat.Pdf\"\r\n                  AllowDownload\r\n                  AllowPrint>\r\n        <PdfPreviewTemplate Context=\"preview\">\r\n            <PdfViewerContainer Height=\"Height.Rem( 48 )\">\r\n                <PdfViewerToolbar ShowPrinting=\"@preview.AllowPrint\"\r\n                                  ShowDownloading=\"@preview.AllowDownload\" />\r\n                <PdfViewer Source=\"@preview.DataUrl\"\r\n                           Mode=\"PdfViewerMode.Continuous\"\r\n                           DownloadFileName=\"@preview.FileName\" />\r\n            </PdfViewerContainer>\r\n        </PdfPreviewTemplate>\r\n    </ReportViewer>\r\n    <ReportToolbar>\r\n        <ReportToolbarGroup>\r\n            <ReportToolbarPanesMenu />\r\n        </ReportToolbarGroup>\r\n        <ReportToolbarGroup>\r\n            <ReportToolbarItem Command=\"ReportCommand.PreviewHtml\" Caption=\"HTML Preview\" />\r\n            <ReportToolbarItem Command=\"ReportCommand.PreviewPdf\" Caption=\"PDF Preview\" />\r\n            <ReportToolbarItem Command=\"ReportCommand.DownloadPdf\" Caption=\"Download PDF\" />\r\n        </ReportToolbarGroup>\r\n        <Div Margin=\"Margin.IsAuto.FromStart\">\r\n            <ReportToolbarGroup>\r\n                <ReportToolbarItem Command=\"ReportCommand.Design\" Caption=\"Design\" ShowCaption />\r\n                <ReportToolbarItem Command=\"ReportCommand.Preview\" Caption=\"Preview\" ShowCaption />\r\n            </ReportToolbarGroup>\r\n        </Div>\r\n    </ReportToolbar>\r\n    <ReportDataSources>\r\n        <ReportObjectDataSource Name=\"Invoice\" Data=\"@invoice\" />\r\n    </ReportDataSources>\r\n    <ReportPage Name=\"Invoice\">\r\n        <ReportHeader Name=\"PDF export header\" Height=\"84\">\r\n            <ReportText Text=\"PDF export invoice\" X=\"30\" Y=\"18\" Width=\"240\" Height=\"24\" FontSize=\"20\" Bold FontColor=\"@ReportColors.Blue\" />\r\n            <ReportText Text=\"{Customer.Name}\" X=\"30\" Y=\"48\" Width=\"240\" Height=\"18\" />\r\n            <ReportText Text=\"{Header.Number}\" X=\"405\" Y=\"48\" Width=\"105\" Height=\"18\" TextAlignment=\"TextAlignment.End\" />\r\n        </ReportHeader>\r\n        <ReportPageHeader Name=\"Column headers\" Height=\"32\">\r\n            <ReportText Text=\"Description\" X=\"30\" Y=\"8\" Width=\"270\" Height=\"18\" Bold />\r\n            <ReportText Text=\"Total\" X=\"420\" Y=\"8\" Width=\"90\" Height=\"18\" Bold TextAlignment=\"TextAlignment.End\" />\r\n        </ReportPageHeader>\r\n        <ReportDetail Name=\"Invoice lines\" Height=\"30\" DataSource=\"Invoice.Lines\">\r\n            <ReportField Field=\"Description\" X=\"30\" Y=\"6\" Width=\"270\" Height=\"18\" />\r\n            <ReportField Field=\"Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"6\" Width=\"90\" Height=\"18\" FontColor=\"@ReportColors.Green\" />\r\n        </ReportDetail>\r\n        <ReportFooter Name=\"Invoice footer\" Height=\"45\">\r\n            <ReportLine X=\"30\" Y=\"6\" Width=\"480\" Height=\"8\" Thickness=\"1\" />\r\n            <ReportText Text=\"Invoice total\" X=\"300\" Y=\"18\" Width=\"105\" Height=\"18\" Bold />\r\n            <ReportField Field=\"Header.Total\" Format=\"@ReportFormats.Currency()\" X=\"420\" Y=\"18\" Width=\"90\" Height=\"18\" Bold FontColor=\"@ReportColors.Green\" />\r\n        </ReportFooter>\r\n    </ReportPage>\r\n</Report>\r\n\r\n@code {\r\n    private readonly InvoiceReportModel invoice = new()\r\n    {\r\n        Header = new()\r\n        {\r\n            Number = \"INV-1001\",\r\n            Total = 1240.50m,\r\n        },\r\n        Customer = new()\r\n        {\r\n            Name = \"Northwind Traders\",\r\n        },\r\n        Lines =\r\n        [\r\n            new() { Description = \"Implementation workshop\", Total = 640.50m },\r\n            new() { Description = \"Reporting module license\", Total = 500.00m },\r\n            new() { Description = \"Priority support\", Total = 100.00m },\r\n        ],\r\n    };\r\n\r\n    private sealed class InvoiceReportModel\r\n    {\r\n        public InvoiceHeaderModel Header { get; set; }\r\n\r\n        public InvoiceCustomerModel Customer { get; set; }\r\n\r\n        public List<InvoiceLineModel> Lines { get; set; } = [];\r\n    }\r\n\r\n    private sealed class InvoiceHeaderModel\r\n    {\r\n        public string Number { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceCustomerModel\r\n    {\r\n        public string Name { get; set; }\r\n    }\r\n\r\n    private sealed class InvoiceLineModel\r\n    {\r\n        public string Description { get; set; }\r\n\r\n        public decimal Total { get; set; }\r\n    }\r\n}",
-          "title": "PDF preview and download",
+          "title": "PDF Preview",
           "description": "Enable PDF as a preview format and provide a PdfPreviewTemplate to render the generated document with Blazorise PdfViewer or another PDF viewer."
         },
         {
@@ -8025,7 +8025,7 @@
           "kind": "csharp",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ProgressBarReportElementPluginExample.csharp",
           "content": "public sealed class ProgressBarReportElementPlugin : IReportElementPlugin, IReportElementPdfRenderer\r\n{\r\n    public const string TypeName = \"docs.progress-bar\";\r\n\r\n    public ReportElementDescriptor Descriptor { get; } = new()\r\n    {\r\n        TypeName = TypeName,\r\n        DisplayName = \"Progress Bar\",\r\n        Category = \"Custom\",\r\n        Icon = IconName.ChartBar,\r\n        Width = 200,\r\n        Height = 38,\r\n        Capabilities = ReportElementCapabilities.Default,\r\n    };\r\n\r\n    public Type RendererComponentType => typeof( ProgressBarReportElementRenderer );\r\n\r\n    public Type PropertiesComponentType => typeof( ProgressBarReportElementProperties );\r\n\r\n    public IReportElementPdfRenderer PdfRenderer => this;\r\n\r\n    public ReportCustomElementDefinition CreateElement()\r\n    {\r\n        return new()\r\n        {\r\n            Properties = new()\r\n            {\r\n                [\"caption\"] = \"Progress\",\r\n                [\"value\"] = 60,\r\n                [\"color\"] = \"#0D6EFD\",\r\n            },\r\n        };\r\n    }\r\n\r\n    public IEnumerable<PdfElementDefinition> Render( ReportElementPdfRenderContext context )\r\n    {\r\n        int value = GetValue( context.Element );\r\n        double trackHeight = Math.Min( 12, context.Element.Height );\r\n        double trackY = Math.Max( 0, context.Element.Height - trackHeight );\r\n\r\n        yield return CreateLabel( context.Element, GetCaption( context.Element ), TextAlignment.Start );\r\n        yield return CreateLabel( context.Element, $\"{value}%\", TextAlignment.End );\r\n        yield return CreateRectangle( context.Element.Width, trackY, trackHeight, \"#E9ECEF\" );\r\n        yield return CreateRectangle( context.Element.Width * value / 100d, trackY, trackHeight, GetColor( context.Element ) );\r\n    }\r\n\r\n    private static string GetCaption( ReportCustomElementDefinition element )\r\n        => element?.Properties?[\"caption\"]?.GetValue<string>() ?? \"Progress\";\r\n\r\n    private static int GetValue( ReportCustomElementDefinition element )\r\n        => Math.Clamp( element?.Properties?[\"value\"]?.GetValue<int>() ?? 0, 0, 100 );\r\n\r\n    private static string GetColor( ReportCustomElementDefinition element )\r\n        => element?.Properties?[\"color\"]?.GetValue<string>() ?? \"#0D6EFD\";\r\n\r\n    private static PdfElementDefinition CreateLabel( ReportCustomElementDefinition element, string text, TextAlignment alignment )\r\n    {\r\n        return new()\r\n        {\r\n            Type = PdfElementType.Text,\r\n            Width = element.Width,\r\n            Height = Math.Min( 14, element.Height ),\r\n            Text = text,\r\n            Wrap = false,\r\n            Font = new()\r\n            {\r\n                Size = 9,\r\n                Bold = true,\r\n                Alignment = alignment,\r\n                VerticalAlignment = VerticalAlignment.Middle,\r\n                Color = \"#212529\",\r\n            },\r\n            Border = new()\r\n            {\r\n                Width = 0,\r\n            },\r\n        };\r\n    }\r\n\r\n    private static PdfElementDefinition CreateRectangle( double width, double y, double height, string color )\r\n    {\r\n        return new()\r\n        {\r\n            Type = PdfElementType.Rectangle,\r\n            Y = y,\r\n            Width = width,\r\n            Height = height,\r\n            Border = new()\r\n            {\r\n                Width = 0,\r\n            },\r\n            Appearance = new()\r\n            {\r\n                BackgroundColor = color,\r\n            },\r\n        };\r\n    }\r\n}",
-          "title": "Plugin definition and PDF renderer",
+          "title": "PDF Plugin",
           "description": "The descriptor controls toolbox metadata and capabilities, while the factory initializes plugin-owned JSON properties. The PDF renderer maps the progress element to text and rectangle primitives positioned inside the element bounds."
         },
         {
@@ -8229,7 +8229,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/RouterTabs/Examples/RouterTabsPageAttributeExample.snippet",
           "content": "@attribute [RouterTabsPageAttribute( Name: \"Example\", Closeable: true )]",
-          "title": "Configure pages as tabs",
+          "title": "Tab Configuration",
           "description": "Use RouterTabsPageAttribute to configure how your pages will behave when rendered as tabs."
         }
       ]
@@ -9406,7 +9406,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/TreeView/Examples/TreeViewExpandExample.razor",
           "content": "<Button Color=\"Color.Primary\" Clicked=\"@(() => treeViewRef.ExpandAll())\">Expand all</Button>\r\n<Button Color=\"Color.Secondary\" Clicked=\"@(() => treeViewRef.CollapseAll())\">Collapse all</Button>\r\n\r\n<TreeView @ref=\"@treeViewRef\" Nodes=\"Items\" GetChildNodes=\"@(item => item.Children)\" HasChildNodes=\"@(item => item.Children?.Any() == true)\">\r\n    <NodeContent>\r\n        <Icon Name=\"IconName.Folder\" />\r\n        @context.Text\r\n    </NodeContent>\r\n</TreeView>\r\n\r\n@code {\r\n    TreeView<Item> treeViewRef;\r\n\r\n    public class Item\r\n    {\r\n        public string Text { get; set; }\r\n        public IEnumerable<Item> Children { get; set; }\r\n    }\r\n\r\n    IEnumerable<Item> Items = new[]\r\n    {\r\n        new Item { Text = \"Item 1\" },\r\n        new Item\r\n        {\r\n            Text = \"Item 2\",\r\n            Children = new []\r\n            {\r\n                new Item { Text = \"Item 2.1\" },\r\n                new Item\r\n                {\r\n                    Text = \"Item 2.2\",\r\n                    Children = new []\r\n                    {\r\n                        new Item { Text = \"Item 2.2.1\" },\r\n                        new Item { Text = \"Item 2.2.2\" },\r\n                        new Item { Text = \"Item 2.2.3\" },\r\n                        new Item { Text = \"Item 2.2.4\" }\r\n                    }\r\n                },\r\n                new Item { Text = \"Item 2.3\" },\r\n                new Item { Text = \"Item 2.4\" }\r\n            }\r\n        },\r\n        new Item { Text = \"Item 3\" },\r\n    };\r\n}",
-          "title": "Expanding and Collapsing Nodes",
+          "title": "Node Expansion",
           "description": "By default, all nodes are collapsed except for the root node(s). To expand a node, click on the triangle icon next to its label. To collapse a node, click on the triangle icon again. You can also programmatically expand or collapse nodes using the ExpandAll() and CollapseAll() property of the TreeView class."
         },
         {
@@ -10226,7 +10226,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/McpGitHubServerEntryExample.snippet",
           "content": "{\r\n  \"blazorise-docs\": {\r\n    \"type\": \"http\",\r\n    \"url\": \"https://mcp.blazorise.com/mcp\",\r\n    \"tools\": [\r\n      \"search_docs\"\r\n    ]\r\n  }\r\n}",
-          "title": "GitHub.com coding agent entry",
+          "title": "GitHub Agent",
           "description": "Use this server object inside your mcpServers configuration on GitHub.com."
         },
         {
@@ -10487,7 +10487,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/Messages/Examples/MessageServiceUsageExample.razor",
           "content": "<Router AppAssembly=\"typeof(App).Assembly\">\r\n    <Found>...</Found>\r\n    <NotFound>...</NotFound>\r\n</Router>\r\n\r\n<MessageProvider />",
-          "title": "Step 1. Define wrapper component",
+          "title": "Step 1: Wrapper",
           "description": "IMessageService is automatically registered by Blazorise but it needs just one thing on your side to make it work. You need to place MessageProvider somewhere in your application razor code. It can be placed anywhere, but a good approach is to place it in App.razor like in the following example."
         },
         {
@@ -10526,7 +10526,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/Messages/Examples/MessageServiceUsageExample.razor",
           "content": "<Router AppAssembly=\"typeof(App).Assembly\">\r\n    <Found>...</Found>\r\n    <NotFound>...</NotFound>\r\n</Router>\r\n\r\n<MessageProvider />",
-          "title": "Step 1. Define wrapper component",
+          "title": "Step 1: Wrapper",
           "description": "IMessageService is automatically registered by Blazorise but it needs just one thing on your side to make it work. You need to place MessageProvider somewhere in your application razor code. It can be placed anywhere, but a good approach is to place it in App.razor like in the following example."
         },
         {
@@ -10635,7 +10635,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/Notifications/Examples/NotificationServiceInstallationExample.razor",
           "content": "dotnet add package Blazorise.Components",
-          "title": "Step 1: Download from NuGet",
+          "title": "Step 1: Install",
           "description": "Install extension from NuGet."
         },
         {
@@ -10643,7 +10643,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Snackbar/Examples/SnackbarImportsExample.snippet",
           "content": "@using Blazorise.Components\r\n@using Blazorise.Snackbar",
-          "title": "Step 2. Define Usings",
+          "title": "Step 2: Usings",
           "description": "Since notification service is created as a wrapper around the Snackbar component so it is also required to define the namespace inside of your main _Imports.razor file."
         },
         {
@@ -10651,7 +10651,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/Notifications/Examples/NotificationServiceUsageExample.razor",
           "content": "<Router AppAssembly=\"typeof(App).Assembly\">\r\n    <Found>...</Found>\r\n    <NotFound>...</NotFound>\r\n</Router>\r\n\r\n<NotificationProvider />",
-          "title": "Step 3. Define wrapper component",
+          "title": "Step 3: Wrapper",
           "description": "INotificationService is automatically registered by Blazorise but it needs just one thing on your side to make it work. You need to place NotificationProvider somewhere in your application razor code. It can be placed anywhere, but a good approach is to place it in App.razor like in the following example."
         },
         {
@@ -10659,7 +10659,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Snackbar/Examples/SnackbarResourcesExample.snippet",
           "content": "<link href=\"_content/Blazorise.Snackbar/blazorise.snackbar.css\" rel=\"stylesheet\" />",
-          "title": "Step 4. Static files",
+          "title": "Step 4: Assets",
           "description": "This step is only needed if you didn't already define any CSS files for the Snackbar component. Remember, The INotificationService is built on top of Snackbar ."
         },
         {
@@ -10691,7 +10691,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/Notifications/Examples/NotificationServiceInstallationExample.razor",
           "content": "dotnet add package Blazorise.Components",
-          "title": "Step 1: Download from NuGet",
+          "title": "Step 1: Install",
           "description": "Install extension from NuGet."
         },
         {
@@ -10699,7 +10699,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Snackbar/Examples/SnackbarImportsExample.snippet",
           "content": "@using Blazorise.Components\r\n@using Blazorise.Snackbar",
-          "title": "Step 2. Define Usings",
+          "title": "Step 2: Usings",
           "description": "Since notification service is created as a wrapper around the Snackbar component so it is also required to define the namespace inside of your main _Imports.razor file."
         },
         {
@@ -10707,7 +10707,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/Notifications/Examples/NotificationServiceUsageExample.razor",
           "content": "<Router AppAssembly=\"typeof(App).Assembly\">\r\n    <Found>...</Found>\r\n    <NotFound>...</NotFound>\r\n</Router>\r\n\r\n<NotificationProvider />",
-          "title": "Step 3. Define wrapper component",
+          "title": "Step 3: Wrapper",
           "description": "INotificationService is automatically registered by Blazorise but it needs just one thing on your side to make it work. You need to place NotificationProvider somewhere in your application razor code. It can be placed anywhere, but a good approach is to place it in App.razor like in the following example."
         },
         {
@@ -10715,7 +10715,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Snackbar/Examples/SnackbarResourcesExample.snippet",
           "content": "<link href=\"_content/Blazorise.Snackbar/blazorise.snackbar.css\" rel=\"stylesheet\" />",
-          "title": "Step 4. Static files",
+          "title": "Step 4: Assets",
           "description": "This step is only needed if you didn't already define any CSS files for the Snackbar component. Remember, The INotificationService is built on top of Snackbar ."
         },
         {
@@ -10825,7 +10825,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/PageProgresses/Examples/PageProgressServiceUsageExample.razor",
           "content": "<Router AppAssembly=\"typeof(App).Assembly\">\r\n    <Found>...</Found>\r\n    <NotFound>...</NotFound>\r\n</Router>\r\n\r\n<PageProgressProvider />",
-          "title": "Step 1. Define wrapper component",
+          "title": "Step 1: Wrapper",
           "description": "IPageProgressService is automatically registered by Blazorise but it needs just one thing on your side to make it work. You need to place PageProgressProvider somewhere in your application razor code. It can be placed anywhere, but a good approach is to place it in App.razor like in the following example."
         },
         {
@@ -10849,7 +10849,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/PageProgresses/Examples/PageProgressServiceUsageExample.razor",
           "content": "<Router AppAssembly=\"typeof(App).Assembly\">\r\n    <Found>...</Found>\r\n    <NotFound>...</NotFound>\r\n</Router>\r\n\r\n<PageProgressProvider />",
-          "title": "Step 1. Define wrapper component",
+          "title": "Step 1: Wrapper",
           "description": "IPageProgressService is automatically registered by Blazorise but it needs just one thing on your side to make it work. You need to place PageProgressProvider somewhere in your application razor code. It can be placed anywhere, but a good approach is to place it in App.razor like in the following example."
         },
         {
@@ -11390,7 +11390,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideSvgRegistrationExample.snippet",
           "content": "using Blazorise;\r\nusing Blazorise.FluentUI2;\r\nusing Blazorise.Icons.FluentUI;\r\n\r\nbuilder.Services\r\n    .AddBlazorise()\r\n    .AddFluentUI2Providers()\r\n    .AddFluentUIIcons( options => options.UseSvgIcons = true );",
-          "title": "Optional: SVG icon registration",
+          "title": "Optional SVG Icons",
           "description": "When using the SVG icon stylesheet, also enable SVG rendering in the Fluent UI icon provider options."
         },
         {
@@ -11420,7 +11420,7 @@
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Licensing/Examples/LicensingGuideAddKeyExample.snippet",
           "content": "services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.ProductToken = \"<your-product-token>\";\r\n    } )",
-          "title": "Add the Product Token",
+          "title": "Product Token",
           "description": "Open the solution containing your Blazor application in Visual Studio or another development environment. In the Startup class, find the ConfigureServices method. This method is used to configure the services used in your Blazor application. In the ConfigureServices method, add the following code snippet."
         }
       ]
