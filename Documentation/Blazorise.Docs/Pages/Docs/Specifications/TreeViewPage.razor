@@ -10,9 +10,9 @@
     Learn how the TreeView behaves when selection, expansion, and virtualization are combined.
 </DocsPageLead>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     SelectionMode
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     <Code>SelectionMode.Single</Code> uses <Code>SelectedNode</Code> and selection happens by clicking the node content.
@@ -23,9 +23,9 @@
     Disabled nodes from <Code>IsDisabled</Code> ignore clicks and checkbox changes and are styled through <Code>DisabledNodeStyling</Code>.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Expansion and ExpandedNodes
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Expanded state is tracked in <Code>ExpandedNodes</Code>. Toggling a node updates the list and raises <Code>ExpandedNodesChanged</Code>.
@@ -36,18 +36,18 @@
     <Code>AutoExpandAll</Code> runs only once during the initial load. It expands nodes that report children and updates <Code>ExpandedNodes</Code>.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Child Loading
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Child nodes are loaded lazily using <Code>GetChildNodes</Code> or <Code>GetChildNodesAsync</Code> when a node expands.
     <Code>HasChildNodes</Code>/<Code>HasChildNodesAsync</Code> determines whether the expand toggle is shown.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Virtualize
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     When <Code>Virtualize</Code> is enabled, each expanded node list is rendered using Blazor's <Code>Virtualize</Code> component.

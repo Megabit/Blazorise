@@ -15,9 +15,9 @@
     <Code Tag>TextInput</Code> fields components are used for collecting user provided information.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic" />
@@ -99,9 +99,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Binding
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Two-way binding">
@@ -121,9 +121,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Settings
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Text Changed mode">
@@ -153,16 +153,18 @@
     </AlertDescription>
 </Alert>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Prevent autocomplete
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     When working with email and password fields, in some cases browsers might automatically autofill them with the values from user system. To prevent it you can define an <Code>autocomplete</Code> attribute, eg. <Code>autocomplete="new-password"</Code> on an input field.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(TextInput)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/text-input/api" Name="<TextInput />" />
+</DocsPageApi>

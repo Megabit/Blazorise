@@ -18,9 +18,9 @@
     All basic types are supported, including nullable types: (<Code>int</Code>, <Code>long</Code>, <Code>float</Code>, <Code>double</Code>, <Code>decimal</Code>, etc.).
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -44,9 +44,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Rules
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Generic type">
@@ -71,7 +71,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Controlling the step value">
+    <DocsPageSectionHeader Title="Step Value">
         Set the amount to increment or decrement the value when the spinner buttons are used with the <Code>step</Code> parameter.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="NumericPickerStepExample" Outlined FullWidth>
@@ -80,7 +80,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Setting the Min &amp; Max">
+    <DocsPageSectionHeader Title="Value Range">
         Set the <Code>Min</Code> &amp; <Code>Max</Code> to limit the values allowed into the input.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="NumericPickerMinMaxExample" Outlined FullWidth>
@@ -98,7 +98,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Modify Value With Mouse Wheel">
+    <DocsPageSectionHeader Title="Mouse Wheel">
         Sometime you want to be able to change the value by scrolling with the mouse wheel when it is focused over the input. To enable it just use the <Code>ModifyValueOnWheel</Code> parameter.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="NumericPickerMouseWheelExample" Outlined FullWidth>
@@ -106,24 +106,26 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Use Meaningful Steps
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     A numeric picker is most useful when values are commonly adjusted in small steps. Set a step and bounds that reflect the domain, and disable increment or decrement actions when their limit is reached. When users normally type an exact value, a <Anchor To="docs/components/numeric-edit">NumericInput</Anchor> may be more direct.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Avoid Accidental Changes
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Enable mouse-wheel changes only when unintended adjustments are unlikely, and always retain keyboard and direct-entry support. Units or currency belong in the label or formatting rather than in the stored numeric value.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(NumericPicker<>)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/numeric-picker/api" Name="<NumericPicker />" />
+</DocsPageApi>

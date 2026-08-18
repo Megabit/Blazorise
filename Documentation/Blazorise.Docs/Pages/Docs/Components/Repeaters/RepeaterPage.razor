@@ -15,9 +15,9 @@
     <Code>INotifyCollectionChanged</Code>. Meaning you can do custom actions whenever a data-source changes.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -27,24 +27,26 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
-    Keep State Outside the Template
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    External State
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Item templates should remain focused on presentation while collection mutations flow through a single state owner. Use stable item identities whenever repeated content contains stateful controls or can be reordered, allowing Blazor to preserve the correct component instance.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Plan for Data States and Volume
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Data States
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Provide explicit loading, empty, and error states so an empty region is never ambiguous. For large collections, use paging or virtualization rather than rendering every item at once.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Repeater<>)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/repeater/api" Name="<Repeater />" />
+</DocsPageApi>

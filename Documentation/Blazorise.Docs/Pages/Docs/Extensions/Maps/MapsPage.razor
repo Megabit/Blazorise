@@ -22,9 +22,9 @@
     To use the <Code>Map</Code> component, install the <Code>Blazorise.Maps</Code> package first.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Components
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Maps are composed from a parent <Code>Map</Code> and one or more child layer components. The child components describe what should be rendered; the selected provider handles the rendering details internally.
@@ -73,9 +73,9 @@
     </TableBody>
 </Table>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Installation
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="NuGet">
@@ -98,9 +98,9 @@
     <DocsPageSectionSource Code="MapsServiceRegistrationExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -138,9 +138,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Providers
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     The current provider supports raster XYZ tile services through <Code>MapTileLayer</Code>. You can use OpenStreetMap or another compatible tile service by setting <Code>Source</Code>, <Code>Subdomains</Code>, and <Code>Attribution</Code> according to the service requirements.
@@ -154,4 +154,12 @@
     Attribution is optional in the API, but tile providers often require it. When using OpenStreetMap tiles, set <Code>Attribution</Code> to credit OpenStreetMap contributors.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Blazorise.Maps.Map), typeof(MapTileLayer), typeof(MapMarker), typeof(MapMarkerLayer<>), typeof(MapCircle), typeof(MapPolyline), typeof(MapPolygon)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/maps/api" Name="<Map />" />
+    <DocsPageApiItem Url="docs/extensions/maps/api" Name="<MapTileLayer />" />
+    <DocsPageApiItem Url="docs/extensions/maps/api" Name="<MapMarker />" />
+    <DocsPageApiItem Url="docs/extensions/maps/api" Name="<MapMarkerLayer />" />
+    <DocsPageApiItem Url="docs/extensions/maps/api" Name="<MapCircle />" />
+    <DocsPageApiItem Url="docs/extensions/maps/api" Name="<MapPolyline />" />
+    <DocsPageApiItem Url="docs/extensions/maps/api" Name="<MapPolygon />" />
+</DocsPageApi>

@@ -25,9 +25,9 @@
     </AlertDescription>
 </Alert>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -98,24 +98,26 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
-    Use Links for Navigation
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Navigation Links
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     A link should take the user to another location. Use a <Code Tag>Button</Code> for actions that change data or update the current interface. When navigation is unavailable, plain text or an explanation is usually clearer than a disabled-looking link that may still appear interactive.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Describe the Destination
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Write link text that makes sense out of context instead of using "click here" or a bare URL. Let users know when a link opens a new window, begins a download, or leads to a substantially different experience.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Link)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/link/api" Name="<Link />" />
+</DocsPageApi>

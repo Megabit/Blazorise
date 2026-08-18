@@ -32,9 +32,9 @@
 
 
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -65,13 +65,13 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
-    Provide a Non-Drag Alternative
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Drag Alternative
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Every operation available through dragging should also have a keyboard-accessible method, such as move buttons. Make draggable items and valid drop zones visually clear, and show immediate feedback for both allowed and rejected drops.
@@ -83,12 +83,15 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Validate Every Move
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Use stable item identifiers and update the source collection through one state owner after a successful drop. When ordering, permissions, or destination rules affect persisted data, validate the move again in application code before saving it.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(DropContainer<>), typeof(DropZone<>)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/drag-drop/api" Name="<DropContainer />" />
+    <DocsPageApiItem Url="docs/components/drag-drop/api" Name="<DropZone />" />
+</DocsPageApi>

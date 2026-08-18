@@ -18,9 +18,9 @@
     Need users to choose both a minimum and maximum value? Use <Anchor To="docs/components/range-slider">RangeSlider</Anchor>.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic" />
@@ -55,21 +55,21 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
-    Use for Approximate Input
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Approximate Input
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     A slider works best when choosing an approximate value from a bounded range is more useful than typing an exact number. Choose a step that represents meaningful values in the domain instead of exposing arbitrary precision.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Expose the Value and an Alternative
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Value Alternatives
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Provide a visible label and communicate the current value, minimum, maximum, and unit. Pair the slider with a numeric input when users may need precise entry or a more accessible way to set the value.
@@ -81,4 +81,6 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(Slider<>)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/slider/api" Name="<Slider />" />
+</DocsPageApi>

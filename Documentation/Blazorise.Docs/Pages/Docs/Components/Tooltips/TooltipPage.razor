@@ -15,9 +15,9 @@
     Tooltips are a good fit for icons, buttons, and truncated text that needs a full-value preview.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Overview
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     <UnorderedList>
@@ -57,9 +57,9 @@
     </AlertDescription>
 </Alert>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -148,24 +148,26 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
-    Keep Essential Information Visible
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Essential Information
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     A tooltip should contain brief supplementary information rather than essential instructions or validation feedback. Write concise text that adds useful context instead of repeating the trigger's visible label.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Support Pointer, Keyboard, and Touch
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Input Methods
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Keyboard focus should reveal the same tooltip as pointer hover, and users should not need to interact with controls inside it. Touch-only experiences cannot depend on hover, so provide a visible label or help control whenever the information is needed there.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Tooltip)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/tooltip/api" Name="<Tooltip />" />
+</DocsPageApi>

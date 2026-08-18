@@ -14,9 +14,9 @@
     Use our progress component for displaying simple or complex progress bars, featuring support for horizontally stacked bars, animated backgrounds, and text labels.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Structure
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <UnorderedList>
     <UnorderedListItem>
@@ -33,9 +33,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Progress components are built with two components.
@@ -95,9 +95,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Page progress
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     You can also show a small progress bar at the top of the page. Note that unlike regular <Code>Progress</Code> component,
@@ -118,24 +118,27 @@
     <DocsPageSectionSource Code="IndeterminatePageProgressExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Represent Progress Honestly
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Use determinate progress only when the completed proportion is known; otherwise use the indeterminate state. Update a known value often enough to feel responsive without producing excessive rendering or network traffic.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Keep Status Near the Task
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Nearby Status
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Accompany the visual bar with a concise label or status message, especially when work may pause or fail. Use <Code Tag>PageProgress</Code> for page-level loading and place a regular <Code Tag>Progress</Code> close to the specific task it represents.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Progress),typeof(ProgressBar), typeof(PageProgress)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/progress/api" Name="<Progress />" />
+    <DocsPageApiItem Url="docs/components/progress/api" Name="<ProgressBar />" />
+</DocsPageApi>

@@ -10,18 +10,18 @@
     Learn how chart lifecycle, updates, and plugins behave.
 </DocsPageLead>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Update Lifecycle
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     The chart tracks a dirty flag and redraws when it is marked dirty. Methods like <Code>AddLabels</Code>, <Code>AddData</Code>, <Code>SetData</Code>, and <Code>AddDataSet</Code> mark the chart dirty so it can update on the next render or after calling <Code>Update</Code>.
     Directly mutating <Code>Data</Code> or <Code>Datasets</Code> does not mark the chart dirty.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Options and Resize
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     <Code>SetOptions</Code> and <Code>SetOptionsObject</Code> update chart options but should be followed by <Code>Update</Code> to apply the changes.
@@ -32,17 +32,17 @@
     <Code>OptionsObject</Code> is a fallback for cases where strongly typed options do not cover a Chart.js setting. When provided (and <Code>OptionsJsonString</Code> is not set), it replaces the typed options payload sent to the chart.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Plugins
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Chart plugins must be nested inside a chart component. They initialize after the chart is ready and reinitialize when their parameters change.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Dataset Limits
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Chart helper methods enforce licensing limits on dataset size. Data points beyond the limit are ignored when adding or setting data.

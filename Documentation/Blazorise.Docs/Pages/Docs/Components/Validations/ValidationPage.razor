@@ -100,9 +100,9 @@
     </Alert>
 </Paragraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Method handlers">
@@ -191,9 +191,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Localization
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     If you want to localize your validation messages, Blazorise provides an API and the required information needed for localization.
@@ -327,24 +327,26 @@
     </DocsMethodsItem>
 </DocsMethods>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Make Errors Actionable
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Place feedback next to the related field and explain how to correct the value instead of merely stating that it is invalid. Validate after meaningful interaction or submission so users are not shown errors before they have had a chance to enter a value.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Validate at the Right Layers
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Validation Layers
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Long forms benefit from a validation summary, but should retain field-level messages and move focus to a useful error location after submission. Repeat all security and business validation on the server because client-side validation improves feedback but does not establish trust.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof( Validations ), typeof( Validation ), typeof( ValidationNone ), typeof( ValidationSuccess ), typeof( ValidationWarning ), typeof( ValidationError ), typeof( ValidationFeedback )]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/validation/api" Name="<Validations />" />
+</DocsPageApi>

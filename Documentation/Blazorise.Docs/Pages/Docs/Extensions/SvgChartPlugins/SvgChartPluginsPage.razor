@@ -22,9 +22,9 @@
     Plugins can render SVG directly, read resolved geometry from the render context, project values into plot coordinates, and attach chart events to the elements they create. They are best suited for overlays, annotations, labels, guides, and behavior around an existing chart type. A completely new chart type generally needs a derived chart component and series renderer support in addition to plugin rendering.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Plugin model
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <UnorderedList>
     <UnorderedListItem><Code>SvgChartPluginBase</Code> registers and unregisters the plugin with the parent chart.</UnorderedListItem>
@@ -34,9 +34,9 @@
     <UnorderedListItem><Code>RendersContent</Code> can be set to <Code>false</Code> for behavior-only plugins.</UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Threshold plugin">
@@ -54,12 +54,20 @@
     <DocsPageSectionSource Code="SvgChartThresholdLinePlugin" Expanded />
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Render layers
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Plugins are rendered through <Code>SvgChartRenderLayer</Code>. Use <Code>BeforeSeries</Code> for background marks such as ranges and bands, <Code>SeriesOverlay</Code> for marks that should appear over the series, <Code>InteractionOverlay</Code> for interactive overlays, and <Code>Tooltip</Code> for tooltip-level content. The <Code>Background</Code> layer is available before chart text, grid, and axes are rendered.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(ISvgChartPlugin), typeof(SvgChartPluginBase), typeof(SvgChartPluginRenderContext), typeof(SvgChartPluginSeries), typeof(SvgChartPluginPlotArea)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChart />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgLineChart />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChartTitle />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChartLegend />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChartTooltip />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChartCategoryAxis />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChartValueAxis />" />
+</DocsPageApi>
