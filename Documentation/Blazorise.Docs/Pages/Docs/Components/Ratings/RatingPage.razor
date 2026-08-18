@@ -1,4 +1,4 @@
-﻿@page "/docs/components/rating"
+@page "/docs/components/rating"
 
 <Seo Canonical="/docs/components/rating" Title="Blazorise Rating system" Description="Learn to use and work with the Blazorise Rating component, which provide insight regarding others opinions and experiences with a product. Users can also rate products they've purchased." />
 
@@ -49,5 +49,25 @@
         <RatingWithTooltipExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Explain the Scale
+</Heading>
+
+<DocsPageParagraph>
+    Explain what the lowest and highest values mean so users interpret the scale consistently. Provide a visible or accessible label and expose the current value as text instead of relying on icons alone. When the workflow permits it, let users change or clear an accidental rating.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Prefer Explicit Choices for Important Responses
+</Heading>
+
+<DocsPageParagraph>
+    A rating is intentionally compact and approximate. Use a labeled choice group when each value has a distinct meaning or when the response has legal, financial, or operational consequences.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Rating)]" />

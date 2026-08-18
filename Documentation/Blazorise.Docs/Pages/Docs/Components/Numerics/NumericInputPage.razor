@@ -1,4 +1,4 @@
-﻿@page "/docs/components/numeric-edit"
+@page "/docs/components/numeric-edit"
 @page "/docs/components/numeric-input"
 
 <Seo Canonical="/docs/components/numeric-input" Title="Blazorise NumericInput component" Description="Learn to use and work with the Blazorise NumericInput component, a native input element for any kind if numeric values." />
@@ -45,5 +45,25 @@
         <NumericInputGenericExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Use Numeric Input for Quantities
+</Heading>
+
+<DocsPageParagraph>
+    Numeric input is intended for values users may calculate with. Identifiers such as account numbers, postal codes, and phone numbers may contain digits, but they should be entered as text because numeric operations and formatting do not apply to them.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Match the Domain's Precision
+</Heading>
+
+<DocsPageParagraph>
+    Choose the generic numeric type so its range and precision match the underlying data. Show units in the label or an addon and format values according to the user's culture. Minimum, maximum, precision, and business rules must still be enforced when the value is submitted.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(NumericInput<>)]" />

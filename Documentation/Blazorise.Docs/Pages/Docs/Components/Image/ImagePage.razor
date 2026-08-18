@@ -1,4 +1,4 @@
-﻿@page "/docs/components/image"
+@page "/docs/components/image"
 
 <Seo Canonical="/docs/components/image" Title="Blazorise Image component" Description="Learn to use and work with the Blazorise Image component, its features, as well as simple image placement and responsive delayed loading behavior." />
 
@@ -71,5 +71,25 @@
         <ImageFallbackExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Write Purposeful Alternative Text
+</Heading>
+
+<DocsPageParagraph>
+    Alternative text should concisely communicate the image's purpose. Use an empty alternative for decorative images so assistive technology can skip them instead of announcing redundant information.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Optimize Loading and Layout
+</Heading>
+
+<DocsPageParagraph>
+    Reserve image dimensions or an aspect ratio to prevent surrounding content from shifting while the source loads. Defer off-screen images, but load prominent above-the-fold content normally. Optimize the source file and responsive sizes as well, because a fluid component cannot make an unnecessarily large download efficient.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Image)]" />

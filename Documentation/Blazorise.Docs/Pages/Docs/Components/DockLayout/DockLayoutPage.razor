@@ -57,4 +57,24 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Start with a Useful Workspace
+</Heading>
+
+<DocsPageParagraph>
+    Provide an understandable default arrangement before users begin customizing it. Concise pane headers and practical minimum sizes help every region remain usable after resizing or docking. Small screens may need a simpler responsive arrangement where multi-pane dragging is not required.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Restore Layout State Safely
+</Heading>
+
+<DocsPageParagraph>
+    Give panes stable identities when persisting layout state. A restored layout may have been created before panes were added, removed, or renamed, so handle missing and newly introduced panes without leaving the workspace incomplete.
+</DocsPageParagraph>
+
 <ComponentApiDocs ComponentTypes="[typeof( DockLayout ), typeof( DockPane ), typeof( DockPaneHeader ), typeof( DockPaneBody ), typeof( DockPaneFooter ), typeof( DockContent ), typeof( DockSplit ), typeof( DockTabs )]" />

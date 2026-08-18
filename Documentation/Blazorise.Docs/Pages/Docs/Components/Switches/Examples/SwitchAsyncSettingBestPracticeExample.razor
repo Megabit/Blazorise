@@ -1,0 +1,74 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Fields>
+    <Field>
+        <Div Display="Display.Flex" Flex="Flex.AlignItems.Center" Gap="Gap.Is3">
+            <Switch TValue="bool" Value="@notificationsEnabled" ValueChanged="@SaveSettingAsync" Disabled="@isSaving">
+                Email notifications
+            </Switch>
+            @if ( !string.IsNullOrWhiteSpace( statusMessage ) )
+            {
+                <Span TextColor="@StatusTextColor" role="status" aria-live="polite">@statusMessage</Span>
+            }
+        </Div>
+    </Field>
+    <Field>
+        <Check TValue="bool" @bind-Value="@simulateFailure" Disabled="@isSaving">Simulate next save failure</Check>
+    </Field>
+</Fields>
+
+@if ( !string.IsNullOrWhiteSpace( errorMessage ) )
+{
+    <Alert Color="Color.Danger" Visible Margin="Margin.Is3.FromTop">
+        <AlertDescription>@errorMessage</AlertDescription>
+    </Alert>
+}
+
+@code {
+    private bool notificationsEnabled = true;
+    private bool simulateFailure;
+    private bool isSaving;
+    private string statusMessage = "Saved";
+    private string errorMessage;
+
+    private TextColor StatusTextColor
+        => isSaving
+            ? TextColor.Secondary
+            : errorMessage is null
+                ? TextColor.Success
+                : TextColor.Danger;
+
+    private async Task SaveSettingAsync( bool value )
+    {
+        bool previousValue = notificationsEnabled;
+        bool shouldFail = simulateFailure;
+
+        notificationsEnabled = value;
+        simulateFailure = false;
+        isSaving = true;
+        statusMessage = "Saving...";
+        errorMessage = null;
+
+        try
+        {
+            await Task.Delay( 800 );
+
+            if ( shouldFail )
+            {
+                throw new InvalidOperationException();
+            }
+
+            statusMessage = "Saved";
+        }
+        catch ( InvalidOperationException )
+        {
+            notificationsEnabled = previousValue;
+            statusMessage = "Not saved";
+            errorMessage = "The setting could not be saved. The previous value was restored.";
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+}

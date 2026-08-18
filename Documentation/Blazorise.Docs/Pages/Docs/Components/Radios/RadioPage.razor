@@ -1,4 +1,4 @@
-﻿@page "/docs/components/radio"
+@page "/docs/components/radio"
 
 <Seo Canonical="/docs/components/radio" Title="Blazorise Radio system" Description="Learn to use and work with the Blazorise Radio component, or buttons that allow the user to select one option from a set." />
 
@@ -105,5 +105,25 @@
         <RadioGroupWithEventExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Use for Small, Exclusive Sets
+</Heading>
+
+<DocsPageParagraph>
+    Radio buttons are appropriate for a small set of mutually exclusive choices that benefits from being visible at the same time. Select a default only when one option is safe and genuinely appropriate for most users.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Provide Group Context
+</Heading>
+
+<DocsPageParagraph>
+    Place related options in a <Code Tag>RadioGroup</Code> with a clear group label, and give every radio a concise standalone label. Use a <Anchor To="docs/components/select">Select</Anchor> when the list is long or space is constrained, and <Anchor To="docs/components/check">Check</Anchor> components when multiple selections are allowed.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(RadioGroup<>),typeof(Radio<>)]" />

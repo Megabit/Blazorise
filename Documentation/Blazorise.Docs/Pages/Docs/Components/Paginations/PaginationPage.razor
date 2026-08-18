@@ -1,4 +1,4 @@
-﻿@page "/docs/components/pagination"
+@page "/docs/components/pagination"
 
 <Seo Canonical="/docs/components/pagination" Title="Blazorise Pagination system" Description="Learn to use and work with the Blazorise Pagination component that enables the user to select a specific page from a range of pages." />
 
@@ -55,5 +55,25 @@
         <DynamicPaginationExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Preserve Navigation Context
+</Heading>
+
+<DocsPageParagraph>
+    Keep the current page and related filters in the URL when users need to share a result or return with browser navigation. Large datasets should be paged on the server so changing pages does not require loading every item first.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Handle Page Boundaries Clearly
+</Heading>
+
+<DocsPageParagraph>
+    Identify the current page and give first, previous, next, and last controls accessible labels. Controls that cannot be used, such as Previous on the first page, should be disabled or omitted without causing the pagination layout to shift unexpectedly.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Pagination),typeof(PaginationItem),typeof(PaginationLink)]" />

@@ -1,4 +1,4 @@
-﻿@page "/docs/components/check"
+@page "/docs/components/check"
 
 <Seo Canonical="/docs/components/check" Title="Blazorise Check component" Description="Learn to use and work with the Blazorise Check component, which provides users the ability to choose between two distinct values." />
 
@@ -60,5 +60,25 @@
         <CheckIndeterminateExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Write Positive Labels
+</Heading>
+
+<DocsPageParagraph>
+    Use a short label that describes the selected state, such as "Send me updates" instead of a negative statement. When checks form a related set, introduce them with a visible question or legend while retaining a clear label for every option.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Use the Right Selection Control
+</Heading>
+
+<DocsPageParagraph>
+    The indeterminate state should summarize a mixed group of child values rather than act as a third submitted choice. When users must choose exactly one mutually exclusive option, use a <Anchor To="docs/components/radio">RadioGroup</Anchor> instead.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Check<>)]" />

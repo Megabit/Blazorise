@@ -1,4 +1,4 @@
-﻿@page "/docs/components/highlighter"
+@page "/docs/components/highlighter"
 
 <Seo Canonical="/docs/components/highlighter" Title="Blazorise Highlighter component" Description="Learn to use and work with the Blazorise TrapFocus component is a component that manages focus for its descendants." />
 
@@ -44,5 +44,25 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Highlight for Relevance
+</Heading>
+
+<DocsPageParagraph>
+    Highlight only the text that helps users connect a result with their search or current task. Matching rules such as case sensitivity and word boundaries should fit the content and behave predictably.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Preserve Readability and Performance
+</Heading>
+
+<DocsPageParagraph>
+    Choose highlight colors with sufficient contrast in every supported theme, and do not use highlighting as the only status indicator. When rendering large result sets, limit the amount of text and the number of terms processed at once.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Highlighter)]" />

@@ -1,0 +1,77 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Fields</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Display</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Display</span><span class="enumValue">.Flex</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.AlignItems.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Switch</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">bool</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>notificationsEnabled</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ValueChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>SaveSettingAsync</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Disabled</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>isSaving</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                Email notifications
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Switch</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="atSign">&#64;</span>if ( !string.IsNullOrWhiteSpace( statusMessage ) )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Span</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>StatusTextColor</span><span class="quot">&quot;</span> <span class="htmlAttributeName">role</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">status</span><span class="quot">&quot;</span> <span class="htmlAttributeName">aria-live</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">polite</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>statusMessage<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span>
+            }
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Check</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">bool</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>simulateFailure</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Disabled</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>isSaving</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Simulate next save failure<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Check</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Fields</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="atSign">&#64;</span>if ( !string.IsNullOrWhiteSpace( errorMessage ) )
+{
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Alert</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Danger</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Visible</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">AlertDescription</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>errorMessage<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">AlertDescription</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Alert</span><span class="htmlTagDelimiter">&gt;</span>
+}
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">bool</span> notificationsEnabled = <span class="keyword">true</span>;
+    <span class="keyword">private</span> <span class="keyword">bool</span> simulateFailure;
+    <span class="keyword">private</span> <span class="keyword">bool</span> isSaving;
+    <span class="keyword">private</span> <span class="keyword">string</span> statusMessage = <span class="string">&quot;Saved&quot;</span>;
+    <span class="keyword">private</span> <span class="keyword">string</span> errorMessage;
+
+    <span class="keyword">private</span> TextColor StatusTextColor
+        =&gt; isSaving
+            ? TextColor.Secondary
+            : errorMessage <span class="keyword">is</span> <span class="keyword">null</span>
+                ? TextColor.Success
+                : TextColor.Danger;
+
+    <span class="keyword">private</span> <span class="keyword">async</span> Task SaveSettingAsync( <span class="keyword">bool</span> value )
+    {
+        <span class="keyword">bool</span> previousValue = notificationsEnabled;
+        <span class="keyword">bool</span> shouldFail = simulateFailure;
+
+        notificationsEnabled = value;
+        simulateFailure = <span class="keyword">false</span>;
+        isSaving = <span class="keyword">true</span>;
+        statusMessage = <span class="string">&quot;Saving...&quot;</span>;
+        errorMessage = <span class="keyword">null</span>;
+
+        <span class="keyword">try</span>
+        {
+            <span class="keyword">await</span> Task.Delay( <span class="number">800</span> );
+
+            <span class="keyword">if</span> ( shouldFail )
+            {
+                <span class="keyword">throw</span> <span class="keyword">new</span> InvalidOperationException();
+            }
+
+            statusMessage = <span class="string">&quot;Saved&quot;</span>;
+        }
+        <span class="keyword">catch</span> ( InvalidOperationException )
+        {
+            notificationsEnabled = previousValue;
+            statusMessage = <span class="string">&quot;Not saved&quot;</span>;
+            errorMessage = <span class="string">&quot;The setting could not be saved. The previous value was restored.&quot;</span>;
+        }
+        <span class="keyword">finally</span>
+        {
+            isSaving = <span class="keyword">false</span>;
+        }
+    }
+}
+</pre></div>
+</div>

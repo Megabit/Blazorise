@@ -1,0 +1,21 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field Group>
+    <FieldLabel>Volume</FieldLabel>
+    <FieldBody>
+        <Div Display="Display.Flex" Flex="Flex.AlignItems.Center" Gap="Gap.Is3">
+            <Div Flex="Flex.Grow.Is1">
+                <Slider TValue="int" @bind-Value="@volume" Min="0" Max="100" Step="5" />
+            </Div>
+            <Div Width="Width.Is25">
+                <NumericInput TValue="int" @bind-Value="@volume" Min="0" Max="100" Step="5" />
+            </Div>
+            <Text>%</Text>
+        </Div>
+        <FieldHelp>Use the slider for quick adjustments or enter an exact percentage.</FieldHelp>
+    </FieldBody>
+</Field>
+
+@code {
+    private int volume = 65;
+}

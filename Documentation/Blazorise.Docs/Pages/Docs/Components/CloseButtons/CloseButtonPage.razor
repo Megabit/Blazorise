@@ -1,4 +1,4 @@
-﻿@page "/docs/components/close-button"
+@page "/docs/components/close-button"
 
 <Seo Canonical="/docs/components/close-button" Title="Blazorise CloseButton component" Description="Learn to use and work with the Blazorise CloseButton component, a simple button that highlights to the user that a part of the current UI can be dismissed." />
 
@@ -42,5 +42,25 @@
         <WithOtherComponentsExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Use Only for Dismissal
+</Heading>
+
+<DocsPageParagraph>
+    A close button should dismiss a nearby surface such as an alert, modal, or panel. Use a labeled <Code Tag>Button</Code> for delete or cancel actions. Place the close control consistently in the expected corner and preserve a comfortable pointer and touch target around the icon.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Manage Focus
+</Heading>
+
+<DocsPageParagraph>
+    Give the button an accessible name that identifies what it closes whenever the surrounding context is not obvious. After closing an overlay, restore focus to the control that opened it so keyboard users can continue from a predictable location.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(CloseButton)]" />

@@ -1,4 +1,4 @@
-﻿@page "/docs/components/date-edit"
+@page "/docs/components/date-edit"
 @page "/docs/components/date-input"
 
 <Seo Canonical="/docs/components/date-input" Title="Blazorise DateInput component" Description="Learn to use and work with the Blazorise DateInput component, which is a native date selection component that lets users select a date." />
@@ -74,5 +74,25 @@
         <DateInputShowPickerExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Make the Format Unambiguous
+</Heading>
+
+<DocsPageParagraph>
+    Pair the input with a visible label and communicate the expected date format through persistent help text or a format-aware placeholder. Use a nullable value when an empty date is valid, and distinguish that empty state from a default date in application logic.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Apply Meaningful Constraints
+</Heading>
+
+<DocsPageParagraph>
+    Minimum and maximum dates should reflect the actual business rule, which must also be validated when the form is processed. When browsing dates is easier than typing them, particularly for nearby appointments or date ranges, use a <Anchor To="docs/components/date-picker">DatePicker</Anchor>.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(DateInput<>)]" />

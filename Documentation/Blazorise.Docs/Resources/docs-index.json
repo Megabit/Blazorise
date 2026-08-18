@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-14T07:48:55.6572108Z",
+  "generatedUtc": "2026-08-18T08:18:11.3022714Z",
   "pages": [
     {
       "route": "/docs",
@@ -1417,6 +1417,12 @@
           "content": "<DropContainer TItem=\"DropItem\" Items=\"@items\" ItemsFilter=\"@((item, dropZone) => item.Group == dropZone)\" ItemDropped=\"@ItemDropped\" Flex=\"Flex.Wrap.Grow.Is1\">\r\n    <ChildContent>\r\n        @for ( int i = 1; i < 4; i++ )\r\n        {\r\n            var dropzone = i.ToString();\r\n\r\n            <DropZone TItem=\"DropItem\" Name=\"@dropzone\" AllowReorder Reordered=\"@Reordered\" Padding=\"Padding.Is3\" Margin=\"Margin.Is3\" Flex=\"Flex.Grow.Is1\">\r\n                <Heading Size=\"HeadingSize.Is4\" Margin=\"Margin.Is3.FromBottom\">Drop Zone @dropzone</Heading>\r\n            </DropZone>\r\n        }\r\n    </ChildContent>\r\n    <ItemTemplate>\r\n        <Card Shadow=\"Shadow.Default\" Margin=\"Margin.Is3.OnY\">\r\n            <CardBody>\r\n                @context.Name\r\n            </CardBody>\r\n        </Card>\r\n    </ItemTemplate>\r\n</DropContainer>\r\n\r\n<Div >\r\n    @reorderStatus\r\n</Div>\r\n@code {\r\n    public class DropItem\r\n    {\r\n        public string Name { get; init; }\r\n\r\n        public string Group { get; set; }\r\n    }\r\n\r\n    private List<DropItem> items = new()\r\n    {\r\n        new DropItem() { Name = \"Item 1\", Group = \"1\" },\r\n        new DropItem() { Name = \"Item 2\", Group = \"1\" },\r\n        new DropItem() { Name = \"Item 3\", Group = \"1\" },\r\n        new DropItem() { Name = \"Item 4\", Group = \"2\" },\r\n        new DropItem() { Name = \"Item 5\", Group = \"2\" },\r\n    };\r\n\r\n    private Task ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )\r\n    {\r\n        dropItem.Item.Group = dropItem.DropZoneName;\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    string reorderStatus = \"\";\r\n    \r\n    private Task Reordered( DropZoneOrder<DropItem> order )\r\n    {\r\n        reorderStatus = $\"Order in dropzone {order.DestinationDropZoneName}: {string.Join( \", \", order.OrderedItems.OrderBy( x => x.Order ).Select( x => x.Item.Name ) )}\";\r\n        return Task.CompletedTask;\r\n    }\r\n}",
           "title": "Reorder items",
           "description": "Items can be reordered inside each dropzone with the AllowReorder bool set to true on the dropzone. The Reordered function triggers each time the order changes or items are added or removed from the dropzone, providing the current order in a dictionary."
+        },
+        {
+          "code": "DragDropAccessibleBestPracticeExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/DragDrops/Examples/DragDropAccessibleBestPracticeExample.razor",
+          "content": "<DropContainer @ref=\"dropContainer\" TItem=\"WorkItem\" Items=\"@items\" ItemsFilter=\"@(( item, dropZone ) => item.Group == dropZone)\" ItemDropped=\"@OnItemDropped\" Flex=\"Flex.Wrap.Grow.Is1\">\r\n    <ChildContent>\r\n        <DropZone TItem=\"WorkItem\" Name=\"@TodoZone\" Border=\"Border.Rounded\" Background=\"Background.Light\" Padding=\"Padding.Is3\" Margin=\"Margin.Is3\" Flex=\"Flex.Grow.Is1\">\r\n            <Heading Size=\"HeadingSize.Is4\" Margin=\"Margin.Is3.FromBottom\">@TodoZone</Heading>\r\n        </DropZone>\r\n        <DropZone TItem=\"WorkItem\" Name=\"@DoneZone\" Border=\"Border.Rounded\" Background=\"Background.Light\" Padding=\"Padding.Is3\" Margin=\"Margin.Is3\" Flex=\"Flex.Grow.Is1\">\r\n            <Heading Size=\"HeadingSize.Is4\" Margin=\"Margin.Is3.FromBottom\">@DoneZone</Heading>\r\n        </DropZone>\r\n    </ChildContent>\r\n    <ItemTemplate>\r\n        <Card @key=\"@context.Id\" Shadow=\"Shadow.Default\" Margin=\"Margin.Is3.OnY\">\r\n            <CardBody>\r\n                <Div Display=\"Display.Flex\" Flex=\"Flex.AlignItems.Center.JustifyContent.Between\" Gap=\"Gap.Is3\">\r\n                    <Text>@context.Name</Text>\r\n                    <Button Color=\"Color.Secondary\" Size=\"Size.Small\" Clicked=\"@(() => MoveItem( context, context.Group == TodoZone ? DoneZone : TodoZone ))\">\r\n                        Move to @(context.Group == TodoZone ? DoneZone : TodoZone)\r\n                    </Button>\r\n                </Div>\r\n            </CardBody>\r\n        </Card>\r\n    </ItemTemplate>\r\n</DropContainer>\r\n\r\n@code {\r\n    private const string TodoZone = \"To do\";\r\n    private const string DoneZone = \"Done\";\r\n\r\n    private DropContainer<WorkItem> dropContainer;\r\n\r\n    private List<WorkItem> items =\r\n    [\r\n        new( 1, \"Review pull request\", TodoZone ),\r\n        new( 2, \"Update release notes\", TodoZone ),\r\n        new( 3, \"Publish package\", DoneZone ),\r\n    ];\r\n\r\n    private Task OnItemDropped( DraggableDroppedEventArgs<WorkItem> eventArgs )\r\n        => MoveItem( eventArgs.Item, eventArgs.DropZoneName );\r\n\r\n    private Task MoveItem( WorkItem item, string destination )\r\n    {\r\n        items = items\r\n            .Select( current => current.Id == item.Id ? current with { Group = destination } : current )\r\n            .ToList();\r\n\r\n        dropContainer?.Refresh();\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    public sealed record WorkItem( int Id, string Name, string Group );\r\n}"
         }
       ],
       "apiRefs": [
@@ -3329,6 +3335,12 @@
           "content": "<Paragraph>\r\n    Current value: @value\r\n</Paragraph>\r\n\r\n<Field>\r\n    <Slider @bind-Value=\"@value\" Step=\"5\" Max=\"100\" />\r\n</Field>\r\n\r\n@code {\r\n    int value = 40;\r\n}",
           "title": "Steps",
           "description": "You can change the default step increment."
+        },
+        {
+          "code": "SliderPreciseInputBestPracticeExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Sliders/Examples/SliderPreciseInputBestPracticeExample.razor",
+          "content": "<Field Group>\r\n    <FieldLabel>Volume</FieldLabel>\r\n    <FieldBody>\r\n        <Div Display=\"Display.Flex\" Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is3\">\r\n            <Div Flex=\"Flex.Grow.Is1\">\r\n                <Slider TValue=\"int\" @bind-Value=\"@volume\" Min=\"0\" Max=\"100\" Step=\"5\" />\r\n            </Div>\r\n            <Div Width=\"Width.Is25\">\r\n                <NumericInput TValue=\"int\" @bind-Value=\"@volume\" Min=\"0\" Max=\"100\" Step=\"5\" />\r\n            </Div>\r\n            <Text>%</Text>\r\n        </Div>\r\n        <FieldHelp>Use the slider for quick adjustments or enter an exact percentage.</FieldHelp>\r\n    </FieldBody>\r\n</Field>\r\n\r\n@code {\r\n    private int volume = 65;\r\n}"
         }
       ],
       "apiRefs": [
@@ -3421,6 +3433,12 @@
           "sourcePath": "Pages/Docs/Components/Switches/Examples/SwitchWithEventExample.razor",
           "content": "<Switch TValue=\"bool\" Value=\"@rememberMe\" ValueChanged=\"@OnRememberMeChanged\">Remember Me</Switch>\r\n\r\n@code{\r\n    bool rememberMe;\r\n\r\n    Task OnRememberMeChanged( bool value )\r\n    {\r\n        rememberMe = value;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
           "title": "Manual event binding"
+        },
+        {
+          "code": "SwitchAsyncSettingBestPracticeExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Switches/Examples/SwitchAsyncSettingBestPracticeExample.razor",
+          "content": "<Fields>\r\n    <Field>\r\n        <Div Display=\"Display.Flex\" Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is3\">\r\n            <Switch TValue=\"bool\" Value=\"@notificationsEnabled\" ValueChanged=\"@SaveSettingAsync\" Disabled=\"@isSaving\">\r\n                Email notifications\r\n            </Switch>\r\n            @if ( !string.IsNullOrWhiteSpace( statusMessage ) )\r\n            {\r\n                <Span TextColor=\"@StatusTextColor\" role=\"status\" aria-live=\"polite\">@statusMessage</Span>\r\n            }\r\n        </Div>\r\n    </Field>\r\n    <Field>\r\n        <Check TValue=\"bool\" @bind-Value=\"@simulateFailure\" Disabled=\"@isSaving\">Simulate next save failure</Check>\r\n    </Field>\r\n</Fields>\r\n\r\n@if ( !string.IsNullOrWhiteSpace( errorMessage ) )\r\n{\r\n    <Alert Color=\"Color.Danger\" Visible Margin=\"Margin.Is3.FromTop\">\r\n        <AlertDescription>@errorMessage</AlertDescription>\r\n    </Alert>\r\n}\r\n\r\n@code {\r\n    private bool notificationsEnabled = true;\r\n    private bool simulateFailure;\r\n    private bool isSaving;\r\n    private string statusMessage = \"Saved\";\r\n    private string errorMessage;\r\n\r\n    private TextColor StatusTextColor\r\n        => isSaving\r\n            ? TextColor.Secondary\r\n            : errorMessage is null\r\n                ? TextColor.Success\r\n                : TextColor.Danger;\r\n\r\n    private async Task SaveSettingAsync( bool value )\r\n    {\r\n        bool previousValue = notificationsEnabled;\r\n        bool shouldFail = simulateFailure;\r\n\r\n        notificationsEnabled = value;\r\n        simulateFailure = false;\r\n        isSaving = true;\r\n        statusMessage = \"Saving...\";\r\n        errorMessage = null;\r\n\r\n        try\r\n        {\r\n            await Task.Delay( 800 );\r\n\r\n            if ( shouldFail )\r\n            {\r\n                throw new InvalidOperationException();\r\n            }\r\n\r\n            statusMessage = \"Saved\";\r\n        }\r\n        catch ( InvalidOperationException )\r\n        {\r\n            notificationsEnabled = previousValue;\r\n            statusMessage = \"Not saved\";\r\n            errorMessage = \"The setting could not be saved. The previous value was restored.\";\r\n        }\r\n        finally\r\n        {\r\n            isSaving = false;\r\n        }\r\n    }\r\n}"
         }
       ],
       "apiRefs": [
@@ -4456,7 +4474,7 @@
           "code": "AnimateNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Animate",
+          "content": "dotnet add package Blazorise.Animate",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -4542,7 +4560,7 @@
           "code": "ComponentsNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Shared/Examples/ComponentsNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Components",
+          "content": "dotnet add package Blazorise.Components",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -4714,7 +4732,7 @@
           "code": "CaptchaNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Captcha/Examples/CaptchaNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Captcha",
+          "content": "dotnet add package Blazorise.Captcha",
           "title": "Base package",
           "description": "Install the base captcha extension from NuGet."
         },
@@ -4722,7 +4740,7 @@
           "code": "ReCaptchaNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Captcha/Examples/ReCaptchaNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Captcha.ReCaptcha",
+          "content": "dotnet add package Blazorise.Captcha.ReCaptcha",
           "title": "Provider package",
           "description": "Install the reCAPTCHA provider extension from NuGet."
         },
@@ -4776,7 +4794,7 @@
           "code": "ChartNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Chart/Examples/ChartNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Charts",
+          "content": "dotnet add package Blazorise.Charts",
           "title": "NuGet",
           "description": "Install chart extension from NuGet."
         },
@@ -4838,7 +4856,7 @@
           "code": "ChartAnnotationNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/ChartsAnnotation/Examples/ChartAnnotationNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Charts.Annotation",
+          "content": "dotnet add package Blazorise.Charts.Annotation",
           "title": "NuGet",
           "description": "Install chart annotations extension from NuGet."
         },
@@ -4876,7 +4894,7 @@
           "code": "ChartDataLabelsNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/ChartDataLabels/Examples/ChartDataLabelsNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Charts.DataLabels",
+          "content": "dotnet add package Blazorise.Charts.DataLabels",
           "title": "NuGet",
           "description": "Install DataLabels extension from NuGet."
         },
@@ -4914,7 +4932,7 @@
           "code": "ChartStreamingNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/ChartStreaming/Examples/ChartStreamingNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Charts.Streaming",
+          "content": "dotnet add package Blazorise.Charts.Streaming",
           "title": "NuGet",
           "description": "Install chart streaming extension from NuGet."
         },
@@ -4951,7 +4969,7 @@
           "code": "ChartTrendlineNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/ChartTrendline/Examples/ChartTrendlineNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Charts.Trendline",
+          "content": "dotnet add package Blazorise.Charts.Trendline",
           "title": "NuGet",
           "description": "Install chart trendline extension from NuGet."
         },
@@ -4980,7 +4998,7 @@
           "code": "ChartZoomNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/ChartsZoom/Examples/ChartZoomNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Charts\r\nInstall-Package Blazorise.Chart.Zoom",
+          "content": "dotnet add package Blazorise.Charts\r\ndotnet add package Blazorise.Chart.Zoom",
           "title": "NuGet",
           "description": "Install the charts extension and plugin from NuGet."
         },
@@ -5009,7 +5027,7 @@
           "code": "CodeEditorNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/CodeEditor/Examples/CodeEditorNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.CodeEditor",
+          "content": "dotnet add package Blazorise.CodeEditor",
           "title": "NuGet",
           "description": "Install the CodeEditor extension package."
         },
@@ -5111,7 +5129,7 @@
           "code": "CropperNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Cropper/Examples/CropperNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Cropper",
+          "content": "dotnet add package Blazorise.Cropper",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -5185,7 +5203,7 @@
           "code": "DataGridNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.DataGrid",
+          "content": "dotnet add package Blazorise.DataGrid",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -5895,7 +5913,7 @@
           "code": "DataGridNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.DataGrid",
+          "content": "dotnet add package Blazorise.DataGrid",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -6139,7 +6157,7 @@
           "code": "ComponentsNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Shared/Examples/ComponentsNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Components",
+          "content": "dotnet add package Blazorise.Components",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -6192,7 +6210,7 @@
           "code": "FluentValidationNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/FluentValidation/Examples/FluentValidationNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.FluentValidation\r\nInstall-Package FluentValidation.DependencyInjectionExtensions",
+          "content": "dotnet add package Blazorise.FluentValidation\r\ndotnet add package FluentValidation.DependencyInjectionExtensions",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -6232,7 +6250,7 @@
           "code": "GanttNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Gantt/Examples/GanttNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Gantt",
+          "content": "dotnet add package Blazorise.Gantt",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -6335,7 +6353,7 @@
           "code": "GanttNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Gantt/Examples/GanttNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Gantt",
+          "content": "dotnet add package Blazorise.Gantt",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -6415,7 +6433,7 @@
           "code": "IconsNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/IconsNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Icons.Bootstrap\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.AntDesign\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.FluentUI\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.FontAwesome\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.Lucide\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.Material",
+          "content": "dotnet add package Blazorise.Icons.Bootstrap\r\n\r\nor\r\n\r\ndotnet add package Blazorise.Icons.AntDesign\r\n\r\nor\r\n\r\ndotnet add package Blazorise.Icons.FluentUI\r\n\r\nor\r\n\r\ndotnet add package Blazorise.Icons.FontAwesome\r\n\r\nor\r\n\r\ndotnet add package Blazorise.Icons.Lucide\r\n\r\nor\r\n\r\ndotnet add package Blazorise.Icons.Material",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -6564,7 +6582,7 @@
           "code": "ComponentsNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Shared/Examples/ComponentsNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Components",
+          "content": "dotnet add package Blazorise.Components",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -6625,7 +6643,7 @@
           "code": "LoadingIndicatorNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/LoadingIndicator/Examples/LoadingIndicatorNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.LoadingIndicator",
+          "content": "dotnet add package Blazorise.LoadingIndicator",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -6759,7 +6777,7 @@
           "code": "LottieAnimationNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/LottieAnimation/Examples/LottieAnimationNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.LottieAnimation",
+          "content": "dotnet add package Blazorise.LottieAnimation",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -6797,7 +6815,7 @@
           "code": "MapsNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Maps/Examples/MapsNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Maps",
+          "content": "dotnet add package Blazorise.Maps",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -6891,7 +6909,7 @@
           "code": "MarkdownNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Markdown/Examples/MarkdownNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Markdown",
+          "content": "dotnet add package Blazorise.Markdown",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -6968,7 +6986,7 @@
           "code": "OneTimeInputNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/OneTimeInput/Examples/OneTimeInputNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Components",
+          "content": "dotnet add package Blazorise.Components",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -7030,7 +7048,7 @@
           "code": "ComponentsNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Shared/Examples/ComponentsNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Components",
+          "content": "dotnet add package Blazorise.Components",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -7092,7 +7110,7 @@
           "code": "PdfNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Pdf",
+          "content": "dotnet add package Blazorise.Pdf",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -7172,7 +7190,7 @@
           "code": "PdfNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Pdf/Examples/PdfNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Pdf",
+          "content": "dotnet add package Blazorise.Pdf",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -7252,7 +7270,7 @@
           "code": "PdfViewerNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/PdfViewer/Examples/PdfViewerNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.PdfViewer",
+          "content": "dotnet add package Blazorise.PdfViewer",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -7331,7 +7349,7 @@
           "code": "PivotGridNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/PivotGrid/Examples/PivotGridNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.PivotGrid",
+          "content": "dotnet add package Blazorise.PivotGrid",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -7529,7 +7547,7 @@
           "code": "QRCodeNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/QRCode/Examples/QRCodeNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.QRCode",
+          "content": "dotnet add package Blazorise.QRCode",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -7599,7 +7617,7 @@
           "code": "ReportingNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Reporting",
+          "content": "dotnet add package Blazorise.Reporting",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -7702,7 +7720,7 @@
           "code": "ReportingCsvDataSourceNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingCsvDataSourceNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Reporting.DataSources.Csv",
+          "content": "dotnet add package Blazorise.Reporting.DataSources.Csv",
           "title": "NuGet",
           "description": "Install the CSV data-source extension."
         },
@@ -7734,7 +7752,7 @@
           "code": "ReportingWebApiDataSourceNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingWebApiDataSourceNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Reporting.DataSources.WebApi",
+          "content": "dotnet add package Blazorise.Reporting.DataSources.WebApi",
           "title": "NuGet",
           "description": "Install the REST / Web API data-source extension."
         },
@@ -7766,7 +7784,7 @@
           "code": "ReportingSqlDataSourceNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingSqlDataSourceNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Reporting.DataSources.Sql\r\nInstall-Package Microsoft.Data.SqlClient",
+          "content": "dotnet add package Blazorise.Reporting.DataSources.Sql\r\ndotnet add package Microsoft.Data.SqlClient",
           "title": "NuGet",
           "description": "Install the SQL data-source extension together with the ADO.NET provider for the target database. This example uses Microsoft.Data.SqlClient for Microsoft SQL Server; use the corresponding provider, such as Npgsql , for another database."
         },
@@ -7854,7 +7872,7 @@
           "code": "ReportingNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Reporting",
+          "content": "dotnet add package Blazorise.Reporting",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -8084,7 +8102,7 @@
           "code": "RichTextEditNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/RichTextEdit/Examples/RichTextEditNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.RichTextEdit",
+          "content": "dotnet add package Blazorise.RichTextEdit",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -8170,7 +8188,7 @@
           "code": "ComponentsNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Shared/Examples/ComponentsNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Components",
+          "content": "dotnet add package Blazorise.Components",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -8240,7 +8258,7 @@
           "code": "SchedulerNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Scheduler/Examples/SchedulerNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Scheduler",
+          "content": "dotnet add package Blazorise.Scheduler",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -8335,7 +8353,7 @@
           "code": "ComponentsNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Shared/Examples/ComponentsNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Components",
+          "content": "dotnet add package Blazorise.Components",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -8380,7 +8398,7 @@
           "code": "SidebarNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Sidebar/Examples/SidebarNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Sidebar",
+          "content": "dotnet add package Blazorise.Sidebar",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -8546,7 +8564,7 @@
           "code": "SnackbarNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Snackbar/Examples/SnackbarNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Snackbar",
+          "content": "dotnet add package Blazorise.Snackbar",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -8608,7 +8626,7 @@
           "code": "SpinKitNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/SpinKit/Examples/SpinKitNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.SpinKit",
+          "content": "dotnet add package Blazorise.SpinKit",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -8678,7 +8696,7 @@
           "code": "SplitterNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Splitter/Examples/SplitterNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Splitter",
+          "content": "dotnet add package Blazorise.Splitter",
           "description": "First, you need to add the Blazorise.Splitter package to your project. You can do this by running the following command in your project's root directory:"
         },
         {
@@ -8758,7 +8776,7 @@
           "code": "SvgChartNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgChartNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Charts.Svg",
+          "content": "dotnet add package Blazorise.Charts.Svg",
           "title": "NuGet",
           "description": "Install SVG chart extension from NuGet."
         },
@@ -9255,7 +9273,7 @@
           "code": "ComponentsNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Shared/Examples/ComponentsNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Components",
+          "content": "dotnet add package Blazorise.Components",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -9349,7 +9367,7 @@
           "code": "TreeViewNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/TreeView/Examples/TreeViewNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.TreeView",
+          "content": "dotnet add package Blazorise.TreeView",
           "description": "To install the Blazorise TreeView component, run the following command in the Package Manager Console:"
         },
         {
@@ -9449,7 +9467,7 @@
           "code": "VideoNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Video/Examples/VideoNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Video",
+          "content": "dotnet add package Blazorise.Video",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -10616,7 +10634,7 @@
           "code": "NotificationServiceInstallationExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/Notifications/Examples/NotificationServiceInstallationExample.razor",
-          "content": "Install-Package Blazorise.Components",
+          "content": "dotnet add package Blazorise.Components",
           "title": "Step 1: Download from NuGet",
           "description": "Install extension from NuGet."
         },
@@ -10672,7 +10690,7 @@
           "code": "NotificationServiceInstallationExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/Notifications/Examples/NotificationServiceInstallationExample.razor",
-          "content": "Install-Package Blazorise.Components",
+          "content": "dotnet add package Blazorise.Components",
           "title": "Step 1: Download from NuGet",
           "description": "Install extension from NuGet."
         },
@@ -10927,14 +10945,14 @@
           "code": "Bootstrap5GuideNuget1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideNuget1Example.snippet",
-          "content": "Install-Package Blazorise.Bootstrap5",
+          "content": "dotnet add package Blazorise.Bootstrap5",
           "description": "First step is to install a Bootstrap 5 provider for Blazorise:"
         },
         {
           "code": "Bootstrap5GuideNuget2Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideNuget2Example.snippet",
-          "content": "Install-Package Blazorise.Icons.FontAwesome",
+          "content": "dotnet add package Blazorise.Icons.FontAwesome",
           "description": "You also need to install the icon package:"
         },
         {
@@ -11001,7 +11019,7 @@
           "code": "TestingbUnitNugetExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/TestingbUnitNugetExample.snippet",
-          "content": "Install-Package Blazorise.Tests.bUnit",
+          "content": "dotnet add package Blazorise.Tests.bUnit",
           "title": "bUnit",
           "description": "The initial action involves installing a Blazorise testing package:"
         },
@@ -11156,14 +11174,14 @@
           "code": "AntDesignGuideNuget1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/AntDesign/Examples/AntDesignGuideNuget1Example.snippet",
-          "content": "Install-Package Blazorise.AntDesign",
+          "content": "dotnet add package Blazorise.AntDesign",
           "description": "First step is to install a AntDesign provider for Blazorise:"
         },
         {
           "code": "AntDesignGuideNuget2Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/AntDesign/Examples/AntDesignGuideNuget2Example.snippet",
-          "content": "Install-Package Blazorise.Icons.AntDesign",
+          "content": "dotnet add package Blazorise.Icons.AntDesign",
           "description": "You also need to install the icon package:"
         },
         {
@@ -11199,14 +11217,14 @@
           "code": "BootstrapGuideNuget1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap/Examples/BootstrapGuideNuget1Example.snippet",
-          "content": "Install-Package Blazorise.Bootstrap",
+          "content": "dotnet add package Blazorise.Bootstrap",
           "description": "First step is to install a Bootstrap provider for Blazorise:"
         },
         {
           "code": "BootstrapGuideNuget2Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap/Examples/BootstrapGuideNuget2Example.snippet",
-          "content": "Install-Package Blazorise.Icons.FontAwesome",
+          "content": "dotnet add package Blazorise.Icons.FontAwesome",
           "description": "You also need to install the icon package:"
         },
         {
@@ -11242,14 +11260,14 @@
           "code": "Bootstrap5GuideNuget1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideNuget1Example.snippet",
-          "content": "Install-Package Blazorise.Bootstrap5",
+          "content": "dotnet add package Blazorise.Bootstrap5",
           "description": "First step is to install a Bootstrap provider for Blazorise:"
         },
         {
           "code": "Bootstrap5GuideNuget2Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideNuget2Example.snippet",
-          "content": "Install-Package Blazorise.Icons.FontAwesome",
+          "content": "dotnet add package Blazorise.Icons.FontAwesome",
           "description": "You also need to install the icon package:"
         },
         {
@@ -11285,14 +11303,14 @@
           "code": "BulmaGuideNuget1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bulma/Examples/BulmaGuideNuget1Example.snippet",
-          "content": "Install-Package Blazorise.Bulma",
+          "content": "dotnet add package Blazorise.Bulma",
           "description": "First step is to install a Bulma provider for Blazorise:"
         },
         {
           "code": "BulmaGuideNuget2Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bulma/Examples/BulmaGuideNuget2Example.snippet",
-          "content": "Install-Package Blazorise.Icons.Lucide",
+          "content": "dotnet add package Blazorise.Icons.Lucide",
           "description": "You also need to install the icon package:"
         },
         {
@@ -11328,14 +11346,14 @@
           "code": "FluentUI2GuideNuget1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideNuget1Example.snippet",
-          "content": "Install-Package Blazorise.FluentUI2",
+          "content": "dotnet add package Blazorise.FluentUI2",
           "description": "Fluent 2 Provider for Blazorise:"
         },
         {
           "code": "FluentUI2GuideNuget2Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideNuget2Example.snippet",
-          "content": "Install-Package Blazorise.Icons.FluentUI",
+          "content": "dotnet add package Blazorise.Icons.FluentUI",
           "description": "Fluent Icon Package for Blazorise:"
         },
         {
@@ -11467,14 +11485,14 @@
           "code": "TailwindGuideNuget1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Tailwind/Examples/TailwindGuideNuget1Example.snippet",
-          "content": "Install-Package Blazorise.Tailwind",
+          "content": "dotnet add package Blazorise.Tailwind",
           "description": "First step is to install a Tailwind provider for Blazorise:"
         },
         {
           "code": "TailwindGuideNuget2Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Tailwind/Examples/TailwindGuideNuget2Example.snippet",
-          "content": "Install-Package Blazorise.Icons.FontAwesome",
+          "content": "dotnet add package Blazorise.Icons.FontAwesome",
           "description": "You also need to install the icon package:"
         },
         {

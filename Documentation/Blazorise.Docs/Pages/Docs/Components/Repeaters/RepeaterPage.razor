@@ -1,4 +1,4 @@
-﻿@page "/docs/components/repeater"
+@page "/docs/components/repeater"
 
 <Seo Canonical="/docs/components/repeater" Title="Blazorise Repeater system" Description="Learn to use and work with the Blazorise Repeater component, a helper component that repeats the child content for each element in a collection." />
 
@@ -26,5 +26,25 @@
         <BasicRepeaterExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Keep State Outside the Template
+</Heading>
+
+<DocsPageParagraph>
+    Item templates should remain focused on presentation while collection mutations flow through a single state owner. Use stable item identities whenever repeated content contains stateful controls or can be reordered, allowing Blazor to preserve the correct component instance.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Plan for Data States and Volume
+</Heading>
+
+<DocsPageParagraph>
+    Provide explicit loading, empty, and error states so an empty region is never ambiguous. For large collections, use paging or virtualization rather than rendering every item at once.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Repeater<>)]" />

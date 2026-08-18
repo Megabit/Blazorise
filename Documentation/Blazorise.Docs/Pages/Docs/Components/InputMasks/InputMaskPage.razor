@@ -1,4 +1,4 @@
-﻿@page "/docs/components/input-mask"
+@page "/docs/components/input-mask"
 
 <Seo Canonical="/docs/components/input-mask" Title="Blazorise InputMask system" Description="Learn to use and work with the Blazorise InputMask component, that helps the user with the input by ensuring a predefined format. This can be useful for dates, numerics, phone numbers, ..." />
 
@@ -61,5 +61,25 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Guide Input, Then Validate It
+</Heading>
+
+<DocsPageParagraph>
+    A mask helps users enter a known format but does not prove that the value is valid. Show an example or persistent help message before entry, then apply the same business validation used for unmasked input.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Keep Editing Natural
+</Heading>
+
+<DocsPageParagraph>
+    Test typing, pasting, deleting, autofill, and mobile keyboards so the mask does not make valid input harder to enter. Store a normalized value when presentation characters such as spaces or dashes are not part of the underlying data.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(InputMask)]" />

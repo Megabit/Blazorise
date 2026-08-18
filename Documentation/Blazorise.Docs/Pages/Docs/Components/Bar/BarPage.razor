@@ -1,4 +1,4 @@
-﻿@page "/docs/components/bar"
+@page "/docs/components/bar"
 
 <Seo Canonical="/docs/components/bar" Title="Blazorise Bar component" Description="Learn how to use and work with the Bar component, a responsive and versatile navigation bar that can be used as a top menu." />
 
@@ -248,5 +248,25 @@
         For an example where the horizontal <Code>Bar</Code> is “on top” of the vertical <Code>Bar</Code>, please look at <Anchor To="docs/components/layout" Target="Target.Blank">this example </Anchor> in the <Code>Layout</Code> docs.
     </DocsPageSectionHeader>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Keep Navigation Predictable
+</Heading>
+
+<DocsPageParagraph>
+    Keep primary navigation stable across pages and order destinations by importance or user workflow. Use clear text labels, and provide an accessible label or tooltip when an item is represented by an icon alone. Dropdown hierarchies should remain shallow enough to scan and navigate comfortably.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Design for Every Viewport
+</Heading>
+
+<DocsPageParagraph>
+    Verify both collapsed and expanded states at every supported breakpoint. The toggler must remain easy to find, the active destination should be clear, and the focus order should stay logical whether the bar is horizontal or vertical.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(Bar), typeof(BarLink), typeof(BarDropdownToggle)]" />

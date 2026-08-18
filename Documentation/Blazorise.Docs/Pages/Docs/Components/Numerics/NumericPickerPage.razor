@@ -1,4 +1,4 @@
-﻿@page "/docs/components/numeric-picker"
+@page "/docs/components/numeric-picker"
 
 <Seo Canonical="/docs/components/numeric-picker" Title="Blazorise NumericPicker component" Description="Learn to use and work with the Blazorise NumericPicker component, which is a fully featured numeric input that lets users input numbers." />
 
@@ -105,5 +105,25 @@
         <NumericPickerMouseWheelExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Use Meaningful Steps
+</Heading>
+
+<DocsPageParagraph>
+    A numeric picker is most useful when values are commonly adjusted in small steps. Set a step and bounds that reflect the domain, and disable increment or decrement actions when their limit is reached. When users normally type an exact value, a <Anchor To="docs/components/numeric-edit">NumericInput</Anchor> may be more direct.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Avoid Accidental Changes
+</Heading>
+
+<DocsPageParagraph>
+    Enable mouse-wheel changes only when unintended adjustments are unlikely, and always retain keyboard and direct-entry support. Units or currency belong in the label or formatting rather than in the stored numeric value.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(NumericPicker<>)]" />
