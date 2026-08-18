@@ -14,9 +14,9 @@
     Radio Button Group allows the user to select exactly one value from a list of related, but mutually exclusive, options.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Structure
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <UnorderedList>
     <UnorderedListItem>
@@ -33,9 +33,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic RadioGroup">
@@ -86,9 +86,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Binding
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Two-way binding">
@@ -106,24 +106,27 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
-    Use for Small, Exclusive Sets
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Exclusive Choices
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Radio buttons are appropriate for a small set of mutually exclusive choices that benefits from being visible at the same time. Select a default only when one option is safe and genuinely appropriate for most users.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Provide Group Context
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Place related options in a <Code Tag>RadioGroup</Code> with a clear group label, and give every radio a concise standalone label. Use a <Anchor To="docs/components/select">Select</Anchor> when the list is long or space is constrained, and <Anchor To="docs/components/check">Check</Anchor> components when multiple selections are allowed.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(RadioGroup<>),typeof(Radio<>)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/radio/api" Name="<RadioGroup />" />
+    <DocsPageApiItem Url="docs/components/radio/api" Name="<Radio />" />
+</DocsPageApi>

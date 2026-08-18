@@ -67,7 +67,11 @@
             <Code Tag>CardDeck</Code> groups cards together with equal width and height.
         </Paragraph>
     </UnorderedListItem>
-</UnorderedList>
+</UnorderedList><DocsPageSectionTitle>
+    Examples
+</DocsPageSectionTitle>
+
+
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Default card">
@@ -134,24 +138,29 @@
 </DocsPageSection>
 
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
-    Keep One Clear Purpose
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Clear Purpose
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Each card should focus on one subject and establish a clear order between its title, supporting content, and actions. Card collections should remain responsive and readable; do not remove essential information merely to force every card to the same height.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Make Interactive Cards Predictable
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Interactive Cards
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Avoid placing several competing actions inside the same card. Make the primary action obvious, and use a stretched link only when the entire card represents one destination. Informative images need meaningful alternative text, while purely decorative images should use an empty alternative.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Card), typeof(CardText), typeof(CardTitle), typeof(CardSubtitle), typeof(CardLink), typeof(CardImage)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/card/api" Name="<Card />" />
+    <DocsPageApiItem Url="docs/components/card/api" Name="<CardText />" />
+    <DocsPageApiItem Url="docs/components/card/api" Name="<CardTitle />" />
+    <DocsPageApiItem Url="docs/components/card/api" Name="<CardImage />" />
+</DocsPageApi>

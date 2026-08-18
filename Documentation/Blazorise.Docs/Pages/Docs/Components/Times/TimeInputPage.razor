@@ -11,9 +11,9 @@
     A native time input component build around the <Code Tag>input type="time"</Code>.
 </DocsPageLead>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -24,9 +24,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Binding
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Two-way binding">
@@ -60,9 +60,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Functions
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <Table>
     <TableHeader ThemeContrast="ThemeContrast.Light">
@@ -79,24 +79,26 @@
     </TableBody>
 </Table>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
-    Clarify the Format and Time Zone
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Time Format
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Use a visible label and make the expected time format clear according to the user's culture. State the relevant time zone whenever the value refers to an event shared across locations.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Distinguish Empty and Invalid Values
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Empty vs. Invalid
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Use a nullable value when an empty time is valid, and validate business-hour or ordering constraints when the form is processed. When selecting from regular increments is easier than entering an exact time, use a <Anchor To="docs/components/time-picker">TimePicker</Anchor>.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(TimeInput<>)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/time-input/api" Name="<TimeInput />" />
+</DocsPageApi>

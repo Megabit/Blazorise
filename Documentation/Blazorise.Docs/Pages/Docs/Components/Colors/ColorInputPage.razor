@@ -15,9 +15,9 @@
     This component works with standard <Code Tag>input type="color"</Code> elements. That is, the browser will control the look and feel, which may differ between Chrome, Firefox, and Edge.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -46,24 +46,26 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
-    Label the Color's Purpose
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Color Purpose
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Provide a visible label that explains what the color controls instead of relying on the preview alone. Show the selected value as text when users need to copy, compare, or enter an exact color.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Do Not Rely on Color Alone
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Color and Context
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Pair status colors with text, icons, or patterns so the meaning remains understandable to users who cannot distinguish the colors. Validate and normalize the selected value before storing it or applying it to generated styles.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(ColorInput)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/color-input/api" Name="<ColorInput />" />
+</DocsPageApi>

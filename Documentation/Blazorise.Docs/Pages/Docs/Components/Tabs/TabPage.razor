@@ -79,9 +79,9 @@
     will need to use <Code Tag>TabsContent</Code> component.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -109,24 +109,28 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Group Peer Content
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Tabs are suited to a small set of peer sections within the same context, not sequential steps or unrelated destinations. Keep labels short, distinct, and ordered according to user needs. Information required to understand or complete the current task should not be hidden only in an inactive tab.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Choose Loading Behavior Deliberately
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Loading Behavior
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Preserve panel state when users are likely to switch between tabs while comparing or entering information. Reload content only when freshness is more important than continuity, and make any resulting loading state clear.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Tabs),typeof(Tab), typeof(TabsContent), typeof(TabPanel)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/tab/api" Name="<Tabs />" />
+    <DocsPageApiItem Url="docs/components/tab/api" Name="<Tab />" />
+    <DocsPageApiItem Url="docs/components/tab/api" Name="<TabPanel />" />
+</DocsPageApi>

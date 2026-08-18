@@ -30,9 +30,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -97,24 +97,27 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Keep Items Consistent
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Items within a list group should use a consistent structure so users can scan and compare them quickly. Render navigation as links and actions as buttons instead of making a non-interactive container appear clickable. If items are selectable, communicate the selected state with more than color and synchronize it with application state.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Choose the Right Component for the Data
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Component Choice
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     A list group is effective for relatively simple, stacked content. Use a <Anchor To="docs/components/table">Table</Anchor> or DataGrid when users must compare several aligned fields, sort data, or work efficiently with a large collection.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(ListGroup),typeof(ListGroupItem)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/list-group/api" Name="<ListGroup />" />
+    <DocsPageApiItem Url="docs/components/list-group/api" Name="<ListGroupItem />" />
+</DocsPageApi>

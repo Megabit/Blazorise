@@ -10,9 +10,9 @@
     Learn how the Autocomplete works and behaves under the certain scenarios, according to the defined parameters
 </DocsPageLead>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     AutoSelectFirstItem
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     When active, the Autocomplete will attempt to select the first option upon initializing. This will trigger the change events.
@@ -23,9 +23,9 @@
     This option is only available when the Autocomplete is in <Code>AutocompleteSelectionMode.Default</Code>.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     AutoPreSelect
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     When disabled, the first option in the <Code>Autocomplete</Code> suggestion's box will no longer be "PreSelected".
@@ -64,9 +64,9 @@
     </TableBody>
 </Table>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     ConfirmKey
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Commit actions only happen for keys listed in <Code>ConfirmKey</Code>. The default keys are <Code>Enter</Code> and <Code>NumpadEnter</Code>.
@@ -77,9 +77,9 @@
     In <Code>AutocompleteSelectionMode.Checkbox</Code>, the confirm key is ignored and selection is done via mouse or checkbox interaction.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     CloseOnSelection
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     By default <Code>Autocomplete</Code> will close the suggestion's box upon the value being confirmed.
@@ -95,18 +95,18 @@
     <Image Source="@($"img/specifications/autocomplete/CloseOnSelection.gif")" Text="CloseOnSelection image" />
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     SuggestSelectedItems
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     In multiple selection, already selected items are filtered out of the suggestion list by default.
     Set <Code>SuggestSelectedItems</Code> to keep them visible, or use <Code>AutocompleteSelectionMode.Checkbox</Code> which always shows selected items.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     MinSearchLength
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     <Code>MinSearchLength</Code> controls when the Autocomplete starts displaying eligible options, and it defaults to the value of 1.
@@ -117,9 +117,9 @@
     Setting this <Code>Parameter</Code>  to the value of 0 is how you do it.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Changed Triggers
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Sometimes it's important to know when to expect a <Code>Parameter</Code> Changed <Code>EventCallback</Code> will trigger.
@@ -211,9 +211,9 @@
     </TableBody>
 </Table>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Validation
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     The <Code>Autocomplete</Code> component supports <Code>Validation</Code> like any other regular input field. But because you can

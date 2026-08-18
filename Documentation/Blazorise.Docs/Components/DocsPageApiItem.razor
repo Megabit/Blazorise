@@ -1,9 +1,45 @@
 ﻿<UnorderedListItem>
-    <Anchor To="@Url">@Name</Anchor>
+    <Anchor To="@TargetUrl">@Name</Anchor>
 </UnorderedListItem>
 
 @code {
     [Parameter] public string Name { get; set; }
 
     [Parameter] public string Url { get; set; }
+
+    [Parameter] public string Fragment { get; set; }
+
+    private string TargetUrl
+    {
+        get
+        {
+            if ( string.IsNullOrWhiteSpace( Url ) || Url.Contains( '#' ) )
+                return Url;
+
+            string apiName = Fragment ?? GetApiName();
+            string elementId = DocsApiNavigation.CreateElementId( apiName );
+
+            return string.IsNullOrWhiteSpace( elementId )
+                ? Url
+                : $"{Url}#{elementId}";
+        }
+    }
+
+    private string GetApiName()
+    {
+        if ( string.IsNullOrWhiteSpace( Name ) )
+            return null;
+
+        if ( Name.StartsWith( '<' ) )
+        {
+            int nameEnd = Name.IndexOfAny( [' ', '/', '>'] );
+
+            return nameEnd > 1 ? Name[1..nameEnd] : null;
+        }
+
+        return Name.EndsWith( "Service", StringComparison.Ordinal )
+               || Url.EndsWith( "/api", StringComparison.OrdinalIgnoreCase )
+            ? Name
+            : null;
+    }
 }

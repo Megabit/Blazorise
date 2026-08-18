@@ -32,30 +32,30 @@
     use <Anchor To="docs/services/toast-provider">IToastService</Anchor> instead.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Quick Setup
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     To install and use Notifications you just need to follow a few simple steps.
 </DocsPageParagraph>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 1: Download from NuGet">
+    <DocsPageSectionHeader Title="Step 1: Install">
         Install extension from NuGet.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="NotificationServiceInstallationExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 2. Define Usings">
+    <DocsPageSectionHeader Title="Step 2: Usings">
         Since notification service is created as a wrapper around the <Code>Snackbar</Code> component so it is also required to define the namespace inside of your main <Badge Color="Color.Light">_Imports.razor</Badge> file.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="SnackbarImportsExample"></DocsPageSectionSource>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 3. Define wrapper component">
+    <DocsPageSectionHeader Title="Step 3: Wrapper">
         <Code>INotificationService</Code> is automatically registered by Blazorise but it needs just one thing on your side
         to make it work. You need to place <Code>NotificationProvider</Code> somewhere in your application razor code. It can
         be placed anywhere, but a good approach is to place it in <Code>App.razor</Code> like in the following example.
@@ -64,15 +64,15 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 4. Static files">
+    <DocsPageSectionHeader Title="Step 4: Assets">
         This step is only needed if you didn't already define any CSS files for the Snackbar component. Remember,  The <Code>INotificationService</Code> is built on top of <Code>Snackbar</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="SnackbarResourcesExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -93,13 +93,13 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Use Sparingly
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Notifications are disruptive by design and should be used sparingly. Use fewer notifications by reserving them for more important information that may otherwise go unnoticed by the user.
@@ -109,10 +109,15 @@
     Less urgent notifications can be provided through a link or drop-down in the application header or footer, instead of immediate notifications.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Limit Content Length
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Aim for one or two lines of content. Notifications should be brief and to the point. More information can be provided through an embedded link or Button.
 </DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/services/notification-provider/api" Name="<NotificationProvider />" />
+    <DocsPageApiItem Url="docs/services/notification-provider/api" Name="INotificationService" />
+</DocsPageApi>

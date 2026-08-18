@@ -40,9 +40,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Manual mode">
@@ -62,24 +62,28 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
-    Show Location, Not Actions
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Current Location
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Breadcrumbs communicate the user's location within a hierarchy and should not replace the application's primary navigation. Render intermediate items as links and the current page as plain text so the active location is unambiguous.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Keep the Path Readable
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Readable Path
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Start with a recognizable root and keep labels short enough for the complete path to remain readable. Automatic mode is useful when route names already produce friendly labels; use manual mode when the hierarchy or wording needs to reflect product terminology.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Breadcrumb), typeof(BreadcrumbItem), typeof(BreadcrumbLink)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/breadcrumb/api" Name="<Breadcrumb />" />
+    <DocsPageApiItem Url="docs/components/breadcrumb/api" Name="<BreadcrumbItem />" />
+    <DocsPageApiItem Url="docs/components/breadcrumb/api" Name="<BreadcrumbLink />" />
+</DocsPageApi>

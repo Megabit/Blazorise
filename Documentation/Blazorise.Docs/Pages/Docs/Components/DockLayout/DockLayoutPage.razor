@@ -25,9 +25,9 @@
     For advanced starting layouts, combine <Code>DockSplit</Code> and <Code>DockTabs</Code> to predefine the initial split and tab structure.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic workspace">
@@ -57,24 +57,26 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
-    Start with a Useful Workspace
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Useful Workspace
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Provide an understandable default arrangement before users begin customizing it. Concise pane headers and practical minimum sizes help every region remain usable after resizing or docking. Small screens may need a simpler responsive arrangement where multi-pane dragging is not required.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Restore Layout State Safely
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Restore State
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Give panes stable identities when persisting layout state. A restored layout may have been created before panes were added, removed, or renamed, so handle missing and newly introduced panes without leaving the workspace incomplete.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof( DockLayout ), typeof( DockPane ), typeof( DockPaneHeader ), typeof( DockPaneBody ), typeof( DockPaneFooter ), typeof( DockContent ), typeof( DockSplit ), typeof( DockTabs )]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/dock-layout/api" Name="<DockLayout />" />
+</DocsPageApi>

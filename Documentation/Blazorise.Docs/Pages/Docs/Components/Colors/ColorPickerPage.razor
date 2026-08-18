@@ -12,13 +12,13 @@
 
 <DocsPageParagraph>
     <Code>ColorPicker</Code> component is based on a <Anchor To="https://simonwep.github.io/pickr/">Pickr</Anchor> library
-    and as such is not a native color input element. That means that unlike <Anchor To="docs/components/color" Title="Link to ColorInput">ColorInput</Anchor> which will render <Code Tag>input type="color"</Code>,
+    and as such is not a native color input element. That means that unlike <Anchor To="docs/components/color-input" Title="Link to ColorInput">ColorInput</Anchor> which will render <Code Tag>input type="color"</Code>,
     <Code>ColorPicker</Code> will render <Code>span</Code> element.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -38,24 +38,26 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Support Precise Choices
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Use a clear label and show the resulting color value when precision or reuse matters. Offer a sensible initial color and, when appropriate, a way to return to the product default.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Check Contrast Before Applying Colors
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Color Contrast
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
-    Validate the contrast of user-selected foreground and background colors before applying them to text or controls. When the full picker interface is unnecessary, use the more compact <Anchor To="docs/components/color-edit">ColorInput</Anchor> component.
+    Validate the contrast of user-selected foreground and background colors before applying them to text or controls. When the full picker interface is unnecessary, use the more compact <Anchor To="docs/components/color-input">ColorInput</Anchor> component.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(ColorPicker)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/color-picker/api" Name="<ColorPicker />" />
+</DocsPageApi>

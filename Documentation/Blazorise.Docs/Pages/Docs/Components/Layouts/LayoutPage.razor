@@ -63,9 +63,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="App shell">
@@ -100,24 +100,28 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
-    Keep the Application Shell Predictable
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Predictable Shell
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Keep navigation and global actions in consistent regions across views. Test headers, footers, sidebars, and scrolling together at supported breakpoints, including pages with very little content and pages long enough to scroll.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Preserve Semantic Structure
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Give each view one clear main content region with a logical heading and focus order. Use layout components for page structure and Blazorise spacing utilities for local alignment rather than embedding presentational inline styles throughout the markup.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Layout),typeof(LayoutHeader),typeof(LayoutFooter)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/layout/api" Name="<Layout />" />
+    <DocsPageApiItem Url="docs/components/layout/api" Name="<LayoutHeader />" />
+    <DocsPageApiItem Url="docs/components/layout/api" Name="<LayoutFooter />" />
+</DocsPageApi>

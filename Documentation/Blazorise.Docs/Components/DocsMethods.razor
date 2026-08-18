@@ -2,6 +2,11 @@
     @ChildContent
 </CascadingValue>
 
+@if ( !string.IsNullOrWhiteSpace( ElementId ) )
+{
+    <Div ElementId="@ElementId" />
+}
+
 @if ( Title != null )
 {
     <Heading Size="HeadingSize.Is4">

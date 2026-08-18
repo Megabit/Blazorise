@@ -15,16 +15,16 @@
     The <Code>IPageProgressService</Code> is built on top of <Code>PageProgress</Code> component and is used to show small progress bar at the top of the page.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Quick Setup
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     To install and use Page Progress service you only need to define one simple thing.
 </DocsPageParagraph>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Step 1. Define wrapper component">
+    <DocsPageSectionHeader Title="Step 1: Wrapper">
         <Code>IPageProgressService</Code> is automatically registered by Blazorise but it needs just one thing on your
         side to make it work. You need to place <Code Tag>PageProgressProvider</Code> somewhere in your application razor code.
         It can be placed anywhere, but a good approach is to place it in <Code>App.razor</Code> like in the following example.
@@ -32,9 +32,9 @@
     <DocsPageSectionSource Code="PageProgressServiceUsageExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -45,3 +45,8 @@
         <BasicPageProgressServiceExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/services/page-progress-provider/api" Name="<PageProgressProvider />" />
+    <DocsPageApiItem Url="docs/services/page-progress-provider/api" Name="IPageProgressService" />
+</DocsPageApi>

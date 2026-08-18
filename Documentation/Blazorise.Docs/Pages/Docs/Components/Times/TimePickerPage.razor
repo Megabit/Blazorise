@@ -20,9 +20,9 @@
     The <Code>DisplayFormat</Code> parameter retains the .NET-style picker format syntax used by earlier versions, such as <Code>HH:mm</Code> or <Code>hh:mm tt</Code>.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic example">
@@ -110,24 +110,26 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Offer Meaningful Increments
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Choose increments that match the scheduling domain, such as 15-minute intervals, rather than presenting an unnecessarily long list. Provide a clear way to type or clear the value when the available increments do not cover every valid case.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Avoid False Precision
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Enable seconds only when users genuinely need that precision. Format the selected time according to the user's locale and state the time zone whenever the value is shared across locations.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(TimePicker<>)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/time-picker/api" Name="<TimePicker />" />
+</DocsPageApi>

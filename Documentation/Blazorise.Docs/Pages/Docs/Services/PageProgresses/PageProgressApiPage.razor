@@ -1,0 +1,43 @@
+@page "/docs/services/page-progress-provider/api"
+
+<Seo Canonical="/docs/services/page-progress-provider/api" Title="Blazorise Page Progress Service API" Description="Explore the Blazorise PageProgressProvider and IPageProgressService API reference for controlling page-level progress indicators." />
+
+<DocsPageTitle Path="Services/Page Progress/API">
+    Blazorise Page Progress Service API
+</DocsPageTitle>
+
+<DocsPageLead>
+    Review the provider component and service method used to control page-level progress.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    For setup instructions and examples, see the <Anchor To="docs/services/page-progress-provider">Page Progress Service documentation</Anchor>.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    API
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle ElementId="api-pageprogressprovider">
+    PageProgressProvider
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    The provider listens for progress changes and renders the page progress indicator. It has no provider-specific parameters.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle ElementId="api-ipageprogressservice">
+    IPageProgressService
+</DocsPageSubsectionTitle>
+
+<DocsAttributes Name="Event" Title="Events" ShowDefaults="false">
+    <DocsAttributesItem Name="ProgressChanged" Type="EventHandler&lt;PageProgressEventArgs&gt;">
+        Raised when the requested progress value or options change.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsMethods Name="Method" Title="Methods">
+    <DocsMethodsItem Name="Go" ReturnType="Task" Parameters="int? percentage, Action&lt;PageProgressOptions&gt; options = null">
+        Sets progress from 0 to 100, or uses <Code>null</Code> for indeterminate progress.
+    </DocsMethodsItem>
+</DocsMethods>
