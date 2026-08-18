@@ -99,7 +99,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DatePickerContainer( bool inline, bool open ) => $"datepicker dropdown{( inline ? " is-inline" : null )}{( open ? " is-active" : null )}";
 
-    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"datepicker-calendar box{( inline ? " is-inline" : null )}{( staticPicker ? " is-static" : " is-floating" )}";
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"datepicker-calendar box{( inline ? " is-inline" : staticPicker ? " is-static" : " is-floating" )}";
 
     public override string DatePickerCalendarBackdrop() => "datepicker-backdrop";
 

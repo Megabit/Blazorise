@@ -97,7 +97,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string DatePickerContainer( bool inline, bool open ) => $"mui-date-picker{( inline ? " mui-date-picker-inline" : null )}{( open ? " mui-date-picker-open" : null )}";
 
-    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"mui-date-picker-calendar{( inline ? " mui-date-picker-calendar-inline" : null )}{( staticPicker ? " mui-date-picker-calendar-static" : " mui-date-picker-calendar-floating" )}";
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"mui-date-picker-calendar{( inline ? " mui-date-picker-calendar-inline" : staticPicker ? " mui-date-picker-calendar-static" : " mui-date-picker-calendar-floating" )}";
 
     public override string DatePickerCalendarBackdrop() => "mui-date-picker-backdrop";
 

@@ -127,7 +127,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DatePickerContainer( bool inline, bool open ) => $"tw-datepicker{( inline ? " tw-datepicker-inline" : null )}{( open ? " tw-datepicker-open" : null )}";
 
-    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"tw-datepicker-calendar{( inline ? " tw-datepicker-calendar-inline" : null )}{( staticPicker ? " tw-datepicker-calendar-static" : " tw-datepicker-calendar-floating" )}";
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"tw-datepicker-calendar{( inline ? " tw-datepicker-calendar-inline" : staticPicker ? " tw-datepicker-calendar-static" : " tw-datepicker-calendar-floating" )}";
 
     public override string DatePickerCalendarBackdrop() => "tw-datepicker-backdrop";
 

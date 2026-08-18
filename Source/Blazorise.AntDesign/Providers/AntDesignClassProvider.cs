@@ -99,7 +99,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DatePickerContainer( bool inline, bool open ) => $"ant-picker-container{( inline ? " ant-picker-container-inline" : null )}{( open ? " ant-picker-container-open" : null )}";
 
-    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"ant-picker-dropdown ant-picker-panel-container{( inline ? " ant-picker-dropdown-inline" : null )}{( staticPicker ? " ant-picker-dropdown-static" : " ant-picker-dropdown-floating" )}";
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"ant-picker-dropdown ant-picker-panel-container{( inline ? " ant-picker-dropdown-inline" : staticPicker ? " ant-picker-dropdown-static" : " ant-picker-dropdown-floating" )}";
 
     public override string DatePickerCalendarBackdrop() => "ant-picker-backdrop";
 

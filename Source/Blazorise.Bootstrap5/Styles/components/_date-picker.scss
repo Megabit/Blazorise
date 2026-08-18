@@ -45,13 +45,13 @@
         &:has(.datepicker-week-number) {
             width: calc(19.25rem + 2.4375rem);
         }
-    }
 
-    .datepicker-calendar-inline {
-        position: relative;
-        inset: auto;
-        margin-block-start: .25rem;
-        z-index: auto;
+        &.datepicker-calendar-inline {
+            position: relative;
+            inset: auto;
+            margin-block-start: .25rem;
+            z-index: auto;
+        }
     }
 
     @supports (position-anchor: --bootstrap5-datepicker-anchor) and (anchor-scope: --bootstrap5-datepicker-anchor) {
