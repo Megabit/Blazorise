@@ -12,8 +12,10 @@
 
 <DocsPageParagraph>
     The modal provider component provides an abstraction on top of Blazorize's <Anchor To="docs/components/modal">Modal component</Anchor>, enabling you to programatically instantiate modals with custom content/components.
-</DocsPageParagraph><DocsPageSectionTitle>
-    Examples
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Service Usage
 </DocsPageSectionTitle>
 
 
@@ -173,68 +175,7 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSectionTitle>
-    API
-</DocsPageSectionTitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsPageParagraph>
-    You will find that <Code Tag>ModalProvider</Code> provides most regular <Code Tag>Modal</Code> parameters for you to override the modal behaviour.
-</DocsPageParagraph>
-
-<DocsAttributes Title="ModalProvider">
-    <DocsAttributesItem Name="UseModalStructure" Type="boolean" Default="true">
-        Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Stateful" Type="boolean" Default="false">
-        Keeps the ModalInstance in memory after it has been closed.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Visible" Type="boolean" Default="false">
-        Handles the visibility of modal dialog.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="VisibleChanged" Type="EventCallback<bool>">
-        Occurs when the modal visibility state changes.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Opening" Type="Func<ModalOpeningEventArgs, Task>">
-        Occurs before the modal is opened and can be used to prevent the modal from opening.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Closing" Type="Func<ModalClosingEventArgs, Task>">
-        Occurs before the modal is closed and can be used to prevent the modal from closing.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Opened" Type="EventCallback">
-        Occurs after the modal has opened.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Closed" Type="EventCallback">
-        Occurs after the modal has closed.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ScrollToTop" Type="boolean" Default="true">
-        If true modal will scroll to top when opened.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ShowBackdrop" Type="boolean" Default="true">
-        If true the the backdrop will be rendered.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Animated" Type="boolean" Default="true">
-        Gets or sets whether the component has any animations.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="AnimationDuration" Type="int" Default="150">
-        Gets or sets the animation duration.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="RenderMode" Type="ModalRenderMode" Default="Default">
-        Defines how the modal content will be rendered.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="FocusTrap" Type="bool?" Default="true">
-        Defines if the modal should keep the input focus at all times.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Centered" Type="boolean" Default="false">
-        Centers the modal vertically.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Scrollable" Type="boolean" Default="false">
-        Scrolls the modal content independent of the page itself.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Size" Type="ModalSize" Default="Default">
-        Changes the size of the modal.
-    </DocsAttributesItem>
-</DocsAttributes>
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/services/modal-provider/api" Name="<ModalProvider />" />
+    <DocsPageApiItem Url="docs/services/modal-provider/api" Name="IModalService" />
+</DocsPageApi>

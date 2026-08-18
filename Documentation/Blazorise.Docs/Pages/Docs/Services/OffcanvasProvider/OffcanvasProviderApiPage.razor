@@ -1,0 +1,54 @@
+@page "/docs/services/offcanvas-provider/api"
+
+<Seo Canonical="/docs/services/offcanvas-provider/api" Title="Blazorise Offcanvas Provider API" Description="Explore the Blazorise OffcanvasProvider and IOffcanvasService API reference for panel parameters, events, instances, and programmatic methods." />
+
+<DocsPageTitle Path="Services/Offcanvas Provider/API">
+    Blazorise Offcanvas Provider API
+</DocsPageTitle>
+
+<DocsPageLead>
+    Review the provider component and service methods used to create and manage offcanvas instances.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    For setup instructions and examples, see the <Anchor To="docs/services/offcanvas-provider">Offcanvas Provider documentation</Anchor>.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[typeof(OffcanvasProvider)]" />
+
+<DocsPageSubsectionTitle>
+    IOffcanvasService
+</DocsPageSubsectionTitle>
+
+<DocsAttributes Name="Property" Title="Properties" ShowDefaults="false">
+    <DocsAttributesItem Name="OffcanvasProvider" Type="OffcanvasProvider">
+        Gets the provider that manages offcanvas instances.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsMethods Name="Method" Title="Methods">
+    <DocsMethodsItem Name="SetOffcanvasProvider" ReturnType="void" Parameters="OffcanvasProvider offcanvasProvider">
+        Sets the provider used to manage offcanvas instances.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Show&lt;TComponent&gt;" ReturnType="Task&lt;OffcanvasInstance&gt;" Parameters="title, parameters, options (depending on overload)">
+        Shows a component in an offcanvas panel. Overloads support a title, component parameters, and instance options.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Show" ReturnType="Task&lt;OffcanvasInstance&gt;" Parameters="component type or RenderFragment, with optional title and options">
+        Shows dynamically selected component content or a render fragment.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Show" ReturnType="Task" Parameters="OffcanvasInstance offcanvasInstance">
+        Reopens an existing offcanvas instance.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Hide" ReturnType="Task" Parameters="OffcanvasInstance offcanvasInstance (optional)">
+        Hides the latest offcanvas panel or a specific instance.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="GetInstances" ReturnType="IEnumerable&lt;OffcanvasInstance&gt;">
+        Returns all offcanvas instances managed by the provider.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Remove" ReturnType="Task" Parameters="OffcanvasInstance offcanvasInstance">
+        Removes an offcanvas instance from the provider.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Reset" ReturnType="Task">
+        Clears the offcanvas provider state and its tracked instances.
+    </DocsMethodsItem>
+</DocsMethods>

@@ -1,0 +1,60 @@
+@page "/docs/services/modal-provider/api"
+
+<Seo Canonical="/docs/services/modal-provider/api" Title="Blazorise Modal Provider API" Description="Explore the Blazorise ModalProvider and IModalService API reference for modal parameters, events, instances, and programmatic methods." />
+
+<DocsPageTitle Path="Services/Modal Provider/API">
+    Blazorise Modal Provider API
+</DocsPageTitle>
+
+<DocsPageLead>
+    Review the provider component and service methods used to create and manage modal instances.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    For setup instructions and examples, see the <Anchor To="docs/services/modal-provider">Modal Provider documentation</Anchor>.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[typeof(ModalProvider)]" />
+
+<DocsPageSubsectionTitle>
+    IModalService
+</DocsPageSubsectionTitle>
+
+<DocsAttributes Name="Property" Title="Properties" ShowDefaults="false">
+    <DocsAttributesItem Name="ModalProvider" Type="ModalProvider">
+        Gets the default provider that manages modal instances.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsMethods Name="Method" Title="Methods">
+    <DocsMethodsItem Name="SetModalProvider" ReturnType="void" Parameters="ModalProvider modalProvider">
+        Sets the default modal provider.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="RegisterModalProvider" ReturnType="void" Parameters="string providerName, ModalProvider modalProvider">
+        Registers a named provider, or the default provider when the name is empty.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="UnregisterModalProvider" ReturnType="void" Parameters="string providerName, ModalProvider modalProvider">
+        Unregisters a named or default provider.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Show&lt;TComponent&gt;" ReturnType="Task&lt;ModalInstance&gt;" Parameters="title, parameters, options (depending on overload)">
+        Shows a component in a modal. Overloads support a title, component parameters, and instance options.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Show" ReturnType="Task&lt;ModalInstance&gt;" Parameters="component type or RenderFragment, with optional title and options">
+        Shows dynamically selected component content or a render fragment.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Show" ReturnType="Task" Parameters="ModalInstance modalInstance">
+        Reopens an existing modal instance.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Hide" ReturnType="Task" Parameters="provider name or ModalInstance (optional)">
+        Hides the latest modal, a modal from a named provider, or a specific instance.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="GetInstances" ReturnType="IEnumerable&lt;ModalInstance&gt;">
+        Returns the modal instances managed by the default provider.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Remove" ReturnType="Task" Parameters="ModalInstance modalInstance">
+        Removes a modal instance from its provider.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Reset" ReturnType="Task">
+        Clears the modal provider state and its tracked instances.
+    </DocsMethodsItem>
+</DocsMethods>

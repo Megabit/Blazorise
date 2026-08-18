@@ -12,8 +12,10 @@
 
 <DocsPageParagraph>
     The offcanvas provider component provides an abstraction on top of Blazorise's <Anchor To="docs/components/offcanvas">Offcanvas component</Anchor>, enabling you to programatically instantiate offcanvas panels with custom content/components.
-</DocsPageParagraph><DocsPageSectionTitle>
-    Examples
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Service Usage
 </DocsPageSectionTitle>
 
 
@@ -183,53 +185,7 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSectionTitle>
-    API
-</DocsPageSectionTitle>
-
-<Heading Size="HeadingSize.Is3">
-    Attributes
-</Heading>
-
-<DocsPageParagraph>
-    You will find that <Code Tag>OffcanvasProvider</Code> provides most regular <Code Tag>Offcanvas</Code> parameters for you to override the panel behaviour.
-</DocsPageParagraph>
-
-<DocsAttributes Title="OffcanvasProvider">
-    <DocsAttributesItem Name="UseOffcanvasStructure" Type="boolean" Default="true">
-        Uses the offcanvas standard structure, by setting this to true you are only in charge of providing the custom content.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Stateful" Type="boolean" Default="false">
-        Keeps the OffcanvasInstance in memory after it has been closed.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ShowCloseButton" Type="boolean" Default="true">
-        Shows a close button in the offcanvas header when using the provider structure.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Opening" Type="Func&lt;OffcanvasOpeningEventArgs, Task&gt;">
-        Occurs before the offcanvas is opened.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Closing" Type="Func&lt;OffcanvasClosingEventArgs, Task&gt;">
-        Occurs before the offcanvas is closed.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Opened" Type="EventCallback">
-        Occurs after the offcanvas has opened.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Closed" Type="EventCallback">
-        Occurs after the offcanvas has closed.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ShowBackdrop" Type="boolean" Default="true">
-        Specifies the backdrop needs to be rendered for this Offcanvas.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Animated" Type="boolean" Default="true">
-        Gets or sets whether the component has any animations.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="AnimationDuration" Type="int" Default="150">
-        Gets or sets the animation duration.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Placement" Type="Placement" Default="End">
-        Specifies the position of the offcanvas.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Size" Type="OffcanvasSize" Default="Default">
-        Changes the size of the offcanvas.
-    </DocsAttributesItem>
-</DocsAttributes>
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/services/offcanvas-provider/api" Name="<OffcanvasProvider />" />
+    <DocsPageApiItem Url="docs/services/offcanvas-provider/api" Name="IOffcanvasService" />
+</DocsPageApi>

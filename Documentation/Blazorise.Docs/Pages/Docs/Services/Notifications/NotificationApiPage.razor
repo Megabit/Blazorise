@@ -1,0 +1,66 @@
+@page "/docs/services/notification-provider/api"
+
+<Seo Canonical="/docs/services/notification-provider/api" Title="Blazorise Notification Service API" Description="Explore the Blazorise NotificationProvider and INotificationService API reference for notification parameters, events, and message methods." />
+
+<DocsPageTitle Path="Services/Notification/API">
+    Blazorise Notification Service API
+</DocsPageTitle>
+
+<DocsPageLead>
+    Review the provider component and service methods used to display application notifications.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    For setup instructions and examples, see the <Anchor To="docs/services/notification-provider">Notification Service documentation</Anchor>.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    API
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle>
+    NotificationProvider
+</DocsPageSubsectionTitle>
+
+<DocsAttributes Name="Parameter" Title="Parameters">
+    <DocsAttributesItem Name="Location" Type="NotificationLocation" Default="Center">
+        Specifies where notifications are displayed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DefaultInterval" Type="double?">
+        Specifies the default time in milliseconds before a notification closes automatically.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Name="Event" Title="Events" ShowDefaults="false">
+    <DocsAttributesItem Name="Okayed" Type="EventCallback">
+        Occurs after the user responds with the OK action.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closed" Type="EventCallback">
+        Occurs after the notification closes.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsPageSubsectionTitle>
+    INotificationService
+</DocsPageSubsectionTitle>
+
+<DocsAttributes Name="Event" Title="Events" ShowDefaults="false">
+    <DocsAttributesItem Name="NotificationReceived" Type="EventHandler&lt;NotificationEventArgs&gt;">
+        Raised when a notification request is received by the provider.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsMethods Name="Method" Title="Methods">
+    <DocsMethodsItem Name="Info" ReturnType="Task" Parameters="message, title = null, options = null">
+        Shows an informational notification. String and <Code>MarkupString</Code> overloads are available.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Success" ReturnType="Task" Parameters="message, title = null, options = null">
+        Shows a success notification. String and <Code>MarkupString</Code> overloads are available.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Warning" ReturnType="Task" Parameters="message, title = null, options = null">
+        Shows a warning notification. String and <Code>MarkupString</Code> overloads are available.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Error" ReturnType="Task" Parameters="message, title = null, options = null">
+        Shows an error notification. String and <Code>MarkupString</Code> overloads are available.
+    </DocsMethodsItem>
+</DocsMethods>

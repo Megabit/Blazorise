@@ -1,0 +1,48 @@
+@page "/docs/services/message-provider/api"
+
+<Seo Canonical="/docs/services/message-provider/api" Title="Blazorise Message Service API" Description="Explore the Blazorise MessageProvider and IMessageService API reference for message dialogs, confirmations, choices, parameters, events, and methods." />
+
+<DocsPageTitle Path="Services/Message/API">
+    Blazorise Message Service API
+</DocsPageTitle>
+
+<DocsPageLead>
+    Review the provider component and service methods used to display messages, confirmations, and choices.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    For setup instructions and examples, see the <Anchor To="docs/services/message-provider">Message Service documentation</Anchor>.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[typeof(MessageProvider)]" />
+
+<DocsPageSubsectionTitle>
+    IMessageService
+</DocsPageSubsectionTitle>
+
+<DocsAttributes Name="Event" Title="Events" ShowDefaults="false">
+    <DocsAttributesItem Name="MessageReceived" Type="EventHandler&lt;MessageEventArgs&gt;">
+        Raised when a message request is received by the provider.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsMethods Name="Method" Title="Methods">
+    <DocsMethodsItem Name="Info" ReturnType="Task" Parameters="message, title = null, options = null">
+        Shows an informational message. String and <Code>MarkupString</Code> overloads are available.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Success" ReturnType="Task" Parameters="message, title = null, options = null">
+        Shows a success message. String and <Code>MarkupString</Code> overloads are available.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Warning" ReturnType="Task" Parameters="message, title = null, options = null">
+        Shows a warning message. String and <Code>MarkupString</Code> overloads are available.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Error" ReturnType="Task" Parameters="message, title = null, options = null">
+        Shows an error message. String and <Code>MarkupString</Code> overloads are available.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Confirm" ReturnType="Task&lt;bool&gt;" Parameters="message, title = null, options = null">
+        Shows a confirmation dialog and returns the user's decision.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Choose" ReturnType="Task&lt;object&gt;" Parameters="message, title = null, options = null">
+        Shows a choice dialog and returns the selected value.
+    </DocsMethodsItem>
+</DocsMethods>

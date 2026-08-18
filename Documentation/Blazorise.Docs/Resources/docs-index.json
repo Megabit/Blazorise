@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-18T09:48:49.1924212Z",
+  "generatedUtc": "2026-08-18T10:31:48.3045538Z",
   "pages": [
     {
       "route": "/docs",
@@ -10878,6 +10878,19 @@
       ]
     },
     {
+      "route": "/docs/services/message-provider/api",
+      "title": "Blazorise Message Service API",
+      "description": "Explore the Blazorise MessageProvider and IMessageService API reference for message dialogs, confirmations, choices, parameters, events, and methods.",
+      "pagePath": "Pages/Docs/Services/Messages/MessageApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "MessageProvider"
+        }
+      ]
+    },
+    {
       "route": "/docs/services/modal-provider",
       "title": "Blazorise ModalProvider component",
       "description": "The modal provider component provides an abstraction on top of Blazorize's Modal, enabling you to programatically instantiate modals with custom content/components.",
@@ -10944,6 +10957,19 @@
           "sourcePath": "Pages/Docs/Services/ModalProvider/Examples/ModalProviderStatefulExample.razor",
           "content": "<Button Color=\"Color.Primary\" Clicked=\"ShowStateful\">Show Stateful</Button>\r\n\r\n@code {\r\n    [Inject] public IModalService ModalService { get; set; }\r\n\r\n    public Task ShowStateful()\r\n    {\r\n        return ModalService.Show<CounterExample>( \"My Stateful content\", new ModalInstanceOptions()\r\n        {\r\n            Stateful = true,\r\n            ElementId = \"Stateful\",\r\n            RenderMode = ModalRenderMode.LazyLoad\r\n        } );\r\n    }\r\n}",
           "title": "Stateful modal"
+        }
+      ]
+    },
+    {
+      "route": "/docs/services/modal-provider/api",
+      "title": "Blazorise Modal Provider API",
+      "description": "Explore the Blazorise ModalProvider and IModalService API reference for modal parameters, events, instances, and programmatic methods.",
+      "pagePath": "Pages/Docs/Services/ModalProvider/ModalProviderApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ModalProvider"
         }
       ]
     },
@@ -11060,6 +11086,13 @@
       ]
     },
     {
+      "route": "/docs/services/notification-provider/api",
+      "title": "Blazorise Notification Service API",
+      "description": "Explore the Blazorise NotificationProvider and INotificationService API reference for notification parameters, events, and message methods.",
+      "pagePath": "Pages/Docs/Services/Notifications/NotificationApiPage.razor",
+      "examples": []
+    },
+    {
       "route": "/docs/services/offcanvas-provider",
       "title": "Blazorise OffcanvasProvider component",
       "description": "The offcanvas provider component provides an abstraction on top of Blazorise's Offcanvas, enabling you to programatically instantiate offcanvas panels with custom content/components.",
@@ -11138,6 +11171,19 @@
       ]
     },
     {
+      "route": "/docs/services/offcanvas-provider/api",
+      "title": "Blazorise Offcanvas Provider API",
+      "description": "Explore the Blazorise OffcanvasProvider and IOffcanvasService API reference for panel parameters, events, instances, and programmatic methods.",
+      "pagePath": "Pages/Docs/Services/OffcanvasProvider/OffcanvasProviderApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "OffcanvasProvider"
+        }
+      ]
+    },
+    {
       "route": "/docs/services/page-progress",
       "title": "Blazorise Page Progress service",
       "description": "The IPageProgressService is built on top of PageProgress component and is used to show small progress bar at the top of the page.",
@@ -11186,6 +11232,13 @@
       ]
     },
     {
+      "route": "/docs/services/page-progress-provider/api",
+      "title": "Blazorise Page Progress Service API",
+      "description": "Explore the Blazorise PageProgressProvider and IPageProgressService API reference for controlling page-level progress indicators.",
+      "pagePath": "Pages/Docs/Services/PageProgresses/PageProgressApiPage.razor",
+      "examples": []
+    },
+    {
       "route": "/docs/services/toast-provider",
       "title": "Blazorise ToastProvider component",
       "description": "The ToastProvider is a powerful helper component built on top of Toast component and is used for showing simple alerts and notifications.",
@@ -11213,6 +11266,19 @@
           "content": "<Button Color=\"Color.Primary\" Clicked=\"@ShowToast\">Show toast message!</Button>\r\n\r\n@code {\r\n    [Inject] IToastService ToastService { get; set; }\r\n\r\n    Task ShowToast()\r\n    {\r\n        return ToastService.Info( \"This is a simple toast message!\", \"Hello\", BuildToastInstanceOptions );\r\n    }\r\n\r\n    private void BuildToastInstanceOptions( ToastInstanceOptions toastInstanceOptions )\r\n    {\r\n        toastInstanceOptions.ShowIcon = false;\r\n    }\r\n}",
           "title": "Hide Icon",
           "description": "The following code snippet demonstrates how to hide an active toast using the IToastService ."
+        }
+      ]
+    },
+    {
+      "route": "/docs/services/toast-provider/api",
+      "title": "Blazorise Toast Provider API",
+      "description": "Explore the Blazorise ToastProvider and IToastService API reference for toast parameters, events, methods, placement, and behavior.",
+      "pagePath": "Pages/Docs/Services/ToastProvider/ToastProviderApiPage.razor",
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ToastProvider"
         }
       ]
     },
