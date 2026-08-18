@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-17T11:01:48.1771713Z",
+  "generatedUtc": "2026-08-18T08:43:01.3322600Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -72487,8 +72487,8 @@
           "name": "FocusTrap",
           "type": "bool",
           "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Specifies if the modal should keep the input focus at all times.",
+          "defaultValue": "true",
+          "summary": "Specifies if the modal should keep the input focus at all times.     When not defined, the global <strong>ModalFocusTrap</strong> option is used, which defaults to <code>true</code>.",
           "isBlazoriseEnum": false
         },
         {
