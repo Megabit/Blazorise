@@ -30,9 +30,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Binding
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Two-way binding">
@@ -75,21 +75,21 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Make the Format Unambiguous
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Pair the input with a visible label and communicate the expected date format through persistent help text or a format-aware placeholder. Use a nullable value when an empty date is valid, and distinguish that empty state from a default date in application logic.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Apply Meaningful Constraints
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Minimum and maximum dates should reflect the actual business rule, which must also be validated when the form is processed. When browsing dates is easier than typing them, particularly for nearby appointments or date ranges, use a <Anchor To="docs/components/date-picker">DatePicker</Anchor>.

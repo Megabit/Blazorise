@@ -18,9 +18,9 @@
     The high-level <Code>Swiped</Code>, <Code>Tapped</Code>, and <Code>LongPressed</Code> events are best for most scenarios. Use <Code>GestureStarted</Code>, <Code>GestureMoved</Code>, and <Code>GestureEnded</Code> when the UI needs to react while the pointer is moving.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic Swipe">
@@ -58,17 +58,17 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Touch action
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     <Code>TouchAction</Code> maps to the browser CSS <Code>touch-action</Code> behavior. For horizontal swipe areas inside a scrollable page, use <Code>GestureTouchAction.PanY</Code> so the page can still scroll vertically. For vertical swipe areas, use <Code>GestureTouchAction.PanX</Code>. Use <Code>GestureTouchAction.None</Code> only for surfaces where the component should own all touch movement.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Selection and native drag
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     <Code>Gestures</Code> prevents native browser dragging by default so images and links inside the gesture area do not show a drag preview while the user is swiping. Set <Code>PreventNativeDrag="false"</Code> if the content should keep native drag behavior.
@@ -78,21 +78,21 @@
     <Code>Gestures</Code> does not disable text selection. If a gesture surface contains text and is meant to be dragged or swiped as a single control, you may want to apply CSS such as <Code>user-select: none;</Code> to that surface. This prevents accidental text selection during mouse dragging on desktop. Avoid applying it to areas where users should be able to select or copy text.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Never Require a Gesture
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Every important swipe action should also be available through a visible button or another non-gesture control. This keeps the interaction usable with keyboards, assistive technology, and devices where the gesture is difficult to perform.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Avoid Accidental Activation
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Use direction and distance thresholds that ignore small or unintended movements, and avoid intercepting ordinary page scrolling unless the gesture area clearly requires it. Show feedback while the gesture is in progress, but commit state only after it completes successfully.

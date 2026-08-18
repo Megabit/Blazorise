@@ -14,9 +14,9 @@
     The toast provider component provides an abstraction on top of Blazorize's <Anchor To="docs/components/toast">Toast component</Anchor>, enabling you to programatically instantiate toasts with custom messages.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Setup
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader>
@@ -30,9 +30,9 @@
     <DocsPageSectionSource Code="ToastProviderUsageExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -52,13 +52,13 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Use Sparingly
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Notifications are disruptive by design and should be used sparingly. Use fewer notifications by reserving them for more important information that may otherwise go unnoticed by the user.
@@ -68,17 +68,17 @@
     Less urgent notifications can be provided through a link or drop-down in the application header or footer, instead of immediate notifications.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Limit Content Length
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Aim for one or two lines of content. Notifications should be brief and to the point. More information can be provided through an embedded link or Button.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Toast Positions
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Toasts can be dispatched to all four corners of a page. We do not recommend to use more than one position for toasts in an application because that could be disorienting for users. Pick one desired position and configure it in the <Code>Toaster</Code>.

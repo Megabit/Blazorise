@@ -18,9 +18,9 @@
     If you only need styling changes, prefer regular responsive utility classes. Use <Code Tag>BreakpointObserver</Code> when you need to switch layouts, controls, or content based on the active breakpoint.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Conditional Content">
@@ -49,29 +49,29 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     When to use it
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Use <Code Tag>BreakpointObserver</Code> when you want inline declarative rendering in markup. If you need to react in code-behind instead, inject <Code>IBreakpointService</Code> directly and use its <Code>Current</Code>, <Code>IsResolved</Code>, <Code>IsBelow</Code>, and <Code>IsAtLeast</Code> members.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Prefer CSS for Presentation
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Responsive CSS is the better choice when only spacing, alignment, or visibility changes. Use <Code Tag>BreakpointObserver</Code> when the rendered content or component behavior must genuinely differ, and react only to meaningful layout boundaries rather than every small viewport change.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Preserve State Across Layouts
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Keep the experience equivalent across breakpoints so essential information and actions are never removed on smaller screens. Shared mutable state should have one owner outside the breakpoint branches, preventing layout changes from discarding user input or creating conflicting values.

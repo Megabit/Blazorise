@@ -10,9 +10,9 @@
     Reports can bind to object models, DataSets, DataTables, CSV sources, Web APIs, or server-side SQL sources. Object and DataSet sources are built in; CSV, Web API, and SQL are optional providers with their own registration and security requirements.
 </DocsPageLead>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Built-in data sources
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Object data source">
@@ -41,9 +41,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     CSV data source
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     The CSV provider turns comma-separated text into a tabular report data source. Use it for exports, static reference data, or files produced by another system, supplied inline or loaded from a local file or remote URL.
@@ -91,9 +91,9 @@
     </DocsPageSectionHeader>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     REST / Web API data source
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     The REST / Web API provider retrieves structured data with read-only HTTP GET requests and exposes a selected response collection as report rows. Use it when report data is available through a browser-accessible or server-to-server API instead of a direct database connection.
@@ -151,9 +151,9 @@
     In standalone Blazor WebAssembly and <Code>InteractiveWebAssembly</Code>, the request executes in the user's browser. Authors may enter any absolute HTTP or HTTPS URL, subject to browser CORS, mixed-content, and authentication rules. A client-side <Code>ResourceAllowed</Code> callback is useful for product behavior but is not an authorization boundary because users control the browser. The target API must authenticate and authorize each request. Browser applications may use the signed-in user's browser-accessible credentials, but must never contain server credentials or client secrets. In every hosting model, treat editable report definitions as untrusted input and expose read-only reporting endpoints.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     SQL data source
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     The SQL provider connects a server-hosted Report directly to a database and exposes an authorized query result as tabular report data. Use it when the host controls database connections and report authors need governed access to reporting views or queries.

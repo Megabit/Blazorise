@@ -1,0 +1,11 @@
+<Heading Size="HeadingSize.Is3" Class="@TocClass">
+    @ChildContent
+</Heading>
+
+@code {
+    [Parameter] public bool IncludeInToc { get; set; } = true;
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    private string TocClass => IncludeInToc ? null : "js-toc-ignore";
+}

@@ -25,9 +25,9 @@
     Enable <Code>ShowGutter</Code> to render the current provider's separator surface, borders, and grip.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Side panel">
@@ -76,18 +76,18 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Positioning
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     The resizer is absolutely positioned, so its containing element should establish a positioning context, usually with <Code>position: relative</Code>.
     Make sure an ancestor does not clip the resizer when it is placed outside the resized edge.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Keyboard and accessibility
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     The component renders an ARIA separator and supports arrow-key resizing. Click the resizer area or reach it with the Tab key, then use the arrow keys to resize.
@@ -96,21 +96,21 @@
     <Code>aria-controls</Code> identifies the single target or the logical start target in coordinated mode.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Set Practical Limits
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Minimum and maximum sizes should prevent resizing from hiding content or making a pane unusable. Persist a user's chosen size only when that measurement will remain meaningful across devices and viewport changes.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Make Resizing Accessible
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     The gutter should be visually discoverable and provide a comfortable pointer or touch target without becoming visually dominant. Support keyboard resizing and communicate the current size when the dimension is important to the task.

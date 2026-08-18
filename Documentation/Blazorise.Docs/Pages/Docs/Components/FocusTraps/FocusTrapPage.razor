@@ -18,9 +18,9 @@
     When <Code>Active="true"</Code> the trap is enabled, and pressing <Code>Tab</Code> or <Code>Shift+Tab</Code> will rotate focus within the inner focusable elements of the component.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader>
@@ -31,21 +31,21 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Trap Focus Only for Blocking Interactions
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Use a focus trap only while a modal surface or similarly blocking interaction is active. Avoid overlapping or nested traps because they can create an unpredictable focus order or prevent keyboard users from escaping.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Enter and Exit Predictably
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Move focus to a meaningful control when the trap opens and always provide an obvious keyboard-accessible way to leave the region. When the trap closes, restore focus to the control that triggered it.

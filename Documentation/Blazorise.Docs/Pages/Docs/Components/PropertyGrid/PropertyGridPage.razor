@@ -10,9 +10,9 @@
     Display and edit related values in a compact inspector with grouping, sorting, search, and contextual help.
 </DocsPageLead>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Overview
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     A property grid presents a large set of editable values without the space and visual weight of a conventional form.
@@ -24,9 +24,9 @@
     Properties can be searched or arranged by category or name, while optional row actions and descriptions provide additional behavior and guidance without crowding the editor.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Structure
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <UnorderedList>
     <UnorderedListItem>
@@ -82,9 +82,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Choosing an approach
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Use <Code Tag>PropertyGrid</Code> for a fixed set of properties known in Razor markup.
@@ -104,9 +104,9 @@
     Property groups and rows include the grid, selection, and expansion semantics needed by assistive technologies.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -135,21 +135,21 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Control the Exposed Schema
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Define an explicit schema for user-facing editors so only intended properties, labels, order, and editor types are exposed. Group related properties and use domain language instead of showing implementation-oriented member names. Secrets, internal identifiers, and security-sensitive settings should never be included through automatic discovery.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Validate User-Facing Edits
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Validate a change before applying it to the source object and show feedback next to the property that needs attention. When several values are interdependent, validate the complete edited object as well as each individual field.

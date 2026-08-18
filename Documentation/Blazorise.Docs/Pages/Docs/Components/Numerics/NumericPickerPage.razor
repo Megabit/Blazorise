@@ -18,9 +18,9 @@
     All basic types are supported, including nullable types: (<Code>int</Code>, <Code>long</Code>, <Code>float</Code>, <Code>double</Code>, <Code>decimal</Code>, etc.).
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -44,9 +44,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Rules
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Generic type">
@@ -106,21 +106,21 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Use Meaningful Steps
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     A numeric picker is most useful when values are commonly adjusted in small steps. Set a step and bounds that reflect the domain, and disable increment or decrement actions when their limit is reached. When users normally type an exact value, a <Anchor To="docs/components/numeric-edit">NumericInput</Anchor> may be more direct.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Avoid Accidental Changes
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Enable mouse-wheel changes only when unintended adjustments are unlikely, and always retain keyboard and direct-entry support. Units or currency belong in the label or formatting rather than in the stored numeric value.

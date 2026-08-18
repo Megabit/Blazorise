@@ -36,9 +36,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -56,21 +56,21 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Preserve Navigation Context
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Keep the current page and related filters in the URL when users need to share a result or return with browser navigation. Large datasets should be paged on the server so changing pages does not require loading every item first.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Handle Page Boundaries Clearly
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Identify the current page and give first, previous, next, and last controls accessible labels. Controls that cannot be used, such as Previous on the first page, should be disabled or omitted without causing the pagination layout to shift unexpectedly.

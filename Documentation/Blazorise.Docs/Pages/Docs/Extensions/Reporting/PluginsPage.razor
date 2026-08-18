@@ -14,9 +14,9 @@
     A report element plugin describes one custom element type. Reporting keeps ownership of positioning, selection, drag and drop, resize handles, collision warnings, undo, copy and paste, JSON persistence, and pagination. The plugin owns its serializable properties and supplies the components used for designer and HTML rendering, an optional properties editor, and a PDF renderer.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Plugin model
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <UnorderedList>
     <UnorderedListItem>
@@ -40,9 +40,9 @@
     Type names are case-insensitive and must be unique. Keep them stable after reports have been saved. If a saved report references an unavailable plugin, Reporting preserves its JSON data and shows an unavailable placeholder; PDF generation reports the missing renderer instead of silently dropping content.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Registration
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Register reusable plugins with dependency injection by chaining <Code>AddReportElementPlugin&lt;TPlugin&gt;()</Code> after <Code>AddBlazoriseReporting()</Code>. A plugin can also be scoped to one report by passing instances through the <Code>ElementPlugins</Code> parameter. Per-report registration is useful for feature-specific elements and for examples that should not change the application-wide toolbox.
@@ -85,9 +85,9 @@
     <DocsPageSectionSource Code="ProgressBarReportElementPropertiesExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Rendering responsibilities
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Renderer components draw only inside the element's content box. They should not implement designer selection, dragging, resizing, or absolute positioning because the standard report element shell already provides those behaviors. Keep plugin properties JSON-serializable and use <Code>SchemaVersion</Code> when the payload format evolves.

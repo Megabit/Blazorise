@@ -14,9 +14,9 @@
     Customized, cross-browser consistent, file input control that supports single file and multiple files upload.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Single file">
@@ -79,9 +79,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Events
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph Title="Changed">
     This is the main event that will be called every time a user selects a single or multiple files.
@@ -114,9 +114,9 @@
     This event is fired after the file has ended the upload process. If there was no error it will have <Code>Success</Code> property set to true.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="WriteToStreamAsync">
@@ -170,21 +170,21 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Explain Upload Requirements
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     State accepted file types, size limits, and whether multiple selection is allowed before users open the picker. For longer uploads, show progress and a clear result, and let users retry or remove a failed selection.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Validate and Stream on the Server
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     The browser's file-type filter is guidance rather than a security boundary. Validate the file name, size, content type, and content on the server. Stream large files with explicit limits instead of reading every upload completely into memory.

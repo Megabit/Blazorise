@@ -10,9 +10,9 @@
     Add expandable sections to your Blazor apps. Use <Code>Collapse</Code> to reveal or hide content-perfect for menus, filters, FAQs, and additional details.
 </DocsPageLead>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Overview
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     The <Code>Collapse</Code> component provides an accessible way to show and hide content in Blazor applications. It's ideal for progressive disclosure patterns, such as "read more" areas, filter panels, or navigation sections. Pair it with a toggle (like a <Code>Button</Code>) in the header to control visibility through user interaction or programmatically.
@@ -22,9 +22,9 @@
     Using collapsible sections helps organize information, keeping the interface clean and easy to navigate. This approach also complements accordions when you need a single collapsible block rather than multiple linked items.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Structure
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     The <Code>Collapse</Code> structure is simple and intuitive:
@@ -50,9 +50,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic Example">
@@ -76,21 +76,21 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Use Clear Toggles
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     The header should describe the hidden content, and the intended toggle must be reachable and operable by keyboard. Keep the expanded state synchronized through one binding or event path, especially when the collapse can also be controlled programmatically.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Keep Essential Information Visible
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Do not place critical status, validation feedback, or the only way to complete a task inside content that starts collapsed. When several related collapsible sections need coordinated behavior, use an <Anchor To="docs/components/accordion">Accordion</Anchor> instead.

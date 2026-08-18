@@ -23,9 +23,9 @@
     Additionally, due to the component using the native <Code>type="number"</Code> partial values cannot be retrieved mid-entry. This means that constraints on the <Code>Value</Code> are only checked upon the blur event, allowing for the detection and handling of invalid values without interrupting the user's input process. To mitigate these issues, users could consider setting <Code>Immediate="false"</Code> to ensure the value is only submitted once focus is lost, or alternatively, use the <Anchor To="docs/components/numeric-picker" Title="Link to NumericPicker component">NumericPicker component</Anchor> as a substitute.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -46,21 +46,21 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Use Numeric Input for Quantities
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Numeric input is intended for values users may calculate with. Identifiers such as account numbers, postal codes, and phone numbers may contain digits, but they should be entered as text because numeric operations and formatting do not apply to them.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Match the Domain's Precision
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Choose the generic numeric type so its range and precision match the underlying data. Show units in the label or an addon and format values according to the user's culture. Minimum, maximum, precision, and business rules must still be enforced when the value is submitted.
