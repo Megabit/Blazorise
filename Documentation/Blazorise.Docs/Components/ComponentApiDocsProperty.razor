@@ -13,7 +13,8 @@
 {
     <DocsAttributes ShowDefaults="@(PropertyType != PropertyTypes.Events)"
                     Name="@(PropertyType == PropertyTypes.Events ? "Event": "Parameter")"
-                    Title="@(MultipleComponentTypes ? apiDocsForComponent.TypeName : null)">
+                    Title="@(MultipleComponentTypes ? apiDocsForComponent.TypeName : null)"
+                    ElementId="@GetElementId(apiDocsForComponent)">
         @foreach ( var property in ( PropertyType == PropertyTypes.Events ? apiDocsForComponent.Events : apiDocsForComponent.Parameters ).OrderBy( x => x.Name ) )
         {
             <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName"
@@ -55,6 +56,16 @@
     protected override void OnInitialized()
     {
         filteredApiDocsForComponents = ApiDocsForComponents.Where( x => ( PropertyType == PropertyTypes.Events ? x.Events : x.Parameters ).Count > 0 );
+    }
+
+    private string GetElementId( ApiDocsForComponent apiDocsForComponent )
+    {
+        bool isFirstApiSection = PropertyType == PropertyTypes.Parameters
+                                 || ( PropertyType == PropertyTypes.Events && apiDocsForComponent.Parameters.Count == 0 );
+
+        return isFirstApiSection
+            ? DocsApiNavigation.CreateElementId( apiDocsForComponent.TypeName )
+            : null;
     }
 
     public enum PropertyTypes { Parameters, Events }

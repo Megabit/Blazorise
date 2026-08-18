@@ -1,9 +1,11 @@
-<Heading Size="HeadingSize.Is3" Class="@TocClass">
+<Heading ElementId="@ElementId" Size="HeadingSize.Is3" Class="@TocClass">
     @ChildContent
 </Heading>
 
 @code {
     [Parameter] public bool IncludeInToc { get; set; } = true;
+
+    [Parameter] public string ElementId { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 

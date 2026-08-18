@@ -21,6 +21,34 @@
             }
         },
 
+        scrollToLocation: () => {
+            const hash = window.location.hash;
+
+            if (!hash) {
+                window.blazoriseDocs.navigation.scrollToTop();
+                return;
+            }
+
+            const elementId = decodeURIComponent(hash.substring(1));
+            let attempts = 0;
+
+            const scrollToElement = () => {
+                const element = document.getElementById(elementId);
+
+                if (element) {
+                    element.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'start' });
+                    return;
+                }
+
+                if (attempts < 60) {
+                    attempts++;
+                    window.requestAnimationFrame(scrollToElement);
+                }
+            };
+
+            window.requestAnimationFrame(scrollToElement);
+        },
+
         generateToc: (targetElement, options) => {
             if (!document.getElementById('TableOfContents')) {
                 return;
