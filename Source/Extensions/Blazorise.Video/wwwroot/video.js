@@ -9,7 +9,7 @@ const videoJsVimeoUrl = `${videoJsVendorRoot}/vimeo-video.js`;
 
 insertCSSIntoDocumentHead("_content/Blazorise.Video/vendors/videojs/videojs.css?v=2.3.0.0");
 
-const instances = [];
+const instances = new Map();
 const modulePromises = new Map();
 const configuredCaptionsRadioGroups = new WeakSet();
 
@@ -41,7 +41,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         dotNetAdapter: dotNetAdapter,
     };
 
-    instances[elementId] = instance;
+    instances.set(elementId, instance);
     instance.disconnectCleanupId = registerDisconnectCleanup(element, () => destroy(null, elementId, false));
 
     try {
@@ -72,7 +72,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
 }
 
 export function destroy(element, elementId, unregisterCleanup = true) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     if (!instance)
         return;
@@ -106,11 +106,11 @@ export function destroy(element, elementId, unregisterCleanup = true) {
     instance.qualityObserver = null;
     instance.disconnectCleanupId = null;
 
-    delete instances[elementId];
+    instances.delete(elementId);
 }
 
 export async function updateOptions(element, elementId, options) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     if (!instance || !instance.media || !options)
         return;
@@ -196,7 +196,7 @@ export async function updateOptions(element, elementId, options) {
 }
 
 export async function updateSource(element, elementId, source, protection) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     if (!instance || !instance.media)
         return;
@@ -225,7 +225,7 @@ export async function updateSource(element, elementId, source, protection) {
 }
 
 export function updateProtection(element, elementId, protection) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     if (!instance)
         return;
@@ -239,15 +239,15 @@ export function updateProtection(element, elementId, protection) {
 }
 
 export function play(element, elementId) {
-    return instances[elementId]?.media?.play();
+    return instances.get(elementId)?.media?.play();
 }
 
 export function pause(element, elementId) {
-    instances[elementId]?.media?.pause();
+    instances.get(elementId)?.media?.pause();
 }
 
 export function togglePlay(element, elementId) {
-    const media = instances[elementId]?.media;
+    const media = instances.get(elementId)?.media;
 
     if (!media)
         return;
@@ -256,7 +256,7 @@ export function togglePlay(element, elementId) {
 }
 
 export function stop(element, elementId) {
-    const media = instances[elementId]?.media;
+    const media = instances.get(elementId)?.media;
 
     if (!media)
         return;
@@ -266,42 +266,42 @@ export function stop(element, elementId) {
 }
 
 export function restart(element, elementId) {
-    const media = instances[elementId]?.media;
+    const media = instances.get(elementId)?.media;
 
     if (media)
         setCurrentTime(media, 0);
 }
 
 export function rewind(element, elementId, seekTime) {
-    const media = instances[elementId]?.media;
+    const media = instances.get(elementId)?.media;
 
     if (media)
         setCurrentTime(media, Math.max(0, media.currentTime - seekTime));
 }
 
 export function forward(element, elementId, seekTime) {
-    const media = instances[elementId]?.media;
+    const media = instances.get(elementId)?.media;
 
     if (media)
         setCurrentTime(media, Math.min(media.duration || Number.MAX_VALUE, media.currentTime + seekTime));
 }
 
 export function increaseVolume(element, elementId, step) {
-    const media = instances[elementId]?.media;
+    const media = instances.get(elementId)?.media;
 
     if (media)
         media.volume = clamp(media.volume + step, 0, 1);
 }
 
 export function decreaseVolume(element, elementId, step) {
-    const media = instances[elementId]?.media;
+    const media = instances.get(elementId)?.media;
 
     if (media)
         media.volume = clamp(media.volume - step, 0, 1);
 }
 
 export function toggleCaptions(element, elementId) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
     const captionsButton = getSkinElement(instance, "media-captions-button");
 
     if (captionsButton) {
@@ -328,7 +328,7 @@ export function toggleCaptions(element, elementId) {
 }
 
 export async function enterFullscreen(element, elementId) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
     const fullscreenButton = getSkinElement(instance, "media-fullscreen-button");
 
     if (fullscreenButton && !isPlayerFullscreen(instance) && supportsFullscreen(getFullscreenTarget(instance))) {
@@ -348,7 +348,7 @@ export async function enterFullscreen(element, elementId) {
 }
 
 export async function exitFullscreen(element, elementId) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     if (instance?.fullWindow) {
         exitFullWindow(instance);
@@ -366,7 +366,7 @@ export async function exitFullscreen(element, elementId) {
 }
 
 export async function toggleFullscreen(element, elementId) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
     const fullscreenButton = getSkinElement(instance, "media-fullscreen-button");
 
     if (fullscreenButton) {
@@ -381,7 +381,7 @@ export async function toggleFullscreen(element, elementId) {
 }
 
 export async function airplay(element, elementId) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
     const airplayButton = getSkinElement(instance, "media-airplay-button");
 
     if (airplayButton) {
@@ -401,7 +401,7 @@ export async function airplay(element, elementId) {
 }
 
 export function toggleControls(element, elementId) {
-    const instance = instances[elementId];
+    const instance = instances.get(elementId);
 
     if (!instance)
         return;
@@ -410,15 +410,15 @@ export function toggleControls(element, elementId) {
 }
 
 export function showTextTrack(element, elementId, textTrackId) {
-    setTextTrackMode(instances[elementId]?.media, textTrackId, "showing");
+    setTextTrackMode(instances.get(elementId)?.media, textTrackId, "showing");
 }
 
 export function hideTextTrack(element, elementId, textTrackId) {
-    setTextTrackMode(instances[elementId]?.media, textTrackId, "hidden");
+    setTextTrackMode(instances.get(elementId)?.media, textTrackId, "hidden");
 }
 
 export function addTextTrack(element, elementId, track) {
-    const media = instances[elementId]?.media;
+    const media = instances.get(elementId)?.media;
 
     if (!media || !track)
         return;
@@ -429,7 +429,7 @@ export function addTextTrack(element, elementId, track) {
 }
 
 export function clearTextTracks(element, elementId) {
-    const media = instances[elementId]?.media;
+    const media = instances.get(elementId)?.media;
 
     if (!media)
         return;
@@ -443,7 +443,7 @@ export function clearTextTracks(element, elementId) {
 }
 
 export function setPlaybackRate(element, elementId, rate) {
-    const media = instances[elementId]?.media;
+    const media = instances.get(elementId)?.media;
 
     if (media)
         media.playbackRate = rate;
@@ -1216,7 +1216,7 @@ function isCaptionTrack(track) {
 }
 
 function pauseOtherPlayers(activeInstance) {
-    for (const instance of instances) {
+    for (const instance of instances.values()) {
         if (instance && instance !== activeInstance && !instance.media?.paused)
             instance.media.pause();
     }
