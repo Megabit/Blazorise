@@ -1,8 +1,7 @@
 ﻿.fui-Checkbox {
-    --fui-Checkbox__indicator--borderColor: var(--colorCompoundBrandBackground);
+    --fui-Checkbox__indicator--borderColor: var(--colorNeutralStrokeAccessible);
     --fui-Checkbox__indicator--color: var(--colorNeutralForegroundInverted);
     --fui-Checkbox__indicator--backgroundColor: var(--colorCompoundBrandBackground);
-    color: var(--colorNeutralForeground1);
     position: relative;
     display: inline-flex;
     cursor: pointer;
@@ -27,7 +26,8 @@
         margin: 0px;
         opacity: 0;
         position: absolute;
-        top: 0px;
+        inset-block-start: 0;
+        inset-inline-start: 0;
         width: calc(16px + 2 * var(--spacingHorizontalS));
 
         &:not(:disabled):checked,
@@ -54,7 +54,7 @@
             + .fui-Checkbox__indicator {
                 color: var(--fui-Checkbox__indicator--color);
                 background-color: var(--fui-Checkbox__indicator--backgroundColor);
-                border-color: var(--fui-Checkbox__indicator--borderColor, var(--colorNeutralStrokeAccessible));
+                border-color: var(--colorCompoundBrandBackground);
             }
         }
 
@@ -129,10 +129,10 @@
                 cursor: inherit;
                 color: inherit;
                 align-self: center;
-                padding-left: var(--spacingHorizontalXS);
+                padding-inline-start: var(--spacingHorizontalXS);
                 padding-bottom: var(--spacingVerticalS);
                 padding-top: var(--spacingVerticalS);
-                padding-right: var(--spacingHorizontalS);
+                padding-inline-end: var(--spacingHorizontalS);
                 line-height: var(--lineHeightBase300);
                 font-size: var(--fontSizeBase300);
                 font-family: var(--fontFamilyBase);

@@ -6,14 +6,10 @@
     &.fui-Button-disabled,
     &:disabled {
         cursor: not-allowed;
-        border-bottom-color: var(--colorNeutralStrokeDisabled);
-        border-left-color: var(--colorNeutralStrokeDisabled);
-        border-right-color: var(--colorNeutralStrokeDisabled);
-        border-top-color: var(--colorNeutralStrokeDisabled);
+        border-color: var(--colorNeutralStrokeDisabled);
         background-color: var(--colorNeutralBackgroundDisabled);
     }
 
-    &:not(:disabled):not(.fui-Button-disabled),
     &:not(:disabled):not(.fui-Button-disabled) {
         &:hover {
             background-color: $background-hover;
@@ -35,14 +31,10 @@
     &.fui-Button-disabled,
     &:disabled {
         cursor: not-allowed;
-        border-bottom-color: var(--colorNeutralStrokeDisabled);
-        border-left-color: var(--colorNeutralStrokeDisabled);
-        border-right-color: var(--colorNeutralStrokeDisabled);
-        border-top-color: var(--colorNeutralStrokeDisabled);
+        border-color: var(--colorNeutralStrokeDisabled);
         background-color: var(--colorNeutralBackgroundDisabled);
     }
 
-    &:not(:disabled):not(.fui-Button-disabled),
     &:not(:disabled):not(.fui-Button-disabled) {
         &:hover {
             border-color: $color-hover;

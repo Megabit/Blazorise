@@ -4,6 +4,11 @@
   --borderRadiusMedium: 4px;
   --borderRadiusLarge: 6px;
   --borderRadiusXLarge: 8px;
+  --borderRadius2XLarge: 12px;
+  --borderRadius3XLarge: 16px;
+  --borderRadius4XLarge: 24px;
+  --borderRadius5XLarge: 32px;
+  --borderRadius6XLarge: 40px;
   --borderRadiusCircular: 10000px;
   --fontSizeBase100: 10px;
   --fontSizeBase200: 12px;
@@ -94,6 +99,10 @@
   --colorNeutralForeground3BrandPressed: #115ea3;
   --colorNeutralForeground3BrandSelected: #0f6cbd;
   --colorNeutralForeground4: #707070;
+  --colorNeutralForeground5: #616161;
+  --colorNeutralForeground5Hover: #242424;
+  --colorNeutralForeground5Pressed: #242424;
+  --colorNeutralForeground5Selected: #242424;
   --colorNeutralForegroundDisabled: #bdbdbd;
   --colorNeutralForegroundInvertedDisabled: rgba(255, 255, 255, 0.4);
   --colorBrandForegroundLink: #115ea3;
@@ -151,7 +160,15 @@
   --colorNeutralBackground5Pressed: #f0f0f0;
   --colorNeutralBackground5Selected: #fafafa;
   --colorNeutralBackground6: #e6e6e6;
+  --colorNeutralBackground7: transparent;
+  --colorNeutralBackground7Hover: #ebebeb;
+  --colorNeutralBackground7Pressed: #d6d6d6;
+  --colorNeutralBackground7Selected: transparent;
+  --colorNeutralBackground8: #fcfcfc;
   --colorNeutralBackgroundInverted: #292929;
+  --colorNeutralBackgroundInvertedHover: #3d3d3d;
+  --colorNeutralBackgroundInvertedPressed: #1f1f1f;
+  --colorNeutralBackgroundInvertedSelected: #383838;
   --colorNeutralBackgroundStatic: #333333;
   --colorNeutralBackgroundAlpha: rgba(255, 255, 255, 0.5);
   --colorNeutralBackgroundAlpha2: rgba(255, 255, 255, 0.8);
@@ -171,6 +188,7 @@
   --colorTransparentBackgroundPressed: transparent;
   --colorTransparentBackgroundSelected: transparent;
   --colorNeutralBackgroundDisabled: #f0f0f0;
+  --colorNeutralBackgroundDisabled2: #ffffff;
   --colorNeutralBackgroundInvertedDisabled: rgba(255, 255, 255, 0.1);
   --colorNeutralStencil1: #e6e6e6;
   --colorNeutralStencil2: #fafafa;
@@ -210,6 +228,10 @@
   --colorNeutralStroke1Selected: #bdbdbd;
   --colorNeutralStroke2: #e0e0e0;
   --colorNeutralStroke3: #f0f0f0;
+  --colorNeutralStroke4: #ebebeb;
+  --colorNeutralStroke4Hover: #e0e0e0;
+  --colorNeutralStroke4Pressed: #d6d6d6;
+  --colorNeutralStroke4Selected: #ebebeb;
   --colorNeutralStrokeSubtle: #e0e0e0;
   --colorNeutralStrokeOnBrand: #ffffff;
   --colorNeutralStrokeOnBrand2: #ffffff;
@@ -225,6 +247,7 @@
   --colorCompoundBrandStrokeHover: #115ea3;
   --colorCompoundBrandStrokePressed: #0f548c;
   --colorNeutralStrokeDisabled: #e0e0e0;
+  --colorNeutralStrokeDisabled2: #ebebeb;
   --colorNeutralStrokeInvertedDisabled: rgba(255, 255, 255, 0.4);
   --colorTransparentStroke: transparent;
   --colorTransparentStrokeInteractive: transparent;
@@ -443,6 +466,11 @@
   --borderRadiusMedium: 4px;
   --borderRadiusLarge: 6px;
   --borderRadiusXLarge: 8px;
+  --borderRadius2XLarge: 12px;
+  --borderRadius3XLarge: 16px;
+  --borderRadius4XLarge: 24px;
+  --borderRadius5XLarge: 32px;
+  --borderRadius6XLarge: 40px;
   --borderRadiusCircular: 10000px;
   --fontSizeBase100: 10px;
   --fontSizeBase200: 12px;
@@ -533,6 +561,10 @@
   --colorNeutralForeground3BrandPressed: #479ef5;
   --colorNeutralForeground3BrandSelected: #62abf5;
   --colorNeutralForeground4: #9e9e9e;
+  --colorNeutralForeground5: #adadad;
+  --colorNeutralForeground5Hover: #ffffff;
+  --colorNeutralForeground5Pressed: #ffffff;
+  --colorNeutralForeground5Selected: #ffffff;
   --colorNeutralForegroundDisabled: rgba(255, 255, 255, 0.4);
   --colorNeutralForegroundInvertedDisabled: rgba(0, 0, 0, 0.35);
   --colorBrandForegroundLink: #62abf5;
@@ -590,7 +622,15 @@
   --colorNeutralBackground5Pressed: #202429;
   --colorNeutralBackground5Selected: #15171a;
   --colorNeutralBackground6: #2b3239;
+  --colorNeutralBackground7: transparent;
+  --colorNeutralBackground7Hover: #1a1a1a;
+  --colorNeutralBackground7Pressed: #0a0a0a;
+  --colorNeutralBackground7Selected: transparent;
+  --colorNeutralBackground8: #292929;
   --colorNeutralBackgroundInverted: #f5f5f5;
+  --colorNeutralBackgroundInvertedHover: #f5f5f5;
+  --colorNeutralBackgroundInvertedPressed: #e0e0e0;
+  --colorNeutralBackgroundInvertedSelected: #ebebeb;
   --colorNeutralBackgroundStatic: #0d0e10;
   --colorNeutralBackgroundAlpha: rgba(0, 0, 0, 0.35);
   --colorNeutralBackgroundAlpha2: rgba(0, 0, 0, 0.2);
@@ -610,6 +650,7 @@
   --colorTransparentBackgroundPressed: transparent;
   --colorTransparentBackgroundSelected: transparent;
   --colorNeutralBackgroundDisabled: rgba(255, 255, 255, 0.06);
+  --colorNeutralBackgroundDisabled2: #292929;
   --colorNeutralBackgroundInvertedDisabled: rgba(0, 0, 0, 0.08);
   --colorNeutralStencil1: #2b3239;
   --colorNeutralStencil2: #1b1e21;
@@ -649,6 +690,10 @@
   --colorNeutralStroke1Selected: #3a3f45;
   --colorNeutralStroke2: #2f3439;
   --colorNeutralStroke3: #23272b;
+  --colorNeutralStroke4: #3d3d3d;
+  --colorNeutralStroke4Hover: #2e2e2e;
+  --colorNeutralStroke4Pressed: #242424;
+  --colorNeutralStroke4Selected: #3d3d3d;
   --colorNeutralStrokeSubtle: #1b1e21;
   --colorNeutralStrokeOnBrand: #ffffff;
   --colorNeutralStrokeOnBrand2: #cfe4fa;
@@ -664,6 +709,7 @@
   --colorCompoundBrandStrokeHover: #8bbef7;
   --colorCompoundBrandStrokePressed: #479ef5;
   --colorNeutralStrokeDisabled: rgba(255, 255, 255, 0.14);
+  --colorNeutralStrokeDisabled2: #3d3d3d;
   --colorNeutralStrokeInvertedDisabled: rgba(0, 0, 0, 0.35);
   --colorTransparentStroke: transparent;
   --colorTransparentStrokeInteractive: transparent;
@@ -896,6 +942,14 @@
   --zIndexModal: 1055;
   --zIndexPopover: 1060;
   --zIndexTooltip: 1070;
+  --zIndexBackground: 0;
+  --zIndexContent: 1;
+  --zIndexOverlay: var(--zIndexModalBackdrop);
+  --zIndexPopup: var(--zIndexModal);
+  --zIndexMessages: var(--zIndexNavigation);
+  --zIndexFloating: var(--zIndexDropdown);
+  --zIndexPriority: var(--zIndexTooltip);
+  --zIndexDebug: 6000;
   --b-bar-horizontal-height: 60px;
 }
 
@@ -1007,21 +1061,16 @@ html[data-theme=dark] .surface {
 
 .fui-Accordion .fui-AccordionItem .fui-AccordionHeader {
   margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-inline: 0;
   margin-top: 0px;
-  border-top-left-radius: var(--borderRadiusMedium);
-  border-top-right-radius: var(--borderRadiusMedium);
-  border-bottom-left-radius: var(--borderRadiusMedium);
-  border-bottom-right-radius: var(--borderRadiusMedium);
+  border-radius: var(--borderRadiusMedium);
   background-color: var(--colorTransparentBackground);
   color: var(--colorNeutralForeground1);
 }
 .fui-Accordion .fui-AccordionItem .fui-AccordionHeader .fui-AccordionHeader__button {
   box-sizing: border-box;
   min-height: 44px;
-  padding-left: var(--spacingHorizontalMNudge);
-  padding-right: var(--spacingHorizontalM);
+  padding-inline: var(--spacingHorizontalMNudge) var(--spacingHorizontalM);
   border-bottom-style: solid;
   border-left-style: solid;
   border-right-style: solid;
@@ -1051,13 +1100,22 @@ html[data-theme=dark] .surface {
   font-weight: var(--fontWeightRegular);
   font-size: var(--fontSizeBase300);
   font-family: var(--fontFamilyBase);
+  transition: background-color var(--durationFaster) var(--curveEasyEase), color var(--durationFaster) var(--curveEasyEase);
+}
+.fui-Accordion .fui-AccordionItem .fui-AccordionHeader .fui-AccordionHeader__button:hover {
+  background-color: var(--colorSubtleBackgroundHover);
+  color: var(--colorNeutralForeground1Hover);
+}
+.fui-Accordion .fui-AccordionItem .fui-AccordionHeader .fui-AccordionHeader__button:active {
+  background-color: var(--colorSubtleBackgroundPressed);
+  color: var(--colorNeutralForeground1Pressed);
 }
 .fui-Accordion .fui-AccordionItem .fui-AccordionHeader .fui-AccordionHeader__button .fui-AccordionHeader__expandIcon {
   height: 100%;
   font-size: var(--fontSizeBase500);
   line-height: var(--lineHeightBase500);
   align-items: center;
-  padding-right: var(--spacingHorizontalS);
+  padding-inline-end: var(--spacingHorizontalS);
   display: flex;
 }
 .fui-Accordion .fui-AccordionItem .fui-AccordionHeader .fui-AccordionHeader__button .fui-AccordionHeader__expandIcon > svg {
@@ -1071,9 +1129,8 @@ html[data-theme=dark] .surface {
 .fui-Accordion .fui-AccordionItem .fui-AccordionPanel {
   display: grid;
   grid-template-rows: 0fr;
-  transition: var(--durationGentle) grid-template-rows ease;
-  margin-left: var(--spacingHorizontalM);
-  margin-right: var(--spacingHorizontalM);
+  transition: grid-template-rows var(--durationGentle) var(--curveEasyEase);
+  margin-inline: var(--spacingHorizontalM);
   margin-bottom: 0px;
   margin-top: 0px;
 }
@@ -3779,18 +3836,22 @@ button {
   border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
   font-family: var(--fontFamilyBase);
   outline-style: none;
-  padding: 5px var(--spacingHorizontalM);
-  /*min-width: 96px;*/
+  min-height: 32px;
+  padding: 0 var(--spacingHorizontalM);
   border-radius: var(--borderRadiusMedium);
   font-size: var(--fontSizeBase300);
   font-weight: var(--fontWeightSemibold);
   line-height: var(--lineHeightBase300);
   transition-duration: var(--durationFaster);
-  transition-property: background, border, color;
+  transition-property: background-color, border-color, color, box-shadow;
   transition-timing-function: var(--curveEasyEase);
+  user-select: none;
+}
+.fui-Button:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
+  inline-size: 32px;
+  padding-inline: 0;
 }
 .fui-Button:hover {
-  color: var(--colorNeutralForegroundOnBrand);
   background-color: var(--colorNeutralBackground1Hover);
   border-color: var(--colorNeutralStroke1Hover);
   color: var(--colorNeutralForeground1Hover);
@@ -3805,89 +3866,68 @@ button {
 .fui-Button.fui-Button-disabled, .fui-Button:disabled {
   cursor: not-allowed;
   color: var(--colorNeutralForegroundDisabled);
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
 .fui-Button.fui-Button-disabled:active, .fui-Button.fui-Button-disabled.fui-Button-active, .fui-Button:disabled:active, .fui-Button:disabled.fui-Button-active {
   color: var(--colorNeutralForegroundDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
-  border-bottom-color: transparent;
-  border-left-color: transparent;
-  border-right-color: transparent;
-  border-top-color: transparent;
+  border-color: transparent;
 }
 .fui-Button.fui-Button-xs {
-  padding-left: var(--spacingHorizontalXS);
-  padding-right: var(--spacingHorizontalXS);
-  padding-top: 1px;
-  padding-bottom: 1px;
+  min-height: 20px;
+  padding: 0 var(--spacingHorizontalXS);
   font-weight: var(--fontWeightRegular);
   font-size: var(--fontSizeBase100);
-  /*min-width: 64px;*/
-  border-top-left-radius: var(--borderRadiusMedium);
-  border-top-right-radius: var(--borderRadiusMedium);
-  border-bottom-left-radius: var(--borderRadiusMedium);
-  border-bottom-right-radius: var(--borderRadiusMedium);
+  border-radius: var(--borderRadiusSmall);
   line-height: var(--lineHeightBase100);
 }
+.fui-Button.fui-Button-xs:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
+  inline-size: 20px;
+}
 .fui-Button.fui-Button-sm {
-  padding-left: var(--spacingHorizontalS);
-  padding-right: var(--spacingHorizontalS);
-  padding-top: 3px;
-  padding-bottom: 3px;
+  min-height: 24px;
+  padding: 0 var(--spacingHorizontalS);
   font-weight: var(--fontWeightRegular);
   font-size: var(--fontSizeBase200);
-  /*min-width: 64px;*/
-  border-top-left-radius: var(--borderRadiusMedium);
-  border-top-right-radius: var(--borderRadiusMedium);
-  border-bottom-left-radius: var(--borderRadiusMedium);
-  border-bottom-right-radius: var(--borderRadiusMedium);
+  border-radius: var(--borderRadiusSmall);
   line-height: var(--lineHeightBase200);
 }
+.fui-Button.fui-Button-sm:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
+  inline-size: 24px;
+}
 .fui-Button.fui-Button-md {
-  padding-left: var(--spacingHorizontalM);
-  padding-right: var(--spacingHorizontalM);
-  padding-top: 6px;
-  padding-bottom: 6px;
+  min-height: 36px;
+  padding: 0 var(--spacingHorizontalM);
   font-weight: var(--fontWeightSemibold);
   font-size: var(--fontSizeBase400);
-  /*min-width: 96px;*/
-  border-top-left-radius: var(--borderRadiusMedium);
-  border-top-right-radius: var(--borderRadiusMedium);
-  border-bottom-left-radius: var(--borderRadiusMedium);
-  border-bottom-right-radius: var(--borderRadiusMedium);
+  border-radius: var(--borderRadiusMedium);
   line-height: var(--lineHeightBase400);
+}
+.fui-Button.fui-Button-md:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
+  inline-size: 36px;
 }
 .fui-Button.fui-Button-lg {
-  padding-left: var(--spacingHorizontalL);
-  padding-right: var(--spacingHorizontalL);
-  padding-top: 8px;
-  padding-bottom: 8px;
+  min-height: 40px;
+  padding: 0 var(--spacingHorizontalL);
   font-weight: var(--fontWeightSemibold);
   font-size: var(--fontSizeBase400);
-  /*min-width: 96px;*/
-  border-top-left-radius: var(--borderRadiusMedium);
-  border-top-right-radius: var(--borderRadiusMedium);
-  border-bottom-left-radius: var(--borderRadiusMedium);
-  border-bottom-right-radius: var(--borderRadiusMedium);
+  border-radius: var(--borderRadiusLarge);
   line-height: var(--lineHeightBase400);
 }
+.fui-Button.fui-Button-lg:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
+  inline-size: 40px;
+}
 .fui-Button.fui-Button-xl {
-  padding-left: var(--spacingHorizontalXL);
-  padding-right: var(--spacingHorizontalXL);
-  padding-top: 12px;
-  padding-bottom: 12px;
+  min-height: 48px;
+  padding: 0 var(--spacingHorizontalXL);
   font-weight: var(--fontWeightSemibold);
-  font-size: var(--fontSizeBase400);
-  /*min-width: 96px;*/
-  border-top-left-radius: var(--borderRadiusMedium);
-  border-top-right-radius: var(--borderRadiusMedium);
-  border-bottom-left-radius: var(--borderRadiusMedium);
-  border-bottom-right-radius: var(--borderRadiusMedium);
-  line-height: var(--lineHeightBase400);
+  font-size: var(--fontSizeBase500);
+  border-radius: var(--borderRadiusXLarge);
+  line-height: var(--lineHeightBase500);
+}
+.fui-Button.fui-Button-xl:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
+  inline-size: 48px;
 }
 .fui-Button-block {
   display: block;
@@ -3898,10 +3938,7 @@ button {
 }
 .fui-Button-link-stretched::after {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   z-index: 1;
   content: "";
 }
@@ -3913,17 +3950,14 @@ button {
 }
 .fui-Button-primary.fui-Button-disabled, .fui-Button-primary:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-primary:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-primary:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-Button-primary:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorBrandBackgroundHover);
   color: var(--colorNeutralForegroundOnBrand);
 }
-.fui-Button-primary:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-primary:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-primary:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-primary:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-Button-primary:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-primary:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorBrandBackgroundPressed);
   color: var(--colorNeutralForegroundOnBrand);
 }
@@ -3935,17 +3969,14 @@ button {
 }
 .fui-Button-secondary.fui-Button-disabled, .fui-Button-secondary:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-secondary:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-secondary:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-Button-secondary:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorNeutralBackground3Hover);
   color: var(--colorNeutralForeground3Hover);
 }
-.fui-Button-secondary:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-secondary:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-secondary:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-secondary:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-Button-secondary:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-secondary:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorNeutralBackground3Pressed);
   color: var(--colorNeutralForeground3Hover);
 }
@@ -3956,17 +3987,14 @@ button {
 }
 .fui-Button-success.fui-Button-disabled, .fui-Button-success:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-success:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-success:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-Button-success:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorStatusSuccessForeground1);
   color: var(--colorNeutralForegroundOnBrand);
 }
-.fui-Button-success:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-success:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-success:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-success:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-Button-success:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-success:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorStatusSuccessForeground2);
   color: var(--colorNeutralForegroundOnBrand);
 }
@@ -3977,18 +4005,15 @@ button {
 }
 .fui-Button-danger.fui-Button-disabled, .fui-Button-danger:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-danger:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-danger:not(:disabled):not(.fui-Button-disabled):hover {
-  background-color: var(--colorStatusDangerForeground1);
+.fui-Button-danger:not(:disabled):not(.fui-Button-disabled):hover {
+  background-color: var(--colorStatusDangerBackground3Hover);
   color: var(--colorNeutralForegroundOnBrand);
 }
-.fui-Button-danger:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-danger:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-danger:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-danger:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
-  background-color: var(--colorStatusDangerForeground2);
+.fui-Button-danger:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-danger:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+  background-color: var(--colorStatusDangerBackground3Pressed);
   color: var(--colorNeutralForegroundOnBrand);
 }
 .fui-Button-warning {
@@ -3998,17 +4023,14 @@ button {
 }
 .fui-Button-warning.fui-Button-disabled, .fui-Button-warning:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-warning:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-warning:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-Button-warning:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorStatusWarningForeground1);
   color: var(--colorPaletteMarigoldBackground1);
 }
-.fui-Button-warning:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-warning:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-warning:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-warning:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-Button-warning:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-warning:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorStatusWarningForeground2);
   color: var(--colorPaletteMarigoldBackground1);
 }
@@ -4019,17 +4041,14 @@ button {
 }
 .fui-Button-info.fui-Button-disabled, .fui-Button-info:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-info:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-info:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-Button-info:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorNeutralForeground3Hover);
   color: var(--colorNeutralBackground3Hover);
 }
-.fui-Button-info:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-info:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-info:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-info:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-Button-info:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-info:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorNeutralForeground3Pressed);
   color: var(--colorNeutralBackground3Pressed);
 }
@@ -4040,17 +4059,14 @@ button {
 }
 .fui-Button-dark.fui-Button-disabled, .fui-Button-dark:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-dark:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-dark:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-Button-dark:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorNeutralForeground2);
   color: var(--colorNeutralBackground1);
 }
-.fui-Button-dark:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-dark:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-dark:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-dark:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-Button-dark:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-dark:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorNeutralForeground3);
   color: var(--colorNeutralBackground1);
 }
@@ -4061,17 +4077,14 @@ button {
 }
 .fui-Button-light.fui-Button-disabled, .fui-Button-light:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-light:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-light:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-Button-light:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorNeutralBackground2Hover);
   color: var(--colorNeutralForeground2Hover);
 }
-.fui-Button-light:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-light:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-light:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-light:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-Button-light:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-light:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorNeutralBackground2Pressed);
   color: var(--colorNeutralForeground2Pressed);
 }
@@ -4083,17 +4096,14 @@ button {
 }
 .fui-Button-link.fui-Button-disabled, .fui-Button-link:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-link:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-link:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-Button-link:not(:disabled):not(.fui-Button-disabled):hover {
   color: var(--colorBrandForegroundLinkHover);
   text-decoration: underline;
 }
-.fui-Button-link:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-link:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-link:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-link:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-Button-link:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-link:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   color: var(--colorBrandForegroundLinkPressed);
 }
 
@@ -4103,17 +4113,14 @@ button {
 }
 .fui-ButtonOutline-primary.fui-Button-disabled, .fui-ButtonOutline-primary:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorBrandBackgroundHover);
   color: var(--colorBrandBackgroundHover);
 }
-.fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorBrandBackgroundPressed);
   color: var(--colorBrandBackgroundPressed);
 }
@@ -4123,17 +4130,14 @@ button {
 }
 .fui-ButtonOutline-secondary.fui-Button-disabled, .fui-ButtonOutline-secondary:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorNeutralForeground3Hover);
   color: var(--colorNeutralForeground3Hover);
 }
-.fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorNeutralForeground3Pressed);
   color: var(--colorNeutralForeground3Pressed);
 }
@@ -4143,17 +4147,14 @@ button {
 }
 .fui-ButtonOutline-success.fui-Button-disabled, .fui-ButtonOutline-success:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorStatusSuccessForeground1);
   color: var(--colorStatusSuccessForeground1);
 }
-.fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorStatusSuccessForeground2);
   color: var(--colorStatusSuccessForeground2);
 }
@@ -4163,19 +4164,16 @@ button {
 }
 .fui-ButtonOutline-danger.fui-Button-disabled, .fui-ButtonOutline-danger:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled):hover {
-  border-color: var(--colorStatusDangerForeground1);
-  color: var(--colorStatusDangerForeground1);
+.fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled):hover {
+  border-color: var(--colorStatusDangerBackground3Hover);
+  color: var(--colorStatusDangerBackground3Hover);
 }
-.fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
-  border-color: var(--colorStatusDangerForeground2);
-  color: var(--colorStatusDangerForeground2);
+.fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+  border-color: var(--colorStatusDangerBackground3Pressed);
+  color: var(--colorStatusDangerBackground3Pressed);
 }
 .fui-ButtonOutline-warning {
   color: var(--colorStatusWarningBackground3);
@@ -4183,17 +4181,14 @@ button {
 }
 .fui-ButtonOutline-warning.fui-Button-disabled, .fui-ButtonOutline-warning:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorStatusWarningForeground1);
   color: var(--colorStatusWarningForeground1);
 }
-.fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorStatusWarningForeground2);
   color: var(--colorStatusWarningForeground2);
 }
@@ -4203,17 +4198,14 @@ button {
 }
 .fui-ButtonOutline-info.fui-Button-disabled, .fui-ButtonOutline-info:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorNeutralForeground3Hover);
   color: var(--colorNeutralForeground3Hover);
 }
-.fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorNeutralForeground3Pressed);
   color: var(--colorNeutralForeground3Pressed);
 }
@@ -4223,17 +4215,14 @@ button {
 }
 .fui-ButtonOutline-dark.fui-Button-disabled, .fui-ButtonOutline-dark:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorNeutralForeground2);
   color: var(--colorNeutralForeground2);
 }
-.fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorNeutralForeground3);
   color: var(--colorNeutralForeground3);
 }
@@ -4243,16 +4232,13 @@ button {
 }
 .fui-ButtonOutline-light.fui-Button-disabled, .fui-ButtonOutline-light:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled):hover {
   color: var(--colorNeutralForeground2Hover);
 }
-.fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   color: var(--colorNeutralForeground2Pressed);
 }
 .fui-ButtonOutline-link {
@@ -4261,17 +4247,14 @@ button {
 }
 .fui-ButtonOutline-link.fui-Button-disabled, .fui-ButtonOutline-link:disabled {
   cursor: not-allowed;
-  border-bottom-color: var(--colorNeutralStrokeDisabled);
-  border-left-color: var(--colorNeutralStrokeDisabled);
-  border-right-color: var(--colorNeutralStrokeDisabled);
-  border-top-color: var(--colorNeutralStrokeDisabled);
+  border-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled):hover {
+.fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorBrandForegroundLinkHover);
   color: var(--colorBrandForegroundLinkHover);
 }
-.fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+.fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorBrandForegroundLinkPressed);
   color: var(--colorBrandForegroundLinkPressed);
 }
@@ -4318,7 +4301,7 @@ button {
 }
 .fui-ButtonGroup > .fui-ButtonGroup:not(:first-child),
 .fui-ButtonGroup > .fui-Button:not(:first-child) {
-  margin-left: -1px;
+  margin-inline-start: -1px;
 }
 .fui-ButtonGroup > .fui-ButtonGroup:not(:first-child) > .fui-Button,
 .fui-ButtonGroup .fui-ButtonGroup > .fui-Button:not(:first-child) {
@@ -4330,7 +4313,7 @@ button {
   display: inline-block;
   width: 1em;
   height: 1em;
-  margin-right: var(--spacingHorizontalXS);
+  margin-inline-end: var(--spacingHorizontalXS);
   border-width: var(--strokeWidthThick);
   border: var(--strokeWidthThicker) solid currentColor;
   border-right-color: transparent;
@@ -4351,11 +4334,11 @@ button {
   display: flex;
   flex-direction: column;
   max-width: 100%;
+  border: var(--strokeWidthThin) solid var(--colorTransparentStroke);
+  background-color: var(--colorNeutralCardBackground);
+  color: var(--colorNeutralForeground1);
   column-gap: var(--fui-Card--size);
-  border-top-left-radius: var(--fui-Card--border-radius);
-  border-top-right-radius: var(--fui-Card--border-radius);
-  border-bottom-left-radius: var(--fui-Card--border-radius);
-  border-bottom-right-radius: var(--fui-Card--border-radius);
+  border-radius: var(--fui-Card--border-radius);
   row-gap: var(--fui-Card--size);
   column-gap: var(--fui-Card--size);
 }
@@ -4364,11 +4347,10 @@ button {
   display: grid;
   align-items: center;
   padding-top: var(--fui-Card--size);
-  padding-left: var(--fui-Card--size);
-  padding-right: var(--fui-Card--size);
+  padding-inline: var(--fui-Card--size);
   margin-bottom: 0;
-  border-top-left-radius: var(--fui-Card--border-radius);
-  border-top-right-radius: var(--fui-Card--border-radius);
+  border-start-start-radius: var(--fui-Card--border-radius);
+  border-start-end-radius: var(--fui-Card--border-radius);
 }
 .fui-Card .fui-CardHeader > .fui-CardHeader__header {
   text-align: start;
@@ -4381,11 +4363,10 @@ button {
   line-height: var(--lineHeightBase300);
 }
 .fui-Card .fui-CardFooter {
-  padding-left: var(--fui-Card--size);
-  padding-right: var(--fui-Card--size);
+  padding-inline: var(--fui-Card--size);
   padding-bottom: var(--fui-Card--size);
-  border-bottom-left-radius: var(--fui-Card--border-radius);
-  border-bottom-right-radius: var(--fui-Card--border-radius);
+  border-end-start-radius: var(--fui-Card--border-radius);
+  border-end-end-radius: var(--fui-Card--border-radius);
 }
 .fui-Card .fui-CardPreview {
   position: relative;
@@ -4393,12 +4374,10 @@ button {
   width: 100%;
 }
 .fui-Card .fui-CardBody {
-  margin-left: 0;
-  margin-right: 0;
+  margin-inline: 0;
   padding-top: var(--fui-Card--size);
   padding-bottom: var(--fui-Card--size);
-  padding-left: var(--fui-Card--size);
-  padding-right: var(--fui-Card--size);
+  padding-inline: var(--fui-Card--size);
 }
 .fui-Card .fui-CardBody + .fui-CardBody {
   padding-top: 0;
@@ -4491,7 +4470,7 @@ button {
   z-index: 1;
   color: var(--colorNeutralForegroundOnBrand);
   background-color: var(--colorBackgroundOverlay);
-  transition: all 100ms ease 0s;
+  transition: background-color var(--durationFaster) var(--curveEasyEase);
   border-top-width: 0px;
   border-radius: var(--borderRadiusMedium);
   outline-width: 0px;
@@ -4641,10 +4620,9 @@ button {
   }
 }
 .fui-Checkbox {
-  --fui-Checkbox__indicator--borderColor: var(--colorCompoundBrandBackground);
+  --fui-Checkbox__indicator--borderColor: var(--colorNeutralStrokeAccessible);
   --fui-Checkbox__indicator--color: var(--colorNeutralForegroundInverted);
   --fui-Checkbox__indicator--backgroundColor: var(--colorCompoundBrandBackground);
-  color: var(--colorNeutralForeground1);
   position: relative;
   display: inline-flex;
   cursor: pointer;
@@ -4666,7 +4644,8 @@ button {
   margin: 0px;
   opacity: 0;
   position: absolute;
-  top: 0px;
+  inset-block-start: 0;
+  inset-inline-start: 0;
   width: calc(16px + 2 * var(--spacingHorizontalS));
 }
 .fui-Checkbox__input:not(:disabled):checked .fui-Checkbox__icon, .fui-Checkbox__input:not(:disabled):indeterminate .fui-Checkbox__icon {
@@ -4684,7 +4663,7 @@ button {
 .fui-Checkbox__input:not(:disabled):checked + .fui-Checkbox__indicator, .fui-Checkbox__input:not(:disabled):indeterminate + .fui-Checkbox__indicator {
   color: var(--fui-Checkbox__indicator--color);
   background-color: var(--fui-Checkbox__indicator--backgroundColor);
-  border-color: var(--fui-Checkbox__indicator--borderColor, var(--colorNeutralStrokeAccessible));
+  border-color: var(--colorCompoundBrandBackground);
 }
 .fui-Checkbox__input:disabled + .fui-Checkbox__indicator {
   color: var(--colorNeutralForegroundDisabled);
@@ -4739,10 +4718,10 @@ button {
   cursor: inherit;
   color: inherit;
   align-self: center;
-  padding-left: var(--spacingHorizontalXS);
+  padding-inline-start: var(--spacingHorizontalXS);
   padding-bottom: var(--spacingVerticalS);
   padding-top: var(--spacingVerticalS);
-  padding-right: var(--spacingHorizontalS);
+  padding-inline-end: var(--spacingHorizontalS);
   line-height: var(--lineHeightBase300);
   font-size: var(--fontSizeBase300);
   font-family: var(--fontFamilyBase);
@@ -5165,7 +5144,7 @@ button {
   outline-style: solid;
 }
 .fui-Dropdown:after {
-  transition-delay: var(--curveAccelerateMid);
+  transition-timing-function: var(--curveAccelerateMid);
   transition-duration: var(--durationUltraFast);
   transition-property: transform;
   transform: scaleX(0);
@@ -5184,17 +5163,17 @@ button {
   box-sizing: border-box;
 }
 .fui-Dropdown:focus-within::after {
-  transition-delay: var(--curveDecelerateMid);
+  transition-timing-function: var(--curveDecelerateMid);
   transition-duration: var(--durationNormal);
   transition-property: transform;
   transform: scaleX(1);
 }
 
 .fui-Dropdown__button {
-  padding-left: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
+  padding-inline-start: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
   justify-content: space-between;
   box-sizing: border-box;
-  padding-right: var(--spacingHorizontalMNudge);
+  padding-inline-end: var(--spacingHorizontalMNudge);
   column-gap: var(--spacingHorizontalXXS);
   display: grid;
   border-bottom-width: 0px;
@@ -5211,14 +5190,14 @@ button {
   font-weight: var(--fontWeightRegular);
   font-size: var(--fontSizeBase300);
   font-family: var(--fontFamilyBase);
-  text-align: left;
+  text-align: start;
   color: var(--colorNeutralForeground1);
 }
 .fui-Dropdown__button:focus {
   outline-style: none;
 }
 .fui-Dropdown__button .fui-Dropdown__expandIcon {
-  margin-left: var(--spacingHorizontalXXS);
+  margin-inline-start: var(--spacingHorizontalXXS);
   grid-column-end: end;
   grid-column-start: icon;
   color: var(--colorNeutralStrokeAccessible);
@@ -5243,8 +5222,7 @@ button {
   box-shadow: var(--shadow16);
   box-sizing: border-box;
   overflow-y: auto;
-  padding-right: var(--spacingHorizontalXS);
-  padding-left: var(--spacingHorizontalXS);
+  padding-inline: var(--spacingHorizontalXS);
   flex-direction: column;
   border-top-left-radius: var(--borderRadiusMedium);
   border-top-right-radius: var(--borderRadiusMedium);
@@ -5281,8 +5259,7 @@ button {
   border-top-right-radius: var(--borderRadiusMedium);
   border-bottom-left-radius: var(--borderRadiusMedium);
   border-bottom-right-radius: var(--borderRadiusMedium);
-  padding-left: var(--spacingHorizontalS);
-  padding-right: var(--spacingHorizontalS);
+  padding-inline: var(--spacingHorizontalS);
   display: flex;
   line-height: var(--lineHeightBase300);
   font-size: var(--fontSizeBase300);
@@ -9558,14 +9535,14 @@ input::file-selector-button {
   transform: scaleX(0);
   transition-property: transform;
   transition-duration: var(--durationUltraFast);
-  transition-delay: var(--curveAccelerateMid);
+  transition-timing-function: var(--curveAccelerateMid);
 }
 .fui-Input:focus-within::after,
 .fui-Textarea:focus-within::after {
   transform: scaleX(1);
   transition-property: transform;
   transition-duration: var(--durationNormal);
-  transition-delay: var(--curveDecelerateMid);
+  transition-timing-function: var(--curveDecelerateMid);
 }
 
 .fui-Input {
@@ -10563,13 +10540,14 @@ input::file-selector-button {
   isolation: isolate;
   background-color: var(--colorNeutralBackground1);
   min-height: 32px;
-  padding: 0 0 0 var(--spacingHorizontalMNudge);
+  padding: 0;
+  padding-inline-start: var(--spacingHorizontalMNudge);
   border-radius: var(--borderRadiusMedium);
   line-height: var(--lineHeightBase300);
   font-weight: var(--fontWeightRegular);
   font-size: var(--fontSizeBase300);
   font-family: var(--fontFamilyBase);
-  text-align: left;
+  text-align: start;
   color: var(--colorNeutralForeground1);
   width: 100%;
 }
@@ -10633,9 +10611,8 @@ input::file-selector-button {
   box-sizing: border-box;
   content: "";
   position: absolute;
-  right: 0px;
+  inset-inline: 0;
   bottom: 0px;
-  left: 0px;
   z-index: var(--zIndexInputAfter);
   height: max(2px, var(--borderRadiusMedium));
   border-bottom-left-radius: var(--borderRadiusMedium);
@@ -10645,13 +10622,13 @@ input::file-selector-button {
   transform: scaleX(0);
   transition-property: transform;
   transition-duration: var(--durationUltraFast);
-  transition-delay: var(--curveAccelerateMid);
+  transition-timing-function: var(--curveAccelerateMid);
 }
 .fui-SpinButton:not(.fui-Input .fui-SpinButton):focus-within::after {
   transform: scaleX(1);
   transition-property: transform;
   transition-duration: var(--durationNormal);
-  transition-delay: var(--curveDecelerateMid);
+  transition-timing-function: var(--curveDecelerateMid);
 }
 .fui-SpinButton:not(.fui-Input .fui-SpinButton):focus-within::after:active {
   border-bottom-color: var(--colorCompoundBrandStrokePressed);
@@ -10908,39 +10885,31 @@ input::file-selector-button {
 
 .fui-Pagination {
   display: flex;
-  padding-left: 0;
+  padding-inline-start: 0;
   list-style: none;
   border-radius: var(--borderRadiusMedium);
 }
 .fui-Pagination-sm .fui-PaginationItem {
   font-weight: var(--fontWeightRegular);
   font-size: var(--fontSizeBase200);
-  border-top-left-radius: var(--borderRadiusMedium);
-  border-top-right-radius: var(--borderRadiusMedium);
-  border-bottom-left-radius: var(--borderRadiusMedium);
-  border-bottom-right-radius: var(--borderRadiusMedium);
+  border-radius: var(--borderRadiusMedium);
   line-height: var(--lineHeightBase200);
 }
 .fui-Pagination-sm .fui-PaginationItem .fui-PaginationLink {
-  padding-left: var(--spacingHorizontalS);
-  padding-right: var(--spacingHorizontalS);
-  padding-top: 3px;
-  padding-bottom: 3px;
+  min-width: 24px;
+  min-height: 24px;
+  padding: 3px var(--spacingHorizontalS);
 }
 .fui-Pagination-lg .fui-PaginationItem {
   font-weight: var(--fontWeightSemibold);
   font-size: var(--fontSizeBase400);
-  border-top-left-radius: var(--borderRadiusMedium);
-  border-top-right-radius: var(--borderRadiusMedium);
-  border-bottom-left-radius: var(--borderRadiusMedium);
-  border-bottom-right-radius: var(--borderRadiusMedium);
+  border-radius: var(--borderRadiusMedium);
   line-height: var(--lineHeightBase400);
 }
 .fui-Pagination-lg .fui-PaginationItem .fui-PaginationLink {
-  padding-left: var(--spacingHorizontalL);
-  padding-right: var(--spacingHorizontalL);
-  padding-top: 8px;
-  padding-bottom: 8px;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 8px var(--spacingHorizontalL);
 }
 
 .fui-PaginationItem {
@@ -10961,11 +10930,15 @@ input::file-selector-button {
   font-weight: var(--fontWeightSemibold);
   line-height: var(--lineHeightBase300);
   transition-duration: var(--durationFaster);
-  transition-property: background, border, color;
+  transition-property: background-color, border-color, color, box-shadow;
   transition-timing-function: var(--curveEasyEase);
   cursor: pointer;
 }
 .fui-PaginationItem .fui-PaginationLink {
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 32px;
   font-size: inherit;
   user-select: text;
   text-overflow: inherit;
@@ -10979,15 +10952,15 @@ input::file-selector-button {
   box-sizing: border-box;
   background-color: transparent;
   cursor: pointer;
-  display: inline;
+  display: inline-flex;
   font-weight: var(--fontWeightSemibold);
   font-family: var(--fontFamilyBase);
-  text-align: left;
+  text-align: start;
   border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
   border-radius: var(--borderRadiusMedium);
 }
 .fui-PaginationItem + .fui-PaginationItem {
-  margin-left: var(--spacingHorizontalXXS);
+  margin-inline-start: var(--spacingHorizontalXXS);
 }
 .fui-PaginationItem.fui-PaginationItem-active .fui-PaginationLink.fui-PaginationLink-active {
   z-index: 3;
@@ -11303,8 +11276,8 @@ input::file-selector-button {
 .fui-Radio .fui-Radio__input {
   cursor: pointer;
   position: absolute;
-  left: 0px;
-  top: 0px;
+  inset-block-start: 0;
+  inset-inline-start: 0;
   width: calc(16px + 2 * var(--spacingHorizontalS));
   height: 100%;
   box-sizing: border-box;
@@ -11313,6 +11286,14 @@ input::file-selector-button {
 }
 .fui-Radio .fui-Radio__input:enabled:not(:checked) ~ .fui-Radio__indicator {
   border-color: var(--colorNeutralStrokeAccessible);
+}
+.fui-Radio .fui-Radio__input:enabled:hover ~ .fui-Radio__indicator {
+  border-color: var(--colorNeutralStrokeAccessibleHover);
+  color: var(--colorCompoundBrandForeground1Hover);
+}
+.fui-Radio .fui-Radio__input:enabled:active ~ .fui-Radio__indicator {
+  border-color: var(--colorNeutralStrokeAccessiblePressed);
+  color: var(--colorCompoundBrandForeground1Pressed);
 }
 .fui-Radio .fui-Radio__input:not(:checked) ~ .fui-Radio__indicator > * {
   opacity: 0;
@@ -11396,10 +11377,10 @@ input::file-selector-button {
   margin-bottom: calc((16px - var(--lineHeightBase300)) / 2);
   margin-top: calc((16px - var(--lineHeightBase300)) / 2);
   align-self: center;
-  padding-left: var(--spacingHorizontalXS);
+  padding-inline-start: var(--spacingHorizontalXS);
   padding-bottom: var(--spacingVerticalS);
   padding-top: var(--spacingVerticalS);
-  padding-right: var(--spacingHorizontalS);
+  padding-inline-end: var(--spacingHorizontalS);
   line-height: var(--lineHeightBase300);
   font-size: var(--fontSizeBase300);
   font-family: var(--fontFamilyBase);
@@ -11409,8 +11390,8 @@ input::file-selector-button {
 .fui-Button .fui-Radio__input {
   cursor: pointer;
   position: absolute;
-  left: 0px;
-  top: 0px;
+  inset-block-start: 0;
+  inset-inline-start: 0;
   width: calc(16px + 2 * var(--spacingHorizontalS));
   height: 100%;
   box-sizing: border-box;
@@ -11437,7 +11418,7 @@ input::file-selector-button {
 }
 .fui-RadioGroup__horizontal-buttons > .fui-ButtonGroup:not(:first-child),
 .fui-RadioGroup__horizontal-buttons > .fui-Button:not(:first-child) {
-  margin-left: -1px;
+  margin-inline-start: -1px;
 }
 .fui-RadioGroup__horizontal-buttons > .fui-ButtonGroup:not(:first-child) > .fui-Button,
 .fui-RadioGroup__horizontal-buttons .fui-ButtonGroup > .fui-Button:not(:first-child) {
@@ -11654,14 +11635,13 @@ input::file-selector-button {
   font-family: var(--fontFamilyBase);
 }
 .fui-Select:after {
-  right: 0px;
-  left: 0px;
+  inset-inline: 0;
   bottom: 0px;
   height: var(--borderRadiusMedium);
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
   background-image: linear-gradient(0deg, var(--colorCompoundBrandStroke) 0%, var(--colorCompoundBrandStroke) 50%, transparent 50%, transparent 100%);
-  transition-delay: var(--curveAccelerateMid);
+  transition-timing-function: var(--curveAccelerateMid);
   transition-duration: var(--durationUltraFast);
   transition-property: transform;
   transform: scaleX(0);
@@ -11675,7 +11655,7 @@ input::file-selector-button {
   transform: scaleX(1);
   transition-property: transform;
   transition-duration: var(--durationNormal);
-  transition-delay: var(--curveDecelerateMid);
+  transition-timing-function: var(--curveDecelerateMid);
 }
 .fui-Select-error .fui-Select__select {
   border-bottom-color: var(--colorPaletteRedBorder2) !important;
@@ -11691,7 +11671,7 @@ input::file-selector-button {
 }
 
 .fui-Select__select {
-  padding-right: calc(var(--spacingHorizontalMNudge) + 20px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
+  padding-inline-end: calc(var(--spacingHorizontalMNudge) + 20px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
   height: 32px;
   padding-bottom: 0px;
   max-width: 100%;
@@ -11701,7 +11681,7 @@ input::file-selector-button {
   border-right-width: 1px;
   border-top-width: 1px;
   appearance: none;
-  padding-left: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
+  padding-inline-start: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
   border-bottom-color: var(--colorNeutralStrokeAccessible);
   border-left-color: var(--colorNeutralStroke1);
   border-right-color: var(--colorNeutralStroke1);
@@ -11756,7 +11736,7 @@ input::file-selector-button {
   color: var(--colorNeutralForeground1);
 }
 .fui-Select__select + .fui-Select__icon {
-  right: var(--spacingHorizontalMNudge);
+  inset-inline-end: var(--spacingHorizontalMNudge);
   pointer-events: none;
   position: absolute;
   display: block;
@@ -11770,11 +11750,11 @@ input::file-selector-button {
 .fui-Select__select.fui-Select__select-xs {
   height: 16px;
   font-size: var(--fontSizeBase100);
-  padding-right: calc(var(--spacingHorizontalXS) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
-  padding-left: calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));
+  padding-inline-end: calc(var(--spacingHorizontalXS) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
+  padding-inline-start: calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));
 }
 .fui-Select__select.fui-Select__select-xs + .fui-Select__icon {
-  right: var(--spacingHorizontalS);
+  inset-inline-end: var(--spacingHorizontalS);
   width: 12px;
   height: 12px;
   font-size: 12px;
@@ -11782,11 +11762,11 @@ input::file-selector-button {
 .fui-Select__select.fui-Select__select-sm {
   height: 24px;
   font-size: var(--fontSizeBase200);
-  padding-right: calc(var(--spacingHorizontalSNudge) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
-  padding-left: calc(var(--spacingHorizontalSNudge) + var(--spacingHorizontalXXS));
+  padding-inline-end: calc(var(--spacingHorizontalSNudge) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
+  padding-inline-start: calc(var(--spacingHorizontalSNudge) + var(--spacingHorizontalXXS));
 }
 .fui-Select__select.fui-Select__select-sm + .fui-Select__icon {
-  right: var(--spacingHorizontalSNudge);
+  inset-inline-end: var(--spacingHorizontalSNudge);
   width: 16px;
   height: 16px;
   font-size: 16px;
@@ -11794,17 +11774,17 @@ input::file-selector-button {
 .fui-Select__select.fui-Select__select-md {
   height: 36px;
   font-size: var(--fontSizeBase400);
-  padding-right: calc(var(--spacingHorizontalM) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
-  padding-left: calc(var(--spacingHorizontalM) + var(--spacingHorizontalSNudge));
+  padding-inline-end: calc(var(--spacingHorizontalM) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
+  padding-inline-start: calc(var(--spacingHorizontalM) + var(--spacingHorizontalSNudge));
 }
 .fui-Select__select.fui-Select__select-lg {
   height: 40px;
   font-size: var(--fontSizeBase500);
-  padding-right: calc(var(--spacingHorizontalL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
-  padding-left: calc(var(--spacingHorizontalL) + var(--spacingHorizontalSNudge));
+  padding-inline-end: calc(var(--spacingHorizontalL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
+  padding-inline-start: calc(var(--spacingHorizontalL) + var(--spacingHorizontalSNudge));
 }
 .fui-Select__select.fui-Select__select-lg + .fui-Select__icon {
-  right: var(--spacingHorizontalM);
+  inset-inline-end: var(--spacingHorizontalM);
   width: 24px;
   height: 24px;
   font-size: 24px;
@@ -11812,11 +11792,11 @@ input::file-selector-button {
 .fui-Select__select.fui-Select__select-xl {
   height: 48px;
   font-size: var(--fontSizeBase600);
-  padding-right: calc(var(--spacingHorizontalXL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
-  padding-left: calc(var(--spacingHorizontalXL) + var(--spacingHorizontalSNudge));
+  padding-inline-end: calc(var(--spacingHorizontalXL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
+  padding-inline-start: calc(var(--spacingHorizontalXL) + var(--spacingHorizontalSNudge));
 }
 .fui-Select__select.fui-Select__select-xl + .fui-Select__icon {
-  right: var(--spacingHorizontalL);
+  inset-inline-end: var(--spacingHorizontalL);
   width: 28px;
   height: 28px;
   font-size: 28px;
@@ -12252,8 +12232,8 @@ input::file-selector-button {
 }
 
 .fui-Switch__input {
-  top: 0px;
-  left: 0px;
+  inset-block-start: 0;
+  inset-inline-start: 0;
   box-sizing: border-box;
   cursor: pointer;
   height: 100%;
@@ -12374,7 +12354,7 @@ input::file-selector-button {
   pointer-events: none;
   transition-duration: var(--durationNormal);
   transition-timing-function: var(--curveEasyEase);
-  transition-property: background, border, color;
+  transition-property: background-color, border-color, color;
   width: 40px;
 }
 .fui-Switch__input ~ .fui-Switch__indicator .fui-Switch__indicator__icon {
@@ -12390,7 +12370,7 @@ input::file-selector-button {
   margin-top: calc((20px - var(--lineHeightBase300)) / 2);
   margin-bottom: calc((20px - var(--lineHeightBase300)) / 2);
   cursor: pointer;
-  padding-right: var(--spacingHorizontalS);
+  padding-inline-end: var(--spacingHorizontalS);
   line-height: var(--lineHeightBase300);
   font-size: var(--fontSizeBase300);
   font-family: var(--fontFamilyBase);
@@ -12850,7 +12830,9 @@ td:focus {
   background-color: var(--colorTransparentBackground);
   flex-shrink: 0;
   line-height: var(--lineHeightBase300);
+  font-size: var(--fontSizeBase300);
   font-family: var(--fontFamilyBase);
+  transition: background-color var(--durationFaster) var(--curveEasyEase), color var(--durationFaster) var(--curveEasyEase);
 }
 .fui-TabList .fui-Tab.fui-Tab-top::before {
   right: var(--spacingHorizontalM);
@@ -12993,7 +12975,7 @@ td:focus {
 }
 .fui-TabList .fui-Tab:not(.fui-Tab-active) {
   font-weight: var(--fontWeightRegular);
-  font-size: var(--fontWeightRegular);
+  font-size: var(--fontSizeBase300);
 }
 .fui-TabList .fui-Tab.fui-Tab-active {
   font-weight: var(--fontWeightSemibold);
@@ -14111,6 +14093,126 @@ code {
   background: var(--colorNeutralBackground1Hover);
 }
 
+:where(.fui-Button,
+.fui-AccordionHeader__button,
+.fui-MenuItem,
+.fui-Tab:has(> .fui-Tab__content:focus-visible),
+.fui-Link,
+.fui-PaginationLink):focus-visible {
+  border-color: var(--colorTransparentStroke);
+  outline: var(--strokeWidthThick) solid var(--colorTransparentStroke);
+  box-shadow: var(--shadow4), 0 0 0 2px var(--colorStrokeFocus2);
+}
+
+:where(.fui-Checkbox__input:focus-visible + .fui-Checkbox__indicator,
+.fui-Radio__input:focus-visible ~ .fui-Radio__indicator,
+.fui-Switch__input:focus-visible ~ .fui-Switch__indicator) {
+  outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+  outline-offset: 2px;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  :where(.fui-Button,
+  .fui-AccordionHeader__expandIcon > svg,
+  .fui-AccordionPanel,
+  .fui-Input::after,
+  .fui-Textarea::after,
+  .fui-Select::after,
+  .fui-Dropdown::after,
+  .fui-SpinButton::after,
+  .fui-MenuPopover,
+  .fui-DialogSurface,
+  .fui-DialogSurface__backdrop,
+  .fui-OverlayDrawer,
+  .fui-OverlayDrawer__backdrop,
+  .fui-Switch__indicator,
+  .fui-Switch__indicator__icon,
+  .fui-Tab,
+  .fui-Tab-active::after,
+  .fui-Tooltip__content) {
+    transition-duration: 0.01ms !important;
+  }
+  :where(.fui-Carousel__item-next,
+  .fui-Carousel__item-prev,
+  .fui-DialogSurface,
+  .fui-DialogSurface__backdrop,
+  .fui-OverlayDrawer,
+  .fui-OverlayDrawer__backdrop,
+  .fui-SkeletonItem::after,
+  .fui-Toast,
+  .fui-ToastContainer) {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+@media (forced-colors: active) {
+  :where(.fui-Button,
+  .fui-AccordionHeader__button,
+  .fui-MenuItem,
+  .fui-Tab,
+  .fui-Tab__content,
+  .fui-Link,
+  .fui-PaginationLink) {
+    color: ButtonText;
+    background-color: ButtonFace;
+    border-color: ButtonText;
+  }
+  :where(.fui-Button,
+  .fui-AccordionHeader__button,
+  .fui-MenuItem,
+  .fui-Tab,
+  .fui-Tab__content,
+  .fui-Link,
+  .fui-PaginationLink):is(:hover, :focus-visible) {
+    border-color: Highlight;
+  }
+  :where(.fui-Button-primary,
+  .fui-Tab-active,
+  .fui-Tab-active .fui-Tab__content,
+  .fui-MenuItem-active):not(:is(:hover, :focus-visible)) {
+    color: HighlightText;
+    background-color: Highlight;
+    border-color: Highlight;
+    forced-color-adjust: none;
+  }
+  :where(.fui-Button-disabled,
+  .fui-Button:disabled,
+  .fui-MenuItem-disabled,
+  .fui-Tab-disabled,
+  .fui-Tab-disabled .fui-Tab__content) {
+    color: GrayText;
+    background-color: ButtonFace;
+    border-color: GrayText;
+  }
+  :where(.fui-Input,
+  .fui-Textarea,
+  .fui-Select,
+  .fui-Dropdown,
+  .fui-SpinButton,
+  .fui-Checkbox__indicator,
+  .fui-Radio__indicator,
+  .fui-Switch__indicator) {
+    color: CanvasText;
+    background-color: Canvas;
+    border-color: CanvasText;
+  }
+  :where(.fui-Checkbox__input:checked + .fui-Checkbox__indicator,
+  .fui-Radio__input:checked ~ .fui-Radio__indicator,
+  .fui-Switch__input:checked ~ .fui-Switch__indicator) {
+    color: HighlightText;
+    background-color: Highlight;
+    border-color: Highlight;
+    forced-color-adjust: none;
+  }
+  :where(.fui-Checkbox__input:disabled + .fui-Checkbox__indicator,
+  .fui-Radio__input:disabled ~ .fui-Radio__indicator,
+  .fui-Switch__input:disabled ~ .fui-Switch__indicator) {
+    color: GrayText;
+    background-color: Canvas;
+    border-color: GrayText;
+    forced-color-adjust: auto;
+  }
+}
 .fui-Align-baseline {
   vertical-align: baseline !important;
 }

@@ -16,18 +16,23 @@
     border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
     font-family: var(--fontFamilyBase);
     outline-style: none;
-    padding: 5px var(--spacingHorizontalM);
-    /*min-width: 96px;*/
+    min-height: 32px;
+    padding: 0 var(--spacingHorizontalM);
     border-radius: var(--borderRadiusMedium);
     font-size: var(--fontSizeBase300);
     font-weight: var(--fontWeightSemibold);
     line-height: var(--lineHeightBase300);
     transition-duration: var(--durationFaster);
-    transition-property: background, border, color;
+    transition-property: background-color, border-color, color, box-shadow;
     transition-timing-function: var(--curveEasyEase);
+    user-select: none;
+
+    &:has(> :is(i, svg):only-child:not([class*="fui-Margin"])) {
+        inline-size: 32px;
+        padding-inline: 0;
+    }
 
     &:hover {
-        color: var(--colorNeutralForegroundOnBrand);
         background-color: var(--colorNeutralBackground1Hover);
         border-color: var(--colorNeutralStroke1Hover);
         color: var(--colorNeutralForeground1Hover);
@@ -46,96 +51,80 @@
     &:disabled {
         cursor: not-allowed;
         color: var(--colorNeutralForegroundDisabled);
-        border-bottom-color: var(--colorNeutralStrokeDisabled);
-        border-left-color: var(--colorNeutralStrokeDisabled);
-        border-right-color: var(--colorNeutralStrokeDisabled);
-        border-top-color: var(--colorNeutralStrokeDisabled);
+        border-color: var(--colorNeutralStrokeDisabled);
         background-color: var(--colorNeutralBackgroundDisabled);
 
         &:active,
         &.fui-Button-active {
             color: var(--colorNeutralForegroundDisabled);
             background-color: var(--colorNeutralBackgroundDisabled);
-            border-bottom-color: transparent;
-            border-left-color: transparent;
-            border-right-color: transparent;
-            border-top-color: transparent;
+            border-color: transparent;
         }
     }
 
     &.fui-Button-xs {
-        padding-left: var(--spacingHorizontalXS);
-        padding-right: var(--spacingHorizontalXS);
-        padding-top: 1px;
-        padding-bottom: 1px;
+        min-height: 20px;
+        padding: 0 var(--spacingHorizontalXS);
         font-weight: var(--fontWeightRegular);
         font-size: var(--fontSizeBase100);
-        /*min-width: 64px;*/
-        border-top-left-radius: var(--borderRadiusMedium);
-        border-top-right-radius: var(--borderRadiusMedium);
-        border-bottom-left-radius: var(--borderRadiusMedium);
-        border-bottom-right-radius: var(--borderRadiusMedium);
+        border-radius: var(--borderRadiusSmall);
         line-height: var(--lineHeightBase100);
+
+        &:has(> :is(i, svg):only-child:not([class*="fui-Margin"])) {
+            inline-size: 20px;
+        }
     }
 
     &.fui-Button-sm {
-        padding-left: var(--spacingHorizontalS);
-        padding-right: var(--spacingHorizontalS);
-        padding-top: 3px;
-        padding-bottom: 3px;
+        min-height: 24px;
+        padding: 0 var(--spacingHorizontalS);
         font-weight: var(--fontWeightRegular);
         font-size: var(--fontSizeBase200);
-        /*min-width: 64px;*/
-        border-top-left-radius: var(--borderRadiusMedium);
-        border-top-right-radius: var(--borderRadiusMedium);
-        border-bottom-left-radius: var(--borderRadiusMedium);
-        border-bottom-right-radius: var(--borderRadiusMedium);
+        border-radius: var(--borderRadiusSmall);
         line-height: var(--lineHeightBase200);
+
+        &:has(> :is(i, svg):only-child:not([class*="fui-Margin"])) {
+            inline-size: 24px;
+        }
     }
 
     &.fui-Button-md {
-        padding-left: var(--spacingHorizontalM);
-        padding-right: var(--spacingHorizontalM);
-        padding-top: 6px;
-        padding-bottom: 6px;
+        min-height: 36px;
+        padding: 0 var(--spacingHorizontalM);
         font-weight: var(--fontWeightSemibold);
         font-size: var(--fontSizeBase400);
-        /*min-width: 96px;*/
-        border-top-left-radius: var(--borderRadiusMedium);
-        border-top-right-radius: var(--borderRadiusMedium);
-        border-bottom-left-radius: var(--borderRadiusMedium);
-        border-bottom-right-radius: var(--borderRadiusMedium);
+        border-radius: var(--borderRadiusMedium);
         line-height: var(--lineHeightBase400);
+
+        &:has(> :is(i, svg):only-child:not([class*="fui-Margin"])) {
+            inline-size: 36px;
+        }
     }
 
     &.fui-Button-lg {
-        padding-left: var(--spacingHorizontalL);
-        padding-right: var(--spacingHorizontalL);
-        padding-top: 8px;
-        padding-bottom: 8px;
+        min-height: 40px;
+        padding: 0 var(--spacingHorizontalL);
         font-weight: var(--fontWeightSemibold);
         font-size: var(--fontSizeBase400);
-        /*min-width: 96px;*/
-        border-top-left-radius: var(--borderRadiusMedium);
-        border-top-right-radius: var(--borderRadiusMedium);
-        border-bottom-left-radius: var(--borderRadiusMedium);
-        border-bottom-right-radius: var(--borderRadiusMedium);
+        border-radius: var(--borderRadiusLarge);
         line-height: var(--lineHeightBase400);
+
+        &:has(> :is(i, svg):only-child:not([class*="fui-Margin"])) {
+            inline-size: 40px;
+        }
     }
 
     &.fui-Button-xl {
-        padding-left: var(--spacingHorizontalXL);
-        padding-right: var(--spacingHorizontalXL);
-        padding-top: 12px;
-        padding-bottom: 12px;
+        min-height: 48px;
+        padding: 0 var(--spacingHorizontalXL);
         font-weight: var(--fontWeightSemibold);
-        font-size: var(--fontSizeBase400);
-        /*min-width: 96px;*/
-        border-top-left-radius: var(--borderRadiusMedium);
-        border-top-right-radius: var(--borderRadiusMedium);
-        border-bottom-left-radius: var(--borderRadiusMedium);
-        border-bottom-right-radius: var(--borderRadiusMedium);
-        line-height: var(--lineHeightBase400);
+        font-size: var(--fontSizeBase500);
+        border-radius: var(--borderRadiusXLarge);
+        line-height: var(--lineHeightBase500);
+
+        &:has(> :is(i, svg):only-child:not([class*="fui-Margin"])) {
+            inline-size: 48px;
+        }
     }
 
     &-block {
@@ -150,10 +139,7 @@
     &-link-stretched {
         &::after {
             position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
+            inset: 0;
             z-index: 1;
             content: "";
         }
@@ -175,7 +161,7 @@
     }
 
     &-danger {
-        @include button-variant(var(--colorStatusDangerBackground3), var(--colorStatusDangerForeground1), var(--colorStatusDangerForeground2), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
+        @include button-variant(var(--colorStatusDangerBackground3), var(--colorStatusDangerBackground3Hover), var(--colorStatusDangerBackground3Pressed), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
     }
 
     &-warning {
@@ -203,14 +189,10 @@
         &.fui-Button-disabled,
         &:disabled {
             cursor: not-allowed;
-            border-bottom-color: var(--colorNeutralStrokeDisabled);
-            border-left-color: var(--colorNeutralStrokeDisabled);
-            border-right-color: var(--colorNeutralStrokeDisabled);
-            border-top-color: var(--colorNeutralStrokeDisabled);
+            border-color: var(--colorNeutralStrokeDisabled);
             background-color: var(--colorNeutralBackgroundDisabled);
         }
 
-        &:not(:disabled):not(.fui-Button-disabled),
         &:not(:disabled):not(.fui-Button-disabled) {
             &:hover {
                 color: var(--colorBrandForegroundLinkHover);
@@ -239,7 +221,7 @@
     }
 
     &-danger {
-        @include button-outline-variant(var(--colorStatusDangerBackground3), var(--colorStatusDangerForeground1), var(--colorStatusDangerForeground2));
+        @include button-outline-variant(var(--colorStatusDangerBackground3), var(--colorStatusDangerBackground3Hover), var(--colorStatusDangerBackground3Pressed));
     }
 
     &-warning {
@@ -261,14 +243,10 @@
         &.fui-Button-disabled,
         &:disabled {
             cursor: not-allowed;
-            border-bottom-color: var(--colorNeutralStrokeDisabled);
-            border-left-color: var(--colorNeutralStrokeDisabled);
-            border-right-color: var(--colorNeutralStrokeDisabled);
-            border-top-color: var(--colorNeutralStrokeDisabled);
+            border-color: var(--colorNeutralStrokeDisabled);
             background-color: var(--colorNeutralBackgroundDisabled);
         }
 
-        &:not(:disabled):not(.fui-Button-disabled),
         &:not(:disabled):not(.fui-Button-disabled) {
             &:hover {
                 color: var(--colorNeutralForeground2Hover);
@@ -333,7 +311,7 @@
 
     > .fui-ButtonGroup:not(:first-child),
     > .fui-Button:not(:first-child) {
-        margin-left: -1px;
+        margin-inline-start: -1px;
     }
 
     > .fui-ButtonGroup:not(:first-child) > .fui-Button,
@@ -348,7 +326,7 @@
         display: inline-block;
         width: 1em;
         height: 1em;
-        margin-right: var(--spacingHorizontalXS);
+        margin-inline-end: var(--spacingHorizontalXS);
         border-width: var(--strokeWidthThick);
         border: var(--strokeWidthThicker) solid currentColor;
         border-right-color: transparent;

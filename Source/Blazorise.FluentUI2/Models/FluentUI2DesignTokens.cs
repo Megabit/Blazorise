@@ -21,6 +21,21 @@ public class FluentUI2DesignTokens
     [JsonPropertyName( "borderRadiusXLarge" )]
     public string BorderRadiusXLarge { get; set; } = "8px";
 
+    [JsonPropertyName( "borderRadius2XLarge" )]
+    public string BorderRadius2XLarge { get; set; } = "12px";
+
+    [JsonPropertyName( "borderRadius3XLarge" )]
+    public string BorderRadius3XLarge { get; set; } = "16px";
+
+    [JsonPropertyName( "borderRadius4XLarge" )]
+    public string BorderRadius4XLarge { get; set; } = "24px";
+
+    [JsonPropertyName( "borderRadius5XLarge" )]
+    public string BorderRadius5XLarge { get; set; } = "32px";
+
+    [JsonPropertyName( "borderRadius6XLarge" )]
+    public string BorderRadius6XLarge { get; set; } = "40px";
+
     [JsonPropertyName( "borderRadiusCircular" )]
     public string BorderRadiusCircular { get; set; } = "10000px";
 
@@ -291,6 +306,18 @@ public class FluentUI2DesignTokens
     [JsonPropertyName( "colorNeutralForeground4" )]
     public string ColorNeutralForeground4 { get; set; } = "#707070";
 
+    [JsonPropertyName( "colorNeutralForeground5" )]
+    public string ColorNeutralForeground5 { get; set; } = "#616161";
+
+    [JsonPropertyName( "colorNeutralForeground5Hover" )]
+    public string ColorNeutralForeground5Hover { get; set; } = "#242424";
+
+    [JsonPropertyName( "colorNeutralForeground5Pressed" )]
+    public string ColorNeutralForeground5Pressed { get; set; } = "#242424";
+
+    [JsonPropertyName( "colorNeutralForeground5Selected" )]
+    public string ColorNeutralForeground5Selected { get; set; } = "#242424";
+
     [JsonPropertyName( "colorNeutralForegroundDisabled" )]
     public string ColorNeutralForegroundDisabled { get; set; } = "#bdbdbd";
 
@@ -462,8 +489,32 @@ public class FluentUI2DesignTokens
     [JsonPropertyName( "colorNeutralBackground6" )]
     public string ColorNeutralBackground6 { get; set; } = "#e6e6e6";
 
+    [JsonPropertyName( "colorNeutralBackground7" )]
+    public string ColorNeutralBackground7 { get; set; } = "transparent";
+
+    [JsonPropertyName( "colorNeutralBackground7Hover" )]
+    public string ColorNeutralBackground7Hover { get; set; } = "#ebebeb";
+
+    [JsonPropertyName( "colorNeutralBackground7Pressed" )]
+    public string ColorNeutralBackground7Pressed { get; set; } = "#d6d6d6";
+
+    [JsonPropertyName( "colorNeutralBackground7Selected" )]
+    public string ColorNeutralBackground7Selected { get; set; } = "transparent";
+
+    [JsonPropertyName( "colorNeutralBackground8" )]
+    public string ColorNeutralBackground8 { get; set; } = "#fcfcfc";
+
     [JsonPropertyName( "colorNeutralBackgroundInverted" )]
     public string ColorNeutralBackgroundInverted { get; set; } = "#292929";
+
+    [JsonPropertyName( "colorNeutralBackgroundInvertedHover" )]
+    public string ColorNeutralBackgroundInvertedHover { get; set; } = "#3d3d3d";
+
+    [JsonPropertyName( "colorNeutralBackgroundInvertedPressed" )]
+    public string ColorNeutralBackgroundInvertedPressed { get; set; } = "#1f1f1f";
+
+    [JsonPropertyName( "colorNeutralBackgroundInvertedSelected" )]
+    public string ColorNeutralBackgroundInvertedSelected { get; set; } = "#383838";
 
     [JsonPropertyName( "colorNeutralBackgroundStatic" )]
     public string ColorNeutralBackgroundStatic { get; set; } = "#333333";
@@ -522,6 +573,9 @@ public class FluentUI2DesignTokens
     [JsonPropertyName( "colorNeutralBackgroundDisabled" )]
     public string ColorNeutralBackgroundDisabled { get; set; } = "#f0f0f0";
 
+    [JsonPropertyName( "colorNeutralBackgroundDisabled2" )]
+    public string ColorNeutralBackgroundDisabled2 { get; set; } = "#ffffff";
+
     [JsonPropertyName( "colorNeutralBackgroundInvertedDisabled" )]
     public string ColorNeutralBackgroundInvertedDisabled { get; set; } = "rgba(255, 255, 255, 0.1)";
 
@@ -576,6 +630,12 @@ public class FluentUI2DesignTokens
     [JsonPropertyName( "colorBrandBackground2Pressed" )]
     public string ColorBrandBackground2Pressed { get; set; } = "#92acdc";
 
+    [JsonPropertyName( "colorBrandBackground3Static" )]
+    public string ColorBrandBackground3Static { get; set; } = "#0f548c";
+
+    [JsonPropertyName( "colorBrandBackground4Static" )]
+    public string ColorBrandBackground4Static { get; set; } = "#0c3b5e";
+
     [JsonPropertyName( "colorBrandBackgroundInverted" )]
     public string ColorBrandBackgroundInverted { get; set; } = "#ffffff";
 
@@ -587,6 +647,21 @@ public class FluentUI2DesignTokens
 
     [JsonPropertyName( "colorBrandBackgroundInvertedSelected" )]
     public string ColorBrandBackgroundInvertedSelected { get; set; } = "#bac9e9";
+
+    [JsonPropertyName( "colorNeutralCardBackground" )]
+    public string ColorNeutralCardBackground { get; set; } = "#fafafa";
+
+    [JsonPropertyName( "colorNeutralCardBackgroundHover" )]
+    public string ColorNeutralCardBackgroundHover { get; set; } = "#ffffff";
+
+    [JsonPropertyName( "colorNeutralCardBackgroundPressed" )]
+    public string ColorNeutralCardBackgroundPressed { get; set; } = "#f5f5f5";
+
+    [JsonPropertyName( "colorNeutralCardBackgroundSelected" )]
+    public string ColorNeutralCardBackgroundSelected { get; set; } = "#ebebeb";
+
+    [JsonPropertyName( "colorNeutralCardBackgroundDisabled" )]
+    public string ColorNeutralCardBackgroundDisabled { get; set; } = "#f0f0f0";
 
     [JsonPropertyName( "colorNeutralStrokeAccessible" )]
     public string ColorNeutralStrokeAccessible { get; set; } = "#616161";
@@ -617,6 +692,18 @@ public class FluentUI2DesignTokens
 
     [JsonPropertyName( "colorNeutralStroke3" )]
     public string ColorNeutralStroke3 { get; set; } = "#f0f0f0";
+
+    [JsonPropertyName( "colorNeutralStroke4" )]
+    public string ColorNeutralStroke4 { get; set; } = "#ebebeb";
+
+    [JsonPropertyName( "colorNeutralStroke4Hover" )]
+    public string ColorNeutralStroke4Hover { get; set; } = "#e0e0e0";
+
+    [JsonPropertyName( "colorNeutralStroke4Pressed" )]
+    public string ColorNeutralStroke4Pressed { get; set; } = "#d6d6d6";
+
+    [JsonPropertyName( "colorNeutralStroke4Selected" )]
+    public string ColorNeutralStroke4Selected { get; set; } = "#ebebeb";
 
     [JsonPropertyName( "colorNeutralStrokeSubtle" )]
     public string ColorNeutralStrokeSubtle { get; set; } = "#e0e0e0";
@@ -662,6 +749,9 @@ public class FluentUI2DesignTokens
 
     [JsonPropertyName( "colorNeutralStrokeDisabled" )]
     public string ColorNeutralStrokeDisabled { get; set; } = "#e0e0e0";
+
+    [JsonPropertyName( "colorNeutralStrokeDisabled2" )]
+    public string ColorNeutralStrokeDisabled2 { get; set; } = "#ebebeb";
 
     [JsonPropertyName( "colorNeutralStrokeInvertedDisabled" )]
     public string ColorNeutralStrokeInvertedDisabled { get; set; } = "rgba(255, 255, 255, 0.4)";
@@ -1230,6 +1320,12 @@ public class FluentUI2DesignTokens
     [JsonPropertyName( "colorStatusDangerBackground3" )]
     public string ColorStatusDangerBackground3 { get; set; } = "#c50f1f";
 
+    [JsonPropertyName( "colorStatusDangerBackground3Hover" )]
+    public string ColorStatusDangerBackground3Hover { get; set; } = "#b10e1c";
+
+    [JsonPropertyName( "colorStatusDangerBackground3Pressed" )]
+    public string ColorStatusDangerBackground3Pressed { get; set; } = "#960b18";
+
     [JsonPropertyName( "colorStatusDangerForeground1" )]
     public string ColorStatusDangerForeground1 { get; set; } = "#b10e1c";
 
@@ -1250,6 +1346,30 @@ public class FluentUI2DesignTokens
 
     [JsonPropertyName( "colorStatusDangerBorder2" )]
     public string ColorStatusDangerBorder2 { get; set; } = "#c50f1f";
+
+    [JsonPropertyName( "zIndexBackground" )]
+    public string ZIndexBackground { get; set; } = "0";
+
+    [JsonPropertyName( "zIndexContent" )]
+    public string ZIndexContent { get; set; } = "1";
+
+    [JsonPropertyName( "zIndexOverlay" )]
+    public string ZIndexOverlay { get; set; } = "1000";
+
+    [JsonPropertyName( "zIndexPopup" )]
+    public string ZIndexPopup { get; set; } = "2000";
+
+    [JsonPropertyName( "zIndexMessages" )]
+    public string ZIndexMessages { get; set; } = "3000";
+
+    [JsonPropertyName( "zIndexFloating" )]
+    public string ZIndexFloating { get; set; } = "4000";
+
+    [JsonPropertyName( "zIndexPriority" )]
+    public string ZIndexPriority { get; set; } = "5000";
+
+    [JsonPropertyName( "zIndexDebug" )]
+    public string ZIndexDebug { get; set; } = "6000";
 
     [JsonPropertyName( "shadow2" )]
     public string Shadow2 { get; set; } = "0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14)";

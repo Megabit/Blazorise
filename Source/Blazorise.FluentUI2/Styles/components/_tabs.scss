@@ -59,7 +59,9 @@
         background-color: var(--colorTransparentBackground);
         flex-shrink: 0;
         line-height: var(--lineHeightBase300);
+        font-size: var(--fontSizeBase300);
         font-family: var(--fontFamilyBase);
+        transition: background-color var(--durationFaster) var(--curveEasyEase), color var(--durationFaster) var(--curveEasyEase);
 
         &.fui-Tab-top {
             &::before {
@@ -246,7 +248,7 @@
 
         &:not(.fui-Tab-active) {
             font-weight: var(--fontWeightRegular);
-            font-size: var(--fontWeightRegular);
+            font-size: var(--fontSizeBase300);
         }
 
         &.fui-Tab-active {

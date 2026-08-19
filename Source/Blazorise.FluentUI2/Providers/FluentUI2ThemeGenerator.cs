@@ -123,6 +123,8 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
             SetVar( "--colorBrandBackground2", brand2 );
             SetVar( "--colorBrandBackground2Hover", ToHex( ShadeColor( ParseColor( brand2 ), 10f ) ) );
             SetVar( "--colorBrandBackground2Pressed", ToHex( ShadeColor( ParseColor( brand2 ), 25f ) ) );
+            SetVar( "--colorBrandBackground3Static", ToHex( ShadeColor( ParseColor( baseHex ), 20f ) ) );
+            SetVar( "--colorBrandBackground4Static", ToHex( ShadeColor( ParseColor( baseHex ), 40f ) ) );
 
             // Inverted brand backgrounds preserve Fluent's subtle selected states.
             SetVar( "--colorBrandBackgroundInverted", "var(--colorNeutralBackground1)" );
@@ -298,9 +300,15 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
         SetVar( "--colorNeutralForegroundDisabled", "rgba(0,0,0,0.30)" );
         SetVar( "--colorNeutralForegroundInvertedDisabled", "rgba(255,255,255,0.40)" );
         if ( !string.IsNullOrWhiteSpace( theme.ColorOptions?.Light ) )
+        {
             SetVar( "--colorNeutralBackgroundDisabled", ToHex( ParseColor( theme.ColorOptions.Light ) ) );
+            SetVar( "--colorNeutralBackgroundDisabled2", ToHex( ParseColor( theme.ColorOptions.Light ) ) );
+        }
         else
+        {
             SetVar( "--colorNeutralBackgroundDisabled", "var(--colorNeutralBackground3)" );
+            SetVar( "--colorNeutralBackgroundDisabled2", "var(--colorNeutralBackground1)" );
+        }
         SetVar( "--colorNeutralBackgroundInvertedDisabled", "rgba(255,255,255,0.10)" );
 
         SetVar( "--colorStrokeFocus1", "#ffffff" );
@@ -313,6 +321,11 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
             SetVar( "--borderRadiusMedium", "0" );
             SetVar( "--borderRadiusLarge", "0" );
             SetVar( "--borderRadiusXLarge", "0" );
+            SetVar( "--borderRadius2XLarge", "0" );
+            SetVar( "--borderRadius3XLarge", "0" );
+            SetVar( "--borderRadius4XLarge", "0" );
+            SetVar( "--borderRadius5XLarge", "0" );
+            SetVar( "--borderRadius6XLarge", "0" );
         }
         else
         {
@@ -320,6 +333,11 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
             SetVar( "--borderRadiusMedium", "4px" );
             SetVar( "--borderRadiusLarge", "6px" );
             SetVar( "--borderRadiusXLarge", "8px" );
+            SetVar( "--borderRadius2XLarge", "12px" );
+            SetVar( "--borderRadius3XLarge", "16px" );
+            SetVar( "--borderRadius4XLarge", "24px" );
+            SetVar( "--borderRadius5XLarge", "32px" );
+            SetVar( "--borderRadius6XLarge", "40px" );
         }
 
         return base.GenerateVariables( theme );

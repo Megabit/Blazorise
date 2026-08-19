@@ -4,6 +4,11 @@
     --borderRadiusMedium: 4px;
     --borderRadiusLarge: 6px;
     --borderRadiusXLarge: 8px;
+    --borderRadius2XLarge: 12px;
+    --borderRadius3XLarge: 16px;
+    --borderRadius4XLarge: 24px;
+    --borderRadius5XLarge: 32px;
+    --borderRadius6XLarge: 40px;
     --borderRadiusCircular: 10000px;
     --fontSizeBase100: 10px;
     --fontSizeBase200: 12px;
@@ -94,6 +99,10 @@
     --colorNeutralForeground3BrandPressed: #115ea3;
     --colorNeutralForeground3BrandSelected: #0f6cbd;
     --colorNeutralForeground4: #707070;
+    --colorNeutralForeground5: #616161;
+    --colorNeutralForeground5Hover: #242424;
+    --colorNeutralForeground5Pressed: #242424;
+    --colorNeutralForeground5Selected: #242424;
     --colorNeutralForegroundDisabled: #bdbdbd;
     --colorNeutralForegroundInvertedDisabled: rgba(255, 255, 255, 0.4);
     --colorBrandForegroundLink: #115ea3;
@@ -151,7 +160,15 @@
     --colorNeutralBackground5Pressed: #f0f0f0;
     --colorNeutralBackground5Selected: #fafafa;
     --colorNeutralBackground6: #e6e6e6;
+    --colorNeutralBackground7: transparent;
+    --colorNeutralBackground7Hover: #ebebeb;
+    --colorNeutralBackground7Pressed: #d6d6d6;
+    --colorNeutralBackground7Selected: transparent;
+    --colorNeutralBackground8: #fcfcfc;
     --colorNeutralBackgroundInverted: #292929;
+    --colorNeutralBackgroundInvertedHover: #3d3d3d;
+    --colorNeutralBackgroundInvertedPressed: #1f1f1f;
+    --colorNeutralBackgroundInvertedSelected: #383838;
     --colorNeutralBackgroundStatic: #333333;
     --colorNeutralBackgroundAlpha: rgba(255, 255, 255, 0.5);
     --colorNeutralBackgroundAlpha2: rgba(255, 255, 255, 0.8);
@@ -171,6 +188,7 @@
     --colorTransparentBackgroundPressed: transparent;
     --colorTransparentBackgroundSelected: transparent;
     --colorNeutralBackgroundDisabled: #f0f0f0;
+    --colorNeutralBackgroundDisabled2: #ffffff;
     --colorNeutralBackgroundInvertedDisabled: rgba(255, 255, 255, 0.1);
     --colorNeutralStencil1: #e6e6e6;
     --colorNeutralStencil2: #fafafa;
@@ -210,6 +228,10 @@
     --colorNeutralStroke1Selected: #bdbdbd;
     --colorNeutralStroke2: #e0e0e0;
     --colorNeutralStroke3: #f0f0f0;
+    --colorNeutralStroke4: #ebebeb;
+    --colorNeutralStroke4Hover: #e0e0e0;
+    --colorNeutralStroke4Pressed: #d6d6d6;
+    --colorNeutralStroke4Selected: #ebebeb;
     --colorNeutralStrokeSubtle: #e0e0e0;
     --colorNeutralStrokeOnBrand: #ffffff;
     --colorNeutralStrokeOnBrand2: #ffffff;
@@ -225,6 +247,7 @@
     --colorCompoundBrandStrokeHover: #115ea3;
     --colorCompoundBrandStrokePressed: #0f548c;
     --colorNeutralStrokeDisabled: #e0e0e0;
+    --colorNeutralStrokeDisabled2: #ebebeb;
     --colorNeutralStrokeInvertedDisabled: rgba(255, 255, 255, 0.4);
     --colorTransparentStroke: transparent;
     --colorTransparentStrokeInteractive: transparent;
@@ -443,6 +466,11 @@
     --borderRadiusMedium: 4px;
     --borderRadiusLarge: 6px;
     --borderRadiusXLarge: 8px;
+    --borderRadius2XLarge: 12px;
+    --borderRadius3XLarge: 16px;
+    --borderRadius4XLarge: 24px;
+    --borderRadius5XLarge: 32px;
+    --borderRadius6XLarge: 40px;
     --borderRadiusCircular: 10000px;
     --fontSizeBase100: 10px;
     --fontSizeBase200: 12px;
@@ -533,6 +561,10 @@
     --colorNeutralForeground3BrandPressed: #479ef5;
     --colorNeutralForeground3BrandSelected: #62abf5;
     --colorNeutralForeground4: #9e9e9e;
+    --colorNeutralForeground5: #adadad;
+    --colorNeutralForeground5Hover: #ffffff;
+    --colorNeutralForeground5Pressed: #ffffff;
+    --colorNeutralForeground5Selected: #ffffff;
     --colorNeutralForegroundDisabled: rgba(255, 255, 255, 0.4);
     --colorNeutralForegroundInvertedDisabled: rgba(0, 0, 0, 0.35);
     --colorBrandForegroundLink: #62abf5;
@@ -590,7 +622,15 @@
     --colorNeutralBackground5Pressed: #202429;
     --colorNeutralBackground5Selected: #15171a;
     --colorNeutralBackground6: #2b3239;
+    --colorNeutralBackground7: transparent;
+    --colorNeutralBackground7Hover: #1a1a1a;
+    --colorNeutralBackground7Pressed: #0a0a0a;
+    --colorNeutralBackground7Selected: transparent;
+    --colorNeutralBackground8: #292929;
     --colorNeutralBackgroundInverted: #f5f5f5;
+    --colorNeutralBackgroundInvertedHover: #f5f5f5;
+    --colorNeutralBackgroundInvertedPressed: #e0e0e0;
+    --colorNeutralBackgroundInvertedSelected: #ebebeb;
     --colorNeutralBackgroundStatic: #0d0e10;
     --colorNeutralBackgroundAlpha: rgba(0, 0, 0, 0.35);
     --colorNeutralBackgroundAlpha2: rgba(0, 0, 0, 0.2);
@@ -610,6 +650,7 @@
     --colorTransparentBackgroundPressed: transparent;
     --colorTransparentBackgroundSelected: transparent;
     --colorNeutralBackgroundDisabled: rgba(255, 255, 255, 0.06);
+    --colorNeutralBackgroundDisabled2: #292929;
     --colorNeutralBackgroundInvertedDisabled: rgba(0, 0, 0, 0.08);
     --colorNeutralStencil1: #2b3239;
     --colorNeutralStencil2: #1b1e21;
@@ -649,6 +690,10 @@
     --colorNeutralStroke1Selected: #3a3f45;
     --colorNeutralStroke2: #2f3439;
     --colorNeutralStroke3: #23272b;
+    --colorNeutralStroke4: #3d3d3d;
+    --colorNeutralStroke4Hover: #2e2e2e;
+    --colorNeutralStroke4Pressed: #242424;
+    --colorNeutralStroke4Selected: #3d3d3d;
     --colorNeutralStrokeSubtle: #1b1e21;
     --colorNeutralStrokeOnBrand: #ffffff;
     --colorNeutralStrokeOnBrand2: #cfe4fa;
@@ -664,6 +709,7 @@
     --colorCompoundBrandStrokeHover: #8bbef7;
     --colorCompoundBrandStrokePressed: #479ef5;
     --colorNeutralStrokeDisabled: rgba(255, 255, 255, 0.14);
+    --colorNeutralStrokeDisabled2: #3d3d3d;
     --colorNeutralStrokeInvertedDisabled: rgba(0, 0, 0, 0.35);
     --colorTransparentStroke: transparent;
     --colorTransparentStrokeInteractive: transparent;
@@ -896,6 +942,14 @@
     --zIndexModal: 1055;
     --zIndexPopover: 1060;
     --zIndexTooltip: 1070;
+    --zIndexBackground: 0;
+    --zIndexContent: 1;
+    --zIndexOverlay: var(--zIndexModalBackdrop);
+    --zIndexPopup: var(--zIndexModal);
+    --zIndexMessages: var(--zIndexNavigation);
+    --zIndexFloating: var(--zIndexDropdown);
+    --zIndexPriority: var(--zIndexTooltip);
+    --zIndexDebug: 6000;
     --b-bar-horizontal-height: 60px;
 }
 

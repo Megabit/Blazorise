@@ -18,8 +18,8 @@
     .fui-Radio__input {
         cursor: pointer;
         position: absolute;
-        left: 0px;
-        top: 0px;
+        inset-block-start: 0;
+        inset-inline-start: 0;
         width: calc(16px + 2 * var(--spacingHorizontalS));
         height: 100%;
         box-sizing: border-box;
@@ -28,6 +28,16 @@
 
         &:enabled:not(:checked) ~ .fui-Radio__indicator {
             border-color: var(--colorNeutralStrokeAccessible);
+        }
+
+        &:enabled:hover ~ .fui-Radio__indicator {
+            border-color: var(--colorNeutralStrokeAccessibleHover);
+            color: var(--colorCompoundBrandForeground1Hover);
+        }
+
+        &:enabled:active ~ .fui-Radio__indicator {
+            border-color: var(--colorNeutralStrokeAccessiblePressed);
+            color: var(--colorCompoundBrandForeground1Pressed);
         }
 
         &:not(:checked) ~ .fui-Radio__indicator > * {
@@ -141,10 +151,10 @@
         margin-bottom: calc((16px - var(--lineHeightBase300)) / 2);
         margin-top: calc((16px - var(--lineHeightBase300)) / 2);
         align-self: center;
-        padding-left: var(--spacingHorizontalXS);
+        padding-inline-start: var(--spacingHorizontalXS);
         padding-bottom: var(--spacingVerticalS);
         padding-top: var(--spacingVerticalS);
-        padding-right: var(--spacingHorizontalS);
+        padding-inline-end: var(--spacingHorizontalS);
         line-height: var(--lineHeightBase300);
         font-size: var(--fontSizeBase300);
         font-family: var(--fontFamilyBase);
@@ -156,8 +166,8 @@
     .fui-Radio__input {
         cursor: pointer;
         position: absolute;
-        left: 0px;
-        top: 0px;
+        inset-block-start: 0;
+        inset-inline-start: 0;
         width: calc(16px + 2 * var(--spacingHorizontalS));
         height: 100%;
         box-sizing: border-box;
@@ -189,7 +199,7 @@
 
         > .fui-ButtonGroup:not(:first-child),
         > .fui-Button:not(:first-child) {
-            margin-left: -1px;
+            margin-inline-start: -1px;
         }
 
         > .fui-ButtonGroup:not(:first-child) > .fui-Button,

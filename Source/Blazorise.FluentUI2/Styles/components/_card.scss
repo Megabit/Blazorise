@@ -6,11 +6,11 @@
     display: flex;
     flex-direction: column;
     max-width: 100%;
+    border: var(--strokeWidthThin) solid var(--colorTransparentStroke);
+    background-color: var(--colorNeutralCardBackground);
+    color: var(--colorNeutralForeground1);
     column-gap: var(--fui-Card--size);
-    border-top-left-radius: var(--fui-Card--border-radius);
-    border-top-right-radius: var(--fui-Card--border-radius);
-    border-bottom-left-radius: var(--fui-Card--border-radius);
-    border-bottom-right-radius: var(--fui-Card--border-radius);
+    border-radius: var(--fui-Card--border-radius);
     row-gap: var(--fui-Card--size);
     column-gap: var(--fui-Card--size);
 
@@ -19,11 +19,10 @@
         display: grid;
         align-items: center;
         padding-top: var(--fui-Card--size);
-        padding-left: var(--fui-Card--size);
-        padding-right: var(--fui-Card--size);
+        padding-inline: var(--fui-Card--size);
         margin-bottom: 0;
-        border-top-left-radius: var(--fui-Card--border-radius);
-        border-top-right-radius: var(--fui-Card--border-radius);
+        border-start-start-radius: var(--fui-Card--border-radius);
+        border-start-end-radius: var(--fui-Card--border-radius);
 
         > .fui-CardHeader__header {
             text-align: start;
@@ -38,11 +37,10 @@
     }
 
     .fui-CardFooter {
-        padding-left: var(--fui-Card--size);
-        padding-right: var(--fui-Card--size);
+        padding-inline: var(--fui-Card--size);
         padding-bottom: var(--fui-Card--size);
-        border-bottom-left-radius: var(--fui-Card--border-radius);
-        border-bottom-right-radius: var(--fui-Card--border-radius);
+        border-end-start-radius: var(--fui-Card--border-radius);
+        border-end-end-radius: var(--fui-Card--border-radius);
     }
 
     .fui-CardPreview {
@@ -52,12 +50,10 @@
     }
 
     .fui-CardBody {
-        margin-left: 0;
-        margin-right: 0;
+        margin-inline: 0;
         padding-top: var(--fui-Card--size);
         padding-bottom: var(--fui-Card--size);
-        padding-left: var(--fui-Card--size);
-        padding-right: var(--fui-Card--size);
+        padding-inline: var(--fui-Card--size);
 
         + .fui-CardBody {
             padding-top: 0;
