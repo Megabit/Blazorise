@@ -3297,31 +3297,6 @@ media-container {
   border: 0;
 }
 
-.media-minimal-skin media-icon.media-icon:not(
-  .media-icon--restart,
-  .media-icon--play,
-  .media-icon--pause,
-  .media-icon--volume-off,
-  .media-icon--volume-low,
-  .media-icon--volume-high,
-  .media-icon--fullscreen-enter,
-  .media-icon--fullscreen-exit,
-  .media-icon--pip-enter,
-  .media-icon--pip-exit,
-  .media-icon--airplay-enter,
-  .media-icon--airplay-exit,
-  .media-icon--captions-off,
-  .media-icon--captions-on
-) {
-  display: block;
-}
-
-.media-minimal-skin media-icon.media-icon > svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
 .media-minimal-skin .media-popover--volume {
   pointer-events: auto;
 }

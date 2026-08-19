@@ -71,7 +71,7 @@
         }
 
         <media-buffering-indicator class="media-buffering-indicator">
-            <media-icon name="spinner" family="minimal" class="media-icon"></media-icon>
+            <svg class="media-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" aria-hidden="true" viewBox="0 0 18 18"><style>@@keyframes media-spinner-fade{0%{opacity:1}to{opacity:0}}.media-spinner__segment{animation:var(--media-spinner-animation, media-spinner-fade 1s linear infinite);animation-delay:var(--media-spinner-delay)}</style><path d="M9 1.5v3" class="media-spinner__segment" opacity=".5" style="--media-spinner-delay:0s"/><path d="m14.5 3.5-2 2" class="media-spinner__segment" opacity=".45" style="--media-spinner-delay:0.125s"/><path d="M16.5 9h-3" class="media-spinner__segment" opacity=".4" style="--media-spinner-delay:0.25s"/><path d="m14.5 14.5-2-2" class="media-spinner__segment" opacity=".35" style="--media-spinner-delay:0.375s"/><path d="M9 16.5v-3" class="media-spinner__segment" opacity=".3" style="--media-spinner-delay:0.5s"/><path d="m3.5 14.5 2-2" class="media-spinner__segment" opacity=".25" style="--media-spinner-delay:0.625s"/><path d="M1.5 9h3" class="media-spinner__segment" opacity=".15" style="--media-spinner-delay:0.75s"/><path d="m3.5 3.5 2 2" class="media-spinner__segment" opacity=".1" style="--media-spinner-delay:0.875s"/></svg>
         </media-buffering-indicator>
 
         <media-error-dialog class="media-error">
@@ -89,9 +89,9 @@
         @if ( !IsAudioSource && HasControl( VideoControlsType.PlayLarge ) )
         {
             <media-play-button class="media-button media-button--icon b-video-play-large" aria-label="Play @Source?.Title">
-                <media-icon name="restart" family="minimal" class="media-icon media-icon--restart"></media-icon>
-                <media-icon name="play" family="minimal" class="media-icon media-icon--play"></media-icon>
-                <media-icon name="pause" family="minimal" class="media-icon media-icon--pause"></media-icon>
+                <svg class="media-icon media-icon--restart" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M9 17a8 8 0 0 1-8-8h1.5a6.5 6.5 0 1 0 1.43-4.07l1.643 1.643A.25.25 0 0 1 5.396 7H1.25A.25.25 0 0 1 1 6.75V2.604a.25.25 0 0 1 .427-.177l1.438 1.438A8 8 0 1 1 9 17"/><path d="m11.61 9.639-3.331 2.07a.826.826 0 0 1-1.15-.266.86.86 0 0 1-.129-.452V6.849C7 6.38 7.374 6 7.834 6c.158 0 .312.045.445.13l3.331 2.071a.858.858 0 0 1 0 1.438"/></svg>
+                <svg class="media-icon media-icon--play" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="m13.473 10.476-6.845 4.256a1.697 1.697 0 0 1-2.364-.547 1.77 1.77 0 0 1-.264-.93v-8.51C4 3.78 4.768 3 5.714 3c.324 0 .64.093.914.268l6.845 4.255a1.763 1.763 0 0 1 0 2.953"/></svg>
+                <svg class="media-icon media-icon--pause" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><rect width="4" height="12" x="3" y="3" rx="1.75"/><rect width="4" height="12" x="11" y="3" rx="1.75"/></svg>
             </media-play-button>
         }
 
@@ -103,14 +103,14 @@
                         @if ( HasControl( VideoControlsType.Restart ) )
                         {
                             <button type="button" data-blazorise-video-restart aria-label="Restart" class="media-button media-button--subtle media-button--icon">
-                                <media-icon name="restart" family="minimal" class="media-icon"></media-icon>
+                                <svg class="media-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M9 17a8 8 0 0 1-8-8h1.5a6.5 6.5 0 1 0 1.43-4.07l1.643 1.643A.25.25 0 0 1 5.396 7H1.25A.25.25 0 0 1 1 6.75V2.604a.25.25 0 0 1 .427-.177l1.438 1.438A8 8 0 1 1 9 17"/><path d="m11.61 9.639-3.331 2.07a.826.826 0 0 1-1.15-.266.86.86 0 0 1-.129-.452V6.849C7 6.38 7.374 6 7.834 6c.158 0 .312.045.445.13l3.331 2.071a.858.858 0 0 1 0 1.438"/></svg>
                             </button>
                         }
                         @if ( HasControl( VideoControlsType.Rewind ) )
                         {
                             <media-seek-button seconds="@(-SeekTime)" aria-label="Rewind @SeekTime seconds" class="media-button media-button--subtle media-button--icon media-button--seek">
                                 <span class="media-icon__container">
-                                    <media-icon name="seek" family="minimal" class="media-icon media-icon--flipped"></media-icon>
+                                    <svg class="media-icon media-icon--flipped" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M1 9c0 2.21.895 4.21 2.343 5.657l1.06-1.06a6.5 6.5 0 1 1 9.665-8.665l-1.641 1.641a.25.25 0 0 0 .177.427h4.146a.25.25 0 0 0 .25-.25V2.604a.25.25 0 0 0-.427-.177l-1.438 1.438A8 8 0 0 0 1 9"/></svg>
                                     <span class="media-icon__label">@SeekTime</span>
                                 </span>
                             </media-seek-button>
@@ -118,16 +118,16 @@
                         @if ( HasControl( VideoControlsType.Play ) )
                         {
                             <media-play-button aria-label="Play @Source?.Title" class="media-button media-button--subtle media-button--icon media-button--play">
-                                <media-icon name="restart" family="minimal" class="media-icon media-icon--restart"></media-icon>
-                                <media-icon name="play" family="minimal" class="media-icon media-icon--play"></media-icon>
-                                <media-icon name="pause" family="minimal" class="media-icon media-icon--pause"></media-icon>
+                                <svg class="media-icon media-icon--restart" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M9 17a8 8 0 0 1-8-8h1.5a6.5 6.5 0 1 0 1.43-4.07l1.643 1.643A.25.25 0 0 1 5.396 7H1.25A.25.25 0 0 1 1 6.75V2.604a.25.25 0 0 1 .427-.177l1.438 1.438A8 8 0 1 1 9 17"/><path d="m11.61 9.639-3.331 2.07a.826.826 0 0 1-1.15-.266.86.86 0 0 1-.129-.452V6.849C7 6.38 7.374 6 7.834 6c.158 0 .312.045.445.13l3.331 2.071a.858.858 0 0 1 0 1.438"/></svg>
+                                <svg class="media-icon media-icon--play" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="m13.473 10.476-6.845 4.256a1.697 1.697 0 0 1-2.364-.547 1.77 1.77 0 0 1-.264-.93v-8.51C4 3.78 4.768 3 5.714 3c.324 0 .64.093.914.268l6.845 4.255a1.763 1.763 0 0 1 0 2.953"/></svg>
+                                <svg class="media-icon media-icon--pause" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><rect width="4" height="12" x="3" y="3" rx="1.75"/><rect width="4" height="12" x="11" y="3" rx="1.75"/></svg>
                             </media-play-button>
                         }
                         @if ( HasControl( VideoControlsType.FastForward ) )
                         {
                             <media-seek-button seconds="@SeekTime" aria-label="Forward @SeekTime seconds" class="media-button media-button--subtle media-button--icon media-button--seek">
                                 <span class="media-icon__container">
-                                    <media-icon name="seek" family="minimal" class="media-icon"></media-icon>
+                                    <svg class="media-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M1 9c0 2.21.895 4.21 2.343 5.657l1.06-1.06a6.5 6.5 0 1 1 9.665-8.665l-1.641 1.641a.25.25 0 0 0 .177.427h4.146a.25.25 0 0 0 .25-.25V2.604a.25.25 0 0 0-.427-.177l-1.438 1.438A8 8 0 0 0 1 9"/></svg>
                                     <span class="media-icon__label">@SeekTime</span>
                                 </span>
                             </media-seek-button>
@@ -169,7 +169,7 @@
                                                 <media-slider-thumbnail class="media-thumbnail__image"></media-slider-thumbnail>
                                             </div>
                                             <media-slider-value type="pointer" class="media-time media-thumbnail__time"></media-slider-value>
-                                            <media-icon name="spinner" family="minimal" class="media-thumbnail__spinner media-icon"></media-icon>
+                                            <svg class="media-thumbnail__spinner media-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" aria-hidden="true" viewBox="0 0 18 18"><style>@@keyframes media-spinner-fade{0%{opacity:1}to{opacity:0}}.media-spinner__segment{animation:var(--media-spinner-animation, media-spinner-fade 1s linear infinite);animation-delay:var(--media-spinner-delay)}</style><path d="M9 1.5v3" class="media-spinner__segment" opacity=".5" style="--media-spinner-delay:0s"/><path d="m14.5 3.5-2 2" class="media-spinner__segment" opacity=".45" style="--media-spinner-delay:0.125s"/><path d="M16.5 9h-3" class="media-spinner__segment" opacity=".4" style="--media-spinner-delay:0.25s"/><path d="m14.5 14.5-2-2" class="media-spinner__segment" opacity=".35" style="--media-spinner-delay:0.375s"/><path d="M9 16.5v-3" class="media-spinner__segment" opacity=".3" style="--media-spinner-delay:0.5s"/><path d="m3.5 14.5 2-2" class="media-spinner__segment" opacity=".25" style="--media-spinner-delay:0.625s"/><path d="M1.5 9h3" class="media-spinner__segment" opacity=".15" style="--media-spinner-delay:0.75s"/><path d="m3.5 3.5 2 2" class="media-spinner__segment" opacity=".1" style="--media-spinner-delay:0.875s"/></svg>
                                         </div>
                                     }
                                     <media-slider-preview class="media-slider__preview">
@@ -184,9 +184,9 @@
                         @if ( HasControl( VideoControlsType.Mute ) )
                         {
                             <media-mute-button commandfor="@VolumePopoverId" class="media-button media-button--subtle media-button--icon media-button--mute">
-                                <media-icon name="volume-off" family="minimal" class="media-icon media-icon--volume-off"></media-icon>
-                                <media-icon name="volume-low" family="minimal" class="media-icon media-icon--volume-low"></media-icon>
-                                <media-icon name="volume-high" family="minimal" class="media-icon media-icon--volume-high"></media-icon>
+                                <svg class="media-icon media-icon--volume-off" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M.714 6.008h3.072l4.071-3.857c.5-.376 1.143 0 1.143.601V15.28c0 .602-.643.903-1.143.602l-4.071-3.858H.714c-.428 0-.714-.3-.714-.752V6.76c0-.451.286-.752.714-.752M14.5 7.586l-1.768-1.768a1 1 0 1 0-1.414 1.414L13.085 9l-1.767 1.768a1 1 0 0 0 1.414 1.414l1.768-1.768 1.768 1.768a1 1 0 0 0 1.414-1.414L15.914 9l1.768-1.768a1 1 0 0 0-1.414-1.414z"/></svg>
+                                <svg class="media-icon media-icon--volume-low" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M.714 6.008h3.072l4.071-3.857c.5-.376 1.143 0 1.143.601V15.28c0 .602-.643.903-1.143.602l-4.071-3.858H.714c-.428 0-.714-.3-.714-.752V6.76c0-.451.286-.752.714-.752m10.568.59a.91.91 0 0 1 0-1.316.91.91 0 0 1 1.316 0c1.203 1.203 1.47 2.216 1.522 3.208q.012.255.011.51c0 1.16-.358 2.733-1.533 3.803a.7.7 0 0 1-.298.156c-.382.106-.873-.011-1.018-.156a.91.91 0 0 1 0-1.316c.57-.57.995-1.551.995-2.487 0-.944-.26-1.667-.995-2.402"/></svg>
+                                <svg class="media-icon media-icon--volume-high" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M15.6 3.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4C15.4 5.9 16 7.4 16 9s-.6 3.1-1.8 4.3c-.4.4-.4 1 0 1.4.2.2.5.3.7.3.3 0 .5-.1.7-.3C17.1 13.2 18 11.2 18 9s-.9-4.2-2.4-5.7"/><path d="M.714 6.008h3.072l4.071-3.857c.5-.376 1.143 0 1.143.601V15.28c0 .602-.643.903-1.143.602l-4.071-3.858H.714c-.428 0-.714-.3-.714-.752V6.76c0-.451.286-.752.714-.752m10.568.59a.91.91 0 0 1 0-1.316.91.91 0 0 1 1.316 0c1.203 1.203 1.47 2.216 1.522 3.208q.012.255.011.51c0 1.16-.358 2.733-1.533 3.803a.7.7 0 0 1-.298.156c-.382.106-.873-.011-1.018-.156a.91.91 0 0 1 0-1.316c.57-.57.995-1.551.995-2.487 0-.944-.26-1.667-.995-2.402"/></svg>
                             </media-mute-button>
                         }
                         @if ( HasControl( VideoControlsType.Volume ) )
@@ -215,14 +215,14 @@
                         @if ( HasControl( VideoControlsType.Captions ) )
                         {
                             <media-captions-button class="media-button media-button--subtle media-button--icon media-button--captions">
-                                <media-icon name="captions-on" family="minimal" class="media-icon media-icon--captions-on"></media-icon>
-                                <media-icon name="captions-off" family="minimal" class="media-icon media-icon--captions-off"></media-icon>
+                                <svg class="media-icon media-icon--captions-on" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M15 2a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3zM3.75 11.5a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5zm8 0a.75.75 0 0 0 0 1.5h2.5a.75.75 0 0 0 0-1.5zm-8-3a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5zm4 0a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5zm6 0a.75.75 0 0 0 0 1.5h.5a.75.75 0 0 0 0-1.5z"/></svg>
+                                <svg class="media-icon media-icon--captions-off" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><rect width="16.5" height="12.5" x=".75" y="2.75" stroke="currentColor" stroke-width="1.5" rx="3"/><rect width="3" height="1.5" x="3" y="8.5" fill="currentColor" fill-opacity=".5" rx=".75"/><rect width="2" height="1.5" x="13" y="8.5" fill="currentColor" fill-opacity=".5" rx=".75"/><rect width="4" height="1.5" x="11" y="11.5" fill="currentColor" fill-opacity=".5" rx=".75"/><rect width="5" height="1.5" x="7" y="8.5" fill="currentColor" fill-opacity=".5" rx=".75"/><rect width="7" height="1.5" x="3" y="11.5" fill="currentColor" fill-opacity=".5" rx=".75"/></svg>
                             </media-captions-button>
                         }
                         @if ( HasControl( VideoControlsType.Settings ) && HasSettings )
                         {
                             <button type="button" commandfor="@SettingsMenuId" aria-label="Settings" class="media-button media-button--subtle media-button--icon media-button--settings">
-                                <media-icon name="gear" family="minimal" class="media-icon media-icon--settings"></media-icon>
+                                <svg class="media-icon media-icon--settings" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M7.519 2.184c.356-1.579 2.605-1.579 2.962 0a1.52 1.52 0 0 0 2.292.949c1.368-.864 2.958.727 2.094 2.095-.56.886-.073 2.06.95 2.29 1.578.357 1.578 2.607 0 2.964a1.518 1.518 0 0 0-.95 2.29c.864 1.369-.726 2.96-2.094 2.095a1.52 1.52 0 0 0-2.292.95c-.357 1.578-2.606 1.578-2.962 0a1.518 1.518 0 0 0-2.291-.95c-1.368.864-2.959-.726-2.095-2.094.56-.887.074-2.06-.95-2.291-1.578-.357-1.578-2.607 0-2.963a1.518 1.518 0 0 0 .95-2.291c-.864-1.368.727-2.959 2.095-2.095.886.56 2.06.074 2.29-.95M9 5.1a3.9 3.9 0 1 0 0 7.8 3.9 3.9 0 0 0 0-7.8"/></svg>
                             </button>
                             <media-menu id="@SettingsMenuId" side="top" align="center" class="media-popover media-menu media-menu--settings">
                                 <media-menu-view class="media-menu__panel">
@@ -233,7 +233,7 @@
                                                 <span>Quality</span>
                                                 <span class="media-menu__hint">
                                                     <media-menu-item-value class="media-menu__hint-label"></media-menu-item-value>
-                                                    <media-icon name="chevron" family="minimal" class="media-icon media-menu__chevron"></media-icon>
+                                                    <svg class="media-icon media-menu__chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
                                                 </span>
                                             </media-menu-item>
                                         }
@@ -243,7 +243,7 @@
                                                 <span>Speed</span>
                                                 <span class="media-menu__hint">
                                                     <media-menu-item-value class="media-menu__hint-label"></media-menu-item-value>
-                                                    <media-icon name="chevron" family="minimal" class="media-icon media-menu__chevron"></media-icon>
+                                                    <svg class="media-icon media-menu__chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
                                                 </span>
                                             </media-menu-item>
                                         }
@@ -253,7 +253,7 @@
                                                 <span>Captions</span>
                                                 <span class="media-menu__hint">
                                                     <media-menu-item-value class="media-menu__hint-label"></media-menu-item-value>
-                                                    <media-icon name="chevron" family="minimal" class="media-icon media-menu__chevron"></media-icon>
+                                                    <svg class="media-icon media-menu__chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
                                                 </span>
                                             </media-menu-item>
                                         }
@@ -270,7 +270,7 @@
                                 {
                                     <media-menu id="@QualityMenuId" class="media-menu__panel">
                                         <media-menu-back class="media-menu__back">
-                                            <media-icon name="chevron" family="minimal" class="media-icon media-menu__chevron media-icon--flipped"></media-icon>
+                                            <svg class="media-icon media-menu__chevron media-icon--flipped" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
                                             Quality
                                         </media-menu-back>
                                         <div class="media-menu__separator"></div>
@@ -280,7 +280,7 @@
                                                     <span><span data-part="label"></span><sup data-part="tier" class="media-menu__tier"></sup></span>
                                                     <span data-part="badge" class="media-badge"></span>
                                                     <media-menu-item-indicator force-mount class="media-menu__indicator">
-                                                        <media-icon name="check" family="minimal" class="media-icon"></media-icon>
+                                                        <svg class="media-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10.455 6.5 13 14 5"/></svg>
                                                     </media-menu-item-indicator>
                                                 </media-menu-radio-item>
                                             </template>
@@ -302,7 +302,7 @@
                                 {
                                     <media-menu id="@SpeedMenuId" class="media-menu__panel">
                                         <media-menu-back class="media-menu__back">
-                                            <media-icon name="chevron" family="minimal" class="media-icon media-menu__chevron media-icon--flipped"></media-icon>
+                                            <svg class="media-icon media-menu__chevron media-icon--flipped" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
                                             Speed
                                         </media-menu-back>
                                         <div class="media-menu__separator"></div>
@@ -311,7 +311,7 @@
                                                 <media-menu-radio-item class="media-menu__item">
                                                     <span data-part="label"></span>
                                                     <media-menu-item-indicator force-mount class="media-menu__indicator">
-                                                        <media-icon name="check" family="minimal" class="media-icon"></media-icon>
+                                                        <svg class="media-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10.455 6.5 13 14 5"/></svg>
                                                     </media-menu-item-indicator>
                                                 </media-menu-radio-item>
                                             </template>
@@ -322,7 +322,7 @@
                                 {
                                     <media-menu id="@CaptionsMenuId" class="media-menu__panel">
                                         <media-menu-back class="media-menu__back">
-                                            <media-icon name="chevron" family="minimal" class="media-icon media-menu__chevron media-icon--flipped"></media-icon>
+                                            <svg class="media-icon media-menu__chevron media-icon--flipped" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
                                             Captions
                                         </media-menu-back>
                                         <div class="media-menu__separator"></div>
@@ -331,7 +331,7 @@
                                                 <media-menu-radio-item class="media-menu__item">
                                                     <span data-part="label"></span>
                                                     <media-menu-item-indicator force-mount class="media-menu__indicator">
-                                                        <media-icon name="check" family="minimal" class="media-icon"></media-icon>
+                                                        <svg class="media-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10.455 6.5 13 14 5"/></svg>
                                                     </media-menu-item-indicator>
                                                 </media-menu-radio-item>
                                             </template>
@@ -343,15 +343,15 @@
                         @if ( HasControl( VideoControlsType.Pip ) )
                         {
                             <media-pip-button class="media-button media-button--subtle media-button--icon media-button--pip">
-                                <media-icon name="pip-enter" family="minimal" class="media-icon media-icon--pip-enter"></media-icon>
-                                <media-icon name="pip-exit" family="minimal" class="media-icon media-icon--pip-exit"></media-icon>
+                                <svg class="media-icon media-icon--pip-enter" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M13 2a4 4 0 0 1 4 4v2.645a3.5 3.5 0 0 0-1-.145h-.5V6A2.5 2.5 0 0 0 13 3.5H4A2.5 2.5 0 0 0 1.5 6v6A2.5 2.5 0 0 0 4 14.5h2.5v.5c0 .347.05.683.145 1H4a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4z"/><rect width="10" height="7" x="8" y="10" rx="2"/><path d="M7.25 10A.75.75 0 0 0 8 9.25v-3.5a.75.75 0 0 0-1.5 0V8.5H3.75a.75.75 0 0 0-.743.648L3 9.25c0 .414.336.75.75.75z"/><path d="M6.72 9.78a.75.75 0 0 0 1.06-1.06l-3.5-3.5a.75.75 0 0 0-1.06 1.06z"/></svg>
+                                <svg class="media-icon media-icon--pip-exit" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M13 2a4 4 0 0 1 4 4v2.646a3.5 3.5 0 0 0-1-.146h-.5V6A2.5 2.5 0 0 0 13 3.5H4A2.5 2.5 0 0 0 1.5 6v6A2.5 2.5 0 0 0 4 14.5h2.5v.5q.002.523.146 1H4a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4z"/><rect width="10" height="7" x="8" y="10" rx="2"/><path d="M3.75 5a.75.75 0 0 0-.75.75v3.5a.75.75 0 0 0 1.5 0V6.5h2.75a.75.75 0 0 0 .743-.648L8 5.75A.75.75 0 0 0 7.25 5z"/><path d="M4.28 5.22a.75.75 0 0 0-1.06 1.06l3.5 3.5a.75.75 0 0 0 1.06-1.06z"/></svg>
                             </media-pip-button>
                         }
                         @if ( HasControl( VideoControlsType.Airplay ) )
                         {
                             <media-airplay-button class="media-button media-button--subtle media-button--icon media-button--airplay">
-                                <media-icon name="airplay-enter" family="minimal" class="media-icon media-icon--airplay-enter"></media-icon>
-                                <media-icon name="airplay-exit" family="minimal" class="media-icon media-icon--airplay-exit"></media-icon>
+                                <svg class="media-icon media-icon--airplay-enter" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M15.154 2.004A3 3 0 0 1 18 5v6a3 3 0 0 1-2.846 2.996L15 14l-1.5-1.5H15a1.5 1.5 0 0 0 1.5-1.5V5A1.5 1.5 0 0 0 15 3.5H3A1.5 1.5 0 0 0 1.5 5v6A1.5 1.5 0 0 0 3 12.5h1.5L3 14a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h12z"/><path d="M8.631 10.902a.5.5 0 0 1 .738 0l4.363 4.76a.5.5 0 0 1-.369.838H4.637a.5.5 0 0 1-.369-.838z"/></svg>
+                                <svg class="media-icon media-icon--airplay-exit" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><style>@@keyframes media-icon--airplay__triangle{0%{translate:0 0}to{translate:0-2px}}@@keyframes media-icon--airplay__fill{0%{fill-opacity:0}to{fill-opacity:.2}}</style><path fill-opacity=".2" d="M14.5 2A3.5 3.5 0 0 1 18 5.5v5a3.5 3.5 0 0 1-3.032 3.468L9.354 8.354a.5.5 0 0 0-.708 0l-5.615 5.614A3.5 3.5 0 0 1 0 10.5v-5A3.5 3.5 0 0 1 3.5 2z" style="animation:var(--media-icon--airplay__fill-animation, media-icon--airplay__fill 1s ease-in-out infinite alternate)"/><path d="M14.5 2A3.5 3.5 0 0 1 18 5.5v5l-.005.18a3.5 3.5 0 0 1-3.027 3.288L13.5 12.5h1a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-11a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h1l-1.468 1.467A3.5 3.5 0 0 1 0 10.5v-5A3.5 3.5 0 0 1 3.5 2z"/><path d="M8.631 10.902a.5.5 0 0 1 .738 0l4.363 4.76a.5.5 0 0 1-.369.838H4.637a.5.5 0 0 1-.369-.838z" style="animation:var(--media-icon--airplay__triangle-animation, media-icon--airplay__triangle 1s ease-in-out infinite alternate)"/></svg>
                             </media-airplay-button>
                         }
                         @if ( HasControl( VideoControlsType.Download ) && !string.IsNullOrWhiteSpace( PrimarySource ) )
@@ -363,8 +363,8 @@
                         @if ( HasControl( VideoControlsType.Fullscreen ) )
                         {
                             <media-fullscreen-button class="media-button media-button--subtle media-button--icon media-button--fullscreen">
-                                <media-icon name="fullscreen-enter" family="minimal" class="media-icon media-icon--fullscreen-enter"></media-icon>
-                                <media-icon name="fullscreen-exit" family="minimal" class="media-icon media-icon--fullscreen-exit"></media-icon>
+                                <svg class="media-icon media-icon--fullscreen-enter" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M15.25 2a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0V3.5h-3.75a.75.75 0 0 1-.743-.648L10 2.75a.75.75 0 0 1 .75-.75z"/><path d="M14.72 2.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 1 1-1.06-1.06zM2.75 10a.75.75 0 0 1 .75.75v3.75h3.75a.75.75 0 0 1 .743.648L8 15.25a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 1 .75-.75"/><path d="M6.72 10.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06z"/></svg>
+                                <svg class="media-icon media-icon--fullscreen-exit" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M10.75 2a.75.75 0 0 1 .75.75V6.5h3.75a.75.75 0 0 1 .743.648L16 7.25a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 1 .75-.75"/><path d="M14.72 2.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 1 1-1.06-1.06zM7.25 10a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0V11.5H2.75a.75.75 0 0 1-.743-.648L2 10.75a.75.75 0 0 1 .75-.75z"/><path d="M6.72 10.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06z"/></svg>
                             </media-fullscreen-button>
                         }
                     </div>

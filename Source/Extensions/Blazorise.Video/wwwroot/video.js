@@ -4,7 +4,6 @@ const videoJsVendorRoot = "./vendors/videojs";
 const videoJsPlayerUrl = `${videoJsVendorRoot}/videojs.js`;
 const videoJsHlsUrl = `${videoJsVendorRoot}/hlsjs-video.js`;
 const videoJsDashUrl = `${videoJsVendorRoot}/dash-video.js`;
-const videoJsIconsUrl = new URL(`${videoJsVendorRoot}/icons.svg`, import.meta.url).href;
 
 insertCSSIntoDocumentHead("_content/Blazorise.Video/vendors/videojs/videojs.css?v=2.3.0.0");
 
@@ -43,9 +42,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
     instance.disconnectCleanupId = registerDisconnectCleanup(element, () => destroy(null, elementId, false));
 
     try {
-        disableExternalCastSdk(element);
         await loadVideoJs(options.streamingLibrary);
-        hydrateIcons(element);
 
         if (instance.destroyed)
             return;
@@ -122,7 +119,6 @@ export async function updateOptions(element, elementId, options) {
     applyChangedOption(instance, options, "streamingLibrary");
 
     if (streamingLibraryChanged) {
-        disableExternalCastSdk(instance.player);
         await loadVideoJs(instance.options.streamingLibrary);
         rebindRenderedMedia(instance);
     }
@@ -194,7 +190,6 @@ export async function updateOptions(element, elementId, options) {
             container.style.removeProperty("aspect-ratio");
     }
 
-    hydrateIcons(instance.player);
     refreshControls(instance, instance.dotNetAdapter);
     applyDefaultQualityWhenAvailable(instance.dotNetAdapter, instance);
 }
@@ -492,19 +487,8 @@ function rebindRenderedMedia(instance) {
     instance.qualityRenditions = null;
     instance.qualityObserver?.disconnect();
     instance.qualityObserver = null;
-    disableExternalCastSdk(instance.player);
     applyMediaOptions(instance);
     registerToEvents(instance.dotNetAdapter, instance);
-}
-
-function disableExternalCastSdk(player) {
-    if (!globalThis.chrome)
-        return;
-
-    const media = getMediaElement(player);
-
-    if (media)
-        media.setAttribute("disableremoteplayback", "");
 }
 
 function applyMediaOptions(instance) {
@@ -1220,33 +1204,4 @@ function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
 
     dotNetAdapter.invokeMethodAsync(methodName, ...args)
         .catch(reason => console.error(reason));
-}
-
-function hydrateIcons(root) {
-    const roots = [root];
-
-    for (let index = 0; index < roots.length; index++) {
-        const currentRoot = roots[index];
-
-        for (const icon of currentRoot?.querySelectorAll?.("media-icon[name]") || []) {
-            if (icon.firstElementChild)
-                continue;
-
-            const name = icon.getAttribute("name");
-            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-            const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
-
-            svg.setAttribute("viewBox", "0 0 18 18");
-            svg.setAttribute("width", "18");
-            svg.setAttribute("height", "18");
-            svg.setAttribute("fill", "currentColor");
-            svg.setAttribute("aria-hidden", "true");
-            use.setAttribute("href", `${videoJsIconsUrl}#${name}`);
-            svg.appendChild(use);
-            icon.appendChild(svg);
-        }
-
-        for (const template of currentRoot?.querySelectorAll?.("template") || [])
-            roots.push(template.content);
-    }
 }
