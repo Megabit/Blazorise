@@ -25,6 +25,13 @@ public class TailwindThemeGenerator : ThemeGenerator
     protected override string GetDockLayoutVariableName( string name )
         => $"--tw-dock-{name}";
 
+    protected override void GenerateBarVariables( Theme theme, ThemeBarOptions barOptions )
+    {
+        base.GenerateBarVariables( theme, barOptions );
+
+        GenerateBarFontVariableAliases( barOptions, "--tw-bar" );
+    }
+
     /// <inheritdoc />
     protected override void GenerateResizerStyles( StringBuilder sb, Theme theme )
         => GenerateResizerColorStyles(

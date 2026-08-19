@@ -102,6 +102,16 @@
     min-width: 0;
 }
 
+.b-bar-horizontal,
+.b-bar-vertical-inline,
+.b-bar-vertical-popout,
+.b-bar-vertical-small {
+    font-family: var(--b-bar-font-family, inherit);
+    font-size: var(--b-bar-font-size, inherit);
+    font-style: var(--b-bar-font-style, inherit);
+    font-weight: var(--b-bar-font-weight, inherit);
+}
+
 .b-bar-horizontal {
     &[data-collapse=hide] {
         flex-wrap: nowrap;

@@ -1321,6 +1321,10 @@ body {
   gap: 0.75rem;
   line-height: 1.25rem;
   min-inline-size: 0;
+  font-family: var(--mui-bar-font-family, var(--b-bar-font-family, inherit));
+  font-size: var(--mui-bar-font-size, var(--b-bar-font-size, inherit));
+  font-style: var(--mui-bar-font-style, var(--b-bar-font-style, inherit));
+  font-weight: var(--mui-bar-font-weight, var(--b-bar-font-weight, inherit));
   color: inherit;
   cursor: pointer;
   user-select: none;
