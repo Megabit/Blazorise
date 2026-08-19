@@ -99,7 +99,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DatePickerContainer( bool inline, bool open ) => $"datepicker dropdown{( inline ? " is-inline" : null )}{( open ? " is-active" : null )}";
 
-    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"datepicker-calendar box{( inline ? " is-inline" : null )}{( staticPicker ? " is-static" : " is-floating" )}";
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"datepicker-calendar box{( inline ? " is-inline" : staticPicker ? " is-static" : " is-floating" )}";
 
     public override string DatePickerCalendarBackdrop() => "datepicker-backdrop";
 
@@ -1576,17 +1576,23 @@ public class BulmaClassProvider : ClassProvider
 
     #region Tooltip
 
-    public override string Tooltip() => "b-tooltip";
+    public override string Tooltip() => "bulma-tooltip-host";
 
-    public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"b-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
+    public override string TooltipContent() => "bulma-tooltip-content";
 
-    public override string TooltipMultiline( bool multiline ) => multiline ? "b-tooltip-multiline" : null;
+    public override string TooltipSurface() => "bulma-tooltip-surface";
 
-    public override string TooltipAlwaysActive( bool alwaysActive ) => alwaysActive ? "b-tooltip-active" : null;
+    public override string TooltipArrow() => "bulma-tooltip-arrow";
 
-    public override string TooltipFade( bool fade ) => fade ? "b-tooltip-fade" : null;
+    public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"bulma-tooltip-host-{ToTooltipPlacement( tooltipPlacement )}";
 
-    public override string TooltipInline( bool inline ) => inline ? "b-tooltip-inline" : null;
+    public override string TooltipMultiline( bool multiline ) => multiline ? "bulma-tooltip-host-multiline" : null;
+
+    public override string TooltipAlwaysActive( bool alwaysActive ) => alwaysActive ? "bulma-tooltip-host-active" : null;
+
+    public override string TooltipFade( bool fade ) => fade ? "bulma-tooltip-host-fade" : null;
+
+    public override string TooltipInline( bool inline ) => inline ? "bulma-tooltip-host-inline" : null;
 
     #endregion
 

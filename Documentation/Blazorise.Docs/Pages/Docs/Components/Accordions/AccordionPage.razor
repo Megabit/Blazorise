@@ -1,4 +1,4 @@
-﻿@page "/docs/components/accordion"
+@page "/docs/components/accordion"
 
 <Seo Canonical="/docs/components/accordion" Title="Blazorise Accordion component" Description="Learn to work with the Blazorise accordion component to build a content area that can be collapsed and expanded." />
 
@@ -10,17 +10,17 @@
     An accordion allows users to toggle the display of sections of content.
 </DocsPageLead>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Overview
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Accordion is a vertically stacked set of expandable panels. It reduces clutter and helps maintain the user's focus by showing only the relevant content at any time.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Structure
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     The <Code>Accordion</Code> structure is very simple:
@@ -60,9 +60,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Default accordion">
@@ -93,4 +93,30 @@
     </Alert>
 </Paragraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Accordion), typeof(AccordionToggle), typeof(AccordionItem), typeof(AccordionHeader), typeof(AccordionBody)]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Write Clear Headers
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Use short, descriptive headers so users can predict what each section contains before opening it. Keep the number of sections manageable, and split long or unrelated content into separate pages when the accordion becomes difficult to scan.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Expansion Behavior
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Allow multiple items to stay open when users need to compare information. Single-item expansion works better when the sections form a focused sequence. Essential instructions and error messages should remain visible instead of being hidden inside a collapsed item.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/accordion/api" Name="<Accordion />" />
+    <DocsPageApiItem Url="docs/components/accordion/api" Name="<AccordionToggle />" />
+    <DocsPageApiItem Url="docs/components/accordion/api" Name="<AccordionItem />" />
+    <DocsPageApiItem Url="docs/components/accordion/api" Name="<AccordionHeader />" />
+    <DocsPageApiItem Url="docs/components/accordion/api" Name="<AccordionBody />" />
+</DocsPageApi>

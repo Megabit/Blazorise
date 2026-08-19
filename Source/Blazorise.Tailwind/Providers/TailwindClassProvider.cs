@@ -1,4 +1,4 @@
-#region Using directives
+﻿#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -127,7 +127,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DatePickerContainer( bool inline, bool open ) => $"tw-datepicker{( inline ? " tw-datepicker-inline" : null )}{( open ? " tw-datepicker-open" : null )}";
 
-    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"tw-datepicker-calendar{( inline ? " tw-datepicker-calendar-inline" : null )}{( staticPicker ? " tw-datepicker-calendar-static" : " tw-datepicker-calendar-floating" )}";
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"tw-datepicker-calendar{( inline ? " tw-datepicker-calendar-inline" : staticPicker ? " tw-datepicker-calendar-static" : " tw-datepicker-calendar-floating" )}";
 
     public override string DatePickerCalendarBackdrop() => "tw-datepicker-backdrop";
 
@@ -2369,17 +2369,23 @@ public class TailwindClassProvider : ClassProvider
 
     #region Tooltip
 
-    public override string Tooltip() => "b-tooltip";
+    public override string Tooltip() => "tw-tooltip";
 
-    public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"b-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
+    public override string TooltipContent() => "tw-tooltip-content";
 
-    public override string TooltipMultiline( bool multiline ) => multiline ? "b-tooltip-multiline" : null;
+    public override string TooltipSurface() => "tw-tooltip-surface";
 
-    public override string TooltipAlwaysActive( bool alwaysActive ) => alwaysActive ? "b-tooltip-active" : null;
+    public override string TooltipArrow() => "tw-tooltip-arrow";
 
-    public override string TooltipFade( bool fade ) => fade ? "b-tooltip-fade" : null;
+    public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"tw-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
-    public override string TooltipInline( bool inline ) => inline ? "b-tooltip-inline" : null;
+    public override string TooltipMultiline( bool multiline ) => multiline ? "tw-tooltip-multiline" : null;
+
+    public override string TooltipAlwaysActive( bool alwaysActive ) => alwaysActive ? "tw-tooltip-active" : null;
+
+    public override string TooltipFade( bool fade ) => fade ? "tw-tooltip-fade" : null;
+
+    public override string TooltipInline( bool inline ) => inline ? "tw-tooltip-inline" : null;
 
     #endregion
 

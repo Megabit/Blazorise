@@ -119,4 +119,14 @@ public enum DocumentEventType
     /// The blur window event.
     /// </summary>
     Blur,
+
+    /// <summary>
+    /// The mouseenter document event.
+    /// </summary>
+    MouseEnter,
+
+    /// <summary>
+    /// The mouseleave document event.
+    /// </summary>
+    MouseLeave,
 }

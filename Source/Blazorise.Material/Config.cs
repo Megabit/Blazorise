@@ -27,7 +27,6 @@ public static class Config
         }
 
         serviceCollection.AddScoped<IJSModalModule, Modules.MaterialJSModalModule>();
-        serviceCollection.AddScoped<IJSTooltipModule, Modules.MaterialJSTooltipModule>();
 
         Enumeration<Background>.SetNameBuilder( new MaterialEnumerationNameBuilder<Background>() );
         Enumeration<TextColor>.SetNameBuilder( new MaterialEnumerationNameBuilder<TextColor>() );

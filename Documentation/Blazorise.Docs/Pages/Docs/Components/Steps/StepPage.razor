@@ -1,4 +1,4 @@
-﻿@page "/docs/components/step"
+@page "/docs/components/step"
 
 <Seo Canonical="/docs/components/step" Title="Blazorise Step component" Description="Learn to use and work with the Blazorise Step component that displays progress through numbered steps." />
 
@@ -75,9 +75,9 @@
     you will need to use <Code>StepsContent</Code> component.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -119,4 +119,28 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(Steps), typeof(Step), typeof(StepsContent), typeof(StepPanel)]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    True Sequence
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Steps suit a multi-stage task with a clear beginning and end, not general-purpose page navigation. Give each stage a short label that describes its goal and show the user's current position. Keep the sequence manageable by combining steps that are too small to stand on their own.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Protect Progress
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Validate the current step before allowing forward navigation, but let users return to completed steps without losing their input. If leaving the workflow would discard meaningful work, explain that consequence before navigating away.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/step/api" Name="<Steps />" />
+    <DocsPageApiItem Url="docs/components/step/api" Name="<Step />" />
+    <DocsPageApiItem Url="docs/components/step/api" Name="<StepPanel />" />
+</DocsPageApi>

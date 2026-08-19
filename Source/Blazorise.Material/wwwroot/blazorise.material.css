@@ -76,6 +76,8 @@
   --mui-right: env(safe-area-inset-right);
   --mui-surface: #fdf8fd;
   --mui-on-surface: #1c1b1e;
+  --mui-inverse-surface: #322f35;
+  --mui-inverse-on-surface: #f5eff7;
   --mui-surface-variant: #e7e0eb;
   --mui-on-surface-variant: #49454e;
   --mui-shadow: #000000;
@@ -1321,6 +1323,10 @@ body {
   gap: 0.75rem;
   line-height: 1.25rem;
   min-inline-size: 0;
+  font-family: var(--mui-bar-font-family, var(--b-bar-font-family, inherit));
+  font-size: var(--mui-bar-font-size, var(--b-bar-font-size, inherit));
+  font-style: var(--mui-bar-font-style, var(--b-bar-font-style, inherit));
+  font-weight: var(--mui-bar-font-weight, var(--b-bar-font-weight, inherit));
   color: inherit;
   cursor: pointer;
   user-select: none;
@@ -9756,64 +9762,299 @@ body.modal-open {
     inline-size: min(40vw, 34rem);
   }
 }
-.mui-tooltip-inline {
+.mui-tooltip {
+  --mui-tooltip-state-display: none;
+  --mui-tooltip-state-opacity: 1;
+  --mui-tooltip-animation-scale: 1;
+  --mui-tooltip-animation-shift: 0px;
+  --mui-tooltip-animation-blur: 0px;
+  --mui-tooltip-state-scale: var(--mui-tooltip-animation-scale);
+  --mui-tooltip-state-shift: var(--mui-tooltip-animation-shift);
+  --mui-tooltip-state-blur: var(--mui-tooltip-animation-blur);
+  --mui-tooltip-state-visibility: hidden;
+  --mui-tooltip-state-opacity-delay: var(--mui-tooltip-hide-delay, 0ms);
+  --mui-tooltip-state-visibility-delay: calc(var(--mui-tooltip-hide-delay, 0ms) + var(--mui-tooltip-fade-duration, 0ms));
+  display: block;
+}
+.mui-tooltip:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) {
+  --mui-tooltip-state-opacity: 0;
+}
+.mui-tooltip[data-tooltip-animation=auto] {
+  --mui-tooltip-animation-scale: .8;
+}
+.mui-tooltip[data-tooltip-animation~=scale] {
+  --mui-tooltip-animation-scale: .96;
+}
+.mui-tooltip[data-tooltip-animation~=shift] {
+  --mui-tooltip-animation-shift: 4px;
+}
+.mui-tooltip[data-tooltip-animation~=blur] {
+  --mui-tooltip-animation-blur: 2px;
+}
+.mui-tooltip[data-tooltip-inline=true], .mui-tooltip[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
   display: inline-block;
 }
-
-[data-tippy-root] {
-  z-index: var(--mui-zindex-tooltip) !important;
+.mui-tooltip[data-tooltip-active=true], .mui-tooltip[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-visible, :has(:focus-visible)), .mui-tooltip[data-tooltip-trigger=focus]:focus-within, .mui-tooltip[data-tooltip-trigger=mouse-enter-click]:hover {
+  --mui-tooltip-state-display: block;
+  --mui-tooltip-state-opacity: 1;
+  --mui-tooltip-state-scale: 1;
+  --mui-tooltip-state-shift: 0px;
+  --mui-tooltip-state-blur: 0px;
+  --mui-tooltip-state-visibility: visible;
+  --mui-tooltip-state-opacity-delay: var(--mui-tooltip-show-delay, 0ms);
+  --mui-tooltip-state-visibility-delay: var(--mui-tooltip-show-delay, 0ms);
+}
+.mui-tooltip[data-tooltip-interactive=true] > .mui-tooltip-content {
+  pointer-events: auto;
+}
+.mui-tooltip[data-tooltip-multiline=true] .mui-tooltip-surface {
+  max-width: var(--mui-tooltip-max-width, 12.5rem);
+  text-wrap: pretty;
+  white-space: normal;
 }
 
-.tippy-box[data-theme~=material] {
-  --mui-tooltip-bg: color-mix(in srgb, var(--mui-on-surface) 92%, transparent);
-  --mui-tooltip-color: var(--mui-surface);
-  --mui-tooltip-radius: 0.25rem;
-  --mui-tooltip-padding-block: 0.3125rem;
-  --mui-tooltip-padding-inline: 0.625rem;
-  --mui-tooltip-font-size: 0.75rem;
-  --mui-tooltip-line-height: 1rem;
-  border-radius: var(--mui-tooltip-radius);
-  background-color: var(--mui-tooltip-bg);
-  color: var(--mui-tooltip-color);
-  box-shadow: var(--mui-elevate1);
+.mui-tooltip-content {
+  --mui-tooltip-offset: 0.25rem;
+  position: fixed;
+  position-anchor: var(--mui-tooltip-anchor);
+  position-visibility: anchors-visible;
+  container-type: anchored;
+  z-index: var(--mui-tooltip-z-index, var(--mui-zindex-tooltip));
+  display: var(--mui-tooltip-state-display);
+  width: max-content;
+  max-width: calc(100vw - 1rem);
+  margin: 0;
+  opacity: var(--mui-tooltip-state-opacity);
+  visibility: var(--mui-tooltip-state-visibility);
+  pointer-events: none;
+  transition-property: opacity, scale, translate, filter, visibility, display;
+  transition-duration: var(--mui-tooltip-fade-duration, 0ms), var(--mui-tooltip-fade-duration, 0ms), var(--mui-tooltip-fade-duration, 0ms), var(--mui-tooltip-fade-duration, 0ms), 0ms, 0ms;
+  transition-delay: var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-visibility-delay), var(--mui-tooltip-state-visibility-delay);
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), linear, linear;
+  transition-behavior: allow-discrete;
+}
+@starting-style {
+  .mui-tooltip:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .mui-tooltip-content {
+    opacity: 0;
+  }
+}
+.mui-tooltip:is([data-tooltip-animation=auto], [data-tooltip-animation~=scale]) > .mui-tooltip-content {
+  scale: var(--mui-tooltip-state-scale);
+}
+@starting-style {
+  .mui-tooltip:is([data-tooltip-animation=auto], [data-tooltip-animation~=scale]) > .mui-tooltip-content {
+    scale: var(--mui-tooltip-animation-scale);
+  }
+}
+.mui-tooltip[data-tooltip-animation~=blur] > .mui-tooltip-content {
+  filter: blur(var(--mui-tooltip-state-blur));
+}
+@starting-style {
+  .mui-tooltip[data-tooltip-animation~=blur] > .mui-tooltip-content {
+    filter: blur(var(--mui-tooltip-animation-blur));
+  }
+}
+.mui-tooltip[data-tooltip-animation~=shift] > .mui-tooltip-content {
+  translate: var(--mui-tooltip-state-translate);
+}
+@starting-style {
+  .mui-tooltip[data-tooltip-animation~=shift] > .mui-tooltip-content {
+    translate: var(--mui-tooltip-animation-translate);
+  }
+}
+.mui-tooltip-content:has(> .mui-tooltip-surface > .mui-tooltip-arrow) {
+  --mui-tooltip-offset: calc(0.25rem + 0.5rem);
+}
+.mui-tooltip-content[data-tooltip-placement^=top] {
+  --mui-tooltip-state-translate: 0 var(--mui-tooltip-state-shift);
+  --mui-tooltip-animation-translate: 0 var(--mui-tooltip-animation-shift);
+  bottom: calc(anchor(top) + var(--mui-tooltip-offset));
+  position-try-fallbacks: flip-block;
+}
+.mui-tooltip-content[data-tooltip-placement^=top][data-tooltip-placement=top] {
+  justify-self: anchor-center;
+}
+.mui-tooltip-content[data-tooltip-placement^=top][data-tooltip-placement=top-start] {
+  left: anchor(left);
+}
+.mui-tooltip-content[data-tooltip-placement^=top][data-tooltip-placement=top-end] {
+  right: anchor(right);
+}
+.mui-tooltip-content[data-tooltip-placement^=bottom] {
+  --mui-tooltip-state-translate: 0 calc(-1 * var(--mui-tooltip-state-shift));
+  --mui-tooltip-animation-translate: 0 calc(-1 * var(--mui-tooltip-animation-shift));
+  top: calc(anchor(bottom) + var(--mui-tooltip-offset));
+  position-try-fallbacks: flip-block;
+}
+.mui-tooltip-content[data-tooltip-placement^=bottom][data-tooltip-placement=bottom] {
+  justify-self: anchor-center;
+}
+.mui-tooltip-content[data-tooltip-placement^=bottom][data-tooltip-placement=bottom-start] {
+  left: anchor(left);
+}
+.mui-tooltip-content[data-tooltip-placement^=bottom][data-tooltip-placement=bottom-end] {
+  right: anchor(right);
+}
+.mui-tooltip-content[data-tooltip-placement^=left] {
+  --mui-tooltip-state-translate: var(--mui-tooltip-state-shift) 0;
+  --mui-tooltip-animation-translate: var(--mui-tooltip-animation-shift) 0;
+  right: calc(anchor(left) + var(--mui-tooltip-offset));
+  position-try-fallbacks: flip-inline;
+}
+.mui-tooltip-content[data-tooltip-placement^=left][data-tooltip-placement=left] {
+  align-self: anchor-center;
+}
+.mui-tooltip-content[data-tooltip-placement^=left][data-tooltip-placement=left-start] {
+  top: anchor(top);
+}
+.mui-tooltip-content[data-tooltip-placement^=left][data-tooltip-placement=left-end] {
+  bottom: anchor(bottom);
+}
+.mui-tooltip-content[data-tooltip-placement^=right] {
+  --mui-tooltip-state-translate: calc(-1 * var(--mui-tooltip-state-shift)) 0;
+  --mui-tooltip-animation-translate: calc(-1 * var(--mui-tooltip-animation-shift)) 0;
+  left: calc(anchor(right) + var(--mui-tooltip-offset));
+  position-try-fallbacks: flip-inline;
+}
+.mui-tooltip-content[data-tooltip-placement^=right][data-tooltip-placement=right] {
+  align-self: anchor-center;
+}
+.mui-tooltip-content[data-tooltip-placement^=right][data-tooltip-placement=right-start] {
+  top: anchor(top);
+}
+.mui-tooltip-content[data-tooltip-placement^=right][data-tooltip-placement=right-end] {
+  bottom: anchor(bottom);
+}
+
+.mui-tooltip-surface {
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  min-width: 2.5rem;
+  min-height: 2rem;
+  max-width: none;
+  padding: var(--mui-tooltip-padding, 0.5rem 0.75rem);
+  border-radius: var(--mui-tooltip-border-radius, 0.25rem);
+  background-color: var(--mui-tooltip-background-color, var(--mui-inverse-surface));
+  color: var(--mui-tooltip-color, var(--mui-inverse-on-surface));
   font-family: var(--mui-font-family);
-  font-size: var(--mui-tooltip-font-size);
-  line-height: var(--mui-tooltip-line-height);
-  font-weight: 500;
+  font-size: var(--mui-tooltip-font-size, 0.75rem);
+  font-weight: 400;
   letter-spacing: 0.025rem;
+  line-height: 1rem;
+  overflow-wrap: anywhere;
+  text-align: start;
+  white-space: nowrap;
   cursor: default;
 }
-
-.tippy-box[data-theme~=material] > .tippy-content {
-  padding: var(--mui-tooltip-padding-block) var(--mui-tooltip-padding-inline);
-  overflow-wrap: anywhere;
+.mui-tooltip-surface::before {
+  content: "";
+  position: absolute;
+}
+.mui-tooltip-surface > .mui-tooltip-arrow {
+  position: absolute;
+  z-index: -1;
+  display: block;
+  background-color: inherit;
+}
+[data-tooltip-placement^=top] > .mui-tooltip-surface::before {
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: var(--mui-tooltip-offset);
+}
+[data-tooltip-placement^=top] > .mui-tooltip-surface > .mui-tooltip-arrow {
+  bottom: -0.5rem;
+  left: calc(50% - 0.5rem);
+  width: 1rem;
+  height: 0.5rem;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+[data-tooltip-placement^=bottom] > .mui-tooltip-surface::before {
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  height: var(--mui-tooltip-offset);
+}
+[data-tooltip-placement^=bottom] > .mui-tooltip-surface > .mui-tooltip-arrow {
+  top: -0.5rem;
+  left: calc(50% - 0.5rem);
+  width: 1rem;
+  height: 0.5rem;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+[data-tooltip-placement^=left] > .mui-tooltip-surface::before {
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  width: var(--mui-tooltip-offset);
+}
+[data-tooltip-placement^=left] > .mui-tooltip-surface > .mui-tooltip-arrow {
+  top: calc(50% - 0.5rem);
+  right: -0.5rem;
+  width: 0.5rem;
+  height: 1rem;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+[data-tooltip-placement^=right] > .mui-tooltip-surface::before {
+  top: 0;
+  right: 100%;
+  bottom: 0;
+  width: var(--mui-tooltip-offset);
+}
+[data-tooltip-placement^=right] > .mui-tooltip-surface > .mui-tooltip-arrow {
+  top: calc(50% - 0.5rem);
+  left: -0.5rem;
+  width: 0.5rem;
+  height: 1rem;
+  clip-path: polygon(100% 0, 0 50%, 100% 100%);
 }
 
-.tippy-box[data-theme~=material][data-placement^=top] > .tippy-arrow::before {
-  border-top-color: var(--mui-tooltip-bg);
+@container anchored(fallback: flip-block) {
+  [data-tooltip-placement^=top] > .mui-tooltip-surface::before {
+    top: auto;
+    bottom: 100%;
+  }
+  [data-tooltip-placement^=top] > .mui-tooltip-surface > .mui-tooltip-arrow {
+    top: -0.5rem;
+    bottom: auto;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  }
+  [data-tooltip-placement^=bottom] > .mui-tooltip-surface::before {
+    top: 100%;
+    bottom: auto;
+  }
+  [data-tooltip-placement^=bottom] > .mui-tooltip-surface > .mui-tooltip-arrow {
+    top: auto;
+    bottom: -0.5rem;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
 }
-
-.tippy-box[data-theme~=material][data-placement^=bottom] > .tippy-arrow::before {
-  border-bottom-color: var(--mui-tooltip-bg);
+@container anchored(fallback: flip-inline) {
+  [data-tooltip-placement^=left] > .mui-tooltip-surface::before {
+    right: 100%;
+    left: auto;
+  }
+  [data-tooltip-placement^=left] > .mui-tooltip-surface > .mui-tooltip-arrow {
+    right: auto;
+    left: -0.5rem;
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+  }
+  [data-tooltip-placement^=right] > .mui-tooltip-surface::before {
+    right: auto;
+    left: 100%;
+  }
+  [data-tooltip-placement^=right] > .mui-tooltip-surface > .mui-tooltip-arrow {
+    right: -0.5rem;
+    left: auto;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
 }
-
-.tippy-box[data-theme~=material][data-placement^=left] > .tippy-arrow::before {
-  border-left-color: var(--mui-tooltip-bg);
+@media (prefers-reduced-motion: reduce) {
+  .mui-tooltip-content {
+    transition-duration: 0ms;
+  }
 }
-
-.tippy-box[data-theme~=material][data-placement^=right] > .tippy-arrow::before {
-  border-right-color: var(--mui-tooltip-bg);
-}
-
-.tippy-box[data-theme~=material] > .tippy-svg-arrow {
-  fill: var(--mui-tooltip-bg);
-}
-
-.tippy-box[data-theme~=material][data-animation=scale][data-state=hidden] {
-  transform: scale(0.92);
-  opacity: 0;
-}
-
 .mui-button {
   position: relative;
   isolation: isolate;

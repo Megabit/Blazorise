@@ -1,0 +1,146 @@
+﻿<svg viewBox="0 0 320 150" preserveAspectRatio="xMidYMid slice" width="100%" height="150" role="img" aria-label="@AriaLabel" style="@SvgStyle">
+    <defs>
+        <linearGradient id="@FillId" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="@Surface" />
+            <stop offset="100%" stop-color="@SurfaceSubtle" />
+        </linearGradient>
+        <linearGradient id="@AccentFillId" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="@Primary" />
+            <stop offset="100%" stop-color="@PrimaryDark" />
+        </linearGradient>
+        <filter id="@ShadowId" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="@ShadowColor" flood-opacity=".12" />
+        </filter>
+    </defs>
+
+    <rect width="320" height="150" fill="url(#@FillId)" />
+    <circle cx="282" cy="28" r="38" fill="@PrimarySoft" opacity=".75" />
+    <circle cx="56" cy="130" r="46" fill="@InfoSoft" opacity=".45" />
+
+    @switch ( Slug )
+    {
+        case "message-provider":
+            <rect x="62" y="32" width="196" height="106" rx="12" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="62" y="32" width="196" height="26" rx="12" fill="@PrimarySoft" />
+            <circle cx="94" cy="84" r="17" fill="@PrimarySoft" stroke="@Primary" stroke-width="3" />
+            <path d="M89 79c0-8 12-9 12-1 0 6-7 6-7 12M94 98h.1M124 74h94M124 92h68" fill="none" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <rect x="142" y="110" width="44" height="18" rx="7" fill="@Surface" stroke="@PrimaryMuted" stroke-width="2" />
+            <rect x="194" y="110" width="44" height="18" rx="7" fill="url(#@AccentFillId)" />
+            break;
+        case "modal-provider":
+            <rect x="46" y="22" width="228" height="122" rx="14" fill="@Overlay" opacity=".14" />
+            <rect x="78" y="34" width="164" height="104" rx="12" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="78" y="34" width="164" height="28" rx="12" fill="@PrimarySoft" />
+            <path d="M98 48h72M222 43l10 10M232 43l-10 10M100 82h112M100 102h76" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <rect x="174" y="116" width="48" height="16" rx="7" fill="url(#@AccentFillId)" />
+            <circle cx="250" cy="122" r="17" fill="@Surface" stroke="@Primary" stroke-width="3" />
+            <path d="M250 114v16M242 122h16" stroke="@PrimaryStrong" stroke-width="4" stroke-linecap="round" />
+            break;
+        case "offcanvas-provider":
+            <rect x="54" y="26" width="212" height="118" rx="12" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="54" y="26" width="212" height="24" rx="12" fill="@PrimarySoft" />
+            <path d="M76 40h64M76 72h72M76 94h50M76 116h64" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <rect x="174" y="30" width="88" height="110" rx="8" fill="@SurfaceSubtle" stroke="@Primary" stroke-width="2" />
+            <path d="M194 58h44M194 80h54M194 102h36" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <circle cx="190" cy="122" r="13" fill="url(#@AccentFillId)" />
+            <path d="M190 116v12M184 122h12" stroke="@Surface" stroke-width="3" stroke-linecap="round" />
+            break;
+        case "notification-provider":
+            <g filter="url(#@ShadowId)">
+                <rect x="66" y="26" width="188" height="32" rx="10" fill="@Overlay" />
+                <rect x="66" y="64" width="188" height="32" rx="10" fill="@Overlay" />
+                <rect x="66" y="102" width="188" height="32" rx="10" fill="@Overlay" />
+            </g>
+            <circle cx="86" cy="42" r="7" fill="@Success" /><circle cx="86" cy="80" r="7" fill="@Warning" /><circle cx="86" cy="118" r="7" fill="@Danger" />
+            <path d="M104 42h104M104 80h82M104 118h116" stroke="@Surface" stroke-width="5" stroke-linecap="round" />
+            <path d="M232 36l12 12M244 36l-12 12M232 74l12 12M244 74l-12 12M232 112l12 12M244 112l-12 12" stroke="@PrimaryMuted" stroke-width="3" stroke-linecap="round" />
+            break;
+        case "page-progress-provider":
+            <rect x="56" y="26" width="208" height="118" rx="12" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="56" y="26" width="208" height="26" rx="12" fill="@PrimarySoft" />
+            <circle cx="74" cy="39" r="4" fill="@Danger" /><circle cx="88" cy="39" r="4" fill="@Warning" /><circle cx="102" cy="39" r="4" fill="@Success" />
+            <rect x="56" y="52" width="208" height="7" fill="@Neutral" />
+            <rect x="56" y="52" width="142" height="7" fill="url(#@AccentFillId)" />
+            <path d="M80 82h92M80 102h122M80 122h74" stroke="@PrimaryMuted" stroke-width="7" stroke-linecap="round" />
+            <circle cx="226" cy="100" r="22" fill="@Surface" stroke="@Border" stroke-width="3" />
+            <path d="M226 78a22 22 0 0 1 22 22" fill="none" stroke="@Primary" stroke-width="7" stroke-linecap="round" />
+            break;
+        case "toast-provider":
+            <rect x="78" y="28" width="176" height="52" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="78" y="28" width="176" height="20" rx="10" fill="@PrimarySoft" />
+            <circle cx="94" cy="38" r="5" fill="@Success" />
+            <path d="M106 38h66M236 34l8 8M244 34l-8 8M96 62h118" stroke="@PrimaryStrong" stroke-width="4" stroke-linecap="round" />
+            <rect x="62" y="88" width="176" height="52" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="62" y="88" width="176" height="20" rx="10" fill="@PrimarySoft" />
+            <circle cx="78" cy="98" r="5" fill="@Warning" />
+            <path d="M90 98h58M220 94l8 8M228 94l-8 8M80 122h124" stroke="@PrimaryStrong" stroke-width="4" stroke-linecap="round" />
+            break;
+        default:
+            <rect x="82" y="38" width="156" height="90" rx="12" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M108 66h108M108 88h78M108 110h52" stroke="@PrimaryStrong" stroke-width="6" stroke-linecap="round" />
+            <circle cx="226" cy="50" r="16" fill="url(#@AccentFillId)" />
+            break;
+    }
+</svg>
+
+@code {
+    [Parameter] public string For { get; set; }
+
+    [Parameter] public string Name { get; set; }
+
+    private string Slug
+    {
+        get
+        {
+            string[] segments = ( For ?? string.Empty ).Split( '/', StringSplitOptions.RemoveEmptyEntries );
+
+            return segments.Length == 0 ? string.Empty : segments[^1];
+        }
+    }
+
+    private string AriaLabel => $"{Name} service illustration";
+
+    private string IdSuffix => Slug.Replace( "-", "", StringComparison.Ordinal );
+
+    private string FillId => $"docsServiceIllustrationFill{IdSuffix}";
+
+    private string AccentFillId => $"docsServiceIllustrationAccent{IdSuffix}";
+
+    private string ShadowId => $"docsServiceIllustrationShadow{IdSuffix}";
+
+    private string SvgStyle => $"display:block;border-bottom:1px solid {Rule};background:{Canvas}";
+
+    private const string Canvas = "var(--b-theme-light, #fbfcff)";
+
+    private const string Surface = "var(--b-theme-light, #ffffff)";
+
+    private const string SurfaceSubtle = "var(--b-theme-background-light-subtle, #f4f7fb)";
+
+    private const string Border = "var(--b-theme-border-secondary-subtle, #cfd7e6)";
+
+    private const string Rule = "var(--b-theme-border-light-subtle, #e9edf5)";
+
+    private const string Neutral = "var(--b-theme-background-secondary-subtle, #e5e7eb)";
+
+    private const string Overlay = "var(--b-theme-dark, #111827)";
+
+    private const string ShadowColor = "var(--b-theme-dark, #1f2937)";
+
+    private const string Primary = "var(--b-theme-primary, #8b5cf6)";
+
+    private const string PrimaryStrong = "var(--b-theme-primary, #6d28d9)";
+
+    private const string PrimaryDark = "var(--b-theme-primary, #4f46e5)";
+
+    private const string PrimarySoft = "var(--b-theme-background-primary-subtle, #eef2ff)";
+
+    private const string PrimaryMuted = "var(--b-theme-border-primary-subtle, #d8b4fe)";
+
+    private const string InfoSoft = "var(--b-theme-background-info-subtle, #e0f2fe)";
+
+    private const string Success = "var(--b-theme-success, #22c55e)";
+
+    private const string Danger = "var(--b-theme-danger, #ef4444)";
+
+    private const string Warning = "var(--b-theme-warning, #f59e0b)";
+}

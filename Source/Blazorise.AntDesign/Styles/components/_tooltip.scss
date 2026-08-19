@@ -1,29 +1,498 @@
-.tippy-box[data-theme~='blazorise'] {
-    max-width: var(--ant-tooltip-max-width);
-    color: var(--ant-tooltip-color);
-    font-size: var(--ant-font-size);
-    line-height: var(--ant-line-height);
-    background: var(--ant-tooltip-bg);
-    border-radius: var(--ant-tooltip-border-radius);
-    box-shadow: var(--ant-box-shadow-secondary);
-    z-index: var(--ant-tooltip-z-index-popup);
+.ant-tooltip-host {
+    --ant-tooltip-state-display: none;
+    --ant-tooltip-state-opacity: 1;
+    --ant-tooltip-state-visibility: hidden;
+    --ant-tooltip-animation-scale: 1;
+    --ant-tooltip-animation-shift: 0px;
+    --ant-tooltip-animation-blur: 0px;
+    --ant-tooltip-state-scale: var(--ant-tooltip-animation-scale);
+    --ant-tooltip-state-shift: var(--ant-tooltip-animation-shift);
+    --ant-tooltip-state-blur: var(--ant-tooltip-animation-blur);
+    --ant-tooltip-state-opacity-delay: var(--ant-tooltip-hide-delay, 0ms);
+    --ant-tooltip-state-visibility-delay: calc(var(--ant-tooltip-hide-delay, 0ms) + var(--ant-tooltip-fade-duration, 0ms));
+    display: block;
 
-    > .tippy-content {
-        padding: var(--ant-tooltip-padding);
-        overflow-wrap: break-word;
+    &:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) {
+        --ant-tooltip-state-opacity: 0;
     }
 
-    @each $placement, $border in $tooltip-placement-borders {
-        &[data-placement^='#{$placement}'] > .tippy-arrow::before {
-            border-#{$border}-color: var(--ant-tooltip-bg);
-        }
+    &[data-tooltip-animation='auto'] {
+        --ant-tooltip-animation-scale: .85;
     }
 
-    > .tippy-svg-arrow {
-        fill: var(--ant-tooltip-bg);
+    &[data-tooltip-animation~='scale'] {
+        --ant-tooltip-animation-scale: .96;
+    }
+
+    &[data-tooltip-animation~='shift'] {
+        --ant-tooltip-animation-shift: 4px;
+    }
+
+    &[data-tooltip-animation~='blur'] {
+        --ant-tooltip-animation-blur: 2px;
+    }
+
+    &[data-tooltip-inline='true'],
+    &[data-tooltip-inline='auto']:has(> :is(button, input, select, textarea, label, [role='button'])) {
+        display: inline-block;
+    }
+
+    &[data-tooltip-active='true'],
+    &[data-tooltip-trigger='mouse-enter-focus']:is(:hover, :focus-visible, :has(:focus-visible)),
+    &[data-tooltip-trigger='focus']:focus-within,
+    &[data-tooltip-trigger='mouse-enter-click']:hover {
+        --ant-tooltip-state-display: block;
+        --ant-tooltip-state-opacity: 1;
+        --ant-tooltip-state-visibility: visible;
+        --ant-tooltip-state-scale: 1;
+        --ant-tooltip-state-shift: 0px;
+        --ant-tooltip-state-blur: 0px;
+        --ant-tooltip-state-opacity-delay: var(--ant-tooltip-show-delay, 0ms);
+        --ant-tooltip-state-visibility-delay: var(--ant-tooltip-show-delay, 0ms);
+    }
+
+    &[data-tooltip-interactive='true'] > .ant-tooltip {
+        pointer-events: auto;
+    }
+
+    &[data-tooltip-multiline='true'] .ant-tooltip-inner {
+        max-width: var(--ant-tooltip-max-width);
+        white-space: normal;
     }
 }
 
-.ant-tooltip-host-inline {
-    display: inline-flex;
+@position-try --ant-tooltip-inline-start {
+    right: auto;
+    left: anchor(left);
+    justify-self: start;
+}
+
+@position-try --ant-tooltip-inline-end {
+    right: anchor(right);
+    left: auto;
+    justify-self: end;
+}
+
+@position-try --ant-tooltip-block-start {
+    top: anchor(top);
+    bottom: auto;
+    align-self: start;
+}
+
+@position-try --ant-tooltip-block-end {
+    top: auto;
+    bottom: anchor(bottom);
+    align-self: end;
+}
+
+@mixin ant-tooltip-inline-arrow-fallback($fallback, $edge, $flipped: false) {
+    @container anchored(fallback: #{$fallback}) {
+        :is([data-tooltip-placement='top'], [data-tooltip-placement='bottom']) > .ant-tooltip-inner > .ant-tooltip-arrow {
+            @if $edge == start {
+                right: auto;
+                left: var(--ant-tooltip-arrow-offset-horizontal);
+            }
+            @else {
+                right: var(--ant-tooltip-arrow-offset-horizontal);
+                left: auto;
+            }
+        }
+
+        [data-tooltip-placement='top'] > .ant-tooltip-inner > .ant-tooltip-arrow {
+            @if $flipped {
+                transform: translateY(-100%);
+            }
+            @else {
+                transform: translateY(100%) rotate(180deg);
+            }
+        }
+
+        [data-tooltip-placement='bottom'] > .ant-tooltip-inner > .ant-tooltip-arrow {
+            @if $flipped {
+                transform: translateY(100%) rotate(180deg);
+            }
+            @else {
+                transform: translateY(-100%);
+            }
+        }
+    }
+}
+
+@mixin ant-tooltip-block-arrow-fallback($fallback, $edge, $flipped: false) {
+    @container anchored(fallback: #{$fallback}) {
+        :is([data-tooltip-placement='left'], [data-tooltip-placement='right']) > .ant-tooltip-inner > .ant-tooltip-arrow {
+            @if $edge == start {
+                top: var(--ant-tooltip-arrow-offset-vertical);
+                bottom: auto;
+            }
+            @else {
+                top: auto;
+                bottom: var(--ant-tooltip-arrow-offset-vertical);
+            }
+        }
+
+        [data-tooltip-placement='left'] > .ant-tooltip-inner > .ant-tooltip-arrow {
+            @if $flipped {
+                transform: translateX(-100%) rotate(-90deg);
+            }
+            @else {
+                transform: translateX(100%) rotate(90deg);
+            }
+        }
+
+        [data-tooltip-placement='right'] > .ant-tooltip-inner > .ant-tooltip-arrow {
+            @if $flipped {
+                transform: translateX(100%) rotate(90deg);
+            }
+            @else {
+                transform: translateX(-100%) rotate(-90deg);
+            }
+        }
+    }
+}
+
+.ant-tooltip {
+    --ant-tooltip-arrow-background-color: var(--ant-tooltip-bg);
+    position: fixed;
+    position-anchor: var(--ant-tooltip-anchor);
+    position-visibility: anchors-visible;
+    container-type: anchored;
+    z-index: var(--ant-tooltip-z-index, var(--ant-tooltip-z-index-popup));
+    display: var(--ant-tooltip-state-display);
+    width: max-content;
+    max-width: calc(100vw - 1rem);
+    margin: 0;
+    opacity: var(--ant-tooltip-state-opacity);
+    visibility: var(--ant-tooltip-state-visibility);
+    pointer-events: none;
+    transition-property: opacity, scale, translate, filter, visibility, display;
+    transition-duration: var(--ant-tooltip-fade-duration, 0ms), var(--ant-tooltip-fade-duration, 0ms), var(--ant-tooltip-fade-duration, 0ms), var(--ant-tooltip-fade-duration, 0ms), 0ms, 0ms;
+    transition-delay: var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-visibility-delay), var(--ant-tooltip-state-visibility-delay);
+    transition-timing-function: var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), linear, linear;
+    transition-behavior: allow-discrete;
+
+    .ant-tooltip-host:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) > & {
+        @starting-style {
+            opacity: 0;
+        }
+    }
+
+    .ant-tooltip-host:is([data-tooltip-animation='auto'], [data-tooltip-animation~='scale']) > & {
+        scale: var(--ant-tooltip-state-scale);
+
+        @starting-style {
+            scale: var(--ant-tooltip-animation-scale);
+        }
+    }
+
+    .ant-tooltip-host[data-tooltip-animation~='blur'] > & {
+        filter: blur(var(--ant-tooltip-state-blur));
+
+        @starting-style {
+            filter: blur(var(--ant-tooltip-animation-blur));
+        }
+    }
+
+    .ant-tooltip-host[data-tooltip-animation~='shift'] > & {
+        translate: var(--ant-tooltip-state-translate);
+
+        @starting-style {
+            translate: var(--ant-tooltip-animation-translate);
+        }
+    }
+
+    &[data-tooltip-placement^='top'] {
+        --ant-tooltip-state-translate: 0 var(--ant-tooltip-state-shift);
+        --ant-tooltip-animation-translate: 0 var(--ant-tooltip-animation-shift);
+        bottom: calc(anchor(top) + 6px);
+        position-try-fallbacks: flip-block;
+
+        &[data-tooltip-placement='top'] {
+            justify-self: anchor-center;
+            transform-origin: center bottom;
+            position-try-fallbacks: --ant-tooltip-inline-start, --ant-tooltip-inline-end, flip-block, --ant-tooltip-inline-start flip-block, --ant-tooltip-inline-end flip-block;
+        }
+
+        &[data-tooltip-placement='top-start'] {
+            left: anchor(left);
+            transform-origin: calc(var(--ant-tooltip-arrow-offset-horizontal) + var(--ant-size-popup-arrow) / 2) bottom;
+        }
+
+        &[data-tooltip-placement='top-end'] {
+            right: anchor(right);
+            transform-origin: calc(100% - var(--ant-tooltip-arrow-offset-horizontal) - var(--ant-size-popup-arrow) / 2) bottom;
+        }
+    }
+
+    &[data-tooltip-placement^='bottom'] {
+        --ant-tooltip-state-translate: 0 calc(-1 * var(--ant-tooltip-state-shift));
+        --ant-tooltip-animation-translate: 0 calc(-1 * var(--ant-tooltip-animation-shift));
+        top: calc(anchor(bottom) + 6px);
+        position-try-fallbacks: flip-block;
+
+        &[data-tooltip-placement='bottom'] {
+            justify-self: anchor-center;
+            transform-origin: center top;
+            position-try-fallbacks: --ant-tooltip-inline-start, --ant-tooltip-inline-end, flip-block, --ant-tooltip-inline-start flip-block, --ant-tooltip-inline-end flip-block;
+        }
+
+        &[data-tooltip-placement='bottom-start'] {
+            left: anchor(left);
+            transform-origin: calc(var(--ant-tooltip-arrow-offset-horizontal) + var(--ant-size-popup-arrow) / 2) top;
+        }
+
+        &[data-tooltip-placement='bottom-end'] {
+            right: anchor(right);
+            transform-origin: calc(100% - var(--ant-tooltip-arrow-offset-horizontal) - var(--ant-size-popup-arrow) / 2) top;
+        }
+    }
+
+    &[data-tooltip-placement^='left'] {
+        --ant-tooltip-state-translate: var(--ant-tooltip-state-shift) 0;
+        --ant-tooltip-animation-translate: var(--ant-tooltip-animation-shift) 0;
+        right: calc(anchor(left) + 6px);
+        position-try-fallbacks: flip-inline;
+
+        &[data-tooltip-placement='left'] {
+            align-self: anchor-center;
+            transform-origin: right center;
+            position-try-fallbacks: --ant-tooltip-block-start, --ant-tooltip-block-end, flip-inline, --ant-tooltip-block-start flip-inline, --ant-tooltip-block-end flip-inline;
+        }
+
+        &[data-tooltip-placement='left-start'] {
+            top: anchor(top);
+            transform-origin: right calc(var(--ant-tooltip-arrow-offset-vertical) + var(--ant-size-popup-arrow) / 2);
+        }
+
+        &[data-tooltip-placement='left-end'] {
+            bottom: anchor(bottom);
+            transform-origin: right calc(100% - var(--ant-tooltip-arrow-offset-vertical) - var(--ant-size-popup-arrow) / 2);
+        }
+    }
+
+    &[data-tooltip-placement^='right'] {
+        --ant-tooltip-state-translate: calc(-1 * var(--ant-tooltip-state-shift)) 0;
+        --ant-tooltip-animation-translate: calc(-1 * var(--ant-tooltip-animation-shift)) 0;
+        left: calc(anchor(right) + 6px);
+        position-try-fallbacks: flip-inline;
+
+        &[data-tooltip-placement='right'] {
+            align-self: anchor-center;
+            transform-origin: left center;
+            position-try-fallbacks: --ant-tooltip-block-start, --ant-tooltip-block-end, flip-inline, --ant-tooltip-block-start flip-inline, --ant-tooltip-block-end flip-inline;
+        }
+
+        &[data-tooltip-placement='right-start'] {
+            top: anchor(top);
+            transform-origin: left calc(var(--ant-tooltip-arrow-offset-vertical) + var(--ant-size-popup-arrow) / 2);
+        }
+
+        &[data-tooltip-placement='right-end'] {
+            bottom: anchor(bottom);
+            transform-origin: left calc(100% - var(--ant-tooltip-arrow-offset-vertical) - var(--ant-size-popup-arrow) / 2);
+        }
+    }
+}
+
+.ant-tooltip-inner {
+    position: relative;
+    isolation: isolate;
+    box-sizing: border-box;
+    min-width: calc(var(--ant-tooltip-border-radius) + var(--ant-tooltip-border-radius) + var(--ant-size-popup-arrow));
+    min-height: var(--ant-control-height);
+    max-width: none;
+    padding: var(--ant-tooltip-padding);
+    border-radius: var(--ant-tooltip-border-radius);
+    background-color: var(--ant-tooltip-bg);
+    box-shadow: var(--ant-box-shadow-secondary);
+    color: var(--ant-tooltip-color);
+    font-family: inherit;
+    font-size: var(--ant-tooltip-font-size, var(--ant-font-size));
+    font-weight: 400;
+    line-height: var(--ant-line-height);
+    overflow-wrap: anywhere;
+    text-align: start;
+    white-space: nowrap;
+    cursor: default;
+
+    &::before {
+        content: "";
+        position: absolute;
+    }
+
+    > .ant-tooltip-arrow {
+        position: absolute;
+        z-index: 1;
+        display: block;
+        width: var(--ant-size-popup-arrow);
+        height: var(--ant-size-popup-arrow);
+        background-color: var(--ant-tooltip-arrow-background-color);
+        clip-path: polygon(1.6568542495px 100%, 50% calc(50% + 1.6568542495px), 14.3431457505px 100%, 1.6568542495px 100%);
+        overflow: hidden;
+        pointer-events: none;
+
+        &::before,
+        &::after {
+            content: none;
+        }
+    }
+
+    [data-tooltip-placement^='top'] > & {
+        &::before {
+            top: 100%;
+            right: 0;
+            left: 0;
+            height: 6px;
+        }
+
+        > .ant-tooltip-arrow {
+            bottom: 0;
+            transform: translateY(100%) rotate(180deg);
+        }
+    }
+
+    [data-tooltip-placement^='bottom'] > & {
+        &::before {
+            right: 0;
+            bottom: 100%;
+            left: 0;
+            height: 6px;
+        }
+
+        > .ant-tooltip-arrow {
+            top: 0;
+            transform: translateY(-100%);
+        }
+    }
+
+    [data-tooltip-placement^='left'] > & {
+        &::before {
+            top: 0;
+            bottom: 0;
+            left: 100%;
+            width: 6px;
+        }
+
+        > .ant-tooltip-arrow {
+            right: 0;
+            transform: translateX(100%) rotate(90deg);
+        }
+    }
+
+    [data-tooltip-placement^='right'] > & {
+        &::before {
+            top: 0;
+            right: 100%;
+            bottom: 0;
+            width: 6px;
+        }
+
+        > .ant-tooltip-arrow {
+            left: 0;
+            transform: translateX(-100%) rotate(-90deg);
+        }
+    }
+
+    :is([data-tooltip-placement='top'], [data-tooltip-placement='bottom']) > & > .ant-tooltip-arrow {
+        left: 50%;
+    }
+
+    [data-tooltip-placement='top'] > & > .ant-tooltip-arrow {
+        transform: translateX(-50%) translateY(100%) rotate(180deg);
+    }
+
+    [data-tooltip-placement='bottom'] > & > .ant-tooltip-arrow {
+        transform: translateX(-50%) translateY(-100%);
+    }
+
+    :is([data-tooltip-placement='top-start'], [data-tooltip-placement='bottom-start']) > & > .ant-tooltip-arrow {
+        left: var(--ant-tooltip-arrow-offset-horizontal);
+    }
+
+    :is([data-tooltip-placement='top-end'], [data-tooltip-placement='bottom-end']) > & > .ant-tooltip-arrow {
+        right: var(--ant-tooltip-arrow-offset-horizontal);
+    }
+
+    :is([data-tooltip-placement='left'], [data-tooltip-placement='right']) > & > .ant-tooltip-arrow {
+        top: 50%;
+    }
+
+    [data-tooltip-placement='left'] > & > .ant-tooltip-arrow {
+        transform: translateY(-50%) translateX(100%) rotate(90deg);
+    }
+
+    [data-tooltip-placement='right'] > & > .ant-tooltip-arrow {
+        transform: translateY(-50%) translateX(-100%) rotate(-90deg);
+    }
+
+    :is([data-tooltip-placement='left-start'], [data-tooltip-placement='right-start']) > & > .ant-tooltip-arrow {
+        top: var(--ant-tooltip-arrow-offset-vertical);
+    }
+
+    :is([data-tooltip-placement='left-end'], [data-tooltip-placement='right-end']) > & > .ant-tooltip-arrow {
+        bottom: var(--ant-tooltip-arrow-offset-vertical);
+    }
+
+    :is([data-tooltip-placement='top-start'], [data-tooltip-placement='top-end'], [data-tooltip-placement='bottom-start'], [data-tooltip-placement='bottom-end']) > & {
+        min-width: calc(var(--ant-tooltip-border-radius) + var(--ant-size-popup-arrow) + var(--ant-tooltip-arrow-offset-horizontal));
+    }
+}
+
+@container anchored(fallback: flip-block) or anchored(fallback: --ant-tooltip-inline-start flip-block) or anchored(fallback: --ant-tooltip-inline-end flip-block) {
+    [data-tooltip-placement^='top'] > .ant-tooltip-inner > .ant-tooltip-arrow {
+        top: 0;
+        bottom: auto;
+        transform: translateY(-100%);
+    }
+
+    [data-tooltip-placement^='bottom'] > .ant-tooltip-inner > .ant-tooltip-arrow {
+        top: auto;
+        bottom: 0;
+        transform: translateY(100%) rotate(180deg);
+    }
+
+    [data-tooltip-placement='top'] > .ant-tooltip-inner > .ant-tooltip-arrow {
+        transform: translateX(-50%) translateY(-100%);
+    }
+
+    [data-tooltip-placement='bottom'] > .ant-tooltip-inner > .ant-tooltip-arrow {
+        transform: translateX(-50%) translateY(100%) rotate(180deg);
+    }
+}
+
+@container anchored(fallback: flip-inline) or anchored(fallback: --ant-tooltip-block-start flip-inline) or anchored(fallback: --ant-tooltip-block-end flip-inline) {
+    [data-tooltip-placement^='left'] > .ant-tooltip-inner > .ant-tooltip-arrow {
+        right: auto;
+        left: 0;
+        transform: translateX(-100%) rotate(-90deg);
+    }
+
+    [data-tooltip-placement^='right'] > .ant-tooltip-inner > .ant-tooltip-arrow {
+        right: 0;
+        left: auto;
+        transform: translateX(100%) rotate(90deg);
+    }
+
+    [data-tooltip-placement='left'] > .ant-tooltip-inner > .ant-tooltip-arrow {
+        transform: translateY(-50%) translateX(-100%) rotate(-90deg);
+    }
+
+    [data-tooltip-placement='right'] > .ant-tooltip-inner > .ant-tooltip-arrow {
+        transform: translateY(-50%) translateX(100%) rotate(90deg);
+    }
+}
+
+@include ant-tooltip-inline-arrow-fallback("--ant-tooltip-inline-start", start);
+@include ant-tooltip-inline-arrow-fallback("--ant-tooltip-inline-start flip-block", start, true);
+@include ant-tooltip-inline-arrow-fallback("--ant-tooltip-inline-end", end);
+@include ant-tooltip-inline-arrow-fallback("--ant-tooltip-inline-end flip-block", end, true);
+@include ant-tooltip-block-arrow-fallback("--ant-tooltip-block-start", start);
+@include ant-tooltip-block-arrow-fallback("--ant-tooltip-block-start flip-inline", start, true);
+@include ant-tooltip-block-arrow-fallback("--ant-tooltip-block-end", end);
+@include ant-tooltip-block-arrow-fallback("--ant-tooltip-block-end flip-inline", end, true);
+
+@media (prefers-reduced-motion: reduce) {
+    .ant-tooltip {
+        transition-duration: 0ms;
+    }
 }

@@ -31,9 +31,9 @@
     <UnorderedListItem><Code>SvgBubbleChart</Code></UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Built-in features
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     SVG charts also include built-in chart plugins and interaction features that can be configured from C# and Blazor. Use <Anchor To="docs/extensions/svg-chart-plugins">plugins</Anchor> to add custom SVG rendering, or use the built-in pages for <Anchor To="docs/extensions/svg-chart-animation">animation</Anchor>, <Anchor To="docs/extensions/svg-chart-annotations">annotations</Anchor>, <Anchor To="docs/extensions/svg-chart-datalabels">data labels</Anchor>, <Anchor To="docs/extensions/svg-chart-streaming">streaming</Anchor>, <Anchor To="docs/extensions/svg-chart-trendline">trendlines</Anchor>, and <Anchor To="docs/extensions/svg-chart-zoom">zoom and pan</Anchor>.
@@ -43,9 +43,9 @@
     To use the SVG chart components, install the <Code>Blazorise.Charts.Svg</Code> package first.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Installation
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="NuGet">
@@ -61,9 +61,9 @@
     <DocsPageSectionSource Code="SvgChartImportsExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Column chart">
@@ -238,12 +238,31 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Accessibility
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     SVG charts render the root SVG with an accessible role and label by default. Use <Code>Role</Code>, <Code>AriaLabel</Code>, <Code>AccessibilityTitle</Code>, <Code>AccessibilityDescription</Code>, and <Code>TabIndex</Code> when a chart needs custom assistive text or keyboard focus.
 </DocsPageParagraph>
 
-<DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChart />" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChart />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgColumnChart />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgBarChart />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgLineChart />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgAreaChart />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgPieChart />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgDoughnutChart />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgPolarAreaChart />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgRadarChart />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgScatterChart />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgBubbleChart />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChartTitle />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChartLegend />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChartTooltip />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChartCategoryAxis />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChartTimeAxis />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChartValueAxis />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChartDataLabels />" />
+</DocsPageApi>

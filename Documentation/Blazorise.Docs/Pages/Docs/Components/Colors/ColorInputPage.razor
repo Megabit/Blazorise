@@ -1,4 +1,4 @@
-﻿@page "/docs/components/color-edit"
+@page "/docs/components/color-edit"
 @page "/docs/components/color-input"
 
 <Seo Canonical="/docs/components/color-input" Title="Blazorise Color component" Description="Learn to use and work with the Blazorise ColorInput component, a native color picker that allows you to select different colors." />
@@ -15,9 +15,9 @@
     This component works with standard <Code Tag>input type="color"</Code> elements. That is, the browser will control the look and feel, which may differ between Chrome, Firefox, and Edge.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -46,4 +46,26 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(ColorInput)]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Color Purpose
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Provide a visible label that explains what the color controls instead of relying on the preview alone. Show the selected value as text when users need to copy, compare, or enter an exact color.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Color and Context
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Pair status colors with text, icons, or patterns so the meaning remains understandable to users who cannot distinguish the colors. Validate and normalize the selected value before storing it or applying it to generated styles.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/color-input/api" Name="<ColorInput />" />
+</DocsPageApi>

@@ -18,9 +18,9 @@
     The examples below are ordered from basic to advanced. Start with <Code>Value</Code> and <Code>Language</Code>; add the other APIs only when the application needs them.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Structure
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <UnorderedList>
     <UnorderedListItem>
@@ -61,9 +61,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Installation
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="NuGet">
@@ -86,9 +86,9 @@
     <DocsPageSectionSource Code="CodeEditorImportsExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Binding">
@@ -176,21 +176,23 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Keyboard commands
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Common commands include <Code>Ctrl+Space</Code> for completion, <Code>Ctrl+F</Code> or <Code>Cmd+F</Code> for find, and <Code>Shift+Alt+F</Code> or <Code>Shift+Option+F</Code> for Format Document when a formatting provider is available.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Programmatic control
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Keep an <Code>@@ref</Code> when the application needs commands that are not naturally expressed through parameters. Common methods include <Code>Focus</Code>, <Code>GetValue</Code>, <Code>SetValue</Code>, <Code>GetSelection</Code>, <Code>SetSelection</Code>, <Code>RevealLine</Code>, <Code>Resize</Code>, <Code>GetDiagnostics</Code>, and <Code>FormatDocument</Code>.
     Update language, theme, diagnostics, completion, formatting, and custom language configuration through component parameters.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Blazorise.CodeEditor.CodeEditor)]" />
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/code-editor/api" Name="<CodeEditor />" />
+</DocsPageApi>

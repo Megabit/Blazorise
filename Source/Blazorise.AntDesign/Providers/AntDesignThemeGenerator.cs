@@ -99,6 +99,8 @@ public class AntDesignThemeGenerator : ThemeGenerator
         if ( barOptions is null )
             return;
 
+        GenerateBarFontVariableAliases( barOptions, "--ant-menu" );
+
         if ( !string.IsNullOrEmpty( barOptions.HorizontalHeight ) && barOptions.HorizontalHeight != "auto" )
             SetAntToken( "--ant-menu-horizontal-line-height", barOptions.HorizontalHeight );
 

@@ -46,6 +46,14 @@ public partial class ContextMenuBody : BaseComponent
         base.BuildClasses( builder );
     }
 
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        base.BuildStyles( builder );
+
+        builder.Append( "visibility:hidden", ParentContextMenu?.IsFloatingPositionInitialized != true );
+    }
+
     #endregion
 
     #region Properties
@@ -68,6 +76,9 @@ public partial class ContextMenuBody : BaseComponent
                 return;
 
             parentContextMenuState = value;
+
+            if ( value?.Visible != true )
+                DirtyStyles();
         }
     }
 

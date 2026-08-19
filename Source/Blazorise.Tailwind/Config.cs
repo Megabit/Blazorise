@@ -29,7 +29,6 @@ public static class Config
         serviceCollection.AddTailwindComponents();
 
         serviceCollection.AddScoped<IJSModalModule, Modules.TailwindJSModalModule>();
-        serviceCollection.AddScoped<IJSTooltipModule, Modules.TailwindJSTooltipModule>();
 
         Enumeration<Background>.SetNameBuilder( new TailwindEnumerationNameBuilder<Background>() );
         Enumeration<TextColor>.SetNameBuilder( new TailwindEnumerationNameBuilder<TextColor>() );

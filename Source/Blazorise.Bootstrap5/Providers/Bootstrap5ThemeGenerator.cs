@@ -41,6 +41,13 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
         SetBootstrapColorVariable( "emphasis-color", Var( ThemeVariables.BodyTextColor ) );
     }
 
+    protected override void GenerateBarVariables( Theme theme, ThemeBarOptions barOptions )
+    {
+        base.GenerateBarVariables( theme, barOptions );
+
+        GenerateBarFontVariableAliases( barOptions, "--bs-navbar" );
+    }
+
     protected override void GenerateColorVariables( Theme theme, string variant, string value )
     {
         var normalizedValue = NormalizeBootstrapColorOption( variant, value );

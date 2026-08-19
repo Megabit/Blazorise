@@ -12,7 +12,11 @@
 
 <DocsPageParagraph>
     Add the <Code Tag>OnScreenKeyboardProvider</Code> once near the root of your app, then enable the keyboard on the inputs that need it with the <Code>OnScreenKeyboard</Code> parameter.
-</DocsPageParagraph>
+</DocsPageParagraph><DocsPageSectionTitle>
+    Configuration
+</DocsPageSectionTitle>
+
+
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Provider setup">
@@ -21,9 +25,9 @@
     <DocsPageSectionSource Code="OnScreenKeyboardProviderSetupExample" CodeTitle="Routes.razor" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Text input">
@@ -96,4 +100,26 @@
     <DocsPageSectionSource Code="OnScreenKeyboardGlobalOptionsExample" CodeTitle="Program.cs" />
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof( OnScreenKeyboardProvider ), typeof( BaseOnScreenKeyboardInputComponent<,,> ), typeof( BlazoriseOnScreenKeyboardOptions )]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Input Alternatives
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    An on-screen keyboard should complement physical keyboards and assistive technology rather than replace them. Enable it only for the input types and devices that benefit from it so the keyboard does not obscure content unnecessarily.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Input Locale
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Layouts, decimal separators, special characters, and action keys should reflect both the input's purpose and the user's locale. Keep password and sensitive-data behavior consistent with the underlying input, and never record keystrokes for diagnostics.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/on-screen-keyboard/api" Name="<OnScreenKeyboardProvider />" />
+</DocsPageApi>

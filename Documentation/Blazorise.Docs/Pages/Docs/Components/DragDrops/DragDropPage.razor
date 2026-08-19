@@ -1,4 +1,4 @@
-﻿@page "/docs/components/drag-drop"
+@page "/docs/components/drag-drop"
 
 <Seo Canonical="/docs/components/drag-drop" Title="Blazorise DropZone system" Description="Learn to use and work with the Blazorise DropZone component which allows you to easily drag and drop any component or HTML element." />
 
@@ -32,9 +32,9 @@
 
 
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -65,4 +65,33 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(DropContainer<>), typeof(DropZone<>)]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Drag Alternative
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Every operation available through dragging should also have a keyboard-accessible method, such as move buttons. Make draggable items and valid drop zones visually clear, and show immediate feedback for both allowed and rejected drops.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionContent Code="DragDropAccessibleBestPracticeExample" Outlined FullWidth>
+        <DragDropAccessibleBestPracticeExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Validate Every Move
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Use stable item identifiers and update the source collection through one state owner after a successful drop. When ordering, permissions, or destination rules affect persisted data, validate the move again in application code before saving it.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/drag-drop/api" Name="<DropContainer />" />
+    <DocsPageApiItem Url="docs/components/drag-drop/api" Name="<DropZone />" />
+</DocsPageApi>

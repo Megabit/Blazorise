@@ -1,0 +1,45 @@
+@page "/docs/services/toast-provider/api"
+
+<Seo Canonical="/docs/services/toast-provider/api" Title="Blazorise Toast Provider API" Description="Explore the Blazorise ToastProvider and IToastService API reference for toast parameters, events, methods, placement, and behavior." />
+
+<DocsPageTitle Path="Services/Toast Provider/API">
+    Blazorise Toast Provider API
+</DocsPageTitle>
+
+<DocsPageLead>
+    Review the provider component and service methods used to display and configure toast notifications.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    For setup instructions and examples, see the <Anchor To="docs/services/toast-provider">Toast Provider documentation</Anchor>.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[typeof(ToastProvider)]" />
+
+<DocsPageSubsectionTitle ElementId="api-itoastservice">
+    IToastService
+</DocsPageSubsectionTitle>
+
+<DocsAttributes Name="Event" Title="Events" ShowDefaults="false">
+    <DocsAttributesItem Name="ToastReceived" Type="EventHandler&lt;ToastEventArgs&gt;">
+        Raised when a toast request is received by the provider.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsMethods Name="Method" Title="Methods">
+    <DocsMethodsItem Name="Show" ReturnType="Task" Parameters="message, title = null, options = null">
+        Shows a toast with the default intent. String and <Code>MarkupString</Code> overloads are available.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Info" ReturnType="Task" Parameters="message, title = null, options = null">
+        Shows an informational toast. String and <Code>MarkupString</Code> overloads are available.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Success" ReturnType="Task" Parameters="message, title = null, options = null">
+        Shows a success toast. String and <Code>MarkupString</Code> overloads are available.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Warning" ReturnType="Task" Parameters="message, title = null, options = null">
+        Shows a warning toast. String and <Code>MarkupString</Code> overloads are available.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Error" ReturnType="Task" Parameters="message, title = null, options = null">
+        Shows an error toast. String and <Code>MarkupString</Code> overloads are available.
+    </DocsMethodsItem>
+</DocsMethods>

@@ -1,4 +1,4 @@
-﻿@page "/docs/components/date-edit"
+@page "/docs/components/date-edit"
 @page "/docs/components/date-input"
 
 <Seo Canonical="/docs/components/date-input" Title="Blazorise DateInput component" Description="Learn to use and work with the Blazorise DateInput component, which is a native date selection component that lets users select a date." />
@@ -20,7 +20,11 @@
     comes with a few limitations that you must be aware of. First and foremost, the input display format is fully
     controlled by the browser and the system locale. This means that for you to change the input format you would
     need to change the browser settings.
-</DocsPageParagraph>
+</DocsPageParagraph><DocsPageSectionTitle>
+    Examples
+</DocsPageSectionTitle>
+
+
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic example">
@@ -30,9 +34,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Binding
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Two-way binding">
@@ -75,4 +79,26 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(DateInput<>)]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Clear Format
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Pair the input with a visible label and communicate the expected date format through persistent help text or a format-aware placeholder. Use a nullable value when an empty date is valid, and distinguish that empty state from a default date in application logic.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Apply Meaningful Constraints
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Minimum and maximum dates should reflect the actual business rule, which must also be validated when the form is processed. When browsing dates is easier than typing them, particularly for nearby appointments or date ranges, use a <Anchor To="docs/components/date-picker">DatePicker</Anchor>.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/date-input/api" Name="<DateInput />" />
+</DocsPageApi>

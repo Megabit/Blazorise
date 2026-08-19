@@ -1970,6 +1970,59 @@ namespace Blazorise.Docs.Models
     }
 }";
 
+        public const string DragDropAccessibleBestPracticeExample = @"<DropContainer @ref=""dropContainer"" TItem=""WorkItem"" Items=""@items"" ItemsFilter=""@(( item, dropZone ) => item.Group == dropZone)"" ItemDropped=""@OnItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
+    <ChildContent>
+        <DropZone TItem=""WorkItem"" Name=""@TodoZone"" Border=""Border.Rounded"" Background=""Background.Light"" Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"">
+            <Heading Size=""HeadingSize.Is4"" Margin=""Margin.Is3.FromBottom"">@TodoZone</Heading>
+        </DropZone>
+        <DropZone TItem=""WorkItem"" Name=""@DoneZone"" Border=""Border.Rounded"" Background=""Background.Light"" Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"">
+            <Heading Size=""HeadingSize.Is4"" Margin=""Margin.Is3.FromBottom"">@DoneZone</Heading>
+        </DropZone>
+    </ChildContent>
+    <ItemTemplate>
+        <Card @key=""@context.Id"" Shadow=""Shadow.Default"" Margin=""Margin.Is3.OnY"">
+            <CardBody>
+                <Div Display=""Display.Flex"" Flex=""Flex.AlignItems.Center.JustifyContent.Between"" Gap=""Gap.Is3"">
+                    <Text>@context.Name</Text>
+                    <Button Color=""Color.Secondary"" Size=""Size.Small"" Clicked=""@(() => MoveItem( context, context.Group == TodoZone ? DoneZone : TodoZone ))"">
+                        Move to @(context.Group == TodoZone ? DoneZone : TodoZone)
+                    </Button>
+                </Div>
+            </CardBody>
+        </Card>
+    </ItemTemplate>
+</DropContainer>
+
+@code {
+    private const string TodoZone = ""To do"";
+    private const string DoneZone = ""Done"";
+
+    private DropContainer<WorkItem> dropContainer;
+
+    private List<WorkItem> items =
+    [
+        new( 1, ""Review pull request"", TodoZone ),
+        new( 2, ""Update release notes"", TodoZone ),
+        new( 3, ""Publish package"", DoneZone ),
+    ];
+
+    private Task OnItemDropped( DraggableDroppedEventArgs<WorkItem> eventArgs )
+        => MoveItem( eventArgs.Item, eventArgs.DropZoneName );
+
+    private Task MoveItem( WorkItem item, string destination )
+    {
+        items = items
+            .Select( current => current.Id == item.Id ? current with { Group = destination } : current )
+            .ToList();
+
+        dropContainer?.Refresh();
+
+        return Task.CompletedTask;
+    }
+
+    public sealed record WorkItem( int Id, string Name, string Group );
+}";
+
         public const string DragDropReorderingExample = @"<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@((item, dropZone) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
     <ChildContent>
         @for ( int i = 1; i < 4; i++ )
@@ -5354,6 +5407,26 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     int value = 60;
 }";
 
+        public const string SliderPreciseInputBestPracticeExample = @"<Field Group>
+    <FieldLabel>Volume</FieldLabel>
+    <FieldBody>
+        <Div Display=""Display.Flex"" Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is3"">
+            <Div Flex=""Flex.Grow.Is1"">
+                <Slider TValue=""int"" @bind-Value=""@volume"" Min=""0"" Max=""100"" Step=""5"" />
+            </Div>
+            <Div Width=""Width.Is25"">
+                <NumericInput TValue=""int"" @bind-Value=""@volume"" Min=""0"" Max=""100"" Step=""5"" />
+            </Div>
+            <Text>%</Text>
+        </Div>
+        <FieldHelp>Use the slider for quick adjustments or enter an exact percentage.</FieldHelp>
+    </FieldBody>
+</Field>
+
+@code {
+    private int volume = 65;
+}";
+
         public const string SliderStepExample = @"<Paragraph>
     Current value: @value
 </Paragraph>
@@ -5493,6 +5566,79 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string BasicSwitchExample = @"<Switch TValue=""bool"">Remember me</Switch>";
+
+        public const string SwitchAsyncSettingBestPracticeExample = @"<Fields>
+    <Field>
+        <Div Display=""Display.Flex"" Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is3"">
+            <Switch TValue=""bool"" Value=""@notificationsEnabled"" ValueChanged=""@SaveSettingAsync"" Disabled=""@isSaving"">
+                Email notifications
+            </Switch>
+            @if ( !string.IsNullOrWhiteSpace( statusMessage ) )
+            {
+                <Span TextColor=""@StatusTextColor"" role=""status"" aria-live=""polite"">@statusMessage</Span>
+            }
+        </Div>
+    </Field>
+    <Field>
+        <Check TValue=""bool"" @bind-Value=""@simulateFailure"" Disabled=""@isSaving"">Simulate next save failure</Check>
+    </Field>
+</Fields>
+
+@if ( !string.IsNullOrWhiteSpace( errorMessage ) )
+{
+    <Alert Color=""Color.Danger"" Visible Margin=""Margin.Is3.FromTop"">
+        <AlertDescription>@errorMessage</AlertDescription>
+    </Alert>
+}
+
+@code {
+    private bool notificationsEnabled = true;
+    private bool simulateFailure;
+    private bool isSaving;
+    private string statusMessage = ""Saved"";
+    private string errorMessage;
+
+    private TextColor StatusTextColor
+        => isSaving
+            ? TextColor.Secondary
+            : errorMessage is null
+                ? TextColor.Success
+                : TextColor.Danger;
+
+    private async Task SaveSettingAsync( bool value )
+    {
+        bool previousValue = notificationsEnabled;
+        bool shouldFail = simulateFailure;
+
+        notificationsEnabled = value;
+        simulateFailure = false;
+        isSaving = true;
+        statusMessage = ""Saving..."";
+        errorMessage = null;
+
+        try
+        {
+            await Task.Delay( 800 );
+
+            if ( shouldFail )
+            {
+                throw new InvalidOperationException();
+            }
+
+            statusMessage = ""Saved"";
+        }
+        catch ( InvalidOperationException )
+        {
+            notificationsEnabled = previousValue;
+            statusMessage = ""Not saved"";
+            errorMessage = ""The setting could not be saved. The previous value was restored."";
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+}";
 
         public const string SwitchWithBindExample = @"<Switch TValue=""bool"" @bind-Value=""@rememberMe"">Remember Me</Switch>
 
@@ -6379,6 +6525,27 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Button Color=""Color.Primary"">Hover me</Button>
 </Tooltip>";
 
+        public const string TooltipAnimationExample = @"<Div Flex=""Flex.Wrap"" Gap=""Gap.Is2"">
+    <Tooltip Text=""Uses the animation preferred by the active provider."" Animation=""TooltipAnimation.Auto"">
+        <Button Color=""Color.Primary"">Auto</Button>
+    </Tooltip>
+    <Tooltip Text=""A simple opacity transition."" Animation=""TooltipAnimation.Fade"">
+        <Button Color=""Color.Secondary"">Fade</Button>
+    </Tooltip>
+    <Tooltip Text=""Fades while gently scaling."" Animation=""TooltipAnimation.FadeScale"">
+        <Button Color=""Color.Success"">Fade scale</Button>
+    </Tooltip>
+    <Tooltip Text=""Fades toward the target."" Animation=""TooltipAnimation.FadeShift"">
+        <Button Color=""Color.Info"">Fade shift</Button>
+    </Tooltip>
+    <Tooltip Text=""Fades through a subtle blur."" Animation=""TooltipAnimation.FadeBlur"">
+        <Button Color=""Color.Warning"">Fade blur</Button>
+    </Tooltip>
+    <Tooltip Text=""Combines fade, scale, and shift effects."" Animation=""@( TooltipAnimation.Fade | TooltipAnimation.Scale | TooltipAnimation.Shift )"">
+        <Button Color=""Color.Danger"">Combined</Button>
+    </Tooltip>
+</Div>";
+
         public const string TooltipDelayExample = @"<Tooltip Text=""I'm a Blazorise Tooltip!"" ShowDelay=""1000"" HideDelay=""500"">
     <Button Color=""Color.Primary"">Delay: (1000, 500)</Button>
 </Tooltip>";
@@ -6394,6 +6561,26 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 </Tooltip>
 <Tooltip Text=""Hello tooltip"" Placement=""TooltipPlacement.Bottom"">
     <Button Color=""Color.Primary"">Bottom tooltip</Button>
+</Tooltip>";
+
+        public const string TooltipRichContentExample = @"<Tooltip Multiline Padding=""Padding.Is3"">
+    <ChildContent>
+        <Button Color=""Color.Primary"">Rich content</Button>
+    </ChildContent>
+    <TooltipContent>
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.CheckCircle"" TextColor=""TextColor.Success"" />
+                <Heading Size=""HeadingSize.Is6"" TextWeight=""TextWeight.SemiBold"" Margin=""Margin.Is0"">
+                    Deployment ready
+                </Heading>
+            </Div>
+            <Paragraph TextSize=""TextSize.Small"" Margin=""Margin.Is0"">
+                All production checks passed successfully.
+            </Paragraph>
+            <Small TextColor=""TextColor.Info"">Updated just now</Small>
+        </Div>
+    </TooltipContent>
 </Tooltip>";
 
         public const string TooltipTextTruncateExample = @"<Tooltip Text=""Lorem Ipsum is simply dummy text of the printing and typesetting industry..."" Multiline Inline>
@@ -7121,7 +7308,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string TemplatesVersionInstallExample = @"dotnet new install Blazorise.Templates::1.1.0";
 
-        public const string TestingbUnitNugetExample = @"Install-Package Blazorise.Tests.bUnit";
+        public const string TestingbUnitNugetExample = @"dotnet add package Blazorise.Tests.bUnit";
 
         public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=2.3.0.0"" type=""module""></script>";
 
@@ -7297,7 +7484,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     }
 }";
 
-        public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
+        public const string AnimateNugetInstallExample = @"dotnet add package Blazorise.Animate";
 
         public const string AnimateResourcesExample = @"<!-- No script tag is required. Animate imports its JavaScript module automatically. -->";
 
@@ -8338,7 +8525,7 @@ public class CountryData
 
         public const string CaptchaImportsExample = @"@using Blazorise.Captcha";
 
-        public const string CaptchaNugetInstallExample = @"Install-Package Blazorise.Captcha";
+        public const string CaptchaNugetInstallExample = @"dotnet add package Blazorise.Captcha";
 
         public const string ReCaptchaExample = @"@using Microsoft.Extensions.Options
 @using System.Text.Json
@@ -8410,7 +8597,7 @@ public class CountryData
     }
 }";
 
-        public const string ReCaptchaNugetInstallExample = @"Install-Package Blazorise.Captcha.ReCaptcha";
+        public const string ReCaptchaNugetInstallExample = @"dotnet add package Blazorise.Captcha.ReCaptcha";
 
         public const string ReCaptchaRegisterServicesExample = @"using Blazorise.Captcha.ReCaptcha;
 
@@ -8751,7 +8938,7 @@ builder.Services
 
         public const string ChartImportsExample = @"@using Blazorise.Charts";
 
-        public const string ChartNugetInstallExample = @"Install-Package Blazorise.Charts";
+        public const string ChartNugetInstallExample = @"dotnet add package Blazorise.Charts";
 
         public const string ChartDataLabelsExample = @"<LineChart @ref=""@lineChart"" TItem=""int"" Options=""@lineChartOptions"">
     <ChartDataLabels TItem=""int"" Datasets=""@lineDataLabelsDatasets"" Options=""@lineDataLabelsOptions"" />
@@ -8897,7 +9084,7 @@ builder.Services
     }
 }";
 
-        public const string ChartDataLabelsNugetInstallExample = @"Install-Package Blazorise.Charts.DataLabels";
+        public const string ChartDataLabelsNugetInstallExample = @"dotnet add package Blazorise.Charts.DataLabels";
 
         public const string ChartDataLabelsScriptableExample = @"static Expression<Func<ScriptableOptionsContext, string>> TestScriptableColor = ( context ) => context.Active ? ""#ff0000"" : ""#4bc0c0"";
 
@@ -9025,7 +9212,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 }";
 
-        public const string ChartStreamingNugetInstallExample = @"Install-Package Blazorise.Charts.Streaming";
+        public const string ChartStreamingNugetInstallExample = @"dotnet add package Blazorise.Charts.Streaming";
 
         public const string ChartStreamingPauseExample = @"<LineChart @ref=""@horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
     <ChartStreaming @ref=""@chartStreaming""
@@ -9228,7 +9415,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 }";
 
-        public const string ChartTrendlineNugetInstallExample = @"Install-Package Blazorise.Charts.Trendline";
+        public const string ChartTrendlineNugetInstallExample = @"dotnet add package Blazorise.Charts.Trendline";
 
         public const string ChartAnnotationBoxExample = @"<LineChart @ref=""lineChartWithBoxes"" TItem=""int"" Options=""@lineChartWithBoxesOptions"">
     <ChartAnnotation TItem=""int"" Options=""@boxAnnotationOptions"" />
@@ -9468,7 +9655,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 }";
 
-        public const string ChartAnnotationNugetInstallExample = @"Install-Package Blazorise.Charts.Annotation";
+        public const string ChartAnnotationNugetInstallExample = @"dotnet add package Blazorise.Charts.Annotation";
 
         public const string ChartZoomExample = @"<Button Color=""Color.Primary"" Clicked=""@(async () => await HandleRedraw())"">Redraw</Button>
 
@@ -9581,8 +9768,8 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     };
 }";
 
-        public const string ChartZoomNugetInstallExample = @"Install-Package Blazorise.Charts
-Install-Package Blazorise.Chart.Zoom";
+        public const string ChartZoomNugetInstallExample = @"dotnet add package Blazorise.Charts
+dotnet add package Blazorise.Chart.Zoom";
 
         public const string CodeEditorBasicExample = @"<CodeEditor @bind-Value=""@sourceCode""
             Language=""@CodeEditorLanguage.CSharp""
@@ -9916,7 +10103,7 @@ run ""dotnet build""
 
         public const string CodeEditorImportsExample = @"@using Blazorise.CodeEditor";
 
-        public const string CodeEditorNugetInstallExample = @"Install-Package Blazorise.CodeEditor";
+        public const string CodeEditorNugetInstallExample = @"dotnet add package Blazorise.CodeEditor";
 
         public const string CodeEditorOptionsExample = @"<CodeEditor @ref=""@editor""
             @bind-Value=""@sourceCode""
@@ -10113,7 +10300,7 @@ console.log(greeting(""Blazorise""));
     o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
 })";
 
-        public const string CropperNugetInstallExample = @"Install-Package Blazorise.Cropper";
+        public const string CropperNugetInstallExample = @"dotnet add package Blazorise.Cropper";
 
         public const string CropperViewerExample = @"<Row>
     <Column>
@@ -18915,7 +19102,7 @@ public class EmployeeData
     }
 }";
 
-        public const string DataGridNugetInstallExample = @"Install-Package Blazorise.DataGrid";
+        public const string DataGridNugetInstallExample = @"dotnet add package Blazorise.DataGrid";
 
         public const string DataGridNumericColumnExample = @"@using System
 @using System.Collections.Generic
@@ -24432,8 +24619,8 @@ public class Salary
 
         public const string FluentValidationImportExample = @"@using Blazorise.FluentValidation";
 
-        public const string FluentValidationNugetInstallExample = @"Install-Package Blazorise.FluentValidation
-Install-Package FluentValidation.DependencyInjectionExtensions";
+        public const string FluentValidationNugetInstallExample = @"dotnet add package Blazorise.FluentValidation
+dotnet add package FluentValidation.DependencyInjectionExtensions";
 
         public const string FluentValidationRegisterValidatorsExample = @"using Blazorise;
 using Blazorise.Bootstrap;
@@ -25201,7 +25388,7 @@ public class PersonValidator : AbstractValidator<Person>
     }
 }";
 
-        public const string GanttNugetInstallExample = @"Install-Package Blazorise.Gantt";
+        public const string GanttNugetInstallExample = @"dotnet add package Blazorise.Gantt";
 
         public const string GanttTemplatesExample = @"<Gantt TItem=""TaskItem""
        Data=""@tasks""
@@ -25429,27 +25616,27 @@ builder.Services
 
         public const string IconStyleExample = @"<Icon Name=""IconName.Mail"" IconStyle=""IconStyle.Regular"" />";
 
-        public const string IconsNugetInstallExample = @"Install-Package Blazorise.Icons.Bootstrap
+        public const string IconsNugetInstallExample = @"dotnet add package Blazorise.Icons.Bootstrap
 
 or
 
-Install-Package Blazorise.Icons.AntDesign
+dotnet add package Blazorise.Icons.AntDesign
 
 or
 
-Install-Package Blazorise.Icons.FluentUI
+dotnet add package Blazorise.Icons.FluentUI
 
 or
 
-Install-Package Blazorise.Icons.FontAwesome
+dotnet add package Blazorise.Icons.FontAwesome
 
 or
 
-Install-Package Blazorise.Icons.Lucide
+dotnet add package Blazorise.Icons.Lucide
 
 or
 
-Install-Package Blazorise.Icons.Material";
+dotnet add package Blazorise.Icons.Material";
 
         public const string LucideIconsCSSExample = @"<link href=""_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.3.0.0"" rel=""stylesheet"" />";
 
@@ -25892,7 +26079,7 @@ Install-Package Blazorise.Icons.Material";
 
         public const string LoadingIndicatorImportsExample = @"@using Blazorise.LoadingIndicator";
 
-        public const string LoadingIndicatorNugetInstallExample = @"Install-Package Blazorise.LoadingIndicator";
+        public const string LoadingIndicatorNugetInstallExample = @"dotnet add package Blazorise.LoadingIndicator";
 
         public const string LoadingIndicatorResourcesExample = @"<link href=""_content/Blazorise.LoadingIndicator/blazorise.loadingindicator.css"" rel=""stylesheet"" />";
 
@@ -25970,7 +26157,7 @@ Install-Package Blazorise.Icons.Material";
 
         public const string ImportLottieAnimationExample = @"@using Blazorise.LottieAnimation";
 
-        public const string LottieAnimationNugetInstallExample = @"Install-Package Blazorise.LottieAnimation";
+        public const string LottieAnimationNugetInstallExample = @"dotnet add package Blazorise.LottieAnimation";
 
         public const string MapsBasicExample = @"<Map View=""@view"" Height=""Height.Rem( 28 )"">
     <MapTileLayer Source=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
@@ -26101,7 +26288,7 @@ Install-Package Blazorise.Icons.Material";
     private sealed record MapPlace( string Id, string Name, MapCoordinate Coordinate, string Description );
 }";
 
-        public const string MapsNugetInstallExample = @"Install-Package Blazorise.Maps";
+        public const string MapsNugetInstallExample = @"dotnet add package Blazorise.Maps";
 
         public const string MapsServiceRegistrationExample = @"builder.Services
     .AddBlazorise()
@@ -26215,7 +26402,7 @@ Install-Package Blazorise.Icons.Material";
     }
 }";
 
-        public const string MarkdownNugetInstallExample = @"Install-Package Blazorise.Markdown";
+        public const string MarkdownNugetInstallExample = @"dotnet add package Blazorise.Markdown";
 
         public const string MarkdownPreviewRenderExample = @"<Markdown Value=""@markdownValue"" ValueChanged=""@OnMarkdownValueChanged"" PreviewRender=""@PreviewRender"" />
 
@@ -26358,7 +26545,7 @@ Install-Package Blazorise.Icons.Material";
 
         public const string OneTimeInputImportsExample = @"@using Blazorise.Components";
 
-        public const string OneTimeInputNugetInstallExample = @"Install-Package Blazorise.Components";
+        public const string OneTimeInputNugetInstallExample = @"dotnet add package Blazorise.Components";
 
         public const string OneTimeInputTextModeExample = @"<Field>
     <FieldLabel>Recovery key</FieldLabel>
@@ -26805,7 +26992,7 @@ builder.Services
 
         public const string PdfImportsExample = @"@using Blazorise.Pdf";
 
-        public const string PdfNugetInstallExample = @"Install-Package Blazorise.Pdf";
+        public const string PdfNugetInstallExample = @"dotnet add package Blazorise.Pdf";
 
         public const string PdfServiceRegistrationExample = @"builder.Services
     .AddBlazorise()
@@ -26826,7 +27013,7 @@ builder.Services
     <PdfViewer Source=""_content/Blazorise.Docs/assets/files/compressed.tracemonkey-pldi-09.pdf"" Mode=""PdfViewerMode.Continuous"" />
 </PdfViewerContainer>";
 
-        public const string PdfViewerNugetInstallExample = @"Install-Package Blazorise.PdfViewer";
+        public const string PdfViewerNugetInstallExample = @"dotnet add package Blazorise.PdfViewer";
 
         public const string PdfViewerPagingExample = @"<Button Color=""Color.Primary"" Clicked=""@OnPreviousPageClicked"">Prev</Button>
 <Button Color=""Color.Primary"" Clicked=""@OnNextPageClicked"">Next</Button>
@@ -27197,7 +27384,7 @@ builder.Services
 
         public const string PivotGridImportsExample = @"@using Blazorise.PivotGrid";
 
-        public const string PivotGridNugetInstallExample = @"Install-Package Blazorise.PivotGrid";
+        public const string PivotGridNugetInstallExample = @"dotnet add package Blazorise.PivotGrid";
 
         public const string PivotGridPagingVirtualizationExample = @"<Field>
     <Switch @bind-Value=""@virtualize"">Virtualize rows</Switch>
@@ -27863,7 +28050,7 @@ builder.Services
     string base64PngIcon = ""data:image/png;base64, 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"";
 }";
 
-        public const string QRCodeNugetInstallExample = @"Install-Package Blazorise.QRCode";
+        public const string QRCodeNugetInstallExample = @"dotnet add package Blazorise.QRCode";
 
         public const string QRCodeTextExample = @"<Div Padding=""Padding.Is2"" Border=""Border.Rounded"" Flex=""Flex.InlineFlex.Column.AlignItems.Center"" Background=""Background.Dark"" TextColor=""TextColor.Light"">
     <QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" />
@@ -28182,7 +28369,7 @@ public sealed record UpcomingItem( string Title, DateTime StartsAt );";
 
         public const string ReportingCsvDataSourceImportsExample = @"@using Blazorise.Reporting.DataSources.Csv";
 
-        public const string ReportingCsvDataSourceNugetInstallExample = @"Install-Package Blazorise.Reporting.DataSources.Csv";
+        public const string ReportingCsvDataSourceNugetInstallExample = @"dotnet add package Blazorise.Reporting.DataSources.Csv";
 
         public const string ReportingCsvDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.Csv;
 
@@ -28886,7 +29073,7 @@ builder.Services
     }
 }";
 
-        public const string ReportingNugetInstallExample = @"Install-Package Blazorise.Reporting";
+        public const string ReportingNugetInstallExample = @"dotnet add package Blazorise.Reporting";
 
         public const string ReportingPdfExportExample = @"<Report Data=""@invoice""
         Editable
@@ -29220,8 +29407,8 @@ builder.Services
 
         public const string ReportingSqlDataSourceImportsExample = @"@using Blazorise.Reporting.DataSources.Sql";
 
-        public const string ReportingSqlDataSourceNugetInstallExample = @"Install-Package Blazorise.Reporting.DataSources.Sql
-Install-Package Microsoft.Data.SqlClient";
+        public const string ReportingSqlDataSourceNugetInstallExample = @"dotnet add package Blazorise.Reporting.DataSources.Sql
+dotnet add package Microsoft.Data.SqlClient";
 
         public const string ReportingSqlDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.Sql;
 using Microsoft.Data.SqlClient;
@@ -29355,7 +29542,7 @@ public static class ReportingQueries
 
         public const string ReportingWebApiDataSourceImportsExample = @"@using Blazorise.Reporting.DataSources.WebApi";
 
-        public const string ReportingWebApiDataSourceNugetInstallExample = @"Install-Package Blazorise.Reporting.DataSources.WebApi";
+        public const string ReportingWebApiDataSourceNugetInstallExample = @"dotnet add package Blazorise.Reporting.DataSources.WebApi";
 
         public const string ReportingWebApiDataSourceRegistrationExample = @"using Blazorise.Reporting.DataSources.WebApi;
 
@@ -29451,7 +29638,7 @@ builder.Services
 
         public const string RichTextEditImportsExample = @"@using Blazorise.RichTextEdit";
 
-        public const string RichTextEditNugetInstallExample = @"Install-Package Blazorise.RichTextEdit";
+        public const string RichTextEditNugetInstallExample = @"dotnet add package Blazorise.RichTextEdit";
 
         public const string RichTextEditResizeExample = @"<RichTextEdit UseResize Value=""My example content"">
     <Toolbar>
@@ -29936,7 +30123,7 @@ builder.Services
 
         public const string SchedulerImportsExample = @"@using Blazorise.Scheduler";
 
-        public const string SchedulerNugetInstallExample = @"Install-Package Blazorise.Scheduler";
+        public const string SchedulerNugetInstallExample = @"dotnet add package Blazorise.Scheduler";
 
         public const string SchedulerSelectableExample = @"<Scheduler TItem=""Appointment"" @bind-Date=""@selectedDate"" Data=""@Appointments"" SelectedView=""SchedulerView.Week""
            Editable
@@ -30209,7 +30396,7 @@ builder.Services
     }
 }";
 
-        public const string SidebarNugetInstallExample = @"Install-Package Blazorise.Sidebar";
+        public const string SidebarNugetInstallExample = @"dotnet add package Blazorise.Sidebar";
 
         public const string SidebarResourcesExample = @"<link href=""_content/Blazorise.Sidebar/blazorise.sidebar.css"" rel=""stylesheet"" />";
 
@@ -30332,7 +30519,7 @@ builder.Services
         public const string SnackbarImportsExample = @"@using Blazorise.Components
 @using Blazorise.Snackbar";
 
-        public const string SnackbarNugetInstallExample = @"Install-Package Blazorise.Snackbar";
+        public const string SnackbarNugetInstallExample = @"dotnet add package Blazorise.Snackbar";
 
         public const string SnackbarResourcesExample = @"<link href=""_content/Blazorise.Snackbar/blazorise.snackbar.css"" rel=""stylesheet"" />";
 
@@ -30376,7 +30563,7 @@ builder.Services
 
         public const string SpinKitImportsExample = @"@using Blazorise.SpinKit";
 
-        public const string SpinKitNugetInstallExample = @"Install-Package Blazorise.SpinKit";
+        public const string SpinKitNugetInstallExample = @"dotnet add package Blazorise.SpinKit";
 
         public const string SpinKitResourcesExample = @"<link href=""_content/Blazorise.SpinKit/blazorise.spinkit.css"" rel=""stylesheet"" />";
 
@@ -30422,7 +30609,7 @@ builder.Services
 
         public const string SplitterNugetInstall2Example = @"dotnet add package Blazorise.Splitter";
 
-        public const string SplitterNugetInstallExample = @"Install-Package Blazorise.Splitter";
+        public const string SplitterNugetInstallExample = @"dotnet add package Blazorise.Splitter";
 
         public const string SplitterVerticalExample = @"<Splitter Direction=""SplitterDirection.Vertical"" Style=""height: 250px;"">
     <SplitterSection>
@@ -30718,7 +30905,7 @@ builder.Services
 
         public const string SvgChartImportsExample = @"@using Blazorise.Charts.Svg";
 
-        public const string SvgChartNugetInstallExample = @"Install-Package Blazorise.Charts.Svg";
+        public const string SvgChartNugetInstallExample = @"dotnet add package Blazorise.Charts.Svg";
 
         public const string SvgColumnChartExample = @"<SvgColumnChart TItem=""MonthlyRevenue""
                 Items=""@revenue""
@@ -32747,7 +32934,7 @@ builder.Services
 
         public const string TreeViewNugetInstall2Example = @"dotnet add package Blazorise.TreeView";
 
-        public const string TreeViewNugetInstallExample = @"Install-Package Blazorise.TreeView";
+        public const string TreeViewNugetInstallExample = @"dotnet add package Blazorise.TreeView";
 
         public const string TreeViewObservableExample = @"@using System.Collections.ObjectModel;
 @using Blazorise.Extensions
@@ -32920,11 +33107,11 @@ builder.Services
     };
 }";
 
-        public const string VideoNugetInstallExample = @"Install-Package Blazorise.Video";
+        public const string VideoNugetInstallExample = @"dotnet add package Blazorise.Video";
 
-        public const string AntDesignGuideNuget1Example = @"Install-Package Blazorise.AntDesign";
+        public const string AntDesignGuideNuget1Example = @"dotnet add package Blazorise.AntDesign";
 
-        public const string AntDesignGuideNuget2Example = @"Install-Package Blazorise.Icons.AntDesign";
+        public const string AntDesignGuideNuget2Example = @"dotnet add package Blazorise.Icons.AntDesign";
 
         public const string AntDesignGuideRegistrationExample = @"using Blazorise;
 using Blazorise.AntDesign;
@@ -32946,9 +33133,9 @@ builder.Services
 
         public const string AntDesignGuideUsingExample = @"@using Blazorise";
 
-        public const string BootstrapGuideNuget1Example = @"Install-Package Blazorise.Bootstrap";
+        public const string BootstrapGuideNuget1Example = @"dotnet add package Blazorise.Bootstrap";
 
-        public const string BootstrapGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
+        public const string BootstrapGuideNuget2Example = @"dotnet add package Blazorise.Icons.FontAwesome";
 
         public const string BootstrapGuideRegistrationExample = @"using Blazorise;
 using Blazorise.Bootstrap;
@@ -32970,9 +33157,9 @@ builder.Services
 
         public const string BootstrapGuideUsingExample = @"@using Blazorise";
 
-        public const string Bootstrap5GuideNuget1Example = @"Install-Package Blazorise.Bootstrap5";
+        public const string Bootstrap5GuideNuget1Example = @"dotnet add package Blazorise.Bootstrap5";
 
-        public const string Bootstrap5GuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
+        public const string Bootstrap5GuideNuget2Example = @"dotnet add package Blazorise.Icons.FontAwesome";
 
         public const string Bootstrap5GuideRegistrationExample = @"using Blazorise;
 using Blazorise.Bootstrap5;
@@ -32994,9 +33181,9 @@ builder.Services
 
         public const string Bootstrap5GuideUsingExample = @"@using Blazorise";
 
-        public const string BulmaGuideNuget1Example = @"Install-Package Blazorise.Bulma";
+        public const string BulmaGuideNuget1Example = @"dotnet add package Blazorise.Bulma";
 
-        public const string BulmaGuideNuget2Example = @"Install-Package Blazorise.Icons.Lucide";
+        public const string BulmaGuideNuget2Example = @"dotnet add package Blazorise.Icons.Lucide";
 
         public const string BulmaGuideRegistrationExample = @"using Blazorise;
 using Blazorise.Bulma;
@@ -33028,9 +33215,9 @@ builder.Services
   </body>
 </html>";
 
-        public const string FluentUI2GuideNuget1Example = @"Install-Package Blazorise.FluentUI2";
+        public const string FluentUI2GuideNuget1Example = @"dotnet add package Blazorise.FluentUI2";
 
-        public const string FluentUI2GuideNuget2Example = @"Install-Package Blazorise.Icons.FluentUI";
+        public const string FluentUI2GuideNuget2Example = @"dotnet add package Blazorise.Icons.FluentUI";
 
         public const string FluentUI2GuideRegistrationExample = @"using Blazorise;
 using Blazorise.FluentUI2;
@@ -33122,9 +33309,9 @@ builder.Services
 
         public const string MaterialGuideUsingExample = @"@using Blazorise";
 
-        public const string TailwindGuideNuget1Example = @"Install-Package Blazorise.Tailwind";
+        public const string TailwindGuideNuget1Example = @"dotnet add package Blazorise.Tailwind";
 
-        public const string TailwindGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
+        public const string TailwindGuideNuget2Example = @"dotnet add package Blazorise.Icons.FontAwesome";
 
         public const string TailwindGuideRegistrationExample = @"using Blazorise;
 using Blazorise.Tailwind;
@@ -34816,7 +35003,7 @@ builder.Services
     }
 }";
 
-        public const string NotificationServiceInstallationExample = @"Install-Package Blazorise.Components";
+        public const string NotificationServiceInstallationExample = @"dotnet add package Blazorise.Components";
 
         public const string NotificationServiceUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
     <Found>...</Found>
@@ -35314,7 +35501,7 @@ builder.Services
 
 <ToastProvider />";
 
-        public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
+        public const string ComponentsNugetInstallExample = @"dotnet add package Blazorise.Components";
 
     }
 }

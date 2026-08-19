@@ -1,4 +1,4 @@
-﻿@page "/docs/components/close-button"
+@page "/docs/components/close-button"
 
 <Seo Canonical="/docs/components/close-button" Title="Blazorise CloseButton component" Description="Learn to use and work with the Blazorise CloseButton component, a simple button that highlights to the user that a part of the current UI can be dismissed." />
 
@@ -17,7 +17,11 @@
 <DocsPageParagraph>
     When used in an <Code>Alert</Code> or a <Code>Modal</Code> the component will be closed automatically. If not inside one of these components the
     <Code>Clicked</Code> EventCallback must be set for it to be useful.
-</DocsPageParagraph>
+</DocsPageParagraph><DocsPageSectionTitle>
+    Examples
+</DocsPageSectionTitle>
+
+
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Manual close">
@@ -43,4 +47,26 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(CloseButton)]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Dismissal Only
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    A close button should dismiss a nearby surface such as an alert, modal, or panel. Use a labeled <Code Tag>Button</Code> for delete or cancel actions. Place the close control consistently in the expected corner and preserve a comfortable pointer and touch target around the icon.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Manage Focus
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Give the button an accessible name that identifies what it closes whenever the surrounding context is not obvious. After closing an overlay, restore focus to the control that opened it so keyboard users can continue from a predictable location.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/close-button/api" Name="<CloseButton />" />
+</DocsPageApi>

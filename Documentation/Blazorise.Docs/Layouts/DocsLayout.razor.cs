@@ -45,6 +45,8 @@ public partial class DocsLayout
 
     private bool isRouterTabsExample;
 
+    private bool scrollToLocationAfterRender;
+
     #endregion
 
     #region Methods
@@ -63,9 +65,23 @@ public partial class DocsLayout
         if ( isRouterTabsExample != isRouterTabsPage )
         {
             isRouterTabsExample = isRouterTabsPage;
-            StateHasChanged();
         }
-        await JSRuntime.InvokeVoidAsync( "blazoriseDocs.navigation.scrollToTop" );
+
+        scrollToLocationAfterRender = true;
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender || scrollToLocationAfterRender )
+        {
+            scrollToLocationAfterRender = false;
+
+            await JSRuntime.InvokeVoidAsync( "blazoriseDocs.navigation.scrollToLocation" );
+        }
+
+        await base.OnAfterRenderAsync( firstRender );
     }
 
     private async Task ComponentSearchSelectedValueChanged( string value )
@@ -94,6 +110,7 @@ public partial class DocsLayout
                || relativePath.Equals( "docs/testing", StringComparison.OrdinalIgnoreCase )
                || relativePath.Equals( "docs/theming", StringComparison.OrdinalIgnoreCase )
                || relativePath.Equals( "docs/analyzer", StringComparison.OrdinalIgnoreCase )
+               || relativePath.Equals( "docs/mcp", StringComparison.OrdinalIgnoreCase )
                || relativePath.Equals( "docs/migration", StringComparison.OrdinalIgnoreCase )
                || relativePath.Equals( "docs/usage/licensing/register-product-token", StringComparison.OrdinalIgnoreCase );
     }

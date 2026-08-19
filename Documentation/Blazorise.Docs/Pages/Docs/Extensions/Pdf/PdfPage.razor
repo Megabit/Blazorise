@@ -11,9 +11,9 @@
     Build PDF document definitions from Razor components or from C# builder code, then generate a PDF file through the PDF generator service.
 </DocsPageLead>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Installation
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     Install the <Code>Blazorise.Pdf</Code> package and register the PDF generator services in your application startup.
@@ -40,9 +40,9 @@
     <DocsPageSectionSource Code="PdfServiceRegistrationExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Images and fonts
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     A PDF can use images and custom fonts that are already available to the application without any additional setup. For an image, set <Code>PdfImage.Source</Code> to a base64 data URL, such as <Code>data:image/png;base64,...</Code>. For a custom font, provide its contents through <Code>FontSource.Data</Code>, or use <Code>FontSource.FileName</Code> when the application can read the font from the local file system. Images can be JPEG or 8-bit, non-interlaced PNG files. Transparent PNGs remain transparent in the generated PDF.
@@ -79,7 +79,7 @@
 </DocsPageParagraph>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Images and fonts from URLs">
+    <DocsPageSectionHeader Title="Remote Assets">
         After enabling URL loading, use an HTTP or HTTPS URL in <Code>PdfImage.Source</Code> or <Code>FontSource.Url</Code>. Each resource is downloaded once and reused if it appears more than once in the same PDF.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="PdfHttpResourcesExample" />
@@ -89,9 +89,9 @@
     To load resources from another source, such as an embedded application asset or a storage SDK, implement <Code>IPdfResourceResolver</Code> and register it before <Code>AddBlazorisePdf</Code>. The resolver supplies the file contents; the PDF renderer still validates and embeds the image or font.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Declarative document">
@@ -120,21 +120,21 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Best Practices
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
+<DocsPageSubsectionTitle IncludeInToc="false">
     Definition validation
-</Heading>
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     PDF generation validates and normalizes a working copy, so the supplied document and generation options are not changed. Recoverable invalid values use safe defaults or are omitted. Inspect <Code>PdfGenerationResult.Diagnostics</Code> to see what was normalized during in-memory generation.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Large documents and cancellation
-</Heading>
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Large Documents
+</DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
     Calling <Code>GenerateAsync(document)</Code> returns the completed PDF as a byte array. When the PDF should go directly to a file, response body, or another writable stream, call <Code>GenerateToStreamAsync(document, stream)</Code> instead. The stream method avoids creating an additional byte array for the completed document and leaves the supplied stream open.
@@ -147,3 +147,17 @@
 <DocsPageParagraph>
     Pass a cancellation token to stop validation, resource loading and decoding, font parsing, page rendering, or output writing. If cancellation occurs while writing to a stream, discard or reset that stream because it can contain an incomplete PDF.
 </DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/pdf/api" Name="<PdfDocument />" />
+    <DocsPageApiItem Url="docs/extensions/pdf/api" Name="<PdfPage />" />
+    <DocsPageApiItem Url="docs/extensions/pdf/api" Name="<PdfText />" />
+    <DocsPageApiItem Url="docs/extensions/pdf/api" Name="<PdfImage />" />
+    <DocsPageApiItem Url="docs/extensions/pdf/api" Name="<PdfFont />" />
+    <DocsPageApiItem Url="docs/extensions/pdf/api" Name="<PdfTable />" />
+    <DocsPageApiItem Url="docs/extensions/pdf/api" Name="PdfDocumentBuilder" />
+    <DocsPageApiItem Url="docs/extensions/pdf/api" Name="IPdfGenerator" />
+    <DocsPageApiItem Url="docs/extensions/pdf/api" Name="PdfGenerationOptions" />
+    <DocsPageApiItem Url="docs/extensions/pdf/api" Name="PdfHttpResourceOptions" />
+    <DocsPageApiItem Url="docs/extensions/pdfviewer/api" Name="<PdfViewer />" />
+</DocsPageApi>

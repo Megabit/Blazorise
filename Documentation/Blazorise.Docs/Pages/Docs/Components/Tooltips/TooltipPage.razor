@@ -1,4 +1,4 @@
-﻿@page "/docs/components/tooltip"
+@page "/docs/components/tooltip"
 
 <Seo Canonical="/docs/components/tooltip" Title="Blazorise Tooltip Component" Description="Learn to use and work with the Blazorise Tooltip component, which is useful for conveying information when a user hovers, focuses, or taps on an element." />
 
@@ -15,14 +15,17 @@
     Tooltips are a good fit for icons, buttons, and truncated text that needs a full-value preview.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Overview
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     <UnorderedList>
         <UnorderedListItem>
             <Paragraph><Code>Text</Code> sets the tooltip content.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph><Code>TooltipContent</Code> renders custom Blazor content and takes precedence over <Code>Text</Code>.</Paragraph>
         </UnorderedListItem>
         <UnorderedListItem>
             <Paragraph><Code>Placement</Code> controls where the tooltip appears relative to its target.</Paragraph>
@@ -35,6 +38,9 @@
         </UnorderedListItem>
         <UnorderedListItem>
             <Paragraph><Code>ShowDelay</Code> and <Code>HideDelay</Code> delay showing and hiding (in milliseconds).</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph><Code>Animation</Code> selects a provider-aware show and hide effect.</Paragraph>
         </UnorderedListItem>
         <UnorderedListItem>
             <Paragraph><Code>Inline</Code> forces the tooltip wrapper to behave as inline-block (useful when wrapping inline content).</Paragraph>
@@ -51,9 +57,9 @@
     </AlertDescription>
 </Alert>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -116,6 +122,15 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Rich content">
+        Use <Code>TooltipContent</Code> to compose tooltip content with Blazorise typography components and utility parameters. The wrapped <Code>ChildContent</Code> remains the tooltip target.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="TooltipRichContentExample" Outlined FullWidth>
+        <TooltipRichContentExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Delay">
         Control how quickly the tooltip shows and hides after the trigger event (in milliseconds).
     </DocsPageSectionHeader>
@@ -124,4 +139,35 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(Tooltip)]" />
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Animation">
+        Use <Code>Animation</Code> to choose a fade, scale, directional shift, or blur effect. Combine effects with the bitwise OR operator. <Code>TooltipAnimation.Auto</Code> follows the active provider's preferred tooltip motion and takes precedence over combined effects.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="TooltipAnimationExample" Outlined FullWidth>
+        <TooltipAnimationExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Essential Information
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    A tooltip should contain brief supplementary information rather than essential instructions or validation feedback. Write concise text that adds useful context instead of repeating the trigger's visible label.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Input Methods
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Keyboard focus should reveal the same tooltip as pointer hover, and users should not need to interact with controls inside it. Touch-only experiences cannot depend on hover, so provide a visible label or help control whenever the information is needed there.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/tooltip/api" Name="<Tooltip />" />
+</DocsPageApi>

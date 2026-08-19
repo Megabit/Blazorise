@@ -100,7 +100,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DatePickerContainer( bool inline, bool open ) => $"datepicker dropdown{( inline ? " datepicker-inline" : null )}{( open ? " show" : null )}";
 
-    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"datepicker-calendar dropdown-menu show{( inline ? " datepicker-calendar-inline" : null )}{( staticPicker ? " datepicker-calendar-static" : " datepicker-calendar-floating" )}";
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"datepicker-calendar dropdown-menu show{( inline ? " datepicker-calendar-inline" : staticPicker ? " datepicker-calendar-static" : " datepicker-calendar-floating" )}";
 
     public override string DatePickerCalendarBackdrop() => "datepicker-backdrop";
 
@@ -1560,17 +1560,23 @@ public class BootstrapClassProvider : ClassProvider
 
     #region Tooltip
 
-    public override string Tooltip() => "b-tooltip";
+    public override string Tooltip() => "tooltip-host";
 
-    public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"b-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
+    public override string TooltipContent() => "tooltip";
 
-    public override string TooltipMultiline( bool multiline ) => multiline ? "b-tooltip-multiline" : null;
+    public override string TooltipSurface() => "tooltip-inner";
 
-    public override string TooltipAlwaysActive( bool alwaysActive ) => alwaysActive ? "b-tooltip-active" : null;
+    public override string TooltipArrow() => "arrow";
 
-    public override string TooltipFade( bool fade ) => fade ? "b-tooltip-fade" : null;
+    public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"tooltip-host-{ToTooltipPlacement( tooltipPlacement )}";
 
-    public override string TooltipInline( bool inline ) => inline ? "b-tooltip-inline" : null;
+    public override string TooltipMultiline( bool multiline ) => multiline ? "tooltip-host-multiline" : null;
+
+    public override string TooltipAlwaysActive( bool alwaysActive ) => alwaysActive ? "tooltip-host-active" : null;
+
+    public override string TooltipFade( bool fade ) => fade ? "tooltip-host-fade" : null;
+
+    public override string TooltipInline( bool inline ) => inline ? "tooltip-host-inline" : null;
 
     #endregion
 

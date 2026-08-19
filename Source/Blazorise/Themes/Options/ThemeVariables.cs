@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 namespace Blazorise;
 #endregion
 
@@ -234,6 +234,10 @@ public static class ThemeVariables
     public const string VerticalBarBrandHeight = "--b-vertical-bar-brand-height";
     public const string VerticalPopoutMenuWidth = "--b-vertical-bar-popout-menu-width";
     public const string HorizontalBarHeight = "--b-bar-horizontal-height";
+    public const string BarFontFamily = "--b-bar-font-family";
+    public const string BarFontStyle = "--b-bar-font-style";
+    public const string BarFontSize = "--b-bar-font-size";
+    public const string BarFontWeight = "--b-bar-font-weight";
 
     public const string BarDarkBackground = "--b-bar-dark-background";
     public const string BarDarkColor = "--b-bar-dark-color";

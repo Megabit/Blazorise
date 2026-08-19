@@ -1,4 +1,4 @@
-﻿@page "/docs/components/list-group"
+@page "/docs/components/list-group"
 
 <Seo Canonical="/docs/components/list-group" Title="Blazorise ListGroup system" Description="Learn to use and work with the Blazorise ListGroup components, a flexible and powerful component for displaying a series of content." />
 
@@ -30,9 +30,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -97,4 +97,27 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(ListGroup),typeof(ListGroupItem)]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Keep Items Consistent
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Items within a list group should use a consistent structure so users can scan and compare them quickly. Render navigation as links and actions as buttons instead of making a non-interactive container appear clickable. If items are selectable, communicate the selected state with more than color and synchronize it with application state.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Component Choice
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    A list group is effective for relatively simple, stacked content. Use a <Anchor To="docs/components/table">Table</Anchor> or DataGrid when users must compare several aligned fields, sort data, or work efficiently with a large collection.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/list-group/api" Name="<ListGroup />" />
+    <DocsPageApiItem Url="docs/components/list-group/api" Name="<ListGroupItem />" />
+</DocsPageApi>

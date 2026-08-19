@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 #endregion
 
 namespace Blazorise.Bulma.Providers;
@@ -60,6 +60,35 @@ public class BulmaStyleProvider : StyleProvider
         => animated
             ? $"transition-duration: {animationDuration}ms"
             : "transition-duration: unset";
+
+    #endregion
+
+    #region Tooltip
+
+    public override string TooltipTheme( ThemeTooltipOptions options )
+        => BuildStyleVariables(
+            ( "--bulma-tooltip-background-color", options.BackgroundColor ),
+            ( "--bulma-tooltip-color", options.Color ),
+            ( "--bulma-tooltip-font-size", options.FontSize ),
+            ( "--bulma-tooltip-border-radius", options.BorderRadius ),
+            ( "--bulma-tooltip-max-width", options.MaxWidth ),
+            ( "--bulma-tooltip-padding", options.Padding ),
+            ( "--bulma-tooltip-fade-duration", options.FadeTime ),
+            ( "--bulma-tooltip-z-index", options.ZIndex ) );
+
+    public override string TooltipAnchor( string anchorId )
+        => $"anchor-name: --bulma-tooltip-{anchorId}; anchor-scope: --bulma-tooltip-{anchorId}; --bulma-tooltip-anchor: --bulma-tooltip-{anchorId}";
+
+    public override string TooltipShowDelay( int showDelay ) => $"--bulma-tooltip-show-delay: {showDelay}ms";
+
+    public override string TooltipHideDelay( int hideDelay ) => $"--bulma-tooltip-hide-delay: {hideDelay}ms";
+
+    public override string TooltipFadeDuration( bool fade, int fadeDuration )
+        => $"--bulma-tooltip-fade-duration: {( fade ? fadeDuration : 0 )}ms";
+
+    public override string TooltipZIndex( int? zIndex ) => zIndex.HasValue
+        ? $"--bulma-tooltip-z-index: {zIndex.Value}"
+        : null;
 
     #endregion
 

@@ -1,4 +1,4 @@
-﻿@page "/docs/components/bar"
+@page "/docs/components/bar"
 
 <Seo Canonical="/docs/components/bar" Title="Blazorise Bar component" Description="Learn how to use and work with the Bar component, a responsive and versatile navigation bar that can be used as a top menu." />
 
@@ -107,6 +107,10 @@
     </UnorderedListItem>
 </UnorderedList>
 
+<DocsPageSectionTitle>
+    Examples
+</DocsPageSectionTitle>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="Application Header" ElementId="bar-top-bar">
         A typical horizontal Bar has a brand, primary navigation, utility actions, and an account dropdown.
@@ -118,7 +122,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Dropdown toggle with navigation target">
+    <DocsPageSectionHeader Title="Navigation Target">
         <Code>BarDropdownToggle</Code> supports <Code>To</Code> the same way as other Blazorise link components.
         With the default <Code>Trigger="BarDropdownToggleTrigger.Auto"</Code>, setting <Code>To</Code> makes the label navigate while the chevron icon toggles the submenu.
         This example uses <Code>Match="Match.Prefix"</Code> so the parent link stays active while the example items navigate to sections of the Bar docs page.
@@ -129,7 +133,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Dropdown trigger: icon toggles, label navigates">
+    <DocsPageSectionHeader Title="Icon Trigger">
         This is the explicit form of the default <Code>To</Code> behavior.
         Use it when you want the intent to be visible in markup or when composing trigger flags elsewhere in the menu.
     </DocsPageSectionHeader>
@@ -139,7 +143,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Dropdown trigger: click anywhere + URL match">
+    <DocsPageSectionHeader Title="Route Matching">
         When users should be able to expand from either the label or icon, combine triggers with a flags expression.
         In this example, <Code>Trigger="BarDropdownToggleTrigger.ClickAny | BarDropdownToggleTrigger.RouteMatch"</Code> keeps the dropdown expanded whenever the current URL matches <Code>To</Code>.
     </DocsPageSectionHeader>
@@ -249,4 +253,28 @@
     </DocsPageSectionHeader>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(Bar), typeof(BarLink), typeof(BarDropdownToggle)]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Keep Navigation Predictable
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Keep primary navigation stable across pages and order destinations by importance or user workflow. Use clear text labels, and provide an accessible label or tooltip when an item is represented by an icon alone. Dropdown hierarchies should remain shallow enough to scan and navigate comfortably.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Responsive Design
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Verify both collapsed and expanded states at every supported breakpoint. The toggler must remain easy to find, the active destination should be clear, and the focus order should stay logical whether the bar is horizontal or vertical.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/bar/api" Name="<Bar />" />
+    <DocsPageApiItem Url="docs/components/bar/api" Name="<BarLink />" />
+    <DocsPageApiItem Url="docs/components/bar/api" Name="<BarDropdownToggle />" />
+</DocsPageApi>

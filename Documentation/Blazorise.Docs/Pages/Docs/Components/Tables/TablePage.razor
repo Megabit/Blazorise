@@ -1,4 +1,4 @@
-﻿@page "/docs/components/table"
+@page "/docs/components/table"
 
 <Seo Canonical="/docs/components/table" Title="Blazorise Table component" Description="Learn to use and work with the Blazorise Table component, that displays information in a way that's easy to scan, so that users can look for patterns and insights." />
 
@@ -72,9 +72,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Simple">
@@ -234,4 +234,34 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(Table), typeof(TableBody), typeof(TableCaption), typeof(TableRow), typeof(TableRowCell), typeof(TableRowGroup), typeof(TableRowHeader), typeof(TableHeader), typeof(TableHeaderCell), typeof(TableFooter)]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Semantic Tables
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Use a table when the meaning of the data depends on rows and columns. Provide a concise caption when the surrounding heading is not enough, and use header cells for column and row headings so assistive technology can identify each data cell's context.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Data Components
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Keep columns focused and format comparable values consistently, moving secondary detail elsewhere when the table becomes too dense. Use <Anchor To="docs/extensions/datagrid/getting-started">DataGrid</Anchor> when users need built-in sorting, filtering, selection, editing, virtualization, or server-side data operations.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/table/api" Name="<Table />" />
+    <DocsPageApiItem Url="docs/components/table/api" Name="<TableBody />" />
+    <DocsPageApiItem Url="docs/components/table/api" Name="<TableCaption />" />
+    <DocsPageApiItem Url="docs/components/table/api" Name="<TableRow />" />
+    <DocsPageApiItem Url="docs/components/table/api" Name="<TableRowCell />" />
+    <DocsPageApiItem Url="docs/components/table/api" Name="<TableRowGroup />" />
+    <DocsPageApiItem Url="docs/components/table/api" Name="<TableRowHeader />" />
+    <DocsPageApiItem Url="docs/components/table/api" Name="<TableHeader />" />
+    <DocsPageApiItem Url="docs/components/table/api" Name="<TableHeaderCell />" />
+</DocsPageApi>

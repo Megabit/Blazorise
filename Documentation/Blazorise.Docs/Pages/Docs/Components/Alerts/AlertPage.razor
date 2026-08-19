@@ -1,4 +1,4 @@
-﻿@page "/docs/components/alert"
+@page "/docs/components/alert"
 
 <Seo Canonical="/docs/components/alert" Title="Blazorise Alert component" Description="Learn to work with the Blazorise Alert component, which is used to convey important information to the user through the use of contextual types, icons, and colors." />
 
@@ -14,9 +14,9 @@
     The <Code Tag>Alert</Code> component is used to convey important information to the user through the use of contextual types, icons, and colors.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Overview
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <UnorderedList>
     <UnorderedListItem>
@@ -43,9 +43,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     When to use
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <UnorderedList>
     <UnorderedListItem>
@@ -56,9 +56,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -86,9 +86,9 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Usages
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Two-way binding">
@@ -107,4 +107,26 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(Alert)]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Make Messages Actionable
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Write a concise message that explains what happened and, when applicable, what the user should do next. Match the color to the message severity, but include meaningful text or an appropriate icon so color is not the only indication of status.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Feedback Pattern
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Alerts are appropriate for information that belongs in the current page and may need to remain visible. Make an alert dismissible only when it can be safely ignored, and keep blocking errors visible until the problem is resolved. For brief feedback about a completed action, use a <Anchor To="docs/components/toast">Toast</Anchor> instead.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/alert/api" Name="<Alert />" />
+</DocsPageApi>

@@ -39,9 +39,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Start Placement">
@@ -126,4 +126,26 @@
 </DocsPageSection>
 
 
-<ComponentApiDocs ComponentTypes="[typeof( Offcanvas ), typeof( OffcanvasHeader ), typeof( OffcanvasBody ), typeof( OffcanvasFooter )]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Secondary Content
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Offcanvas panels suit secondary navigation and supporting tasks that should not permanently reduce the main content area. Choose placement according to reading direction and content type, and verify that the panel does not cover context users still need on smaller screens.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Focus and Stacking
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Give the panel a clear title and an obvious close action, then restore focus to the triggering control after it closes. Avoid stacking offcanvas panels or opening another blocking overlay from one unless the interaction provides a clear and predictable escape path.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/offcanvas/api" Name="<Offcanvas />" />
+</DocsPageApi>

@@ -99,7 +99,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DatePickerContainer( bool inline, bool open ) => $"ant-picker-container{( inline ? " ant-picker-container-inline" : null )}{( open ? " ant-picker-container-open" : null )}";
 
-    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"ant-picker-dropdown ant-picker-panel-container{( inline ? " ant-picker-dropdown-inline" : null )}{( staticPicker ? " ant-picker-dropdown-static" : " ant-picker-dropdown-floating" )}";
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"ant-picker-dropdown ant-picker-panel-container{( inline ? " ant-picker-dropdown-inline" : staticPicker ? " ant-picker-dropdown-static" : " ant-picker-dropdown-floating" )}";
 
     public override string DatePickerCalendarBackdrop() => "ant-picker-backdrop";
 
@@ -1612,6 +1612,12 @@ public class AntDesignClassProvider : ClassProvider
     #region Tooltip
 
     public override string Tooltip() => "ant-tooltip-host";
+
+    public override string TooltipContent() => "ant-tooltip";
+
+    public override string TooltipSurface() => "ant-tooltip-inner";
+
+    public override string TooltipArrow() => "ant-tooltip-arrow";
 
     public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"ant-tooltip-host-{ToTooltipPlacement( tooltipPlacement )}";
 

@@ -99,7 +99,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DatePickerContainer( bool inline, bool open ) => $"fui-DatePicker__container{( inline ? " fui-DatePicker__container-inline" : null )}{( open ? " fui-DatePicker__container-open" : null )}";
 
-    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"fui-DatePicker__calendar{( inline ? " fui-DatePicker__calendar-inline" : null )}{( staticPicker ? " fui-DatePicker__calendar-static" : " fui-DatePicker__calendar-floating" )}";
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"fui-DatePicker__calendar{( inline ? " fui-DatePicker__calendar-inline" : staticPicker ? " fui-DatePicker__calendar-static" : " fui-DatePicker__calendar-floating" )}";
 
     public override string DatePickerCalendarBackdrop() => "fui-DatePicker__backdrop";
 
@@ -1609,6 +1609,12 @@ public class FluentUI2ClassProvider : ClassProvider
     #region Tooltip
 
     public override string Tooltip() => "fui-Tooltip";
+
+    public override string TooltipContent() => "fui-Tooltip__content";
+
+    public override string TooltipSurface() => "fui-Tooltip__surface";
+
+    public override string TooltipArrow() => "fui-Tooltip__arrow";
 
     public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"fui-Tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 

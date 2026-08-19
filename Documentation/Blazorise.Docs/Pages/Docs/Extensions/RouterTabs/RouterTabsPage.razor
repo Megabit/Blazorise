@@ -19,9 +19,9 @@
     To use the <Code>RouterTabs</Code> component, install the <Code>Blazorise.Components</Code> package first.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Installation
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
@@ -43,9 +43,9 @@
     <DocsPageSectionSource Code="ComponentsImportExample" />
 </DocsPageSection>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Configuration
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Register services">
@@ -69,7 +69,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Configure pages as tabs">
+    <DocsPageSectionHeader Title="Tab Configuration">
         Use RouterTabsPageAttribute to configure how your pages will behave when rendered as tabs.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="RouterTabsPageAttributeExample" />
@@ -94,25 +94,8 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<DocsPageSubtitle>
-    API
-</DocsPageSubtitle>
-
-<Heading Size="HeadingSize.Is3">
-    RouterTabsPageAttribute
-</Heading>
-
-<DocsAttributes>
-    <DocsAttributesItem Name="Name" Type="string">
-        Sets the name of the router tab.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="TabClass" Type="string">
-        Sets the css class of the router tab.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="TabPanelClass" Type="string">
-        Sets the css class of the router tab panel.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Closeable" Type="bool" Default="true">
-        Whether the router tab is closeable.
-    </DocsAttributesItem>
-</DocsAttributes>
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/routertabs/api" Name="<RouterTabs />" />
+    <DocsPageApiItem Url="docs/extensions/routertabs/api" Name="RouterTabsPageAttribute" />
+    <DocsPageApiItem Url="docs/extensions/routertabs/api" Name="RouterTabsOptions" />
+</DocsPageApi>

@@ -57,6 +57,8 @@ public partial class DocsMethods : IDisposable
 
     [Parameter] public string Title { get; set; }
 
+    [Parameter] public string ElementId { get; set; }
+
     [Parameter] public bool Ordered { get; set; } = true;
 
     [Parameter] public bool ShowReturnType { get; set; } = true;

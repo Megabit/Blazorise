@@ -228,6 +228,12 @@ public class DocumentObserver : IDocumentObserver
 
         if ( eventTypes.HasFlag( DocumentEventTypes.Blur ) )
             yield return "blur";
+
+        if ( eventTypes.HasFlag( DocumentEventTypes.MouseEnter ) )
+            yield return "mouseenter";
+
+        if ( eventTypes.HasFlag( DocumentEventTypes.MouseLeave ) )
+            yield return "mouseleave";
     }
 
     #endregion

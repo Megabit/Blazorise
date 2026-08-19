@@ -1,7 +1,7 @@
 ﻿@using Blazorise.Docs.Models.ApiDocsDtos
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     API
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 @if ( hasComponentTypes )
 {
@@ -22,7 +22,9 @@
 
     @foreach ( var apiDocsForComponent in apiDocsForComponentsMethods )
     {
-        <DocsMethods Name="Method" Title="@(multipleComponentTypes ? apiDocsForComponent.TypeName : null)">
+        <DocsMethods Name="Method"
+                     Title="@(multipleComponentTypes ? apiDocsForComponent.TypeName : null)"
+                     ElementId="@GetMethodsElementId(apiDocsForComponent)">
             @foreach ( var method in apiDocsForComponent.Methods )
             {
                 <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName"
@@ -68,5 +70,12 @@
         hasComponentTypes = apiDocsForComponents.Any();
         multipleComponentTypes = apiDocsForComponents.Count > 1;
         apiDocsForComponentsMethods = apiDocsForComponents.Where( x => x.Methods.Any() ).ToList();
+    }
+
+    private static string GetMethodsElementId( ApiDocsForComponent apiDocsForComponent )
+    {
+        return apiDocsForComponent.Parameters.Count == 0 && apiDocsForComponent.Events.Count == 0
+            ? DocsApiNavigation.CreateElementId( apiDocsForComponent.TypeName )
+            : null;
     }
 }

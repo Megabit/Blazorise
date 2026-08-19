@@ -1,4 +1,4 @@
-﻿@page "/docs/components/divider"
+@page "/docs/components/divider"
 
 <Seo Canonical="/docs/components/divider" Title="Blazorise Divider component" Description="Learn to use and work with the Blazorise Divider component, which is used to separate sections of lists or layouts." />
 
@@ -10,9 +10,9 @@
     Dividers are used to visually separate or group elements.
 </DocsPageLead>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
@@ -50,4 +50,26 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(Divider)]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Content Hierarchy
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Dividers should separate related groups rather than compensate for an unclear page structure. Prefer spacing or semantic headings whenever they communicate the relationship between sections more clearly.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Subtle Separation
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Decorative dividers should not compete with the content they organize. When a divider contains text, keep the label concise and preserve the document's semantic heading structure separately.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/divider/api" Name="<Divider />" />
+</DocsPageApi>

@@ -20,9 +20,6 @@
                         <Tooltip Text="Tooltip with a long Text. So we use Multiline modifier to force multiline display." Multiline>
                             <Button Color="Color.Primary">Multiline Tooltip</Button>
                         </Tooltip>
-                        <Tooltip Text="Hello faded tooltip" Fade>
-                            <Button Color="Color.Primary">Fade Tooltip</Button>
-                        </Tooltip>
                         <Tooltip Text="Tooltip text" AlwaysActive>
                             <Button Color="Color.Primary">Always Active</Button>
                         </Tooltip>
@@ -73,11 +70,52 @@
                         <Tooltip Text="<span style='color: aqua;'>Hello</span>, this is a <strong>bolded content</strong>!">
                             <Button Color="Color.Primary">Html content</Button>
                         </Tooltip>
+                        <Tooltip Multiline Padding="Padding.Is3">
+                            <ChildContent>
+                                <Button Color="Color.Primary">Rich content</Button>
+                            </ChildContent>
+                            <TooltipContent>
+                                <Div Flex="Flex.Column" Gap="Gap.Is2">
+                                    <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                                        <Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" />
+                                        <Heading Size="HeadingSize.Is6" TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">
+                                            Deployment ready
+                                        </Heading>
+                                    </Div>
+                                    <Paragraph TextSize="TextSize.Small" Margin="Margin.Is0">
+                                        All production checks passed successfully.
+                                    </Paragraph>
+                                    <Small TextColor="TextColor.Info">Updated just now</Small>
+                                </Div>
+                            </TooltipContent>
+                        </Tooltip>
                     </Column>
                 </Row>
             </CardBody>
             <CardBody>
-                <CardText>Tooltips can also be triggered by <code>click</code> or <code>focus</code> events.</CardText>
+                <CardText>Use <Code>Animation</Code> to choose a fade, scale, directional shift, or blur effect, or combine multiple effects.</CardText>
+                <Row>
+                    <Column>
+                        <Tooltip Text="Provider preferred animation" Animation="TooltipAnimation.Auto">
+                            <Button Color="Color.Primary">Auto Animation</Button>
+                        </Tooltip>
+                        <Tooltip Text="Fade and scale animation" Animation="TooltipAnimation.FadeScale">
+                            <Button Color="Color.Success">Fade Scale</Button>
+                        </Tooltip>
+                        <Tooltip Text="Fade and shift animation" Animation="TooltipAnimation.FadeShift">
+                            <Button Color="Color.Info">Fade Shift</Button>
+                        </Tooltip>
+                        <Tooltip Text="Fade and blur animation" Animation="TooltipAnimation.FadeBlur">
+                            <Button Color="Color.Warning">Fade Blur</Button>
+                        </Tooltip>
+                        <Tooltip Text="Fade, scale, and shift animation" Animation="@( TooltipAnimation.Fade | TooltipAnimation.Scale | TooltipAnimation.Shift )">
+                            <Button Color="Color.Danger">Combined Animation</Button>
+                        </Tooltip>
+                    </Column>
+                </Row>
+            </CardBody>
+            <CardBody>
+                <CardText>Tooltips can also be triggered by <Code>click</Code> or <Code>focus</Code> events.</CardText>
                 <Row>
                     <Column>
                         <Tooltip Text="I'm a tooltip!" Trigger="TooltipTrigger.Click">

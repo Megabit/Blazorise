@@ -1,4 +1,4 @@
-﻿@page "/docs/components/layout"
+@page "/docs/components/layout"
 
 <Seo Canonical="/docs/components/layout" Title="Blazorise Layout system" Description="Learn to use and work with the Blazorise Layout component, which is used to handle the overall layout of a page." />
 
@@ -63,9 +63,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="App shell">
@@ -100,4 +100,28 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(Layout),typeof(LayoutHeader),typeof(LayoutFooter)]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Predictable Shell
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Keep navigation and global actions in consistent regions across views. Test headers, footers, sidebars, and scrolling together at supported breakpoints, including pages with very little content and pages long enough to scroll.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Preserve Semantic Structure
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Give each view one clear main content region with a logical heading and focus order. Use layout components for page structure and Blazorise spacing utilities for local alignment rather than embedding presentational inline styles throughout the markup.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/layout/api" Name="<Layout />" />
+    <DocsPageApiItem Url="docs/components/layout/api" Name="<LayoutHeader />" />
+    <DocsPageApiItem Url="docs/components/layout/api" Name="<LayoutFooter />" />
+</DocsPageApi>

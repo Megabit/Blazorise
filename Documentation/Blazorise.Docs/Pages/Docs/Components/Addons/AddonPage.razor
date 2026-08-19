@@ -1,4 +1,4 @@
-﻿@page "/docs/components/addon"
+@page "/docs/components/addon"
 
 <Seo Canonical="/docs/components/addon" Title="Blazorise Addon component" Description="Learn to work with the Blazorise Addon component, which is the easiest way to add some structure to forms." />
 
@@ -10,9 +10,9 @@
     Easily extend form controls by adding text, or buttons on either side of textual inputs, custom selects, and custom file inputs.
 </DocsPageLead>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Overview
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
     The <Code Tag>Addon</Code> component is the easiest way to add some structure to forms. Its purpose is to pair
@@ -20,9 +20,9 @@
     visual (color) contextual state feedback.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Structure
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <UnorderedList>
     <UnorderedListItem>
@@ -61,9 +61,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Static label">
@@ -124,4 +124,27 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(Addons), typeof(Addon)]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Keep Context Compact
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Addons work best for brief, familiar context such as currency symbols, units, or URL prefixes. Keep the field's actual label outside the addon, and avoid addon content that competes with the editable value or leaves too little input space on smaller screens.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Field Meaning
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Treat addon text as presentation rather than part of the submitted value, and validate the complete value in application code. When an addon contains a button, describe a clear action and provide an accessible label if the button uses only an icon.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/addon/api" Name="<Addons />" />
+    <DocsPageApiItem Url="docs/components/addon/api" Name="<Addon />" />
+</DocsPageApi>

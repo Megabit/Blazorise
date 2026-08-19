@@ -1,4 +1,4 @@
-﻿@page "/docs/components/figure"
+@page "/docs/components/figure"
 
 <Seo Canonical="/docs/components/figure" Title="Blazorise Figure component" Description="Learn to use and work with the Blazorise Figure component, which is used as container for responsive images." />
 
@@ -14,9 +14,9 @@
     Anytime you need to display a piece of content, like an image with an optional caption, consider using a <Code>Figure</Code>.
 </DocsPageParagraph>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Structure
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <UnorderedList>
     <UnorderedListItem>
@@ -38,9 +38,9 @@
     </UnorderedListItem>
 </UnorderedList>
 
-<DocsPageSubtitle>
+<DocsPageSectionTitle>
     Examples
-</DocsPageSubtitle>
+</DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic Example">
@@ -60,4 +60,27 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(Figure),typeof(FigureImage)]" />
+<DocsPageSectionTitle>
+    Best Practices
+</DocsPageSectionTitle>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Image Captions
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Use a figure when an image and its caption form one self-contained piece of content. Alternative text should explain the image's purpose, while the caption supplies surrounding context instead of repeating the same wording. Keep captions brief and place longer explanations in the main document flow.
+</DocsPageParagraph>
+
+<DocsPageSubsectionTitle IncludeInToc="false">
+    Stable Layout
+</DocsPageSubsectionTitle>
+
+<DocsPageParagraph>
+    Make figure images responsive and reserve their dimensions or aspect ratio whenever possible. This prevents surrounding content from moving while the image loads.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/components/figure/api" Name="<Figure />" />
+    <DocsPageApiItem Url="docs/components/figure/api" Name="<FigureImage />" />
+</DocsPageApi>
