@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-19T08:32:21.8725724Z",
+  "generatedUtc": "2026-08-19T11:16:01.8966179Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -144502,7 +144502,7 @@
           "type": "string[]",
           "typeName": "string[]",
           "defaultValue": "new string[] { VideoControlsType.PlayLarge, VideoControlsType.Play, VideoControlsType.Progress, VideoControlsType.CurrentTime, VideoControlsType.Mute, VideoControlsType.Volume, VideoControlsType.Captions, VideoControlsType.Settings, VideoControlsType.Pip, VideoControlsType.Airplay, VideoControlsType.Fullscreen }",
-          "summary": "Specifies the customized list of player controls.",
+          "summary": "Specifies the customized list of player controls in the order in which they are rendered.",
           "isBlazoriseEnum": false
         },
         {
@@ -145281,7 +145281,7 @@
           "type": "string[]",
           "typeName": "string[]",
           "defaultValue": "null",
-          "summary": "Gets or sets a list of controls to be displayed or hidden.",
+          "summary": "Gets or sets the controls to display in rendering order.",
           "isBlazoriseEnum": false
         },
         {

@@ -15,7 +15,7 @@ public class VideoJSOptions
     public double ControlsDelay { get; set; }
 
     /// <summary>
-    /// Gets or sets a list of controls to be displayed or hidden.
+    /// Gets or sets the controls to display in rendering order.
     /// </summary>
     public string[] ControlsList { get; set; }
 

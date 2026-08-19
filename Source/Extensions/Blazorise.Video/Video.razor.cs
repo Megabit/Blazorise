@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -614,6 +615,9 @@ public partial class Video : BaseComponent, IAsyncDisposable
     private bool HasControl( string control )
         => Controls && ControlsList?.Contains( control, StringComparer.OrdinalIgnoreCase ) == true;
 
+    private static bool IsControl( string control, string expected )
+        => string.Equals( control, expected, StringComparison.OrdinalIgnoreCase );
+
     private bool HasSetting( VideoSettingsType setting )
         => SettingsList?.Contains( setting ) == true;
 
@@ -642,9 +646,11 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
     private string SkinClassNames => IsAudioSource ? "media-minimal-skin--audio" : "media-minimal-skin--video";
 
-    private bool HasTimeControls => HasControl( VideoControlsType.Progress )
-        || HasControl( VideoControlsType.CurrentTime )
-        || HasControl( VideoControlsType.Duration );
+    private IEnumerable<string> OrderedControls
+        => ControlsList?
+            .Where( control => !string.IsNullOrWhiteSpace( control ) )
+            .Distinct( StringComparer.OrdinalIgnoreCase )
+            ?? Enumerable.Empty<string>();
 
     private bool HasSettings => SettingsList?.Length > 0;
 
@@ -815,7 +821,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Parameter] public string ProtectionHttpRequestHeaders { get; set; }
 
     /// <summary>
-    /// Specifies the customized list of player controls.
+    /// Specifies the customized list of player controls in the order in which they are rendered.
     /// </summary>
     [Parameter] public string[] ControlsList { get; set; } = new string[] { VideoControlsType.PlayLarge, VideoControlsType.Play, VideoControlsType.Progress, VideoControlsType.CurrentTime, VideoControlsType.Mute, VideoControlsType.Volume, VideoControlsType.Captions, VideoControlsType.Settings, VideoControlsType.Pip, VideoControlsType.Airplay, VideoControlsType.Fullscreen };
 
