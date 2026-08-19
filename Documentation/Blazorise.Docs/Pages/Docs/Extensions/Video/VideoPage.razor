@@ -14,20 +14,55 @@
     To use the <Code>Video</Code> component, install the <Code>Blazorise.Video</Code> package first.
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    The extension uses Video.js v10 for browser playback. Its JavaScript, styles, streaming integrations, and skin assets are served from the package and loaded on demand, so normal usage does not require CDN references.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<Table>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>Type</TableHeaderCell>
+            <TableHeaderCell>Purpose</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell><Code>Video</Code></TableRowCell>
+            <TableRowCell>Hosts the player, coordinates playback state, and exposes controls, events, streaming, and DRM options.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>VideoSource</Code></TableRowCell>
+            <TableRowCell>Describes the media type, title, poster, media files, and text tracks used by the player.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>VideoMedia</Code></TableRowCell>
+            <TableRowCell>Defines one media URL, MIME type, and optional dimensions. Multiple entries can represent selectable quality levels.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>VideoTrack</Code></TableRowCell>
+            <TableRowCell>Defines captions, subtitles, chapters, descriptions, or metadata associated with the media.</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
 <DocsPageSectionTitle>
     Installation
 </DocsPageSectionTitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="NuGet">
-        Install extension from NuGet.
+        Install the Video extension package.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="VideoNugetInstallExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Imports">
-        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+        Add the extension namespace to the application's main <Code>_Imports.razor</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ImportVideoExample" />
 </DocsPageSection>
@@ -38,7 +73,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
-        To play the video you just need to define the <Code>Source</Code> of the video.
+        Set <Code>Source</Code> to a browser-supported media file to create a player with the default controls.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="BasicVideoExample" Outlined FullWidth>
         <BasicVideoExample />
@@ -46,8 +81,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Streaming Dash">
-        We also support streaming videos. To stream the video you just define the <Code>Source</Code> as usual, along with the <Code>StreamingLibrary</Code> used to handle the video media type.
+    <DocsPageSectionHeader Title="Streaming DASH">
+        Set <Code>StreamingLibrary</Code> to <Code>StreamingLibrary.Dash</Code> when <Code>Source</Code> points to a DASH manifest.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="VideoDashExample" Outlined FullWidth>
         <VideoDashExample />
@@ -56,7 +91,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Streaming HLS">
-        We also support streaming of HLS videos. To stream the video you just define the <Code>Source</Code> as usual, along with the <Code>StreamingLibrary</Code> used to handle the video media type.
+        Set <Code>StreamingLibrary</Code> to <Code>StreamingLibrary.Hls</Code> when <Code>Source</Code> points to an HLS playlist.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="VideoHlsExample" Outlined FullWidth>
         <VideoHlsExample />
@@ -74,20 +109,28 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Multiple files">
-        <Paragraph>
-            The <Strong>VideoSource</Strong> object contains a list of <Strong>VideoMedia</Strong> instances, each representing a different quality of the same video. Each <Strong>VideoMedia</Strong> is initialized with a unique URL that points to the video source, a media type, and a quality represented as resolution (in pixels).
-        </Paragraph>
-        <Paragraph>
-            Here, three versions of the same video are provided: a 576p, a 720p, and a 1080p. These different versions give users the ability to choose the video quality according to their network conditions or preferences.
-        </Paragraph>
-        <Paragraph>
-            The <Strong>DefaultQuality</Strong> property set on the <Strong>Video</Strong> component dictates which version of the video is loaded by default when the component is rendered. In this case, it is set to "720", meaning the 720p version of the video will be the default.
-        </Paragraph>
+        Add several <Code>VideoMedia</Code> entries to a <Code>VideoSource</Code> to offer multiple versions of the same video. Their heights become quality choices, and <Code>DefaultQuality</Code> selects the initial version.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="VideoMultipleSourcesExample" Outlined FullWidth>
         <VideoMultipleSourcesExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSectionTitle>
+    Best practices
+</DocsPageSectionTitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        Provide a <Code>Poster</Code> and stable <Code>Ratio</Code> when possible to avoid layout movement before media metadata loads.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Add caption or subtitle <Code>VideoTrack</Code> entries for accessible playback, and identify their language and label.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Use native media files for simple playback and select HLS or DASH only when the source is a matching streaming manifest.
+    </UnorderedListItem>
+</UnorderedList>
 
 <DocsPageApi>
     <DocsPageApiItem Url="docs/extensions/video/api" Name="<Video />" />
