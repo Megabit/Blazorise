@@ -2,7 +2,7 @@
 
 internal static class Extensions
 {
-    public static string ToStreamingLibrary( this StreamingLibrary streamingLibrary )
+    public static string ToStreamingLibraryString( this StreamingLibrary streamingLibrary )
     {
         return streamingLibrary switch
         {
@@ -12,7 +12,7 @@ internal static class Extensions
         };
     }
 
-    public static string ToVideoProtectionType( this VideoProtectionType videoProtectionType )
+    public static string ToVideoProtectionTypeString( this VideoProtectionType videoProtectionType )
     {
         return videoProtectionType switch
         {

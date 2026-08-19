@@ -95,7 +95,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                     AutoPlay = new JSOptionChange<bool>( autoPlayChanged, paramAutoPlay ),
                     Muted = new JSOptionChange<bool>( mutedChanged, paramMuted ),
                     Thumbnails = new JSOptionChange<string>( thumbnailsChanged, paramThumbnails ),
-                    StreamingLibrary = new JSOptionChange<string>( streamingLibraryChanged, paramStreamingLibrary.ToStreamingLibrary() ),
+                    StreamingLibrary = new JSOptionChange<string>( streamingLibraryChanged, paramStreamingLibrary.ToStreamingLibraryString() ),
                     ClickToPlay = new JSOptionChange<bool>( clickToPlayChanged, paramClickToPlay ),
                     DisableContextMenu = new JSOptionChange<bool>( disableContextMenuChanged, paramDisableContextMenu ),
                     ResetOnEnd = new JSOptionChange<bool>( resetOnEndChanged, paramResetOnEnd ),
@@ -144,7 +144,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                 Source = Source,
                 Poster = Poster,
                 Thumbnails = Thumbnails,
-                StreamingLibrary = StreamingLibrary.ToStreamingLibrary(),
+                StreamingLibrary = StreamingLibrary.ToStreamingLibraryString(),
                 SeekTime = SeekTime,
                 CurrentTime = CurrentTime,
                 Volume = Volume,
@@ -158,7 +158,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                 Protection = ProtectionType != VideoProtectionType.None ? new VideoJSProtectionOptions
                 (
                 data: ProtectionData,
-                type: ProtectionType.ToVideoProtectionType(),
+                type: ProtectionType.ToVideoProtectionTypeString(),
                 serverUrl: ProtectionServerUrl,
                 serverCertificateUrl: ProtectionServerCertificateUrl,
                 httpRequestHeaders: ProtectionHttpRequestHeaders
@@ -213,7 +213,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
             await JSModule.UpdateSource( ElementRef, ElementId, source: Source, protection: ProtectionType != VideoProtectionType.None ? new
             {
                 Data = protectionData,
-                Type = ProtectionType.ToVideoProtectionType(),
+                Type = ProtectionType.ToVideoProtectionTypeString(),
                 ServerUrl = ProtectionServerUrl,
                 ServerCertificateUrl = ProtectionServerCertificateUrl,
                 HttpRequestHeaders = ProtectionHttpRequestHeaders
@@ -620,7 +620,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
             || media?.Height == null
             || AvailableQualities.Contains( media.Height.Value );
 
-    private string QualityLabel( VideoMedia media )
+    private string FormatQuality( VideoMedia media )
         => media?.Height is int height ? $"{height}p" : "Source";
 
     #region Properties
@@ -630,7 +630,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
     private bool IsAudioSource => Source?.Type == VideoSourceType.Audio;
 
-    private string SkinClass => IsAudioSource ? "media-minimal-skin--audio" : "media-minimal-skin--video";
+    private string SkinClassNames => IsAudioSource ? "media-minimal-skin--audio" : "media-minimal-skin--video";
 
     private bool HasTimeControls => HasControl( VideoControlsType.Progress )
         || HasControl( VideoControlsType.CurrentTime )
@@ -642,19 +642,19 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
     private string EffectivePoster => !string.IsNullOrWhiteSpace( Poster ) ? Poster : Source?.Poster;
 
-    private string CurrentTimeType => InvertTime ? "remaining" : "current";
+    private string CurrentTimeTypeString => InvertTime ? "remaining" : "current";
 
-    private string QualitySettingType => StreamingLibrary == Blazorise.Video.StreamingLibrary.None && Source?.HasMultipleMedia == true ? null : "quality";
+    private string QualitySettingTypeString => StreamingLibrary == Blazorise.Video.StreamingLibrary.None && Source?.HasMultipleMedia == true ? null : "quality";
 
-    private string VolumePopoverId => $"{ElementId}-volume-popover";
+    private string VolumePopoverElementId => $"{ElementId}-volume-popover";
 
-    private string SettingsMenuId => $"{ElementId}-settings-menu";
+    private string SettingsMenuElementId => $"{ElementId}-settings-menu";
 
-    private string QualityMenuId => $"{ElementId}-settings-quality-menu";
+    private string QualityMenuElementId => $"{ElementId}-settings-quality-menu";
 
-    private string SpeedMenuId => $"{ElementId}-settings-speed-menu";
+    private string SpeedMenuElementId => $"{ElementId}-settings-speed-menu";
 
-    private string CaptionsMenuId => $"{ElementId}-settings-captions-menu";
+    private string CaptionsMenuElementId => $"{ElementId}-settings-captions-menu";
 
     private VideoMedia[] AvailableNativeMedia => Source?.Medias?.Where( IsQualityAvailable ).ToArray() ?? Array.Empty<VideoMedia>();
 
