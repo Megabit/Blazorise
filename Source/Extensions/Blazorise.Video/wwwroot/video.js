@@ -32,6 +32,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         qualityRenditions: null,
         qualityObserver: null,
         abortController: new AbortController(),
+        mediaAbortController: null,
         disconnectCleanupId: null,
         destroyed: false,
         protection: options.protection,
@@ -55,8 +56,10 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         if (!instance.media)
             throw new Error(`Unable to find the Video.js media element for '${elementId}'.`);
 
+        instance.mediaAbortController = new AbortController();
         applyMediaOptions(instance);
         registerToEvents(dotNetAdapter, instance);
+        registerPlayerEvents(dotNetAdapter, instance);
         connectTextTrackEvents(dotNetAdapter, instance);
         setupControls(dotNetAdapter, instance);
         setupCompatibilityControls(dotNetAdapter, instance);
@@ -79,6 +82,7 @@ export function destroy(element, elementId, unregisterCleanup = true) {
 
     instance.destroyed = true;
     instance.protectionGeneration++;
+    instance.mediaAbortController?.abort();
     instance.abortController.abort();
     clearTimeout(instance.controlsTimer);
     clearTimeout(instance.statusTimer);
@@ -104,6 +108,7 @@ export function destroy(element, elementId, unregisterCleanup = true) {
     instance.textTracks = null;
     instance.qualityRenditions = null;
     instance.qualityObserver = null;
+    instance.mediaAbortController = null;
     instance.disconnectCleanupId = null;
 
     instances.delete(elementId);
@@ -125,9 +130,16 @@ export async function updateOptions(element, elementId, options) {
         await updateSource(element, elementId, options.source.value);
     else if (streamingLibraryChanged) {
         await loadVideoJs(instance.player, instance.options.streamingLibrary);
+
+        if (instance.destroyed || instances.get(elementId) !== instance)
+            return;
+
         rebindRenderedMedia(instance);
         await updateSource(element, elementId, instance.options.source);
     }
+
+    if (instance.destroyed || instances.get(elementId) !== instance || !instance.media)
+        return;
 
     if (options.protectionType?.changed
         || options.protectionData?.changed
@@ -204,7 +216,14 @@ export async function updateSource(element, elementId, source, protection) {
     instance.options.source = source;
 
     await loadVideoJs(instance.player, instance.options.streamingLibrary);
+
+    if (instance.destroyed || instances.get(elementId) !== instance)
+        return;
+
     rebindRenderedMedia(instance);
+
+    if (!instance.media)
+        return;
 
     if (instance.media.localName === "video" || instance.media.localName === "audio")
         updateNativeSources(instance.media, source);
@@ -492,8 +511,11 @@ function rebindRenderedMedia(instance) {
     if (!renderedMedia || renderedMedia === instance.media)
         return;
 
+    instance.mediaAbortController?.abort();
+    instance.mediaAbortController = new AbortController();
     instance.media = renderedMedia;
     instance.textTracks = null;
+    instance.activeLanguage = null;
     instance.qualityRenditions = null;
     instance.qualityObserver?.disconnect();
     instance.qualityObserver = null;
@@ -512,23 +534,15 @@ function applyMediaOptions(instance) {
     media.playsInline = true;
 
     if (options.currentTime)
-        setCurrentTimeWhenReady(media, options.currentTime);
+        setCurrentTimeWhenReady(media, options.currentTime, instance.mediaAbortController.signal);
 
     if (options.aspectRatio && container)
         container.style.aspectRatio = `${options.aspectRatio}`;
-
-    instance.player.addEventListener("contextmenu", event => {
-        if (instance.options.disableContextMenu)
-            event.preventDefault();
-    }, {
-        capture: true,
-        signal: instance.abortController.signal,
-    });
 }
 
 function registerToEvents(dotNetAdapter, instance) {
     const media = instance.media;
-    const signal = instance.abortController.signal;
+    const signal = instance.mediaAbortController.signal;
 
     media.addEventListener("progress", () => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyProgress", getBufferedEnd(media));
@@ -575,6 +589,15 @@ function registerToEvents(dotNetAdapter, instance) {
         if (instance.options.resetOnEnd)
             setCurrentTime(media, 0);
     }, { signal });
+}
+
+function registerPlayerEvents(dotNetAdapter, instance) {
+    const signal = instance.abortController.signal;
+
+    instance.player.addEventListener("contextmenu", event => {
+        if (instance.options.disableContextMenu)
+            event.preventDefault();
+    }, { capture: true, signal });
 
     const fullscreenChanged = () => {
         const entered = isPlayerFullscreen(instance);
@@ -614,7 +637,7 @@ function connectTextTrackEvents(dotNetAdapter, instance) {
             instance.activeLanguage = language;
             invokeDotNetMethodAsync(dotNetAdapter, "NotifyLanguageChange", language);
         }
-    }, { signal: instance.abortController.signal });
+    }, { signal: instance.mediaAbortController.signal });
 }
 
 function setupControls(dotNetAdapter, instance) {
@@ -821,8 +844,8 @@ function applyDefaultQualityWhenAvailable(dotNetAdapter, instance) {
 
     if (renditions !== instance.qualityRenditions) {
         instance.qualityRenditions = renditions;
-        renditions.addEventListener("addrendition", selectRequestedQuality, { signal: instance.abortController.signal });
-        renditions.addEventListener("change", notifyQualityChange, { signal: instance.abortController.signal });
+        renditions.addEventListener("addrendition", selectRequestedQuality, { signal: instance.mediaAbortController.signal });
+        renditions.addEventListener("change", notifyQualityChange, { signal: instance.mediaAbortController.signal });
 
         instance.qualityObserver?.disconnect();
         instance.qualityObserver = new MutationObserver(() => filterQualityChoices(instance));
@@ -866,7 +889,7 @@ function switchNativeQuality(dotNetAdapter, instance, source, height) {
 
         if (wasPlaying)
             media.play().catch(reason => console.error(reason));
-    }, { once: true, signal: instance.abortController.signal });
+    }, { once: true, signal: instance.mediaAbortController.signal });
 
     for (const button of instance.player.querySelectorAll("[data-blazorise-video-quality]"))
         button.toggleAttribute("data-active", button.dataset.blazoriseVideoQuality === `${height}`);
@@ -1187,13 +1210,13 @@ function exitDocumentFullscreen() {
     return Promise.resolve();
 }
 
-function setCurrentTimeWhenReady(media, currentTime) {
+function setCurrentTimeWhenReady(media, currentTime, signal) {
     if (media.readyState > 0) {
         setCurrentTime(media, currentTime);
         return;
     }
 
-    media.addEventListener("loadedmetadata", () => setCurrentTime(media, currentTime), { once: true });
+    media.addEventListener("loadedmetadata", () => setCurrentTime(media, currentTime), { once: true, signal });
 }
 
 function setCurrentTime(media, currentTime) {
