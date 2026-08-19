@@ -80,7 +80,7 @@ public record VideoSource
     public bool HasMultipleMedia => Medias?.Count > 1;
 
     /// <summary>
-    /// Either video or audio. YouTube and Vimeo media providers are not currently available in Video.js v10.
+    /// Either video or audio. YouTube and Vimeo URLs are detected automatically when the type is video.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public VideoSourceType? Type { get; set; } = VideoSourceType.Video;

@@ -33109,6 +33109,10 @@ builder.Services
 
         public const string VideoNugetInstallExample = @"dotnet add package Blazorise.Video";
 
+        public const string VideoVimeoExample = @"<Video Source=""@(""https://vimeo.com/76979871"")"" />";
+
+        public const string VideoYouTubeExample = @"<Video Source=""@(""https://www.youtube.com/watch?v=M7lc1UVf-VE"")"" />";
+
         public const string AntDesignGuideNuget1Example = @"dotnet add package Blazorise.AntDesign";
 
         public const string AntDesignGuideNuget2Example = @"dotnet add package Blazorise.Icons.AntDesign";

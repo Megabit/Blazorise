@@ -210,6 +210,8 @@ public partial class Video : BaseComponent, IAsyncDisposable
             ProtectionServerCertificateUrl = protectionServerCertificateUrl;
             ProtectionHttpRequestHeaders = protectionHttpRequestHeaders;
 
+            await InvokeAsync( StateHasChanged );
+
             await JSModule.UpdateSource( ElementRef, ElementId, source: Source, protection: ProtectionType != VideoProtectionType.None ? new
             {
                 Data = protectionData,
@@ -630,6 +632,14 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
     private bool IsAudioSource => Source?.Type == VideoSourceType.Audio;
 
+    private bool IsYouTubeSource => !IsAudioSource
+        && ( string.Equals( PrimaryMedia?.Type, "video/youtube", StringComparison.OrdinalIgnoreCase )
+            || IsSourceFromHost( PrimarySource, "youtu.be", "youtube.com", "youtube-nocookie.com" ) );
+
+    private bool IsVimeoSource => !IsAudioSource
+        && ( string.Equals( PrimaryMedia?.Type, "video/vimeo", StringComparison.OrdinalIgnoreCase )
+            || IsSourceFromHost( PrimarySource, "vimeo.com" ) );
+
     private string SkinClassNames => IsAudioSource ? "media-minimal-skin--audio" : "media-minimal-skin--video";
 
     private bool HasTimeControls => HasControl( VideoControlsType.Progress )
@@ -638,7 +648,9 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
     private bool HasSettings => SettingsList?.Length > 0;
 
-    private string PrimarySource => Source?.Medias?.FirstOrDefault()?.Source;
+    private VideoMedia PrimaryMedia => Source?.Medias?.FirstOrDefault();
+
+    private string PrimarySource => PrimaryMedia?.Source;
 
     private string EffectivePoster => !string.IsNullOrWhiteSpace( Poster ) ? Poster : Source?.Poster;
 
@@ -657,6 +669,15 @@ public partial class Video : BaseComponent, IAsyncDisposable
     private string CaptionsMenuElementId => $"{ElementId}-settings-captions-menu";
 
     private VideoMedia[] AvailableNativeMedia => Source?.Medias?.Where( IsQualityAvailable ).ToArray() ?? Array.Empty<VideoMedia>();
+
+    private static bool IsSourceFromHost( string source, params string[] hosts )
+    {
+        if ( !Uri.TryCreate( source, UriKind.Absolute, out Uri uri ) )
+            return false;
+
+        return hosts.Any( host => string.Equals( uri.Host, host, StringComparison.OrdinalIgnoreCase )
+            || uri.Host.EndsWith( $".{host}", StringComparison.OrdinalIgnoreCase ) );
+    }
 
     /// <summary>
     /// Reference to the object that should be accessed through JSInterop.

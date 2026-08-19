@@ -4,6 +4,8 @@ const videoJsVendorRoot = "./vendors/videojs";
 const videoJsPlayerUrl = `${videoJsVendorRoot}/videojs.js`;
 const videoJsHlsUrl = `${videoJsVendorRoot}/hlsjs-video.js`;
 const videoJsDashUrl = `${videoJsVendorRoot}/dash-video.js`;
+const videoJsYouTubeUrl = `${videoJsVendorRoot}/youtube-video.js`;
+const videoJsVimeoUrl = `${videoJsVendorRoot}/vimeo-video.js`;
 
 insertCSSIntoDocumentHead("_content/Blazorise.Video/vendors/videojs/videojs.css?v=2.3.0.0");
 
@@ -42,7 +44,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
     instance.disconnectCleanupId = registerDisconnectCleanup(element, () => destroy(null, elementId, false));
 
     try {
-        await loadVideoJs(options.streamingLibrary);
+        await loadVideoJs(element, options.streamingLibrary);
 
         if (instance.destroyed)
             return;
@@ -118,15 +120,13 @@ export async function updateOptions(element, elementId, options) {
     applyChangedOption(instance, options, "thumbnails");
     applyChangedOption(instance, options, "streamingLibrary");
 
-    if (streamingLibraryChanged) {
-        await loadVideoJs(instance.options.streamingLibrary);
-        rebindRenderedMedia(instance);
-    }
-
     if (sourceChanged)
-        updateSource(element, elementId, options.source.value);
-    else if (streamingLibraryChanged)
-        updateSource(element, elementId, instance.options.source);
+        await updateSource(element, elementId, options.source.value);
+    else if (streamingLibraryChanged) {
+        await loadVideoJs(instance.player, instance.options.streamingLibrary);
+        rebindRenderedMedia(instance);
+        await updateSource(element, elementId, instance.options.source);
+    }
 
     if (options.protectionType?.changed
         || options.protectionData?.changed
@@ -194,7 +194,7 @@ export async function updateOptions(element, elementId, options) {
     applyDefaultQualityWhenAvailable(instance.dotNetAdapter, instance);
 }
 
-export function updateSource(element, elementId, source, protection) {
+export async function updateSource(element, elementId, source, protection) {
     const instance = instances[elementId];
 
     if (!instance || !instance.media)
@@ -202,6 +202,7 @@ export function updateSource(element, elementId, source, protection) {
 
     instance.options.source = source;
 
+    await loadVideoJs(instance.player, instance.options.streamingLibrary);
     rebindRenderedMedia(instance);
 
     if (instance.media.localName === "video" || instance.media.localName === "audio")
@@ -447,12 +448,20 @@ export function setPlaybackRate(element, elementId, rate) {
         media.playbackRate = rate;
 }
 
-async function loadVideoJs(streamingLibrary) {
+async function loadVideoJs(player, streamingLibrary) {
     await importOnce(videoJsPlayerUrl);
     await customElements.whenDefined("video-player");
     await customElements.whenDefined("media-container");
 
-    if (streamingLibrary === "Hls") {
+    const renderedMedia = getMediaElement(player);
+
+    if (renderedMedia?.localName === "youtube-video") {
+        await importOnce(videoJsYouTubeUrl);
+        await customElements.whenDefined("youtube-video");
+    } else if (renderedMedia?.localName === "vimeo-video") {
+        await importOnce(videoJsVimeoUrl);
+        await customElements.whenDefined("vimeo-video");
+    } else if (streamingLibrary === "Hls") {
         await importOnce(videoJsHlsUrl);
         await customElements.whenDefined("hlsjs-video");
     } else if (streamingLibrary === "Dash") {
@@ -473,7 +482,7 @@ function importOnce(url) {
 }
 
 function getMediaElement(player) {
-    return player?.querySelector("hlsjs-video, dash-video, video, audio") || null;
+    return player?.querySelector("youtube-video, vimeo-video, hlsjs-video, dash-video, video, audio") || null;
 }
 
 function rebindRenderedMedia(instance) {

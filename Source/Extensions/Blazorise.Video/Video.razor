@@ -2,7 +2,15 @@
 @inherits BaseComponent
 <video-player @ref="@ElementRef" id="@ElementId" role="video" @attributes="@Attributes">
     <media-container class="media-minimal-skin @SkinClassNames @ClassNames" style="@StyleNames" aria-label="@Source?.Title">
-        @if ( StreamingLibrary == Blazorise.Video.StreamingLibrary.Hls )
+        @if ( IsYouTubeSource )
+        {
+            <youtube-video class="b-video-embed" src="@PrimarySource" autoplay="@AutoPlay" muted="@Muted" playsinline></youtube-video>
+        }
+        else if ( IsVimeoSource )
+        {
+            <vimeo-video class="b-video-embed" src="@PrimarySource" autoplay="@AutoPlay" muted="@Muted" playsinline></vimeo-video>
+        }
+        else if ( StreamingLibrary == Blazorise.Video.StreamingLibrary.Hls )
         {
             <hlsjs-video src="@PrimarySource" playsinline>
                 @foreach ( VideoTrack track in Source?.Tracks ?? Enumerable.Empty<VideoTrack>() )
@@ -225,54 +233,52 @@
                                 <svg class="media-icon media-icon--settings" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" aria-hidden="true" viewBox="0 0 18 18"><path d="M7.519 2.184c.356-1.579 2.605-1.579 2.962 0a1.52 1.52 0 0 0 2.292.949c1.368-.864 2.958.727 2.094 2.095-.56.886-.073 2.06.95 2.29 1.578.357 1.578 2.607 0 2.964a1.518 1.518 0 0 0-.95 2.29c.864 1.369-.726 2.96-2.094 2.095a1.52 1.52 0 0 0-2.292.95c-.357 1.578-2.606 1.578-2.962 0a1.518 1.518 0 0 0-2.291-.95c-1.368.864-2.959-.726-2.095-2.094.56-.887.074-2.06-.95-2.291-1.578-.357-1.578-2.607 0-2.963a1.518 1.518 0 0 0 .95-2.291c-.864-1.368.727-2.959 2.095-2.095.886.56 2.06.074 2.29-.95M9 5.1a3.9 3.9 0 1 0 0 7.8 3.9 3.9 0 0 0 0-7.8"/></svg>
                             </button>
                             <media-menu id="@SettingsMenuElementId" side="top" align="center" class="media-popover media-menu media-menu--settings">
-                                <media-menu-view class="media-menu__panel">
-                                    <div class="media-menu__group">
-                                        @if ( HasSetting( VideoSettingsType.Quality ) )
-                                        {
-                                            <media-menu-item commandfor="@QualityMenuElementId" type="@QualitySettingTypeString" data-setting="@QualitySettingTypeString" class="media-menu__item media-menu__item--submenu">
-                                                <span>Quality</span>
-                                                <span class="media-menu__hint">
-                                                    <media-menu-item-value class="media-menu__hint-label"></media-menu-item-value>
-                                                    <svg class="media-icon media-menu__chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
-                                                </span>
-                                            </media-menu-item>
-                                        }
-                                        @if ( HasSetting( VideoSettingsType.Speed ) )
-                                        {
-                                            <media-menu-item commandfor="@SpeedMenuElementId" type="playback-rate" data-setting="playback-rate" class="media-menu__item media-menu__item--submenu">
-                                                <span>Speed</span>
-                                                <span class="media-menu__hint">
-                                                    <media-menu-item-value class="media-menu__hint-label"></media-menu-item-value>
-                                                    <svg class="media-icon media-menu__chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
-                                                </span>
-                                            </media-menu-item>
-                                        }
-                                        @if ( HasSetting( VideoSettingsType.Captions ) )
-                                        {
-                                            <media-menu-item commandfor="@CaptionsMenuElementId" type="captions" data-setting="captions" class="media-menu__item media-menu__item--submenu">
-                                                <span>Captions</span>
-                                                <span class="media-menu__hint">
-                                                    <media-menu-item-value class="media-menu__hint-label"></media-menu-item-value>
-                                                    <svg class="media-icon media-menu__chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
-                                                </span>
-                                            </media-menu-item>
-                                        }
-                                        @if ( HasSetting( VideoSettingsType.Loop ) )
-                                        {
-                                            <button type="button" data-blazorise-video-loop aria-pressed="false" class="media-menu__item b-video-loop-setting">
-                                                <span>Loop</span>
-                                                <span class="media-menu__hint b-video-loop-value">Off</span>
-                                            </button>
-                                        }
-                                    </div>
-                                </media-menu-view>
+                                <div class="media-menu__group">
+                                    @if ( HasSetting( VideoSettingsType.Quality ) )
+                                    {
+                                        <media-menu-item commandfor="@QualityMenuElementId" type="@QualitySettingTypeString" data-setting="@QualitySettingTypeString" class="media-menu__item media-menu__item--submenu">
+                                            <span>Quality</span>
+                                            <span class="media-menu__hint">
+                                                <span data-part="hint" class="media-menu__hint-label"></span>
+                                                <svg class="media-icon media-menu__chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
+                                            </span>
+                                        </media-menu-item>
+                                    }
+                                    @if ( HasSetting( VideoSettingsType.Speed ) )
+                                    {
+                                        <media-menu-item commandfor="@SpeedMenuElementId" type="playback-rate" data-setting="playback-rate" class="media-menu__item media-menu__item--submenu">
+                                            <span>Speed</span>
+                                            <span class="media-menu__hint">
+                                                <span data-part="hint" class="media-menu__hint-label"></span>
+                                                <svg class="media-icon media-menu__chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
+                                            </span>
+                                        </media-menu-item>
+                                    }
+                                    @if ( HasSetting( VideoSettingsType.Captions ) )
+                                    {
+                                        <media-menu-item commandfor="@CaptionsMenuElementId" type="captions" data-setting="captions" class="media-menu__item media-menu__item--submenu">
+                                            <span>Captions</span>
+                                            <span class="media-menu__hint">
+                                                <span data-part="hint" class="media-menu__hint-label"></span>
+                                                <svg class="media-icon media-menu__chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
+                                            </span>
+                                        </media-menu-item>
+                                    }
+                                    @if ( HasSetting( VideoSettingsType.Loop ) )
+                                    {
+                                        <button type="button" data-blazorise-video-loop aria-pressed="false" class="media-menu__item b-video-loop-setting">
+                                            <span>Loop</span>
+                                            <span class="media-menu__hint b-video-loop-value">Off</span>
+                                        </button>
+                                    }
+                                </div>
                                 @if ( HasSetting( VideoSettingsType.Quality ) )
                                 {
                                     <media-menu id="@QualityMenuElementId" class="media-menu__panel">
-                                        <media-menu-back class="media-menu__back">
+                                        <media-menu-item class="media-menu__back">
                                             <svg class="media-icon media-menu__chevron media-icon--flipped" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
                                             Quality
-                                        </media-menu-back>
+                                        </media-menu-item>
                                         <div class="media-menu__separator"></div>
                                         <media-quality-radio-group class="media-menu__group">
                                             <template>
@@ -301,10 +307,10 @@
                                 @if ( HasSetting( VideoSettingsType.Speed ) )
                                 {
                                     <media-menu id="@SpeedMenuElementId" class="media-menu__panel">
-                                        <media-menu-back class="media-menu__back">
+                                        <media-menu-item class="media-menu__back">
                                             <svg class="media-icon media-menu__chevron media-icon--flipped" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
                                             Speed
-                                        </media-menu-back>
+                                        </media-menu-item>
                                         <div class="media-menu__separator"></div>
                                         <media-playback-rate-radio-group class="media-menu__group">
                                             <template>
@@ -321,10 +327,10 @@
                                 @if ( HasSetting( VideoSettingsType.Captions ) )
                                 {
                                     <media-menu id="@CaptionsMenuElementId" class="media-menu__panel">
-                                        <media-menu-back class="media-menu__back">
+                                        <media-menu-item class="media-menu__back">
                                             <svg class="media-icon media-menu__chevron media-icon--flipped" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" aria-hidden="true" viewBox="0 0 18 18"><path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.667 9.014 6.364 3.711m0 10.606 5.303-5.303"/></svg>
                                             Captions
-                                        </media-menu-back>
+                                        </media-menu-item>
                                         <div class="media-menu__separator"></div>
                                         <media-captions-radio-group class="media-menu__group">
                                             <template>

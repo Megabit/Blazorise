@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-19T08:32:22.9400024Z",
+  "generatedUtc": "2026-08-19T10:14:03.9124648Z",
   "pages": [
     {
       "route": "/docs",
@@ -9951,6 +9951,22 @@
           "content": "<Video Source=\"@(\"https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4\")\" />",
           "title": "Basic",
           "description": "Set Source to a browser-supported media file to create a player with the default controls."
+        },
+        {
+          "code": "VideoYouTubeExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Video/Examples/VideoYouTubeExample.razor",
+          "content": "<Video Source=\"@(\"https://www.youtube.com/watch?v=M7lc1UVf-VE\")\" />",
+          "title": "YouTube",
+          "description": "Set Source to a regular YouTube watch URL. The provider is detected automatically and its locally packaged adapter is loaded on demand."
+        },
+        {
+          "code": "VideoVimeoExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Video/Examples/VideoVimeoExample.razor",
+          "content": "<Video Source=\"@(\"https://vimeo.com/76979871\")\" />",
+          "title": "Vimeo",
+          "description": "Set Source to a regular Vimeo video URL. The provider is detected automatically and its locally packaged adapter is loaded on demand."
         },
         {
           "code": "VideoDashExample",

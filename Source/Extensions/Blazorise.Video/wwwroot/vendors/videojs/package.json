@@ -1,7 +1,7 @@
 {
   "name": "@videojs/html",
   "type": "module",
-  "version": "10.0.0-beta.25",
+  "version": "10.0.0-beta.28",
   "description": "HTML library for building media players",
   "license": "Apache-2.0",
   "repository": {
@@ -14,6 +14,8 @@
   "types": "dist/dev/index.d.ts",
   "sideEffects": [
     "./dist/*/define/**/*.js",
+    "./dist/*/i18n/index.js",
+    "./dist/*/i18n/locales/*/register.js",
     "./dist/*/icons/element/**/*.js",
     "./dist/*/icons/dist/element/**/*.js",
     "./cdn/**/*.js"
@@ -24,6 +26,7 @@
     "docs"
   ],
   "exports": {
+    "./package.json": "./package.json",
     ".": {
       "types": "./dist/dev/index.d.ts",
       "development": "./dist/dev/index.js",
@@ -104,6 +107,16 @@
       "development": "./dist/dev/define/feature/*.js",
       "default": "./dist/default/define/feature/*.js"
     },
+    "./media/mux-video": {
+      "types": "./dist/dev/define/media/mux-video/index.d.ts",
+      "development": "./dist/dev/define/media/mux-video/index.js",
+      "default": "./dist/default/define/media/mux-video/index.js"
+    },
+    "./media/mux-audio": {
+      "types": "./dist/dev/define/media/mux-audio/index.d.ts",
+      "development": "./dist/dev/define/media/mux-audio/index.js",
+      "default": "./dist/default/define/media/mux-audio/index.js"
+    },
     "./media/*": {
       "types": "./dist/dev/define/media/*.d.ts",
       "development": "./dist/dev/define/media/*.js",
@@ -114,10 +127,35 @@
       "development": "./cdn/media/*.dev.js",
       "default": "./cdn/media/*.js"
     },
+    "./cdn/i18n": {
+      "types": "./dist/dev/i18n/index.d.ts",
+      "development": "./cdn/i18n.dev.js",
+      "default": "./cdn/i18n.js"
+    },
+    "./cdn/i18n-registry": {
+      "types": "./dist/dev/i18n/index.d.ts",
+      "development": "./cdn/i18n.dev.js",
+      "default": "./cdn/i18n.js"
+    },
+    "./cdn/locales/*": {
+      "types": "./cdn/locales/*.dev.d.ts",
+      "development": "./cdn/locales/*.dev.js",
+      "default": "./cdn/locales/*.js"
+    },
     "./cdn/*": {
       "types": "./cdn/*.dev.d.ts",
       "development": "./cdn/*.dev.js",
       "default": "./cdn/*.js"
+    },
+    "./i18n": {
+      "types": "./dist/dev/i18n/index.d.ts",
+      "development": "./dist/dev/i18n/index.js",
+      "default": "./dist/default/i18n/index.js"
+    },
+    "./i18n/locales/*": {
+      "types": "./dist/dev/i18n/locales/*.d.ts",
+      "development": "./dist/dev/i18n/locales/*.js",
+      "default": "./dist/default/i18n/locales/*.js"
     },
     "./*.css": "./dist/default/define/*.css",
     "./*": {
@@ -126,20 +164,38 @@
       "default": "./dist/default/define/*.js"
     }
   },
+  "scripts": {
+    "generate:vjsc": "vjsc generate",
+    "check:vjsc": "vjsc generate --check",
+    "prebuild": "pnpm run generate:vjsc",
+    "build": "tsdown",
+    "build:cdn": "node --import tsx ./scripts/build-cdn-locales.ts && tsdown --config tsdown.cdn.config.ts",
+    "check:cdn": "node --import tsx ./scripts/check-cdn-self-contained.ts",
+    "build:archive": "node --import tsx ./scripts/build-dist-archive.ts",
+    "build:watch": "tsdown --watch ./src --no-clean",
+    "dev": "pnpm run build:watch",
+    "test": "vitest run",
+    "clean": "rimraf --glob dist cdn archive docs types '*.tsbuildinfo'",
+    "prepack": "node --import tsx ../../site/scripts/copy-package-docs.ts html"
+  },
   "dependencies": {
-    "@videojs/core": "10.0.0-beta.25",
-    "@videojs/element": "10.0.0-beta.25",
-    "@videojs/spf": "10.0.0-beta.25",
-    "@videojs/store": "10.0.0-beta.25",
-    "@videojs/utils": "10.0.0-beta.25"
+    "@videojs/core": "workspace:*",
+    "@videojs/element": "workspace:*",
+    "@videojs/media": "workspace:*",
+    "@videojs/spf": "workspace:*",
+    "@videojs/store": "workspace:*",
+    "@videojs/utils": "workspace:*"
   },
   "devDependencies": {
-    "@testing-library/dom": "^10.4.0",
-    "happy-dom": "^18.0.1",
-    "tsdown": "^0.21.9",
-    "vitest": "^4.1.0",
-    "@videojs/icons": "10.0.0-beta.25",
-    "@videojs/skins": "10.0.0-beta.25"
+    "@testing-library/dom": "^10.4.1",
+    "vjsc": "workspace:*",
+    "@videojs/icons": "workspace:*",
+    "@videojs/skins": "workspace:*",
+    "happy-dom": "^20.11.1",
+    "tsdown": "^0.22.14",
+    "tsx": "^4.23.1",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.10"
   },
   "publishConfig": {
     "access": "public"
@@ -151,13 +207,5 @@
     "ui",
     "components",
     "videojs"
-  ],
-  "scripts": {
-    "build": "tsdown",
-    "build:cdn": "tsdown --config tsdown.cdn.config.ts",
-    "build:watch": "tsdown --watch ./src --no-clean",
-    "dev": "pnpm run build:watch",
-    "test": "vitest run",
-    "clean": "rimraf --glob dist cdn docs types '*.tsbuildinfo'"
-  }
+  ]
 }
