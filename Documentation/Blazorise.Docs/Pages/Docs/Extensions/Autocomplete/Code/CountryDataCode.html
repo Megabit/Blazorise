@@ -1,39 +1,23 @@
 <div class="blazorise-codeblock">
 <div class="csharp"><pre>
 <span class="keyword">using</span> System.Collections.Generic;
-<span class="keyword">using</span> System.IO;
-<span class="keyword">using</span> System.Linq;
-<span class="keyword">using</span> System.Reflection;
-<span class="keyword">using</span> System.Text.Json;
 <span class="keyword">using</span> System.Threading.Tasks;
-<span class="keyword">using</span> Blazorise.Shared.Models;
-<span class="keyword">using</span> Microsoft.Extensions.Caching.Memory;
-
-<span class="keyword">namespace</span> Blazorise.Shared.Data;
 
 <span class="keyword">public</span> <span class="keyword">class</span> CountryData
 {
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache cache;
-    <span class="keyword">private</span> <span class="keyword">readonly</span> <span class="keyword">string</span> cacheKey = <span class="string">&quot;cache_countries&quot;</span>;
-
-    <span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;summary&gt;</span>
-    <span class="xmlDocTag">///</span><span class="xmlDocComment"> Simplified code to get and cache data in memory.</span>
-    <span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;/summary&gt;</span>
-    <span class="keyword">public</span> CountryData( IMemoryCache memoryCache )
-    {
-        cache = memoryCache;
-    }
-
     <span class="keyword">public</span> Task&lt;IEnumerable&lt;Country&gt;&gt; GetDataAsync()
-        =&gt; cache.GetOrCreateAsync( cacheKey, LoadData );
-
-    <span class="keyword">private</span> Task&lt;IEnumerable&lt;Country&gt;&gt; LoadData( ICacheEntry cacheEntry )
-    {
-        Assembly assembly = <span class="keyword">typeof</span>( EmployeeData ).Assembly;
-        <span class="keyword">using</span> Stream stream = assembly.GetManifestResourceStream( <span class="string">&quot;Blazorise.Shared.Resources.CountryData.json&quot;</span> );
-
-        <span class="keyword">return</span> Task.FromResult( JsonSerializer.Deserialize&lt;List&lt;Country&gt;&gt;( <span class="keyword">new</span> StreamReader( stream ).ReadToEnd() ).AsEnumerable() );
-    }
+        =&gt; Task.FromResult&lt;IEnumerable&lt;Country&gt;&gt;( <span class="keyword">new</span> Country[]
+        {
+            <span class="keyword">new</span>( <span class="string">&quot;Croatia&quot;</span>, <span class="string">&quot;HR&quot;</span>, <span class="string">&quot;Zagreb&quot;</span> ),
+            <span class="keyword">new</span>( <span class="string">&quot;France&quot;</span>, <span class="string">&quot;FR&quot;</span>, <span class="string">&quot;Paris&quot;</span> ),
+            <span class="keyword">new</span>( <span class="string">&quot;Germany&quot;</span>, <span class="string">&quot;DE&quot;</span>, <span class="string">&quot;Berlin&quot;</span> ),
+            <span class="keyword">new</span>( <span class="string">&quot;Italy&quot;</span>, <span class="string">&quot;IT&quot;</span>, <span class="string">&quot;Rome&quot;</span> ),
+            <span class="keyword">new</span>( <span class="string">&quot;Japan&quot;</span>, <span class="string">&quot;JP&quot;</span>, <span class="string">&quot;Tokyo&quot;</span> ),
+            <span class="keyword">new</span>( <span class="string">&quot;Portugal&quot;</span>, <span class="string">&quot;PT&quot;</span>, <span class="string">&quot;Lisbon&quot;</span> ),
+            <span class="keyword">new</span>( <span class="string">&quot;Spain&quot;</span>, <span class="string">&quot;ES&quot;</span>, <span class="string">&quot;Madrid&quot;</span> ),
+            <span class="keyword">new</span>( <span class="string">&quot;United Kingdom&quot;</span>, <span class="string">&quot;GB&quot;</span>, <span class="string">&quot;London&quot;</span> ),
+            <span class="keyword">new</span>( <span class="string">&quot;United States&quot;</span>, <span class="string">&quot;US&quot;</span>, <span class="string">&quot;Washington, D.C.&quot;</span> )
+        } );
 }
 </pre></div>
 </div>

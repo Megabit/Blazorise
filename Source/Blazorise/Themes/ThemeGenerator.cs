@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -424,6 +424,23 @@ public abstract class ThemeGenerator : IThemeGenerator
         if ( !string.IsNullOrEmpty( barOptions.HorizontalHeight ) )
             Variables[ThemeVariables.HorizontalBarHeight] = barOptions.HorizontalHeight;
 
+        if ( barOptions.FontOptions is not null )
+        {
+            ThemeFontOptions fontOptions = barOptions.FontOptions;
+
+            if ( !string.IsNullOrEmpty( fontOptions.Family ) )
+                Variables[ThemeVariables.BarFontFamily] = fontOptions.Family;
+
+            if ( !string.IsNullOrEmpty( fontOptions.Style ) )
+                Variables[ThemeVariables.BarFontStyle] = fontOptions.Style;
+
+            if ( !string.IsNullOrEmpty( fontOptions.Size ) )
+                Variables[ThemeVariables.BarFontSize] = fontOptions.Size;
+
+            if ( !string.IsNullOrEmpty( fontOptions.Weight ) )
+                Variables[ThemeVariables.BarFontWeight] = fontOptions.Weight;
+        }
+
         if ( barOptions?.DarkColors is not null )
         {
             if ( !string.IsNullOrEmpty( barOptions.DarkColors.BackgroundColor ) )
@@ -483,6 +500,31 @@ public abstract class ThemeGenerator : IThemeGenerator
             if ( !string.IsNullOrEmpty( barOptions.LightColors.BrandColorOptions?.BackgroundColor ) )
                 Variables[ThemeVariables.BarBrandLightBackground] = ToHex( ParseColor( barOptions.LightColors.BrandColorOptions.BackgroundColor ) );
         }
+    }
+
+    /// <summary>
+    /// Generates provider-specific aliases for the bar font variables.
+    /// </summary>
+    /// <param name="barOptions">Bar options.</param>
+    /// <param name="variablePrefix">Provider-specific variable prefix, including the component name.</param>
+    protected void GenerateBarFontVariableAliases( ThemeBarOptions barOptions, string variablePrefix )
+    {
+        if ( barOptions?.FontOptions is null || string.IsNullOrWhiteSpace( variablePrefix ) )
+            return;
+
+        ThemeFontOptions fontOptions = barOptions.FontOptions;
+
+        if ( !string.IsNullOrEmpty( fontOptions.Family ) )
+            SetVar( $"{variablePrefix}-font-family", $"var({ThemeVariables.BarFontFamily})" );
+
+        if ( !string.IsNullOrEmpty( fontOptions.Style ) )
+            SetVar( $"{variablePrefix}-font-style", $"var({ThemeVariables.BarFontStyle})" );
+
+        if ( !string.IsNullOrEmpty( fontOptions.Size ) )
+            SetVar( $"{variablePrefix}-font-size", $"var({ThemeVariables.BarFontSize})" );
+
+        if ( !string.IsNullOrEmpty( fontOptions.Weight ) )
+            SetVar( $"{variablePrefix}-font-weight", $"var({ThemeVariables.BarFontWeight})" );
     }
 
     /// <summary>

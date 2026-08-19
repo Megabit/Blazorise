@@ -30,6 +30,37 @@ public class ThemeGeneratorTest
         Assert.Equal( expected, result );
     }
 
+    [Fact]
+    public void GenerateVariables_GeneratesBarFontVariables()
+    {
+        Theme theme = new()
+        {
+            BarOptions = new()
+            {
+                FontOptions = new()
+                {
+                    Family = "Inter, sans-serif",
+                    Style = "italic",
+                    Size = "14px",
+                    Weight = "500",
+                },
+            },
+        };
+        ThemeCache themeCache = new( new( null, options => { } ) );
+        MockThemeGenerator themeGenerator = new( themeCache );
+
+        string variables = themeGenerator.GenerateVariables( theme );
+
+        Assert.Contains( "--b-bar-font-family: Inter, sans-serif;", variables );
+        Assert.Contains( "--b-bar-font-style: italic;", variables );
+        Assert.Contains( "--b-bar-font-size: 14px;", variables );
+        Assert.Contains( "--b-bar-font-weight: 500;", variables );
+        Assert.Contains( "--test-bar-font-family: var(--b-bar-font-family);", variables );
+        Assert.Contains( "--test-bar-font-style: var(--b-bar-font-style);", variables );
+        Assert.Contains( "--test-bar-font-size: var(--b-bar-font-size);", variables );
+        Assert.Contains( "--test-bar-font-weight: var(--b-bar-font-weight);", variables );
+    }
+
 
     public class MockThemeGenerator : ThemeGenerator
     {
@@ -39,6 +70,13 @@ public class ThemeGeneratorTest
 
         internal static string ExtractHexDigitsTest( string input )
             => ExtractHexDigits( input );
+
+        protected override void GenerateBarVariables( Theme theme, ThemeBarOptions barOptions )
+        {
+            base.GenerateBarVariables( theme, barOptions );
+
+            GenerateBarFontVariableAliases( barOptions, "--test-bar" );
+        }
 
         protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
         {

@@ -84,6 +84,14 @@
     line-height: inherit;
 }
 
+.ant-menu.ant-menu-root,
+.ant-menu-submenu.ant-menu-submenu-popup > .ant-menu {
+    font-family: var(--ant-menu-font-family, var(--b-bar-font-family, var(--ant-font-family)));
+    font-size: var(--ant-menu-font-size, var(--b-bar-font-size, var(--ant-font-size)));
+    font-style: var(--ant-menu-font-style, var(--b-bar-font-style, inherit));
+    font-weight: var(--ant-menu-font-weight, var(--b-bar-font-weight, inherit));
+}
+
 .ant-bar-initial {
     display: none !important;
 }

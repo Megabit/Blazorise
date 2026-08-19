@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-17T16:16:57.1930845Z",
+  "generatedUtc": "2026-08-19T07:25:22.9971102Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -132767,6 +132767,14 @@
           "typeName": "ThemeBarDropdownOptions",
           "defaultValue": "null",
           "summary": "Gets or sets the theme settings for the <strong>BarDropdown</strong> component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "FontOptions",
+          "type": "global::Blazorise.ThemeFontOptions",
+          "typeName": "ThemeFontOptions",
+          "defaultValue": "null",
+          "summary": "Gets or sets the font options for bar navigation items.",
           "isBlazoriseEnum": false
         },
         {

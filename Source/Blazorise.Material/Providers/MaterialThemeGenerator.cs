@@ -157,6 +157,13 @@ public class MaterialThemeGenerator : ThemeGenerator
         return base.GenerateVariables( theme );
     }
 
+    protected override void GenerateBarVariables( Theme theme, ThemeBarOptions barOptions )
+    {
+        base.GenerateBarVariables( theme, barOptions );
+
+        GenerateBarFontVariableAliases( barOptions, "--mui-bar" );
+    }
+
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
     }
