@@ -11,6 +11,7 @@ insertCSSIntoDocumentHead("_content/Blazorise.Video/vendors/videojs/videojs.css?
 
 const instances = [];
 const modulePromises = new Map();
+const configuredCaptionsRadioGroups = new WeakSet();
 
 export async function initialize(dotNetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
@@ -636,6 +637,7 @@ function setupControls(dotNetAdapter, instance) {
 function refreshControls(instance, dotNetAdapter) {
     instance.controls = getControlsElement(instance);
     syncCompatibilityControls(instance);
+    configureCaptionTrackLabels(instance);
 
     if (!instance.controls)
         return;
@@ -649,6 +651,48 @@ function refreshControls(instance, dotNetAdapter) {
 
     setControlsVisible(instance, true, dotNetAdapter);
     scheduleControlsHide(instance, dotNetAdapter);
+}
+
+function configureCaptionTrackLabels(instance) {
+    const captionsRadioGroup = getSkinElement(instance, "media-captions-radio-group");
+
+    if (!captionsRadioGroup || configuredCaptionsRadioGroups.has(captionsRadioGroup))
+        return;
+
+    const defaultFormatTrack = captionsRadioGroup.formatTrack;
+
+    captionsRadioGroup.formatTrack = track => formatCaptionTrackLabel(track, defaultFormatTrack);
+    configuredCaptionsRadioGroups.add(captionsRadioGroup);
+    captionsRadioGroup.requestUpdate?.();
+}
+
+function formatCaptionTrackLabel(track, defaultFormatTrack) {
+    const label = typeof track?.label === "string" ? track.label.trim() : "";
+    const language = typeof track?.language === "string" ? track.language.trim() : "";
+
+    if (label && !/^\d+$/.test(label))
+        return label;
+
+    if (language)
+        return getLanguageDisplayName(language);
+
+    if (label)
+        return label;
+
+    return typeof defaultFormatTrack === "function" ? defaultFormatTrack(track) : "Captions";
+}
+
+function getLanguageDisplayName(language) {
+    if (typeof Intl === "undefined" || typeof Intl.DisplayNames !== "function")
+        return language;
+
+    const locale = document.documentElement.lang || navigator.language || "en";
+
+    try {
+        return new Intl.DisplayNames([locale], { type: "language" }).of(language) || language;
+    } catch {
+        return language;
+    }
 }
 
 function setControlsVisible(instance, visible, dotNetAdapter) {
