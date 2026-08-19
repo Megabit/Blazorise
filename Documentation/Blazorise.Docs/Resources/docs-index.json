@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-19T10:14:03.9124648Z",
+  "generatedUtc": "2026-08-19T10:57:57.6788726Z",
   "pages": [
     {
       "route": "/docs",
@@ -9988,7 +9988,7 @@
           "code": "DRMVideoExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Video/Examples/DRMVideoExample.razor",
-          "content": "<Video Source=\"@(\"https://media.axprod.net/TestVectors/v7-MultiDRM-SingleKey/Manifest_1080p.mpd\")\"\r\n       StreamingLibrary=\"StreamingLibrary.Dash\"\r\n       ProtectionType=\"VideoProtectionType.Widevine\"\r\n       ProtectionServerUrl=\"https://drm-widevine-licensing.axtest.net/AcquireLicense\"\r\n       ProtectionHttpRequestHeaders=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoxLCJjb21fa2V5X2lkIjoiYjMzNjRlYjUtNTFmNi00YWUzLThjOTgtMzNjZWQ1ZTMxYzc4IiwibWVzc2FnZSI6eyJ0eXBlIjoiZW50aXRsZW1lbnRfbWVzc2FnZSIsImZpcnN0X3BsYXlfZXhwaXJhdGlvbiI6NjAsInBsYXlyZWFkeSI6eyJyZWFsX3RpbWVfZXhwaXJhdGlvbiI6dHJ1ZX0sImtleXMiOlt7ImlkIjoiOWViNDA1MGQtZTQ0Yi00ODAyLTkzMmUtMjdkNzUwODNlMjY2IiwiZW5jcnlwdGVkX2tleSI6ImxLM09qSExZVzI0Y3Iya3RSNzRmbnc9PSJ9XX19.FAbIiPxX8BHi9RwfzD7Yn-wugU19ghrkBFKsaCPrZmU\" />",
+          "content": "<Video Source=\"@(\"https://storage.googleapis.com/shaka-demo-assets/sintel-widevine/dash.mpd\")\"\r\n       StreamingLibrary=\"StreamingLibrary.Dash\"\r\n       ProtectionType=\"VideoProtectionType.Widevine\"\r\n       ProtectionServerUrl=\"https://cwip-shaka-proxy.appspot.com/no_auth\" />",
           "title": "Widevine DRM",
           "description": "This example shows how to use Video to play streams with Widevine DRM protection."
         },

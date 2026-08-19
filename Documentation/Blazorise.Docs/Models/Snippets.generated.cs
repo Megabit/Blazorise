@@ -33081,11 +33081,10 @@ builder.Services
 
         public const string BasicVideoExample = @"<Video Source=""@(""https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4"")"" />";
 
-        public const string DRMVideoExample = @"<Video Source=""@(""https://media.axprod.net/TestVectors/v7-MultiDRM-SingleKey/Manifest_1080p.mpd"")""
+        public const string DRMVideoExample = @"<Video Source=""@(""https://storage.googleapis.com/shaka-demo-assets/sintel-widevine/dash.mpd"")""
        StreamingLibrary=""StreamingLibrary.Dash""
        ProtectionType=""VideoProtectionType.Widevine""
-       ProtectionServerUrl=""https://drm-widevine-licensing.axtest.net/AcquireLicense""
-       ProtectionHttpRequestHeaders=""eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoxLCJjb21fa2V5X2lkIjoiYjMzNjRlYjUtNTFmNi00YWUzLThjOTgtMzNjZWQ1ZTMxYzc4IiwibWVzc2FnZSI6eyJ0eXBlIjoiZW50aXRsZW1lbnRfbWVzc2FnZSIsImZpcnN0X3BsYXlfZXhwaXJhdGlvbiI6NjAsInBsYXlyZWFkeSI6eyJyZWFsX3RpbWVfZXhwaXJhdGlvbiI6dHJ1ZX0sImtleXMiOlt7ImlkIjoiOWViNDA1MGQtZTQ0Yi00ODAyLTkzMmUtMjdkNzUwODNlMjY2IiwiZW5jcnlwdGVkX2tleSI6ImxLM09qSExZVzI0Y3Iya3RSNzRmbnc9PSJ9XX19.FAbIiPxX8BHi9RwfzD7Yn-wugU19ghrkBFKsaCPrZmU"" />";
+       ProtectionServerUrl=""https://cwip-shaka-proxy.appspot.com/no_auth"" />";
 
         public const string ImportVideoExample = @"@using Blazorise.Video";
 
