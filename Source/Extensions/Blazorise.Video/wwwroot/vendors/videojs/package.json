@@ -1,0 +1,163 @@
+{
+  "name": "@videojs/html",
+  "type": "module",
+  "version": "10.0.0-beta.25",
+  "description": "HTML library for building media players",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/videojs/v10",
+    "directory": "packages/html"
+  },
+  "main": "dist/default/index.js",
+  "module": "dist/default/index.js",
+  "types": "dist/dev/index.d.ts",
+  "sideEffects": [
+    "./dist/*/define/**/*.js",
+    "./dist/*/icons/element/**/*.js",
+    "./dist/*/icons/dist/element/**/*.js",
+    "./cdn/**/*.js"
+  ],
+  "files": [
+    "dist",
+    "cdn",
+    "docs"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/dev/index.d.ts",
+      "development": "./dist/dev/index.js",
+      "default": "./dist/default/index.js"
+    },
+    "./icons": {
+      "types": "./dist/dev/icons/index.d.ts",
+      "development": "./dist/dev/icons/index.js",
+      "default": "./dist/default/icons/index.js"
+    },
+    "./icons/*": {
+      "types": "./dist/dev/icons/*/index.d.ts",
+      "development": "./dist/dev/icons/*/index.js",
+      "default": "./dist/default/icons/*/index.js"
+    },
+    "./video": {
+      "types": "./dist/dev/presets/video.d.ts",
+      "development": "./dist/dev/presets/video.js",
+      "default": "./dist/default/presets/video.js"
+    },
+    "./video/*.css": "./dist/default/define/video/*.css",
+    "./video/*": {
+      "types": "./dist/dev/define/video/*.d.ts",
+      "development": "./dist/dev/define/video/*.js",
+      "default": "./dist/default/define/video/*.js"
+    },
+    "./audio": {
+      "types": "./dist/dev/presets/audio.d.ts",
+      "development": "./dist/dev/presets/audio.js",
+      "default": "./dist/default/presets/audio.js"
+    },
+    "./audio/*.css": "./dist/default/define/audio/*.css",
+    "./audio/*": {
+      "types": "./dist/dev/define/audio/*.d.ts",
+      "development": "./dist/dev/define/audio/*.js",
+      "default": "./dist/default/define/audio/*.js"
+    },
+    "./background": {
+      "types": "./dist/dev/presets/background.d.ts",
+      "development": "./dist/dev/presets/background.js",
+      "default": "./dist/default/presets/background.js"
+    },
+    "./background/*.css": "./dist/default/define/background/*.css",
+    "./background/*": {
+      "types": "./dist/dev/define/background/*.d.ts",
+      "development": "./dist/dev/define/background/*.js",
+      "default": "./dist/default/define/background/*.js"
+    },
+    "./live-video": {
+      "types": "./dist/dev/presets/live-video.d.ts",
+      "development": "./dist/dev/presets/live-video.js",
+      "default": "./dist/default/presets/live-video.js"
+    },
+    "./live-video/*.css": "./dist/default/define/live-video/*.css",
+    "./live-video/*": {
+      "types": "./dist/dev/define/live-video/*.d.ts",
+      "development": "./dist/dev/define/live-video/*.js",
+      "default": "./dist/default/define/live-video/*.js"
+    },
+    "./live-audio": {
+      "types": "./dist/dev/presets/live-audio.d.ts",
+      "development": "./dist/dev/presets/live-audio.js",
+      "default": "./dist/default/presets/live-audio.js"
+    },
+    "./live-audio/*.css": "./dist/default/define/live-audio/*.css",
+    "./live-audio/*": {
+      "types": "./dist/dev/define/live-audio/*.d.ts",
+      "development": "./dist/dev/define/live-audio/*.js",
+      "default": "./dist/default/define/live-audio/*.js"
+    },
+    "./ui/*": {
+      "types": "./dist/dev/define/ui/*.d.ts",
+      "development": "./dist/dev/define/ui/*.js",
+      "default": "./dist/default/define/ui/*.js"
+    },
+    "./feature/*": {
+      "types": "./dist/dev/define/feature/*.d.ts",
+      "development": "./dist/dev/define/feature/*.js",
+      "default": "./dist/default/define/feature/*.js"
+    },
+    "./media/*": {
+      "types": "./dist/dev/define/media/*.d.ts",
+      "development": "./dist/dev/define/media/*.js",
+      "default": "./dist/default/define/media/*.js"
+    },
+    "./cdn/media/*": {
+      "types": "./cdn/media/*.dev.d.ts",
+      "development": "./cdn/media/*.dev.js",
+      "default": "./cdn/media/*.js"
+    },
+    "./cdn/*": {
+      "types": "./cdn/*.dev.d.ts",
+      "development": "./cdn/*.dev.js",
+      "default": "./cdn/*.js"
+    },
+    "./*.css": "./dist/default/define/*.css",
+    "./*": {
+      "types": "./dist/dev/define/*.d.ts",
+      "development": "./dist/dev/define/*.js",
+      "default": "./dist/default/define/*.js"
+    }
+  },
+  "dependencies": {
+    "@videojs/core": "10.0.0-beta.25",
+    "@videojs/element": "10.0.0-beta.25",
+    "@videojs/spf": "10.0.0-beta.25",
+    "@videojs/store": "10.0.0-beta.25",
+    "@videojs/utils": "10.0.0-beta.25"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "happy-dom": "^18.0.1",
+    "tsdown": "^0.21.9",
+    "vitest": "^4.1.0",
+    "@videojs/icons": "10.0.0-beta.25",
+    "@videojs/skins": "10.0.0-beta.25"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "media",
+    "player",
+    "html",
+    "ui",
+    "components",
+    "videojs"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "build:cdn": "tsdown --config tsdown.cdn.config.ts",
+    "build:watch": "tsdown --watch ./src --no-clean",
+    "dev": "pnpm run build:watch",
+    "test": "vitest run",
+    "clean": "rimraf --glob dist cdn docs types '*.tsbuildinfo'"
+  }
+}

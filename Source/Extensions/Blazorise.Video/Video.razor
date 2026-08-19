@@ -1,9 +1,405 @@
-﻿@namespace Blazorise.Video
+@namespace Blazorise.Video
 @inherits BaseComponent
-<video @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" poster="@Poster" data-poster="@Poster" role="video" controls="@Controls" autoplay="@AutoPlay" muted="@Muted" @attributes="@Attributes">
-    @foreach ( var media in Source?.Medias ?? Enumerable.Empty<VideoMedia>() )
-    {
-        <source src="@media.Source" type="@media.Type" data-width="@media.Width" data-height="@media.Height" />
-    }
-    @ChildContent
-</video>
+<video-player @ref="@ElementRef" id="@ElementId" role="video" @attributes="@Attributes">
+    <media-container class="media-minimal-skin @SkinClass @ClassNames" style="@StyleNames" aria-label="@Source?.Title">
+        @if ( StreamingLibrary == Blazorise.Video.StreamingLibrary.Hls )
+        {
+            <hlsjs-video src="@PrimarySource" playsinline>
+                @foreach ( VideoTrack track in Source?.Tracks ?? Enumerable.Empty<VideoTrack>() )
+                {
+                    <track src="@track.Source" type="@track.Type" kind="@track.Kind" label="@track.Label" srclang="@track.Language" default="@track.Default" />
+                }
+                @if ( !string.IsNullOrWhiteSpace( Thumbnails ) )
+                {
+                    <track src="@Thumbnails" kind="metadata" label="thumbnails" default />
+                }
+                @ChildContent
+            </hlsjs-video>
+        }
+        else if ( StreamingLibrary == Blazorise.Video.StreamingLibrary.Dash )
+        {
+            <dash-video src="@PrimarySource" playsinline>
+                @foreach ( VideoTrack track in Source?.Tracks ?? Enumerable.Empty<VideoTrack>() )
+                {
+                    <track src="@track.Source" type="@track.Type" kind="@track.Kind" label="@track.Label" srclang="@track.Language" default="@track.Default" />
+                }
+                @if ( !string.IsNullOrWhiteSpace( Thumbnails ) )
+                {
+                    <track src="@Thumbnails" kind="metadata" label="thumbnails" default />
+                }
+                @ChildContent
+            </dash-video>
+        }
+        else if ( IsAudioSource )
+        {
+            <audio playsinline>
+                @foreach ( VideoMedia media in Source?.Medias ?? Enumerable.Empty<VideoMedia>() )
+                {
+                    <source src="@media.Source" type="@media.Type" data-width="@media.Width" data-height="@media.Height" />
+                }
+                @foreach ( VideoTrack track in Source?.Tracks ?? Enumerable.Empty<VideoTrack>() )
+                {
+                    <track src="@track.Source" type="@track.Type" kind="@track.Kind" label="@track.Label" srclang="@track.Language" default="@track.Default" />
+                }
+                @ChildContent
+            </audio>
+        }
+        else
+        {
+            <video playsinline>
+                @foreach ( VideoMedia media in Source?.Medias ?? Enumerable.Empty<VideoMedia>() )
+                {
+                    <source src="@media.Source" type="@media.Type" data-width="@media.Width" data-height="@media.Height" />
+                }
+                @foreach ( VideoTrack track in Source?.Tracks ?? Enumerable.Empty<VideoTrack>() )
+                {
+                    <track src="@track.Source" type="@track.Type" kind="@track.Kind" label="@track.Label" srclang="@track.Language" default="@track.Default" />
+                }
+                @if ( !string.IsNullOrWhiteSpace( Thumbnails ) )
+                {
+                    <track src="@Thumbnails" kind="metadata" label="thumbnails" default />
+                }
+                @ChildContent
+            </video>
+        }
+
+        @if ( !string.IsNullOrWhiteSpace( EffectivePoster ) && !IsAudioSource )
+        {
+            <media-poster>
+                <img src="@EffectivePoster" alt="" />
+            </media-poster>
+        }
+
+        <media-buffering-indicator class="media-buffering-indicator">
+            <media-icon name="spinner" family="minimal" class="media-icon"></media-icon>
+        </media-buffering-indicator>
+
+        <media-error-dialog class="media-error">
+            <div class="media-error__dialog">
+                <div class="media-error__content">
+                    <media-alert-dialog-title class="media-error__title">Something went wrong.</media-alert-dialog-title>
+                    <media-alert-dialog-description class="media-error__description"></media-alert-dialog-description>
+                </div>
+                <div class="media-error__actions">
+                    <media-alert-dialog-close class="media-button media-button--primary">OK</media-alert-dialog-close>
+                </div>
+            </div>
+        </media-error-dialog>
+
+        @if ( !IsAudioSource && HasControl( VideoControlsType.PlayLarge ) )
+        {
+            <media-play-button class="media-button media-button--icon b-video-play-large" aria-label="Play @Source?.Title">
+                <media-icon name="restart" family="minimal" class="media-icon media-icon--restart"></media-icon>
+                <media-icon name="play" family="minimal" class="media-icon media-icon--play"></media-icon>
+                <media-icon name="pause" family="minimal" class="media-icon media-icon--pause"></media-icon>
+            </media-play-button>
+        }
+
+        @if ( Controls )
+        {
+            <media-controls class="media-controls">
+                <media-tooltip-group>
+                    <div class="media-button-group">
+                        @if ( HasControl( VideoControlsType.Restart ) )
+                        {
+                            <button type="button" data-blazorise-video-restart aria-label="Restart" class="media-button media-button--subtle media-button--icon">
+                                <media-icon name="restart" family="minimal" class="media-icon"></media-icon>
+                            </button>
+                        }
+                        @if ( HasControl( VideoControlsType.Rewind ) )
+                        {
+                            <media-seek-button seconds="@(-SeekTime)" aria-label="Rewind @SeekTime seconds" class="media-button media-button--subtle media-button--icon media-button--seek">
+                                <span class="media-icon__container">
+                                    <media-icon name="seek" family="minimal" class="media-icon media-icon--flipped"></media-icon>
+                                    <span class="media-icon__label">@SeekTime</span>
+                                </span>
+                            </media-seek-button>
+                        }
+                        @if ( HasControl( VideoControlsType.Play ) )
+                        {
+                            <media-play-button aria-label="Play @Source?.Title" class="media-button media-button--subtle media-button--icon media-button--play">
+                                <media-icon name="restart" family="minimal" class="media-icon media-icon--restart"></media-icon>
+                                <media-icon name="play" family="minimal" class="media-icon media-icon--play"></media-icon>
+                                <media-icon name="pause" family="minimal" class="media-icon media-icon--pause"></media-icon>
+                            </media-play-button>
+                        }
+                        @if ( HasControl( VideoControlsType.FastForward ) )
+                        {
+                            <media-seek-button seconds="@SeekTime" aria-label="Forward @SeekTime seconds" class="media-button media-button--subtle media-button--icon media-button--seek">
+                                <span class="media-icon__container">
+                                    <media-icon name="seek" family="minimal" class="media-icon"></media-icon>
+                                    <span class="media-icon__label">@SeekTime</span>
+                                </span>
+                            </media-seek-button>
+                        }
+                    </div>
+
+                    @if ( HasTimeControls )
+                    {
+                        <div class="media-time-controls">
+                            @if ( HasControl( VideoControlsType.CurrentTime ) || HasControl( VideoControlsType.Duration ) )
+                            {
+                                <media-time-group class="media-time-group">
+                                    @if ( HasControl( VideoControlsType.CurrentTime ) )
+                                    {
+                                        <media-time type="@CurrentTimeType" class="media-time media-time--current"></media-time>
+                                    }
+                                    @if ( HasControl( VideoControlsType.CurrentTime ) && HasControl( VideoControlsType.Duration ) )
+                                    {
+                                        <media-time-separator class="media-time-separator"></media-time-separator>
+                                    }
+                                    @if ( HasControl( VideoControlsType.Duration ) )
+                                    {
+                                        <media-time type="duration" class="media-time media-time--duration"></media-time>
+                                    }
+                                </media-time-group>
+                            }
+                            @if ( HasControl( VideoControlsType.Progress ) )
+                            {
+                                <media-time-slider class="media-slider">
+                                    <media-slider-track class="media-slider__track">
+                                        <media-slider-fill class="media-slider__fill"></media-slider-fill>
+                                        <media-slider-buffer class="media-slider__buffer"></media-slider-buffer>
+                                    </media-slider-track>
+                                    <media-slider-thumb class="media-slider__thumb"></media-slider-thumb>
+                                    @if ( !string.IsNullOrWhiteSpace( Thumbnails ) )
+                                    {
+                                        <div class="media-thumbnail media-slider__thumbnail">
+                                            <div class="media-thumbnail__image-wrapper">
+                                                <media-slider-thumbnail class="media-thumbnail__image"></media-slider-thumbnail>
+                                            </div>
+                                            <media-slider-value type="pointer" class="media-time media-thumbnail__time"></media-slider-value>
+                                            <media-icon name="spinner" family="minimal" class="media-thumbnail__spinner media-icon"></media-icon>
+                                        </div>
+                                    }
+                                    <media-slider-preview class="media-slider__preview">
+                                        <media-slider-value type="pointer" class="media-slider__value media-time"></media-slider-value>
+                                    </media-slider-preview>
+                                </media-time-slider>
+                            }
+                        </div>
+                    }
+
+                    <div class="media-button-group">
+                        @if ( HasControl( VideoControlsType.Mute ) )
+                        {
+                            <media-mute-button commandfor="@VolumePopoverId" class="media-button media-button--subtle media-button--icon media-button--mute">
+                                <media-icon name="volume-off" family="minimal" class="media-icon media-icon--volume-off"></media-icon>
+                                <media-icon name="volume-low" family="minimal" class="media-icon media-icon--volume-low"></media-icon>
+                                <media-icon name="volume-high" family="minimal" class="media-icon media-icon--volume-high"></media-icon>
+                            </media-mute-button>
+                        }
+                        @if ( HasControl( VideoControlsType.Volume ) )
+                        {
+                            @if ( HasControl( VideoControlsType.Mute ) )
+                            {
+                                <media-popover id="@VolumePopoverId" open-on-hover delay="200" close-delay="100" side="top" class="media-popover media-popover--volume">
+                                    <media-volume-slider class="media-slider" orientation="vertical" thumb-alignment="edge">
+                                        <media-slider-track class="media-slider__track">
+                                            <media-slider-fill class="media-slider__fill"></media-slider-fill>
+                                        </media-slider-track>
+                                        <media-slider-thumb class="media-slider__thumb media-slider__thumb--persistent"></media-slider-thumb>
+                                    </media-volume-slider>
+                                </media-popover>
+                            }
+                            else
+                            {
+                                <media-volume-slider class="media-slider b-video-inline-volume" orientation="horizontal" thumb-alignment="edge">
+                                    <media-slider-track class="media-slider__track">
+                                        <media-slider-fill class="media-slider__fill"></media-slider-fill>
+                                    </media-slider-track>
+                                    <media-slider-thumb class="media-slider__thumb media-slider__thumb--persistent"></media-slider-thumb>
+                                </media-volume-slider>
+                            }
+                        }
+                        @if ( HasControl( VideoControlsType.Captions ) )
+                        {
+                            <media-captions-button class="media-button media-button--subtle media-button--icon media-button--captions">
+                                <media-icon name="captions-on" family="minimal" class="media-icon media-icon--captions-on"></media-icon>
+                                <media-icon name="captions-off" family="minimal" class="media-icon media-icon--captions-off"></media-icon>
+                            </media-captions-button>
+                        }
+                        @if ( HasControl( VideoControlsType.Settings ) && HasSettings )
+                        {
+                            <button type="button" commandfor="@SettingsMenuId" aria-label="Settings" class="media-button media-button--subtle media-button--icon media-button--settings">
+                                <media-icon name="gear" family="minimal" class="media-icon media-icon--settings"></media-icon>
+                            </button>
+                            <media-menu id="@SettingsMenuId" side="top" align="center" class="media-popover media-menu media-menu--settings">
+                                <media-menu-view class="media-menu__panel">
+                                    <div class="media-menu__group">
+                                        @if ( HasSetting( VideoSettingsType.Quality ) )
+                                        {
+                                            <media-menu-item commandfor="@QualityMenuId" type="@QualitySettingType" data-setting="@QualitySettingType" class="media-menu__item media-menu__item--submenu">
+                                                <span>Quality</span>
+                                                <span class="media-menu__hint">
+                                                    <media-menu-item-value class="media-menu__hint-label"></media-menu-item-value>
+                                                    <media-icon name="chevron" family="minimal" class="media-icon media-menu__chevron"></media-icon>
+                                                </span>
+                                            </media-menu-item>
+                                        }
+                                        @if ( HasSetting( VideoSettingsType.Speed ) )
+                                        {
+                                            <media-menu-item commandfor="@SpeedMenuId" type="playback-rate" data-setting="playback-rate" class="media-menu__item media-menu__item--submenu">
+                                                <span>Speed</span>
+                                                <span class="media-menu__hint">
+                                                    <media-menu-item-value class="media-menu__hint-label"></media-menu-item-value>
+                                                    <media-icon name="chevron" family="minimal" class="media-icon media-menu__chevron"></media-icon>
+                                                </span>
+                                            </media-menu-item>
+                                        }
+                                        @if ( HasSetting( VideoSettingsType.Captions ) )
+                                        {
+                                            <media-menu-item commandfor="@CaptionsMenuId" type="captions" data-setting="captions" class="media-menu__item media-menu__item--submenu">
+                                                <span>Captions</span>
+                                                <span class="media-menu__hint">
+                                                    <media-menu-item-value class="media-menu__hint-label"></media-menu-item-value>
+                                                    <media-icon name="chevron" family="minimal" class="media-icon media-menu__chevron"></media-icon>
+                                                </span>
+                                            </media-menu-item>
+                                        }
+                                        @if ( HasSetting( VideoSettingsType.Loop ) )
+                                        {
+                                            <button type="button" data-blazorise-video-loop aria-pressed="false" class="media-menu__item b-video-loop-setting">
+                                                <span>Loop</span>
+                                                <span class="media-menu__hint b-video-loop-value">Off</span>
+                                            </button>
+                                        }
+                                    </div>
+                                </media-menu-view>
+                                @if ( HasSetting( VideoSettingsType.Quality ) )
+                                {
+                                    <media-menu id="@QualityMenuId" class="media-menu__panel">
+                                        <media-menu-back class="media-menu__back">
+                                            <media-icon name="chevron" family="minimal" class="media-icon media-menu__chevron media-icon--flipped"></media-icon>
+                                            Quality
+                                        </media-menu-back>
+                                        <div class="media-menu__separator"></div>
+                                        <media-quality-radio-group class="media-menu__group">
+                                            <template>
+                                                <media-menu-radio-item class="media-menu__item">
+                                                    <span><span data-part="label"></span><sup data-part="tier" class="media-menu__tier"></sup></span>
+                                                    <span data-part="badge" class="media-badge"></span>
+                                                    <media-menu-item-indicator force-mount class="media-menu__indicator">
+                                                        <media-icon name="check" family="minimal" class="media-icon"></media-icon>
+                                                    </media-menu-item-indicator>
+                                                </media-menu-radio-item>
+                                            </template>
+                                        </media-quality-radio-group>
+                                        @if ( StreamingLibrary == Blazorise.Video.StreamingLibrary.None && Source?.HasMultipleMedia == true )
+                                        {
+                                            <div class="b-video-native-quality-list">
+                                                @foreach ( VideoMedia media in AvailableNativeMedia )
+                                                {
+                                                    <button type="button" class="media-menu__item" data-blazorise-video-quality="@media.Height" data-blazorise-video-source="@media.Source">
+                                                        <span>@QualityLabel( media )</span>
+                                                    </button>
+                                                }
+                                            </div>
+                                        }
+                                    </media-menu>
+                                }
+                                @if ( HasSetting( VideoSettingsType.Speed ) )
+                                {
+                                    <media-menu id="@SpeedMenuId" class="media-menu__panel">
+                                        <media-menu-back class="media-menu__back">
+                                            <media-icon name="chevron" family="minimal" class="media-icon media-menu__chevron media-icon--flipped"></media-icon>
+                                            Speed
+                                        </media-menu-back>
+                                        <div class="media-menu__separator"></div>
+                                        <media-playback-rate-radio-group class="media-menu__group">
+                                            <template>
+                                                <media-menu-radio-item class="media-menu__item">
+                                                    <span data-part="label"></span>
+                                                    <media-menu-item-indicator force-mount class="media-menu__indicator">
+                                                        <media-icon name="check" family="minimal" class="media-icon"></media-icon>
+                                                    </media-menu-item-indicator>
+                                                </media-menu-radio-item>
+                                            </template>
+                                        </media-playback-rate-radio-group>
+                                    </media-menu>
+                                }
+                                @if ( HasSetting( VideoSettingsType.Captions ) )
+                                {
+                                    <media-menu id="@CaptionsMenuId" class="media-menu__panel">
+                                        <media-menu-back class="media-menu__back">
+                                            <media-icon name="chevron" family="minimal" class="media-icon media-menu__chevron media-icon--flipped"></media-icon>
+                                            Captions
+                                        </media-menu-back>
+                                        <div class="media-menu__separator"></div>
+                                        <media-captions-radio-group class="media-menu__group">
+                                            <template>
+                                                <media-menu-radio-item class="media-menu__item">
+                                                    <span data-part="label"></span>
+                                                    <media-menu-item-indicator force-mount class="media-menu__indicator">
+                                                        <media-icon name="check" family="minimal" class="media-icon"></media-icon>
+                                                    </media-menu-item-indicator>
+                                                </media-menu-radio-item>
+                                            </template>
+                                        </media-captions-radio-group>
+                                    </media-menu>
+                                }
+                            </media-menu>
+                        }
+                        @if ( HasControl( VideoControlsType.Pip ) )
+                        {
+                            <media-pip-button class="media-button media-button--subtle media-button--icon media-button--pip">
+                                <media-icon name="pip-enter" family="minimal" class="media-icon media-icon--pip-enter"></media-icon>
+                                <media-icon name="pip-exit" family="minimal" class="media-icon media-icon--pip-exit"></media-icon>
+                            </media-pip-button>
+                        }
+                        @if ( HasControl( VideoControlsType.Airplay ) )
+                        {
+                            <media-airplay-button class="media-button media-button--subtle media-button--icon media-button--airplay">
+                                <media-icon name="airplay-enter" family="minimal" class="media-icon media-icon--airplay-enter"></media-icon>
+                                <media-icon name="airplay-exit" family="minimal" class="media-icon media-icon--airplay-exit"></media-icon>
+                            </media-airplay-button>
+                        }
+                        @if ( HasControl( VideoControlsType.Download ) && !string.IsNullOrWhiteSpace( PrimarySource ) )
+                        {
+                            <a href="@PrimarySource" download aria-label="Download" class="media-button media-button--subtle media-button--icon b-video-download">
+                                <span aria-hidden="true">&#8595;</span>
+                            </a>
+                        }
+                        @if ( HasControl( VideoControlsType.Fullscreen ) )
+                        {
+                            <media-fullscreen-button class="media-button media-button--subtle media-button--icon media-button--fullscreen">
+                                <media-icon name="fullscreen-enter" family="minimal" class="media-icon media-icon--fullscreen-enter"></media-icon>
+                                <media-icon name="fullscreen-exit" family="minimal" class="media-icon media-icon--fullscreen-exit"></media-icon>
+                            </media-fullscreen-button>
+                        }
+                    </div>
+                </media-tooltip-group>
+            </media-controls>
+        }
+
+        <div class="media-overlay"></div>
+
+        <media-hotkey keys="Space" action="togglePaused"></media-hotkey>
+        <media-hotkey keys="k" action="togglePaused"></media-hotkey>
+        <media-hotkey keys="m" action="toggleMuted"></media-hotkey>
+        <media-hotkey keys="f" action="toggleFullscreen"></media-hotkey>
+        <media-hotkey keys="c" action="toggleSubtitles"></media-hotkey>
+        <media-hotkey keys="i" action="togglePictureInPicture"></media-hotkey>
+        <media-hotkey keys="ArrowRight" action="seekStep" value="@SeekTime"></media-hotkey>
+        <media-hotkey keys="ArrowLeft" action="seekStep" value="@(-SeekTime)"></media-hotkey>
+        <media-hotkey keys="ArrowUp" action="volumeStep" value="0.05"></media-hotkey>
+        <media-hotkey keys="ArrowDown" action="volumeStep" value="-0.05"></media-hotkey>
+        <media-hotkey keys="0-9" action="seekToPercent"></media-hotkey>
+        <media-hotkey keys="Home" action="seekToPercent" value="0"></media-hotkey>
+        <media-hotkey keys="End" action="seekToPercent" value="100"></media-hotkey>
+        <media-hotkey keys=">" action="speedUp"></media-hotkey>
+        <media-hotkey keys="&lt;" action="speedDown"></media-hotkey>
+
+        @if ( ClickToPlay )
+        {
+            <media-gesture type="tap" action="togglePaused" pointer="mouse" region="center"></media-gesture>
+        }
+        <media-gesture type="tap" action="toggleControls" pointer="touch"></media-gesture>
+        @if ( DoubleClickToFullscreen )
+        {
+            <media-gesture type="doubletap" action="toggleFullscreen" region="center"></media-gesture>
+        }
+
+        <div class="b-video-status-announcer" role="status" aria-live="polite" aria-atomic="true"></div>
+    </media-container>
+</video-player>

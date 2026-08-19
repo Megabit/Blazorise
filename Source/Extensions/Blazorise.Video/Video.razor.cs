@@ -22,7 +22,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
     {
         if ( Rendered )
         {
-            var sourceChanged = parameters.TryGetValue<VideoSource>( nameof( Source ), out var paramSource ) && !Source.Equals( paramSource );
+            var sourceChanged = parameters.TryGetValue<VideoSource>( nameof( Source ), out var paramSource ) && !Source.IsEqual( paramSource );
 
             var protectionTypeChanged = parameters.TryGetValue<VideoProtectionType>( nameof( ProtectionType ), out var paramProtectionType ) && !ProtectionType.IsEqual( paramProtectionType );
             var protectionDataChanged = parameters.TryGetValue<object>( nameof( ProtectionData ), out var paramProtectionData ) && !ProtectionData.IsEqual( paramProtectionData );
@@ -32,8 +32,51 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
             var currentTimeChanged = parameters.TryGetValue<double>( nameof( CurrentTime ), out var paramCurrentTime ) && !CurrentTime.IsEqual( paramCurrentTime );
             var volumeChanged = parameters.TryGetValue<double>( nameof( Volume ), out var paramVolume ) && !Volume.IsEqual( paramVolume );
+            var controlsChanged = parameters.TryGetValue<bool>( nameof( Controls ), out var paramControls ) && !Controls.IsEqual( paramControls );
+            var controlsDelayChanged = parameters.TryGetValue<double>( nameof( ControlsDelay ), out var paramControlsDelay ) && !ControlsDelay.IsEqual( paramControlsDelay );
+            var automaticallyHideControlsChanged = parameters.TryGetValue<bool>( nameof( AutomaticallyHideControls ), out var paramAutomaticallyHideControls ) && !AutomaticallyHideControls.IsEqual( paramAutomaticallyHideControls );
+            var autoPauseChanged = parameters.TryGetValue<bool>( nameof( AutoPause ), out var paramAutoPause ) && !AutoPause.IsEqual( paramAutoPause );
+            var autoPlayChanged = parameters.TryGetValue<bool>( nameof( AutoPlay ), out var paramAutoPlay ) && !AutoPlay.IsEqual( paramAutoPlay );
+            var mutedChanged = parameters.TryGetValue<bool>( nameof( Muted ), out var paramMuted ) && !Muted.IsEqual( paramMuted );
+            var thumbnailsChanged = parameters.TryGetValue<string>( nameof( Thumbnails ), out var paramThumbnails ) && !Thumbnails.IsEqual( paramThumbnails );
+            var streamingLibraryChanged = parameters.TryGetValue<StreamingLibrary>( nameof( StreamingLibrary ), out var paramStreamingLibrary ) && !StreamingLibrary.IsEqual( paramStreamingLibrary );
+            var clickToPlayChanged = parameters.TryGetValue<bool>( nameof( ClickToPlay ), out var paramClickToPlay ) && !ClickToPlay.IsEqual( paramClickToPlay );
+            var disableContextMenuChanged = parameters.TryGetValue<bool>( nameof( DisableContextMenu ), out var paramDisableContextMenu ) && !DisableContextMenu.IsEqual( paramDisableContextMenu );
+            var resetOnEndChanged = parameters.TryGetValue<bool>( nameof( ResetOnEnd ), out var paramResetOnEnd ) && !ResetOnEnd.IsEqual( paramResetOnEnd );
+            var ratioChanged = parameters.TryGetValue<string>( nameof( Ratio ), out var paramRatio ) && !Ratio.IsEqual( paramRatio );
+            var invertTimeChanged = parameters.TryGetValue<bool>( nameof( InvertTime ), out var paramInvertTime ) && !InvertTime.IsEqual( paramInvertTime );
+            var controlsListChanged = parameters.TryGetValue<string[]>( nameof( ControlsList ), out var paramControlsList ) && !ControlsList.IsEqual( paramControlsList );
+            var settingsListChanged = parameters.TryGetValue<VideoSettingsType[]>( nameof( SettingsList ), out var paramSettingsList ) && !SettingsList.IsEqual( paramSettingsList );
+            var defaultQualityChanged = parameters.TryGetValue<int?>( nameof( DefaultQuality ), out var paramDefaultQuality ) && !DefaultQuality.IsEqual( paramDefaultQuality );
+            var availableQualitiesChanged = parameters.TryGetValue<int[]>( nameof( AvailableQualities ), out var paramAvailableQualities ) && !AvailableQualities.IsEqual( paramAvailableQualities );
+            var doubleClickToFullscreenChanged = parameters.TryGetValue<bool>( nameof( DoubleClickToFullscreen ), out var paramDoubleClickToFullscreen ) && !DoubleClickToFullscreen.IsEqual( paramDoubleClickToFullscreen );
 
-            if ( sourceChanged || currentTimeChanged || volumeChanged )
+            if ( sourceChanged
+                || protectionTypeChanged
+                || protectionDataChanged
+                || protectionServerUrlChanged
+                || protectionServerCertificateUrlChanged
+                || protectionHttpRequestHeadersChanged
+                || currentTimeChanged
+                || volumeChanged
+                || controlsChanged
+                || controlsDelayChanged
+                || automaticallyHideControlsChanged
+                || autoPauseChanged
+                || autoPlayChanged
+                || mutedChanged
+                || thumbnailsChanged
+                || streamingLibraryChanged
+                || clickToPlayChanged
+                || disableContextMenuChanged
+                || resetOnEndChanged
+                || ratioChanged
+                || invertTimeChanged
+                || controlsListChanged
+                || settingsListChanged
+                || defaultQualityChanged
+                || availableQualitiesChanged
+                || doubleClickToFullscreenChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new()
                 {
@@ -44,7 +87,25 @@ public partial class Video : BaseComponent, IAsyncDisposable
                     ProtectionServerCertificateUrl = new JSOptionChange<string>( protectionServerCertificateUrlChanged, paramProtectionServerCertificateUrl ),
                     ProtectionHttpRequestHeaders = new JSOptionChange<string>( protectionHttpRequestHeadersChanged, paramProtectionHttpRequestHeaders ),
                     CurrentTime = new JSOptionChange<double?>( currentTimeChanged, paramCurrentTime ),
-                    Volume = new JSOptionChange<double?>( volumeChanged, paramVolume )
+                    Volume = new JSOptionChange<double?>( volumeChanged, paramVolume ),
+                    Controls = new JSOptionChange<bool>( controlsChanged, paramControls ),
+                    ControlsDelay = new JSOptionChange<double>( controlsDelayChanged, paramControlsDelay ),
+                    AutomaticallyHideControls = new JSOptionChange<bool>( automaticallyHideControlsChanged, paramAutomaticallyHideControls ),
+                    AutoPause = new JSOptionChange<bool>( autoPauseChanged, paramAutoPause ),
+                    AutoPlay = new JSOptionChange<bool>( autoPlayChanged, paramAutoPlay ),
+                    Muted = new JSOptionChange<bool>( mutedChanged, paramMuted ),
+                    Thumbnails = new JSOptionChange<string>( thumbnailsChanged, paramThumbnails ),
+                    StreamingLibrary = new JSOptionChange<string>( streamingLibraryChanged, paramStreamingLibrary.ToStreamingLibrary() ),
+                    ClickToPlay = new JSOptionChange<bool>( clickToPlayChanged, paramClickToPlay ),
+                    DisableContextMenu = new JSOptionChange<bool>( disableContextMenuChanged, paramDisableContextMenu ),
+                    ResetOnEnd = new JSOptionChange<bool>( resetOnEndChanged, paramResetOnEnd ),
+                    AspectRatio = new JSOptionChange<double?>( ratioChanged, VideoParsers.ParseAspectRatio( paramRatio ) ),
+                    InvertTime = new JSOptionChange<bool>( invertTimeChanged, paramInvertTime ),
+                    ControlsList = new JSOptionChange<string[]>( controlsListChanged, paramControlsList ),
+                    SettingsList = new JSOptionChange<VideoSettingsType[]>( settingsListChanged, paramSettingsList ),
+                    DefaultQuality = new JSOptionChange<VideoJSQualityOptions>( defaultQualityChanged, new VideoJSQualityOptions( paramDefaultQuality ) ),
+                    AvailableQualities = new JSOptionChange<VideoJSQualityOptions[]>( availableQualitiesChanged, paramAvailableQualities?.Select( x => new VideoJSQualityOptions( x ) ).ToArray() ),
+                    DoubleClickToFullscreen = new JSOptionChange<bool>( doubleClickToFullscreenChanged, paramDoubleClickToFullscreen )
                 } ) );
             }
         }
@@ -548,10 +609,54 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
     #endregion
 
+    private bool HasControl( string control )
+        => Controls && ControlsList?.Contains( control, StringComparer.OrdinalIgnoreCase ) == true;
+
+    private bool HasSetting( VideoSettingsType setting )
+        => SettingsList?.Contains( setting ) == true;
+
+    private bool IsQualityAvailable( VideoMedia media )
+        => AvailableQualities == null
+            || media?.Height == null
+            || AvailableQualities.Contains( media.Height.Value );
+
+    private string QualityLabel( VideoMedia media )
+        => media?.Height is int height ? $"{height}p" : "Source";
+
     #region Properties
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
+
+    private bool IsAudioSource => Source?.Type == VideoSourceType.Audio;
+
+    private string SkinClass => IsAudioSource ? "media-minimal-skin--audio" : "media-minimal-skin--video";
+
+    private bool HasTimeControls => HasControl( VideoControlsType.Progress )
+        || HasControl( VideoControlsType.CurrentTime )
+        || HasControl( VideoControlsType.Duration );
+
+    private bool HasSettings => SettingsList?.Length > 0;
+
+    private string PrimarySource => Source?.Medias?.FirstOrDefault()?.Source;
+
+    private string EffectivePoster => !string.IsNullOrWhiteSpace( Poster ) ? Poster : Source?.Poster;
+
+    private string CurrentTimeType => InvertTime ? "remaining" : "current";
+
+    private string QualitySettingType => StreamingLibrary == Blazorise.Video.StreamingLibrary.None && Source?.HasMultipleMedia == true ? null : "quality";
+
+    private string VolumePopoverId => $"{ElementId}-volume-popover";
+
+    private string SettingsMenuId => $"{ElementId}-settings-menu";
+
+    private string QualityMenuId => $"{ElementId}-settings-quality-menu";
+
+    private string SpeedMenuId => $"{ElementId}-settings-speed-menu";
+
+    private string CaptionsMenuId => $"{ElementId}-settings-captions-menu";
+
+    private VideoMedia[] AvailableNativeMedia => Source?.Medias?.Where( IsQualityAvailable ).ToArray() ?? Array.Empty<VideoMedia>();
 
     /// <summary>
     /// Reference to the object that should be accessed through JSInterop.
@@ -654,8 +759,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
     /// <summary>
     /// Force an aspect ratio for all videos. The format is 'w:h' - e.g. '16:9' or '4:3'. If this is not specified
-    /// then the default for HTML5 and Vimeo is to use the native resolution of the video. As dimensions are not
-    /// available from YouTube via SDK, 16:9 is forced as a sensible default.
+    /// then the native resolution of the media is used.
     /// </summary>
     [Parameter] public string Ratio { get; set; }
 

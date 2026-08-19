@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-14T07:48:55.6572108Z",
+  "generatedUtc": "2026-08-19T07:43:36.6283209Z",
   "pages": [
     {
       "route": "/docs",
@@ -9465,7 +9465,7 @@
           "code": "BasicVideoExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Video/Examples/BasicVideoExample.razor",
-          "content": "<Video Source=\"@(\"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4\")\" />",
+          "content": "<Video Source=\"@(\"https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4\")\" />",
           "title": "Basic",
           "description": "To play the video you just need to define the Source of the video."
         },
