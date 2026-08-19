@@ -1,7 +1,7 @@
 @namespace Blazorise.Video
 @inherits BaseComponent
-<video-player @ref="@ElementRef" id="@ElementId" role="video" @attributes="@Attributes">
-    <media-container class="media-minimal-skin @SkinClassNames @ClassNames" style="@StyleNames" aria-label="@Source?.Title">
+<video-player @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="video" @attributes="@Attributes">
+    <media-container class="media-minimal-skin @SkinClassNames" aria-label="@Source?.Title">
         @if ( IsYouTubeSource )
         {
             <youtube-video class="b-video-embed" src="@PrimarySource" autoplay="@AutoPlay" muted="@Muted" playsinline></youtube-video>
