@@ -41,6 +41,13 @@ public class BulmaThemeGenerator : ThemeGenerator
     protected override string GetDockLayoutVariableName( string name )
         => $"--bulma-dock-{name}";
 
+    protected override void GenerateBarVariables( Theme theme, ThemeBarOptions barOptions )
+    {
+        base.GenerateBarVariables( theme, barOptions );
+
+        GenerateBarFontVariableAliases( barOptions, "--bulma-navbar" );
+    }
+
     /// <inheritdoc />
     protected override void GenerateResizerStyles( StringBuilder sb, Theme theme )
         => GenerateResizerColorStyles(
