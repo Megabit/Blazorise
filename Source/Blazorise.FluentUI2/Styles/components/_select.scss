@@ -7,14 +7,13 @@
     font-family: var(--fontFamilyBase);
 
     &:after {
-        right: 0px;
-        left: 0px;
+        inset-inline: 0;
         bottom: 0px;
         height: var(--borderRadiusMedium);
         border-top-left-radius: 0px;
         border-top-right-radius: 0px;
         background-image: linear-gradient( 0deg, var(--colorCompoundBrandStroke) 0%, var(--colorCompoundBrandStroke) 50%, transparent 50%, transparent 100% );
-        transition-delay: var(--curveAccelerateMid);
+        transition-timing-function: var(--curveAccelerateMid);
         transition-duration: var(--durationUltraFast);
         transition-property: transform;
         transform: scaleX(0);
@@ -29,7 +28,7 @@
         transform: scaleX(1);
         transition-property: transform;
         transition-duration: var(--durationNormal);
-        transition-delay: var(--curveDecelerateMid);
+        transition-timing-function: var(--curveDecelerateMid);
     }
 
     &-error {
@@ -53,7 +52,7 @@
 
 .fui-Select {
     &__select {
-        padding-right: calc(var(--spacingHorizontalMNudge) + 20px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
+        padding-inline-end: calc(var(--spacingHorizontalMNudge) + 20px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
         height: 32px;
         padding-bottom: 0px;
         max-width: 100%;
@@ -63,7 +62,7 @@
         border-right-width: 1px;
         border-top-width: 1px;
         appearance: none;
-        padding-left: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
+        padding-inline-start: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
         border-bottom-color: var(--colorNeutralStrokeAccessible);
         border-left-color: var(--colorNeutralStroke1);
         border-right-color: var(--colorNeutralStroke1);
@@ -125,7 +124,7 @@
         }
 
         + .fui-Select__icon {
-            right: var(--spacingHorizontalMNudge);
+            inset-inline-end: var(--spacingHorizontalMNudge);
             pointer-events: none;
             position: absolute;
             display: block;
@@ -140,11 +139,11 @@
         &.fui-Select__select-xs {
             height: 16px;
             font-size: var(--fontSizeBase100);
-            padding-right: calc(var(--spacingHorizontalXS) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
-            padding-left: calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));
+            padding-inline-end: calc(var(--spacingHorizontalXS) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
+            padding-inline-start: calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));
 
             + .fui-Select__icon {
-                right: var(--spacingHorizontalS);
+                inset-inline-end: var(--spacingHorizontalS);
                 width: 12px;
                 height: 12px;
                 font-size: 12px;
@@ -154,11 +153,11 @@
         &.fui-Select__select-sm {
             height: 24px;
             font-size: var(--fontSizeBase200);
-            padding-right: calc(var(--spacingHorizontalSNudge) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
-            padding-left: calc(var(--spacingHorizontalSNudge) + var(--spacingHorizontalXXS));
+            padding-inline-end: calc(var(--spacingHorizontalSNudge) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
+            padding-inline-start: calc(var(--spacingHorizontalSNudge) + var(--spacingHorizontalXXS));
 
             + .fui-Select__icon {
-                right: var(--spacingHorizontalSNudge);
+                inset-inline-end: var(--spacingHorizontalSNudge);
                 width: 16px;
                 height: 16px;
                 font-size: 16px;
@@ -168,18 +167,18 @@
         &.fui-Select__select-md {
             height: 36px;
             font-size: var(--fontSizeBase400);
-            padding-right: calc(var(--spacingHorizontalM) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
-            padding-left: calc(var(--spacingHorizontalM) + var(--spacingHorizontalSNudge));
+            padding-inline-end: calc(var(--spacingHorizontalM) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
+            padding-inline-start: calc(var(--spacingHorizontalM) + var(--spacingHorizontalSNudge));
         }
 
         &.fui-Select__select-lg {
             height: 40px;
             font-size: var(--fontSizeBase500);
-            padding-right: calc(var(--spacingHorizontalL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
-            padding-left: calc(var(--spacingHorizontalL) + var(--spacingHorizontalSNudge));
+            padding-inline-end: calc(var(--spacingHorizontalL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
+            padding-inline-start: calc(var(--spacingHorizontalL) + var(--spacingHorizontalSNudge));
 
             + .fui-Select__icon {
-                right: var(--spacingHorizontalM);
+                inset-inline-end: var(--spacingHorizontalM);
                 width: 24px;
                 height: 24px;
                 font-size: 24px;
@@ -189,11 +188,11 @@
         &.fui-Select__select-xl {
             height: 48px;
             font-size: var(--fontSizeBase600);
-            padding-right: calc(var(--spacingHorizontalXL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
-            padding-left: calc(var(--spacingHorizontalXL) + var(--spacingHorizontalSNudge));
+            padding-inline-end: calc(var(--spacingHorizontalXL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
+            padding-inline-start: calc(var(--spacingHorizontalXL) + var(--spacingHorizontalSNudge));
 
             + .fui-Select__icon {
-                right: var(--spacingHorizontalL);
+                inset-inline-end: var(--spacingHorizontalL);
                 width: 28px;
                 height: 28px;
                 font-size: 28px;

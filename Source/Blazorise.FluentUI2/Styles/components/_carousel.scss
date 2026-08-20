@@ -16,7 +16,7 @@
             z-index: 1;
             color: var(--colorNeutralForegroundOnBrand);
             background-color: var(--colorBackgroundOverlay);
-            transition: all 100ms ease 0s;
+            transition: background-color var(--durationFaster) var(--curveEasyEase);
             border-top-width: 0px;
             border-radius: var(--borderRadiusMedium);
             outline-width: 0px;

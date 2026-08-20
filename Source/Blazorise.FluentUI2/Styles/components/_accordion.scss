@@ -2,21 +2,16 @@
     .fui-AccordionItem {
         .fui-AccordionHeader {
             margin-bottom: 0px;
-            margin-left: 0px;
-            margin-right: 0px;
+            margin-inline: 0;
             margin-top: 0px;
-            border-top-left-radius: var(--borderRadiusMedium);
-            border-top-right-radius: var(--borderRadiusMedium);
-            border-bottom-left-radius: var(--borderRadiusMedium);
-            border-bottom-right-radius: var(--borderRadiusMedium);
+            border-radius: var(--borderRadiusMedium);
             background-color: var(--colorTransparentBackground);
             color: var(--colorNeutralForeground1);
 
             .fui-AccordionHeader__button {
                 box-sizing: border-box;
                 min-height: 44px;
-                padding-left: var(--spacingHorizontalMNudge);
-                padding-right: var(--spacingHorizontalM);
+                padding-inline: var(--spacingHorizontalMNudge) var(--spacingHorizontalM);
                 border-bottom-style: solid;
                 border-left-style: solid;
                 border-right-style: solid;
@@ -46,13 +41,24 @@
                 font-weight: var(--fontWeightRegular);
                 font-size: var(--fontSizeBase300);
                 font-family: var(--fontFamilyBase);
+                transition: background-color var(--durationFaster) var(--curveEasyEase), color var(--durationFaster) var(--curveEasyEase);
+
+                &:hover {
+                    background-color: var(--colorSubtleBackgroundHover);
+                    color: var(--colorNeutralForeground1Hover);
+                }
+
+                &:active {
+                    background-color: var(--colorSubtleBackgroundPressed);
+                    color: var(--colorNeutralForeground1Pressed);
+                }
 
                 .fui-AccordionHeader__expandIcon {
                     height: 100%;
                     font-size: var(--fontSizeBase500);
                     line-height: var(--lineHeightBase500);
                     align-items: center;
-                    padding-right: var(--spacingHorizontalS);
+                    padding-inline-end: var(--spacingHorizontalS);
                     display: flex;
 
 
@@ -77,9 +83,8 @@
         .fui-AccordionPanel {
             display: grid;
             grid-template-rows: 0fr;
-            transition: var(--durationGentle) grid-template-rows ease;
-            margin-left: var(--spacingHorizontalM);
-            margin-right: var(--spacingHorizontalM);
+            transition: grid-template-rows var(--durationGentle) var(--curveEasyEase);
+            margin-inline: var(--spacingHorizontalM);
             margin-bottom: 0px;
             margin-top: 0px;
 

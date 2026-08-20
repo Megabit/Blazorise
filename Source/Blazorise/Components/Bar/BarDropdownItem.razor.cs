@@ -49,7 +49,7 @@ public partial class BarDropdownItem : BaseComponent
     {
         base.BuildStyles( builder );
 
-        builder.Append( FormattableString.Invariant( $"padding-left: {( Indentation * ( ParentDropdownState.NestedIndex + 1d ) ).ToString( CultureInfo.InvariantCulture )}rem" ), ParentDropdownState.IsInlineDisplay );
+        builder.Append( FormattableString.Invariant( $"padding-inline-start: {( Indentation * ( ParentDropdownState.NestedIndex + 1d ) ).ToString( CultureInfo.InvariantCulture )}rem" ), ParentDropdownState.IsInlineDisplay );
     }
 
     /// <summary>

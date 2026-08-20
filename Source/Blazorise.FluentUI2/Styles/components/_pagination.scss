@@ -1,24 +1,20 @@
 ﻿.fui-Pagination {
     display: flex;
-    padding-left: 0;
+    padding-inline-start: 0;
     list-style: none;
     border-radius: var(--borderRadiusMedium);
 
     &-sm {
         .fui-PaginationItem {
             .fui-PaginationLink {
-                padding-left: var(--spacingHorizontalS);
-                padding-right: var(--spacingHorizontalS);
-                padding-top: 3px;
-                padding-bottom: 3px;
+                min-width: 24px;
+                min-height: 24px;
+                padding: 3px var(--spacingHorizontalS);
             }
 
             font-weight: var(--fontWeightRegular);
             font-size: var(--fontSizeBase200);
-            border-top-left-radius: var(--borderRadiusMedium);
-            border-top-right-radius: var(--borderRadiusMedium);
-            border-bottom-left-radius: var(--borderRadiusMedium);
-            border-bottom-right-radius: var(--borderRadiusMedium);
+            border-radius: var(--borderRadiusMedium);
             line-height: var(--lineHeightBase200);
         }
     }
@@ -26,18 +22,14 @@
     &-lg {
         .fui-PaginationItem {
             .fui-PaginationLink {
-                padding-left: var(--spacingHorizontalL);
-                padding-right: var(--spacingHorizontalL);
-                padding-top: 8px;
-                padding-bottom: 8px;
+                min-width: 40px;
+                min-height: 40px;
+                padding: 8px var(--spacingHorizontalL);
             }
 
             font-weight: var(--fontWeightSemibold);
             font-size: var(--fontSizeBase400);
-            border-top-left-radius: var(--borderRadiusMedium);
-            border-top-right-radius: var(--borderRadiusMedium);
-            border-bottom-left-radius: var(--borderRadiusMedium);
-            border-bottom-right-radius: var(--borderRadiusMedium);
+            border-radius: var(--borderRadiusMedium);
             line-height: var(--lineHeightBase400);
         }
     }
@@ -61,11 +53,15 @@
     font-weight: var(--fontWeightSemibold);
     line-height: var(--lineHeightBase300);
     transition-duration: var(--durationFaster);
-    transition-property: background, border, color;
+    transition-property: background-color, border-color, color, box-shadow;
     transition-timing-function: var(--curveEasyEase);
     cursor: pointer;
 
     .fui-PaginationLink {
+        align-items: center;
+        justify-content: center;
+        min-width: 32px;
+        min-height: 32px;
         font-size: inherit;
         user-select: text;
         text-overflow: inherit;
@@ -79,16 +75,16 @@
         box-sizing: border-box;
         background-color: transparent;
         cursor: pointer;
-        display: inline;
+        display: inline-flex;
         font-weight: var(--fontWeightSemibold);
         font-family: var(--fontFamilyBase);
-        text-align: left;
+        text-align: start;
         border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
         border-radius: var(--borderRadiusMedium);
     }
 
     + .fui-PaginationItem {
-        margin-left: var(--spacingHorizontalXXS);
+        margin-inline-start: var(--spacingHorizontalXXS);
     }
 
     &.fui-PaginationItem-active {

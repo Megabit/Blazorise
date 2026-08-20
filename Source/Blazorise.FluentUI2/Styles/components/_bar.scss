@@ -1,108 +1,17 @@
-@include emit-initial-bar-breakpoints(".fui-VerticalNavigation-initial", $breakpoint-observer-breakpoints, $bar-initial-breakpoints);
-@mixin fui-navigation-bar-popout-menu-container {
-    z-index: 100;
-    max-height: 50vh;
-    position: absolute;
-    right: auto;
-    bottom: auto;
-    margin: -42px 5px 0px 5px;
-    display: flex;
-    width: var(--b-vertical-bar-popout-menu-width, 180px);
-}
-
-@mixin fui-navigation-bar-popout-menu {
-    // The container owns popout positioning; the menu must remain its flex child.
-    position: static;
-    box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
-    border-radius: 3px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    flex: 1 100%;
-
-    .fui-NavigationBar__dropdown-item {
-        padding: .5rem .5rem .5rem 1.5rem;
+@keyframes fui-navigation-fade-in {
+    from {
+        opacity: 0;
     }
 
-    &:before {
-        position: absolute;
-        top: 0;
-        left: -7px;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-        opacity: .0001;
-        content: ' ';
-        z-index: -1;
-    }
-
-    &.fui-NavigationBar__dropdown-right {
-        &:before {
-            left: unset;
-            right: -7px;
-        }
+    to {
+        opacity: 1;
     }
 }
 
-@mixin fui-navigation-bar-dropdown-arrow {
-    content: " ";
-    border: solid;
-    border-width: 0 2px 2px 0;
-    display: inline-block;
-    padding: 2px;
-    right: 1rem;
-    transition: transform 200ms ease-out;
-    float: right;
-    position: relative;
-}
-
-.fui-NavigationBar__dropdown-toggle-icon-container {
-    position: relative;
-    display: inline-flex;
-    width: 1rem;
-    height: 1rem;
-    align-items: center;
-    justify-content: center;
-}
-
-.fui-NavigationBar__dropdown-toggle-icon-layer {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    transform-origin: center;
-    transition: opacity 180ms ease, transform 180ms ease;
-}
-
-.fui-NavigationBar__dropdown-toggle-icon-layer--visible {
-    opacity: 1;
-    transform: rotate(0deg);
-}
-
-.fui-NavigationBar__dropdown-toggle-icon-layer--hiddenExpand {
-    opacity: 0;
-    transform: rotate(-90deg);
-}
-
-.fui-NavigationBar__dropdown-toggle-icon-layer--hiddenCollapse {
-    opacity: 0;
-    transform: rotate(90deg);
-}
-
-.fui-NavigationBar__dropdown-toggle-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.fui-NavigationBar__dropdown-toggle-content-text {
-    min-width: 0;
+@keyframes fui-navigation-slide-in {
+    from {
+        translate: var(--fui-positioning-slide-distance-x) var(--fui-positioning-slide-distance-y);
+    }
 }
 
 .fui-NavigationBar-horizontal {
@@ -111,558 +20,23 @@
     font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
     font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
 
-    &[data-collapse=hide] {
+    &[data-collapse="hide"] {
         flex-wrap: nowrap;
 
-        &[data-broken=true] {
-            height: auto;
+        &[data-broken="true"] {
+            block-size: auto;
         }
     }
 
-    &[data-broken=false] {
-        height: auto;
+    &[data-broken="false"] {
+        block-size: auto;
     }
 }
 
-.fui-Layout {
-    > .fui-Layout__header {
-        .fui-NavigationBar-horizontal {
-            &[data-collapse=hide] {
-                &[data-broken=true] {
-                    height: var(--b-bar-horizontal-height, auto);
-                }
-            }
-
-            &[data-broken=false] {
-                height: var(--b-bar-horizontal-height, auto);
-            }
-        }
-    }
-}
-
-.fui-VerticalNavigation-initial {
-    display: none !important;
-}
-
-.fui-VerticalNavigation.fui-NavigationBar-vertical-inline,
-.fui-VerticalNavigation.fui-NavigationBar-vertical-popout,
-.fui-VerticalNavigation.fui-NavigationBar-vertical-small {
-    font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
-    font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
-    font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
-    font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    position: sticky;
-    top: 0;
-    padding: 0;
-    min-width: var(--b-vertical-bar-width, 230px);
-    max-width: var(--b-vertical-bar-width, 230px);
-    width: var(--b-vertical-bar-width, 230px);
-
-    &:not(.fui-VerticalNavigation-initial) {
-        transition: width 200ms ease-in-out, min-width 200ms ease-in-out;
-    }
-
-    box-shadow: 2px 0 6px rgba(0,21,41,.35);
-    height: 100%;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
-    .fui-NavigationBar__menu {
-        width: 100%;
-        display: flex;
-        flex: 1;
-        min-height: 0;
-        overflow-y: auto;
-        overflow-x: hidden;
-        justify-content: space-between;
-        flex-direction: column;
-        align-self: stretch;
-    }
-
-    .fui-NavigationBar__brand {
-        width: 100%;
-        display: flex;
-        height: var(--b-vertical-bar-brand-height, 64px);
-        min-height: var(--b-vertical-bar-brand-height, 64px);
-        padding: 0;
-        font-size: inherit;
-        white-space: normal;
-    }
-
-    .fui-NavigationBar__toggler--inline {
-        height: var(--b-vertical-bar-brand-height, 64px);
-        padding: 12px;
-        display: inline-flex;
-        cursor: pointer;
-        position: absolute;
-        right: 0;
-
-        & > * {
-            margin: auto;
-        }
-    }
-
-    .fui-NavigationBar__toggler--popout:not(.fui-NavigationBar__mobileToggle) {
-        display: flex;
-        position: fixed;
-        left: var(--b-vertical-bar-width, 230px);
-        border-radius: 0px 10px 10px 0px;
-        border: 0px;
-        width: 10px;
-        height: 40px;
-        padding: 5px;
-        align-items: center;
-
-        &:not(.fui-VerticalNavigation-initial) {
-            transition: width 200ms ease-in-out, left 200ms ease-in-out;
-        }
-
-        box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
-        cursor: pointer;
-
-        & > * {
-            margin: auto;
-            display: none;
-        }
-
-        &:hover {
-            width: 45px;
-
-            & > * {
-                display: block;
-            }
-        }
-    }
-
-    // These elements also serve the horizontal navigation, whose base rules are
-    // declared later. Keep the vertical flow and inherited theme color explicit.
-    .fui-NavigationBar__item,
-    .fui-NavigationBar__dropdown {
-        display: block;
-        color: inherit;
-    }
-
-    .fui-NavigationBar__item {
-        margin: auto;
-        flex-grow: 1;
-        min-height: 40px;
-
-        .fui-NavigationBar__icon {
-            font-size: 1.25rem;
-            vertical-align: middle;
-            margin: 3px;
-            display: inline-block;
-        }
-    }
-
-    .fui-NavigationBar__start {
-        width: 100%;
-        display: block;
-    }
-
-    .fui-NavigationBar__end {
-        padding-bottom: 1rem;
-        width: 100%;
-        padding-top: 1rem;
-        display: block;
-
-        .fui-NavigationBar__dropdown-menu-container {
-            bottom: 0;
-            padding-bottom: .5rem;
-        }
-    }
-
-    .fui-NavigationBar__link {
-        display: block;
-        width: 100%;
-        height: auto;
-        text-decoration: none;
-        padding: .5rem .5rem .5rem 1.5rem;
-        cursor: pointer;
-        overflow-x: hidden;
-        overflow-y: visible;
-        border-radius: 0;
-        font-weight: inherit;
-        justify-content: flex-start;
-        line-height: 1.5rem;
-        vertical-align: middle;
-        transition: font-size 150ms ease-in;
-
-        &.fui-Link-active {
-            font-weight: inherit;
-        }
-    }
-
-    .fui-NavigationBar__label {
-        background: transparent;
-        color: #adb5bd;
-        padding: .375rem 1.25rem;
-        font-size: .75rem;
-        text-overflow: ellipsis;
-        overflow-x: hidden;
-    }
-
-    .fui-NavigationBar__dropdown {
-        .fui-NavigationBar__dropdown-menu {
-            display: none;
-            background: inherit;
-            color: inherit;
-            float: none;
-            padding: 5px 0px;
-
-            &[data-visible=true] {
-                display: block;
-            }
-
-            .fui-NavigationBar__dropdown-item {
-                position: relative;
-                color: inherit;
-                transition: background 100ms ease-in-out,color 100ms ease-in-out;
-                text-decoration: none;
-                display: block;
-                width: 100%;
-                overflow-x: hidden;
-
-                i {
-                    margin-right: 0.3rem;
-                }
-            }
-
-            &:before {
-                background: inherit;
-                box-shadow: none;
-            }
-        }
-    }
-
-    .fui-NavigationBar__mobileToggle {
-        right: 20px;
-        margin: auto;
-        display: none;
-    }
-    // Note: Leaving this here as a possible idea for multi-line truncation support
-    .fui-NavigationBar__item--multiLine {
-        display: -webkit-box !important;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: var(--b-bar-item-lines, 2);
-        white-space: normal !important;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    /*
-        Theming
-    */
-    &.fui-NavigationBar-dark {
-        background: var(--b-bar-dark-background, #001529);
-        color: var(--b-bar-dark-color, rgba(255,255,255, 0.5));
-
-        .fui-NavigationBar__brand {
-            background: var(--b-bar-brand-dark-background, rgba(255,255,255,0.025));
-
-            .fui-NavigationBar__link {
-                color: #fff;
-
-                &.active {
-                    color: #fff;
-                    background: inherit;
-                }
-
-                &:hover {
-                    color: #fff;
-                    background: inherit;
-                }
-            }
-        }
-
-        .fui-NavigationBar__toggler--popout:not(.fui-NavigationBar__mobileToggle) {
-            background: var(--b-bar-dark-background, #001529);
-            color: var(--b-bar-dark-color, rgba(255, 255, 255, 0.5));
-        }
-
-        .fui-NavigationBar__dropdown-menu {
-            background: var(--b-bar-dropdown-dark-background, #000c17);
-
-            .fui-NavigationBar__dropdown-item {
-                &.active {
-                    color: var(--b-bar-item-dark-active-color, #fff);
-                    background: var(--b-bar-item-dark-active-background, #0288D1);
-                }
-
-                &:hover {
-                    color: var(--b-bar-item-dark-hover-color, #fff);
-                    background: var(--b-bar-item-dark-hover-background, rgba(255,255,255,0.3));
-                }
-            }
-        }
-
-        .fui-NavigationBar__link {
-            color: inherit;
-
-            &.active {
-                color: var(--b-bar-item-dark-active-color, #fff);
-                background: var(--b-bar-item-dark-active-background, #0288D1);
-            }
-
-            &:hover {
-                color: var(--b-bar-item-dark-hover-color, #fff);
-                background: var(--b-bar-item-dark-hover-background, rgba(255,255,255,0.3));
-            }
-        }
-    }
-
-    &.fui-NavigationBar-light {
-        background: var(--b-bar-light-background, #fff);
-        color: var(--b-bar-light-color, rgba(0,0,0,0.7));
-
-        .fui-NavigationBar__brand {
-            background: var(--b-bar-brand-light-background, rgba(0,0,0,0.025));
-
-            .fui-NavigationBar__link {
-                color: #000;
-
-                &.active {
-                    background: inherit;
-                }
-
-                &:hover {
-                    background: inherit;
-                }
-            }
-        }
-
-        .fui-NavigationBar__toggler--popout:not(.fui-NavigationBar__mobileToggle) {
-            background: var(--b-bar-brand-light-background, #fff);
-            color: var(--b-bar-light-color, rgba(0,0,0,0.7));
-        }
-
-        .fui-NavigationBar__dropdown-menu {
-            background: var(--b-bar-dropdown-light-background, #f2f2f2);
-
-            .fui-NavigationBar__dropdown-item {
-                &.active {
-                    color: var(--b-bar-item-light-active-color, #000);
-                    background: var(--b-bar-item-light-active-background, #0288D1);
-                }
-
-                &:hover {
-                    color: var(--b-bar-item-light-hover-color, #000);
-                    background: var(--b-bar-item-light-hover-background, rgba(0,0,0,0.3));
-                }
-            }
-        }
-
-        .fui-NavigationBar__link {
-            color: inherit;
-
-            &.active {
-                color: var(--b-bar-item-light-active-color, #000);
-                background: var(--b-bar-item-light-active-background, #0288D1);
-            }
-
-            &:hover {
-                color: var(--b-bar-item-light-hover-color, #000);
-                background: var(--b-bar-item-light-hover-background, rgba(0,0,0,0.3));
-            }
-        }
-    }
-}
-
-.fui-VerticalNavigation.fui-NavigationBar-vertical-small,
-.fui-VerticalNavigation.fui-NavigationBar-vertical-inline[data-collapse=small],
-.fui-VerticalNavigation.fui-NavigationBar-vertical-popout[data-collapse=small] {
-    width: var(--b-vertical-bar-small-width, 64px);
-    min-width: var(--b-vertical-bar-small-width, 64px);
-
-    &:not(.fui-VerticalNavigation-initial) {
-        transition: width 200ms ease-in-out, min-width 200ms ease-in-out;
-    }
-
-    .fui-NavigationBar__toggler--inline {
-        position: relative;
-        width: 100%;
-    }
-
-    .fui-NavigationBar__toggler--popout:not(.fui-NavigationBar__mobileToggle) {
-        left: var(--b-vertical-bar-small-width, 64px);
-    }
-
-    .fui-NavigationBar__dropdown {
-        .fui-NavigationBar__dropdown-menu-container {
-            @include fui-navigation-bar-popout-menu-container;
-            left: var(--b-vertical-bar-small-width, 64px);
-
-            &.fui-NavigationBar__dropdown-right {
-                right: var(--b-vertical-bar-small-width, 64px);
-                left: unset;
-            }
-
-            .fui-NavigationBar__dropdown-menu {
-                @include fui-navigation-bar-popout-menu;
-
-                > .fui-NavigationBar__dropdown {
-                    > .fui-NavigationBar__dropdown-menu-container {
-                        left: var(--b-vertical-bar-popout-menu-width, 180px);
-                        margin: 0 5px;
-
-                        &.fui-NavigationBar__dropdown-right {
-                            right: var(--b-vertical-bar-popout-menu-width, 180px);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    .fui-NavigationBar__menu {
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-
-        &::-webkit-scrollbar {
-            width: 0;
-            height: 0;
-        }
-    }
-
-    @keyframes b-bar-link-small {
-        to {
-            text-align: center;
-            padding-left: 0px;
-            padding-right: 0px;
-        }
-    }
-
-    .fui-NavigationBar__item {
-        > .fui-NavigationBar__link,
-        > .fui-NavigationBar__dropdown > .fui-NavigationBar__link {
-            animation: b-bar-link-small forwards;
-            animation-delay: 170ms;
-            font-size: 0;
-            transition: font-size 100ms ease-out;
-
-            &:after {
-                display: none;
-            }
-        }
-
-        > .fui-NavigationBar__dropdown > .fui-NavigationBar__link {
-            .fui-NavigationBar__dropdown-toggle-content {
-                justify-content: center;
-            }
-
-            .fui-NavigationBar__dropdown-toggle-content-icon {
-                display: none;
-            }
-        }
-    }
-
-    .fui-NavigationBar__label {
-        text-align: center;
-    }
-}
-
-
-
-.fui-VerticalNavigation.fui-NavigationBar-vertical-inline:not([data-collapse]) {
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    .fui-NavigationBar__dropdown {
-        .fui-NavigationBar__dropdown-menu-container {
-            position: relative;
-
-            .fui-NavigationBar__dropdown-menu {
-                position: relative !important;
-                border: none;
-                border-radius: 0;
-                box-shadow: none;
-
-                .fui-NavigationBar__dropdown-item {
-                    padding: .5rem .5rem .5rem 3rem;
-                }
-            }
-        }
-    }
-
-    .fui-NavigationBar__brand {
-        .fui-NavigationBar__link {
-            display: flex;
-            align-items: center;
-        }
-    }
-}
-
-.fui-VerticalNavigation.fui-NavigationBar-vertical-popout:not([data-collapse]) {
-    .fui-NavigationBar__dropdown {
-        .fui-NavigationBar__dropdown-menu-container {
-            @include fui-navigation-bar-popout-menu-container;
-            left: var(--b-vertical-bar-width, 230px);
-
-            &.fui-NavigationBar__dropdown-right {
-                right: var(--b-vertical-bar-width, 230px);
-                left: unset;
-            }
-
-            .fui-NavigationBar__dropdown-menu {
-                @include fui-navigation-bar-popout-menu;
-
-                > .fui-NavigationBar__dropdown {
-                    > .fui-NavigationBar__dropdown-menu-container {
-                        left: var(--b-vertical-bar-popout-menu-width, 180px);
-                        margin: 0 5px;
-
-                        &.fui-NavigationBar__dropdown-right {
-                            right: var(--b-vertical-bar-popout-menu-width, 180px);
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-.fui-VerticalNavigation.fui-NavigationBar-vertical-inline[data-collapse=hide],
-.fui-VerticalNavigation.fui-NavigationBar-vertical-popout[data-collapse=hide],
-.fui-VerticalNavigation.fui-NavigationBar-vertical-small[data-collapse=hide] {
-    width: 0px;
-    min-width: 0px;
-    overflow-y: hidden;
-
-    &:not(.fui-VerticalNavigation-initial) {
-        transition: width 200ms ease-in-out, min-width 200ms ease-in-out, visibility 100ms;
-    }
-
-    visibility: hidden;
-
-    .fui-NavigationBar__toggler--inline {
-        display: none;
-    }
-
-    .fui-NavigationBar__toggler--popout:not(.fui-NavigationBar__mobileToggle) {
-        visibility: visible;
-        left: 0px;
-    }
-}
-/* Mobile & below */
-@media only screen and (max-width:576px) {
-    .fui-VerticalNavigation.fui-NavigationBar-vertical-inline:not([data-collapse]) {
-        min-width: 100vw;
-
-        .fui-NavigationBar__toggler--inline:not(.fui-NavigationBar__mobileToggle) {
-            display: none;
-        }
-
-        .fui-NavigationBar__toggler--popout:not(.fui-NavigationBar__mobileToggle) {
-            left: 100vw;
-        }
-
-        .fui-NavigationBar__mobileToggle {
-            display: flex;
-        }
+.fui-Layout > .fui-Layout__header .fui-NavigationBar-horizontal {
+    &[data-collapse="hide"][data-broken="true"],
+    &[data-broken="false"] {
+        block-size: var(--b-bar-horizontal-height, auto);
     }
 }
 
@@ -672,28 +46,42 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: var(--spacingVerticalS) var(--spacingHorizontalS);
+    box-sizing: border-box;
     z-index: var(--zIndexNavigation);
-    font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
-    font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
-    font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
-    font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
 
-    %container-flex-properties {
+    > :is(
+        .fui-Container,
+        .fui-Container-fluid,
+        .fui-Container-sm,
+        .fui-Container-md,
+        .fui-Container-lg,
+        .fui-Container-xl,
+        .fui-Container-xxl
+    ) {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: inherit;
         align-items: center;
         justify-content: space-between;
     }
 
-    .fui-Container,
-    .fui-Container-fluid {
-        @extend %container-flex-properties;
-    }
+    .fui-NavigationBar__menu {
+        display: none;
+        flex: 1 1 100%;
+        flex-direction: column;
+        align-items: stretch;
+        inline-size: 100%;
+        min-inline-size: 0;
 
-    @each $breakpoint, $container-max-width in $container-max-widths {
-        > .fui-Container#{breakpoint-infix($breakpoint, $container-max-widths)} {
-            @extend %container-flex-properties;
+        :is(
+            .fui-NavigationBar__link,
+            .fui-NavigationBar__dropdown-toggle,
+            .fui-NavigationBar__splitItemLink
+        ) {
+            justify-content: flex-start;
+        }
+
+        &-show {
+            display: flex;
         }
     }
 
@@ -701,748 +89,1467 @@
     .fui-NavigationBar__end {
         display: flex;
         flex-direction: column;
-        padding-left: 0;
-        margin-bottom: 0;
+        inline-size: 100%;
+        padding: 0;
+        margin: 0;
         list-style: none;
-    }
-    /*.fui-NavigationBar__link,
-    .fui-NavigationBar__dropdown-toggle {
-        padding-right: 0;
-        padding-left: 0;
-    }*/
-
-    .fui-NavigationBar__dropdown {
-        position: relative;
-
-        &.fui-NavigationBar__dropdown-show {
-            > .fui-NavigationBar__dropdown-toggle {
-                > .fui-NavigationBar__toggleIcon {
-                    > svg {
-                        transform: rotate(180deg);
-                    }
-                }
-            }
-        }
-    }
-
-    .fui-NavigationBar__dropdown {
-        position: relative;
-
-        .fui-NavigationBar__dropdown-menu {
-            --fui-positioning-slide-distance-y: -10px;
-            --fui-positioning-slide-distance-x: 0px;
-
-            &-up {
-                --fui-positioning-slide-distance-y: 10px;
-                --fui-positioning-slide-distance-x: 0px;
-            }
-
-            &-start {
-                --fui-positioning-slide-distance-y: 0px;
-                --fui-positioning-slide-distance-x: 10px;
-            }
-
-            &-end {
-                --fui-positioning-slide-distance-y: 0px;
-                --fui-positioning-slide-distance-x: -10px;
-            }
-
-            position: absolute;
-            top: 100%;
-            left: 0;
-            animation-name: fadein, slidein;
-            animation-timing-function: var(--curveDecelerateMid);
-            animation-duration: var(--durationSlower);
-            animation-composition: accumulate;
-            padding-bottom: 4px;
-            box-shadow: var(--shadow16);
-            width: max-content;
-            min-width: 100px;
-            padding-top: 4px;
-            border-bottom-color: var(--colorTransparentStroke);
-            border-left-color: var(--colorTransparentStroke);
-            border-right-color: var(--colorTransparentStroke);
-            border-top-color: var(--colorTransparentStroke);
-            border-bottom-style: solid;
-            border-left-style: solid;
-            border-right-style: solid;
-            border-top-style: solid;
-            border-bottom-width: 1px;
-            border-left-width: 1px;
-            border-right-width: 1px;
-            border-top-width: 1px;
-            box-sizing: border-box;
-            padding-right: 4px;
-            padding-left: 4px;
-            border-top-left-radius: var(--borderRadiusMedium);
-            border-top-right-radius: var(--borderRadiusMedium);
-            border-bottom-left-radius: var(--borderRadiusMedium);
-            border-bottom-right-radius: var(--borderRadiusMedium);
-            line-height: var(--lineHeightBase300);
-            font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
-            font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
-            font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
-            font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
-            background-color: var(--colorNeutralBackground1);
-            color: var(--colorNeutralForeground1);
-            display: none;
-            z-index: var(--zIndexDropdown);
-
-            &-show {
-                display: flex;
-            }
-
-            &-position-strategy {
-                z-index: calc(var(--zIndexDropdown) + 1);
-            }
-
-            &-position-strategy-absolute {
-                position: absolute;
-            }
-
-            &-position-strategy-fixed {
-                position: fixed;
-            }
-
-            &.fui-NavigationBar__dropdown-right {
-                right: 0;
-                left: auto;
-            }
-
-            .fui-NavigationBar__dropdown-menu-list {
-                width: 100%;
-                height: 100%;
-                row-gap: 2px;
-                column-gap: 2px;
-                flex-direction: column;
-                display: flex;
-                z-index: +1;
-
-                .fui-NavigationBar__dropdown-group {
-                    padding-bottom: var(--spacingHorizontalS);
-                    padding-top: var(--spacingHorizontalS);
-                    color: var(--colorNeutralForeground3);
-                    display: block;
-                    padding-left: var(--spacingHorizontalSNudge);
-                    padding-right: var(--spacingHorizontalSNudge);
-                    font-weight: var(--fontWeightSemibold);
-                    font-size: var(--fontSizeBase200);
-                    border-top-left-radius: var(--borderRadiusMedium);
-                    border-top-right-radius: var(--borderRadiusMedium);
-                    border-bottom-left-radius: var(--borderRadiusMedium);
-                    border-bottom-right-radius: var(--borderRadiusMedium);
-                    line-height: var(--lineHeightBase200);
-                }
-
-                .fui-NavigationBar__dropdown-divider {
-                    margin-top: var(--spacingVerticalXXS);
-                    margin-bottom: var(--spacingVerticalXXS);
-                    margin-left: calc(var(--spacingHorizontalXS) * -1);
-                    margin-right: calc(var(--spacingHorizontalXS) * -1);
-                    display: block;
-                    border-bottom-color: var(--colorNeutralStroke2);
-                    border-bottom-style: solid;
-                    border-bottom-width: var(--strokeWidthThin);
-                }
-
-                .fui-NavigationBar__dropdown-item {
-                    width: 100%;
-                    border-radius: var(--borderRadiusMedium);
-                    position: relative;
-                    color: var(--colorNeutralForeground2);
-                    background-color: var(--colorNeutralBackground1);
-                    padding-right: var(--spacingVerticalSNudge);
-                    padding-left: var(--spacingVerticalSNudge);
-                    padding-top: var(--spacingVerticalSNudge);
-                    box-sizing: border-box;
-                    max-width: 290px;
-                    min-height: 32px;
-                    flex-shrink: 0;
-                    display: flex;
-                    align-items: start;
-                    justify-content: space-between;
-                    font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
-                    cursor: pointer;
-                    gap: 4px;
-                    user-select: none;
-
-                    &[aria-disabled="true"] {
-                        color: var(--colorNeutralForegroundDisabled);
-
-                        .fui-NavigationBar__dropdown-item__content {
-                            color: var(--colorNeutralForegroundDisabled);
-                        }
-                    }
-
-                    &:not([aria-disabled="true"]) {
-                        &:focus,
-                        &:focus-visible {
-                            outline-style: none;
-                        }
-
-                        &:hover {
-                            background-color: var(--colorNeutralBackground1Hover);
-                            color: var(--colorNeutralForeground2Hover);
-
-                            &:active {
-                                background-color: var(--colorNeutralBackground1Pressed);
-                                color: var(--colorNeutralForeground2Pressed);
-                            }
-                        }
-                    }
-
-                    .fui-NavigationBar__dropdown-item__content {
-                        padding-left: 2px;
-                        padding-right: 2px;
-                        background-color: transparent;
-                        flex-grow: 1;
-                    }
-                }
-            }
-        }
-    }
-
-    .fui-NavigationBar__start {
-        margin-right: auto;
     }
 
     .fui-NavigationBar__end {
-        margin-left: auto;
+        margin-block-start: var(--spacingVerticalXS);
+    }
+
+    .fui-NavigationBar__item,
+    .fui-NavigationBar__dropdown {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        inline-size: 100%;
+    }
+
+    .fui-NavigationBar__dropdown-menu {
+        --fui-positioning-slide-distance-x: 0;
+        --fui-positioning-slide-distance-y: calc(-1 * var(--spacingVerticalMNudge));
+
+        position: absolute;
+        display: none;
+        inline-size: max-content;
+        animation-name: fui-navigation-fade-in, fui-navigation-slide-in;
+        animation-composition: accumulate;
+
+        &-up {
+            --fui-positioning-slide-distance-y: var(--spacingVerticalMNudge);
+        }
+
+        &-start {
+            --fui-positioning-slide-distance-x: var(--spacingHorizontalMNudge);
+            --fui-positioning-slide-distance-y: 0;
+        }
+
+        &-end {
+            --fui-positioning-slide-distance-x: calc(-1 * var(--spacingHorizontalMNudge));
+            --fui-positioning-slide-distance-y: 0;
+        }
+
+        &-show {
+            display: flex;
+        }
+
+        &-position-strategy-absolute {
+            position: absolute;
+        }
+
+        &-position-strategy-fixed {
+            position: fixed;
+        }
+    }
+
+    .fui-NavigationBar__mobileToggle {
+        display: flex;
+    }
+}
+
+@each $breakpoint, $value in $grid-breakpoints {
+    @if $breakpoint != xs {
+        .fui-NavigationBar.fui-NavigationBar-expand-#{$breakpoint} {
+            @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+
+                .fui-NavigationBar__toggler,
+                .fui-NavigationBar__mobileToggle {
+                    display: none;
+                }
+
+                .fui-NavigationBar__menu {
+                    display: flex !important;
+                    flex: 1 1 auto;
+                    flex-direction: row;
+                    align-items: center;
+                    inline-size: auto;
+
+                    :is(
+                        .fui-NavigationBar__link,
+                        .fui-NavigationBar__dropdown-toggle,
+                        .fui-NavigationBar__splitItemLink
+                    ) {
+                        justify-content: center;
+                    }
+                }
+
+                .fui-NavigationBar__start,
+                .fui-NavigationBar__end {
+                    flex-direction: row;
+                    align-items: center;
+                    inline-size: auto;
+                }
+
+                .fui-NavigationBar__end {
+                    margin-block-start: 0;
+                    margin-inline-start: auto;
+                }
+
+                .fui-NavigationBar__item,
+                .fui-NavigationBar__dropdown {
+                    flex-direction: row;
+                    align-items: center;
+                    inline-size: auto;
+                }
+
+                .fui-NavigationBar__dropdown-menu {
+                    position: absolute;
+                }
+            }
+        }
+    }
+}
+
+@mixin fui-nav-popout-container {
+    z-index: var(--zIndexDropdown);
+    inline-size: var(--fui-nav-drawer-popout-width);
+    min-inline-size: var(--fui-nav-drawer-popout-width);
+    max-inline-size: var(--fui-nav-drawer-popout-width);
+    max-block-size: min(80vh, 640px);
+    margin-block-start: calc(-1 * var(--fui-nav-item-min-height));
+    padding-inline: var(--spacingHorizontalXS);
+    pointer-events: none;
+
+    &[data-visible="true"] {
+        pointer-events: auto;
+    }
+}
+
+@mixin fui-nav-popout-menu {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacingVerticalXXS);
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-block-size: inherit;
+    padding: var(--spacingVerticalXS);
+    overflow-x: hidden;
+    overflow-y: auto;
+    color: var(--fui-nav-foreground);
+    background: var(--fui-nav-popout-background);
+    border: var(--strokeWidthThin) solid var(--fui-nav-stroke);
+    border-radius: var(--borderRadiusLarge);
+    box-shadow: var(--shadow16);
+}
+
+.fui-NavDrawer-initial {
+    display: none !important;
+}
+
+@include emit-initial-bar-breakpoints(".fui-NavDrawer-initial", $breakpoint-observer-breakpoints, $bar-initial-breakpoints);
+
+.fui-NavDrawer {
+    --fui-nav-background: var(--b-bar-light-background, var(--colorNeutralBackground4));
+    --fui-nav-popout-background: var(--b-bar-dropdown-light-background, var(--colorNeutralBackground1));
+    --fui-nav-brand-background: var(--b-bar-brand-light-background, var(--colorTransparentBackground));
+    --fui-nav-foreground: var(--b-bar-light-color, var(--colorNeutralForeground2));
+    --fui-nav-foreground-hover: var(--b-bar-item-light-hover-color, var(--colorNeutralForeground2Hover));
+    --fui-nav-foreground-selected: var(--b-bar-item-light-active-color, var(--colorNeutralForeground2Selected));
+    --fui-nav-background-hover: var(--b-bar-item-light-hover-background, var(--colorNeutralBackground4Hover));
+    --fui-nav-background-pressed: var(--colorNeutralBackground4Pressed);
+    --fui-nav-background-selected: var(--b-bar-item-light-active-background, var(--colorNeutralBackground4Selected));
+    --fui-nav-foreground-disabled: var(--colorNeutralForegroundDisabled);
+    --fui-nav-background-disabled: var(--colorTransparentBackground);
+    --fui-nav-stroke: var(--colorNeutralStroke2);
+    --fui-nav-indicator: var(--colorCompoundBrandForeground1);
+
+    &.fui-NavDrawer-dark {
+        --fui-nav-background: var(--b-bar-dark-background, var(--colorNeutralBackgroundStatic));
+        --fui-nav-popout-background: var(--b-bar-dropdown-dark-background, var(--colorNeutralBackgroundStatic));
+        --fui-nav-brand-background: var(--b-bar-brand-dark-background, var(--colorTransparentBackground));
+        --fui-nav-foreground: var(--b-bar-dark-color, var(--colorNeutralForegroundOnBrand));
+        --fui-nav-foreground-hover: var(--b-bar-item-dark-hover-color, var(--colorNeutralForegroundOnBrand));
+        --fui-nav-foreground-selected: var(--b-bar-item-dark-active-color, var(--colorNeutralForegroundOnBrand));
+        --fui-nav-background-hover: var(--b-bar-item-dark-hover-background, var(--colorSubtleBackgroundInvertedHover));
+        --fui-nav-background-pressed: var(--colorSubtleBackgroundInvertedPressed);
+        --fui-nav-background-selected: var(--b-bar-item-dark-active-background, var(--colorSubtleBackgroundInvertedSelected));
+        --fui-nav-foreground-disabled: var(--colorNeutralForegroundInvertedDisabled);
+        --fui-nav-stroke: var(--colorNeutralStrokeAlpha2);
+        --fui-nav-indicator: var(--colorBrandBackground);
+    }
+
+    &.fui-NavDrawer-vertical-inline,
+    &.fui-NavDrawer-vertical-popout,
+    &.fui-NavDrawer-vertical-small {
+        position: sticky;
+        inset-block-start: 0;
+        display: flex;
+        flex: 0 0 auto;
+        flex-direction: column;
+        align-self: flex-start;
+        inline-size: var(--fui-nav-drawer-width);
+        min-inline-size: var(--fui-nav-drawer-width);
+        max-inline-size: var(--fui-nav-drawer-width);
+        block-size: 100%;
+        min-block-size: 100%;
+        box-sizing: border-box;
+        overflow: visible;
+        color: var(--fui-nav-foreground);
+        background: var(--fui-nav-background);
+        border-inline-end: var(--strokeWidthThin) solid var(--fui-nav-stroke);
+        font-family: var(--fontFamilyBase);
+        font-size: var(--fontSizeBase300);
+        font-style: normal;
+        font-weight: var(--fontWeightRegular);
+        line-height: var(--lineHeightBase300);
+        user-select: none;
+        z-index: var(--zIndexNavigation);
+
+        &:not(.fui-NavDrawer-initial) {
+            transition:
+                inline-size var(--durationNormal) var(--curveEasyEase),
+                min-inline-size var(--durationNormal) var(--curveEasyEase),
+                max-inline-size var(--durationNormal) var(--curveEasyEase),
+                visibility var(--durationFast) var(--curveEasyEase);
+        }
+    }
+
+    .fui-NavDrawerHeader {
+        position: relative;
+        display: flex;
+        flex: 0 0 auto;
+        align-items: center;
+        inline-size: 100%;
+        min-block-size: var(--fui-nav-drawer-header-height);
+        padding: var(--spacingVerticalXS) var(--spacingHorizontalS);
+        box-sizing: border-box;
+        background: var(--fui-nav-brand-background);
+        border-block-end: var(--strokeWidthThin) solid var(--fui-nav-stroke);
+
+        > .fui-NavItemContainer {
+            min-inline-size: 0;
+        }
+
+        > .fui-NavItemContainer > :is(.fui-NavItem, .fui-NavCategory > .fui-NavCategoryItem) {
+            padding-inline-end: calc(var(--spacingHorizontalXXXL) + var(--spacingHorizontalM));
+            font-weight: var(--fontWeightSemibold);
+        }
+
+        .fui-NavItemContainer-selected > .fui-NavItem,
+        .fui-NavItem.fui-Link-active {
+            background-color: transparent;
+
+            &::after {
+                content: none;
+            }
+        }
+    }
+
+    .fui-NavDrawerBody {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        inline-size: 100%;
+        min-block-size: 0;
+        padding-block: 0;
+        padding-inline: var(--spacingHorizontalMNudge) var(--spacingHorizontalXS);
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        &__start,
+        &__end {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacingVerticalXXS);
+            inline-size: 100%;
+        }
+
+        &__end {
+            margin-block-start: auto;
+            padding-block-start: var(--spacingVerticalM);
+        }
+    }
+
+    .fui-NavItemContainer,
+    .fui-NavCategory,
+    .fui-NavSubCategory {
+        position: relative;
+        display: block;
+        inline-size: 100%;
+        min-inline-size: 0;
+    }
+
+    :is(.fui-NavItem, .fui-NavCategoryItem, .fui-NavSubItem) {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: var(--spacingHorizontalM);
+        inline-size: 100%;
+        min-inline-size: 0;
+        min-block-size: var(--fui-nav-item-min-height);
+        padding: var(--spacingVerticalSNudge) var(--spacingHorizontalMNudge);
+        box-sizing: border-box;
+        overflow: hidden;
+        color: var(--fui-nav-foreground);
+        background-color: var(--colorTransparentBackground);
+        border: var(--strokeWidthThin) solid var(--colorTransparentStroke);
+        border-radius: var(--borderRadiusMedium);
+        font: inherit;
+        line-height: var(--lineHeightBase300);
+        text-align: start;
+        text-decoration: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: background-color var(--durationFaster) var(--curveLinear);
+
+        &:hover {
+            color: var(--fui-nav-foreground-hover);
+            background-color: var(--fui-nav-background-hover);
+            text-decoration: none;
+        }
+
+        &:active {
+            color: var(--fui-nav-foreground-selected);
+            background-color: var(--fui-nav-background-pressed);
+        }
+
+        &:focus-visible {
+            border-color: var(--colorTransparentStroke);
+            outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+            outline-offset: calc(-1 * var(--strokeWidthThick));
+            box-shadow: inset 0 0 0 var(--strokeWidthThin) var(--colorStrokeFocus1);
+        }
+    }
+
+    :is(
+        .fui-NavItem.fui-Link,
+        .fui-NavCategoryItem.fui-Link,
+        .fui-NavSubItem.fui-Link
+    ) {
+        color: var(--fui-nav-foreground);
+        text-decoration-line: none;
+        user-select: none;
+
+        &:visited {
+            color: var(--fui-nav-foreground);
+        }
+
+        &:not([aria-disabled="true"]) {
+            &:hover {
+                color: var(--fui-nav-foreground-hover);
+                text-decoration-line: none;
+            }
+
+            &:active,
+            &:focus-visible {
+                color: var(--fui-nav-foreground-selected);
+                text-decoration-line: none;
+            }
+        }
+    }
+
+    :is(
+        .fui-NavItemContainer-selected > .fui-NavItem,
+        .fui-NavItem.fui-Link-active,
+        .fui-NavItem[aria-current="page"],
+        .fui-NavSubItem.fui-Link-active,
+        .fui-NavSubItem[aria-current="page"]
+    ) {
+        color: var(--fui-nav-foreground-selected);
+        background-color: var(--fui-nav-background-selected);
+        font-weight: var(--fontWeightSemibold);
+
+        &::after {
+            position: absolute;
+            inset-block-start: 50%;
+            inset-inline-start: 0;
+            inline-size: var(--strokeWidthThickest);
+            block-size: var(--spacingVerticalXL);
+            border-radius: var(--borderRadiusCircular);
+            background-color: var(--fui-nav-indicator);
+            content: "";
+            transform: translateY(-50%);
+        }
+
+        .fui-NavItem__icon {
+            color: var(--colorNeutralForeground2BrandSelected);
+        }
+    }
+
+    :is(.fui-NavCategory-open, .fui-NavSubCategory-open) {
+        > :is(.fui-NavCategoryItem, .fui-NavCategoryItemSplit) {
+            color: var(--fui-nav-foreground-selected);
+            background-color: var(--fui-nav-background-pressed);
+        }
+    }
+
+    .fui-NavCategoryItem[aria-expanded="true"] {
+        color: var(--fui-nav-foreground-selected);
+        background-color: var(--fui-nav-background-pressed);
+    }
+
+    :is(
+        .fui-NavItemContainer-disabled,
+        .fui-NavItem-disabled,
+        .fui-Link-disabled,
+        [aria-disabled="true"]
+    ) {
+        color: var(--fui-nav-foreground-disabled);
+        background-color: var(--fui-nav-background-disabled);
+        cursor: default;
+        pointer-events: none;
+    }
+
+    .fui-NavItem__icon {
+        display: inline-flex;
+        flex: 0 0 var(--spacingHorizontalXL);
+        align-items: center;
+        justify-content: center;
+        inline-size: var(--spacingHorizontalXL);
+        block-size: var(--spacingVerticalXL);
+        color: currentColor;
+        font-size: var(--fontSizeBase500);
+        line-height: 1;
+
+        > :is(svg, img),
+        svg {
+            inline-size: var(--spacingHorizontalXL);
+            block-size: var(--spacingVerticalXL);
+        }
+    }
+
+    .fui-NavCategoryItem {
+        &__content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacingHorizontalS);
+            inline-size: 100%;
+            min-inline-size: 0;
+        }
+
+        &__contentText {
+            display: inline-flex;
+            flex: 1 1 auto;
+            align-items: center;
+            gap: var(--spacingHorizontalM);
+            min-inline-size: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        &__expandIcon {
+            display: inline-flex;
+            flex: 0 0 auto;
+            align-items: center;
+            justify-content: center;
+            inline-size: var(--spacingHorizontalXL);
+            block-size: var(--spacingVerticalXL);
+            margin-inline-start: auto;
+            color: currentColor;
+        }
+
+        &__expandIconContainer {
+            position: relative;
+            display: inline-flex;
+            inline-size: var(--spacingHorizontalXL);
+            block-size: var(--spacingVerticalXL);
+        }
+
+        &__expandIconLayer {
+            position: absolute;
+            inset: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            transform-origin: center;
+            transition:
+                opacity var(--durationNormal) var(--curveEasyEase),
+                scale var(--durationNormal) var(--curveEasyEase),
+                filter var(--durationNormal) var(--curveEasyEase);
+
+            > *,
+            svg {
+                inline-size: var(--spacingHorizontalXL);
+                block-size: var(--spacingVerticalXL);
+                font-size: var(--fontSizeBase500);
+            }
+
+            &-visible {
+                opacity: 1;
+                scale: 1;
+                filter: blur(0);
+            }
+
+            &-hiddenExpand,
+            &-hiddenCollapse {
+                opacity: 0;
+                scale: .25;
+                filter: blur(4px);
+            }
+        }
+    }
+
+    .fui-NavCategoryItemSplit {
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        padding: 0;
+        overflow: visible;
+
+        &__link {
+            position: relative;
+            display: flex;
+            flex: 1 1 auto;
+            align-items: center;
+            gap: var(--spacingHorizontalM);
+            min-inline-size: 0;
+            min-block-size: calc(var(--fui-nav-item-min-height) - (2 * var(--strokeWidthThin)));
+            padding-inline: var(--spacingHorizontalMNudge) var(--spacingHorizontalXS);
+            overflow: hidden;
+            color: inherit;
+            border-start-start-radius: var(--borderRadiusMedium);
+            border-end-start-radius: var(--borderRadiusMedium);
+            border-start-end-radius: 0;
+            border-end-end-radius: 0;
+            text-decoration: none;
+
+            &:visited {
+                color: inherit;
+            }
+
+            &:focus-visible {
+                z-index: 1;
+                outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+                outline-offset: calc(-1 * var(--strokeWidthThick));
+                box-shadow: inset 0 0 0 var(--strokeWidthThin) var(--colorStrokeFocus1);
+            }
+        }
+
+        &__button {
+            display: inline-flex;
+            flex: 0 0 var(--fui-nav-item-min-height);
+            align-items: center;
+            justify-content: center;
+            inline-size: var(--fui-nav-item-min-height);
+            min-inline-size: var(--fui-nav-item-min-height);
+            padding: 0;
+            color: inherit;
+            background: transparent;
+            border: 0;
+            border-inline-start: var(--strokeWidthThin) solid var(--colorTransparentStroke);
+            border-start-start-radius: 0;
+            border-end-start-radius: 0;
+            border-start-end-radius: var(--borderRadiusMedium);
+            border-end-end-radius: var(--borderRadiusMedium);
+            cursor: pointer;
+
+            &:hover {
+                border-inline-start-color: var(--fui-nav-stroke);
+            }
+
+            &:focus-visible {
+                z-index: 1;
+                outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+                outline-offset: calc(-1 * var(--strokeWidthThick));
+                box-shadow: inset 0 0 0 var(--strokeWidthThin) var(--colorStrokeFocus1);
+            }
+        }
+
+        &:is(:hover, :focus-within) {
+            color: var(--fui-nav-foreground-hover);
+            background-color: var(--fui-nav-background-hover);
+        }
+
+        &.fui-Link-active {
+            color: var(--fui-nav-foreground-selected);
+            background-color: var(--fui-nav-background-selected);
+            font-weight: var(--fontWeightSemibold);
+
+            &::after {
+                position: absolute;
+                inset-block-start: 50%;
+                inset-inline-start: 0;
+                inline-size: var(--strokeWidthThickest);
+                block-size: var(--spacingVerticalXL);
+                border-radius: var(--borderRadiusCircular);
+                background-color: var(--fui-nav-indicator);
+                content: "";
+                transform: translateY(-50%);
+            }
+
+            .fui-NavItem__icon {
+                color: var(--colorNeutralForeground2BrandSelected);
+            }
+        }
+    }
+
+    .fui-NavSubItem {
+        padding-inline-start: 46px;
+
+        &__content {
+            display: flex;
+            flex: 1 1 auto;
+            align-items: center;
+            inline-size: 100%;
+            min-inline-size: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .fui-NavDivider {
+        block-size: var(--strokeWidthThin);
+        margin: var(--spacingVerticalXS) var(--spacingHorizontalS);
+        overflow: hidden;
+        color: inherit;
+        background-color: var(--fui-nav-stroke);
+        border: 0;
+    }
+
+    .fui-NavSectionHeader {
+        padding: var(--spacingVerticalM) var(--spacingHorizontalMNudge) var(--spacingVerticalXS);
+        overflow: hidden;
+        color: var(--fui-nav-foreground);
+        font-size: var(--fontSizeBase200);
+        font-weight: var(--fontWeightSemibold);
+        line-height: var(--lineHeightBase200);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .fui-NavDrawer__toggler {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacingHorizontalS);
+        inline-size: auto;
+        min-inline-size: var(--fui-nav-item-min-height);
+        block-size: var(--fui-nav-item-min-height);
+        min-block-size: var(--fui-nav-item-min-height);
+        padding: 0 var(--spacingHorizontalS);
+        box-sizing: border-box;
+        color: var(--fui-nav-foreground);
+        background-color: var(--colorTransparentBackground);
+        border: var(--strokeWidthThin) solid var(--colorTransparentStroke);
+        border-radius: var(--borderRadiusMedium);
+        font: inherit;
+        cursor: pointer;
+        z-index: 2;
+        transition:
+            inline-size var(--durationFast) var(--curveEasyEase),
+            color var(--durationFast) var(--curveEasyEase),
+            background-color var(--durationFast) var(--curveEasyEase);
+
+        &:hover {
+            color: var(--fui-nav-foreground-hover);
+            background-color: var(--fui-nav-background-hover);
+        }
+
+        &:active {
+            background-color: var(--fui-nav-background-pressed);
+        }
+
+        &:focus-visible {
+            outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+            outline-offset: calc(-1 * var(--strokeWidthThick));
+            box-shadow: inset 0 0 0 var(--strokeWidthThin) var(--colorStrokeFocus1);
+        }
+
+        &--inline {
+            position: absolute;
+            inset-block-start: var(--spacingVerticalS);
+            inset-inline-end: var(--spacingHorizontalS);
+        }
+
+        &--popout:not(.fui-NavDrawerHeader__mobileToggle) {
+            position: fixed;
+            inset-block-start: var(--spacingVerticalL);
+            inset-inline-start: var(--fui-nav-drawer-width);
+            inline-size: var(--spacingHorizontalXXL);
+            min-inline-size: var(--spacingHorizontalXXL);
+            padding: 0;
+            border-inline-start: 0;
+            border-start-start-radius: 0;
+            border-end-start-radius: 0;
+            background-color: var(--fui-nav-background);
+            box-shadow: var(--shadow4);
+
+            &:hover {
+                inline-size: var(--fui-nav-item-min-height);
+            }
+        }
+
+        &Icon {
+            display: block;
+            inline-size: var(--spacingHorizontalXL);
+            block-size: var(--spacingVerticalXL);
+            fill: currentColor;
+        }
+
+        &Text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .fui-NavDrawerHeader__mobileToggle {
+        display: none;
+        flex: 0 0 auto;
+        margin-inline-start: auto;
+    }
+}
+
+.fui-NavDrawer {
+    &.fui-NavDrawer-vertical-inline:not([data-collapse]) {
+        .fui-NavSubItemGroupContainer {
+            display: grid;
+            grid-template-rows: 0fr;
+            inline-size: 100%;
+            transition: grid-template-rows var(--durationNormal) var(--curveEasyEase);
+        }
+
+        .fui-NavSubItemGroupContainer[data-visible="true"] {
+            grid-template-rows: 1fr;
+        }
+
+        .fui-NavSubItemGroup {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacingVerticalXXS);
+            min-block-size: 0;
+            padding-block: var(--spacingVerticalXXS);
+            overflow: hidden;
+            background-color: transparent;
+            border: 0;
+            box-shadow: none;
+            visibility: hidden;
+        }
+
+        .fui-NavSubItemGroupContainer[data-visible="true"] > .fui-NavSubItemGroup {
+            visibility: visible;
+        }
+
+        .fui-NavSubItemGroup > .fui-NavSubCategory > .fui-NavSubItemGroupContainer {
+            padding-inline-start: var(--spacingHorizontalM);
+        }
+    }
+
+    &.fui-NavDrawer-vertical-popout:not([data-collapse]),
+    &.fui-NavDrawer-vertical-small,
+    &.fui-NavDrawer-vertical-inline[data-collapse="small"],
+    &.fui-NavDrawer-vertical-popout[data-collapse="small"] {
+        .fui-NavCategory > .fui-NavSubItemGroupContainer,
+        .fui-NavSubCategory > .fui-NavSubItemGroupContainer {
+            @include fui-nav-popout-container;
+        }
+
+        .fui-NavCategory > .fui-NavSubItemGroupContainer > .fui-NavSubItemGroup,
+        .fui-NavSubCategory > .fui-NavSubItemGroupContainer > .fui-NavSubItemGroup {
+            @include fui-nav-popout-menu;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition:
+                opacity var(--durationFast) var(--curveDecelerateMid),
+                visibility var(--durationFast) var(--curveDecelerateMid);
+        }
+
+        .fui-NavCategory > .fui-NavSubItemGroupContainer > :is(.fui-NavSubItemGroup-open, [data-visible="true"]),
+        .fui-NavSubCategory > .fui-NavSubItemGroupContainer > :is(.fui-NavSubItemGroup-open, [data-visible="true"]) {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .fui-NavSubItemGroup .fui-NavSubItem {
+            padding-inline-start: var(--spacingHorizontalMNudge);
+        }
+    }
+
+    &.fui-NavDrawer-vertical-small,
+    &.fui-NavDrawer-vertical-inline[data-collapse="small"],
+    &.fui-NavDrawer-vertical-popout[data-collapse="small"] {
+        inline-size: var(--fui-nav-drawer-rail-width);
+        min-inline-size: var(--fui-nav-drawer-rail-width);
+        max-inline-size: var(--fui-nav-drawer-rail-width);
+
+        .fui-NavDrawerBody {
+            padding-inline: var(--spacingHorizontalXS);
+            scrollbar-width: none;
+
+            &::-webkit-scrollbar {
+                inline-size: 0;
+                block-size: 0;
+            }
+        }
+
+        .fui-NavDrawerHeader {
+            justify-content: center;
+            padding-inline: var(--spacingHorizontalXS);
+
+            > .fui-NavItemContainer > :is(.fui-NavItem, .fui-NavCategory > .fui-NavCategoryItem) {
+                padding-inline: var(--spacingHorizontalMNudge);
+            }
+        }
+
+        :is(
+            .fui-NavDrawerHeader,
+            .fui-NavDrawerBody__start,
+            .fui-NavDrawerBody__end
+        ) > .fui-NavItemContainer {
+            > .fui-NavItem,
+            > .fui-NavCategory > .fui-NavCategoryItem {
+                justify-content: center;
+                gap: 0;
+                padding-inline: var(--spacingHorizontalMNudge);
+                font-size: 0;
+                line-height: 1;
+            }
+
+            > .fui-NavCategory > .fui-NavCategoryItem > .fui-NavCategoryItem__content {
+                justify-content: center;
+
+                > .fui-NavCategoryItem__contentText {
+                    flex: 0 0 auto;
+                    justify-content: center;
+                    gap: 0;
+                    font-size: 0;
+                }
+
+                > .fui-NavCategoryItem__expandIcon {
+                    display: none;
+                }
+            }
+
+            > .fui-NavItem > .fui-NavItem__icon,
+            > .fui-NavCategory > .fui-NavCategoryItem .fui-NavItem__icon {
+                margin: 0;
+                font-size: var(--fontSizeBase500);
+            }
+
+            > .fui-NavCategory > .fui-NavCategoryItemSplit {
+                position: relative;
+                padding-inline: var(--spacingHorizontalMNudge);
+
+                > .fui-NavCategoryItemSplit__link {
+                    justify-content: center;
+                    gap: 0;
+                    padding-inline: 0;
+                    font-size: 0;
+                }
+
+                > .fui-NavCategoryItemSplit__button {
+                    position: absolute;
+                    inset: 0;
+                    inline-size: 100%;
+                    min-inline-size: 100%;
+                    color: transparent;
+                    border-inline-start: 0;
+
+                    .fui-NavCategoryItem__expandIcon {
+                        visibility: hidden;
+                    }
+                }
+            }
+        }
+
+        :is(.fui-NavDrawerBody__start, .fui-NavDrawerBody__end) > .fui-NavSectionHeader {
+            block-size: var(--strokeWidthThin);
+            margin: var(--spacingVerticalS) var(--spacingHorizontalS);
+            padding: 0;
+            color: transparent;
+            background-color: var(--fui-nav-stroke);
+        }
+
+        .fui-NavDrawer__toggler {
+            &--inline:not(.fui-NavDrawerHeader__mobileToggle) {
+                position: relative;
+                inset: auto;
+                flex: 0 0 auto;
+                inline-size: var(--fui-nav-item-min-height);
+                padding: 0;
+                margin: var(--spacingVerticalS);
+            }
+
+            &--popout:not(.fui-NavDrawerHeader__mobileToggle) {
+                inset-inline-start: var(--fui-nav-drawer-rail-width);
+            }
+        }
+    }
+
+    &.fui-NavDrawer-vertical-inline[data-collapse="hide"],
+    &.fui-NavDrawer-vertical-popout[data-collapse="hide"],
+    &.fui-NavDrawer-vertical-small[data-collapse="hide"] {
+        inline-size: 0;
+        min-inline-size: 0;
+        max-inline-size: 0;
+        overflow: hidden;
+        visibility: hidden;
+        border-inline-end-width: 0;
+
+        .fui-NavDrawer__toggler--inline {
+            display: none;
+        }
+
+        .fui-NavDrawer__toggler--popout:not(.fui-NavDrawerHeader__mobileToggle) {
+            inset-inline-start: 0;
+            visibility: visible;
+        }
+    }
+}
+
+@include media-breakpoint-down(xs, $grid-breakpoints) {
+    .fui-NavDrawer.fui-NavDrawer-vertical-inline:not([data-collapse]) {
+        inline-size: 100vw;
+        min-inline-size: 100vw;
+        max-inline-size: 100vw;
+
+        > .fui-NavDrawer__toggler--inline:not(.fui-NavDrawerHeader__mobileToggle) {
+            display: none;
+        }
+
+        > .fui-NavDrawer__toggler--popout:not(.fui-NavDrawerHeader__mobileToggle) {
+            inset-inline-start: 100vw;
+        }
+
+        .fui-NavDrawerHeader__mobileToggle {
+            display: inline-flex;
+        }
+    }
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+    :where(
+        .fui-NavDrawer,
+        .fui-NavItem,
+        .fui-NavCategoryItem,
+        .fui-NavSubItem,
+        .fui-NavSubItemGroupContainer,
+        .fui-NavSubItemGroup,
+        .fui-NavCategoryItem__expandIconLayer,
+        .fui-NavDrawer__toggler
+    ) {
+        transition-duration: .01ms !important;
+    }
+}
+
+@media (forced-colors: active) {
+    .fui-NavDrawer {
+        color: CanvasText;
+        background-color: Canvas;
+        border-color: CanvasText;
+
+        :is(.fui-NavItem, .fui-NavCategoryItem, .fui-NavSubItem, .fui-NavDrawer__toggler) {
+            color: LinkText;
+            border-color: transparent;
+
+            &:is(:hover, :focus-visible) {
+                border-color: Highlight;
+            }
+        }
+
+        :is(
+            .fui-NavItemContainer-selected > .fui-NavItem,
+            .fui-NavItem.fui-Link-active,
+            .fui-NavSubItem.fui-Link-active
+        ) {
+            color: HighlightText;
+            background-color: Highlight;
+            forced-color-adjust: none;
+
+            &::after {
+                background-color: HighlightText;
+            }
+        }
+
+        :is(.fui-NavItemContainer-disabled, .fui-NavItem-disabled, .fui-Link-disabled, [aria-disabled="true"]) {
+            color: GrayText;
+        }
+    }
+}
+
+
+// Fluent horizontal app navigation. Fluent Nav is vertical-only, so horizontal Bar
+// composes the same interaction tokens with Fluent toolbar and menu patterns.
+.fui-NavigationBar {
+    --fui-horizontal-nav-background: var(--b-bar-light-background, var(--colorNeutralBackground1));
+    --fui-horizontal-nav-foreground: var(--b-bar-light-color, var(--colorNeutralForeground2));
+    --fui-horizontal-nav-foreground-hover: var(--b-bar-item-light-hover-color, var(--colorNeutralForeground2Hover));
+    --fui-horizontal-nav-foreground-selected: var(--b-bar-item-light-active-color, var(--colorNeutralForeground2Selected));
+    --fui-horizontal-nav-background-hover: var(--b-bar-item-light-hover-background, var(--colorNeutralBackground4Hover));
+    --fui-horizontal-nav-background-pressed: var(--colorNeutralBackground4Pressed);
+    --fui-horizontal-nav-background-selected: var(--b-bar-item-light-active-background, var(--colorNeutralBackground4Selected));
+    --fui-horizontal-nav-stroke: var(--colorNeutralStroke2);
+    --fui-horizontal-nav-indicator: var(--colorCompoundBrandForeground1);
+    --fui-horizontal-menu-background: var(--b-bar-dropdown-light-background, var(--colorNeutralBackground1));
+    --fui-horizontal-menu-background-hover: var(--colorNeutralBackground1Hover);
+    --fui-horizontal-menu-background-pressed: var(--colorNeutralBackground1Pressed);
+    --fui-horizontal-menu-foreground: var(--colorNeutralForeground2);
+    --fui-horizontal-brand-background: var(--b-bar-brand-light-background, var(--colorTransparentBackground));
+
+    padding: var(--spacingVerticalS) var(--spacingHorizontalM);
+    color: var(--fui-horizontal-nav-foreground);
+    background: var(--fui-horizontal-nav-background);
+    border-block-end: var(--strokeWidthThin) solid var(--fui-horizontal-nav-stroke);
+
+    &.fui-NavigationBar-dark {
+        --fui-horizontal-nav-background: var(--b-bar-dark-background, var(--colorNeutralBackgroundStatic));
+        --fui-horizontal-nav-foreground: var(--b-bar-dark-color, var(--colorNeutralForegroundOnBrand));
+        --fui-horizontal-nav-foreground-hover: var(--b-bar-item-dark-hover-color, var(--colorNeutralForegroundOnBrand));
+        --fui-horizontal-nav-foreground-selected: var(--b-bar-item-dark-active-color, var(--colorNeutralForegroundOnBrand));
+        --fui-horizontal-nav-background-hover: var(--b-bar-item-dark-hover-background, var(--colorSubtleBackgroundInvertedHover));
+        --fui-horizontal-nav-background-pressed: var(--colorSubtleBackgroundInvertedPressed);
+        --fui-horizontal-nav-background-selected: var(--b-bar-item-dark-active-background, var(--colorSubtleBackgroundInvertedSelected));
+        --fui-horizontal-nav-stroke: var(--colorNeutralStrokeAlpha2);
+        --fui-horizontal-nav-indicator: var(--colorBrandBackground);
+        --fui-horizontal-menu-background: var(--b-bar-dropdown-dark-background, var(--colorNeutralBackgroundStatic));
+        --fui-horizontal-menu-background-hover: var(--colorSubtleBackgroundInvertedHover);
+        --fui-horizontal-menu-background-pressed: var(--colorSubtleBackgroundInvertedPressed);
+        --fui-horizontal-menu-foreground: var(--colorNeutralForegroundOnBrand);
+        --fui-horizontal-brand-background: var(--b-bar-brand-dark-background, var(--colorTransparentBackground));
+    }
+
+    .fui-NavigationBar__brand {
+        display: inline-flex;
+        align-items: center;
+        min-block-size: var(--fui-nav-item-min-height);
+        color: inherit;
+        background: var(--fui-horizontal-brand-background);
+        text-decoration: none;
     }
 
     .fui-NavigationBar__menu {
-        flex-basis: 100%;
-        flex-grow: 1;
-        align-items: center;
-    }
-}
-
-.fui-NavigationBar {
-    &__toggler {
-        padding: var(--spacingVerticalS) var(--spacingHorizontalS);
-        font-size: var(--fontSizeBase200);
-        line-height: var(--lineHeightBase200);
-        background-color: transparent;
-
-        &:hover,
-        &:focus {
-            text-decoration: none;
-        }
+        min-inline-size: 0;
     }
 
-    &__menu {
-        &:not(.fui-NavigationBar__menu-show) {
-            display: none;
-        }
+    .fui-NavigationBar__start,
+    .fui-NavigationBar__end {
+        gap: var(--spacingHorizontalXXS);
     }
 
-    &__dropdown-menu {
-        position: absolute;
-    }
-}
-
-.fui-NavigationBar {
-    &-initial {
-        display: none !important;
-    }
-}
-
-@media (min-width: 768px) {
-    .fui-VerticalNavigation-initial.fui-VerticalNavigation-expand-sm {
-        display: flex !important;
-    }
-}
-
-@media (min-width: 992px) {
-    .fui-VerticalNavigation-initial.fui-VerticalNavigation-expand-md {
-        display: flex !important;
-    }
-}
-
-@media (min-width: 1200px) {
-    .fui-VerticalNavigation-initial.fui-VerticalNavigation-expand-lg {
-        display: flex !important;
-    }
-}
-
-@media (min-width: 1400px) {
-    .fui-VerticalNavigation-initial.fui-VerticalNavigation-expand-xl {
-        display: flex !important;
-    }
-}
-
-.fui-NavigationBar {
-    &__item,
-    &__dropdown {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        color: var(--colorNeutralForeground2);
-        box-sizing: border-box;
-        text-wrap: nowrap;
-        width: 100%;
-
+    :is(
         .fui-NavigationBar__link,
-        .fui-NavigationBar__dropdown-toggle {
-            &:hover {
-                color: var(--colorNeutralForeground2Hover);
-                background-color: var(--colorSubtleBackgroundHover);
-                border-bottom-color: transparent;
-                border-left-color: transparent;
-                border-right-color: transparent;
-                border-top-color: transparent;
-                background-color: var(--colorNeutralBackground1Hover);
-                /*border-color: var(--colorNeutralStroke1Hover);*/
-                color: var(--colorNeutralForeground1Hover);
-                cursor: pointer;
-
-                &:active {
-                    color: var(--colorNeutralForeground2Pressed);
-                    background-color: var(--colorSubtleBackgroundPressed);
-                    border-bottom-color: transparent;
-                    border-left-color: transparent;
-                    border-right-color: transparent;
-                    border-top-color: transparent;
-                    background-color: var(--colorNeutralBackground1Pressed);
-                    /*border-color: var(--colorNeutralStroke1Pressed);*/
-                    color: var(--colorNeutralForeground1Pressed);
-                    outline-style: none;
-                }
-            }
-
-            &.fui-Link-active {
-                font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightSemibold)));
-
-                &:hover {
-                    cursor: auto;
-                    color: var(--colorNeutralForeground2);
-                    background-color: var(--colorTransparentBackground);
-                    border-bottom-color: transparent;
-                    border-left-color: transparent;
-                    border-right-color: transparent;
-                    border-top-color: transparent;
-
-                    &:active {
-                        cursor: auto;
-                        color: var(--colorNeutralForeground2);
-                        background-color: var(--colorTransparentBackground);
-                        border-bottom-color: transparent;
-                        border-left-color: transparent;
-                        border-right-color: transparent;
-                        border-top-color: transparent;
-                        outline-style: none;
-                    }
-                }
-            }
-        }
-    }
-}
-
-.fui-NavigationBar {
-    &__brand {
-        display: inline-block;
-        padding-bottom: var(--spacingHorizontalSNudge);
-        padding-left: var(--spacingHorizontalSNudge);
-        padding-right: var(--spacingHorizontalSNudge);
-        padding-top: var(--spacingHorizontalSNudge);
-        /*margin-right: var(--spacingHorizontalS);*/
-        font-size: var(--fontSizeBase400);
-        line-height: inherit;
+        .fui-NavigationBar__dropdown-toggle,
+        .fui-NavigationBar__splitItemLink
+    ) {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacingHorizontalS);
+        min-block-size: var(--fui-nav-item-min-height);
+        padding-block: 0;
+        padding-inline: var(--spacingHorizontalMNudge);
+        box-sizing: border-box;
+        overflow: hidden;
+        color: var(--fui-horizontal-nav-foreground);
+        background-color: var(--colorTransparentBackground);
+        border: var(--strokeWidthThin) solid var(--colorTransparentStroke);
+        border-radius: var(--borderRadiusMedium);
+        font: inherit;
+        line-height: var(--lineHeightBase300);
+        text-align: start;
+        text-decoration: none;
         white-space: nowrap;
+        cursor: pointer;
+        transition: background-color var(--durationFaster) var(--curveLinear);
 
-        .fui-NavigationBar__item {
-            .fui-Link.fui-NavigationBar__link {
-                font-size: inherit;
-                cursor: pointer;
-            }
+        &:visited {
+            color: var(--fui-horizontal-nav-foreground);
         }
 
-        &:hover,
-        &:focus {
+        &:hover {
+            color: var(--fui-horizontal-nav-foreground-hover);
+            background-color: var(--fui-horizontal-nav-background-hover);
             text-decoration: none;
         }
-    }
-}
 
-.fui-Link.fui-NavigationBar__link,
-.fui-NavigationBar__dropdown-toggle {
-    align-items: center;
-    background-color: var(--colorSubtleBackground);
-    border-bottom-color: transparent;
-    border-left-color: transparent;
-    border-radius: var(--borderRadiusMedium);
-    border-right-color: transparent;
-    border-top-color: transparent;
-    box-sizing: border-box;
-    color: var(--colorNeutralForeground2);
-    display: inline-flex;
-    font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
-    font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
-    font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
-    font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
-    height: 32px;
-    justify-content: center;
-    line-height: var(--lineHeightBase300);
-    margin: 0px;
-    min-width: unset;
-    outline-style: none;
-    overflow: hidden;
-    padding-bottom: var(--spacingHorizontalSNudge);
-    padding-left: var(--spacingHorizontalSNudge);
-    padding-right: var(--spacingHorizontalSNudge);
-    padding-top: var(--spacingHorizontalSNudge);
-    text-decoration-line: none !important;
-    text-wrap: nowrap;
-    transition-duration: var(--durationFaster);
-    transition-property: background, border, color;
-    transition-timing-function: var(--curveEasyEase);
-    vertical-align: middle;
-}
+        &:active {
+            background-color: var(--fui-horizontal-nav-background-pressed);
+        }
 
-.fui-NavigationBar {
-    &-expand {
-        @each $breakpoint in map-keys($grid-breakpoints) {
-            $next: breakpoint-next($breakpoint, $grid-breakpoints);
-            $infix: breakpoint-infix($next, $grid-breakpoints);
+        &:focus,
+        &:focus-visible {
+            outline: none;
+        }
 
-            &#{$infix} {
-                @include media-breakpoint-down($breakpoint) {
-                    %container-navbar-expand-#{$breakpoint} {
-                        padding-right: 0;
-                        padding-left: 0;
-                    }
-
-                    > .fui-Container,
-                    > .fui-Container-fluid {
-                        @extend %container-navbar-expand-#{$breakpoint};
-                    }
-
-                    @each $size, $container-max-width in $container-max-widths {
-                        > .fui-Container#{breakpoint-infix($size, $container-max-widths)} {
-                            @extend %container-navbar-expand-#{$breakpoint};
-                        }
-                    }
-                }
-
-                @include media-breakpoint-up($next) {
-                    flex-flow: row nowrap;
-                    justify-content: flex-start;
-
-                    .fui-NavigationBar__start,
-                    .fui-NavigationBar__end {
-                        flex-direction: row;
-                    }
-
-                    .fui-NavigationBar__dropdown-menu {
-                        position: absolute;
-                    }
-
-                    .fui-NavigationBar__item,
-                    .fui-NavigationBar__dropdown {
-                        display: flex;
-                        align-items: center;
-                        color: var(--colorNeutralForeground2);
-                        box-sizing: border-box;
-                        text-wrap: nowrap;
-
-                        .fui-NavigationBar__link,
-                        .fui-NavigationBar__dropdown-toggle {
-                            &:hover {
-                                color: var(--colorNeutralForeground2Hover);
-                                background-color: var(--colorSubtleBackgroundHover);
-                                border-bottom-color: transparent;
-                                border-left-color: transparent;
-                                border-right-color: transparent;
-                                border-top-color: transparent;
-                                background-color: var(--colorNeutralBackground1Hover);
-                                /*border-color: var(--colorNeutralStroke1Hover);*/
-                                color: var(--colorNeutralForeground1Hover);
-                                cursor: pointer;
-
-                                &:active {
-                                    color: var(--colorNeutralForeground2Pressed);
-                                    background-color: var(--colorSubtleBackgroundPressed);
-                                    border-bottom-color: transparent;
-                                    border-left-color: transparent;
-                                    border-right-color: transparent;
-                                    border-top-color: transparent;
-                                    background-color: var(--colorNeutralBackground1Pressed);
-                                    /*border-color: var(--colorNeutralStroke1Pressed);*/
-                                    color: var(--colorNeutralForeground1Pressed);
-                                    outline-style: none;
-                                }
-                            }
-
-                            &.fui-Link-active {
-                                font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightSemibold)));
-
-                                &:hover {
-                                    cursor: auto;
-                                    color: var(--colorNeutralForeground2);
-                                    background-color: var(--colorTransparentBackground);
-                                    border-bottom-color: transparent;
-                                    border-left-color: transparent;
-                                    border-right-color: transparent;
-                                    border-top-color: transparent;
-
-                                    &:active {
-                                        cursor: auto;
-                                        color: var(--colorNeutralForeground2);
-                                        background-color: var(--colorTransparentBackground);
-                                        border-bottom-color: transparent;
-                                        border-left-color: transparent;
-                                        border-right-color: transparent;
-                                        border-top-color: transparent;
-                                        outline-style: none;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    .fui-NavigationBar__brand {
-                        display: inline-block;
-                        padding-bottom: var(--spacingHorizontalSNudge);
-                        padding-left: var(--spacingHorizontalSNudge);
-                        padding-right: var(--spacingHorizontalSNudge);
-                        padding-top: var(--spacingHorizontalSNudge);
-                        /*margin-right: var(--spacingHorizontalS);*/
-                        font-size: var(--fontSizeBase400);
-                        line-height: inherit;
-                        white-space: nowrap;
-
-                        .fui-NavigationBar__item {
-                            .fui-Link.fui-NavigationBar__link {
-                                font-size: inherit;
-                                cursor: pointer;
-                            }
-                        }
-
-                        &:hover,
-                        &:focus {
-                            text-decoration: none;
-                        }
-                    }
-
-                    .fui-Link.fui-NavigationBar__link,
-                    .fui-NavigationBar__dropdown-toggle {
-                        align-items: center;
-                        background-color: var(--colorSubtleBackground);
-                        border-bottom-color: transparent;
-                        border-left-color: transparent;
-                        border-radius: var(--borderRadiusMedium);
-                        border-right-color: transparent;
-                        border-top-color: transparent;
-                        box-sizing: border-box;
-                        color: var(--colorNeutralForeground2);
-                        display: inline-flex;
-                        font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
-                        font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
-                        font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
-                        font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
-                        height: 32px;
-                        justify-content: center;
-                        line-height: var(--lineHeightBase300);
-                        margin: 0px;
-                        min-width: unset;
-                        outline-style: none;
-                        overflow: hidden;
-                        padding-bottom: var(--spacingHorizontalSNudge);
-                        padding-left: var(--spacingHorizontalSNudge);
-                        padding-right: var(--spacingHorizontalSNudge);
-                        padding-top: var(--spacingHorizontalSNudge);
-                        text-decoration-line: none;
-                        text-wrap: nowrap;
-                        transition-duration: var(--durationFaster);
-                        transition-property: background, border, color;
-                        transition-timing-function: var(--curveEasyEase);
-                        vertical-align: middle;
-                    }
-                    // For nesting containers, have to redeclare for alignment purposes
-                    %container-nesting-#{$breakpoint} {
-                        flex-wrap: nowrap;
-                    }
-
-                    > .fui-Container,
-                    > .fui-Container-fluid {
-                        @extend %container-nesting-#{$breakpoint};
-                    }
-
-                    @each $size, $container-max-width in $container-max-widths {
-                        > .fui-Container#{breakpoint-infix($size, $container-max-widths)} {
-                            @extend %container-nesting-#{$breakpoint};
-                        }
-                    }
-
-                    .fui-NavigationBar-scroll {
-                        overflow: visible;
-                    }
-
-                    .fui-NavigationBar__menu {
-                        display: flex !important;
-                        flex-basis: auto;
-                    }
-
-                    .fui-NavigationBar__dropdown-toggle {
-                        .fui-NavigationBar__toggleIcon {
-                            margin-left: var(--spacingHorizontalXS);
-                            width: 12px;
-                            line-height: var(--lineHeightBase200);
-                            height: 12px;
-                            font-size: 12px;
-
-                            > svg {
-                                display: inline;
-                                line-height: 0;
-                            }
-                        }
-                    }
-
-                    .fui-NavigationBar__toggler {
-                        display: none;
-                    }
-                }
-            }
+        &:focus-visible {
+            border-color: var(--colorTransparentStroke);
+            outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+            outline-offset: calc(-1 * var(--strokeWidthThick));
+            box-shadow: inset 0 0 0 var(--strokeWidthThin) var(--colorStrokeFocus1);
         }
     }
-}
 
-@keyframes fadein {
-    0% {
-        opacity: 0;
+    :is(
+        .fui-NavigationBar__link.fui-Link,
+        .fui-NavigationBar__dropdown-toggle.fui-Link,
+        .fui-NavigationBar__splitItemLink.fui-Link
+    ):not([aria-disabled="true"]) {
+        &:hover {
+            color: var(--fui-horizontal-nav-foreground-hover);
+            text-decoration-line: none;
+        }
+
+        &:active {
+            color: var(--fui-horizontal-nav-foreground-selected);
+            text-decoration-line: none;
+        }
+
+        &:focus-visible {
+            color: var(--fui-horizontal-nav-foreground-selected);
+            text-decoration-line: none;
+            border-color: var(--colorTransparentStroke);
+            outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+            outline-offset: calc(-1 * var(--strokeWidthThick));
+            box-shadow: inset 0 0 0 var(--strokeWidthThin) var(--colorStrokeFocus1);
+        }
     }
 
-    100% {
-        opacity: 1;
-    }
-}
+    .fui-NavigationBar__menu :is(
+        .fui-NavigationBar__item-active > .fui-NavigationBar__link,
+        .fui-NavigationBar__link.fui-Link-active,
+        .fui-NavigationBar__dropdown-toggle.fui-Link-active:not(.fui-NavigationBar__splitItem),
+        .fui-NavigationBar__splitItemLink.fui-Link-active
+    ) {
+        color: var(--fui-horizontal-nav-foreground-selected);
+        background-color: var(--fui-horizontal-nav-background-selected);
+        font-weight: var(--fontWeightSemibold);
 
-@keyframes slidein {
-    0% {
-        transform: translate(var(--fui-positioning-slide-distance-x), var(--fui-positioning-slide-distance-y));
+        &::after {
+            position: absolute;
+            inset-inline: var(--spacingHorizontalMNudge);
+            inset-block-end: 0;
+            block-size: var(--strokeWidthThicker);
+            border-radius: var(--borderRadiusCircular);
+            background-color: var(--fui-horizontal-nav-indicator);
+            content: "";
+        }
     }
-}
 
-.fui-NavigationBar {
-    &__subdropdown {
+    :is(
+        .fui-NavigationBar__item-disabled,
+        .fui-NavigationBar__link-disabled,
+        .fui-NavigationBar__dropdown-toggle.disabled,
+        [aria-disabled="true"],
+        :disabled
+    ) {
+        color: var(--colorNeutralForegroundDisabled);
+        cursor: default;
+        pointer-events: none;
+    }
+
+    .fui-NavigationBar__label {
+        display: inline-flex;
+        align-items: center;
+        min-block-size: var(--fui-nav-item-min-height);
+        padding-inline: var(--spacingHorizontalMNudge);
+        color: var(--colorNeutralForeground3);
+        font-size: var(--fontSizeBase200);
+        font-weight: var(--fontWeightSemibold);
+        line-height: var(--lineHeightBase200);
+    }
+
+    .fui-NavigationBar__icon {
+        display: inline-flex;
+        flex: 0 0 var(--spacingHorizontalXL);
+        align-items: center;
+        justify-content: center;
+        inline-size: var(--spacingHorizontalXL);
+        block-size: var(--spacingVerticalXL);
+        color: currentColor;
+        font-size: var(--fontSizeBase500);
+        line-height: 1;
+
+        > :is(svg, img),
+        svg {
+            inline-size: var(--spacingHorizontalXL);
+            block-size: var(--spacingVerticalXL);
+        }
+    }
+
+    .fui-NavigationBar__toggler,
+    .fui-NavigationBar__mobileToggle {
         position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacingHorizontalS);
+        inline-size: auto;
+        min-inline-size: var(--fui-nav-item-min-height);
+        block-size: var(--fui-nav-item-min-height);
+        min-block-size: var(--fui-nav-item-min-height);
+        padding-inline: var(--spacingHorizontalS);
+        color: inherit;
+        background-color: var(--colorTransparentBackground);
+        border: var(--strokeWidthThin) solid var(--colorTransparentStroke);
+        border-radius: var(--borderRadiusMedium);
+        font: inherit;
+        cursor: pointer;
+        transition: background-color var(--durationFaster) var(--curveLinear);
+
+        &:hover {
+            background-color: var(--fui-horizontal-nav-background-hover);
+        }
+
+        &:active {
+            background-color: var(--fui-horizontal-nav-background-pressed);
+        }
+
+        &:focus-visible {
+            outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+            outline-offset: calc(-1 * var(--strokeWidthThick));
+            box-shadow: inset 0 0 0 var(--strokeWidthThin) var(--colorStrokeFocus1);
+        }
     }
 
-    &-horizontal {
-        .fui-NavigationBar__dropdown,
-        .fui-NavigationBar__subdropdown {
-            > .fui-NavigationBar__dropdown-menu {
-                > .fui-NavigationBar__dropdown-menu-list {
-                    > .fui-NavigationBar__subdropdown {
-                        position: relative;
+    .fui-NavigationBar__toggler-icon {
+        inline-size: var(--spacingHorizontalXL);
+        block-size: var(--spacingVerticalXL);
+        fill: currentColor;
+    }
 
-                        > .fui-NavigationBar__dropdown-item {
-                            border: 0;
+    .fui-NavigationBar__toggleIcon {
+        display: inline-flex;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        inline-size: var(--spacingHorizontalXL);
+        block-size: var(--spacingVerticalXL);
+        margin-inline-start: var(--spacingHorizontalXXS);
+        transition: rotate var(--durationFaster) var(--curveEasyEase);
 
-                            > .fui-NavigationBar__toggleIcon {
-                                > svg {
-                                    display: inline;
-                                    line-height: 0;
-                                }
-                            }
-                        }
+        > svg {
+            inline-size: var(--spacingHorizontalXL);
+            block-size: var(--spacingVerticalXL);
+        }
 
-                        &.fui-NavigationBar__dropdown-show {
-                            > .fui-NavigationBar__dropdown-item {
-                                > .fui-NavigationBar__toggleIcon {
-                                    > svg {
-                                        transform: rotate(180deg);
-                                    }
-                                }
-                            }
-                        }
+        &--submenu {
+            margin-inline-start: auto;
+        }
+    }
 
-                        .fui-NavigationBar__dropdown-menu {
-                            position: absolute;
-                            top: 0;
-                            left: 100%;
-                            margin-left: 0rem;
-                            margin-right: .1rem;
-                            z-index: 9999999999999999;
-                        }
-                    }
-                }
+    .fui-NavigationBar__dropdown-show > .fui-NavigationBar__dropdown-toggle .fui-NavigationBar__toggleIcon:not(.fui-NavigationBar__toggleIcon--submenu) {
+        rotate: 180deg;
+    }
+
+    .fui-NavigationBar__dropdown-show > .fui-NavigationBar__dropdown-toggle:not(.fui-NavigationBar__splitItem) {
+        color: var(--fui-horizontal-nav-foreground-selected);
+        background-color: var(--fui-horizontal-nav-background-pressed);
+    }
+
+    .fui-NavigationBar__splitItem {
+        display: inline-flex;
+        align-items: stretch;
+        padding: 0;
+        overflow: visible;
+        background-color: transparent;
+        border: 0;
+
+        &Link {
+            border-start-end-radius: 0;
+            border-end-end-radius: 0;
+        }
+
+        &Button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            inline-size: var(--fui-nav-item-min-height);
+            min-inline-size: var(--fui-nav-item-min-height);
+            min-block-size: var(--fui-nav-item-min-height);
+            padding: 0;
+            color: inherit;
+            background-color: var(--colorTransparentBackground);
+            border: var(--strokeWidthThin) solid var(--colorTransparentStroke);
+            border-inline-start-color: var(--fui-horizontal-nav-stroke);
+            border-start-end-radius: var(--borderRadiusMedium);
+            border-end-end-radius: var(--borderRadiusMedium);
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--fui-horizontal-nav-background-hover);
+            }
+
+            &:focus-visible {
+                z-index: 1;
+                outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+                outline-offset: calc(-1 * var(--strokeWidthThick));
+                box-shadow: inset 0 0 0 var(--strokeWidthThin) var(--colorStrokeFocus1);
             }
         }
+    }
+
+    .fui-NavigationBar__dropdown-show > .fui-NavigationBar__splitItem > :is(
+        .fui-NavigationBar__splitItemLink,
+        .fui-NavigationBar__splitItemButton
+    ) {
+        color: var(--fui-horizontal-nav-foreground-selected);
+        background-color: var(--fui-horizontal-nav-background-pressed);
+    }
+
+    .fui-NavigationBar__dropdown-menu {
+        inset-block-start: 100%;
+        inset-inline-start: 0;
+        inset-inline-end: auto;
+        min-inline-size: 128px;
+        max-inline-size: min(90vw, 320px);
+        padding: var(--spacingVerticalXS);
+        color: var(--fui-horizontal-menu-foreground);
+        background: var(--fui-horizontal-menu-background);
+        border: var(--strokeWidthThin) solid var(--colorTransparentStroke);
+        border-radius: var(--borderRadiusMedium);
+        box-shadow: var(--shadow16);
+        animation-duration: var(--durationFaster);
+        animation-timing-function: var(--curveDecelerateMid);
+        z-index: var(--zIndexDropdown);
+
+        &.fui-NavigationBar__dropdown-right {
+            inset-inline-start: auto;
+            inset-inline-end: 0;
+        }
+    }
+
+    .fui-NavigationBar__dropdown-menu-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacingVerticalXXS);
+        inline-size: 100%;
+    }
+
+    .fui-NavigationBar__dropdown-item {
+        position: relative;
+        display: flex;
+        flex-shrink: 0;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: var(--spacingHorizontalXS);
+        inline-size: 100%;
+        min-block-size: var(--spacingVerticalXXXL);
+        max-inline-size: 290px;
+        padding: var(--spacingVerticalSNudge);
+        box-sizing: border-box;
+        color: var(--fui-horizontal-menu-foreground);
+        background: var(--fui-horizontal-menu-background);
+        border: 0;
+        border-radius: var(--borderRadiusMedium);
+        font: inherit;
+        text-align: start;
+        text-decoration: none;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color var(--durationFaster) var(--curveLinear);
+
+        &:hover,
+        &[aria-expanded="true"] {
+            color: var(--fui-horizontal-menu-foreground);
+            background-color: var(--fui-horizontal-menu-background-hover);
+
+            .fui-NavigationBar__icon {
+                color: var(--colorNeutralForeground2BrandSelected);
+            }
+        }
+
+        &:active {
+            color: var(--fui-horizontal-menu-foreground);
+            background-color: var(--fui-horizontal-menu-background-pressed);
+        }
+
+        &:focus,
+        &:focus-visible {
+            outline: none;
+        }
+
+        &:focus-visible {
+            outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+            outline-offset: calc(-1 * var(--strokeWidthThick));
+            box-shadow: inset 0 0 0 var(--strokeWidthThin) var(--colorStrokeFocus1);
+        }
+
+        &.fui-Link:not([aria-disabled="true"]) {
+            &:is(:hover, :active, :focus-visible) {
+                color: var(--fui-horizontal-menu-foreground);
+                text-decoration-line: none;
+            }
+        }
+    }
+
+    .fui-NavigationBar__subdropdown {
+        position: relative;
+
+        > .fui-NavigationBar__dropdown-menu {
+            inset-block-start: 0;
+            inset-inline-start: 100%;
+        }
+    }
+
+    .fui-NavigationBar__dropdown-divider {
+        block-size: var(--strokeWidthThin);
+        margin: var(--spacingVerticalXXS) calc(-1 * var(--spacingHorizontalXS));
+        background-color: var(--colorNeutralStroke2);
+        border: 0;
     }
 }
 
-.fui-VerticalNavigation {
-    &.fui-NavigationBar-vertical-inline,
-    &.fui-NavigationBar-vertical-popout,
-    &.fui-NavigationBar-vertical-small {
-        &.fui-NavigationBar-dark {
-            .fui-NavigationBar__brand {
-                .fui-NavigationBar__link {
-                    &.fui-Link-active {
-                        color: #fff;
-                        background: inherit;
-                    }
-                }
-            }
+[dir="rtl"] .fui-NavigationBar,
+.fui-NavigationBar[dir="rtl"] {
+    .fui-NavigationBar__toggleIcon--submenu {
+        scale: -1 1;
+    }
+}
 
-            .fui-NavigationBar__dropdown-menu {
-                .fui-NavigationBar__dropdown-item {
-                    &.fui-Link-active {
-                        color: var(--b-bar-item-dark-active-color, #fff);
-                        background: var(--b-bar-item-dark-active-background, #0288D1);
-                    }
-                }
-            }
+@media screen and (prefers-reduced-motion: reduce) {
+    :where(
+        .fui-NavigationBar,
+        .fui-NavigationBar__link,
+        .fui-NavigationBar__dropdown-toggle,
+        .fui-NavigationBar__dropdown-menu,
+        .fui-NavigationBar__dropdown-item,
+        .fui-NavigationBar__toggleIcon,
+        .fui-NavigationBar__toggler
+    ) {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
 
-            .fui-NavigationBar__toggler--inline {
-                stroke: var(--b-bar-dark-color, rgba(255, 255, 255, 0.5));
-            }
+@media (forced-colors: active) {
+    .fui-NavigationBar {
+        color: CanvasText;
+        background-color: Canvas;
+        border-color: CanvasText;
 
-            .fui-NavigationBar__link {
-                &:hover {
-                    text-decoration: none;
-                }
+        :is(
+            .fui-NavigationBar__link,
+            .fui-NavigationBar__dropdown-toggle,
+            .fui-NavigationBar__dropdown-item,
+            .fui-NavigationBar__splitItemLink,
+            .fui-NavigationBar__splitItemButton,
+            .fui-NavigationBar__toggler
+        ) {
+            color: LinkText;
 
-                &.fui-Link-active {
-                    color: var(--b-bar-item-dark-active-color, #fff);
-                    background: var(--b-bar-item-dark-active-background, #0288D1);
-                }
+            &:is(:hover, :focus-visible) {
+                border-color: Highlight;
             }
         }
 
-        &.fui-NavigationBar-light {
-            .fui-NavigationBar__brand {
-                .fui-NavigationBar__link {
-                    &.fui-Link-active {
-                        background: inherit;
-                    }
-                }
-            }
+        .fui-NavigationBar__menu :is(
+            .fui-NavigationBar__item-active > .fui-NavigationBar__link,
+            .fui-NavigationBar__link.fui-Link-active,
+            .fui-NavigationBar__dropdown-toggle.fui-Link-active:not(.fui-NavigationBar__splitItem),
+            .fui-NavigationBar__splitItemLink.fui-Link-active
+        ) {
+            color: HighlightText;
+            background-color: Highlight;
+            forced-color-adjust: none;
 
-            .fui-NavigationBar__dropdown-menu {
-                .fui-NavigationBar__dropdown-item {
-                    &.fui-Link-active {
-                        color: var(--b-bar-item-light-active-color, #000);
-                        background: var(--b-bar-item-light-active-background, #0288D1);
-                    }
-                }
+            &::after {
+                background-color: HighlightText;
             }
+        }
 
-            .fui-NavigationBar__toggler--inline {
-                stroke: var(--b-bar-light-color, rgba(0,0,0,0.7));
-            }
-
-            .fui-NavigationBar__link {
-                &:hover {
-                    text-decoration: none;
-                }
-
-                &.fui-Link-active {
-                    color: var(--b-bar-item-light-active-color, #000);
-                    background: var(--b-bar-item-light-active-background, #0288D1);
-                }
-            }
+        :is(.fui-NavigationBar__item-disabled, .fui-NavigationBar__link-disabled, [aria-disabled="true"], :disabled) {
+            color: GrayText;
         }
     }
 }

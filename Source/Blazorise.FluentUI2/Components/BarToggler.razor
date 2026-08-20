@@ -1,12 +1,29 @@
 ﻿@inherits Blazorise.BarToggler
-<a @ref="@ElementRef" id="@ElementId" role="button" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
-    <svg style="width: 20px;" focusable="false" viewBox="0 0 20 20" aria-hidden="true">
-        <path d="M2 4.5c0-.28.22-.5.5-.5h15a.5.5 0 0 1 0 1h-15a.5.5 0 0 1-.5-.5Zm0 5c0-.28.22-.5.5-.5h15a.5.5 0 0 1 0 1h-15a.5.5 0 0 1-.5-.5Zm.5 4.5a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1h-15Z"></path>
-    </svg>
-    @if ( ChildContent is not null )
-    {
-        <span>
-            @ChildContent
-        </span>
-    }
-</a>
+@if ( ( ParentBarState?.Mode ?? Bar?.Mode ?? BarMode.Horizontal ) == BarMode.Horizontal )
+{
+    <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" aria-label="Toggle navigation" aria-expanded="@(( Bar is not null ? Bar.Visible : ParentBarState?.Visible ) == true ? "true" : "false")" @onclick="@ClickHandler" @attributes="@Attributes">
+        <svg class="@ClassProvider.BarTogglerIcon( BarMode.Horizontal )" focusable="false" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M2 4.5c0-.28.22-.5.5-.5h15a.5.5 0 0 1 0 1h-15a.5.5 0 0 1-.5-.5Zm0 5c0-.28.22-.5.5-.5h15a.5.5 0 0 1 0 1h-15a.5.5 0 0 1-.5-.5Zm.5 4.5a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1h-15Z"></path>
+        </svg>
+        @if ( ChildContent is not null )
+        {
+            <span>
+                @ChildContent
+            </span>
+        }
+    </button>
+}
+else
+{
+    <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" aria-label="Toggle navigation" aria-expanded="@(Bar is not null ? Bar.Visible : ParentBarState?.Visible)" @onclick="@ClickHandler" @attributes="@Attributes">
+        <svg class="@ClassProvider.BarTogglerIcon( ParentBarState?.Mode ?? Bar?.Mode ?? BarMode.VerticalInline )" focusable="false" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M2 4.5c0-.28.22-.5.5-.5h15a.5.5 0 0 1 0 1h-15a.5.5 0 0 1-.5-.5Zm0 5c0-.28.22-.5.5-.5h15a.5.5 0 0 1 0 1h-15a.5.5 0 0 1-.5-.5Zm.5 4.5a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1h-15Z"></path>
+        </svg>
+        @if ( ChildContent is not null )
+        {
+            <span class="fui-NavDrawer__togglerText">
+                @ChildContent
+            </span>
+        }
+    </button>
+}

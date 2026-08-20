@@ -42,7 +42,7 @@
     }
 
     &:after {
-        transition-delay: var(--curveAccelerateMid);
+        transition-timing-function: var(--curveAccelerateMid);
         transition-duration: var(--durationUltraFast);
         transition-property: transform;
         transform: scaleX(0);
@@ -62,7 +62,7 @@
     }
 
     &:focus-within::after {
-        transition-delay: var(--curveDecelerateMid);
+        transition-timing-function: var(--curveDecelerateMid);
         transition-duration: var(--durationNormal);
         transition-property: transform;
         transform: scaleX(1);
@@ -71,10 +71,10 @@
 
 .fui-Dropdown {
     &__button {
-        padding-left: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
+        padding-inline-start: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
         justify-content: space-between;
         box-sizing: border-box;
-        padding-right: var(--spacingHorizontalMNudge);
+        padding-inline-end: var(--spacingHorizontalMNudge);
         column-gap: var(--spacingHorizontalXXS);
         display: grid;
         border-bottom-width: 0px;
@@ -91,7 +91,7 @@
         font-weight: var(--fontWeightRegular);
         font-size: var(--fontSizeBase300);
         font-family: var(--fontFamilyBase);
-        text-align: left;
+        text-align: start;
         color: var(--colorNeutralForeground1);
 
         &:focus {
@@ -99,7 +99,7 @@
         }
 
         .fui-Dropdown__expandIcon {
-            margin-left: var(--spacingHorizontalXXS);
+            margin-inline-start: var(--spacingHorizontalXXS);
             grid-column-end: end;
             grid-column-start: icon;
             color: var(--colorNeutralStrokeAccessible);
@@ -128,8 +128,7 @@
         box-shadow: var(--shadow16);
         box-sizing: border-box;
         overflow-y: auto;
-        padding-right: var(--spacingHorizontalXS);
-        padding-left: var(--spacingHorizontalXS);
+        padding-inline: var(--spacingHorizontalXS);
         flex-direction: column;
         border-top-left-radius: var(--borderRadiusMedium);
         border-top-right-radius: var(--borderRadiusMedium);
@@ -170,8 +169,7 @@
             border-top-right-radius: var(--borderRadiusMedium);
             border-bottom-left-radius: var(--borderRadiusMedium);
             border-bottom-right-radius: var(--borderRadiusMedium);
-            padding-left: var(--spacingHorizontalS);
-            padding-right: var(--spacingHorizontalS);
+            padding-inline: var(--spacingHorizontalS);
             display: flex;
             line-height: var(--lineHeightBase300);
             font-size: var(--fontSizeBase300);

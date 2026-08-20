@@ -46,14 +46,14 @@
         transform: scaleX(0);
         transition-property: transform;
         transition-duration: var(--durationUltraFast);
-        transition-delay: var(--curveAccelerateMid);
+        transition-timing-function: var(--curveAccelerateMid);
     }
 
     &:focus-within::after {
         transform: scaleX(1);
         transition-property: transform;
         transition-duration: var(--durationNormal);
-        transition-delay: var(--curveDecelerateMid);
+        transition-timing-function: var(--curveDecelerateMid);
     }
 }
 

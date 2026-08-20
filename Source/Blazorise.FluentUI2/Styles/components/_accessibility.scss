@@ -1,0 +1,142 @@
+:where(
+    .fui-Button,
+    .fui-AccordionHeader__button,
+    .fui-MenuItem,
+    .fui-Tab:has(> .fui-Tab__content:focus-visible),
+    .fui-Link,
+    .fui-PaginationLink
+):focus-visible {
+    border-color: var(--colorTransparentStroke);
+    outline: var(--strokeWidthThick) solid var(--colorTransparentStroke);
+    box-shadow: var(--shadow4), 0 0 0 2px var(--colorStrokeFocus2);
+}
+
+:where(
+    .fui-Checkbox__input:focus-visible + .fui-Checkbox__indicator,
+    .fui-Radio__input:focus-visible ~ .fui-Radio__indicator,
+    .fui-Switch__input:focus-visible ~ .fui-Switch__indicator
+) {
+    outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+    outline-offset: 2px;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+    :where(
+        .fui-Button,
+        .fui-AccordionHeader__expandIcon > svg,
+        .fui-AccordionPanel,
+        .fui-Input::after,
+        .fui-Textarea::after,
+        .fui-Select::after,
+        .fui-Dropdown::after,
+        .fui-SpinButton::after,
+        .fui-MenuPopover,
+        .fui-DialogSurface,
+        .fui-DialogSurface__backdrop,
+        .fui-OverlayDrawer,
+        .fui-OverlayDrawer__backdrop,
+        .fui-Switch__indicator,
+        .fui-Switch__indicator__icon,
+        .fui-Tab,
+        .fui-Tab-active::after,
+        .fui-Tooltip__content
+    ) {
+        transition-duration: .01ms !important;
+    }
+
+    :where(
+        .fui-Carousel__item-next,
+        .fui-Carousel__item-prev,
+        .fui-DialogSurface,
+        .fui-DialogSurface__backdrop,
+        .fui-OverlayDrawer,
+        .fui-OverlayDrawer__backdrop,
+        .fui-SkeletonItem::after,
+        .fui-Toast,
+        .fui-ToastContainer
+    ) {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+
+@media (forced-colors: active) {
+    :where(
+        .fui-Button,
+        .fui-AccordionHeader__button,
+        .fui-MenuItem,
+        .fui-Tab,
+        .fui-Tab__content,
+        .fui-Link,
+        .fui-PaginationLink
+    ) {
+        color: ButtonText;
+        background-color: ButtonFace;
+        border-color: ButtonText;
+
+        &:is(:hover, :focus-visible) {
+            border-color: Highlight;
+        }
+    }
+
+    :where(
+        .fui-Button-primary,
+        .fui-Tab-active,
+        .fui-Tab-active .fui-Tab__content,
+        .fui-MenuItem-active
+    ):not(:is(:hover, :focus-visible)) {
+        color: HighlightText;
+        background-color: Highlight;
+        border-color: Highlight;
+        forced-color-adjust: none;
+    }
+
+    :where(
+        .fui-Button-disabled,
+        .fui-Button:disabled,
+        .fui-MenuItem-disabled,
+        .fui-Tab-disabled,
+        .fui-Tab-disabled .fui-Tab__content
+    ) {
+        color: GrayText;
+        background-color: ButtonFace;
+        border-color: GrayText;
+    }
+
+    :where(
+        .fui-Input,
+        .fui-Textarea,
+        .fui-Select,
+        .fui-Dropdown,
+        .fui-SpinButton,
+        .fui-Checkbox__indicator,
+        .fui-Radio__indicator,
+        .fui-Switch__indicator
+    ) {
+        color: CanvasText;
+        background-color: Canvas;
+        border-color: CanvasText;
+    }
+
+    :where(
+        .fui-Checkbox__input:checked + .fui-Checkbox__indicator,
+        .fui-Radio__input:checked ~ .fui-Radio__indicator,
+        .fui-Switch__input:checked ~ .fui-Switch__indicator
+    ) {
+        color: HighlightText;
+        background-color: Highlight;
+        border-color: Highlight;
+        forced-color-adjust: none;
+    }
+
+    :where(
+        .fui-Checkbox__input:disabled + .fui-Checkbox__indicator,
+        .fui-Radio__input:disabled ~ .fui-Radio__indicator,
+        .fui-Switch__input:disabled ~ .fui-Switch__indicator
+    ) {
+        color: GrayText;
+        background-color: Canvas;
+        border-color: GrayText;
+        forced-color-adjust: auto;
+    }
+}
