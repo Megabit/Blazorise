@@ -118,64 +118,60 @@
             <BarItem>
                 <BarDropdown RightAligned>
                     <BarDropdownToggle><Icon Name="IconName.Tint" /> Theme</BarDropdownToggle>
-                    <BarDropdownMenu Style="padding: 15px; min-width:550px;">
-                        <Row>
-                            <Column Margin="Margin.Is2.FromBottom">
-                                <Field>
-                                    <Switch TValue="bool" Value="@(Theme?.Enabled == true)" ValueChanged="@ThemeEnabledChanged">Theme enabled</Switch>
-                                </Field>
-                            </Column>
-                        </Row>
-                        <Row>
-                            <Column ColumnSize="ColumnSize.Is6" Margin="Margin.Is2.FromBottom">
-                                <Field>
-                                    <FieldLabel>Primary</FieldLabel>
+                    <BarDropdownMenu Padding="Padding.Is3" Width="550.Px().Min( 550 ).Max( 550 )">
+                        <Fields>
+                            <Field ColumnSize="ColumnSize.Is12">
+                                <Switch TValue="bool" Value="@(Theme?.Enabled == true)" ValueChanged="@ThemeEnabledChanged">Theme enabled</Switch>
+                            </Field>
+                            <Field ColumnSize="ColumnSize.Is6">
+                                <FieldLabel>Primary</FieldLabel>
+                                <FieldBody>
                                     <ColorPicker Value="@(Theme?.ColorOptions?.Primary)" ValueChanged="@( value => OnThemeColorChanged( Color.Primary, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
-                                </Field>
-                            </Column>
-                            <Column ColumnSize="ColumnSize.Is6" Margin="Margin.Is2.FromBottom">
-                                <Field>
-                                    <FieldLabel>Secondary</FieldLabel>
+                                </FieldBody>
+                            </Field>
+                            <Field ColumnSize="ColumnSize.Is6">
+                                <FieldLabel>Secondary</FieldLabel>
+                                <FieldBody>
                                     <ColorPicker Value="@(Theme?.ColorOptions?.Secondary)" ValueChanged="@( value => OnThemeColorChanged( Color.Secondary, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
-                                </Field>
-                            </Column>
-                            <Column ColumnSize="ColumnSize.Is6" Margin="Margin.Is2.FromBottom">
-                                <Field>
-                                    <FieldLabel>Success</FieldLabel>
+                                </FieldBody>
+                            </Field>
+                            <Field ColumnSize="ColumnSize.Is6">
+                                <FieldLabel>Success</FieldLabel>
+                                <FieldBody>
                                     <ColorPicker Value="@(Theme?.ColorOptions?.Success)" ValueChanged="@( value => OnThemeColorChanged( Color.Success, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
-                                </Field>
-                            </Column>
-                            <Column ColumnSize="ColumnSize.Is6" Margin="Margin.Is2.FromBottom">
-                                <Field>
-                                    <FieldLabel>Danger</FieldLabel>
+                                </FieldBody>
+                            </Field>
+                            <Field ColumnSize="ColumnSize.Is6">
+                                <FieldLabel>Danger</FieldLabel>
+                                <FieldBody>
                                     <ColorPicker Value="@(Theme?.ColorOptions?.Danger)" ValueChanged="@( value => OnThemeColorChanged( Color.Danger, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
-                                </Field>
-                            </Column>
-                            <Column ColumnSize="ColumnSize.Is6" Margin="Margin.Is2.FromBottom">
-                                <Field>
-                                    <FieldLabel>Warning</FieldLabel>
+                                </FieldBody>
+                            </Field>
+                            <Field ColumnSize="ColumnSize.Is6">
+                                <FieldLabel>Warning</FieldLabel>
+                                <FieldBody>
                                     <ColorPicker Value="@(Theme?.ColorOptions?.Warning)" ValueChanged="@( value => OnThemeColorChanged( Color.Warning, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
-                                </Field>
-                            </Column>
-                            <Column ColumnSize="ColumnSize.Is6" Margin="Margin.Is2.FromBottom">
-                                <Field>
-                                    <FieldLabel>Info</FieldLabel>
+                                </FieldBody>
+                            </Field>
+                            <Field ColumnSize="ColumnSize.Is6">
+                                <FieldLabel>Info</FieldLabel>
+                                <FieldBody>
                                     <ColorPicker Value="@(Theme?.ColorOptions?.Info)" ValueChanged="@( value => OnThemeColorChanged( Color.Info, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
-                                </Field>
-                            </Column>
-                            <Column ColumnSize="ColumnSize.Is6">
-                                <Field>
-                                    <FieldLabel>Light</FieldLabel>
+                                </FieldBody>
+                            </Field>
+                            <Field ColumnSize="ColumnSize.Is6">
+                                <FieldLabel>Light</FieldLabel>
+                                <FieldBody>
                                     <ColorPicker Value="@(Theme?.ColorOptions?.Light)" ValueChanged="@( value => OnThemeColorChanged( Color.Light, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
-                                </Field>
-                            </Column>
-                            <Column ColumnSize="ColumnSize.Is6">
-                                <Field>
-                                    <FieldLabel>Dark</FieldLabel>
+                                </FieldBody>
+                            </Field>
+                            <Field ColumnSize="ColumnSize.Is6">
+                                <FieldLabel>Dark</FieldLabel>
+                                <FieldBody>
                                     <ColorPicker Value="@(Theme?.ColorOptions?.Dark)" ValueChanged="@( value => OnThemeColorChanged( Color.Dark, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
-                                </Field>
-                            </Column>
-                        </Row>
+                                </FieldBody>
+                            </Field>
+                        </Fields>
                     </BarDropdownMenu>
                 </BarDropdown>
             </BarItem>
