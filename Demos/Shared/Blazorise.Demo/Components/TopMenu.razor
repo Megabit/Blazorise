@@ -88,7 +88,7 @@
         </BarStart>
         <BarEnd>
             <BarItem>
-                <Button Clicked="@ShowSettings" Title="Settings" aria-label="Settings">
+                <Button Clicked="@ShowSettings" aria-label="Settings">
                     <Icon Name="IconName.Settings" />
                 </Button>
             </BarItem>
@@ -96,12 +96,12 @@
             {
                 <BarItem>
                     <BarLink To="@gitHubDemoUrl" Target="Target.Blank">
-                        Source Code <Icon Name="IconName.Code" Margin="Margin.Is2.FromStart" />
+                        <Icon Name="IconName.Code" />
                     </BarLink>
                 </BarItem>
             }
             <BarItem>
-                <BarLink To="https://github.com/Megabit/Blazorise">GitHub</BarLink>
+                <BarLink To="https://github.com/Megabit/Blazorise" Target="Target.Blank">GitHub</BarLink>
             </BarItem>
         </BarEnd>
     </BarMenu>
