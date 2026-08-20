@@ -1,8 +1,11 @@
 #region Using directives
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Localization;
 using Blazorise.Video.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -22,7 +25,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
     {
         if ( Rendered )
         {
-            var sourceChanged = parameters.TryGetValue<VideoSource>( nameof( Source ), out var paramSource ) && !Source.Equals( paramSource );
+            var sourceChanged = parameters.TryGetValue<VideoSource>( nameof( Source ), out var paramSource ) && !Source.IsEqual( paramSource );
 
             var protectionTypeChanged = parameters.TryGetValue<VideoProtectionType>( nameof( ProtectionType ), out var paramProtectionType ) && !ProtectionType.IsEqual( paramProtectionType );
             var protectionDataChanged = parameters.TryGetValue<object>( nameof( ProtectionData ), out var paramProtectionData ) && !ProtectionData.IsEqual( paramProtectionData );
@@ -32,8 +35,51 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
             var currentTimeChanged = parameters.TryGetValue<double>( nameof( CurrentTime ), out var paramCurrentTime ) && !CurrentTime.IsEqual( paramCurrentTime );
             var volumeChanged = parameters.TryGetValue<double>( nameof( Volume ), out var paramVolume ) && !Volume.IsEqual( paramVolume );
+            var controlsChanged = parameters.TryGetValue<bool>( nameof( Controls ), out var paramControls ) && !Controls.IsEqual( paramControls );
+            var controlsDelayChanged = parameters.TryGetValue<double>( nameof( ControlsDelay ), out var paramControlsDelay ) && !ControlsDelay.IsEqual( paramControlsDelay );
+            var automaticallyHideControlsChanged = parameters.TryGetValue<bool>( nameof( AutomaticallyHideControls ), out var paramAutomaticallyHideControls ) && !AutomaticallyHideControls.IsEqual( paramAutomaticallyHideControls );
+            var autoPauseChanged = parameters.TryGetValue<bool>( nameof( AutoPause ), out var paramAutoPause ) && !AutoPause.IsEqual( paramAutoPause );
+            var autoPlayChanged = parameters.TryGetValue<bool>( nameof( AutoPlay ), out var paramAutoPlay ) && !AutoPlay.IsEqual( paramAutoPlay );
+            var mutedChanged = parameters.TryGetValue<bool>( nameof( Muted ), out var paramMuted ) && !Muted.IsEqual( paramMuted );
+            var thumbnailsChanged = parameters.TryGetValue<string>( nameof( Thumbnails ), out var paramThumbnails ) && !Thumbnails.IsEqual( paramThumbnails );
+            var streamingLibraryChanged = parameters.TryGetValue<StreamingLibrary>( nameof( StreamingLibrary ), out var paramStreamingLibrary ) && !StreamingLibrary.IsEqual( paramStreamingLibrary );
+            var clickToPlayChanged = parameters.TryGetValue<bool>( nameof( ClickToPlay ), out var paramClickToPlay ) && !ClickToPlay.IsEqual( paramClickToPlay );
+            var disableContextMenuChanged = parameters.TryGetValue<bool>( nameof( DisableContextMenu ), out var paramDisableContextMenu ) && !DisableContextMenu.IsEqual( paramDisableContextMenu );
+            var resetOnEndChanged = parameters.TryGetValue<bool>( nameof( ResetOnEnd ), out var paramResetOnEnd ) && !ResetOnEnd.IsEqual( paramResetOnEnd );
+            var ratioChanged = parameters.TryGetValue<string>( nameof( Ratio ), out var paramRatio ) && !Ratio.IsEqual( paramRatio );
+            var invertTimeChanged = parameters.TryGetValue<bool>( nameof( InvertTime ), out var paramInvertTime ) && !InvertTime.IsEqual( paramInvertTime );
+            var controlsListChanged = parameters.TryGetValue<string[]>( nameof( ControlsList ), out var paramControlsList ) && !ControlsList.IsEqual( paramControlsList );
+            var settingsListChanged = parameters.TryGetValue<VideoSettingsType[]>( nameof( SettingsList ), out var paramSettingsList ) && !SettingsList.IsEqual( paramSettingsList );
+            var defaultQualityChanged = parameters.TryGetValue<int?>( nameof( DefaultQuality ), out var paramDefaultQuality ) && !DefaultQuality.IsEqual( paramDefaultQuality );
+            var availableQualitiesChanged = parameters.TryGetValue<int[]>( nameof( AvailableQualities ), out var paramAvailableQualities ) && !AvailableQualities.IsEqual( paramAvailableQualities );
+            var doubleClickToFullscreenChanged = parameters.TryGetValue<bool>( nameof( DoubleClickToFullscreen ), out var paramDoubleClickToFullscreen ) && !DoubleClickToFullscreen.IsEqual( paramDoubleClickToFullscreen );
 
-            if ( sourceChanged || currentTimeChanged || volumeChanged )
+            if ( sourceChanged
+                || protectionTypeChanged
+                || protectionDataChanged
+                || protectionServerUrlChanged
+                || protectionServerCertificateUrlChanged
+                || protectionHttpRequestHeadersChanged
+                || currentTimeChanged
+                || volumeChanged
+                || controlsChanged
+                || controlsDelayChanged
+                || automaticallyHideControlsChanged
+                || autoPauseChanged
+                || autoPlayChanged
+                || mutedChanged
+                || thumbnailsChanged
+                || streamingLibraryChanged
+                || clickToPlayChanged
+                || disableContextMenuChanged
+                || resetOnEndChanged
+                || ratioChanged
+                || invertTimeChanged
+                || controlsListChanged
+                || settingsListChanged
+                || defaultQualityChanged
+                || availableQualitiesChanged
+                || doubleClickToFullscreenChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new()
                 {
@@ -44,12 +90,38 @@ public partial class Video : BaseComponent, IAsyncDisposable
                     ProtectionServerCertificateUrl = new JSOptionChange<string>( protectionServerCertificateUrlChanged, paramProtectionServerCertificateUrl ),
                     ProtectionHttpRequestHeaders = new JSOptionChange<string>( protectionHttpRequestHeadersChanged, paramProtectionHttpRequestHeaders ),
                     CurrentTime = new JSOptionChange<double?>( currentTimeChanged, paramCurrentTime ),
-                    Volume = new JSOptionChange<double?>( volumeChanged, paramVolume )
+                    Volume = new JSOptionChange<double?>( volumeChanged, paramVolume ),
+                    Controls = new JSOptionChange<bool>( controlsChanged, paramControls ),
+                    ControlsDelay = new JSOptionChange<double>( controlsDelayChanged, paramControlsDelay ),
+                    AutomaticallyHideControls = new JSOptionChange<bool>( automaticallyHideControlsChanged, paramAutomaticallyHideControls ),
+                    AutoPause = new JSOptionChange<bool>( autoPauseChanged, paramAutoPause ),
+                    AutoPlay = new JSOptionChange<bool>( autoPlayChanged, paramAutoPlay ),
+                    Muted = new JSOptionChange<bool>( mutedChanged, paramMuted ),
+                    Thumbnails = new JSOptionChange<string>( thumbnailsChanged, paramThumbnails ),
+                    StreamingLibrary = new JSOptionChange<string>( streamingLibraryChanged, paramStreamingLibrary.ToStreamingLibraryString() ),
+                    ClickToPlay = new JSOptionChange<bool>( clickToPlayChanged, paramClickToPlay ),
+                    DisableContextMenu = new JSOptionChange<bool>( disableContextMenuChanged, paramDisableContextMenu ),
+                    ResetOnEnd = new JSOptionChange<bool>( resetOnEndChanged, paramResetOnEnd ),
+                    AspectRatio = new JSOptionChange<double?>( ratioChanged, VideoParsers.ParseAspectRatio( paramRatio ) ),
+                    InvertTime = new JSOptionChange<bool>( invertTimeChanged, paramInvertTime ),
+                    ControlsList = new JSOptionChange<string[]>( controlsListChanged, paramControlsList ),
+                    SettingsList = new JSOptionChange<VideoSettingsType[]>( settingsListChanged, paramSettingsList ),
+                    DefaultQuality = new JSOptionChange<VideoJSQualityOptions>( defaultQualityChanged, new VideoJSQualityOptions( paramDefaultQuality ) ),
+                    AvailableQualities = new JSOptionChange<VideoJSQualityOptions[]>( availableQualitiesChanged, paramAvailableQualities?.Select( x => new VideoJSQualityOptions( x ) ).ToArray() ),
+                    DoubleClickToFullscreen = new JSOptionChange<bool>( doubleClickToFullscreenChanged, paramDoubleClickToFullscreen )
                 } ) );
             }
         }
 
         await base.SetParametersAsync( parameters );
+    }
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+        base.OnInitialized();
     }
 
     /// <inheritdoc/>
@@ -83,7 +155,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                 Source = Source,
                 Poster = Poster,
                 Thumbnails = Thumbnails,
-                StreamingLibrary = StreamingLibrary.ToStreamingLibrary(),
+                StreamingLibrary = StreamingLibrary.ToStreamingLibraryString(),
                 SeekTime = SeekTime,
                 CurrentTime = CurrentTime,
                 Volume = Volume,
@@ -97,7 +169,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                 Protection = ProtectionType != VideoProtectionType.None ? new VideoJSProtectionOptions
                 (
                 data: ProtectionData,
-                type: ProtectionType.ToVideoProtectionType(),
+                type: ProtectionType.ToVideoProtectionTypeString(),
                 serverUrl: ProtectionServerUrl,
                 serverCertificateUrl: ProtectionServerCertificateUrl,
                 httpRequestHeaders: ProtectionHttpRequestHeaders
@@ -112,20 +184,35 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
-        if ( disposing && Rendered )
+        if ( disposing )
         {
-            await JSModule.SafeDestroy( ElementRef, ElementId );
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
 
-            await JSModule.SafeDisposeAsync();
-
-            if ( DotNetObjectRef != null )
+            if ( Rendered )
             {
-                DotNetObjectRef.Dispose();
-                DotNetObjectRef = null;
+                await JSModule.SafeDestroy( ElementRef, ElementId );
+
+                await JSModule.SafeDisposeAsync();
+
+                if ( DotNetObjectRef != null )
+                {
+                    DotNetObjectRef.Dispose();
+                    DotNetObjectRef = null;
+                }
             }
         }
 
         await base.DisposeAsync( disposing );
+    }
+
+    /// <summary>
+    /// Handles the localization changed event.
+    /// </summary>
+    /// <param name="sender">Object that raised the event.</param>
+    /// <param name="eventArgs">Data about the localization event.</param>
+    private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
+    {
+        await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -149,10 +236,12 @@ public partial class Video : BaseComponent, IAsyncDisposable
             ProtectionServerCertificateUrl = protectionServerCertificateUrl;
             ProtectionHttpRequestHeaders = protectionHttpRequestHeaders;
 
+            await InvokeAsync( StateHasChanged );
+
             await JSModule.UpdateSource( ElementRef, ElementId, source: Source, protection: ProtectionType != VideoProtectionType.None ? new
             {
                 Data = protectionData,
-                Type = ProtectionType.ToVideoProtectionType(),
+                Type = ProtectionType.ToVideoProtectionTypeString(),
                 ServerUrl = ProtectionServerUrl,
                 ServerCertificateUrl = ProtectionServerCertificateUrl,
                 HttpRequestHeaders = ProtectionHttpRequestHeaders
@@ -548,10 +637,118 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
     #endregion
 
+    private bool HasControl( string control )
+        => Controls && ControlsList?.Contains( control, StringComparer.OrdinalIgnoreCase ) == true;
+
+    private static bool IsControl( string control, string expected )
+        => string.Equals( control, expected, StringComparison.OrdinalIgnoreCase );
+
+    private bool HasSetting( VideoSettingsType setting )
+        => SettingsList?.Contains( setting ) == true;
+
+    private bool IsQualityAvailable( VideoMedia media )
+        => AvailableQualities == null
+            || media?.Height == null
+            || AvailableQualities.Contains( media.Height.Value );
+
+    private string FormatQuality( VideoMedia media )
+        => media?.Height is int height ? $"{height}p" : SourceLabelString;
+
+    private CultureInfo ResolveCulture()
+    {
+        try
+        {
+            return CultureInfo.GetCultureInfo( CultureNameString );
+        }
+        catch ( CultureNotFoundException )
+        {
+            return LocalizerService.SelectedCulture;
+        }
+    }
+
+    private string ResolveCultureName()
+    {
+        string cultureName = Attributes?
+            .FirstOrDefault( attribute => string.Equals( attribute.Key, "lang", StringComparison.OrdinalIgnoreCase ) )
+            .Value?
+            .ToString();
+
+        return !string.IsNullOrWhiteSpace( cultureName )
+            ? cultureName
+            : LocalizerService.SelectedCulture.Name;
+    }
+
     #region Properties
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
+
+    private bool IsAudioSource => Source?.Type == VideoSourceType.Audio;
+
+    private bool IsYouTubeSource => !IsAudioSource
+        && ( string.Equals( PrimaryMedia?.Type, "video/youtube", StringComparison.OrdinalIgnoreCase )
+            || IsSourceFromHost( PrimarySource, "youtu.be", "youtube.com", "youtube-nocookie.com" ) );
+
+    private bool IsVimeoSource => !IsAudioSource
+        && ( string.Equals( PrimaryMedia?.Type, "video/vimeo", StringComparison.OrdinalIgnoreCase )
+            || IsSourceFromHost( PrimarySource, "vimeo.com" ) );
+
+    private string SkinClassNames => IsAudioSource ? "media-minimal-skin--audio" : "media-minimal-skin--video";
+
+    private IEnumerable<string> OrderedControls
+        => ControlsList?
+            .Where( control => !string.IsNullOrWhiteSpace( control ) )
+            .Distinct( StringComparer.OrdinalIgnoreCase )
+            ?? Enumerable.Empty<string>();
+
+    private bool HasSettings => SettingsList?.Length > 0;
+
+    private VideoMedia PrimaryMedia => Source?.Medias?.FirstOrDefault();
+
+    private string PrimarySource => PrimaryMedia?.Source;
+
+    private string EffectivePoster => !string.IsNullOrWhiteSpace( Poster ) ? Poster : Source?.Poster;
+
+    private string CurrentTimeTypeString => InvertTime ? "remaining" : "current";
+
+    private string CultureNameString => ResolveCultureName();
+
+    private CultureInfo EffectiveCulture => ResolveCulture();
+
+    private string RestartLabelString => Localizer[EffectiveCulture, "Restart"];
+
+    private string SettingsLabelString => Localizer[EffectiveCulture, "Settings"];
+
+    private string LoopLabelString => Localizer[EffectiveCulture, "Loop"];
+
+    private string LoopOnString => Localizer[EffectiveCulture, "On"];
+
+    private string DownloadLabelString => Localizer[EffectiveCulture, "Download"];
+
+    private string SourceLabelString => Localizer[EffectiveCulture, "Source"];
+
+    private string QualitySettingTypeString => StreamingLibrary == Blazorise.Video.StreamingLibrary.None && Source?.HasMultipleMedia == true ? null : "quality";
+
+    private string VolumePopoverElementId => $"{ElementId}-volume-popover";
+
+    private string SettingsMenuElementId => $"{ElementId}-settings-menu";
+
+    private string QualityMenuElementId => $"{ElementId}-settings-quality-menu";
+
+    private string SpeedMenuElementId => $"{ElementId}-settings-speed-menu";
+
+    private string CaptionsMenuElementId => $"{ElementId}-settings-captions-menu";
+
+    private VideoMedia[] AvailableNativeMedia => Source?.Medias?.Where( IsQualityAvailable ).ToArray() ?? Array.Empty<VideoMedia>();
+
+    private static bool IsSourceFromHost( string source, params string[] hosts )
+    {
+        if ( !Uri.TryCreate( source, UriKind.Absolute, out Uri uri ) )
+            return false;
+
+        return hosts.Any( host => string.Equals( uri.Host, host, StringComparison.OrdinalIgnoreCase )
+            || uri.Host.EndsWith( $".{host}", StringComparison.OrdinalIgnoreCase ) );
+    }
 
     /// <summary>
     /// Reference to the object that should be accessed through JSInterop.
@@ -566,6 +763,16 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the service that provides the current application culture.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+    /// <summary>
+    /// Gets or sets the localizer for labels owned by the Blazorise video integration.
+    /// </summary>
+    [Inject] protected ITextLocalizer<Video> Localizer { get; set; }
 
     /// <summary>
     /// Determines whether player controls are visible.
@@ -654,8 +861,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
     /// <summary>
     /// Force an aspect ratio for all videos. The format is 'w:h' - e.g. '16:9' or '4:3'. If this is not specified
-    /// then the default for HTML5 and Vimeo is to use the native resolution of the video. As dimensions are not
-    /// available from YouTube via SDK, 16:9 is forced as a sensible default.
+    /// then the native resolution of the media is used.
     /// </summary>
     [Parameter] public string Ratio { get; set; }
 
@@ -690,7 +896,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Parameter] public string ProtectionHttpRequestHeaders { get; set; }
 
     /// <summary>
-    /// Specifies the customized list of player controls.
+    /// Specifies the customized list of player controls in the order in which they are rendered.
     /// </summary>
     [Parameter] public string[] ControlsList { get; set; } = new string[] { VideoControlsType.PlayLarge, VideoControlsType.Play, VideoControlsType.Progress, VideoControlsType.CurrentTime, VideoControlsType.Mute, VideoControlsType.Volume, VideoControlsType.Captions, VideoControlsType.Settings, VideoControlsType.Pip, VideoControlsType.Airplay, VideoControlsType.Fullscreen };
 

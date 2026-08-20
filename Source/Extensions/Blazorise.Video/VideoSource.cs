@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Linq;
 using System.Text.Json.Serialization;
 #endregion
@@ -80,13 +80,13 @@ public record VideoSource
     public bool HasMultipleMedia => Medias?.Count > 1;
 
     /// <summary>
-    /// Either video or audio. Note: YouTube and Vimeo are currently not supported as audio sources.
+    /// Either video or audio. YouTube and Vimeo URLs are detected automatically when the type is video.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public VideoSourceType? Type { get; set; } = VideoSourceType.Video;
 
     /// <summary>
-    /// Optional. Title of the new media. Used for the aria-label attribute on the play button, and outer container. YouTube and Vimeo are populated automatically.
+    /// Optional. Title of the new media. Used for the aria-label attribute on the play button and outer container.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string Title { get; set; }
