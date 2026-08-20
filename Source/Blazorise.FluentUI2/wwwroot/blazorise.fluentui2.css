@@ -9274,6 +9274,11 @@ input::file-selector-button {
   padding-right: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
   padding-top: var(--spacingVerticalSNudge);
 }
+.fui-Textarea .fui-Textarea__input[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-height: calc(var(--fui-textarea-min-block-size) + var(--spacingVerticalSNudge) + var(--spacingVerticalSNudge));
+}
 .fui-Textarea-error {
   border-bottom-color: var(--colorPaletteRedBorder2) !important;
   border-left-color: var(--colorPaletteRedBorder2) !important;
@@ -13022,7 +13027,7 @@ code {
   z-index: auto;
 }
 @supports (position-anchor: --fluent-datepicker-anchor) and (anchor-scope: --fluent-datepicker-anchor) {
-  .fui-DatePicker__calendar.fui-DatePicker__calendar-floating {
+  .fui-DatePicker__calendar.fui-DatePicker__calendar-static, .fui-DatePicker__calendar.fui-DatePicker__calendar-floating {
     position: fixed;
     position-anchor: --fluent-datepicker-anchor;
     inset: auto;
@@ -13420,6 +13425,7 @@ code {
 }
 
 @supports (position-anchor: --fluent-timepicker-anchor) and (anchor-scope: --fluent-timepicker-anchor) {
+  .fui-TimePicker__menu.fui-TimePicker__menu--static,
   .fui-TimePicker__menu.fui-TimePicker__menu--floating {
     position: fixed;
     position-anchor: --fluent-timepicker-anchor;

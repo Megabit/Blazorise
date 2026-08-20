@@ -5,6 +5,12 @@ namespace Blazorise.AntDesign.Providers;
 
 public class AntDesignStyleProvider : StyleProvider
 {
+    #region MemoInput
+
+    public override string MemoInputAutoSize( int minimumRows ) => $"--ant-textarea-min-block-size: {minimumRows}lh";
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 1000;

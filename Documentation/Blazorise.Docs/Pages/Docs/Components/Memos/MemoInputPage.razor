@@ -39,7 +39,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Auto size">
-        Unless set to a fixed height, MemoInput adjusts its height automatically based on its content. The default and minimum height is two rows of text.
+        Set <Code>AutoSize</Code> to make MemoInput grow and shrink with its content. The <Code>Rows</Code> parameter sets its minimum height; when omitted, the minimum is two rows. Native <Code>field-sizing: content</Code> is used when supported, with an automatic fallback for older browsers. You can also set a maximum height through custom styles, after which the textarea scrolls.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="MemoInputAutoSizeExample" Outlined FullWidth>
         <MemoInputAutoSizeExample />

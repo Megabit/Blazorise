@@ -741,7 +741,7 @@ body:before {
 }
 
 @supports (position-anchor: --tailwind-datepicker-anchor) and (anchor-scope: --tailwind-datepicker-anchor) {
-  .tw-datepicker-calendar.tw-datepicker-calendar-floating {
+  .tw-datepicker-calendar.tw-datepicker-calendar-static, .tw-datepicker-calendar.tw-datepicker-calendar-floating {
     position: fixed;
     position-anchor: --tailwind-datepicker-anchor;
     inset: auto;
@@ -793,7 +793,7 @@ body:before {
   z-index: auto;
 }
 @supports (position-anchor: --tailwind-timepicker-anchor) and (anchor-scope: --tailwind-timepicker-anchor) {
-  .tw-timepicker-menu.tw-timepicker-menu-floating {
+  .tw-timepicker-menu.tw-timepicker-menu-static, .tw-timepicker-menu.tw-timepicker-menu-floating {
     position: fixed;
     position-anchor: --tailwind-timepicker-anchor;
     inset: auto;
@@ -1054,6 +1054,12 @@ body:before {
 .b-is-autocomplete.border-red-500 > input, .b-is-autocomplete.border-green-500 > input {
   border-color: transparent;
   box-shadow: none;
+}
+
+textarea[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--tw-textarea-min-block-size) + 1.25rem + 2px);
 }
 
 .tw-dock-layout {

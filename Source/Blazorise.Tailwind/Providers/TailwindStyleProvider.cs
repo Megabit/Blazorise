@@ -5,6 +5,12 @@ namespace Blazorise.Tailwind.Providers;
 
 public class TailwindStyleProvider : StyleProvider
 {
+    #region MemoInput
+
+    public override string MemoInputAutoSize( int minimumRows ) => $"--tw-textarea-min-block-size: {minimumRows}lh";
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 50;

@@ -370,6 +370,7 @@ body:before {
   z-index: auto;
 }
 @supports (position-anchor: --bootstrap-datepicker-anchor) and (anchor-scope: --bootstrap-datepicker-anchor) {
+  .datepicker .datepicker-calendar.dropdown-menu.datepicker-calendar-static,
   .datepicker .datepicker-calendar.dropdown-menu.datepicker-calendar-floating {
     position: fixed;
     position-anchor: --bootstrap-datepicker-anchor;
@@ -745,6 +746,7 @@ body:before {
   z-index: auto;
 }
 @supports (position-anchor: --bootstrap-timepicker-anchor) and (anchor-scope: --bootstrap-timepicker-anchor) {
+  .timepicker .timepicker-menu.dropdown-menu.timepicker-menu-static,
   .timepicker .timepicker-menu.dropdown-menu.timepicker-menu-floating {
     position: fixed;
     position-anchor: --bootstrap-timepicker-anchor;
@@ -1556,6 +1558,37 @@ body:before {
 .figure.figure-is-512x512 {
   height: 512px;
   width: 512px;
+}
+
+textarea.form-control[data-autosize=true], textarea.form-control-plaintext[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--textarea-min-block-size) + 0.375rem + 0.375rem + 1px + 1px);
+}
+textarea.form-control-xs[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--textarea-min-block-size) + 0.15rem + 0.15rem + 1px + 1px);
+}
+textarea.form-control-sm[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--textarea-min-block-size) + 0.25rem + 0.25rem + 1px + 1px);
+}
+textarea.form-control-md[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--textarea-min-block-size) + 0.47rem + 0.47rem + 1px + 1px);
+}
+textarea.form-control-lg[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--textarea-min-block-size) + 0.5rem + 0.5rem + 1px + 1px);
+}
+textarea.form-control-xl[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--textarea-min-block-size) + 0.5rem + 0.5rem + 1px + 1px);
 }
 
 .form-check > .form-check-input.form-check-input-pointer,

@@ -2,6 +2,12 @@ namespace Blazorise.Material.Providers;
 
 public class MaterialStyleProvider : StyleProvider
 {
+    #region MemoInput
+
+    public override string MemoInputAutoSize( int minimumRows ) => $"--mui-textarea-min-block-size: {minimumRows}lh";
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 1055;

@@ -1,0 +1,19 @@
+<MemoInput id="memo-autosize" AutoSize="@autoSize" Rows="2" @bind-Value="value" />
+
+<Button id="memo-set-long-value" Clicked="@SetLongValue">Set long value</Button>
+<Button id="memo-toggle-autosize" Clicked="@ToggleAutoSize">Toggle auto size</Button>
+
+@code {
+    private bool autoSize = true;
+    private string value = "Short value";
+
+    private void SetLongValue()
+    {
+        value = string.Join( Environment.NewLine, Enumerable.Repeat( "A line of programmatically supplied text.", 8 ) );
+    }
+
+    private void ToggleAutoSize()
+    {
+        autoSize = !autoSize;
+    }
+}

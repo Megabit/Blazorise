@@ -1757,6 +1757,7 @@ body:before {
   z-index: auto;
 }
 @supports (position-anchor: --bulma-datepicker-anchor) and (anchor-scope: --bulma-datepicker-anchor) {
+  .datepicker .datepicker-calendar.box.is-static,
   .datepicker .datepicker-calendar.box.is-floating {
     position: fixed;
     position-anchor: --bulma-datepicker-anchor;
@@ -2038,6 +2039,7 @@ body:before {
   z-index: auto;
 }
 @supports (position-anchor: --bulma-timepicker-anchor) and (anchor-scope: --bulma-timepicker-anchor) {
+  .timepicker .timepicker-menu.timepicker-menu-static,
   .timepicker .timepicker-menu.timepicker-menu-floating {
     position: fixed;
     position-anchor: --bulma-timepicker-anchor;
@@ -3003,6 +3005,12 @@ label.radio.button input[type=radio] {
   box-shadow: none;
   padding-left: 0;
   padding-right: 0;
+}
+
+.textarea[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--bulma-textarea-min-block-size) + var(--bulma-control-padding-vertical) + var(--bulma-control-padding-vertical) + var(--bulma-control-border-width) + var(--bulma-control-border-width));
 }
 
 select[readonly] {

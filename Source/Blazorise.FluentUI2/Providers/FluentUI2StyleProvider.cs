@@ -5,6 +5,12 @@ namespace Blazorise.FluentUI2.Providers;
 
 public class FluentUI2StyleProvider : StyleProvider
 {
+    #region MemoInput
+
+    public override string MemoInputAutoSize( int minimumRows ) => $"--fui-textarea-min-block-size: {minimumRows}lh";
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 1055;

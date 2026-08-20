@@ -3957,7 +3957,7 @@ template {
   z-index: auto;
 }
 @supports (position-anchor: --ant-datepicker-anchor) and (anchor-scope: --ant-datepicker-anchor) {
-  .ant-picker-dropdown.ant-picker-panel-container.ant-picker-dropdown-floating {
+  .ant-picker-dropdown.ant-picker-panel-container.ant-picker-dropdown-static, .ant-picker-dropdown.ant-picker-panel-container.ant-picker-dropdown-floating {
     position: fixed;
     position-anchor: --ant-datepicker-anchor;
     inset: auto;
@@ -4350,7 +4350,7 @@ template {
   z-index: auto;
 }
 @supports (position-anchor: --ant-timepicker-anchor) and (anchor-scope: --ant-timepicker-anchor) {
-  .ant-time-picker-dropdown.ant-picker-panel-container.ant-time-picker-dropdown-floating {
+  .ant-time-picker-dropdown.ant-picker-panel-container.ant-time-picker-dropdown-static, .ant-time-picker-dropdown.ant-picker-panel-container.ant-time-picker-dropdown-floating {
     position: fixed;
     position-anchor: --ant-timepicker-anchor;
     inset: auto;
@@ -5723,6 +5723,28 @@ template {
 .ant-input-number-xl .ant-input-number-input {
   height: calc(48px - 2px);
   padding: 8.5px 15px;
+}
+
+textarea.ant-input[data-autosize=true] {
+  --ant-textarea-padding-block: var(--ant-input-padding-block);
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--ant-textarea-min-block-size) + var(--ant-textarea-padding-block) + var(--ant-textarea-padding-block) + var(--ant-line-width) + var(--ant-line-width));
+}
+textarea.ant-input[data-autosize=true].ant-input-xs {
+  --ant-textarea-padding-block: 0;
+}
+textarea.ant-input[data-autosize=true].ant-input-sm {
+  --ant-textarea-padding-block: 0;
+}
+textarea.ant-input[data-autosize=true].ant-input-md {
+  --ant-textarea-padding-block: 4.5px;
+}
+textarea.ant-input[data-autosize=true].ant-input-lg {
+  --ant-textarea-padding-block: var(--ant-input-padding-block-lg);
+}
+textarea.ant-input[data-autosize=true].ant-input-xl {
+  --ant-textarea-padding-block: 8.5px;
 }
 
 .ant-input-group > .ant-select-selection-search-input:first-child > .ant-select-selector {

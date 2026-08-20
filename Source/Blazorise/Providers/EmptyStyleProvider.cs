@@ -5,6 +5,12 @@ namespace Blazorise.Providers;
 
 class EmptyStyleProvider : IStyleProvider
 {
+    #region MemoInput
+
+    public string MemoInputAutoSize( int minimumRows ) => $"field-sizing: content; min-block-size: {minimumRows}lh";
+
+    #endregion
+
     #region Modal
 
     public int DefaultModalZIndex => 0;

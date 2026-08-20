@@ -1,4 +1,4 @@
-﻿namespace Blazorise.Video;
+namespace Blazorise.Video;
 /// <summary>
 /// Represents JavaScript options for initializing a video player component.
 /// </summary>
@@ -10,12 +10,12 @@ public class VideoJSOptions
     public bool Controls { get; set; }
 
     /// <summary>
-    /// Gets or sets the delay in seconds before controls are shown.
+    /// Gets or sets the delay in milliseconds before idle controls are hidden.
     /// </summary>
     public double ControlsDelay { get; set; }
 
     /// <summary>
-    /// Gets or sets a list of controls to be displayed or hidden.
+    /// Gets or sets the controls to display in rendering order.
     /// </summary>
     public string[] ControlsList { get; set; }
 
@@ -169,6 +169,96 @@ public class VideoUpdateJSOptions
     /// Gets or sets the option for updating the video volume level.
     /// </summary>
     public JSOptionChange<double?> Volume { get; set; }
+
+    /// <summary>
+    /// Gets or sets a controls visibility change.
+    /// </summary>
+    public JSOptionChange<bool> Controls { get; set; }
+
+    /// <summary>
+    /// Gets or sets a controls delay change.
+    /// </summary>
+    public JSOptionChange<double> ControlsDelay { get; set; }
+
+    /// <summary>
+    /// Gets or sets an automatic controls hiding change.
+    /// </summary>
+    public JSOptionChange<bool> AutomaticallyHideControls { get; set; }
+
+    /// <summary>
+    /// Gets or sets an automatic pause change.
+    /// </summary>
+    public JSOptionChange<bool> AutoPause { get; set; }
+
+    /// <summary>
+    /// Gets or sets an automatic playback change.
+    /// </summary>
+    public JSOptionChange<bool> AutoPlay { get; set; }
+
+    /// <summary>
+    /// Gets or sets a muted-state change.
+    /// </summary>
+    public JSOptionChange<bool> Muted { get; set; }
+
+    /// <summary>
+    /// Gets or sets a thumbnail track change.
+    /// </summary>
+    public JSOptionChange<string> Thumbnails { get; set; }
+
+    /// <summary>
+    /// Gets or sets a streaming-library change.
+    /// </summary>
+    public JSOptionChange<string> StreamingLibrary { get; set; }
+
+    /// <summary>
+    /// Gets or sets a click-to-play change.
+    /// </summary>
+    public JSOptionChange<bool> ClickToPlay { get; set; }
+
+    /// <summary>
+    /// Gets or sets a context-menu suppression change.
+    /// </summary>
+    public JSOptionChange<bool> DisableContextMenu { get; set; }
+
+    /// <summary>
+    /// Gets or sets an end-of-playback reset change.
+    /// </summary>
+    public JSOptionChange<bool> ResetOnEnd { get; set; }
+
+    /// <summary>
+    /// Gets or sets an aspect-ratio change.
+    /// </summary>
+    public JSOptionChange<double?> AspectRatio { get; set; }
+
+    /// <summary>
+    /// Gets or sets a remaining-time display change.
+    /// </summary>
+    public JSOptionChange<bool> InvertTime { get; set; }
+
+    /// <summary>
+    /// Gets or sets a controls list change.
+    /// </summary>
+    public JSOptionChange<string[]> ControlsList { get; set; }
+
+    /// <summary>
+    /// Gets or sets a settings list change.
+    /// </summary>
+    public JSOptionChange<VideoSettingsType[]> SettingsList { get; set; }
+
+    /// <summary>
+    /// Gets or sets a default quality change.
+    /// </summary>
+    public JSOptionChange<VideoJSQualityOptions> DefaultQuality { get; set; }
+
+    /// <summary>
+    /// Gets or sets an available qualities change.
+    /// </summary>
+    public JSOptionChange<VideoJSQualityOptions[]> AvailableQualities { get; set; }
+
+    /// <summary>
+    /// Gets or sets a double-click fullscreen change.
+    /// </summary>
+    public JSOptionChange<bool> DoubleClickToFullscreen { get; set; }
 }
 
 /// <summary>

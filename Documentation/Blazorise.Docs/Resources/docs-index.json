@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-18T11:33:56.2822278Z",
+  "generatedUtc": "2026-08-20T11:46:46.8830741Z",
   "pages": [
     {
       "route": "/docs",
@@ -2513,7 +2513,7 @@
           "sourcePath": "Pages/Docs/Components/Memos/Examples/MemoInputAutoSizeExample.razor",
           "content": "<MemoInput Value=\"@loremipsum\" AutoSize />\r\n\r\n@code {\r\n    string loremipsum = @\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel semper libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.\r\n\r\nProin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultrices mi libero quis ante. Curabitur scelerisque metus et libero convallis consequat. Pellentesque feugiat pulvinar nisl sed pellentesque.\";\r\n}",
           "title": "Auto size",
-          "description": "Unless set to a fixed height, MemoInput adjusts its height automatically based on its content. The default and minimum height is two rows of text."
+          "description": "Set AutoSize to make MemoInput grow and shrink with its content. The Rows parameter sets its minimum height; when omitted, the minimum is two rows. Native field-sizing: content is used when supported, with an automatic fallback for older browsers. You can also set a maximum height through custom styles, after which the textarea scrolls."
         },
         {
           "code": "MemoInputWithBindExample",
@@ -2576,7 +2576,7 @@
           "sourcePath": "Pages/Docs/Components/Memos/Examples/MemoInputAutoSizeExample.razor",
           "content": "<MemoInput Value=\"@loremipsum\" AutoSize />\r\n\r\n@code {\r\n    string loremipsum = @\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel semper libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.\r\n\r\nProin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultrices mi libero quis ante. Curabitur scelerisque metus et libero convallis consequat. Pellentesque feugiat pulvinar nisl sed pellentesque.\";\r\n}",
           "title": "Auto size",
-          "description": "Unless set to a fixed height, MemoInput adjusts its height automatically based on its content. The default and minimum height is two rows of text."
+          "description": "Set AutoSize to make MemoInput grow and shrink with its content. The Rows parameter sets its minimum height; when omitted, the minimum is two rows. Native field-sizing: content is used when supported, with an automatic fallback for older browsers. You can also set a maximum height through custom styles, after which the textarea scrolls."
         },
         {
           "code": "MemoInputWithBindExample",
@@ -9934,7 +9934,7 @@
           "sourcePath": "Pages/Docs/Extensions/Video/Examples/VideoNugetInstallExample.snippet",
           "content": "dotnet add package Blazorise.Video",
           "title": "NuGet",
-          "description": "Install extension from NuGet."
+          "description": "Install the Video extension package."
         },
         {
           "code": "ImportVideoExample",
@@ -9942,23 +9942,39 @@
           "sourcePath": "Pages/Docs/Extensions/Video/Examples/ImportVideoExample.snippet",
           "content": "@using Blazorise.Video",
           "title": "Imports",
-          "description": "In your main _Imports.razor add:"
+          "description": "Add the extension namespace to the application's main _Imports.razor ."
         },
         {
           "code": "BasicVideoExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Video/Examples/BasicVideoExample.razor",
-          "content": "<Video Source=\"@(\"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4\")\" />",
+          "content": "<Video Source=\"@(\"https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4\")\" />",
           "title": "Basic",
-          "description": "To play the video you just need to define the Source of the video."
+          "description": "Set Source to a browser-supported media file to create a player with the default controls."
+        },
+        {
+          "code": "VideoYouTubeExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Video/Examples/VideoYouTubeExample.razor",
+          "content": "<Video Source=\"@(\"https://www.youtube.com/watch?v=M7lc1UVf-VE\")\" />",
+          "title": "YouTube",
+          "description": "Set Source to a regular YouTube watch URL. The provider is detected automatically and its locally packaged adapter is loaded on demand."
+        },
+        {
+          "code": "VideoVimeoExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Video/Examples/VideoVimeoExample.razor",
+          "content": "<Video Source=\"@(\"https://vimeo.com/76979871\")\" />",
+          "title": "Vimeo",
+          "description": "Set Source to a regular Vimeo video URL. The provider is detected automatically and its locally packaged adapter is loaded on demand."
         },
         {
           "code": "VideoDashExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Video/Examples/VideoDashExample.razor",
           "content": "<Video Source=\"@(\"https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd\")\" StreamingLibrary=\"StreamingLibrary.Dash\" />",
-          "title": "Streaming Dash",
-          "description": "We also support streaming videos. To stream the video you just define the Source as usual, along with the StreamingLibrary used to handle the video media type."
+          "title": "Streaming DASH",
+          "description": "Set StreamingLibrary to StreamingLibrary.Dash when Source points to a DASH manifest."
         },
         {
           "code": "VideoHlsExample",
@@ -9966,13 +9982,13 @@
           "sourcePath": "Pages/Docs/Extensions/Video/Examples/VideoHlsExample.razor",
           "content": "<Video Source=\"@(\"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8\")\" StreamingLibrary=\"StreamingLibrary.Hls\" />",
           "title": "Streaming HLS",
-          "description": "We also support streaming of HLS videos. To stream the video you just define the Source as usual, along with the StreamingLibrary used to handle the video media type."
+          "description": "Set StreamingLibrary to StreamingLibrary.Hls when Source points to an HLS playlist."
         },
         {
           "code": "DRMVideoExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Video/Examples/DRMVideoExample.razor",
-          "content": "<Video Source=\"@(\"https://media.axprod.net/TestVectors/v7-MultiDRM-SingleKey/Manifest_1080p.mpd\")\"\r\n       StreamingLibrary=\"StreamingLibrary.Dash\"\r\n       ProtectionType=\"VideoProtectionType.Widevine\"\r\n       ProtectionServerUrl=\"https://drm-widevine-licensing.axtest.net/AcquireLicense\"\r\n       ProtectionHttpRequestHeaders=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoxLCJjb21fa2V5X2lkIjoiYjMzNjRlYjUtNTFmNi00YWUzLThjOTgtMzNjZWQ1ZTMxYzc4IiwibWVzc2FnZSI6eyJ0eXBlIjoiZW50aXRsZW1lbnRfbWVzc2FnZSIsImZpcnN0X3BsYXlfZXhwaXJhdGlvbiI6NjAsInBsYXlyZWFkeSI6eyJyZWFsX3RpbWVfZXhwaXJhdGlvbiI6dHJ1ZX0sImtleXMiOlt7ImlkIjoiOWViNDA1MGQtZTQ0Yi00ODAyLTkzMmUtMjdkNzUwODNlMjY2IiwiZW5jcnlwdGVkX2tleSI6ImxLM09qSExZVzI0Y3Iya3RSNzRmbnc9PSJ9XX19.FAbIiPxX8BHi9RwfzD7Yn-wugU19ghrkBFKsaCPrZmU\" />",
+          "content": "<Video Source=\"@(\"https://storage.googleapis.com/shaka-demo-assets/sintel-widevine/dash.mpd\")\"\r\n       StreamingLibrary=\"StreamingLibrary.Dash\"\r\n       ProtectionType=\"VideoProtectionType.Widevine\"\r\n       ProtectionServerUrl=\"https://cwip-shaka-proxy.appspot.com/no_auth\" />",
           "title": "Widevine DRM",
           "description": "This example shows how to use Video to play streams with Widevine DRM protection."
         },
@@ -9982,7 +9998,7 @@
           "sourcePath": "Pages/Docs/Extensions/Video/Examples/VideoMultipleSourcesExample.razor",
           "content": "<Video Source=\"@videoSource\" DefaultQuality=\"720\" />\r\n\r\n@code {\r\n    VideoSource videoSource = new VideoSource()\r\n    {\r\n        Medias = new ValueEqualityList<VideoMedia>\r\n        {\r\n            new VideoMedia(\"https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4\", \"video/mp4\", 576),\r\n            new VideoMedia(\"https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4\", \"video/mp4\", 720),\r\n            new VideoMedia(\"https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4\", \"video/mp4\", 1080),\r\n        }\r\n    };\r\n}",
           "title": "Multiple files",
-          "description": "The VideoSource object contains a list of VideoMedia instances, each representing a different quality of the same video. Each VideoMedia is initialized with a unique URL that points to the video source, a media type, and a quality represented as resolution (in pixels). Here, three versions of the same video are provided: a 576p, a 720p, and a 1080p. These different versions give users the ability to choose the video quality according to their network conditions or preferences. The DefaultQuality property set on the Video component dictates which version of the video is loaded by default when the component is rendered. In this case, it is set to \"720\", meaning the 720p version of the video will be the default."
+          "description": "Add several VideoMedia entries to a VideoSource to offer multiple versions of the same video. Their heights become quality choices, and DefaultQuality selects the initial version."
         }
       ]
     },
@@ -9991,7 +10007,13 @@
       "title": "Blazorise Video API",
       "description": "Explore the Blazorise Video API reference, including media source parameters, playback events, methods, and streaming options for Blazor applications.",
       "pagePath": "Pages/Docs/Extensions/Video/VideoApiPage.razor",
-      "examples": []
+      "examples": [],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Video"
+        }
+      ]
     },
     {
       "route": "/docs/faq",

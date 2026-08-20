@@ -385,6 +385,12 @@
         padding-left: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
         padding-right: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
         padding-top: var(--spacingVerticalSNudge);
+
+        &[data-autosize='true'] {
+            field-sizing: content;
+            height: auto;
+            min-height: calc(var(--fui-textarea-min-block-size) + var(--spacingVerticalSNudge) + var(--spacingVerticalSNudge));
+        }
     }
 
     &-error {
