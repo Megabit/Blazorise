@@ -26,7 +26,6 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         controls: null,
         controlsVisible: false,
         controlsTimer: null,
-        statusTimer: null,
         textTracks: null,
         activeLanguage: null,
         qualityRenditions: null,
@@ -85,7 +84,6 @@ export function destroy(element, elementId, unregisterCleanup = true) {
     instance.mediaAbortController?.abort();
     instance.abortController.abort();
     clearTimeout(instance.controlsTimer);
-    clearTimeout(instance.statusTimer);
     instance.qualityObserver?.disconnect();
 
     if (instance.fullWindow)
@@ -104,7 +102,6 @@ export function destroy(element, elementId, unregisterCleanup = true) {
     instance.media = null;
     instance.controls = null;
     instance.controlsTimer = null;
-    instance.statusTimer = null;
     instance.textTracks = null;
     instance.qualityRenditions = null;
     instance.qualityObserver = null;
@@ -556,23 +553,19 @@ function registerToEvents(dotNetAdapter, instance) {
         if (instance.options.autoPause)
             pauseOtherPlayers(instance);
 
-        announceStatus(instance, "Playing");
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyPlay");
     }, { signal });
     media.addEventListener("pause", () => {
         setControlsVisible(instance, true, dotNetAdapter);
-        announceStatus(instance, "Paused");
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyPause");
     }, { signal });
     media.addEventListener("timeupdate", () => invokeDotNetMethodAsync(dotNetAdapter, "NotifyTimeUpdate", media.currentTime || 0), { signal });
     media.addEventListener("volumechange", () => {
-        announceStatus(instance, media.muted ? "Muted" : `Volume ${Math.round(media.volume * 100)}%`);
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyVolumeChange", media.volume || 0, media.muted || false);
     }, { signal });
     media.addEventListener("seeking", () => invokeDotNetMethodAsync(dotNetAdapter, "NotifySeeking", media.currentTime || 0), { signal });
     media.addEventListener("seeked", () => invokeDotNetMethodAsync(dotNetAdapter, "NotifySeeked", media.currentTime || 0), { signal });
     media.addEventListener("ratechange", () => {
-        announceStatus(instance, `Playback speed ${media.playbackRate || 1}`);
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyRateChange", media.playbackRate || 1);
     }, { signal });
     media.addEventListener("loadedmetadata", () => {
@@ -606,7 +599,6 @@ function registerPlayerEvents(dotNetAdapter, instance) {
             return;
 
         instance.fullscreen = entered;
-        announceStatus(instance, entered ? "Entered fullscreen" : "Exited fullscreen");
         invokeDotNetMethodAsync(dotNetAdapter, entered ? "NotifyFullScreenEntered" : "NotifyFullScreenExited");
     };
 
@@ -631,7 +623,6 @@ function connectTextTrackEvents(dotNetAdapter, instance) {
         const language = showingTrack?.language || showingTrack?.label || "";
 
         invokeDotNetMethodAsync(dotNetAdapter, enabled ? "NotifyCaptionsEnabled" : "NotifyCaptionsDisabled");
-        announceStatus(instance, enabled ? `Captions ${language || "enabled"}` : "Captions disabled");
 
         if (language !== instance.activeLanguage) {
             instance.activeLanguage = language;
@@ -771,8 +762,7 @@ function setupCompatibilityControls(dotNetAdapter, instance) {
 
         if (loopButton) {
             instance.media.loop = !instance.media.loop;
-            loopButton.setAttribute("aria-pressed", `${instance.media.loop}`);
-            loopButton.querySelector(".b-video-loop-value")?.replaceChildren(instance.media.loop ? "On" : "Off");
+            syncLoopButton(instance, loopButton);
             return;
         }
 
@@ -961,10 +951,8 @@ function applyProtection(media, protection) {
 function syncCompatibilityControls(instance) {
     const loopButton = instance.player.querySelector("[data-blazorise-video-loop]");
 
-    if (loopButton) {
-        loopButton.setAttribute("aria-pressed", `${instance.media?.loop === true}`);
-        loopButton.querySelector(".b-video-loop-value")?.replaceChildren(instance.media?.loop ? "On" : "Off");
-    }
+    if (loopButton)
+        syncLoopButton(instance, loopButton);
 
     const currentSource = instance.media?.currentSrc || instance.media?.src;
 
@@ -973,6 +961,14 @@ function syncCompatibilityControls(instance) {
         const active = Boolean(source && currentSource === new URL(source, document.baseURI).href);
         button.toggleAttribute("data-active", active);
     }
+}
+
+function syncLoopButton(instance, loopButton) {
+    const loop = instance.media?.loop === true;
+
+    loopButton.setAttribute("aria-pressed", `${loop}`);
+    loopButton.querySelector(".b-video-loop-value--off")?.toggleAttribute("hidden", loop);
+    loopButton.querySelector(".b-video-loop-value--on")?.toggleAttribute("hidden", !loop);
 }
 
 function clearProtection(media) {
@@ -1182,7 +1178,6 @@ function enterFullWindow(instance) {
     instance.documentOverflow = document.documentElement.style.overflow;
     target.classList.add("b-video-full-window");
     document.documentElement.style.overflow = "hidden";
-    announceStatus(instance, "Entered fullscreen");
     invokeDotNetMethodAsync(instance.dotNetAdapter, "NotifyFullScreenEntered");
 }
 
@@ -1196,7 +1191,6 @@ function exitFullWindow(instance, notify = true) {
     instance.fullscreen = false;
 
     if (notify) {
-        announceStatus(instance, "Exited fullscreen");
         invokeDotNetMethodAsync(instance.dotNetAdapter, "NotifyFullScreenExited");
     }
 }
@@ -1250,20 +1244,6 @@ function applyChangedOption(instance, changes, optionName) {
 
     if (change?.changed)
         instance.options[optionName] = change.value;
-}
-
-function announceStatus(instance, message) {
-    const announcer = instance?.player?.querySelector(".b-video-status-announcer");
-
-    if (!announcer)
-        return;
-
-    clearTimeout(instance.statusTimer);
-    announcer.textContent = "";
-    instance.statusTimer = setTimeout(() => {
-        if (!instance.destroyed)
-            announcer.textContent = message;
-    }, 0);
 }
 
 function clamp(value, minimum, maximum) {

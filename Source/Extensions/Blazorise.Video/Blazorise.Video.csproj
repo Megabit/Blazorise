@@ -14,4 +14,8 @@
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Localization\Video\*.json" />
+  </ItemGroup>
+
 </Project>

@@ -1,9 +1,11 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Localization;
 using Blazorise.Video.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -115,6 +117,14 @@ public partial class Video : BaseComponent, IAsyncDisposable
     }
 
     /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
     protected override Task OnInitializedAsync()
     {
         if ( JSModule == null )
@@ -174,20 +184,35 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
-        if ( disposing && Rendered )
+        if ( disposing )
         {
-            await JSModule.SafeDestroy( ElementRef, ElementId );
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
 
-            await JSModule.SafeDisposeAsync();
-
-            if ( DotNetObjectRef != null )
+            if ( Rendered )
             {
-                DotNetObjectRef.Dispose();
-                DotNetObjectRef = null;
+                await JSModule.SafeDestroy( ElementRef, ElementId );
+
+                await JSModule.SafeDisposeAsync();
+
+                if ( DotNetObjectRef != null )
+                {
+                    DotNetObjectRef.Dispose();
+                    DotNetObjectRef = null;
+                }
             }
         }
 
         await base.DisposeAsync( disposing );
+    }
+
+    /// <summary>
+    /// Handles the localization changed event.
+    /// </summary>
+    /// <param name="sender">Object that raised the event.</param>
+    /// <param name="eventArgs">Data about the localization event.</param>
+    private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
+    {
+        await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -627,7 +652,31 @@ public partial class Video : BaseComponent, IAsyncDisposable
             || AvailableQualities.Contains( media.Height.Value );
 
     private string FormatQuality( VideoMedia media )
-        => media?.Height is int height ? $"{height}p" : "Source";
+        => media?.Height is int height ? $"{height}p" : SourceLabelString;
+
+    private CultureInfo ResolveCulture()
+    {
+        try
+        {
+            return CultureInfo.GetCultureInfo( CultureNameString );
+        }
+        catch ( CultureNotFoundException )
+        {
+            return LocalizerService.SelectedCulture;
+        }
+    }
+
+    private string ResolveCultureName()
+    {
+        string cultureName = Attributes?
+            .FirstOrDefault( attribute => string.Equals( attribute.Key, "lang", StringComparison.OrdinalIgnoreCase ) )
+            .Value?
+            .ToString();
+
+        return !string.IsNullOrWhiteSpace( cultureName )
+            ? cultureName
+            : LocalizerService.SelectedCulture.Name;
+    }
 
     #region Properties
 
@@ -661,6 +710,22 @@ public partial class Video : BaseComponent, IAsyncDisposable
     private string EffectivePoster => !string.IsNullOrWhiteSpace( Poster ) ? Poster : Source?.Poster;
 
     private string CurrentTimeTypeString => InvertTime ? "remaining" : "current";
+
+    private string CultureNameString => ResolveCultureName();
+
+    private CultureInfo EffectiveCulture => ResolveCulture();
+
+    private string RestartLabelString => Localizer[EffectiveCulture, "Restart"];
+
+    private string SettingsLabelString => Localizer[EffectiveCulture, "Settings"];
+
+    private string LoopLabelString => Localizer[EffectiveCulture, "Loop"];
+
+    private string LoopOnString => Localizer[EffectiveCulture, "On"];
+
+    private string DownloadLabelString => Localizer[EffectiveCulture, "Download"];
+
+    private string SourceLabelString => Localizer[EffectiveCulture, "Source"];
 
     private string QualitySettingTypeString => StreamingLibrary == Blazorise.Video.StreamingLibrary.None && Source?.HasMultipleMedia == true ? null : "quality";
 
@@ -698,6 +763,16 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the service that provides the current application culture.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+    /// <summary>
+    /// Gets or sets the localizer for labels owned by the Blazorise video integration.
+    /// </summary>
+    [Inject] protected ITextLocalizer<Video> Localizer { get; set; }
 
     /// <summary>
     /// Determines whether player controls are visible.
