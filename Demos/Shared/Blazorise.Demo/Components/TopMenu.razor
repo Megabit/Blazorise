@@ -127,20 +127,53 @@
                             </Column>
                         </Row>
                         <Row>
-                            <Column Margin="Margin.Is2.FromBottom">
+                            <Column ColumnSize="ColumnSize.Is6" Margin="Margin.Is2.FromBottom">
                                 <Field>
-                                    <Check TValue="bool" Value="@(Theme?.IsGradient == true)" ValueChanged="@ThemeGradientChanged">Gradient colors</Check>
-                                </Field>
-                                <Field>
-                                    <Check TValue="bool" Value="@(Theme?.IsRounded == true)" ValueChanged="@ThemeRoundedChanged">Rounded elements</Check>
+                                    <FieldLabel>Primary</FieldLabel>
+                                    <ColorPicker Value="@(Theme?.ColorOptions?.Primary)" ValueChanged="@( value => OnThemeColorChanged( Color.Primary, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
                                 </Field>
                             </Column>
-                        </Row>
-                        <Row>
-                            <Column>
-                                <Container Fluid>
-                                    <ThemeColorSelector Value="@(Theme?.ColorOptions?.Primary)" ValueChanged="@ThemeColorChanged"></ThemeColorSelector>
-                                </Container>
+                            <Column ColumnSize="ColumnSize.Is6" Margin="Margin.Is2.FromBottom">
+                                <Field>
+                                    <FieldLabel>Secondary</FieldLabel>
+                                    <ColorPicker Value="@(Theme?.ColorOptions?.Secondary)" ValueChanged="@( value => OnThemeColorChanged( Color.Secondary, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                                </Field>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6" Margin="Margin.Is2.FromBottom">
+                                <Field>
+                                    <FieldLabel>Success</FieldLabel>
+                                    <ColorPicker Value="@(Theme?.ColorOptions?.Success)" ValueChanged="@( value => OnThemeColorChanged( Color.Success, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                                </Field>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6" Margin="Margin.Is2.FromBottom">
+                                <Field>
+                                    <FieldLabel>Danger</FieldLabel>
+                                    <ColorPicker Value="@(Theme?.ColorOptions?.Danger)" ValueChanged="@( value => OnThemeColorChanged( Color.Danger, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                                </Field>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6" Margin="Margin.Is2.FromBottom">
+                                <Field>
+                                    <FieldLabel>Warning</FieldLabel>
+                                    <ColorPicker Value="@(Theme?.ColorOptions?.Warning)" ValueChanged="@( value => OnThemeColorChanged( Color.Warning, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                                </Field>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6" Margin="Margin.Is2.FromBottom">
+                                <Field>
+                                    <FieldLabel>Info</FieldLabel>
+                                    <ColorPicker Value="@(Theme?.ColorOptions?.Info)" ValueChanged="@( value => OnThemeColorChanged( Color.Info, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                                </Field>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <Field>
+                                    <FieldLabel>Light</FieldLabel>
+                                    <ColorPicker Value="@(Theme?.ColorOptions?.Light)" ValueChanged="@( value => OnThemeColorChanged( Color.Light, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                                </Field>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <Field>
+                                    <FieldLabel>Dark</FieldLabel>
+                                    <ColorPicker Value="@(Theme?.ColorOptions?.Dark)" ValueChanged="@( value => OnThemeColorChanged( Color.Dark, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                                </Field>
                             </Column>
                         </Row>
                     </BarDropdownMenu>
@@ -422,6 +455,11 @@
         }
     }
 
+    private Task OnThemeColorChanged( Color variant, string value )
+    {
+        return ThemeColorChanged.InvokeAsync( new( variant, value ) );
+    }
+
     void IDisposable.Dispose()
     {
         if ( NavigationManager is not null )
@@ -432,11 +470,7 @@
 
     [Parameter] public EventCallback<bool> ThemeEnabledChanged { get; set; }
 
-    [Parameter] public EventCallback<bool> ThemeGradientChanged { get; set; }
-
-    [Parameter] public EventCallback<bool> ThemeRoundedChanged { get; set; }
-
-    [Parameter] public EventCallback<string> ThemeColorChanged { get; set; }
+    [Parameter] public EventCallback<ThemeColorChangedEventArgs> ThemeColorChanged { get; set; }
 
     [Parameter] public string LayoutType { get; set; }
 
