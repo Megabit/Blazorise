@@ -48,6 +48,7 @@
 }
 
 @supports (position-anchor: --fluent-timepicker-anchor) and (anchor-scope: --fluent-timepicker-anchor) {
+    .fui-TimePicker__menu.fui-TimePicker__menu--static,
     .fui-TimePicker__menu.fui-TimePicker__menu--floating {
         position: fixed;
         position-anchor: --fluent-timepicker-anchor;

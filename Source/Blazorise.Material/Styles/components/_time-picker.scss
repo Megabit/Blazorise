@@ -55,6 +55,7 @@
         }
 
         @supports (position-anchor: --material-timepicker-anchor) and (anchor-scope: --material-timepicker-anchor) {
+            &.mui-time-picker-menu-static,
             &.mui-time-picker-menu-floating {
                 position: fixed;
                 position-anchor: --material-timepicker-anchor;

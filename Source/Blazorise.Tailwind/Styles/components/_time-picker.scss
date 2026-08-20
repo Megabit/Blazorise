@@ -43,6 +43,7 @@
     }
 
     @supports (position-anchor: --tailwind-timepicker-anchor) and (anchor-scope: --tailwind-timepicker-anchor) {
+        &-menu.tw-timepicker-menu-static,
         &-menu.tw-timepicker-menu-floating {
             position: fixed;
             position-anchor: --tailwind-timepicker-anchor;
