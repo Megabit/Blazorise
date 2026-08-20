@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-20T09:03:03.6227605Z",
+  "generatedUtc": "2026-08-20T11:46:46.2891172Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -132770,6 +132770,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "FontOptions",
+          "type": "global::Blazorise.ThemeFontOptions",
+          "typeName": "ThemeFontOptions",
+          "defaultValue": "null",
+          "summary": "Gets or sets the font options for bar navigation items.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "HorizontalHeight",
           "type": "string",
           "typeName": "string",
@@ -144494,7 +144502,7 @@
           "type": "string[]",
           "typeName": "string[]",
           "defaultValue": "new string[] { VideoControlsType.PlayLarge, VideoControlsType.Play, VideoControlsType.Progress, VideoControlsType.CurrentTime, VideoControlsType.Mute, VideoControlsType.Volume, VideoControlsType.Captions, VideoControlsType.Settings, VideoControlsType.Pip, VideoControlsType.Airplay, VideoControlsType.Fullscreen }",
-          "summary": "Specifies the customized list of player controls.",
+          "summary": "Specifies the customized list of player controls in the order in which they are rendered.",
           "isBlazoriseEnum": false
         },
         {
@@ -144687,7 +144695,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Force an aspect ratio for all videos. The format is 'w:h' - e.g. '16:9' or '4:3'. If this is not specified     then the default for HTML5 and Vimeo is to use the native resolution of the video. As dimensions are not     available from YouTube via SDK, 16:9 is forced as a sensible default.",
+          "summary": "Force an aspect ratio for all videos. The format is 'w:h' - e.g. '16:9' or '4:3'. If this is not specified     then the native resolution of the media is used.",
           "isBlazoriseEnum": false
         },
         {
@@ -145265,7 +145273,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "0",
-          "summary": "Gets or sets the delay in seconds before controls are shown.",
+          "summary": "Gets or sets the delay in milliseconds before idle controls are hidden.",
           "isBlazoriseEnum": false
         },
         {
@@ -145273,7 +145281,7 @@
           "type": "string[]",
           "typeName": "string[]",
           "defaultValue": "null",
-          "summary": "Gets or sets a list of controls to be displayed or hidden.",
+          "summary": "Gets or sets the controls to display in rendering order.",
           "isBlazoriseEnum": false
         },
         {
@@ -145472,11 +145480,123 @@
       "summary": "$\"\"\"\r\n       Represents JavaScript options for updating specific settings of a video player component dynamically.\r\n       \"\"\"",
       "parameters": [
         {
+          "name": "AspectRatio",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<double?>",
+          "defaultValue": "null",
+          "summary": "Gets or sets an aspect-ratio change.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AutoPause",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets an automatic pause change.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AutoPlay",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets an automatic playback change.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AutomaticallyHideControls",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets an automatic controls hiding change.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AvailableQualities",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<VideoJSQualityOptions[]>",
+          "defaultValue": "null",
+          "summary": "Gets or sets an available qualities change.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ClickToPlay",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets a click-to-play change.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Controls",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets a controls visibility change.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ControlsDelay",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<double>",
+          "defaultValue": "null",
+          "summary": "Gets or sets a controls delay change.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ControlsList",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<string[]>",
+          "defaultValue": "null",
+          "summary": "Gets or sets a controls list change.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "CurrentTime",
           "type": "global::Blazorise.Video.JSOptionChange<>",
           "typeName": "JSOptionChange<double?>",
           "defaultValue": "null",
           "summary": "Gets or sets the option for updating the current playback time.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DefaultQuality",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<VideoJSQualityOptions>",
+          "defaultValue": "null",
+          "summary": "Gets or sets a default quality change.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DisableContextMenu",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets a context-menu suppression change.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DoubleClickToFullscreen",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets a double-click fullscreen change.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "InvertTime",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets a remaining-time display change.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Muted",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets a muted-state change.",
           "isBlazoriseEnum": false
         },
         {
@@ -145520,11 +145640,43 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "ResetOnEnd",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets an end-of-playback reset change.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SettingsList",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<VideoSettingsType[]>",
+          "defaultValue": "null",
+          "summary": "Gets or sets a settings list change.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Source",
           "type": "global::Blazorise.Video.JSOptionChange<>",
           "typeName": "JSOptionChange<VideoSource>",
           "defaultValue": "null",
           "summary": "Gets or sets the option for updating the video source.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "StreamingLibrary",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<string>",
+          "defaultValue": "null",
+          "summary": "Gets or sets a streaming-library change.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Thumbnails",
+          "type": "global::Blazorise.Video.JSOptionChange<>",
+          "typeName": "JSOptionChange<string>",
+          "defaultValue": "null",
+          "summary": "Gets or sets a thumbnail track change.",
           "isBlazoriseEnum": false
         },
         {

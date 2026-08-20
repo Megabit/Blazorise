@@ -22,6 +22,13 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
     protected override string GetDockLayoutVariableName( string name )
         => $"--fui-dock-{name}";
 
+    protected override void GenerateBarVariables( Theme theme, ThemeBarOptions barOptions )
+    {
+        base.GenerateBarVariables( theme, barOptions );
+
+        GenerateBarFontVariableAliases( barOptions, "--fui-navigation" );
+    }
+
     public override string GenerateVariables( Theme theme )
     {
         // Polarity-aware state generator: lighten dark colors, darken light colors.

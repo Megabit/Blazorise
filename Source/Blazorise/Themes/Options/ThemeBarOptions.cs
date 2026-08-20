@@ -1,4 +1,4 @@
-﻿namespace Blazorise;
+namespace Blazorise;
 
 /// <summary>
 /// Defines the theme options for the <see cref="Bar"/> component.
@@ -29,6 +29,11 @@ public record ThemeBarOptions
     /// Gets or sets the height of the <see cref="Bar"/> in horizontal mode (only for Bar that is placed inside of <see cref="LayoutHeader"/>).
     /// </summary>
     public string HorizontalHeight { get; set; } = "auto";
+
+    /// <summary>
+    /// Gets or sets the font options for bar navigation items.
+    /// </summary>
+    public ThemeFontOptions FontOptions { get; set; }
 
     /// <summary>
     /// Gets or sets the theme settings for the <see cref="Bar"/> dark color scheme.

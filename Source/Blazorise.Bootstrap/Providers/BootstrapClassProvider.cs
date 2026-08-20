@@ -100,7 +100,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DatePickerContainer( bool inline, bool open ) => $"datepicker dropdown{( inline ? " datepicker-inline" : null )}{( open ? " show" : null )}";
 
-    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"datepicker-calendar dropdown-menu show{( inline ? " datepicker-calendar-inline" : null )}{( staticPicker ? " datepicker-calendar-static" : " datepicker-calendar-floating" )}";
+    public override string DatePickerCalendar( bool inline, bool staticPicker ) => $"datepicker-calendar dropdown-menu show{( inline ? " datepicker-calendar-inline" : staticPicker ? " datepicker-calendar-static" : " datepicker-calendar-floating" )}";
 
     public override string DatePickerCalendarBackdrop() => "datepicker-backdrop";
 

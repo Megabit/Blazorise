@@ -51,6 +51,13 @@
     position: relative;
 }
 
+.navbar[data-mode] {
+    font-family: var(--bs-navbar-font-family, var(--b-bar-font-family, inherit));
+    font-size: var(--bs-navbar-font-size, var(--b-bar-font-size, inherit));
+    font-style: var(--bs-navbar-font-style, var(--b-bar-font-style, inherit));
+    font-weight: var(--bs-navbar-font-weight, var(--b-bar-font-weight, inherit));
+}
+
 .navbar[data-mode="horizontal"] {
     &[data-collapse=hide] {
         flex-wrap: nowrap;
@@ -88,6 +95,14 @@
                 }
             }
         }
+    }
+
+    .nav-link,
+    .dropdown-item {
+        font-family: var(--bs-navbar-font-family, var(--b-bar-font-family, inherit));
+        font-size: var(--bs-navbar-font-size, var(--b-bar-font-size, 1rem));
+        font-style: var(--bs-navbar-font-style, var(--b-bar-font-style, inherit));
+        font-weight: var(--bs-navbar-font-weight, var(--b-bar-font-weight, inherit));
     }
 }
 
@@ -271,8 +286,8 @@
         overflow-x: hidden;
         line-height: 1.5rem;
         vertical-align: middle;
-        font-size: 1rem;
-        font-weight: 500;
+        font-size: var(--bs-navbar-font-size, var(--b-bar-font-size, 1rem));
+        font-weight: var(--bs-navbar-font-weight, var(--b-bar-font-weight, 500));
         border-radius: var(--bs-border-radius, .375rem);
         transition: font-size 150ms ease-in;
     }
@@ -345,8 +360,8 @@
             white-space: normal;
             overflow-wrap: break-word;
             line-height: 1.5rem;
-            font-size: .925rem;
-            font-weight: 400;
+            font-size: var(--bs-navbar-font-size, var(--b-bar-font-size, .925rem));
+            font-weight: var(--bs-navbar-font-weight, var(--b-bar-font-weight, 400));
             border-radius: var(--bs-border-radius, .375rem);
 
             > span[id^="lbl_"] {

@@ -48,6 +48,7 @@
     }
 
     @supports (position-anchor: --bulma-datepicker-anchor) and (anchor-scope: --bulma-datepicker-anchor) {
+        .datepicker-calendar.box.is-static,
         .datepicker-calendar.box.is-floating {
             position: fixed;
             position-anchor: --bulma-datepicker-anchor;

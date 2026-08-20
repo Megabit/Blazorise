@@ -1566,6 +1566,12 @@ html[data-theme=dark] .surface {
   min-width: 0;
 }
 
+.fui-NavigationBar-horizontal {
+  font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
+  font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
+  font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
+  font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
+}
 .fui-NavigationBar-horizontal[data-collapse=hide] {
   flex-wrap: nowrap;
 }
@@ -1590,6 +1596,10 @@ html[data-theme=dark] .surface {
 .fui-VerticalNavigation.fui-NavigationBar-vertical-inline,
 .fui-VerticalNavigation.fui-NavigationBar-vertical-popout,
 .fui-VerticalNavigation.fui-NavigationBar-vertical-small {
+  font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
+  font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
+  font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
+  font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -2214,6 +2224,10 @@ html[data-theme=dark] .surface {
   justify-content: space-between;
   padding: var(--spacingVerticalS) var(--spacingHorizontalS);
   z-index: var(--zIndexNavigation);
+  font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
+  font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
+  font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
+  font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
   /*.fui-NavigationBar__link,
   .fui-NavigationBar__dropdown-toggle {
       padding-right: 0;
@@ -2284,9 +2298,10 @@ html[data-theme=dark] .surface {
   border-bottom-left-radius: var(--borderRadiusMedium);
   border-bottom-right-radius: var(--borderRadiusMedium);
   line-height: var(--lineHeightBase300);
-  font-weight: var(--fontWeightRegular);
-  font-size: var(--fontSizeBase300);
-  font-family: var(--fontFamilyBase);
+  font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
+  font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
+  font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
+  font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
   background-color: var(--colorNeutralBackground1);
   color: var(--colorNeutralForeground1);
   display: none;
@@ -2370,7 +2385,7 @@ html[data-theme=dark] .surface {
   display: flex;
   align-items: start;
   justify-content: space-between;
-  font-size: var(--fontSizeBase300);
+  font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
   cursor: pointer;
   gap: 4px;
   user-select: none;
@@ -2490,7 +2505,7 @@ html[data-theme=dark] .surface {
 .fui-NavigationBar__item .fui-NavigationBar__link.fui-Link-active,
 .fui-NavigationBar__item .fui-NavigationBar__dropdown-toggle.fui-Link-active, .fui-NavigationBar__dropdown .fui-NavigationBar__link.fui-Link-active,
 .fui-NavigationBar__dropdown .fui-NavigationBar__dropdown-toggle.fui-Link-active {
-  font-weight: var(--fontWeightSemibold);
+  font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightSemibold)));
 }
 .fui-NavigationBar__item .fui-NavigationBar__link.fui-Link-active:hover,
 .fui-NavigationBar__item .fui-NavigationBar__dropdown-toggle.fui-Link-active:hover, .fui-NavigationBar__dropdown .fui-NavigationBar__link.fui-Link-active:hover,
@@ -2547,9 +2562,10 @@ html[data-theme=dark] .surface {
   box-sizing: border-box;
   color: var(--colorNeutralForeground2);
   display: inline-flex;
-  font-family: var(--fontFamilyBase);
-  font-size: var(--fontSizeBase300);
-  font-weight: var(--fontWeightRegular);
+  font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
+  font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
+  font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
+  font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
   height: 32px;
   justify-content: center;
   line-height: var(--lineHeightBase300);
@@ -2630,7 +2646,7 @@ html[data-theme=dark] .surface {
   .fui-NavigationBar-expand-sm .fui-NavigationBar__item .fui-NavigationBar__dropdown-toggle.fui-Link-active,
   .fui-NavigationBar-expand-sm .fui-NavigationBar__dropdown .fui-NavigationBar__link.fui-Link-active,
   .fui-NavigationBar-expand-sm .fui-NavigationBar__dropdown .fui-NavigationBar__dropdown-toggle.fui-Link-active {
-    font-weight: var(--fontWeightSemibold);
+    font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightSemibold)));
   }
   .fui-NavigationBar-expand-sm .fui-NavigationBar__item .fui-NavigationBar__link.fui-Link-active:hover,
   .fui-NavigationBar-expand-sm .fui-NavigationBar__item .fui-NavigationBar__dropdown-toggle.fui-Link-active:hover,
@@ -2687,9 +2703,10 @@ html[data-theme=dark] .surface {
     box-sizing: border-box;
     color: var(--colorNeutralForeground2);
     display: inline-flex;
-    font-family: var(--fontFamilyBase);
-    font-size: var(--fontSizeBase300);
-    font-weight: var(--fontWeightRegular);
+    font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
+    font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
+    font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
+    font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
     height: 32px;
     justify-content: center;
     line-height: var(--lineHeightBase300);
@@ -2795,7 +2812,7 @@ html[data-theme=dark] .surface {
   .fui-NavigationBar-expand-md .fui-NavigationBar__item .fui-NavigationBar__dropdown-toggle.fui-Link-active,
   .fui-NavigationBar-expand-md .fui-NavigationBar__dropdown .fui-NavigationBar__link.fui-Link-active,
   .fui-NavigationBar-expand-md .fui-NavigationBar__dropdown .fui-NavigationBar__dropdown-toggle.fui-Link-active {
-    font-weight: var(--fontWeightSemibold);
+    font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightSemibold)));
   }
   .fui-NavigationBar-expand-md .fui-NavigationBar__item .fui-NavigationBar__link.fui-Link-active:hover,
   .fui-NavigationBar-expand-md .fui-NavigationBar__item .fui-NavigationBar__dropdown-toggle.fui-Link-active:hover,
@@ -2852,9 +2869,10 @@ html[data-theme=dark] .surface {
     box-sizing: border-box;
     color: var(--colorNeutralForeground2);
     display: inline-flex;
-    font-family: var(--fontFamilyBase);
-    font-size: var(--fontSizeBase300);
-    font-weight: var(--fontWeightRegular);
+    font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
+    font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
+    font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
+    font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
     height: 32px;
     justify-content: center;
     line-height: var(--lineHeightBase300);
@@ -2960,7 +2978,7 @@ html[data-theme=dark] .surface {
   .fui-NavigationBar-expand-lg .fui-NavigationBar__item .fui-NavigationBar__dropdown-toggle.fui-Link-active,
   .fui-NavigationBar-expand-lg .fui-NavigationBar__dropdown .fui-NavigationBar__link.fui-Link-active,
   .fui-NavigationBar-expand-lg .fui-NavigationBar__dropdown .fui-NavigationBar__dropdown-toggle.fui-Link-active {
-    font-weight: var(--fontWeightSemibold);
+    font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightSemibold)));
   }
   .fui-NavigationBar-expand-lg .fui-NavigationBar__item .fui-NavigationBar__link.fui-Link-active:hover,
   .fui-NavigationBar-expand-lg .fui-NavigationBar__item .fui-NavigationBar__dropdown-toggle.fui-Link-active:hover,
@@ -3017,9 +3035,10 @@ html[data-theme=dark] .surface {
     box-sizing: border-box;
     color: var(--colorNeutralForeground2);
     display: inline-flex;
-    font-family: var(--fontFamilyBase);
-    font-size: var(--fontSizeBase300);
-    font-weight: var(--fontWeightRegular);
+    font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
+    font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
+    font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
+    font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
     height: 32px;
     justify-content: center;
     line-height: var(--lineHeightBase300);
@@ -3125,7 +3144,7 @@ html[data-theme=dark] .surface {
   .fui-NavigationBar-expand-xl .fui-NavigationBar__item .fui-NavigationBar__dropdown-toggle.fui-Link-active,
   .fui-NavigationBar-expand-xl .fui-NavigationBar__dropdown .fui-NavigationBar__link.fui-Link-active,
   .fui-NavigationBar-expand-xl .fui-NavigationBar__dropdown .fui-NavigationBar__dropdown-toggle.fui-Link-active {
-    font-weight: var(--fontWeightSemibold);
+    font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightSemibold)));
   }
   .fui-NavigationBar-expand-xl .fui-NavigationBar__item .fui-NavigationBar__link.fui-Link-active:hover,
   .fui-NavigationBar-expand-xl .fui-NavigationBar__item .fui-NavigationBar__dropdown-toggle.fui-Link-active:hover,
@@ -3182,9 +3201,10 @@ html[data-theme=dark] .surface {
     box-sizing: border-box;
     color: var(--colorNeutralForeground2);
     display: inline-flex;
-    font-family: var(--fontFamilyBase);
-    font-size: var(--fontSizeBase300);
-    font-weight: var(--fontWeightRegular);
+    font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
+    font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
+    font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
+    font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
     height: 32px;
     justify-content: center;
     line-height: var(--lineHeightBase300);
@@ -3290,7 +3310,7 @@ html[data-theme=dark] .surface {
   .fui-NavigationBar-expand-xxl .fui-NavigationBar__item .fui-NavigationBar__dropdown-toggle.fui-Link-active,
   .fui-NavigationBar-expand-xxl .fui-NavigationBar__dropdown .fui-NavigationBar__link.fui-Link-active,
   .fui-NavigationBar-expand-xxl .fui-NavigationBar__dropdown .fui-NavigationBar__dropdown-toggle.fui-Link-active {
-    font-weight: var(--fontWeightSemibold);
+    font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightSemibold)));
   }
   .fui-NavigationBar-expand-xxl .fui-NavigationBar__item .fui-NavigationBar__link.fui-Link-active:hover,
   .fui-NavigationBar-expand-xxl .fui-NavigationBar__item .fui-NavigationBar__dropdown-toggle.fui-Link-active:hover,
@@ -3347,9 +3367,10 @@ html[data-theme=dark] .surface {
     box-sizing: border-box;
     color: var(--colorNeutralForeground2);
     display: inline-flex;
-    font-family: var(--fontFamilyBase);
-    font-size: var(--fontSizeBase300);
-    font-weight: var(--fontWeightRegular);
+    font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
+    font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
+    font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
+    font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
     height: 32px;
     justify-content: center;
     line-height: var(--lineHeightBase300);
@@ -3452,7 +3473,7 @@ html[data-theme=dark] .surface {
 .fui-NavigationBar-expand .fui-NavigationBar__item .fui-NavigationBar__dropdown-toggle.fui-Link-active,
 .fui-NavigationBar-expand .fui-NavigationBar__dropdown .fui-NavigationBar__link.fui-Link-active,
 .fui-NavigationBar-expand .fui-NavigationBar__dropdown .fui-NavigationBar__dropdown-toggle.fui-Link-active {
-  font-weight: var(--fontWeightSemibold);
+  font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightSemibold)));
 }
 .fui-NavigationBar-expand .fui-NavigationBar__item .fui-NavigationBar__link.fui-Link-active:hover,
 .fui-NavigationBar-expand .fui-NavigationBar__item .fui-NavigationBar__dropdown-toggle.fui-Link-active:hover,
@@ -3509,9 +3530,10 @@ html[data-theme=dark] .surface {
   box-sizing: border-box;
   color: var(--colorNeutralForeground2);
   display: inline-flex;
-  font-family: var(--fontFamilyBase);
-  font-size: var(--fontSizeBase300);
-  font-weight: var(--fontWeightRegular);
+  font-family: var(--fui-navigation-font-family, var(--b-bar-font-family, var(--fontFamilyBase)));
+  font-size: var(--fui-navigation-font-size, var(--b-bar-font-size, var(--fontSizeBase300)));
+  font-style: var(--fui-navigation-font-style, var(--b-bar-font-style, inherit));
+  font-weight: var(--fui-navigation-font-weight, var(--b-bar-font-weight, var(--fontWeightRegular)));
   height: 32px;
   justify-content: center;
   line-height: var(--lineHeightBase300);
@@ -13593,7 +13615,7 @@ code {
   z-index: auto;
 }
 @supports (position-anchor: --fluent-datepicker-anchor) and (anchor-scope: --fluent-datepicker-anchor) {
-  .fui-DatePicker__calendar.fui-DatePicker__calendar-floating {
+  .fui-DatePicker__calendar.fui-DatePicker__calendar-static, .fui-DatePicker__calendar.fui-DatePicker__calendar-floating {
     position: fixed;
     position-anchor: --fluent-datepicker-anchor;
     inset: auto;
@@ -13991,6 +14013,7 @@ code {
 }
 
 @supports (position-anchor: --fluent-timepicker-anchor) and (anchor-scope: --fluent-timepicker-anchor) {
+  .fui-TimePicker__menu.fui-TimePicker__menu--static,
   .fui-TimePicker__menu.fui-TimePicker__menu--floating {
     position: fixed;
     position-anchor: --fluent-timepicker-anchor;

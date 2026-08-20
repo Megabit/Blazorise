@@ -45,6 +45,7 @@
     }
 
     @supports (position-anchor: --ant-timepicker-anchor) and (anchor-scope: --ant-timepicker-anchor) {
+        &-dropdown.ant-picker-panel-container.ant-time-picker-dropdown-static,
         &-dropdown.ant-picker-panel-container.ant-time-picker-dropdown-floating {
             position: fixed;
             position-anchor: --ant-timepicker-anchor;

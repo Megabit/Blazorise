@@ -8831,6 +8831,18 @@ body:before {
     display: flex !important;
   }
 }
+.b-bar-horizontal, .b-bar-vertical-inline, .b-bar-vertical-popout, .b-bar-vertical-small {
+  font-family: var(--tw-bar-font-family, var(--b-bar-font-family, inherit));
+  font-size: var(--tw-bar-font-size, var(--b-bar-font-size, inherit));
+  font-style: var(--tw-bar-font-style, var(--b-bar-font-style, inherit));
+  font-weight: var(--tw-bar-font-weight, var(--b-bar-font-weight, inherit));
+}
+.b-bar-horizontal .b-bar-link, .b-bar-horizontal .b-bar-dropdown-toggle, .b-bar-horizontal .b-bar-dropdown-item {
+  font-family: var(--tw-bar-font-family, var(--b-bar-font-family, inherit));
+  font-size: var(--tw-bar-font-size, var(--b-bar-font-size, inherit));
+  font-style: var(--tw-bar-font-style, var(--b-bar-font-style, inherit));
+  font-weight: var(--tw-bar-font-weight, var(--b-bar-font-weight, inherit));
+}
 .b-bar-horizontal .b-bar-dropdown > .b-bar-dropdown-toggle > .b-bar-dropdown-toggle-arrow {
   transition: transform 200ms ease-out;
 }
@@ -9382,7 +9394,7 @@ body:before {
   background: var(--color-primary-900, var(--btw-color-primary-900));
 }
 @supports (position-anchor: --tailwind-datepicker-anchor) and (anchor-scope: --tailwind-datepicker-anchor) {
-  .tw-datepicker-calendar.tw-datepicker-calendar-floating {
+  .tw-datepicker-calendar.tw-datepicker-calendar-static, .tw-datepicker-calendar.tw-datepicker-calendar-floating {
     position: fixed;
     position-anchor: --tailwind-datepicker-anchor;
     inset: auto;
@@ -9436,7 +9448,7 @@ body:before {
   z-index: auto;
 }
 @supports (position-anchor: --tailwind-timepicker-anchor) and (anchor-scope: --tailwind-timepicker-anchor) {
-  .tw-timepicker-menu.tw-timepicker-menu-floating {
+  .tw-timepicker-menu.tw-timepicker-menu-static, .tw-timepicker-menu.tw-timepicker-menu-floating {
     position: fixed;
     position-anchor: --tailwind-timepicker-anchor;
     inset: auto;

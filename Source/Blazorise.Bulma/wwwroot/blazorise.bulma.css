@@ -84,12 +84,30 @@ body:before {
   color: #fff !important;
 }
 
+.b-bar-horizontal,
+.b-bar-vertical-inline,
+.b-bar-vertical-popout,
+.b-bar-vertical-small {
+  font-family: var(--bulma-navbar-font-family, var(--b-bar-font-family, inherit));
+  font-size: var(--bulma-navbar-font-size, var(--b-bar-font-size, inherit));
+  font-style: var(--bulma-navbar-font-style, var(--b-bar-font-style, inherit));
+  font-weight: var(--bulma-navbar-font-weight, var(--b-bar-font-weight, inherit));
+}
+
 .navbar-dropdown[data-visible=true] {
   animation-duration: 0.3s;
   animation-fill-mode: both;
   animation-name: fadeIn;
 }
 
+.b-bar-horizontal .navbar-item,
+.b-bar-horizontal .navbar-link,
+.b-bar-horizontal .dropdown-item {
+  font-family: var(--bulma-navbar-font-family, var(--b-bar-font-family, inherit));
+  font-size: var(--bulma-navbar-font-size, var(--b-bar-font-size, inherit));
+  font-style: var(--bulma-navbar-font-style, var(--b-bar-font-style, inherit));
+  font-weight: var(--bulma-navbar-font-weight, var(--b-bar-font-weight, inherit));
+}
 .b-bar-horizontal .nav-item.dropdown.has-dropdown .navbar-dropdown {
   border: 0;
 }
@@ -1739,6 +1757,7 @@ body:before {
   z-index: auto;
 }
 @supports (position-anchor: --bulma-datepicker-anchor) and (anchor-scope: --bulma-datepicker-anchor) {
+  .datepicker .datepicker-calendar.box.is-static,
   .datepicker .datepicker-calendar.box.is-floating {
     position: fixed;
     position-anchor: --bulma-datepicker-anchor;
@@ -2020,6 +2039,7 @@ body:before {
   z-index: auto;
 }
 @supports (position-anchor: --bulma-timepicker-anchor) and (anchor-scope: --bulma-timepicker-anchor) {
+  .timepicker .timepicker-menu.timepicker-menu-static,
   .timepicker .timepicker-menu.timepicker-menu-floating {
     position: fixed;
     position-anchor: --bulma-timepicker-anchor;
