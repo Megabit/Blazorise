@@ -9,8 +9,8 @@
 }
 else
 {
-    <div class="@ContainerClassNames" style="@ContainerStyleNames">
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseover="@ParentBarDropdown.OnMouseOverHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler" @onmousedown="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmousedown:stopPropagation @onmouseup="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmouseup:stopPropagation data-visible="@VisibleString">
+    <div class="@ContainerClassNames" style="@ContainerStyleNames" data-visible="@VisibleString" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseover="@ParentBarDropdown.OnMouseOverHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler" @onmousedown="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmousedown:stopPropagation @onmouseup="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmouseup:stopPropagation data-visible="@VisibleString">
             @ChildContent
         </div>
     </div>
