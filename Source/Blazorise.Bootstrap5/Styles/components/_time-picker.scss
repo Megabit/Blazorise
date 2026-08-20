@@ -44,6 +44,7 @@
     }
 
     @supports (position-anchor: --bootstrap5-timepicker-anchor) and (anchor-scope: --bootstrap5-timepicker-anchor) {
+        .timepicker-menu.dropdown-menu.timepicker-menu-static,
         .timepicker-menu.dropdown-menu.timepicker-menu-floating {
             position: fixed;
             position-anchor: --bootstrap5-timepicker-anchor;
