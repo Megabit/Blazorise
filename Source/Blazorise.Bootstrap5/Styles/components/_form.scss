@@ -1,3 +1,36 @@
+@mixin textarea-auto-size($minimum-rows, $padding-block, $border-width) {
+    field-sizing: content;
+    height: auto;
+    min-block-size: calc(#{$minimum-rows} + #{$padding-block} + #{$padding-block} + #{$border-width} + #{$border-width});
+}
+
+textarea {
+    &.form-control[data-autosize='true'],
+    &.form-control-plaintext[data-autosize='true'] {
+        @include textarea-auto-size(var(--bs-textarea-min-block-size), $input-padding-y, $input-border-width);
+    }
+
+    &.form-control-xs[data-autosize='true'] {
+        @include textarea-auto-size(var(--bs-textarea-min-block-size), $input-padding-y-xs, $input-border-width);
+    }
+
+    &.form-control-sm[data-autosize='true'] {
+        @include textarea-auto-size(var(--bs-textarea-min-block-size), $input-padding-y-sm, $input-border-width);
+    }
+
+    &.form-control-md[data-autosize='true'] {
+        @include textarea-auto-size(var(--bs-textarea-min-block-size), $input-padding-y-md, $input-border-width);
+    }
+
+    &.form-control-lg[data-autosize='true'] {
+        @include textarea-auto-size(var(--bs-textarea-min-block-size), $input-padding-y-lg, $input-border-width);
+    }
+
+    &.form-control-xl[data-autosize='true'] {
+        @include textarea-auto-size(var(--bs-textarea-min-block-size), $input-padding-y-xl, $input-border-width);
+    }
+}
+
 .form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
 .form-switch > .form-check-input.form-check-input-pointer,

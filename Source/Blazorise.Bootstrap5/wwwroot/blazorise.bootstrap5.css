@@ -2362,6 +2362,37 @@ hr.divider.divider-text::before {
   flex-wrap: nowrap;
 }
 
+textarea.form-control[data-autosize=true], textarea.form-control-plaintext[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--bs-textarea-min-block-size) + 0.375rem + 0.375rem + var(--bs-border-width) + var(--bs-border-width));
+}
+textarea.form-control-xs[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--bs-textarea-min-block-size) + 0.15rem + 0.15rem + var(--bs-border-width) + var(--bs-border-width));
+}
+textarea.form-control-sm[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--bs-textarea-min-block-size) + 0.25rem + 0.25rem + var(--bs-border-width) + var(--bs-border-width));
+}
+textarea.form-control-md[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--bs-textarea-min-block-size) + 0.47rem + 0.47rem + var(--bs-border-width) + var(--bs-border-width));
+}
+textarea.form-control-lg[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--bs-textarea-min-block-size) + 0.5rem + 0.5rem + var(--bs-border-width) + var(--bs-border-width));
+}
+textarea.form-control-xl[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--bs-textarea-min-block-size) + 0.5rem + 0.5rem + var(--bs-border-width) + var(--bs-border-width));
+}
+
 .form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
 .form-switch > .form-check-input.form-check-input-pointer,

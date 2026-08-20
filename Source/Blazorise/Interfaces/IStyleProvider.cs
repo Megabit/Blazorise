@@ -2,6 +2,12 @@
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public interface IStyleProvider
 {
+    #region MemoInput
+
+    string MemoInputAutoSize( int minimumRows ) => $"field-sizing: content; min-block-size: {minimumRows}lh";
+
+    #endregion
+
     #region Modal
 
     int DefaultModalZIndex { get; }

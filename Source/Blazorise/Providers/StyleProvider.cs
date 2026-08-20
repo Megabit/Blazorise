@@ -28,6 +28,12 @@ public abstract class StyleProvider : IStyleProvider
 
     #endregion
 
+    #region MemoInput
+
+    public virtual string MemoInputAutoSize( int minimumRows ) => $"field-sizing: content; min-block-size: {minimumRows}lh";
+
+    #endregion
+
     #region Modal
 
     public abstract int DefaultModalZIndex { get; }

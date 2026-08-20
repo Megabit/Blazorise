@@ -5717,6 +5717,28 @@ template {
   padding: 8.5px 15px;
 }
 
+textarea.ant-input[data-autosize=true] {
+  --ant-textarea-padding-block: var(--ant-input-padding-block);
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--ant-textarea-min-block-size) + var(--ant-textarea-padding-block) + var(--ant-textarea-padding-block) + var(--ant-line-width) + var(--ant-line-width));
+}
+textarea.ant-input[data-autosize=true].ant-input-xs {
+  --ant-textarea-padding-block: 0;
+}
+textarea.ant-input[data-autosize=true].ant-input-sm {
+  --ant-textarea-padding-block: 0;
+}
+textarea.ant-input[data-autosize=true].ant-input-md {
+  --ant-textarea-padding-block: 4.5px;
+}
+textarea.ant-input[data-autosize=true].ant-input-lg {
+  --ant-textarea-padding-block: var(--ant-input-padding-block-lg);
+}
+textarea.ant-input[data-autosize=true].ant-input-xl {
+  --ant-textarea-padding-block: 8.5px;
+}
+
 .ant-input-group > .ant-select-selection-search-input:first-child > .ant-select-selector {
   border-right: 0;
   border-top-right-radius: 0 !important;

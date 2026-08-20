@@ -5496,9 +5496,9 @@ textarea.mui-input:focus {
   padding-block: 0.6875rem;
 }
 
-textarea.mui-input:not([rows]) {
+textarea.mui-input[data-autosize=true] {
   field-sizing: content;
-  max-block-size: 12rem;
+  min-block-size: max(var(--mui-input-size), var(--mui-textarea-min-block-size) + 1.625rem);
 }
 
 .mui-select {

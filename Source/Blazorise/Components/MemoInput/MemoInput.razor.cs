@@ -37,6 +37,11 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
     /// </summary>
     protected ComponentParameterInfo<bool> paramAutoSize;
 
+    /// <summary>
+    /// Captured Rows parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<int?> paramRows;
+
     #endregion
 
     #region Methods
@@ -61,6 +66,7 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
         parameters.TryGetParameter( TabSize, out paramTabSize );
         parameters.TryGetParameter( SoftTabs, out paramSoftTabs );
         parameters.TryGetParameter( AutoSize, out paramAutoSize );
+        parameters.TryGetParameter( Rows, out paramRows );
     }
 
     /// <inheritdoc/>
@@ -72,6 +78,12 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
         var tabSizeChanged = paramTabSize.Defined && paramTabSize.Changed;
         var softTabsChanged = paramSoftTabs.Defined && paramSoftTabs.Changed;
         var autoSizeChanged = paramAutoSize.Defined && paramAutoSize.Changed;
+        var rowsChanged = paramRows.Defined && paramRows.Changed;
+
+        if ( autoSizeChanged || rowsChanged )
+        {
+            DirtyStyles();
+        }
 
         if ( Rendered && ( replaceTabChanged
                            || tabSizeChanged
@@ -90,11 +102,14 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
 
         if ( Rendered )
         {
-            if ( paramValue.Changed )
+            if ( paramValue.Changed || rowsChanged )
             {
                 ExecuteAfterRender( async () =>
                 {
-                    await Revalidate();
+                    if ( paramValue.Changed )
+                    {
+                        await Revalidate();
+                    }
 
                     if ( AutoSize )
                     {
@@ -147,6 +162,17 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
         builder.Append( ClassProvider.MemoInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        if ( AutoSize )
+        {
+            builder.Append( StyleProvider.MemoInputAutoSize( EffectiveRows ) );
+        }
+
+        base.BuildStyles( builder );
     }
 
     /// <inheritdoc/>
@@ -220,6 +246,16 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
     protected override OnScreenKeyboardEnterKeyBehavior DefaultOnScreenKeyboardEnterKeyBehavior => OnScreenKeyboardEnterKeyBehavior.NewLine;
 
     /// <summary>
+    /// Gets the minimum number of rows used while auto sizing.
+    /// </summary>
+    protected int EffectiveRows => Rows is > 0 ? Rows.Value : 2;
+
+    /// <summary>
+    /// Gets the auto-size marker rendered to the textarea.
+    /// </summary>
+    protected string AutoSizeString => AutoSize ? "true" : null;
+
+    /// <summary>
     /// Specifies the <see cref="IJSMemoInputModule"/> instance.
     /// </summary>
     [Inject] public IJSMemoInputModule JSModule { get; set; }
@@ -255,7 +291,8 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
     [Parameter] public bool SoftTabs { get; set; } = true;
 
     /// <summary>
-    /// If true, the textarea will automatically grow in height according to its content.
+    /// If true, the textarea will automatically grow and shrink in height according to its content.
+    /// The <see cref="Rows"/> value defines its minimum height.
     /// </summary>
     [Parameter] public bool AutoSize { get; set; }
 

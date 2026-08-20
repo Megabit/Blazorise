@@ -1,0 +1,5 @@
+textarea[data-autosize='true'] {
+    field-sizing: content;
+    height: auto;
+    min-block-size: calc(var(--tw-textarea-min-block-size) + 1.25rem + 2px);
+}

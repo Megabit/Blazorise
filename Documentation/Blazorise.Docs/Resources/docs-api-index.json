@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-18T08:43:01.3322600Z",
+  "generatedUtc": "2026-08-20T09:03:03.6227605Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -71178,7 +71178,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "If true, the textarea will automatically grow in height according to its content.",
+          "summary": "If true, the textarea will automatically grow and shrink in height according to its content.     The <strong>Rows</strong> value defines its minimum height.",
           "isBlazoriseEnum": false
         },
         {
