@@ -1,8 +1,8 @@
-﻿@inherits Blazorise.BarDropdownMenu
+@inherits Blazorise.BarDropdownMenu
 @if ( ParentDropdownState.Mode == BarMode.Horizontal )
 {
     <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseover="@ParentBarDropdown.OnMouseOverHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler" @onmousedown="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmousedown:stopPropagation @onmouseup="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmouseup:stopPropagation data-visible="@VisibleString">
-        <div class="fui-NavigationBar__dropdown-menu-list" role="menu" @attributes="@Attributes">
+        <div class="fui-NavigationBar__dropdown-menu-list" role="menu">
             @ChildContent
         </div>
     </div>

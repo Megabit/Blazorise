@@ -91,7 +91,7 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     {
         base.BuildStyles( builder );
 
-        builder.Append( $"padding-left: {( Indentation * ParentBarDropdownState.NestedIndex ).ToString( CultureInfo.InvariantCulture )}rem", ParentBarDropdownState.IsInlineDisplay );
+        builder.Append( $"padding-inline-start: {( Indentation * ParentBarDropdownState.NestedIndex ).ToString( CultureInfo.InvariantCulture )}rem", ParentBarDropdownState.IsInlineDisplay );
     }
 
     /// <inheritdoc/>
@@ -396,7 +396,7 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// <summary>
     /// Gets the aria-haspopup attribute value.
     /// </summary>
-    protected string AriaHasPopup => "menu";
+    protected string AriaHasPopup => ParentBarDropdownState?.IsInlineDisplay == true ? null : "menu";
 
     /// <summary>
     /// Gets the aria-expanded attribute value.
