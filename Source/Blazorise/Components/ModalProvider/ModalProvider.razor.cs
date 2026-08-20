@@ -57,6 +57,8 @@ public partial class ModalProvider : BaseComponent
         if ( existingModalInstance is not null )
         {
             existingModalInstance.Visible = true;
+            modalInstances.Remove( existingModalInstance );
+            modalInstances.Add( existingModalInstance );
         }
         else if ( modalInstances.Contains( modalInstance ) )
         {
@@ -77,7 +79,7 @@ public partial class ModalProvider : BaseComponent
     /// </summary>
     /// <returns></returns>
     internal Task Hide()
-        => modalInstances?.LastOrDefault()?.ModalRef?.Hide() ?? Task.CompletedTask;
+        => TopMost?.ModalRef?.Hide() ?? Task.CompletedTask;
 
     /// <summary>
     /// Closes the modal.
@@ -140,6 +142,12 @@ public partial class ModalProvider : BaseComponent
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the most recently activated visible modal instance, or null when no modal is visible.
+    /// </summary>
+    public ModalInstance TopMost
+        => modalInstances?.LastOrDefault( x => x.Visible );
 
     /// <summary>
     /// The ModalService
