@@ -29,3 +29,16 @@
         }
     }
 }
+
+textarea.ant-input[data-autosize='true'] {
+    --ant-textarea-padding-block: var(--ant-input-padding-block);
+    field-sizing: content;
+    height: auto;
+    min-block-size: calc(var(--ant-textarea-min-block-size) + var(--ant-textarea-padding-block) + var(--ant-textarea-padding-block) + var(--ant-line-width) + var(--ant-line-width));
+
+    @each $name, $properties in $control-sizes {
+        &.ant-input-#{$name} {
+            --ant-textarea-padding-block: #{nth(map-get($properties, input-padding), 1)};
+        }
+    }
+}

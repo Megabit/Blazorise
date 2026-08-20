@@ -68,7 +68,7 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 
 ## Coding Style & Naming Conventions
 
-- Follow `.editorconfig`: 4-space indentation, CRLF endings, braces preferred, and explicit types (avoid `var` unless it improves clarity).
+- Follow `.editorconfig`: 4-space indentation, CRLF endings, braces preferred, and prefer `var` whenever the type can be inferred; use an explicit type only when it cannot.
 - Always preserve consistent `CRLF` line endings per file; never introduce mixed `LF`/`CRLF` endings in the same file.
 - Do not add a trailing newline at EOF, except in `*.css` and `*.scss` files; keep all other file endings without an extra line.
 - When editing `*.scss` files, do not manually edit generated `*.css` files; CSS will be generated manually by the team.

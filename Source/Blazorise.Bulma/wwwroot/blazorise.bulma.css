@@ -3007,6 +3007,12 @@ label.radio.button input[type=radio] {
   padding-right: 0;
 }
 
+.textarea[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--bulma-textarea-min-block-size) + var(--bulma-control-padding-vertical) + var(--bulma-control-padding-vertical) + var(--bulma-control-border-width) + var(--bulma-control-border-width));
+}
+
 select[readonly] {
   pointer-events: none;
 }

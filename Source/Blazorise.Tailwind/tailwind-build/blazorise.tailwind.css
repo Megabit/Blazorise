@@ -1056,6 +1056,12 @@ body:before {
   box-shadow: none;
 }
 
+textarea[data-autosize=true] {
+  field-sizing: content;
+  height: auto;
+  min-block-size: calc(var(--tw-textarea-min-block-size) + 1.25rem + 2px);
+}
+
 .tw-dock-layout {
   --dock-split-gap: .25rem;
   display: block;

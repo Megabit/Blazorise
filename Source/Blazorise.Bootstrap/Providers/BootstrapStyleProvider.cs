@@ -5,6 +5,12 @@ namespace Blazorise.Bootstrap.Providers;
 
 public class BootstrapStyleProvider : StyleProvider
 {
+    #region MemoInput
+
+    public override string MemoInputAutoSize( int minimumRows ) => $"--textarea-min-block-size: {minimumRows}lh";
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 1050;

@@ -1,138 +1,79 @@
-import { Behave } from "./vendors/Behave.js?v=2.3.0.0";
 import { getRequiredElement } from "./utilities.js?v=2.3.0.0";
 
 const _instances = [];
+const supportsNativeFieldSizing = typeof CSS !== "undefined"
+    && typeof CSS.supports === "function"
+    && CSS.supports("field-sizing", "content");
 
-export function initialize(element, elementId, options) {
+let behaveModulePromise;
+
+export async function initialize(element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
     if (!element)
         return;
 
-    const replaceTab = options.replaceTab || false;
-    const tabSize = options.tabSize || 4;
-    const softTabs = options.tabSize || true;
-
-    let behave = replaceTab ? new Behave({
-        textarea: element,
-        replaceTab: replaceTab,
-        softTabs: softTabs,
-        tabSize: tabSize,
-        autoOpen: true,
-        overwrite: true,
-        autoStrip: true,
-        autoIndent: true,
-        fence: false
-    }) : null;
-
-    if (options.autoSize) {
-        element.oninput = onInputChanged;
-
-        // fire oninput immediatelly to trigger autosize in case the text is long
-        if ("createEvent" in document) {
-            let event = document.createEvent("HTMLEvents");
-            event.initEvent("input", false, true);
-            element.dispatchEvent(event);
-        }
-        else {
-            element.fireEvent("oninput");
-        }
-    }
-
-    _instances[elementId] = {
+    const instance = {
         element: element,
         elementId: elementId,
-        replaceTab: replaceTab,
-        tabSize: tabSize,
-        softTabs: softTabs,
-        autoSize: options.autoSize || false,
-        behave: behave
+        replaceTab: options.replaceTab ?? false,
+        tabSize: options.tabSize ?? 4,
+        softTabs: options.softTabs ?? true,
+        autoSize: false,
+        behave: null,
+        behaveRevision: 0,
+        hasFallbackInputListener: false,
+        originalHeight: "",
+        originalOverflowY: ""
     };
+
+    _instances[elementId] = instance;
+
+    setAutoSize(instance, options.autoSize ?? false);
+    await updateBehave(instance);
 }
 
 export function destroy(element, elementId) {
     const instance = _instances[elementId];
 
-    if (instance && instance.behave) {
-        instance.behave.destroy();
-        instance.behave = null;
-    }
+    if (!instance)
+        return;
 
+    destroyBehave(instance);
+    disableAutoSizeFallback(instance);
     delete _instances[elementId];
 }
 
-export function updateOptions(element, elementId, options) {
+export async function updateOptions(element, elementId, options) {
     const instance = _instances[elementId];
 
-    if (instance) {
-        if (options.replaceTab.changed || options.tabSize.changed || options.softTabs.changed) {
-            instance.replaceTab = options.replaceTab.value;
-            instance.tabSize = options.tabSize.value;
-            instance.softTabs = options.softTabs.value;
+    if (!instance)
+        return;
 
-            if (instance.behave) {
-                instance.behave.destroy();
-                instance.behave = null;
-            }
+    if (options.replaceTab.changed || options.tabSize.changed || options.softTabs.changed) {
+        instance.replaceTab = options.replaceTab.value;
+        instance.tabSize = options.tabSize.value;
+        instance.softTabs = options.softTabs.value;
 
-            if (instance.replaceTab) {
-                instance.behave = new Behave({
-                    textarea: element,
-                    replaceTab: instance.replaceTab,
-                    softTabs: instance.softTabs,
-                    tabSize: instance.tabSize,
-                    autoOpen: true,
-                    overwrite: true,
-                    autoStrip: true,
-                    autoIndent: true,
-                    fence: false
-                });
-            }
-        }
-
-        if (options.autoSize.changed) {
-            instance.autoSize = options.autoSize.value;
-            element.oninput = options.autoSize.value
-                ? onInputChanged
-                : function() { };
-        }
-    };
-}
-
-function onInputChanged(e) {
-    if (e && e.target) {
-        const textarea = e.target;
-        const computedStyle = window.getComputedStyle(textarea);
-
-        const borderTop = parseFloat(computedStyle.borderTopWidth) || 0;
-        const borderBottom = parseFloat(computedStyle.borderBottomWidth) || 0;
-
-        textarea.style.height = 'auto';
-        textarea.style.overflowY = 'hidden';
-
-        const totalExtraSpace = borderTop + borderBottom;
-        const minimumRowsHeight = getMinimumRowsHeight(textarea, computedStyle);
-
-        textarea.style.height = `${Math.max(textarea.scrollHeight + totalExtraSpace, minimumRowsHeight)}px`;
-        textarea.dataset.blazoriseMemoAutoSized = 'true';
+        await updateBehave(instance);
     }
+
+    if (options.autoSize.changed)
+        setAutoSize(instance, options.autoSize.value);
 }
 
 export function recalculateAutoHeight(element, elementId) {
-    element = getRequiredElement(element, elementId);
-
-    if (!element)
+    if (supportsNativeFieldSizing)
         return;
 
-    // fire input to trigger autosize i n case the text is long
-    if ("createEvent" in document) {
-        let event = document.createEvent("HTMLEvents");
-        event.initEvent("input", false, true);
-        element.dispatchEvent(event);
-    }
-    else {
-        element.fireEvent("oninput");
-    }
+    element = getRequiredElement(element, elementId);
+
+    const instance = _instances[elementId];
+
+    if (!element || !instance?.autoSize)
+        return;
+
+    autoSizeElement(element);
 }
 
 export function refreshDisplay(element, elementId) {
@@ -145,28 +86,120 @@ export function refreshDisplay(element, elementId) {
         const instance = _instances[elementId];
 
         if (instance?.autoSize) {
-            recalculateAutoHeight(element, elementId);
+            if (!supportsNativeFieldSizing)
+                autoSizeElement(element);
+
             return;
         }
 
-        const rows = element.rows;
-
-        if (element.dataset.blazoriseMemoAutoSized === 'true') {
-            element.style.height = '';
-            element.style.overflowY = '';
-            delete element.dataset.blazoriseMemoAutoSized;
-        }
-
-        if (rows > 1) {
-            element.rows = 1;
-            element.offsetHeight;
-            element.rows = rows;
-        }
+        refreshFixedRows(element);
     });
 }
 
+async function updateBehave(instance) {
+    const revision = ++instance.behaveRevision;
+
+    destroyBehave(instance);
+
+    if (!instance.replaceTab)
+        return;
+
+    behaveModulePromise ??= import("./vendors/Behave.js?v=2.3.0.0");
+
+    const { Behave } = await behaveModulePromise;
+
+    if (_instances[instance.elementId] !== instance
+        || instance.behaveRevision !== revision
+        || !instance.replaceTab)
+        return;
+
+    instance.behave = new Behave({
+        textarea: instance.element,
+        replaceTab: instance.replaceTab,
+        softTabs: instance.softTabs,
+        tabSize: instance.tabSize,
+        autoOpen: true,
+        overwrite: true,
+        autoStrip: true,
+        autoIndent: true,
+        fence: false
+    });
+}
+
+function destroyBehave(instance) {
+    if (!instance.behave)
+        return;
+
+    instance.behave.destroy();
+    instance.behave = null;
+}
+
+function setAutoSize(instance, autoSize) {
+    instance.autoSize = autoSize;
+
+    if (supportsNativeFieldSizing)
+        return;
+
+    if (autoSize) {
+        if (!instance.hasFallbackInputListener) {
+            instance.originalHeight = instance.element.style.height;
+            instance.originalOverflowY = instance.element.style.overflowY;
+            instance.element.addEventListener("input", onInputChanged);
+            instance.hasFallbackInputListener = true;
+        }
+
+        autoSizeElement(instance.element);
+    }
+    else {
+        disableAutoSizeFallback(instance);
+    }
+}
+
+function disableAutoSizeFallback(instance) {
+    if (instance.hasFallbackInputListener) {
+        instance.element.removeEventListener("input", onInputChanged);
+        instance.hasFallbackInputListener = false;
+    }
+
+    if (instance.element.dataset.blazoriseMemoAutoSized === "true") {
+        instance.element.style.height = instance.originalHeight;
+        instance.element.style.overflowY = instance.originalOverflowY;
+        delete instance.element.dataset.blazoriseMemoAutoSized;
+    }
+}
+
+function onInputChanged(event) {
+    if (event?.target)
+        autoSizeElement(event.target);
+}
+
+function autoSizeElement(textarea) {
+    const computedStyle = window.getComputedStyle(textarea);
+    const borderTop = Number.parseFloat(computedStyle.borderTopWidth) || 0;
+    const borderBottom = Number.parseFloat(computedStyle.borderBottomWidth) || 0;
+
+    textarea.style.height = "auto";
+    textarea.style.overflowY = "hidden";
+
+    const minimumRowsHeight = getMinimumRowsHeight(textarea, computedStyle);
+
+    textarea.style.height = `${Math.max(textarea.scrollHeight + borderTop + borderBottom, minimumRowsHeight)}px`;
+    textarea.style.overflowY = textarea.scrollHeight > textarea.clientHeight ? "auto" : "hidden";
+    textarea.dataset.blazoriseMemoAutoSized = "true";
+}
+
+function refreshFixedRows(element) {
+    const rows = element.rows;
+
+    if (rows > 1) {
+        element.rows = 1;
+        element.offsetHeight;
+        element.rows = rows;
+    }
+}
+
 function getMinimumRowsHeight(textarea, computedStyle) {
-    const rows = textarea.rows || Number.parseInt(textarea.getAttribute('rows') || '0', 10);
+    const rows = textarea.rows || Number.parseInt(textarea.getAttribute("rows") || "0", 10);
 
     if (!(rows > 1))
         return 0;

@@ -5,6 +5,12 @@ namespace Blazorise.Bulma.Providers;
 
 public class BulmaStyleProvider : StyleProvider
 {
+    #region MemoInput
+
+    public override string MemoInputAutoSize( int minimumRows ) => $"--bulma-textarea-min-block-size: {minimumRows}lh";
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 40;
