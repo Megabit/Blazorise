@@ -1165,6 +1165,7 @@ input[type=button].btn-block {
   z-index: auto;
 }
 @supports (position-anchor: --bootstrap5-datepicker-anchor) and (anchor-scope: --bootstrap5-datepicker-anchor) {
+  .datepicker .datepicker-calendar.dropdown-menu.datepicker-calendar-static,
   .datepicker .datepicker-calendar.dropdown-menu.datepicker-calendar-floating {
     position: fixed;
     position-anchor: --bootstrap5-datepicker-anchor;
@@ -1540,6 +1541,7 @@ input[type=button].btn-block {
   z-index: auto;
 }
 @supports (position-anchor: --bootstrap5-timepicker-anchor) and (anchor-scope: --bootstrap5-timepicker-anchor) {
+  .timepicker .timepicker-menu.dropdown-menu.timepicker-menu-static,
   .timepicker .timepicker-menu.dropdown-menu.timepicker-menu-floating {
     position: fixed;
     position-anchor: --bootstrap5-timepicker-anchor;

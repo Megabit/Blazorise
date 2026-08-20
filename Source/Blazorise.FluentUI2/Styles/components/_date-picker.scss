@@ -52,6 +52,7 @@
         }
 
         @supports (position-anchor: --fluent-datepicker-anchor) and (anchor-scope: --fluent-datepicker-anchor) {
+            &.fui-DatePicker__calendar-static,
             &.fui-DatePicker__calendar-floating {
                 position: fixed;
                 position-anchor: --fluent-datepicker-anchor;

@@ -48,6 +48,7 @@
     }
 
     @supports (position-anchor: --ant-datepicker-anchor) and (anchor-scope: --ant-datepicker-anchor) {
+        &.ant-picker-dropdown-static,
         &.ant-picker-dropdown-floating {
             position: fixed;
             position-anchor: --ant-datepicker-anchor;

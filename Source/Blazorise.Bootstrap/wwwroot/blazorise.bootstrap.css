@@ -370,6 +370,7 @@ body:before {
   z-index: auto;
 }
 @supports (position-anchor: --bootstrap-datepicker-anchor) and (anchor-scope: --bootstrap-datepicker-anchor) {
+  .datepicker .datepicker-calendar.dropdown-menu.datepicker-calendar-static,
   .datepicker .datepicker-calendar.dropdown-menu.datepicker-calendar-floating {
     position: fixed;
     position-anchor: --bootstrap-datepicker-anchor;
@@ -745,6 +746,7 @@ body:before {
   z-index: auto;
 }
 @supports (position-anchor: --bootstrap-timepicker-anchor) and (anchor-scope: --bootstrap-timepicker-anchor) {
+  .timepicker .timepicker-menu.dropdown-menu.timepicker-menu-static,
   .timepicker .timepicker-menu.dropdown-menu.timepicker-menu-floating {
     position: fixed;
     position-anchor: --bootstrap-timepicker-anchor;
