@@ -77,8 +77,6 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
 
         if ( paramValue.Changed )
         {
-            await CurrentValueHandler( paramValue.Value );
-
             if ( Rendered )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue.Value ) );
@@ -92,16 +90,14 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
             || readOnlyChanged ) )
         {
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId,
-            new ColorPickerUpdateJsOptions
-            {
-                Palette = new JSOptionChange<string[]>( paletteChanged, paramPalette.Value ),
-                ShowPalette = new JSOptionChange<bool>( showPaletteChanged, paramShowPalette.Value ),
-                HideAfterPaletteSelect = new JSOptionChange<bool>( hideAfterPaletteSelectChanged, paramHideAfterPaletteSelect.Value ),
-                Disabled = new JSOptionChange<bool>( disabledChanged, paramDisabled.Value ),
-                ReadOnly = new JSOptionChange<bool>( readOnlyChanged, paramReadOnly.Value )
-            } ) );
-
-
+                new ColorPickerUpdateJsOptions
+                {
+                    Palette = new JSOptionChange<string[]>( paletteChanged, paramPalette.Value ),
+                    ShowPalette = new JSOptionChange<bool>( showPaletteChanged, paramShowPalette.Value ),
+                    HideAfterPaletteSelect = new JSOptionChange<bool>( hideAfterPaletteSelectChanged, paramHideAfterPaletteSelect.Value ),
+                    Disabled = new JSOptionChange<bool>( disabledChanged, paramDisabled.Value ),
+                    ReadOnly = new JSOptionChange<bool>( readOnlyChanged, paramReadOnly.Value )
+                } ) );
         }
     }
 
