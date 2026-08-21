@@ -1203,6 +1203,9 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
         var background = ToHex( backgroundColor );
         var hoverBackground = ToHex( hoverBackgroundColor );
         var color = ToHex( ParseColor( inColor ) );
+        var border = ToHex( TintColor(
+            ParseColor( NormalizeBootstrapColorOption( variant, theme.ColorOptions[variant].Invoke() ) ),
+            theme.BorderOptions?.SubtleTintWeight ?? 60 ) );
 
         var white = Var( ThemeVariables.White );
 
@@ -1211,6 +1214,7 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
             .Append( "{" )
             .Append( $"color: {color};" )
             .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
+            .Append( $"--bs-list-group-border-color: {border};" )
             .AppendLine( "}" );
 
         sb
