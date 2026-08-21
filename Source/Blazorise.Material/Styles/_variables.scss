@@ -50,6 +50,14 @@ $gutters: $spacers !default;
 $sizes: () !default;
 $sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes );
 
+$mui-button-sizes: (
+    xs: ( padding: 0.5rem, size: 1.5rem, font-size: 0.625rem ),
+    sm: ( padding: 0.75rem, size: 2rem, font-size: 0.75rem ),
+    md: ( padding: 1.25rem, size: 2.75rem, font-size: 0.875rem ),
+    lg: ( padding: 1.5rem, size: 3rem, font-size: 1rem ),
+    xl: ( padding: 1.75rem, size: 3.5rem, font-size: 1.125rem )
+) !default;
+
 $grid-breakpoints: ( xs: 0, sm: 600px, md: 960px, lg: 1280px, xl: 1920px, xxl: 2560px ) !default;
 
 $container-max-widths: ( sm: 540px, md: 720px, lg: 960px, xl: 1140px, xxl: 1320px ) !default;

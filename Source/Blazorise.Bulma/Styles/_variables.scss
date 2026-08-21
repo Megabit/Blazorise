@@ -66,6 +66,13 @@ $size-extra-large: $size-3 !default;
 
 $component-sizes: ( extra-small: $size-extra-small, small: $size-small, medium: $size-medium, large: $size-large, extra-large: $size-extra-large ) !default;
 $component-extra-sizes: ( extra-small: $size-extra-small, extra-large: $size-extra-large ) !default;
+$button-sizes: (
+    extra-small: $size-extra-small,
+    small: $size-small,
+    medium: ($size-normal + $size-medium) * .5,
+    large: $size-medium,
+    extra-large: ($size-medium + $size-large) * .5
+) !default;
 
 $validation-state-colors: ( success: $success, warning: $warning, danger: $danger ) !default;
 $slider-validation-state-colors: ( success: $success, danger: $danger ) !default;

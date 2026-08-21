@@ -794,7 +794,7 @@ public class TailwindClassProvider : ClassProvider
         return "group b-button-group inline-flex gap-x-0";
     }
 
-    public override string ButtonsSize( Size size ) => size != Size.Default ? $"btn-group-{ToSize( size )}" : null;
+    public override string ButtonsSize( Size size ) => size != Size.Default ? $"b-button-group-{ToSize( size )}" : null;
 
     #endregion
 

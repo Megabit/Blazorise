@@ -146,11 +146,11 @@ $rating-colors: (
 ) !default;
 $figure-sizes: ( 16, 24, 32, 48, 64, 96, 128, 256, 512 ) !default;
 $control-sizes: (
-    xs: ( input-padding: 0 7px, button-padding: 0 7px, font-size: 10px, height: 16px ),
-    sm: ( input-padding: 0 var(--ant-input-padding-inline-sm), button-padding: 0 var(--ant-button-padding-inline-sm), font-size: var(--ant-font-size-sm), height: var(--ant-control-height-sm) ),
-    md: ( input-padding: 4.5px 11px, button-padding: 4.5px 11px, font-size: 14px, height: 36px ),
-    lg: ( input-padding: var(--ant-input-padding-block-lg) calc(var(--ant-button-padding-inline-lg) - var(--ant-line-width) * 2), button-padding: var(--ant-input-padding-block-lg) calc(var(--ant-button-padding-inline-lg) - var(--ant-line-width) * 2), font-size: var(--ant-font-size-lg), height: var(--ant-control-height-lg) ),
-    xl: ( input-padding: 8.5px 15px, button-padding: 8.5px 15px, font-size: 18px, height: 48px )
+    xs: ( input-padding: 0 7px, button-padding: 0 var(--ant-button-padding-inline-sm), font-size: calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2), height: var(--ant-control-height-xs), button-border-radius: var(--ant-border-radius-xs) ),
+    sm: ( input-padding: 0 var(--ant-input-padding-inline-sm), button-padding: 0 var(--ant-button-padding-inline-sm), font-size: var(--ant-font-size-sm), height: var(--ant-control-height-sm), button-border-radius: var(--ant-border-radius-sm) ),
+    md: ( input-padding: 4.5px 11px, button-padding: 0 var(--ant-button-padding-inline), font-size: var(--ant-font-size), height: calc(var(--ant-control-height) + var(--ant-size-unit)), button-border-radius: var(--ant-border-radius) ),
+    lg: ( input-padding: var(--ant-input-padding-block-lg) calc(var(--ant-button-padding-inline-lg) - var(--ant-line-width) * 2), button-padding: 0 var(--ant-button-padding-inline-lg), font-size: var(--ant-font-size-lg), height: var(--ant-control-height-lg), button-border-radius: var(--ant-border-radius-lg) ),
+    xl: ( input-padding: 8.5px 15px, button-padding: 0 var(--ant-button-padding-inline-lg), font-size: calc(var(--ant-font-size-lg) + var(--ant-line-width) * 2), height: calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2), button-border-radius: var(--ant-border-radius-lg) )
 ) !default;
 $input-number-sizes: (
     sm: ( font-size: var(--ant-font-size-sm), height: var(--ant-control-height-sm), padding-block: 0, padding-inline: var(--ant-input-padding-inline-sm) ),

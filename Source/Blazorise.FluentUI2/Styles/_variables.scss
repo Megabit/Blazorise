@@ -947,6 +947,14 @@ $gutters: $spacers !default;
 $sizes: () !default;
 $sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes );
 
+$fui-button-sizes: (
+    xs: ( padding-inline: var(--spacingHorizontalXS), padding-block: 1px, font-weight: var(--fontWeightRegular), font-size: var(--fontSizeBase100), line-height: var(--lineHeightBase100) ),
+    sm: ( padding-inline: var(--spacingHorizontalS), padding-block: 3px, font-weight: var(--fontWeightRegular), font-size: var(--fontSizeBase200), line-height: var(--lineHeightBase200) ),
+    md: ( padding-inline: var(--spacingHorizontalM), padding-block: 6px, font-weight: var(--fontWeightSemibold), font-size: var(--fontSizeBase400), line-height: var(--lineHeightBase400) ),
+    lg: ( padding-inline: var(--spacingHorizontalL), padding-block: 8px, font-weight: var(--fontWeightSemibold), font-size: var(--fontSizeBase400), line-height: var(--lineHeightBase400) ),
+    xl: ( padding-inline: var(--spacingHorizontalXL), padding-block: 12px, font-weight: var(--fontWeightSemibold), font-size: var(--fontSizeBase400), line-height: var(--lineHeightBase400) )
+) !default;
+
 $grid-breakpoints: ( xs: 0, sm: 600px, md: 960px, lg: 1280px, xl: 1920px, xxl: 2560px ) !default;
 
 $container-max-widths: ( sm: 540px, md: 920px, lg: 1220px, xl: 1880px, xxl: 2520px) !default;

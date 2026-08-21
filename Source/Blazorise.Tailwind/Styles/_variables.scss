@@ -1,5 +1,13 @@
 ﻿$figure-dimensions: 16 24 32 48 64 96 128 256 512 !default;
 
+$button-sizes: (
+    xs: ( padding-x: calc(var(--spacing) * 3), padding-y: calc(var(--spacing) * 2), font-size: var(--text-xs), line-height: var(--text-xs--line-height) ),
+    sm: ( padding-x: calc(var(--spacing) * 3), padding-y: calc(var(--spacing) * 2), font-size: var(--text-sm), line-height: var(--text-sm--line-height) ),
+    md: ( padding-x: calc(var(--spacing) * 6), padding-y: calc(var(--spacing) * 3), font-size: var(--text-base), line-height: var(--text-base--line-height) ),
+    lg: ( padding-x: calc(var(--spacing) * 6), padding-y: calc(var(--spacing) * 3.5), font-size: var(--text-base), line-height: var(--text-base--line-height) ),
+    xl: ( padding-x: calc(var(--spacing) * 6), padding-y: calc(var(--spacing) * 4), font-size: var(--text-base), line-height: var(--text-base--line-height) )
+) !default;
+
 :root {
     --b-bar-horizontal-height: 88px;
 }

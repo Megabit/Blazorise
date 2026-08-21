@@ -1,1 +1,8 @@
 ﻿
+@each $name, $properties in $button-sizes {
+    .b-button-group-#{$name} .b-button {
+        padding: map-get($properties, padding-y) map-get($properties, padding-x);
+        font-size: map-get($properties, font-size);
+        line-height: map-get($properties, line-height);
+    }
+}

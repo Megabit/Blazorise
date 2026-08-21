@@ -8863,6 +8863,31 @@ body:before {
 .b-breadcrumb .b-breadcrumb-item:first-child > div > span {
   margin-left: 0;
 }
+.b-button-group-xs .b-button {
+  padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+}
+.b-button-group-sm .b-button {
+  padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+}
+.b-button-group-md .b-button {
+  padding: calc(var(--spacing) * 3) calc(var(--spacing) * 6);
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+}
+.b-button-group-lg .b-button {
+  padding: calc(var(--spacing) * 3.5) calc(var(--spacing) * 6);
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+}
+.b-button-group-xl .b-button {
+  padding: calc(var(--spacing) * 4) calc(var(--spacing) * 6);
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+}
 .b-card-group > .b-card {
   flex: 1 0 0%;
 }

@@ -1,3 +1,9 @@
+@mixin mui-button-size($properties) {
+    --mui-btn-padding: #{map-get($properties, padding)};
+    --mui-btn-size: #{map-get($properties, size)};
+    --mui-btn-font-size: #{map-get($properties, font-size)};
+}
+
 .mui-button {
     --mui-btn-padding: 1rem;
     --mui-btn-size: 2.5rem;
@@ -60,34 +66,10 @@
         border-radius: var(--mui-btn-active-border-radius, 0.5rem) !important;
     }
 
-    &-xs {
-        --mui-btn-padding: 0.5rem;
-        --mui-btn-size: 1.5rem;
-        --mui-btn-font-size: 0.625rem;
-    }
-
-    &-sm {
-        --mui-btn-padding: 0.75rem;
-        --mui-btn-size: 2rem;
-        --mui-btn-font-size: 0.75rem;
-    }
-
-    &-md {
-        --mui-btn-padding: 1.25rem;
-        --mui-btn-size: 2.75rem;
-        --mui-btn-font-size: 0.875rem;
-    }
-
-    &-lg {
-        --mui-btn-padding: 1.5rem;
-        --mui-btn-size: 3rem;
-        --mui-btn-font-size: 1rem;
-    }
-
-    &-xl {
-        --mui-btn-padding: 1.75rem;
-        --mui-btn-size: 3.5rem;
-        --mui-btn-font-size: 1.125rem;
+    @each $name, $properties in $mui-button-sizes {
+        &-#{$name} {
+            @include mui-button-size($properties);
+        }
     }
 
     &-primary {
