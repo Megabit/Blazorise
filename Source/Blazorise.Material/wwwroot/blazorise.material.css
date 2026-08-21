@@ -2953,6 +2953,56 @@ body {
   margin: 0;
 }
 
+.mui-button-group-xs > .mui-button,
+.mui-button-group-xs > .mui-button-group > .mui-button,
+.mui-button-group-xs > .mui-dropdown > .mui-button,
+.mui-button-group-xs > .mui-dropdown > .mui-dropdown-toggle,
+.mui-button-group-xs > .mui-radio-button > .mui-button {
+  --mui-btn-padding: 0.5rem;
+  --mui-btn-size: 1.5rem;
+  --mui-btn-font-size: 0.625rem;
+}
+
+.mui-button-group-sm > .mui-button,
+.mui-button-group-sm > .mui-button-group > .mui-button,
+.mui-button-group-sm > .mui-dropdown > .mui-button,
+.mui-button-group-sm > .mui-dropdown > .mui-dropdown-toggle,
+.mui-button-group-sm > .mui-radio-button > .mui-button {
+  --mui-btn-padding: 0.75rem;
+  --mui-btn-size: 2rem;
+  --mui-btn-font-size: 0.75rem;
+}
+
+.mui-button-group-md > .mui-button,
+.mui-button-group-md > .mui-button-group > .mui-button,
+.mui-button-group-md > .mui-dropdown > .mui-button,
+.mui-button-group-md > .mui-dropdown > .mui-dropdown-toggle,
+.mui-button-group-md > .mui-radio-button > .mui-button {
+  --mui-btn-padding: 1.25rem;
+  --mui-btn-size: 2.75rem;
+  --mui-btn-font-size: 0.875rem;
+}
+
+.mui-button-group-lg > .mui-button,
+.mui-button-group-lg > .mui-button-group > .mui-button,
+.mui-button-group-lg > .mui-dropdown > .mui-button,
+.mui-button-group-lg > .mui-dropdown > .mui-dropdown-toggle,
+.mui-button-group-lg > .mui-radio-button > .mui-button {
+  --mui-btn-padding: 1.5rem;
+  --mui-btn-size: 3rem;
+  --mui-btn-font-size: 1rem;
+}
+
+.mui-button-group-xl > .mui-button,
+.mui-button-group-xl > .mui-button-group > .mui-button,
+.mui-button-group-xl > .mui-dropdown > .mui-button,
+.mui-button-group-xl > .mui-dropdown > .mui-dropdown-toggle,
+.mui-button-group-xl > .mui-radio-button > .mui-button {
+  --mui-btn-padding: 1.75rem;
+  --mui-btn-size: 3.5rem;
+  --mui-btn-font-size: 1.125rem;
+}
+
 .mui-button-group > .mui-radio-button:first-child > .mui-button,
 .mui-button-group > .mui-button:first-child,
 .mui-button-group > .mui-dropdown:first-child > .mui-button,

@@ -6,24 +6,31 @@
             padding: map-get($properties, input-padding);
             font-size: map-get($properties, font-size);
             height: map-get($properties, height);
+            border-radius: map-get($properties, border-radius);
         }
     }
 
     &-number {
         padding-inline: 0;
 
+        .ant-input-number-input-wrap {
+            height: 100%;
+        }
+
         .ant-input-number-input {
             padding: var(--ant-input-padding-block) var(--ant-input-padding-inline);
         }
 
-        @each $name, $properties in $input-number-sizes {
+        @each $name, $properties in $control-sizes {
             &-#{$name} {
                 font-size: map-get($properties, font-size);
                 height: map-get($properties, height);
+                padding-block: 0;
+                border-radius: map-get(map-get($control-sizes, $name), border-radius);
 
                 .ant-input-number-input {
-                    height: calc(#{map-get($properties, height)} - 2px);
-                    padding: map-get($properties, padding-block) map-get($properties, padding-inline);
+                    height: 100%;
+                    padding: map-get($properties, input-padding);
                 }
             }
         }

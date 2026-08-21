@@ -267,9 +267,9 @@ $btn-block-spacing-y: .5rem !default;
 $btn-border-radius: $border-radius !default;
 $btn-border-radius-xs: $border-radius-xs !default;
 $btn-border-radius-sm: $border-radius-sm !default;
-$btn-border-radius-md: $border-radius-md !default;
+$btn-border-radius-md: $btn-border-radius !default;
 $btn-border-radius-lg: $border-radius-lg !default;
-$btn-border-radius-xl: $border-radius-xl !default;
+$btn-border-radius-xl: $btn-border-radius-lg !default;
 
 $btn-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out !default;
 
@@ -320,9 +320,9 @@ $input-box-shadow: inset 0 1px 1px rgba($black, .075) !default;
 $input-border-radius: $border-radius !default;
 $input-border-radius-xs: $border-radius-xs !default;
 $input-border-radius-sm: $border-radius-sm !default;
-$input-border-radius-md: $border-radius-md !default;
+$input-border-radius-md: $input-border-radius !default;
 $input-border-radius-lg: $border-radius-lg !default;
-$input-border-radius-xl: $border-radius-xl !default;
+$input-border-radius-xl: $input-border-radius-lg !default;
 
 $input-focus-bg: $input-bg !default;
 $input-focus-border-color: lighten($component-active-bg, 25%) !default;

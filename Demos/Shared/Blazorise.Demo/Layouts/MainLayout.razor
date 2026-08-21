@@ -12,8 +12,6 @@
         <Layout>
             <LayoutHeader Fixed>
                 <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
-                         ThemeGradientChanged="@OnThemeGradientChanged"
-                         ThemeRoundedChanged="@OnThemeRoundedChanged"
                          ThemeColorChanged="@OnThemeColorChanged"
                          @bind-LayoutType="@layoutType" />
             </LayoutHeader>
@@ -28,8 +26,6 @@ else if ( layoutType == "fixed-header-footer-only" )
     <Layout>
         <LayoutHeader Fixed>
             <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
-                     ThemeGradientChanged="@OnThemeGradientChanged"
-                     ThemeRoundedChanged="@OnThemeRoundedChanged"
                      ThemeColorChanged="@OnThemeColorChanged"
                      @bind-LayoutType="@layoutType" />
         </LayoutHeader>
@@ -46,8 +42,6 @@ else if ( layoutType == "sider-with-header-on-top" )
     <Layout>
         <LayoutHeader Fixed>
             <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
-                     ThemeGradientChanged="@OnThemeGradientChanged"
-                     ThemeRoundedChanged="@OnThemeRoundedChanged"
                      ThemeColorChanged="@OnThemeColorChanged"
                      @bind-LayoutType="@layoutType" />
         </LayoutHeader>

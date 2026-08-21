@@ -93,18 +93,26 @@
     }
 }
 
-@mixin picker-size($name, $font-size, $height, $padding-block, $padding-inline) {
+@mixin picker-size($name, $properties) {
+    $height: map-get($properties, height);
+
     .ant-picker-#{$name} {
         height: $height;
-        padding: $padding-block $padding-inline;
-        font-size: $font-size;
+        padding: map-get($properties, input-padding);
+        font-size: map-get($properties, font-size);
+        border-radius: map-get($properties, border-radius);
     }
 
-    .ant-picker-#{$name} .ant-picker-input > input:not([type='hidden']) {
-        font-size: $font-size;
+    .ant-picker-#{$name} .ant-picker-input {
+        height: 100%;
+
+        > input:not([type='hidden']) {
+            height: 100%;
+            font-size: map-get($properties, font-size);
+        }
     }
 }
 
-@each $name, $sizes in $picker-sizes {
-    @include picker-size($name, nth($sizes, 1), nth($sizes, 2), nth($sizes, 3), nth($sizes, 4));
+@each $name, $properties in $control-sizes {
+    @include picker-size($name, $properties);
 }

@@ -3305,59 +3305,69 @@ button {
   border-color: transparent;
 }
 .fui-Button.fui-Button-xs {
-  min-height: 20px;
-  padding: 0 var(--spacingHorizontalXS);
+  min-height: 18px;
+  padding-inline: var(--spacingHorizontalXS);
+  padding-block: 1px;
   font-weight: var(--fontWeightRegular);
   font-size: var(--fontSizeBase100);
-  border-radius: var(--borderRadiusSmall);
   line-height: var(--lineHeightBase100);
+  border-radius: var(--borderRadiusMedium);
 }
 .fui-Button.fui-Button-xs:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
-  inline-size: 20px;
+  inline-size: 18px;
+  padding-inline: 0;
 }
 .fui-Button.fui-Button-sm {
   min-height: 24px;
-  padding: 0 var(--spacingHorizontalS);
+  padding-inline: var(--spacingHorizontalS);
+  padding-block: 3px;
   font-weight: var(--fontWeightRegular);
   font-size: var(--fontSizeBase200);
-  border-radius: var(--borderRadiusSmall);
   line-height: var(--lineHeightBase200);
+  border-radius: var(--borderRadiusMedium);
 }
 .fui-Button.fui-Button-sm:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
   inline-size: 24px;
+  padding-inline: 0;
 }
 .fui-Button.fui-Button-md {
   min-height: 36px;
-  padding: 0 var(--spacingHorizontalM);
+  padding-inline: var(--spacingHorizontalM);
+  padding-block: 6px;
   font-weight: var(--fontWeightSemibold);
   font-size: var(--fontSizeBase400);
-  border-radius: var(--borderRadiusMedium);
   line-height: var(--lineHeightBase400);
+  border-radius: var(--borderRadiusMedium);
 }
 .fui-Button.fui-Button-md:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
   inline-size: 36px;
+  padding-inline: 0;
 }
 .fui-Button.fui-Button-lg {
   min-height: 40px;
-  padding: 0 var(--spacingHorizontalL);
+  padding-inline: var(--spacingHorizontalL);
+  padding-block: 8px;
   font-weight: var(--fontWeightSemibold);
   font-size: var(--fontSizeBase400);
-  border-radius: var(--borderRadiusLarge);
   line-height: var(--lineHeightBase400);
+  border-radius: var(--borderRadiusMedium);
 }
 .fui-Button.fui-Button-lg:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
   inline-size: 40px;
+  padding-inline: 0;
 }
 .fui-Button.fui-Button-xl {
   min-height: 48px;
-  padding: 0 var(--spacingHorizontalXL);
+  padding-inline: var(--spacingHorizontalXL);
+  padding-block: 12px;
   font-weight: var(--fontWeightSemibold);
-  font-size: var(--fontSizeBase500);
-  border-radius: var(--borderRadiusXLarge);
-  line-height: var(--lineHeightBase500);
+  font-size: var(--fontSizeBase400);
+  line-height: var(--lineHeightBase400);
+  border-radius: var(--borderRadiusMedium);
 }
 .fui-Button.fui-Button-xl:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
   inline-size: 48px;
+  padding-inline: 0;
 }
 .fui-Button-block {
   display: block;
@@ -3737,6 +3747,76 @@ button {
 .fui-ButtonGroup .fui-ButtonGroup > .fui-Button:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+.fui-ButtonGroup-xs .fui-Button {
+  min-height: 18px;
+  padding-inline: var(--spacingHorizontalXS);
+  padding-block: 1px;
+  font-weight: var(--fontWeightRegular);
+  font-size: var(--fontSizeBase100);
+  line-height: var(--lineHeightBase100);
+  border-radius: var(--borderRadiusMedium);
+}
+.fui-ButtonGroup-xs .fui-Button:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
+  inline-size: 18px;
+  padding-inline: 0;
+}
+
+.fui-ButtonGroup-sm .fui-Button {
+  min-height: 24px;
+  padding-inline: var(--spacingHorizontalS);
+  padding-block: 3px;
+  font-weight: var(--fontWeightRegular);
+  font-size: var(--fontSizeBase200);
+  line-height: var(--lineHeightBase200);
+  border-radius: var(--borderRadiusMedium);
+}
+.fui-ButtonGroup-sm .fui-Button:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
+  inline-size: 24px;
+  padding-inline: 0;
+}
+
+.fui-ButtonGroup-md .fui-Button {
+  min-height: 36px;
+  padding-inline: var(--spacingHorizontalM);
+  padding-block: 6px;
+  font-weight: var(--fontWeightSemibold);
+  font-size: var(--fontSizeBase400);
+  line-height: var(--lineHeightBase400);
+  border-radius: var(--borderRadiusMedium);
+}
+.fui-ButtonGroup-md .fui-Button:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
+  inline-size: 36px;
+  padding-inline: 0;
+}
+
+.fui-ButtonGroup-lg .fui-Button {
+  min-height: 40px;
+  padding-inline: var(--spacingHorizontalL);
+  padding-block: 8px;
+  font-weight: var(--fontWeightSemibold);
+  font-size: var(--fontSizeBase400);
+  line-height: var(--lineHeightBase400);
+  border-radius: var(--borderRadiusMedium);
+}
+.fui-ButtonGroup-lg .fui-Button:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
+  inline-size: 40px;
+  padding-inline: 0;
+}
+
+.fui-ButtonGroup-xl .fui-Button {
+  min-height: 48px;
+  padding-inline: var(--spacingHorizontalXL);
+  padding-block: 12px;
+  font-weight: var(--fontWeightSemibold);
+  font-size: var(--fontSizeBase400);
+  line-height: var(--lineHeightBase400);
+  border-radius: var(--borderRadiusMedium);
+}
+.fui-ButtonGroup-xl .fui-Button:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
+  inline-size: 48px;
+  padding-inline: 0;
 }
 
 .fui-Button__spinner {
@@ -8985,6 +9065,36 @@ input::file-selector-button {
   min-height: 32px;
   padding: 0 var(--spacingHorizontalMNudge);
 }
+.fui-Input-xs {
+  min-height: 18px;
+  font-size: var(--fontSizeBase100);
+  font-weight: var(--fontWeightRegular);
+  line-height: var(--lineHeightBase100);
+}
+.fui-Input-sm {
+  min-height: 24px;
+  font-size: var(--fontSizeBase200);
+  font-weight: var(--fontWeightRegular);
+  line-height: var(--lineHeightBase200);
+}
+.fui-Input-md {
+  min-height: 36px;
+  font-size: var(--fontSizeBase400);
+  font-weight: var(--fontWeightSemibold);
+  line-height: var(--lineHeightBase400);
+}
+.fui-Input-lg {
+  min-height: 40px;
+  font-size: var(--fontSizeBase400);
+  font-weight: var(--fontWeightSemibold);
+  line-height: var(--lineHeightBase400);
+}
+.fui-Input-xl {
+  min-height: 48px;
+  font-size: var(--fontSizeBase400);
+  font-weight: var(--fontWeightSemibold);
+  line-height: var(--lineHeightBase400);
+}
 .fui-Input:not(.disabled) {
   border-bottom-color: var(--colorNeutralStrokeAccessible);
   border-left-color: var(--colorNeutralStroke1);
@@ -11183,7 +11293,7 @@ input::file-selector-button {
   font-family: var(--fontFamilyBase);
 }
 .fui-Select__select.fui-Select__select-xs {
-  height: 16px;
+  height: 18px;
   font-size: var(--fontSizeBase100);
   padding-inline-end: calc(var(--spacingHorizontalXS) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
   padding-inline-start: calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));

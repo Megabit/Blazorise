@@ -14,18 +14,18 @@ public class TailwindClassProvider : ClassProvider
     #region TextInput
 
     public override string TextInput( bool plaintext ) => plaintext
-        ? "text-gray-900 border-none rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-800 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75"
-        : "bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75";
+        ? "b-input text-gray-900 border-none rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-800 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75"
+        : "b-input bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75";
 
     public override string TextInputSize( Size size )
     {
         return size switch
         {
-            Size.ExtraSmall => "px-2 py-1.5 sm:text-xs",
-            Size.Small => "px-2.5 py-2 sm:text-xs",
-            Size.Medium => "px-3.5 py-3 text-base",
-            Size.Large => "px-4 py-4 sm:text-base",
-            Size.ExtraLarge => "px-5 py-4.5 sm:text-lg",
+            Size.ExtraSmall => "b-input-xs px-2 py-1.5 text-xs",
+            Size.Small => "b-input-sm px-2.5 py-2 text-sm",
+            Size.Medium => "b-input-md px-3.5 py-3 text-base",
+            Size.Large => "b-input-lg px-4 py-3.5 text-base",
+            Size.ExtraLarge => "b-input-xl px-5 py-4 text-base",
             _ => "px-3 py-2.5 text-sm"
         };
     }
@@ -42,7 +42,18 @@ public class TailwindClassProvider : ClassProvider
         ? "block w-full text-gray-900 border-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
         : "block w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
-    public override string MemoInputSize( Size size ) => TextInputSize( size );
+    public override string MemoInputSize( Size size )
+    {
+        return size switch
+        {
+            Size.ExtraSmall => "px-2 py-1.5 sm:text-xs",
+            Size.Small => "px-2.5 py-2 sm:text-xs",
+            Size.Medium => "px-3.5 py-3 text-base",
+            Size.Large => "px-4 py-4 sm:text-base",
+            Size.ExtraLarge => "px-5 py-4.5 sm:text-lg",
+            _ => "px-3 py-2.5 text-sm"
+        };
+    }
 
     public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -794,7 +805,7 @@ public class TailwindClassProvider : ClassProvider
         return "group b-button-group inline-flex gap-x-0";
     }
 
-    public override string ButtonsSize( Size size ) => size != Size.Default ? $"btn-group-{ToSize( size )}" : null;
+    public override string ButtonsSize( Size size ) => size != Size.Default ? $"b-button-group-{ToSize( size )}" : null;
 
     #endregion
 

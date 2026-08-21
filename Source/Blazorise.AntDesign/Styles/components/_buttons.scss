@@ -57,6 +57,17 @@
     box-shadow: none;
 }
 
+@mixin ant-button-size($properties) {
+    padding: map-get($properties, button-padding);
+    font-size: map-get($properties, font-size);
+    height: map-get($properties, height);
+    border-radius: map-get($properties, border-radius);
+
+    &.ant-btn-icon-only {
+        width: map-get($properties, height);
+    }
+}
+
 .ant-btn {
     vertical-align: middle;
 
@@ -132,26 +143,16 @@
 .ant-btn {
     @each $name, $properties in $control-sizes {
         &-#{$name} {
-            padding: map-get($properties, button-padding);
-            font-size: map-get($properties, font-size);
-            height: map-get($properties, height);
+            @include ant-button-size($properties);
         }
     }
 }
 
-.ant-btn-group-xs > .ant-btn,
-.ant-btn-group-xs > span > .ant-btn {
-    @extend .ant-btn-xs;
-}
-
-.ant-btn-group-md > .ant-btn,
-.ant-btn-group-md > span > .ant-btn {
-    @extend .ant-btn-md;
-}
-
-.ant-btn-group-xl > .ant-btn,
-.ant-btn-group-xl > span > .ant-btn {
-    @extend .ant-btn-xl;
+@each $name, $properties in $control-sizes {
+    .ant-btn-group-#{$name} > .ant-btn,
+    .ant-btn-group-#{$name} > span > .ant-btn {
+        @include ant-button-size($properties);
+    }
 }
 
 .ant-btn-block + .ant-btn-block {

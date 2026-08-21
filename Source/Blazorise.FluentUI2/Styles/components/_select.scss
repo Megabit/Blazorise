@@ -137,7 +137,7 @@
         }
 
         &.fui-Select__select-xs {
-            height: 16px;
+            height: map-get(map-get($fui-button-sizes, xs), height);
             font-size: var(--fontSizeBase100);
             padding-inline-end: calc(var(--spacingHorizontalXS) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
             padding-inline-start: calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));

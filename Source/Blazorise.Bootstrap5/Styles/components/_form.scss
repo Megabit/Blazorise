@@ -84,6 +84,7 @@ textarea {
         padding-bottom: $custom-select-padding-y-xs;
         padding-left: $custom-select-padding-x-xs;
         font-size: $custom-select-font-size-xs;
+        border-radius: $input-border-radius-xs;
     }
 
     &-md {
@@ -92,6 +93,7 @@ textarea {
         padding-bottom: $custom-select-padding-y-md;
         padding-left: $custom-select-padding-x-md;
         font-size: $custom-select-font-size-md;
+        border-radius: $input-border-radius-md;
     }
 
     &-xl {
@@ -100,6 +102,7 @@ textarea {
         padding-bottom: $custom-select-padding-y-xl;
         padding-left: $custom-select-padding-x-xl;
         font-size: $custom-select-font-size-xl;
+        border-radius: $input-border-radius-xl;
     }
 }
 
