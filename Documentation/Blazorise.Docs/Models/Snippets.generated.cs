@@ -30903,6 +30903,72 @@ builder.Services
     }
 }";
 
+        public const string SvgChartDataDragExample = @"<SvgLineChart TItem=""CropForecast""
+              Items=""@forecasts""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Crop forecast"")' Subtitle='@(""Drag the forecast series to edit projected yield"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Year )"" />
+    <SvgChartValueAxis Min=""0"" Max=""100"" TickCount=""6"" />
+    <SvgChartDataDrag Enabled
+                      Mode=""SvgChartDataDragMode.Y""
+                      YStep=""5""
+                      HitRadius=""14""
+                      Dragging=""@OnDragging""
+                      DragEnded=""@OnDragEnded"" />
+
+    <SvgLineSeries Name=""Baseline"" Value=""@( item => item.Baseline )"" Color=""Color.Secondary"" Draggable=""false"" />
+    <SvgLineSeries Name=""Forecast"" Value=""@( item => item.Forecast )"" Color=""Color.Primary"" MarkerRadius=""6"" />
+</SvgLineChart>
+
+<Paragraph Margin=""Margin.Is2.FromTop.Is0.FromBottom"">@status</Paragraph>
+
+@code {
+    private string status = ""Drag a forecast point, or focus one and use the arrow keys."";
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
+    };
+
+    private readonly List<CropForecast> forecasts =
+    [
+        new() { Year = ""2026"", Baseline = 46, Forecast = 52 },
+        new() { Year = ""2027"", Baseline = 49, Forecast = 61 },
+        new() { Year = ""2028"", Baseline = 51, Forecast = 68 },
+        new() { Year = ""2029"", Baseline = 54, Forecast = 73 },
+    ];
+
+    private Task OnDragging( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        status = $""Editing {eventArgs.Category}: {eventArgs.YValue:0}"";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
+            forecasts[eventArgs.PointIndex].Forecast = eventArgs.YValue.Value;
+
+        status = eventArgs.Canceled
+            ? $""Restored {eventArgs.Category} to {eventArgs.OriginalYValue:0}.""
+            : $""Saved {eventArgs.Category} at {eventArgs.YValue:0}."";
+
+        return Task.CompletedTask;
+    }
+
+    private sealed class CropForecast
+    {
+        public string Year { get; set; }
+
+        public double Baseline { get; set; }
+
+        public double Forecast { get; set; }
+    }
+}";
+
         public const string SvgChartImportsExample = @"@using Blazorise.Charts.Svg";
 
         public const string SvgChartNugetInstallExample = @"dotnet add package Blazorise.Charts.Svg";

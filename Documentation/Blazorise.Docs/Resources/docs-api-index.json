@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-20T11:46:46.2891172Z",
+  "generatedUtc": "2026-08-21T12:21:26.2908085Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -113601,6 +113601,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Draggable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether data points in the series can be dragged when chart data dragging is enabled.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "FillOpacity",
           "type": "double",
           "typeName": "double",
@@ -114405,6 +114413,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Draggable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether data points in the series can be dragged when chart data dragging is enabled.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Hidden",
           "type": "bool",
           "typeName": "bool",
@@ -115166,6 +115182,14 @@
           "typeName": "IReadOnlyList<Color>",
           "defaultValue": "null",
           "summary": "Defines explicit colors for individual data points.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Draggable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether data points in the series can be dragged when chart data dragging is enabled.",
           "isBlazoriseEnum": false
         },
         {
@@ -117040,6 +117064,182 @@
       "methods": []
     },
     {
+      "type": "global::Blazorise.Charts.Svg.SvgChartDataDrag",
+      "typeName": "SvgChartDataDrag",
+      "summary": "$\"\"\"\r\n       Defines declarative data point dragging behavior for a native SVG chart.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "Enabled",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Defines whether data point dragging is enabled.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "HitRadius",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "12",
+          "summary": "Defines the minimum pointer hit radius in SVG units.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Mode",
+          "type": "global::Blazorise.Charts.Svg.SvgChartDataDragMode",
+          "typeName": "SvgChartDataDragMode",
+          "defaultValue": "Y",
+          "summary": "Defines the axes along which data points can be dragged.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ShowTooltip",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether the point tooltip is shown and updated while dragging.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "XStep",
+          "type": "double?",
+          "typeName": "double?",
+          "defaultValue": "null",
+          "summary": "Defines the optional increment to which dragged X values are snapped.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "YStep",
+          "type": "double?",
+          "typeName": "double?",
+          "defaultValue": "null",
+          "summary": "Defines the optional increment to which dragged Y values are snapped.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [
+        {
+          "name": "CanDrag",
+          "type": "Func<,>",
+          "typeName": "Func<SvgChartPointEventArgs, bool>",
+          "defaultValue": "null",
+          "summary": "Defines an optional predicate that determines whether an individual point can be dragged.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DragEnded",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<SvgChartDataPointDragEventArgs>",
+          "defaultValue": "null",
+          "summary": "Occurs when a data point drag ends or is canceled.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DragStarted",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<SvgChartDataPointDragEventArgs>",
+          "defaultValue": "null",
+          "summary": "Occurs when a data point drag starts.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Dragging",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<SvgChartDataPointDragEventArgs>",
+          "defaultValue": "null",
+          "summary": "Occurs when a dragged data point value changes.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "methods": [
+        {
+          "name": "Render",
+          "returnTypeName": "void",
+          "summary": "Renders the plugin SVG content into the chart.",
+          "parameters": [
+            {
+              "name": "context",
+              "typeName": "SvgChartPluginRenderContext"
+            },
+            {
+              "name": "builder",
+              "typeName": "RenderTreeBuilder"
+            },
+            {
+              "name": "sequence",
+              "typeName": "int"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "global::Blazorise.Charts.Svg.SvgChartDataDragOptions",
+      "typeName": "SvgChartDataDragOptions",
+      "summary": "$\"\"\"\r\n       Defines data point dragging options for a native SVG chart.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "Enabled",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Defines whether data point dragging is enabled.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "HitRadius",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "12",
+          "summary": "Defines the minimum pointer hit radius in SVG units.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Mode",
+          "type": "global::Blazorise.Charts.Svg.SvgChartDataDragMode",
+          "typeName": "SvgChartDataDragMode",
+          "defaultValue": "Y",
+          "summary": "Defines the axes along which data points can be dragged.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ShowTooltip",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether the point tooltip is shown and updated while dragging.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "XStep",
+          "type": "double?",
+          "typeName": "double?",
+          "defaultValue": "null",
+          "summary": "Defines the optional increment to which dragged X values are snapped.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "YStep",
+          "type": "double?",
+          "typeName": "double?",
+          "defaultValue": "null",
+          "summary": "Defines the optional increment to which dragged Y values are snapped.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [
+        {
+          "name": "CanDrag",
+          "type": "Func<,>",
+          "typeName": "Func<SvgChartPointEventArgs, bool>",
+          "defaultValue": "null",
+          "summary": "Defines an optional predicate that determines whether an individual point can be dragged.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "methods": []
+    },
+    {
       "type": "global::Blazorise.Charts.Svg.SvgChartDataLabels",
       "typeName": "SvgChartDataLabels",
       "summary": "$\"\"\"\r\n       Defines data labels for a native SVG chart.\r\n       \"\"\"",
@@ -117982,6 +118182,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "DataDrag",
+          "type": "global::Blazorise.Charts.Svg.SvgChartDataDragOptions",
+          "typeName": "SvgChartDataDragOptions",
+          "defaultValue": "new()",
+          "summary": "Defines data point dragging options.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "DataLabels",
           "type": "global::Blazorise.Charts.Svg.SvgChartDataLabelsOptions",
           "typeName": "SvgChartDataLabelsOptions",
@@ -118359,6 +118567,14 @@
           "typeName": "IReadOnlyList<Color>",
           "defaultValue": "null",
           "summary": "Defines explicit colors for individual data points.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Draggable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether data points in the series can be dragged when chart data dragging is enabled.",
           "isBlazoriseEnum": false
         },
         {
@@ -120216,6 +120432,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Draggable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether data points in the series can be dragged when chart data dragging is enabled.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Hidden",
           "type": "bool",
           "typeName": "bool",
@@ -120980,6 +121204,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Draggable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether data points in the series can be dragged when chart data dragging is enabled.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Hidden",
           "type": "bool",
           "typeName": "bool",
@@ -121741,6 +121973,14 @@
           "typeName": "IReadOnlyList<Color>",
           "defaultValue": "null",
           "summary": "Defines explicit colors for individual data points.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Draggable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether data points in the series can be dragged when chart data dragging is enabled.",
           "isBlazoriseEnum": false
         },
         {
@@ -122548,6 +122788,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Draggable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether data points in the series can be dragged when chart data dragging is enabled.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Hidden",
           "type": "bool",
           "typeName": "bool",
@@ -123312,6 +123560,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Draggable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether data points in the series can be dragged when chart data dragging is enabled.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Hidden",
           "type": "bool",
           "typeName": "bool",
@@ -124073,6 +124329,14 @@
           "typeName": "IReadOnlyList<Color>",
           "defaultValue": "null",
           "summary": "Defines explicit colors for individual data points.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Draggable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether data points in the series can be dragged when chart data dragging is enabled.",
           "isBlazoriseEnum": false
         },
         {
@@ -124845,6 +125109,14 @@
           "typeName": "IReadOnlyList<Color>",
           "defaultValue": "null",
           "summary": "Defines explicit colors for individual data points.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Draggable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Defines whether data points in the series can be dragged when chart data dragging is enabled.",
           "isBlazoriseEnum": false
         },
         {

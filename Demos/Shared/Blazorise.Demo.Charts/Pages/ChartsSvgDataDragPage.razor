@@ -1,0 +1,123 @@
+@page "/tests/charts/svg/data-drag"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG line chart - vertical editing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgLineChart TItem="ForecastSample"
+                              Items="@Forecasts"
+                              Options="@lineOptions">
+                    <SvgChartTitle Title='@("Demand forecast")' Subtitle='@("Drag the forecast markers; the baseline is read-only")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis Min="0" Max="100" TickCount="6" />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.Y"
+                                      YStep="5"
+                                      HitRadius="14"
+                                      Dragging="@OnDragging"
+                                      DragEnded="@OnForecastDragEnded" />
+
+                    <SvgLineSeries Name="Baseline" Value="@( x => x.Baseline )" Color="Color.Secondary" StrokeWidth="2" MarkerRadius="4" Draggable="false" />
+                    <SvgLineSeries Name="Forecast" Value="@( x => x.Forecast )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="6" />
+                </SvgLineChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG area chart - filtered points</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgAreaChart TItem="CapacitySample"
+                              Items="@Capacity"
+                              Options="@areaOptions">
+                    <SvgChartTitle Title='@("Capacity plan")' Subtitle='@("Only future points can be adjusted")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Quarter )" />
+                    <SvgChartValueAxis Min="0" Max="100" TickCount="6" />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.Y"
+                                      YStep="2.5"
+                                      HitRadius="14"
+                                      CanDrag="@( point => point.PointIndex >= 2 )"
+                                      Dragging="@OnDragging"
+                                      DragEnded="@OnCapacityDragEnded" />
+
+                    <SvgAreaSeries Name="Utilization" Value="@( x => x.Utilization )" Color="Color.Success" StrokeWidth="3" FillOpacity="0.2" />
+                </SvgAreaChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG scatter chart - XY editing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgScatterChart TItem="PointSample"
+                                 Items="@Stores"
+                                 Options="@scatterOptions">
+                    <SvgChartTitle Title='@("Store positioning")' Subtitle='@("Drag in both directions; values snap to five")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartValueAxis Min="0" Max="100" TickCount="6" />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.XY"
+                                      XStep="5"
+                                      YStep="5"
+                                      HitRadius="14"
+                                      Dragging="@OnDragging"
+                                      DragEnded="@OnStoreDragEnded" />
+
+                    <SvgScatterSeries Name="Stores" XValue="@( x => x.X )" YValue="@( x => x.Y )" Color="Color.Info" MarkerRadius="6" />
+                </SvgScatterChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG bubble chart - horizontal editing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgBubbleChart TItem="BubbleSample"
+                                Items="@Opportunities"
+                                Options="@bubbleOptions">
+                    <SvgChartTitle Title='@("Opportunity planning")' Subtitle='@("Move effort horizontally without changing impact or size")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartValueAxis Min="0" Max="100" TickCount="6" />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.X"
+                                      XStep="5"
+                                      HitRadius="16"
+                                      Dragging="@OnDragging"
+                                      DragEnded="@OnOpportunityDragEnded" />
+
+                    <SvgBubbleSeries Name="Opportunities" XValue="@( x => x.Effort )" YValue="@( x => x.Impact )" RadiusValue="@( x => x.Size )" Color="Color.Warning" />
+                </SvgBubbleChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Data drag event state</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph Margin="Margin.Is0">@lastEvent</Paragraph>
+                <Paragraph Margin="Margin.Is2.FromTop.Is0.FromBottom" TextColor="TextColor.Secondary">
+                    Focus a draggable marker and use the arrow keys for keyboard editing. Hold Shift for a larger step, or press Escape during pointer dragging to restore the original value.
+                </Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

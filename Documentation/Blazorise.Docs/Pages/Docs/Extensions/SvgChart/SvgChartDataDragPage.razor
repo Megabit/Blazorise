@@ -1,0 +1,47 @@
+@page "/docs/extensions/svg-chart-data-drag"
+
+<Seo Canonical="/docs/extensions/svg-chart-data-drag" Title="Blazorise SVG Chart Data Point Dragging" Description="Learn how to edit native SVG chart values by dragging data points with pointer or keyboard input." />
+
+<DocsPageTitle Path="Extensions/SVG Chart Data Point Dragging">
+    Blazorise SVG Chart Data Point Dragging
+</DocsPageTitle>
+
+<DocsPageLead>
+    Let users edit line, area, scatter, and bubble chart values directly in the chart.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Add <Code>SvgChartDataDrag</Code> to enable dragging declaratively, or configure <Code>SvgChartOptions.DataDrag</Code>. Line and area series support vertical dragging. Scatter and bubble series support <Code>X</Code>, <Code>Y</Code>, or <Code>XY</Code> dragging. Set <Code>Draggable</Code> to <Code>false</Code> on an individual series to exclude it.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Use <Code>XStep</Code> and <Code>YStep</Code> to snap values, <Code>CanDrag</Code> to filter individual points, and <Code>DragStarted</Code>, <Code>Dragging</Code>, and <Code>DragEnded</Code> to observe changes. Persist the final value to your data source in <Code>DragEnded</Code>. Tooltips are suppressed while dragging by default; set <Code>ShowTooltip</Code> to <Code>true</Code> to display a live value tooltip. Press an arrow key while a point is focused to adjust it, hold Shift for a larger step, or press Escape during pointer dragging to restore the original value.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Examples
+</DocsPageSectionTitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Editable forecast">
+        Drag a forecast marker vertically. Values snap to increments of five, while the baseline series remains read-only.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartDataDragExample" Outlined FullWidth>
+        <SvgChartDataDragExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSectionTitle>
+    Limitations
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    Data point dragging is not enabled for radial, bar, column, stacked, or streaming charts. Category positions on line and area charts remain fixed; use scatter or bubble data when the X value must also be editable.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChartDataDrag />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="SvgChartDataDragOptions" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="SvgChartDataPointDragEventArgs" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="SvgChartDataDragMode" />
+</DocsPageApi>

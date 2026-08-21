@@ -1,0 +1,70 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgLineChart</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">CropForecast</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Items</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>forecasts</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>options</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTitle</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Crop forecast&quot;)&#39;</span> <span class="htmlAttributeName">Subtitle</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Drag the forecast series to edit projected yield&quot;)&#39;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTooltip</span> <span class="htmlAttributeName">Enabled</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartCategoryAxis</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Year )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartValueAxis</span> <span class="htmlAttributeName">Min</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">0</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Max</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">100</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TickCount</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">6</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartDataDrag</span> <span class="htmlAttributeName">Enabled</span>
+                      <span class="htmlAttributeName">Mode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">SvgChartDataDragMode.Y</span><span class="quot">&quot;</span>
+                      <span class="htmlAttributeName">YStep</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">5</span><span class="quot">&quot;</span>
+                      <span class="htmlAttributeName">HitRadius</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">14</span><span class="quot">&quot;</span>
+                      <span class="htmlAttributeName">Dragging</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnDragging</span><span class="quot">&quot;</span>
+                      <span class="htmlAttributeName">DragEnded</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnDragEnded</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgLineSeries</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Baseline</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Baseline )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Secondary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Draggable</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgLineSeries</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Forecast</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Forecast )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">MarkerRadius</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">6</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SvgLineChart</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromTop.Is0.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>status<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">string</span> status = <span class="string">&quot;Drag a forecast point, or focus one and use the arrow keys.&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartOptions options = <span class="keyword">new</span>()
+    {
+        Height = <span class="number">360</span>,
+        YAxis = <span class="keyword">new</span>() { Min = <span class="number">0</span>, Max = <span class="number">100</span>, TickCount = <span class="number">6</span> },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> List&lt;CropForecast&gt; forecasts =
+    [
+        <span class="keyword">new</span>() { Year = <span class="string">&quot;2026&quot;</span>, Baseline = <span class="number">46</span>, Forecast = <span class="number">52</span> },
+        <span class="keyword">new</span>() { Year = <span class="string">&quot;2027&quot;</span>, Baseline = <span class="number">49</span>, Forecast = <span class="number">61</span> },
+        <span class="keyword">new</span>() { Year = <span class="string">&quot;2028&quot;</span>, Baseline = <span class="number">51</span>, Forecast = <span class="number">68</span> },
+        <span class="keyword">new</span>() { Year = <span class="string">&quot;2029&quot;</span>, Baseline = <span class="number">54</span>, Forecast = <span class="number">73</span> },
+    ];
+
+    <span class="keyword">private</span> Task OnDragging( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        status = $<span class="string">&quot;Editing {eventArgs.Category}: {eventArgs.YValue:0}&quot;</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        <span class="keyword">if</span> ( !eventArgs.Canceled &amp;&amp; eventArgs.YValue.HasValue )
+            forecasts[eventArgs.PointIndex].Forecast = eventArgs.YValue.Value;
+
+        status = eventArgs.Canceled
+            ? $<span class="string">&quot;Restored {eventArgs.Category} to {eventArgs.OriginalYValue:0}.&quot;</span>
+            : $<span class="string">&quot;Saved {eventArgs.Category} at {eventArgs.YValue:0}.&quot;</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> CropForecast
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Year { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">double</span> Baseline { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">double</span> Forecast { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

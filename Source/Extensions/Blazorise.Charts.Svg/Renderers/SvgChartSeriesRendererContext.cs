@@ -20,6 +20,7 @@ internal sealed class SvgChartSeriesRendererContext
         IReadOnlyDictionary<string, string> previousPathValues,
         Dictionary<string, string> currentPathValues,
         bool passThroughSeriesPaths,
+        SvgChartDataDragOptions dataDrag,
         Func<object, int, string> categoryFormatter )
     {
         Chart = chart;
@@ -29,6 +30,7 @@ internal sealed class SvgChartSeriesRendererContext
         this.previousPathValues = previousPathValues ?? new Dictionary<string, string>();
         this.currentPathValues = currentPathValues ?? [];
         PassThroughSeriesPaths = passThroughSeriesPaths;
+        DataDrag = dataDrag ?? new();
         this.categoryFormatter = categoryFormatter;
     }
 
@@ -167,16 +169,68 @@ internal sealed class SvgChartSeriesRendererContext
         return false;
     }
 
-    public void AddPointInteractionAttributes( RenderTreeBuilder builder, ref int sequence, SvgChartPointEventArgs point, string color )
+    public void AddPointInteractionAttributes( RenderTreeBuilder builder, ref int sequence, SvgChartPointEventArgs point, string color, SvgChartPluginSeries series = null )
     {
+        var isDraggable = IsDataPointDraggable( series, point );
+
         builder.AddAttribute( sequence++, "tabindex", "0" );
         builder.AddAttribute( sequence++, "role", "img" );
-        builder.AddAttribute( sequence++, "aria-label", GetPointLabel( point ) );
+        builder.AddAttribute( sequence++, "aria-label", isDraggable ? $"{GetPointLabel( point )} Use arrow keys to adjust." : GetPointLabel( point ) );
         builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( Chart.EventReceiver, () => Chart.NotifyPointClicked( point, color ) ) );
         builder.AddAttribute( sequence++, "onmouseenter", EventCallback.Factory.Create<MouseEventArgs>( Chart.EventReceiver, () => Chart.NotifyPointHovered( point, color ) ) );
         builder.AddAttribute( sequence++, "onmouseleave", EventCallback.Factory.Create<MouseEventArgs>( Chart.EventReceiver, Chart.NotifyPointLeft ) );
         builder.AddAttribute( sequence++, "onfocus", EventCallback.Factory.Create<FocusEventArgs>( Chart.EventReceiver, () => Chart.ShowTooltip( point, color, false ) ) );
         builder.AddAttribute( sequence++, "onblur", EventCallback.Factory.Create<FocusEventArgs>( Chart.EventReceiver, Chart.NotifyPointLeft ) );
+
+        if ( isDraggable )
+        {
+            builder.AddAttribute( sequence++, "aria-keyshortcuts", "ArrowLeft ArrowRight ArrowUp ArrowDown" );
+            AddDataDragAttributes( builder, ref sequence, point );
+        }
+    }
+
+    public void RenderDataDragHitTarget( RenderTreeBuilder builder, ref int sequence, SvgChartPluginSeries series, SvgChartPointEventArgs point, double x, double y, double pointRadius )
+    {
+        if ( !IsDataPointDraggable( series, point ) )
+            return;
+
+        var configuredHitRadius = double.IsFinite( DataDrag.HitRadius ) ? Math.Max( 0, DataDrag.HitRadius ) : pointRadius;
+        var hitRadius = Math.Max( pointRadius, configuredHitRadius );
+
+        if ( hitRadius <= pointRadius )
+            return;
+
+        builder.OpenElement( sequence++, "circle" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-data-drag-hit-target" );
+        builder.AddAttribute( sequence++, "cx", SvgChartRenderHelpers.Format( x ) );
+        builder.AddAttribute( sequence++, "cy", SvgChartRenderHelpers.Format( y ) );
+        builder.AddAttribute( sequence++, "r", SvgChartRenderHelpers.Format( hitRadius ) );
+        builder.AddAttribute( sequence++, "fill", "transparent" );
+        builder.AddAttribute( sequence++, "pointer-events", "all" );
+        builder.AddAttribute( sequence++, "aria-hidden", "true" );
+        AddDataDragAttributes( builder, ref sequence, point );
+        builder.CloseElement();
+    }
+
+    public bool IsDataPointDraggable( SvgChartPluginSeries series, SvgChartPointEventArgs point )
+    {
+        if ( DataDrag?.Enabled != true || series?.Draggable != true || point is null || series.StackEndValues.Count > 0 )
+            return false;
+
+        var canDragX = series.Type is SvgChartType.Scatter or SvgChartType.Bubble
+            && DataDrag.Mode is SvgChartDataDragMode.X or SvgChartDataDragMode.XY;
+        var canDragY = series.Type is SvgChartType.Line or SvgChartType.Area or SvgChartType.Scatter or SvgChartType.Bubble
+            && DataDrag.Mode is SvgChartDataDragMode.Y or SvgChartDataDragMode.XY;
+
+        return ( canDragX || canDragY ) && ( DataDrag.CanDrag?.Invoke( point ) ?? true );
+    }
+
+    private static void AddDataDragAttributes( RenderTreeBuilder builder, ref int sequence, SvgChartPointEventArgs point )
+    {
+        builder.AddAttribute( sequence++, "data-svg-chart-draggable", "true" );
+        builder.AddAttribute( sequence++, "data-svg-chart-series-index", point.SeriesIndex );
+        builder.AddAttribute( sequence++, "data-svg-chart-point-index", point.PointIndex );
+        builder.AddAttribute( sequence++, "style", "cursor:grab;touch-action:none;" );
     }
 
     public string GetPointLabel( SvgChartPointEventArgs point )
@@ -247,6 +301,8 @@ internal sealed class SvgChartSeriesRendererContext
     public SvgChartResolvedAnimation Animation { get; }
 
     public bool PassThroughSeriesPaths { get; }
+
+    public SvgChartDataDragOptions DataDrag { get; }
 
     #endregion
 }
