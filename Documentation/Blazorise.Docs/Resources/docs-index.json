@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-18T11:27:44.5658449Z",
+  "generatedUtc": "2026-08-21T10:51:04.4373369Z",
   "pages": [
     {
       "route": "/docs",
@@ -11919,24 +11919,24 @@
     },
     {
       "route": "/docs/usage/licensing",
-      "title": "Overview of Blazorise license and product tokens",
-      "description": "Learn here about the Blazorise license key and products tokens and difference between license keys and product tokens.",
+      "title": "Blazorise License Key and ProductToken",
+      "description": "Understand the difference between a Blazorise License Key and ProductToken and where each value should be used.",
       "pagePath": "Pages/Docs/Guides/Licensing/LicensingPage.razor",
       "examples": []
     },
     {
       "route": "/docs/usage/licensing/register-product-token",
-      "title": "Register Blazorise Product Token in Blazor Application",
-      "description": "Learn here about how to register Blazorise blazor product token for blazor application for license validation.",
+      "title": "Configure a Blazorise ProductToken",
+      "description": "Configure a Blazorise ProductToken for Blazor Server and Blazor WebAssembly applications.",
       "pagePath": "Pages/Docs/Guides/Licensing/RegisterProductTokenPage.razor",
       "examples": [
         {
           "code": "LicensingGuideAddKeyExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Licensing/Examples/LicensingGuideAddKeyExample.snippet",
-          "content": "services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.ProductToken = \"<your-product-token>\";\r\n    } )",
-          "title": "Product Token",
-          "description": "Open the solution containing your Blazor application in Visual Studio or another development environment. In the Startup class, find the ConfigureServices method. This method is used to configure the services used in your Blazor application. In the ConfigureServices method, add the following code snippet."
+          "content": "builder.Services\r\n    .AddBlazorise(options =>\r\n    {\r\n        options.ProductToken =\r\n            builder.Configuration[\"Licensing:ProductToken\"];\r\n    });",
+          "title": "Configure Blazorise",
+          "description": "The following example reads Licensing:ProductToken from the application configuration."
         }
       ]
     },

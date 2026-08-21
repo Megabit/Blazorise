@@ -133,13 +133,13 @@
         },
 
         new FaqInfo {
-            Title = "What is the difference between a License Key and Product Token?",
+            Title = "What is the difference between a License Key and ProductToken?",
             Body = (__builder) => {
                 <Paragraph>
-                    A License Key verifies a commercial purchase and unlocks account resources such as support and licensed repositories. A Product Token validates the license used by your application and applies the limits and notices for that license level. A valid commercial token removes licensing warnings, while a Community token displays a persistent compact Community License button that opens the full license banner and returns when the full banner is closed.
+                    A License Key identifies a commercial purchase and is used for license and account management. Never embed it in an application. A ProductToken is generated for application use and applies the functionality, limits, and notices for that license level. It is not considered secret data in the same way as a License Key and may be embedded in Blazor WebAssembly application code.
                 </Paragraph>
                 <Paragraph>
-                    See the <Anchor To="docs/usage/licensing" Title="Blazorise licensing overview">licensing guide</Anchor> for implementation details.
+                    See the <Anchor To="docs/usage/licensing" Title="Blazorise licensing overview">licensing guide</Anchor> for the comparison and <Anchor To="docs/usage/licensing/register-product-token#protecting-your-producttoken" Title="Protecting your ProductToken">ProductToken security guidance</Anchor>.
                 </Paragraph>
             }
         },

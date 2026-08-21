@@ -1,5 +1,6 @@
-﻿services
-    .AddBlazorise( options =>
+﻿builder.Services
+    .AddBlazorise(options =>
     {
-        options.ProductToken = "<your-product-token>";
-    } )
+        options.ProductToken =
+            builder.Configuration["Licensing:ProductToken"];
+    });
