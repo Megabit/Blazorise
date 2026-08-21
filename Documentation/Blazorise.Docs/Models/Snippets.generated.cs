@@ -33254,11 +33254,12 @@ builder.Services
 
         public const string FluentUI2GuideUsingExample = @"@using Blazorise";
 
-        public const string LicensingGuideAddKeyExample = @"services
-    .AddBlazorise( options =>
+        public const string LicensingGuideAddKeyExample = @"builder.Services
+    .AddBlazorise(options =>
     {
-        options.ProductToken = ""<your-product-token>"";
-    } )";
+        options.ProductToken =
+            builder.Configuration[""Licensing:ProductToken""];
+    });";
 
         public const string MaterialGuideFileStructureExample = @"/* wwwroot/app.css (load after Blazorise Material CSS) */
 :root {

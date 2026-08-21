@@ -1,75 +1,187 @@
 ﻿@page "/docs/usage/licensing/register-product-token"
 
-<Seo Canonical="/docs/usage/licensing/register-product-token" Title="Register Blazorise Product Token in Blazor Application" Description="Learn here about how to register Blazorise blazor product token for blazor application for license validation." />
+<Seo Canonical="/docs/usage/licensing/register-product-token" Title="Configure a Blazorise ProductToken" Description="Configure a Blazorise ProductToken for Blazor Server and Blazor WebAssembly applications." />
 
-<DocsPageTitle Path="Usage/Licensing/Register Product Token">
-    Register Blazorise Product Token in Blazor Application
+<DocsPageTitle Path="Usage/Licensing/Configure ProductToken">
+    Configure a Blazorise ProductToken
 </DocsPageTitle>
 
 <DocsPageLead>
-    Quickly setup Blazorise Product Token.
+    Get the ProductToken from your Blazorise account and configure it for your application's hosting model.
 </DocsPageLead>
 
 <DocsPageSectionTitle>
-    Overview
+    Get your ProductToken
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    All evaluators and paid customers who use NuGet packages from NuGet.org are eligible for the Blazorise products token. As a result, if you use the evaluation installer or the NuGet feed to reference Blazorise assemblies, you must also include the platform and version product tokens in your projects.
+    Go to your <Anchor To="/account" Title="Blazorise account">Blazorise account</Anchor> and sign in. The ProductToken is created from the license registered to that account.
 </DocsPageParagraph>
 
+<OrderedList>
+    <OrderedListItem>
+        <Paragraph>
+            Open the <Strong>License</Strong> section of your account.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Paragraph>
+            For a commercial license, make sure the purchased License Key is registered to your account. If the account asks for the License Key, enter it there. Do not copy it into your application.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Paragraph>
+            Select <Strong>Generate</Strong> to create the ProductToken for the registered license, then copy the generated value.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Paragraph>
+            Configure the copied ProductToken as <Code>BlazoriseOptions.ProductToken</Code> using the guidance below.
+        </Paragraph>
+    </OrderedListItem>
+</OrderedList>
+
 <DocsPageParagraph>
-    Read more about Blazorise license on our <Anchor To="docs/usage/licensing" Title="Link to Licensing page">Licensing page</Anchor>.
+    If your license is missing from the account or you cannot generate a ProductToken, contact <Anchor To="/support" Title="Blazorise support">Blazorise support</Anchor>.
+</DocsPageParagraph>
+
+<Alert Color="Color.Warning" Visible>
+    <AlertDescription>
+        <Strong>Never embed your License Key in an application.</Strong> The License Key identifies your purchase and is used for license and account management. Configure only the ProductToken in <Code>BlazoriseOptions.ProductToken</Code>.
+    </AlertDescription>
+</Alert>
+
+<DocsPageParagraph>
+    See the <Anchor To="docs/usage/licensing" Title="License Key and ProductToken comparison">licensing overview</Anchor> for a comparison of the License Key and ProductToken.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
-    Setup
+    ASP.NET Core and Blazor Server
 </DocsPageSectionTitle>
 
-<Heading Size="HeadingSize.Is3">
-    Account Login
-</Heading>
-
 <DocsPageParagraph>
-    Go to the Blazorise website and log in to your account using your username and password.
-</DocsPageParagraph>
-
-<Heading Size="HeadingSize.Is3">
-    Generate Token
-</Heading>
-
-<DocsPageParagraph>
-    <UnorderedList>
-        <UnorderedListItem>
-            Once you are logged in, navigate to the "License" section of your account.
-        </UnorderedListItem>
-        <UnorderedListItem>
-            Click the "Generate" button to create your unique product token.
-        </UnorderedListItem>
-    </UnorderedList>
+    For a server-hosted application, read the ProductToken from an ASP.NET Core configuration provider instead of hardcoding it in <Code>Program.cs</Code>, <Code>Startup.cs</Code>, or another source file.
 </DocsPageParagraph>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Product Token">
+    <DocsPageSectionHeader Title="Configure Blazorise">
         <Paragraph>
-            Open the solution containing your Blazor application in Visual Studio or another development environment.
-        </Paragraph>
-        <Paragraph>
-            In the Startup class, find the <Strong>ConfigureServices</Strong> method. This method is used to configure the services used in your Blazor application.
-        </Paragraph>
-        <Paragraph>
-            In the <Strong>ConfigureServices</Strong> method, add the following code snippet.
+            The following example reads <Code>Licensing:ProductToken</Code> from the application configuration.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="LicensingGuideAddKeyExample" />
 </DocsPageSection>
 
+<Heading Size="HeadingSize.Is3">
+    Local development
+</Heading>
+
 <DocsPageParagraph>
-    Save the changes you made to the Startup class. Run your Blazor application and your product token will now be registered. A valid commercial token removes licensing warnings. With a Community token, a semi-transparent <Strong>Community License</Strong> button remains visible in the bottom-right corner. Select it to open the full license banner; closing the full banner returns to the compact button.
+    Use .NET User Secrets for local development. Run this command from the application project directory:
 </DocsPageParagraph>
 
-<Alert Color="Color.Info" Visible>
+<DocsPageParagraph>
+    <Code>dotnet user-secrets set "Licensing:ProductToken" "YOUR_PRODUCT_TOKEN"</Code>
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    User Secrets keep the ProductToken outside the project directory. Do not put a real ProductToken in a committed <Code>appsettings.json</Code> file.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Production
+</Heading>
+
+<DocsPageParagraph>
+    Use an environment variable or a secret-management service. The environment variable for the configuration key used above is:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <Code>Licensing__ProductToken</Code>
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    ASP.NET Core automatically maps double underscores in environment-variable names to configuration section separators. Set the value in the deployment environment, not in a source-controlled file.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    CI/CD
+</Heading>
+
+<DocsPageParagraph>
+    Store the ProductToken in GitHub Actions Secrets, Azure DevOps secret variables, GitLab CI/CD variables, or the equivalent secret store for your platform. Inject it into the build or deployment environment. Do not write the value directly in a workflow YAML file or another pipeline file.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Protecting your ProductToken" ElementId="protecting-your-producttoken">
+        <Paragraph>
+            A ProductToken is intended for application use and is not considered secret data in the same way as a License Key. You should still avoid publishing it where it is not needed.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>
+                Avoid committing a ProductToken to a public repository or publishing it in documentation.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                Prefer not to commit a ProductToken to source control when configuration is practical. Do not treat a private repository as a secret store.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                For server-hosted applications, use configuration providers instead of hardcoding the ProductToken.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                For Blazor WebAssembly, deliberately embedding the ProductToken in application code is acceptable and is often preferable to publishing it in a plain configuration file.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                Use .NET User Secrets for local development.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                Use environment variables or a secret-management service for production.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                Use the secret store provided by your CI/CD system.
+            </Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+    <Paragraph>
+        If a ProductToken is published unintentionally, remove it from locations where it is not needed. If you need a replacement, check your Blazorise account or contact Blazorise support for the currently available options.
+    </Paragraph>
+</DocsPageSection>
+
+<DocsPageSectionTitle>
+    Blazor WebAssembly
+</DocsPageSectionTitle>
+
+<Alert Color="Color.Warning" Visible>
     <AlertDescription>
-        <Strong>Note:</Strong> If you encounter any issues or need assistance, please don't hesitate to contact the Blazorise team.
+        Blazor WebAssembly applications run in the browser. Any ProductToken included in the deployed application can potentially be inspected by the end user. For this reason, a ProductToken used by a WebAssembly application should not be treated as a cryptographic secret.
     </AlertDescription>
 </Alert>
+
+<DocsPageParagraph>
+    You can use application configuration in Blazor WebAssembly, but the configuration file must be served to the browser, usually from <Code>wwwroot</Code>. That makes the value directly readable. For this reason, embedding the ProductToken in application code is often preferable:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <Code>options.ProductToken = "YOUR_PRODUCT_TOKEN";</Code>
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Embedding the ProductToken can make casual discovery harder than placing it in a plain configuration file, but it does not make the value secret. Environment variables, CI/CD secrets, and User Secrets can protect the ProductToken during development and deployment. They cannot make it secret after it has been included in files shipped to the browser.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    ProductTokens have limited validity and can change over time. Update the deployed ProductToken when required. Avoid publishing it in public repositories, documentation, sample code, logs, and other locations where it is not needed.
+</DocsPageParagraph>
