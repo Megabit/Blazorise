@@ -148,7 +148,7 @@ label.radio.button {
     width: 100%;
 }
 
-@each $name, $size in $component-sizes {
+@each $name, $size in $button-sizes {
     .has-addons.is-#{$name} > .control > .button,
     .has-addons.is-#{$name} > .control > .control > .button,
     .has-addons.is-#{$name} > .control > .field > .control > .input,
@@ -158,6 +158,20 @@ label.radio.button {
     .textarea.is-#{$name} {
         font-size: $size;
     }
+}
+
+.has-addons.is-extra-small,
+.input.is-extra-small,
+.select.is-extra-small,
+.textarea.is-extra-small {
+    --bulma-control-radius: var(--bulma-radius-small);
+}
+
+.has-addons.is-extra-large,
+.input.is-extra-large,
+.select.is-extra-large,
+.textarea.is-extra-large {
+    --bulma-control-radius: var(--bulma-radius-medium);
 }
 
 .textarea.is-static {

@@ -112,23 +112,32 @@
         }
     }
 
-    @each $name, $size in $component-sizes {
+    @each $name, $size in $button-sizes {
         &.is-#{$name} {
             font-size: $size;
+        }
+    }
+
+    &.is-extra-small {
+        --bulma-control-radius: var(--bulma-radius-small);
+    }
+
+    &.is-extra-large {
+        --bulma-control-radius: var(--bulma-radius-medium);
+    }
+}
+
+@each $size in map-keys($button-sizes) {
+    .field.has-addons.are-#{$size},
+    .field.is-grouped.are-#{$size} {
+        > .control > .button {
+            @extend .is-#{$size};
         }
     }
 }
 
 .field.has-addons {
     gap: 0;
-
-    @each $size in map-keys($component-sizes) {
-        &.are-#{$size} {
-            > .control > .button {
-                @extend .is-#{$size};
-            }
-        }
-    }
 
     > .control {
         align-self: stretch;

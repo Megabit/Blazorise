@@ -146,18 +146,11 @@ $rating-colors: (
 ) !default;
 $figure-sizes: ( 16, 24, 32, 48, 64, 96, 128, 256, 512 ) !default;
 $control-sizes: (
-    xs: ( input-padding: 0 7px, button-padding: 0 7px, font-size: 10px, height: 16px ),
-    sm: ( input-padding: 0 var(--ant-input-padding-inline-sm), button-padding: 0 var(--ant-button-padding-inline-sm), font-size: var(--ant-font-size-sm), height: var(--ant-control-height-sm) ),
-    md: ( input-padding: 4.5px 11px, button-padding: 4.5px 11px, font-size: 14px, height: 36px ),
-    lg: ( input-padding: var(--ant-input-padding-block-lg) calc(var(--ant-button-padding-inline-lg) - var(--ant-line-width) * 2), button-padding: var(--ant-input-padding-block-lg) calc(var(--ant-button-padding-inline-lg) - var(--ant-line-width) * 2), font-size: var(--ant-font-size-lg), height: var(--ant-control-height-lg) ),
-    xl: ( input-padding: 8.5px 15px, button-padding: 8.5px 15px, font-size: 18px, height: 48px )
-) !default;
-$input-number-sizes: (
-    sm: ( font-size: var(--ant-font-size-sm), height: var(--ant-control-height-sm), padding-block: 0, padding-inline: var(--ant-input-padding-inline-sm) ),
-    xs: ( font-size: 10px, height: 16px, padding-block: 0, padding-inline: 7px ),
-    md: ( font-size: var(--ant-font-size), height: calc(var(--ant-control-height) + var(--ant-size-unit)), padding-block: calc(var(--ant-input-padding-block) + .5px), padding-inline: var(--ant-input-padding-inline) ),
-    lg: ( font-size: var(--ant-font-size-lg), height: var(--ant-control-height-lg), padding-block: calc(var(--ant-input-padding-block-lg) - .5px), padding-inline: calc(var(--ant-button-padding-inline-lg) - var(--ant-line-width) * 2) ),
-    xl: ( font-size: 18px, height: 48px, padding-block: 8.5px, padding-inline: 15px )
+    xs: ( input-padding: 0 7px, button-padding: 0 var(--ant-button-padding-inline-sm), font-size: calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2), height: var(--ant-control-height-xs), border-radius: var(--ant-border-radius-xs) ),
+    sm: ( input-padding: 0 var(--ant-input-padding-inline-sm), button-padding: 0 var(--ant-button-padding-inline-sm), font-size: var(--ant-font-size-sm), height: var(--ant-control-height-sm), border-radius: var(--ant-border-radius-sm) ),
+    md: ( input-padding: 4.5px 11px, button-padding: 0 var(--ant-button-padding-inline), font-size: var(--ant-font-size), height: calc(var(--ant-control-height) + var(--ant-size-unit)), border-radius: var(--ant-border-radius) ),
+    lg: ( input-padding: var(--ant-input-padding-block-lg) calc(var(--ant-button-padding-inline-lg) - var(--ant-line-width) * 2), button-padding: 0 var(--ant-button-padding-inline-lg), font-size: var(--ant-font-size-lg), height: var(--ant-control-height-lg), border-radius: var(--ant-border-radius-lg) ),
+    xl: ( input-padding: 8.5px 15px, button-padding: 0 var(--ant-button-padding-inline-lg), font-size: calc(var(--ant-font-size-lg) + var(--ant-line-width) * 2), height: calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2), border-radius: var(--ant-border-radius-lg) )
 ) !default;
 $alert-variants: (
     primary: ( var(--b-theme-text-primary-emphasis, var(--ant-color-primary)), var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-primary-subtle, var(--ant-color-primary-border)) ),
@@ -235,8 +228,6 @@ $addon-sizes: (
     lg: ( var(--ant-font-size-lg), var(--ant-control-height-lg), var(--ant-button-padding-inline-lg), var(--ant-input-padding-inline-lg), var(--ant-button-padding-inline-lg) ),
     xl: ( var(--ant-font-size-xl), calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2), var(--ant-padding), var(--ant-padding-sm), var(--ant-padding) )
 ) !default;
-$picker-sizes: ( xs: ( 10px, 16px, 0, 7px ), md: ( 14px, 36px, 4.5px, 11px ), xl: ( 18px, 48px, 8.5px, 15px ) ) !default;
-$select-sizes: ( xs: ( 10px, 16px, 14px ), md: ( 14px, 36px, 34px ), xl: ( 18px, 48px, 45px ) ) !default;
 $segmented-variants: (
     primary: ( var(--b-theme-primary, var(--ant-color-primary)), var(--ant-color-text-light-solid) ),
     secondary: ( var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--ant-color-text-light-solid) ),

@@ -161,25 +161,40 @@
     }
 }
 
-@mixin select-size($name, $font-size, $height, $line-height) {
+@mixin select-size($name, $properties) {
+    $height: map-get($properties, height);
+    $border-radius: map-get($properties, border-radius);
+
     .ant-select-#{$name} {
-        font-size: $font-size;
+        --ant-select-height: #{$height};
+        --ant-select-font-size: #{map-get($properties, font-size)};
+        --ant-select-border-radius: #{$border-radius};
+        font-size: map-get($properties, font-size);
+        border-radius: $border-radius;
     }
 
-    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input) .ant-select-selector {
+    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input) {
         height: $height;
-    }
+        padding-block: 0;
 
-    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
-    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder {
-        line-height: $line-height;
-    }
+        .ant-select-selector {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            border-radius: $border-radius;
 
-    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input):not(.ant-select-customize-input) .ant-select-selection-search-input {
-        height: $height;
+            .ant-select-selection-item,
+            .ant-select-selection-placeholder {
+                line-height: calc(#{$height} - var(--ant-line-width) * 2);
+            }
+        }
+
+        .ant-select-selection-search-input {
+            height: 100%;
+        }
     }
 }
 
-@each $name, $sizes in $select-sizes {
-    @include select-size($name, nth($sizes, 1), nth($sizes, 2), nth($sizes, 3));
+@each $name, $properties in $control-sizes {
+    @include select-size($name, $properties);
 }

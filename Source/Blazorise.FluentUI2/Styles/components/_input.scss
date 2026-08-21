@@ -67,6 +67,15 @@
     min-height: 32px;
     padding: 0 var(--spacingHorizontalMNudge);
 
+    @each $name, $properties in $fui-button-sizes {
+        &-#{$name} {
+            min-height: map-get($properties, height);
+            font-size: map-get($properties, font-size);
+            font-weight: map-get($properties, font-weight);
+            line-height: map-get($properties, line-height);
+        }
+    }
+
     &:not(.disabled) {
         border-bottom-color: var(--colorNeutralStrokeAccessible);
         border-left-color: var(--colorNeutralStroke1);

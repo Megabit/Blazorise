@@ -230,20 +230,33 @@ body:before {
   box-shadow: none;
   color: #fff;
 }
-.button.is-extra-small, .field.has-addons.are-extra-small > .control > .button {
+.button.is-extra-small, .field.has-addons.are-extra-small > .control > .button,
+.field.is-grouped.are-extra-small > .control > .button {
   font-size: 0.65rem;
 }
-.button.is-small, .field.has-addons.are-small > .control > .button {
+.button.is-small, .field.has-addons.are-small > .control > .button,
+.field.is-grouped.are-small > .control > .button {
   font-size: 0.75rem;
 }
-.button.is-medium, .field.has-addons.are-medium > .control > .button {
+.button.is-medium, .field.has-addons.are-medium > .control > .button,
+.field.is-grouped.are-medium > .control > .button {
+  font-size: 1.125rem;
+}
+.button.is-large, .field.has-addons.are-large > .control > .button,
+.field.is-grouped.are-large > .control > .button {
   font-size: 1.25rem;
 }
-.button.is-large, .field.has-addons.are-large > .control > .button {
-  font-size: 1.5rem;
+.button.is-extra-large, .field.has-addons.are-extra-large > .control > .button,
+.field.is-grouped.are-extra-large > .control > .button {
+  font-size: 1.375rem;
 }
-.button.is-extra-large, .field.has-addons.are-extra-large > .control > .button {
-  font-size: 2rem;
+.button.is-extra-small, .field.has-addons.are-extra-small > .control > .button,
+.field.is-grouped.are-extra-small > .control > .button {
+  --bulma-control-radius: var(--bulma-radius-small);
+}
+.button.is-extra-large, .field.has-addons.are-extra-large > .control > .button,
+.field.is-grouped.are-extra-large > .control > .button {
+  --bulma-control-radius: var(--bulma-radius-medium);
 }
 
 .field.has-addons {
@@ -496,10 +509,12 @@ body:before {
   overflow: hidden;
   overflow-x: auto;
 }
-.carousel .carousel-indicator.has-custom.is-small .indicator-item, .carousel .field.has-addons.are-small > .control > .carousel-indicator.has-custom.button .indicator-item {
+.carousel .carousel-indicator.has-custom.is-small .indicator-item, .carousel .field.has-addons.are-small > .control > .carousel-indicator.has-custom.button .indicator-item,
+.carousel .field.is-grouped.are-small > .control > .carousel-indicator.has-custom.button .indicator-item {
   flex: 1 0 10%;
 }
-.carousel .carousel-indicator.has-custom.is-medium .indicator-item, .carousel .field.has-addons.are-medium > .control > .carousel-indicator.has-custom.button .indicator-item {
+.carousel .carousel-indicator.has-custom.is-medium .indicator-item, .carousel .field.has-addons.are-medium > .control > .carousel-indicator.has-custom.button .indicator-item,
+.carousel .field.is-grouped.are-medium > .control > .carousel-indicator.has-custom.button .indicator-item {
   flex: 1 0 16.66667%;
 }
 .carousel .carousel-indicator.is-inside {
@@ -798,163 +813,198 @@ body:before {
   left: auto;
   right: 0.6rem;
 }
-.is-checkradio[type=checkbox].is-extra-small + label, .field.has-addons.are-extra-small > .control > .is-checkradio[type=checkbox].button + label {
+.is-checkradio[type=checkbox].is-extra-small + label, .field.has-addons.are-extra-small > .control > .is-checkradio[type=checkbox].button + label,
+.field.is-grouped.are-extra-small > .control > .is-checkradio[type=checkbox].button + label {
   font-size: 0.65rem;
   padding-left: 1.3rem;
 }
-.is-checkradio[type=checkbox].is-extra-small + label::before, .field.has-addons.are-extra-small > .control > .is-checkradio[type=checkbox].button + label::before, .is-checkradio[type=checkbox].is-extra-small + label:before {
+.is-checkradio[type=checkbox].is-extra-small + label::before, .field.has-addons.are-extra-small > .control > .is-checkradio[type=checkbox].button + label::before,
+.field.is-grouped.are-extra-small > .control > .is-checkradio[type=checkbox].button + label::before, .is-checkradio[type=checkbox].is-extra-small + label:before {
   width: 0.975rem;
   height: 0.975rem;
 }
-.is-checkradio[type=checkbox].is-extra-small + label::after, .field.has-addons.are-extra-small > .control > .is-checkradio[type=checkbox].button + label::after, .is-checkradio[type=checkbox].is-extra-small + label:after {
+.is-checkradio[type=checkbox].is-extra-small + label::after, .field.has-addons.are-extra-small > .control > .is-checkradio[type=checkbox].button + label::after,
+.field.is-grouped.are-extra-small > .control > .is-checkradio[type=checkbox].button + label::after, .is-checkradio[type=checkbox].is-extra-small + label:after {
   width: 0.24375rem;
   height: 0.39rem;
   top: 0.26325rem;
   left: 0.39rem;
 }
-.is-checkradio[type=checkbox].is-extra-small.is-block + label::before, .field.has-addons.are-extra-small > .control > .is-checkradio[type=checkbox].is-block.button + label::before, .is-checkradio[type=checkbox].is-extra-small.is-block + label:before {
+.is-checkradio[type=checkbox].is-extra-small.is-block + label::before, .field.has-addons.are-extra-small > .control > .is-checkradio[type=checkbox].is-block.button + label::before,
+.field.is-grouped.are-extra-small > .control > .is-checkradio[type=checkbox].is-block.button + label::before, .is-checkradio[type=checkbox].is-extra-small.is-block + label:before {
   width: 0.8125rem;
   height: 0.8125rem;
   left: 0.175rem;
   top: 0.175rem;
 }
-.is-checkradio[type=checkbox].is-extra-small.is-block + label::after, .field.has-addons.are-extra-small > .control > .is-checkradio[type=checkbox].is-block.button + label::after, .is-checkradio[type=checkbox].is-extra-small.is-block + label:after {
+.is-checkradio[type=checkbox].is-extra-small.is-block + label::after, .field.has-addons.are-extra-small > .control > .is-checkradio[type=checkbox].is-block.button + label::after,
+.field.is-grouped.are-extra-small > .control > .is-checkradio[type=checkbox].is-block.button + label::after, .is-checkradio[type=checkbox].is-extra-small.is-block + label:after {
   top: 0.28125rem;
   left: 0.4925rem;
 }
-.is-checkradio[type=checkbox].is-extra-small.is-rtl + label, .field.has-addons.are-extra-small > .control > .is-checkradio[type=checkbox].is-rtl.button + label {
+.is-checkradio[type=checkbox].is-extra-small.is-rtl + label, .field.has-addons.are-extra-small > .control > .is-checkradio[type=checkbox].is-rtl.button + label,
+.field.is-grouped.are-extra-small > .control > .is-checkradio[type=checkbox].is-rtl.button + label {
   padding-left: 0;
   padding-right: 1.3rem;
 }
-.is-checkradio[type=checkbox].is-extra-small.is-rtl + label::after, .field.has-addons.are-extra-small > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after, .is-checkradio[type=checkbox].is-extra-small.is-rtl + label:after {
+.is-checkradio[type=checkbox].is-extra-small.is-rtl + label::after, .field.has-addons.are-extra-small > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after,
+.field.is-grouped.are-extra-small > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after, .is-checkradio[type=checkbox].is-extra-small.is-rtl + label:after {
   left: auto;
   right: 0.39rem;
 }
-.is-checkradio[type=checkbox].is-small + label, .field.has-addons.are-small > .control > .is-checkradio[type=checkbox].button + label {
+.is-checkradio[type=checkbox].is-small + label, .field.has-addons.are-small > .control > .is-checkradio[type=checkbox].button + label,
+.field.is-grouped.are-small > .control > .is-checkradio[type=checkbox].button + label {
   font-size: 0.75rem;
   padding-left: 1.5rem;
 }
-.is-checkradio[type=checkbox].is-small + label::before, .field.has-addons.are-small > .control > .is-checkradio[type=checkbox].button + label::before, .is-checkradio[type=checkbox].is-small + label:before {
+.is-checkradio[type=checkbox].is-small + label::before, .field.has-addons.are-small > .control > .is-checkradio[type=checkbox].button + label::before,
+.field.is-grouped.are-small > .control > .is-checkradio[type=checkbox].button + label::before, .is-checkradio[type=checkbox].is-small + label:before {
   width: 1.125rem;
   height: 1.125rem;
 }
-.is-checkradio[type=checkbox].is-small + label::after, .field.has-addons.are-small > .control > .is-checkradio[type=checkbox].button + label::after, .is-checkradio[type=checkbox].is-small + label:after {
+.is-checkradio[type=checkbox].is-small + label::after, .field.has-addons.are-small > .control > .is-checkradio[type=checkbox].button + label::after,
+.field.is-grouped.are-small > .control > .is-checkradio[type=checkbox].button + label::after, .is-checkradio[type=checkbox].is-small + label:after {
   width: 0.28125rem;
   height: 0.45rem;
   top: 0.30375rem;
   left: 0.45rem;
 }
-.is-checkradio[type=checkbox].is-small.is-block + label::before, .field.has-addons.are-small > .control > .is-checkradio[type=checkbox].is-block.button + label::before, .is-checkradio[type=checkbox].is-small.is-block + label:before {
+.is-checkradio[type=checkbox].is-small.is-block + label::before, .field.has-addons.are-small > .control > .is-checkradio[type=checkbox].is-block.button + label::before,
+.field.is-grouped.are-small > .control > .is-checkradio[type=checkbox].is-block.button + label::before, .is-checkradio[type=checkbox].is-small.is-block + label:before {
   width: 0.9375rem;
   height: 0.9375rem;
   left: 0.175rem;
   top: 0.175rem;
 }
-.is-checkradio[type=checkbox].is-small.is-block + label::after, .field.has-addons.are-small > .control > .is-checkradio[type=checkbox].is-block.button + label::after, .is-checkradio[type=checkbox].is-small.is-block + label:after {
+.is-checkradio[type=checkbox].is-small.is-block + label::after, .field.has-addons.are-small > .control > .is-checkradio[type=checkbox].is-block.button + label::after,
+.field.is-grouped.are-small > .control > .is-checkradio[type=checkbox].is-block.button + label::after, .is-checkradio[type=checkbox].is-small.is-block + label:after {
   top: 0.29375rem;
   left: 0.5375rem;
 }
-.is-checkradio[type=checkbox].is-small.is-rtl + label, .field.has-addons.are-small > .control > .is-checkradio[type=checkbox].is-rtl.button + label {
+.is-checkradio[type=checkbox].is-small.is-rtl + label, .field.has-addons.are-small > .control > .is-checkradio[type=checkbox].is-rtl.button + label,
+.field.is-grouped.are-small > .control > .is-checkradio[type=checkbox].is-rtl.button + label {
   padding-left: 0;
   padding-right: 1.5rem;
 }
-.is-checkradio[type=checkbox].is-small.is-rtl + label::after, .field.has-addons.are-small > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after, .is-checkradio[type=checkbox].is-small.is-rtl + label:after {
+.is-checkradio[type=checkbox].is-small.is-rtl + label::after, .field.has-addons.are-small > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after,
+.field.is-grouped.are-small > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after, .is-checkradio[type=checkbox].is-small.is-rtl + label:after {
   left: auto;
   right: 0.45rem;
 }
-.is-checkradio[type=checkbox].is-medium + label, .field.has-addons.are-medium > .control > .is-checkradio[type=checkbox].button + label {
+.is-checkradio[type=checkbox].is-medium + label, .field.has-addons.are-medium > .control > .is-checkradio[type=checkbox].button + label,
+.field.is-grouped.are-medium > .control > .is-checkradio[type=checkbox].button + label {
   font-size: 1.25rem;
   padding-left: 2.5rem;
 }
-.is-checkradio[type=checkbox].is-medium + label::before, .field.has-addons.are-medium > .control > .is-checkradio[type=checkbox].button + label::before, .is-checkradio[type=checkbox].is-medium + label:before {
+.is-checkradio[type=checkbox].is-medium + label::before, .field.has-addons.are-medium > .control > .is-checkradio[type=checkbox].button + label::before,
+.field.is-grouped.are-medium > .control > .is-checkradio[type=checkbox].button + label::before, .is-checkradio[type=checkbox].is-medium + label:before {
   width: 1.875rem;
   height: 1.875rem;
 }
-.is-checkradio[type=checkbox].is-medium + label::after, .field.has-addons.are-medium > .control > .is-checkradio[type=checkbox].button + label::after, .is-checkradio[type=checkbox].is-medium + label:after {
+.is-checkradio[type=checkbox].is-medium + label::after, .field.has-addons.are-medium > .control > .is-checkradio[type=checkbox].button + label::after,
+.field.is-grouped.are-medium > .control > .is-checkradio[type=checkbox].button + label::after, .is-checkradio[type=checkbox].is-medium + label:after {
   width: 0.46875rem;
   height: 0.75rem;
   top: 0.50625rem;
   left: 0.75rem;
 }
-.is-checkradio[type=checkbox].is-medium.is-block + label::before, .field.has-addons.are-medium > .control > .is-checkradio[type=checkbox].is-block.button + label::before, .is-checkradio[type=checkbox].is-medium.is-block + label:before {
+.is-checkradio[type=checkbox].is-medium.is-block + label::before, .field.has-addons.are-medium > .control > .is-checkradio[type=checkbox].is-block.button + label::before,
+.field.is-grouped.are-medium > .control > .is-checkradio[type=checkbox].is-block.button + label::before, .is-checkradio[type=checkbox].is-medium.is-block + label:before {
   width: 1.5625rem;
   height: 1.5625rem;
   left: 0.175rem;
   top: 0.175rem;
 }
-.is-checkradio[type=checkbox].is-medium.is-block + label::after, .field.has-addons.are-medium > .control > .is-checkradio[type=checkbox].is-block.button + label::after, .is-checkradio[type=checkbox].is-medium.is-block + label:after {
+.is-checkradio[type=checkbox].is-medium.is-block + label::after, .field.has-addons.are-medium > .control > .is-checkradio[type=checkbox].is-block.button + label::after,
+.field.is-grouped.are-medium > .control > .is-checkradio[type=checkbox].is-block.button + label::after, .is-checkradio[type=checkbox].is-medium.is-block + label:after {
   top: 0.35625rem;
   left: 0.7625rem;
 }
-.is-checkradio[type=checkbox].is-medium.is-rtl + label, .field.has-addons.are-medium > .control > .is-checkradio[type=checkbox].is-rtl.button + label {
+.is-checkradio[type=checkbox].is-medium.is-rtl + label, .field.has-addons.are-medium > .control > .is-checkradio[type=checkbox].is-rtl.button + label,
+.field.is-grouped.are-medium > .control > .is-checkradio[type=checkbox].is-rtl.button + label {
   padding-left: 0;
   padding-right: 2.5rem;
 }
-.is-checkradio[type=checkbox].is-medium.is-rtl + label::after, .field.has-addons.are-medium > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after, .is-checkradio[type=checkbox].is-medium.is-rtl + label:after {
+.is-checkradio[type=checkbox].is-medium.is-rtl + label::after, .field.has-addons.are-medium > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after,
+.field.is-grouped.are-medium > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after, .is-checkradio[type=checkbox].is-medium.is-rtl + label:after {
   left: auto;
   right: 0.75rem;
 }
-.is-checkradio[type=checkbox].is-large + label, .field.has-addons.are-large > .control > .is-checkradio[type=checkbox].button + label {
+.is-checkradio[type=checkbox].is-large + label, .field.has-addons.are-large > .control > .is-checkradio[type=checkbox].button + label,
+.field.is-grouped.are-large > .control > .is-checkradio[type=checkbox].button + label {
   font-size: 1.5rem;
   padding-left: 3rem;
 }
-.is-checkradio[type=checkbox].is-large + label::before, .field.has-addons.are-large > .control > .is-checkradio[type=checkbox].button + label::before, .is-checkradio[type=checkbox].is-large + label:before {
+.is-checkradio[type=checkbox].is-large + label::before, .field.has-addons.are-large > .control > .is-checkradio[type=checkbox].button + label::before,
+.field.is-grouped.are-large > .control > .is-checkradio[type=checkbox].button + label::before, .is-checkradio[type=checkbox].is-large + label:before {
   width: 2.25rem;
   height: 2.25rem;
 }
-.is-checkradio[type=checkbox].is-large + label::after, .field.has-addons.are-large > .control > .is-checkradio[type=checkbox].button + label::after, .is-checkradio[type=checkbox].is-large + label:after {
+.is-checkradio[type=checkbox].is-large + label::after, .field.has-addons.are-large > .control > .is-checkradio[type=checkbox].button + label::after,
+.field.is-grouped.are-large > .control > .is-checkradio[type=checkbox].button + label::after, .is-checkradio[type=checkbox].is-large + label:after {
   width: 0.5625rem;
   height: 0.9rem;
   top: 0.6075rem;
   left: 0.9rem;
 }
-.is-checkradio[type=checkbox].is-large.is-block + label::before, .field.has-addons.are-large > .control > .is-checkradio[type=checkbox].is-block.button + label::before, .is-checkradio[type=checkbox].is-large.is-block + label:before {
+.is-checkradio[type=checkbox].is-large.is-block + label::before, .field.has-addons.are-large > .control > .is-checkradio[type=checkbox].is-block.button + label::before,
+.field.is-grouped.are-large > .control > .is-checkradio[type=checkbox].is-block.button + label::before, .is-checkradio[type=checkbox].is-large.is-block + label:before {
   width: 1.875rem;
   height: 1.875rem;
   left: 0.175rem;
   top: 0.175rem;
 }
-.is-checkradio[type=checkbox].is-large.is-block + label::after, .field.has-addons.are-large > .control > .is-checkradio[type=checkbox].is-block.button + label::after, .is-checkradio[type=checkbox].is-large.is-block + label:after {
+.is-checkradio[type=checkbox].is-large.is-block + label::after, .field.has-addons.are-large > .control > .is-checkradio[type=checkbox].is-block.button + label::after,
+.field.is-grouped.are-large > .control > .is-checkradio[type=checkbox].is-block.button + label::after, .is-checkradio[type=checkbox].is-large.is-block + label:after {
   top: 0.3875rem;
   left: 0.875rem;
 }
-.is-checkradio[type=checkbox].is-large.is-rtl + label, .field.has-addons.are-large > .control > .is-checkradio[type=checkbox].is-rtl.button + label {
+.is-checkradio[type=checkbox].is-large.is-rtl + label, .field.has-addons.are-large > .control > .is-checkradio[type=checkbox].is-rtl.button + label,
+.field.is-grouped.are-large > .control > .is-checkradio[type=checkbox].is-rtl.button + label {
   padding-left: 0;
   padding-right: 3rem;
 }
-.is-checkradio[type=checkbox].is-large.is-rtl + label::after, .field.has-addons.are-large > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after, .is-checkradio[type=checkbox].is-large.is-rtl + label:after {
+.is-checkradio[type=checkbox].is-large.is-rtl + label::after, .field.has-addons.are-large > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after,
+.field.is-grouped.are-large > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after, .is-checkradio[type=checkbox].is-large.is-rtl + label:after {
   left: auto;
   right: 0.9rem;
 }
-.is-checkradio[type=checkbox].is-extra-large + label, .field.has-addons.are-extra-large > .control > .is-checkradio[type=checkbox].button + label {
+.is-checkradio[type=checkbox].is-extra-large + label, .field.has-addons.are-extra-large > .control > .is-checkradio[type=checkbox].button + label,
+.field.is-grouped.are-extra-large > .control > .is-checkradio[type=checkbox].button + label {
   font-size: 2rem;
   padding-left: 4rem;
 }
-.is-checkradio[type=checkbox].is-extra-large + label::before, .field.has-addons.are-extra-large > .control > .is-checkradio[type=checkbox].button + label::before, .is-checkradio[type=checkbox].is-extra-large + label:before {
+.is-checkradio[type=checkbox].is-extra-large + label::before, .field.has-addons.are-extra-large > .control > .is-checkradio[type=checkbox].button + label::before,
+.field.is-grouped.are-extra-large > .control > .is-checkradio[type=checkbox].button + label::before, .is-checkradio[type=checkbox].is-extra-large + label:before {
   width: 3rem;
   height: 3rem;
 }
-.is-checkradio[type=checkbox].is-extra-large + label::after, .field.has-addons.are-extra-large > .control > .is-checkradio[type=checkbox].button + label::after, .is-checkradio[type=checkbox].is-extra-large + label:after {
+.is-checkradio[type=checkbox].is-extra-large + label::after, .field.has-addons.are-extra-large > .control > .is-checkradio[type=checkbox].button + label::after,
+.field.is-grouped.are-extra-large > .control > .is-checkradio[type=checkbox].button + label::after, .is-checkradio[type=checkbox].is-extra-large + label:after {
   width: 0.75rem;
   height: 1.2rem;
   top: 0.81rem;
   left: 1.2rem;
 }
-.is-checkradio[type=checkbox].is-extra-large.is-block + label::before, .field.has-addons.are-extra-large > .control > .is-checkradio[type=checkbox].is-block.button + label::before, .is-checkradio[type=checkbox].is-extra-large.is-block + label:before {
+.is-checkradio[type=checkbox].is-extra-large.is-block + label::before, .field.has-addons.are-extra-large > .control > .is-checkradio[type=checkbox].is-block.button + label::before,
+.field.is-grouped.are-extra-large > .control > .is-checkradio[type=checkbox].is-block.button + label::before, .is-checkradio[type=checkbox].is-extra-large.is-block + label:before {
   width: 2.5rem;
   height: 2.5rem;
   left: 0.175rem;
   top: 0.175rem;
 }
-.is-checkradio[type=checkbox].is-extra-large.is-block + label::after, .field.has-addons.are-extra-large > .control > .is-checkradio[type=checkbox].is-block.button + label::after, .is-checkradio[type=checkbox].is-extra-large.is-block + label:after {
+.is-checkradio[type=checkbox].is-extra-large.is-block + label::after, .field.has-addons.are-extra-large > .control > .is-checkradio[type=checkbox].is-block.button + label::after,
+.field.is-grouped.are-extra-large > .control > .is-checkradio[type=checkbox].is-block.button + label::after, .is-checkradio[type=checkbox].is-extra-large.is-block + label:after {
   top: 0.45rem;
   left: 1.1rem;
 }
-.is-checkradio[type=checkbox].is-extra-large.is-rtl + label, .field.has-addons.are-extra-large > .control > .is-checkradio[type=checkbox].is-rtl.button + label {
+.is-checkradio[type=checkbox].is-extra-large.is-rtl + label, .field.has-addons.are-extra-large > .control > .is-checkradio[type=checkbox].is-rtl.button + label,
+.field.is-grouped.are-extra-large > .control > .is-checkradio[type=checkbox].is-rtl.button + label {
   padding-left: 0;
   padding-right: 4rem;
 }
-.is-checkradio[type=checkbox].is-extra-large.is-rtl + label::after, .field.has-addons.are-extra-large > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after, .is-checkradio[type=checkbox].is-extra-large.is-rtl + label:after {
+.is-checkradio[type=checkbox].is-extra-large.is-rtl + label::after, .field.has-addons.are-extra-large > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after,
+.field.is-grouped.are-extra-large > .control > .is-checkradio[type=checkbox].is-rtl.button + label::after, .is-checkradio[type=checkbox].is-extra-large.is-rtl + label:after {
   left: auto;
   right: 1.2rem;
 }
@@ -1342,64 +1392,84 @@ body:before {
 .is-checkradio[type=radio].is-rtl + label {
   padding-right: 2rem;
 }
-.is-checkradio[type=radio].is-extra-small + label, .field.has-addons.are-extra-small > .control > .is-checkradio[type=radio].button + label {
+.is-checkradio[type=radio].is-extra-small + label, .field.has-addons.are-extra-small > .control > .is-checkradio[type=radio].button + label,
+.field.is-grouped.are-extra-small > .control > .is-checkradio[type=radio].button + label {
   font-size: 0.65rem;
   line-height: 0.975rem;
   padding-left: 1.3rem;
 }
-.is-checkradio[type=radio].is-extra-small + label:before, .field.has-addons.are-extra-small > .control > .is-checkradio[type=radio].button + label::before, .is-checkradio[type=radio].is-extra-small + label::after, .field.has-addons.are-extra-small > .control > .is-checkradio[type=radio].button + label::after, .is-checkradio[type=radio].is-extra-small + label:after {
+.is-checkradio[type=radio].is-extra-small + label:before, .field.has-addons.are-extra-small > .control > .is-checkradio[type=radio].button + label::before,
+.field.is-grouped.are-extra-small > .control > .is-checkradio[type=radio].button + label::before, .is-checkradio[type=radio].is-extra-small + label::after, .field.has-addons.are-extra-small > .control > .is-checkradio[type=radio].button + label::after,
+.field.is-grouped.are-extra-small > .control > .is-checkradio[type=radio].button + label::after, .is-checkradio[type=radio].is-extra-small + label:after {
   width: 0.975rem;
   height: 0.975rem;
 }
-.is-checkradio[type=radio].is-extra-small.is-rtl + label, .field.has-addons.are-extra-small > .control > .is-checkradio[type=radio].is-rtl.button + label {
+.is-checkradio[type=radio].is-extra-small.is-rtl + label, .field.has-addons.are-extra-small > .control > .is-checkradio[type=radio].is-rtl.button + label,
+.field.is-grouped.are-extra-small > .control > .is-checkradio[type=radio].is-rtl.button + label {
   padding-right: 1.3rem;
 }
-.is-checkradio[type=radio].is-small + label, .field.has-addons.are-small > .control > .is-checkradio[type=radio].button + label {
+.is-checkradio[type=radio].is-small + label, .field.has-addons.are-small > .control > .is-checkradio[type=radio].button + label,
+.field.is-grouped.are-small > .control > .is-checkradio[type=radio].button + label {
   font-size: 0.75rem;
   line-height: 1.125rem;
   padding-left: 1.5rem;
 }
-.is-checkradio[type=radio].is-small + label:before, .field.has-addons.are-small > .control > .is-checkradio[type=radio].button + label::before, .is-checkradio[type=radio].is-small + label::after, .field.has-addons.are-small > .control > .is-checkradio[type=radio].button + label::after, .is-checkradio[type=radio].is-small + label:after {
+.is-checkradio[type=radio].is-small + label:before, .field.has-addons.are-small > .control > .is-checkradio[type=radio].button + label::before,
+.field.is-grouped.are-small > .control > .is-checkradio[type=radio].button + label::before, .is-checkradio[type=radio].is-small + label::after, .field.has-addons.are-small > .control > .is-checkradio[type=radio].button + label::after,
+.field.is-grouped.are-small > .control > .is-checkradio[type=radio].button + label::after, .is-checkradio[type=radio].is-small + label:after {
   width: 1.125rem;
   height: 1.125rem;
 }
-.is-checkradio[type=radio].is-small.is-rtl + label, .field.has-addons.are-small > .control > .is-checkradio[type=radio].is-rtl.button + label {
+.is-checkradio[type=radio].is-small.is-rtl + label, .field.has-addons.are-small > .control > .is-checkradio[type=radio].is-rtl.button + label,
+.field.is-grouped.are-small > .control > .is-checkradio[type=radio].is-rtl.button + label {
   padding-right: 1.5rem;
 }
-.is-checkradio[type=radio].is-medium + label, .field.has-addons.are-medium > .control > .is-checkradio[type=radio].button + label {
+.is-checkradio[type=radio].is-medium + label, .field.has-addons.are-medium > .control > .is-checkradio[type=radio].button + label,
+.field.is-grouped.are-medium > .control > .is-checkradio[type=radio].button + label {
   font-size: 1.25rem;
   line-height: 1.875rem;
   padding-left: 2.5rem;
 }
-.is-checkradio[type=radio].is-medium + label:before, .field.has-addons.are-medium > .control > .is-checkradio[type=radio].button + label::before, .is-checkradio[type=radio].is-medium + label::after, .field.has-addons.are-medium > .control > .is-checkradio[type=radio].button + label::after, .is-checkradio[type=radio].is-medium + label:after {
+.is-checkradio[type=radio].is-medium + label:before, .field.has-addons.are-medium > .control > .is-checkradio[type=radio].button + label::before,
+.field.is-grouped.are-medium > .control > .is-checkradio[type=radio].button + label::before, .is-checkradio[type=radio].is-medium + label::after, .field.has-addons.are-medium > .control > .is-checkradio[type=radio].button + label::after,
+.field.is-grouped.are-medium > .control > .is-checkradio[type=radio].button + label::after, .is-checkradio[type=radio].is-medium + label:after {
   width: 1.875rem;
   height: 1.875rem;
 }
-.is-checkradio[type=radio].is-medium.is-rtl + label, .field.has-addons.are-medium > .control > .is-checkradio[type=radio].is-rtl.button + label {
+.is-checkradio[type=radio].is-medium.is-rtl + label, .field.has-addons.are-medium > .control > .is-checkradio[type=radio].is-rtl.button + label,
+.field.is-grouped.are-medium > .control > .is-checkradio[type=radio].is-rtl.button + label {
   padding-right: 2.5rem;
 }
-.is-checkradio[type=radio].is-large + label, .field.has-addons.are-large > .control > .is-checkradio[type=radio].button + label {
+.is-checkradio[type=radio].is-large + label, .field.has-addons.are-large > .control > .is-checkradio[type=radio].button + label,
+.field.is-grouped.are-large > .control > .is-checkradio[type=radio].button + label {
   font-size: 1.5rem;
   line-height: 2.25rem;
   padding-left: 3rem;
 }
-.is-checkradio[type=radio].is-large + label:before, .field.has-addons.are-large > .control > .is-checkradio[type=radio].button + label::before, .is-checkradio[type=radio].is-large + label::after, .field.has-addons.are-large > .control > .is-checkradio[type=radio].button + label::after, .is-checkradio[type=radio].is-large + label:after {
+.is-checkradio[type=radio].is-large + label:before, .field.has-addons.are-large > .control > .is-checkradio[type=radio].button + label::before,
+.field.is-grouped.are-large > .control > .is-checkradio[type=radio].button + label::before, .is-checkradio[type=radio].is-large + label::after, .field.has-addons.are-large > .control > .is-checkradio[type=radio].button + label::after,
+.field.is-grouped.are-large > .control > .is-checkradio[type=radio].button + label::after, .is-checkradio[type=radio].is-large + label:after {
   width: 2.25rem;
   height: 2.25rem;
 }
-.is-checkradio[type=radio].is-large.is-rtl + label, .field.has-addons.are-large > .control > .is-checkradio[type=radio].is-rtl.button + label {
+.is-checkradio[type=radio].is-large.is-rtl + label, .field.has-addons.are-large > .control > .is-checkradio[type=radio].is-rtl.button + label,
+.field.is-grouped.are-large > .control > .is-checkradio[type=radio].is-rtl.button + label {
   padding-right: 3rem;
 }
-.is-checkradio[type=radio].is-extra-large + label, .field.has-addons.are-extra-large > .control > .is-checkradio[type=radio].button + label {
+.is-checkradio[type=radio].is-extra-large + label, .field.has-addons.are-extra-large > .control > .is-checkradio[type=radio].button + label,
+.field.is-grouped.are-extra-large > .control > .is-checkradio[type=radio].button + label {
   font-size: 2rem;
   line-height: 3rem;
   padding-left: 4rem;
 }
-.is-checkradio[type=radio].is-extra-large + label:before, .field.has-addons.are-extra-large > .control > .is-checkradio[type=radio].button + label::before, .is-checkradio[type=radio].is-extra-large + label::after, .field.has-addons.are-extra-large > .control > .is-checkradio[type=radio].button + label::after, .is-checkradio[type=radio].is-extra-large + label:after {
+.is-checkradio[type=radio].is-extra-large + label:before, .field.has-addons.are-extra-large > .control > .is-checkradio[type=radio].button + label::before,
+.field.is-grouped.are-extra-large > .control > .is-checkradio[type=radio].button + label::before, .is-checkradio[type=radio].is-extra-large + label::after, .field.has-addons.are-extra-large > .control > .is-checkradio[type=radio].button + label::after,
+.field.is-grouped.are-extra-large > .control > .is-checkradio[type=radio].button + label::after, .is-checkradio[type=radio].is-extra-large + label:after {
   width: 3rem;
   height: 3rem;
 }
-.is-checkradio[type=radio].is-extra-large.is-rtl + label, .field.has-addons.are-extra-large > .control > .is-checkradio[type=radio].is-rtl.button + label {
+.is-checkradio[type=radio].is-extra-large.is-rtl + label, .field.has-addons.are-extra-large > .control > .is-checkradio[type=radio].is-rtl.button + label,
+.field.is-grouped.are-extra-large > .control > .is-checkradio[type=radio].is-rtl.button + label {
   padding-right: 4rem;
 }
 .is-checkradio[type=radio].is-primary.has-background-color + label::before, .is-checkradio[type=radio].is-primary.has-background-color + label:before {
@@ -2920,83 +2990,146 @@ label.radio.button input[type=radio] {
 }
 
 .has-addons.is-extra-small > .control > .button, .field.has-addons.are-extra-small > .control > .has-addons.button > .control > .button,
+.field.is-grouped.are-extra-small > .control > .has-addons.button > .control > .button,
 .has-addons.is-extra-small > .control > .control > .button,
 .field.has-addons.are-extra-small > .control > .has-addons.button > .control > .control > .button,
+.field.is-grouped.are-extra-small > .control > .has-addons.button > .control > .control > .button,
 .has-addons.is-extra-small > .control > .field > .control > .input,
 .field.has-addons.are-extra-small > .control > .has-addons.button > .control > .field > .control > .input,
+.field.is-grouped.are-extra-small > .control > .has-addons.button > .control > .field > .control > .input,
 .has-addons.is-extra-small > .control > .field > .control > .select,
 .field.has-addons.are-extra-small > .control > .has-addons.button > .control > .field > .control > .select,
+.field.is-grouped.are-extra-small > .control > .has-addons.button > .control > .field > .control > .select,
 .input.is-extra-small,
 .field.has-addons.are-extra-small > .control > .input.button,
+.field.is-grouped.are-extra-small > .control > .input.button,
 .select.is-extra-small,
 .field.has-addons.are-extra-small > .control > .select.button,
+.field.is-grouped.are-extra-small > .control > .select.button,
 .textarea.is-extra-small,
-.field.has-addons.are-extra-small > .control > .textarea.button {
+.field.has-addons.are-extra-small > .control > .textarea.button,
+.field.is-grouped.are-extra-small > .control > .textarea.button {
   font-size: 0.65rem;
 }
 
 .has-addons.is-small > .control > .button, .field.has-addons.are-small > .control > .has-addons.button > .control > .button,
+.field.is-grouped.are-small > .control > .has-addons.button > .control > .button,
 .has-addons.is-small > .control > .control > .button,
 .field.has-addons.are-small > .control > .has-addons.button > .control > .control > .button,
+.field.is-grouped.are-small > .control > .has-addons.button > .control > .control > .button,
 .has-addons.is-small > .control > .field > .control > .input,
 .field.has-addons.are-small > .control > .has-addons.button > .control > .field > .control > .input,
+.field.is-grouped.are-small > .control > .has-addons.button > .control > .field > .control > .input,
 .has-addons.is-small > .control > .field > .control > .select,
 .field.has-addons.are-small > .control > .has-addons.button > .control > .field > .control > .select,
+.field.is-grouped.are-small > .control > .has-addons.button > .control > .field > .control > .select,
 .input.is-small,
 .field.has-addons.are-small > .control > .input.button,
+.field.is-grouped.are-small > .control > .input.button,
 .select.is-small,
 .field.has-addons.are-small > .control > .select.button,
+.field.is-grouped.are-small > .control > .select.button,
 .textarea.is-small,
-.field.has-addons.are-small > .control > .textarea.button {
+.field.has-addons.are-small > .control > .textarea.button,
+.field.is-grouped.are-small > .control > .textarea.button {
   font-size: 0.75rem;
 }
 
 .has-addons.is-medium > .control > .button, .field.has-addons.are-medium > .control > .has-addons.button > .control > .button,
+.field.is-grouped.are-medium > .control > .has-addons.button > .control > .button,
 .has-addons.is-medium > .control > .control > .button,
 .field.has-addons.are-medium > .control > .has-addons.button > .control > .control > .button,
+.field.is-grouped.are-medium > .control > .has-addons.button > .control > .control > .button,
 .has-addons.is-medium > .control > .field > .control > .input,
 .field.has-addons.are-medium > .control > .has-addons.button > .control > .field > .control > .input,
+.field.is-grouped.are-medium > .control > .has-addons.button > .control > .field > .control > .input,
 .has-addons.is-medium > .control > .field > .control > .select,
 .field.has-addons.are-medium > .control > .has-addons.button > .control > .field > .control > .select,
+.field.is-grouped.are-medium > .control > .has-addons.button > .control > .field > .control > .select,
 .input.is-medium,
 .field.has-addons.are-medium > .control > .input.button,
+.field.is-grouped.are-medium > .control > .input.button,
 .select.is-medium,
 .field.has-addons.are-medium > .control > .select.button,
+.field.is-grouped.are-medium > .control > .select.button,
 .textarea.is-medium,
-.field.has-addons.are-medium > .control > .textarea.button {
-  font-size: 1.25rem;
+.field.has-addons.are-medium > .control > .textarea.button,
+.field.is-grouped.are-medium > .control > .textarea.button {
+  font-size: 1.125rem;
 }
 
 .has-addons.is-large > .control > .button, .field.has-addons.are-large > .control > .has-addons.button > .control > .button,
+.field.is-grouped.are-large > .control > .has-addons.button > .control > .button,
 .has-addons.is-large > .control > .control > .button,
 .field.has-addons.are-large > .control > .has-addons.button > .control > .control > .button,
+.field.is-grouped.are-large > .control > .has-addons.button > .control > .control > .button,
 .has-addons.is-large > .control > .field > .control > .input,
 .field.has-addons.are-large > .control > .has-addons.button > .control > .field > .control > .input,
+.field.is-grouped.are-large > .control > .has-addons.button > .control > .field > .control > .input,
 .has-addons.is-large > .control > .field > .control > .select,
 .field.has-addons.are-large > .control > .has-addons.button > .control > .field > .control > .select,
+.field.is-grouped.are-large > .control > .has-addons.button > .control > .field > .control > .select,
 .input.is-large,
 .field.has-addons.are-large > .control > .input.button,
+.field.is-grouped.are-large > .control > .input.button,
 .select.is-large,
 .field.has-addons.are-large > .control > .select.button,
+.field.is-grouped.are-large > .control > .select.button,
 .textarea.is-large,
-.field.has-addons.are-large > .control > .textarea.button {
-  font-size: 1.5rem;
+.field.has-addons.are-large > .control > .textarea.button,
+.field.is-grouped.are-large > .control > .textarea.button {
+  font-size: 1.25rem;
 }
 
 .has-addons.is-extra-large > .control > .button, .field.has-addons.are-extra-large > .control > .has-addons.button > .control > .button,
+.field.is-grouped.are-extra-large > .control > .has-addons.button > .control > .button,
 .has-addons.is-extra-large > .control > .control > .button,
 .field.has-addons.are-extra-large > .control > .has-addons.button > .control > .control > .button,
+.field.is-grouped.are-extra-large > .control > .has-addons.button > .control > .control > .button,
 .has-addons.is-extra-large > .control > .field > .control > .input,
 .field.has-addons.are-extra-large > .control > .has-addons.button > .control > .field > .control > .input,
+.field.is-grouped.are-extra-large > .control > .has-addons.button > .control > .field > .control > .input,
 .has-addons.is-extra-large > .control > .field > .control > .select,
 .field.has-addons.are-extra-large > .control > .has-addons.button > .control > .field > .control > .select,
+.field.is-grouped.are-extra-large > .control > .has-addons.button > .control > .field > .control > .select,
 .input.is-extra-large,
 .field.has-addons.are-extra-large > .control > .input.button,
+.field.is-grouped.are-extra-large > .control > .input.button,
 .select.is-extra-large,
 .field.has-addons.are-extra-large > .control > .select.button,
+.field.is-grouped.are-extra-large > .control > .select.button,
 .textarea.is-extra-large,
-.field.has-addons.are-extra-large > .control > .textarea.button {
-  font-size: 2rem;
+.field.has-addons.are-extra-large > .control > .textarea.button,
+.field.is-grouped.are-extra-large > .control > .textarea.button {
+  font-size: 1.375rem;
+}
+
+.has-addons.is-extra-small, .field.has-addons.are-extra-small > .control > .has-addons.button,
+.field.is-grouped.are-extra-small > .control > .has-addons.button,
+.input.is-extra-small,
+.field.has-addons.are-extra-small > .control > .input.button,
+.field.is-grouped.are-extra-small > .control > .input.button,
+.select.is-extra-small,
+.field.has-addons.are-extra-small > .control > .select.button,
+.field.is-grouped.are-extra-small > .control > .select.button,
+.textarea.is-extra-small,
+.field.has-addons.are-extra-small > .control > .textarea.button,
+.field.is-grouped.are-extra-small > .control > .textarea.button {
+  --bulma-control-radius: var(--bulma-radius-small);
+}
+
+.has-addons.is-extra-large, .field.has-addons.are-extra-large > .control > .has-addons.button,
+.field.is-grouped.are-extra-large > .control > .has-addons.button,
+.input.is-extra-large,
+.field.has-addons.are-extra-large > .control > .input.button,
+.field.is-grouped.are-extra-large > .control > .input.button,
+.select.is-extra-large,
+.field.has-addons.are-extra-large > .control > .select.button,
+.field.is-grouped.are-extra-large > .control > .select.button,
+.textarea.is-extra-large,
+.field.has-addons.are-extra-large > .control > .textarea.button,
+.field.is-grouped.are-extra-large > .control > .textarea.button {
+  --bulma-control-radius: var(--bulma-radius-medium);
 }
 
 .textarea.is-static {
@@ -3923,13 +4056,16 @@ li.list-group-item-action {
 .offcanvas-backdrop.is-active {
   opacity: 1;
 }
-.offcanvas.is-small, .field.has-addons.are-small > .control > .offcanvas.button {
+.offcanvas.is-small, .field.has-addons.are-small > .control > .offcanvas.button,
+.field.is-grouped.are-small > .control > .offcanvas.button {
   --offcanvas-size: 16rem;
 }
-.offcanvas.is-large, .field.has-addons.are-large > .control > .offcanvas.button {
+.offcanvas.is-large, .field.has-addons.are-large > .control > .offcanvas.button,
+.field.is-grouped.are-large > .control > .offcanvas.button {
   --offcanvas-size: 24rem;
 }
-.offcanvas.is-extra-large, .field.has-addons.are-extra-large > .control > .offcanvas.button {
+.offcanvas.is-extra-large, .field.has-addons.are-extra-large > .control > .offcanvas.button,
+.field.is-grouped.are-extra-large > .control > .offcanvas.button {
   --offcanvas-size: 32rem;
 }
 .offcanvas.is-fullscreen.is-start, .offcanvas.is-fullscreen.is-end {
@@ -3939,10 +4075,12 @@ li.list-group-item-action {
   --offcanvas-size: 100vh;
 }
 
-.pagination.is-extra-small, .field.has-addons.are-extra-small > .control > .pagination.button {
+.pagination.is-extra-small, .field.has-addons.are-extra-small > .control > .pagination.button,
+.field.is-grouped.are-extra-small > .control > .pagination.button {
   font-size: 0.65rem;
 }
-.pagination.is-extra-large, .field.has-addons.are-extra-large > .control > .pagination.button {
+.pagination.is-extra-large, .field.has-addons.are-extra-large > .control > .pagination.button,
+.field.is-grouped.are-extra-large > .control > .pagination.button {
   font-size: 2rem;
 }
 
@@ -4106,10 +4244,12 @@ li.list-group-item-action {
   position: relative;
   display: flex;
 }
-.progress-wrapper .progress.is-extra-small, .progress-wrapper .field.has-addons.are-extra-small > .control > .progress.button {
+.progress-wrapper .progress.is-extra-small, .progress-wrapper .field.has-addons.are-extra-small > .control > .progress.button,
+.progress-wrapper .field.is-grouped.are-extra-small > .control > .progress.button {
   height: 0.65rem;
 }
-.progress-wrapper .progress.is-extra-large, .progress-wrapper .field.has-addons.are-extra-large > .control > .progress.button {
+.progress-wrapper .progress.is-extra-large, .progress-wrapper .field.has-addons.are-extra-large > .control > .progress.button,
+.progress-wrapper .field.is-grouped.are-extra-large > .control > .progress.button {
   height: 2rem;
 }
 .progress-wrapper .progress[value].progress-animated::-webkit-progress-value {
@@ -4155,32 +4295,42 @@ li.list-group-item-action {
   margin-bottom: 0;
 }
 .progress-bars-wrapper .progress-bar.is-extra-small + .progress-value, .progress-bars-wrapper .field.has-addons.are-extra-small > .control > .progress-bar.button + .progress-value,
+.progress-bars-wrapper .field.is-grouped.are-extra-small > .control > .progress-bar.button + .progress-value,
 .progress-bars-wrapper .progress-bar.is-extra-small .progress-value,
-.progress-bars-wrapper .field.has-addons.are-extra-small > .control > .progress-bar.button .progress-value {
+.progress-bars-wrapper .field.has-addons.are-extra-small > .control > .progress-bar.button .progress-value,
+.progress-bars-wrapper .field.is-grouped.are-extra-small > .control > .progress-bar.button .progress-value {
   font-size: calc(0.65rem / 1.5);
   line-height: 0.65rem;
 }
 .progress-bars-wrapper .progress-bar.is-small + .progress-value, .progress-bars-wrapper .field.has-addons.are-small > .control > .progress-bar.button + .progress-value,
+.progress-bars-wrapper .field.is-grouped.are-small > .control > .progress-bar.button + .progress-value,
 .progress-bars-wrapper .progress-bar.is-small .progress-value,
-.progress-bars-wrapper .field.has-addons.are-small > .control > .progress-bar.button .progress-value {
+.progress-bars-wrapper .field.has-addons.are-small > .control > .progress-bar.button .progress-value,
+.progress-bars-wrapper .field.is-grouped.are-small > .control > .progress-bar.button .progress-value {
   font-size: calc(0.75rem / 1.5);
   line-height: 0.75rem;
 }
 .progress-bars-wrapper .progress-bar.is-medium + .progress-value, .progress-bars-wrapper .field.has-addons.are-medium > .control > .progress-bar.button + .progress-value,
+.progress-bars-wrapper .field.is-grouped.are-medium > .control > .progress-bar.button + .progress-value,
 .progress-bars-wrapper .progress-bar.is-medium .progress-value,
-.progress-bars-wrapper .field.has-addons.are-medium > .control > .progress-bar.button .progress-value {
+.progress-bars-wrapper .field.has-addons.are-medium > .control > .progress-bar.button .progress-value,
+.progress-bars-wrapper .field.is-grouped.are-medium > .control > .progress-bar.button .progress-value {
   font-size: calc(1.25rem / 1.5);
   line-height: 1.25rem;
 }
 .progress-bars-wrapper .progress-bar.is-large + .progress-value, .progress-bars-wrapper .field.has-addons.are-large > .control > .progress-bar.button + .progress-value,
+.progress-bars-wrapper .field.is-grouped.are-large > .control > .progress-bar.button + .progress-value,
 .progress-bars-wrapper .progress-bar.is-large .progress-value,
-.progress-bars-wrapper .field.has-addons.are-large > .control > .progress-bar.button .progress-value {
+.progress-bars-wrapper .field.has-addons.are-large > .control > .progress-bar.button .progress-value,
+.progress-bars-wrapper .field.is-grouped.are-large > .control > .progress-bar.button .progress-value {
   font-size: calc(1.5rem / 1.5);
   line-height: 1.5rem;
 }
 .progress-bars-wrapper .progress-bar.is-extra-large + .progress-value, .progress-bars-wrapper .field.has-addons.are-extra-large > .control > .progress-bar.button + .progress-value,
+.progress-bars-wrapper .field.is-grouped.are-extra-large > .control > .progress-bar.button + .progress-value,
 .progress-bars-wrapper .progress-bar.is-extra-large .progress-value,
-.progress-bars-wrapper .field.has-addons.are-extra-large > .control > .progress-bar.button .progress-value {
+.progress-bars-wrapper .field.has-addons.are-extra-large > .control > .progress-bar.button .progress-value,
+.progress-bars-wrapper .field.is-grouped.are-extra-large > .control > .progress-bar.button .progress-value {
   font-size: calc(2rem / 1.5);
   line-height: 2rem;
 }
@@ -4775,7 +4925,8 @@ li.list-group-item-action {
 .switch[type=checkbox]:checked + label::after {
   left: 1.625rem;
 }
-.switch[type=checkbox].is-extra-small + label, .field.has-addons.are-extra-small > .control > .switch[type=checkbox].button + label {
+.switch[type=checkbox].is-extra-small + label, .field.has-addons.are-extra-small > .control > .switch[type=checkbox].button + label,
+.field.is-grouped.are-extra-small > .control > .switch[type=checkbox].button + label {
   position: relative;
   display: initial;
   font-size: 0.65rem;
@@ -4784,7 +4935,8 @@ li.list-group-item-action {
   padding-top: 0.2rem;
   cursor: pointer;
 }
-.switch[type=checkbox].is-extra-small + label::before, .field.has-addons.are-extra-small > .control > .switch[type=checkbox].button + label::before, .switch[type=checkbox].is-extra-small + label:before {
+.switch[type=checkbox].is-extra-small + label::before, .field.has-addons.are-extra-small > .control > .switch[type=checkbox].button + label::before,
+.field.is-grouped.are-extra-small > .control > .switch[type=checkbox].button + label::before, .switch[type=checkbox].is-extra-small + label:before {
   position: absolute;
   display: block;
   top: calc(50% - 0.975rem / 2);
@@ -4796,7 +4948,8 @@ li.list-group-item-action {
   background: rgba(0, 0, 0, 0.125);
   content: "";
 }
-.switch[type=checkbox].is-extra-small + label::after, .field.has-addons.are-extra-small > .control > .switch[type=checkbox].button + label::after, .switch[type=checkbox].is-extra-small + label:after {
+.switch[type=checkbox].is-extra-small + label::after, .field.has-addons.are-extra-small > .control > .switch[type=checkbox].button + label::after,
+.field.is-grouped.are-extra-small > .control > .switch[type=checkbox].button + label::after, .switch[type=checkbox].is-extra-small + label:after {
   display: block;
   position: absolute;
   top: calc(50% - 0.475rem / 2);
@@ -4809,13 +4962,16 @@ li.list-group-item-action {
   transition: all 0.25s ease-out;
   content: "";
 }
-.switch[type=checkbox].is-extra-small:checked + label::before, .field.has-addons.are-extra-small > .control > .switch[type=checkbox].button:checked + label::before, .switch[type=checkbox].is-extra-small:checked + label:before {
+.switch[type=checkbox].is-extra-small:checked + label::before, .field.has-addons.are-extra-small > .control > .switch[type=checkbox].button:checked + label::before,
+.field.is-grouped.are-extra-small > .control > .switch[type=checkbox].button:checked + label::before, .switch[type=checkbox].is-extra-small:checked + label:before {
   background: var(--b-theme-primary, hsl(171, 100%, 41%));
 }
-.switch[type=checkbox].is-extra-small:checked + label::after, .field.has-addons.are-extra-small > .control > .switch[type=checkbox].button:checked + label::after {
+.switch[type=checkbox].is-extra-small:checked + label::after, .field.has-addons.are-extra-small > .control > .switch[type=checkbox].button:checked + label::after,
+.field.is-grouped.are-extra-small > .control > .switch[type=checkbox].button:checked + label::after {
   left: 1.1rem;
 }
-.switch[type=checkbox].is-small + label, .field.has-addons.are-small > .control > .switch[type=checkbox].button + label {
+.switch[type=checkbox].is-small + label, .field.has-addons.are-small > .control > .switch[type=checkbox].button + label,
+.field.is-grouped.are-small > .control > .switch[type=checkbox].button + label {
   position: relative;
   display: initial;
   font-size: 0.75rem;
@@ -4824,7 +4980,8 @@ li.list-group-item-action {
   padding-top: 0.2rem;
   cursor: pointer;
 }
-.switch[type=checkbox].is-small + label::before, .field.has-addons.are-small > .control > .switch[type=checkbox].button + label::before, .switch[type=checkbox].is-small + label:before {
+.switch[type=checkbox].is-small + label::before, .field.has-addons.are-small > .control > .switch[type=checkbox].button + label::before,
+.field.is-grouped.are-small > .control > .switch[type=checkbox].button + label::before, .switch[type=checkbox].is-small + label:before {
   position: absolute;
   display: block;
   top: calc(50% - 1.125rem / 2);
@@ -4836,7 +4993,8 @@ li.list-group-item-action {
   background: rgba(0, 0, 0, 0.125);
   content: "";
 }
-.switch[type=checkbox].is-small + label::after, .field.has-addons.are-small > .control > .switch[type=checkbox].button + label::after, .switch[type=checkbox].is-small + label:after {
+.switch[type=checkbox].is-small + label::after, .field.has-addons.are-small > .control > .switch[type=checkbox].button + label::after,
+.field.is-grouped.are-small > .control > .switch[type=checkbox].button + label::after, .switch[type=checkbox].is-small + label:after {
   display: block;
   position: absolute;
   top: calc(50% - 0.625rem / 2);
@@ -4849,13 +5007,16 @@ li.list-group-item-action {
   transition: all 0.25s ease-out;
   content: "";
 }
-.switch[type=checkbox].is-small:checked + label::before, .field.has-addons.are-small > .control > .switch[type=checkbox].button:checked + label::before, .switch[type=checkbox].is-small:checked + label:before {
+.switch[type=checkbox].is-small:checked + label::before, .field.has-addons.are-small > .control > .switch[type=checkbox].button:checked + label::before,
+.field.is-grouped.are-small > .control > .switch[type=checkbox].button:checked + label::before, .switch[type=checkbox].is-small:checked + label:before {
   background: var(--b-theme-primary, hsl(171, 100%, 41%));
 }
-.switch[type=checkbox].is-small:checked + label::after, .field.has-addons.are-small > .control > .switch[type=checkbox].button:checked + label::after {
+.switch[type=checkbox].is-small:checked + label::after, .field.has-addons.are-small > .control > .switch[type=checkbox].button:checked + label::after,
+.field.is-grouped.are-small > .control > .switch[type=checkbox].button:checked + label::after {
   left: 1.25rem;
 }
-.switch[type=checkbox].is-medium + label, .field.has-addons.are-medium > .control > .switch[type=checkbox].button + label {
+.switch[type=checkbox].is-medium + label, .field.has-addons.are-medium > .control > .switch[type=checkbox].button + label,
+.field.is-grouped.are-medium > .control > .switch[type=checkbox].button + label {
   position: relative;
   display: initial;
   font-size: 1.25rem;
@@ -4864,7 +5025,8 @@ li.list-group-item-action {
   padding-top: 0.2rem;
   cursor: pointer;
 }
-.switch[type=checkbox].is-medium + label::before, .field.has-addons.are-medium > .control > .switch[type=checkbox].button + label::before, .switch[type=checkbox].is-medium + label:before {
+.switch[type=checkbox].is-medium + label::before, .field.has-addons.are-medium > .control > .switch[type=checkbox].button + label::before,
+.field.is-grouped.are-medium > .control > .switch[type=checkbox].button + label::before, .switch[type=checkbox].is-medium + label:before {
   position: absolute;
   display: block;
   top: calc(50% - 1.875rem / 2);
@@ -4876,7 +5038,8 @@ li.list-group-item-action {
   background: rgba(0, 0, 0, 0.125);
   content: "";
 }
-.switch[type=checkbox].is-medium + label::after, .field.has-addons.are-medium > .control > .switch[type=checkbox].button + label::after, .switch[type=checkbox].is-medium + label:after {
+.switch[type=checkbox].is-medium + label::after, .field.has-addons.are-medium > .control > .switch[type=checkbox].button + label::after,
+.field.is-grouped.are-medium > .control > .switch[type=checkbox].button + label::after, .switch[type=checkbox].is-medium + label:after {
   display: block;
   position: absolute;
   top: calc(50% - 1.375rem / 2);
@@ -4889,13 +5052,16 @@ li.list-group-item-action {
   transition: all 0.25s ease-out;
   content: "";
 }
-.switch[type=checkbox].is-medium:checked + label::before, .field.has-addons.are-medium > .control > .switch[type=checkbox].button:checked + label::before, .switch[type=checkbox].is-medium:checked + label:before {
+.switch[type=checkbox].is-medium:checked + label::before, .field.has-addons.are-medium > .control > .switch[type=checkbox].button:checked + label::before,
+.field.is-grouped.are-medium > .control > .switch[type=checkbox].button:checked + label::before, .switch[type=checkbox].is-medium:checked + label:before {
   background: var(--b-theme-primary, hsl(171, 100%, 41%));
 }
-.switch[type=checkbox].is-medium:checked + label::after, .field.has-addons.are-medium > .control > .switch[type=checkbox].button:checked + label::after {
+.switch[type=checkbox].is-medium:checked + label::after, .field.has-addons.are-medium > .control > .switch[type=checkbox].button:checked + label::after,
+.field.is-grouped.are-medium > .control > .switch[type=checkbox].button:checked + label::after {
   left: 2rem;
 }
-.switch[type=checkbox].is-large + label, .field.has-addons.are-large > .control > .switch[type=checkbox].button + label {
+.switch[type=checkbox].is-large + label, .field.has-addons.are-large > .control > .switch[type=checkbox].button + label,
+.field.is-grouped.are-large > .control > .switch[type=checkbox].button + label {
   position: relative;
   display: initial;
   font-size: 1.5rem;
@@ -4904,7 +5070,8 @@ li.list-group-item-action {
   padding-top: 0.2rem;
   cursor: pointer;
 }
-.switch[type=checkbox].is-large + label::before, .field.has-addons.are-large > .control > .switch[type=checkbox].button + label::before, .switch[type=checkbox].is-large + label:before {
+.switch[type=checkbox].is-large + label::before, .field.has-addons.are-large > .control > .switch[type=checkbox].button + label::before,
+.field.is-grouped.are-large > .control > .switch[type=checkbox].button + label::before, .switch[type=checkbox].is-large + label:before {
   position: absolute;
   display: block;
   top: calc(50% - 2.25rem / 2);
@@ -4916,7 +5083,8 @@ li.list-group-item-action {
   background: rgba(0, 0, 0, 0.125);
   content: "";
 }
-.switch[type=checkbox].is-large + label::after, .field.has-addons.are-large > .control > .switch[type=checkbox].button + label::after, .switch[type=checkbox].is-large + label:after {
+.switch[type=checkbox].is-large + label::after, .field.has-addons.are-large > .control > .switch[type=checkbox].button + label::after,
+.field.is-grouped.are-large > .control > .switch[type=checkbox].button + label::after, .switch[type=checkbox].is-large + label:after {
   display: block;
   position: absolute;
   top: calc(50% - 1.75rem / 2);
@@ -4929,13 +5097,16 @@ li.list-group-item-action {
   transition: all 0.25s ease-out;
   content: "";
 }
-.switch[type=checkbox].is-large:checked + label::before, .field.has-addons.are-large > .control > .switch[type=checkbox].button:checked + label::before, .switch[type=checkbox].is-large:checked + label:before {
+.switch[type=checkbox].is-large:checked + label::before, .field.has-addons.are-large > .control > .switch[type=checkbox].button:checked + label::before,
+.field.is-grouped.are-large > .control > .switch[type=checkbox].button:checked + label::before, .switch[type=checkbox].is-large:checked + label:before {
   background: var(--b-theme-primary, hsl(171, 100%, 41%));
 }
-.switch[type=checkbox].is-large:checked + label::after, .field.has-addons.are-large > .control > .switch[type=checkbox].button:checked + label::after {
+.switch[type=checkbox].is-large:checked + label::after, .field.has-addons.are-large > .control > .switch[type=checkbox].button:checked + label::after,
+.field.is-grouped.are-large > .control > .switch[type=checkbox].button:checked + label::after {
   left: 2.375rem;
 }
-.switch[type=checkbox].is-extra-large + label, .field.has-addons.are-extra-large > .control > .switch[type=checkbox].button + label {
+.switch[type=checkbox].is-extra-large + label, .field.has-addons.are-extra-large > .control > .switch[type=checkbox].button + label,
+.field.is-grouped.are-extra-large > .control > .switch[type=checkbox].button + label {
   position: relative;
   display: initial;
   font-size: 2rem;
@@ -4944,7 +5115,8 @@ li.list-group-item-action {
   padding-top: 0.2rem;
   cursor: pointer;
 }
-.switch[type=checkbox].is-extra-large + label::before, .field.has-addons.are-extra-large > .control > .switch[type=checkbox].button + label::before, .switch[type=checkbox].is-extra-large + label:before {
+.switch[type=checkbox].is-extra-large + label::before, .field.has-addons.are-extra-large > .control > .switch[type=checkbox].button + label::before,
+.field.is-grouped.are-extra-large > .control > .switch[type=checkbox].button + label::before, .switch[type=checkbox].is-extra-large + label:before {
   position: absolute;
   display: block;
   top: calc(50% - 3rem / 2);
@@ -4956,7 +5128,8 @@ li.list-group-item-action {
   background: rgba(0, 0, 0, 0.125);
   content: "";
 }
-.switch[type=checkbox].is-extra-large + label::after, .field.has-addons.are-extra-large > .control > .switch[type=checkbox].button + label::after, .switch[type=checkbox].is-extra-large + label:after {
+.switch[type=checkbox].is-extra-large + label::after, .field.has-addons.are-extra-large > .control > .switch[type=checkbox].button + label::after,
+.field.is-grouped.are-extra-large > .control > .switch[type=checkbox].button + label::after, .switch[type=checkbox].is-extra-large + label:after {
   display: block;
   position: absolute;
   top: calc(50% - 2.5rem / 2);
@@ -4969,10 +5142,12 @@ li.list-group-item-action {
   transition: all 0.25s ease-out;
   content: "";
 }
-.switch[type=checkbox].is-extra-large:checked + label::before, .field.has-addons.are-extra-large > .control > .switch[type=checkbox].button:checked + label::before, .switch[type=checkbox].is-extra-large:checked + label:before {
+.switch[type=checkbox].is-extra-large:checked + label::before, .field.has-addons.are-extra-large > .control > .switch[type=checkbox].button:checked + label::before,
+.field.is-grouped.are-extra-large > .control > .switch[type=checkbox].button:checked + label::before, .switch[type=checkbox].is-extra-large:checked + label:before {
   background: var(--b-theme-primary, hsl(171, 100%, 41%));
 }
-.switch[type=checkbox].is-extra-large:checked + label::after, .field.has-addons.are-extra-large > .control > .switch[type=checkbox].button:checked + label::after {
+.switch[type=checkbox].is-extra-large:checked + label::after, .field.has-addons.are-extra-large > .control > .switch[type=checkbox].button:checked + label::after,
+.field.is-grouped.are-extra-large > .control > .switch[type=checkbox].button:checked + label::after {
   left: 3.125rem;
 }
 .switch[type=checkbox].is-primary:checked + label::before, .switch[type=checkbox].is-primary:checked + label:before {

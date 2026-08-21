@@ -3820,74 +3820,44 @@ button {
   border-top-color: transparent;
 }
 .fui-Button.fui-Button-xs {
-  padding-left: var(--spacingHorizontalXS);
-  padding-right: var(--spacingHorizontalXS);
-  padding-top: 1px;
-  padding-bottom: 1px;
+  padding-inline: var(--spacingHorizontalXS);
+  padding-block: 1px;
   font-weight: var(--fontWeightRegular);
   font-size: var(--fontSizeBase100);
-  /*min-width: 64px;*/
-  border-top-left-radius: var(--borderRadiusMedium);
-  border-top-right-radius: var(--borderRadiusMedium);
-  border-bottom-left-radius: var(--borderRadiusMedium);
-  border-bottom-right-radius: var(--borderRadiusMedium);
   line-height: var(--lineHeightBase100);
+  border-radius: var(--borderRadiusMedium);
 }
 .fui-Button.fui-Button-sm {
-  padding-left: var(--spacingHorizontalS);
-  padding-right: var(--spacingHorizontalS);
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding-inline: var(--spacingHorizontalS);
+  padding-block: 3px;
   font-weight: var(--fontWeightRegular);
   font-size: var(--fontSizeBase200);
-  /*min-width: 64px;*/
-  border-top-left-radius: var(--borderRadiusMedium);
-  border-top-right-radius: var(--borderRadiusMedium);
-  border-bottom-left-radius: var(--borderRadiusMedium);
-  border-bottom-right-radius: var(--borderRadiusMedium);
   line-height: var(--lineHeightBase200);
+  border-radius: var(--borderRadiusMedium);
 }
 .fui-Button.fui-Button-md {
-  padding-left: var(--spacingHorizontalM);
-  padding-right: var(--spacingHorizontalM);
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding-inline: var(--spacingHorizontalM);
+  padding-block: 6px;
   font-weight: var(--fontWeightSemibold);
   font-size: var(--fontSizeBase400);
-  /*min-width: 96px;*/
-  border-top-left-radius: var(--borderRadiusMedium);
-  border-top-right-radius: var(--borderRadiusMedium);
-  border-bottom-left-radius: var(--borderRadiusMedium);
-  border-bottom-right-radius: var(--borderRadiusMedium);
   line-height: var(--lineHeightBase400);
+  border-radius: var(--borderRadiusMedium);
 }
 .fui-Button.fui-Button-lg {
-  padding-left: var(--spacingHorizontalL);
-  padding-right: var(--spacingHorizontalL);
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-inline: var(--spacingHorizontalL);
+  padding-block: 8px;
   font-weight: var(--fontWeightSemibold);
   font-size: var(--fontSizeBase400);
-  /*min-width: 96px;*/
-  border-top-left-radius: var(--borderRadiusMedium);
-  border-top-right-radius: var(--borderRadiusMedium);
-  border-bottom-left-radius: var(--borderRadiusMedium);
-  border-bottom-right-radius: var(--borderRadiusMedium);
   line-height: var(--lineHeightBase400);
+  border-radius: var(--borderRadiusMedium);
 }
 .fui-Button.fui-Button-xl {
-  padding-left: var(--spacingHorizontalXL);
-  padding-right: var(--spacingHorizontalXL);
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-inline: var(--spacingHorizontalXL);
+  padding-block: 12px;
   font-weight: var(--fontWeightSemibold);
   font-size: var(--fontSizeBase400);
-  /*min-width: 96px;*/
-  border-top-left-radius: var(--borderRadiusMedium);
-  border-top-right-radius: var(--borderRadiusMedium);
-  border-bottom-left-radius: var(--borderRadiusMedium);
-  border-bottom-right-radius: var(--borderRadiusMedium);
   line-height: var(--lineHeightBase400);
+  border-radius: var(--borderRadiusMedium);
 }
 .fui-Button-block {
   display: block;
@@ -4324,6 +4294,51 @@ button {
 .fui-ButtonGroup .fui-ButtonGroup > .fui-Button:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+.fui-ButtonGroup-xs .fui-Button {
+  padding-inline: var(--spacingHorizontalXS);
+  padding-block: 1px;
+  font-weight: var(--fontWeightRegular);
+  font-size: var(--fontSizeBase100);
+  line-height: var(--lineHeightBase100);
+  border-radius: var(--borderRadiusMedium);
+}
+
+.fui-ButtonGroup-sm .fui-Button {
+  padding-inline: var(--spacingHorizontalS);
+  padding-block: 3px;
+  font-weight: var(--fontWeightRegular);
+  font-size: var(--fontSizeBase200);
+  line-height: var(--lineHeightBase200);
+  border-radius: var(--borderRadiusMedium);
+}
+
+.fui-ButtonGroup-md .fui-Button {
+  padding-inline: var(--spacingHorizontalM);
+  padding-block: 6px;
+  font-weight: var(--fontWeightSemibold);
+  font-size: var(--fontSizeBase400);
+  line-height: var(--lineHeightBase400);
+  border-radius: var(--borderRadiusMedium);
+}
+
+.fui-ButtonGroup-lg .fui-Button {
+  padding-inline: var(--spacingHorizontalL);
+  padding-block: 8px;
+  font-weight: var(--fontWeightSemibold);
+  font-size: var(--fontSizeBase400);
+  line-height: var(--lineHeightBase400);
+  border-radius: var(--borderRadiusMedium);
+}
+
+.fui-ButtonGroup-xl .fui-Button {
+  padding-inline: var(--spacingHorizontalXL);
+  padding-block: 12px;
+  font-weight: var(--fontWeightSemibold);
+  font-size: var(--fontSizeBase400);
+  line-height: var(--lineHeightBase400);
+  border-radius: var(--borderRadiusMedium);
 }
 
 .fui-Button__spinner {
@@ -9578,6 +9593,36 @@ input::file-selector-button {
   min-height: 32px;
   padding: 0 var(--spacingHorizontalMNudge);
 }
+.fui-Input-xs {
+  min-height: 18px;
+  font-size: var(--fontSizeBase100);
+  font-weight: var(--fontWeightRegular);
+  line-height: var(--lineHeightBase100);
+}
+.fui-Input-sm {
+  min-height: 24px;
+  font-size: var(--fontSizeBase200);
+  font-weight: var(--fontWeightRegular);
+  line-height: var(--lineHeightBase200);
+}
+.fui-Input-md {
+  min-height: 36px;
+  font-size: var(--fontSizeBase400);
+  font-weight: var(--fontWeightSemibold);
+  line-height: var(--lineHeightBase400);
+}
+.fui-Input-lg {
+  min-height: 40px;
+  font-size: var(--fontSizeBase400);
+  font-weight: var(--fontWeightSemibold);
+  line-height: var(--lineHeightBase400);
+}
+.fui-Input-xl {
+  min-height: 48px;
+  font-size: var(--fontSizeBase400);
+  font-weight: var(--fontWeightSemibold);
+  line-height: var(--lineHeightBase400);
+}
 .fui-Input:not(.disabled) {
   border-bottom-color: var(--colorNeutralStrokeAccessible);
   border-left-color: var(--colorNeutralStroke1);
@@ -11768,7 +11813,7 @@ input::file-selector-button {
   font-family: var(--fontFamilyBase);
 }
 .fui-Select__select.fui-Select__select-xs {
-  height: 16px;
+  height: 18px;
   font-size: var(--fontSizeBase100);
   padding-right: calc(var(--spacingHorizontalXS) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
   padding-left: calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));

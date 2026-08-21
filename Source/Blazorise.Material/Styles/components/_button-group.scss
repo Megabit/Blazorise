@@ -23,6 +23,18 @@
     }
 }
 
+@each $name, $properties in $mui-button-sizes {
+    .mui-button-group-#{$name} {
+        > .mui-button,
+        > .mui-button-group > .mui-button,
+        > .mui-dropdown > .mui-button,
+        > .mui-dropdown > .mui-dropdown-toggle,
+        > .mui-radio-button > .mui-button {
+            @include mui-button-size($properties);
+        }
+    }
+}
+
 .mui-button {
     &-group {
         > .mui-radio-button:first-child > .mui-button,

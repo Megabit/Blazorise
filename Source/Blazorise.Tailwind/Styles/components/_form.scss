@@ -1,0 +1,13 @@
+.b-input {
+    height: calc(var(--spacing) * 10);
+
+    @each $name, $properties in $button-sizes {
+        &-#{$name} {
+            height: map-get($properties, height);
+        }
+    }
+
+    &[multiple] {
+        height: auto;
+    }
+}

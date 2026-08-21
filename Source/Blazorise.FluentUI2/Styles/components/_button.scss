@@ -2,6 +2,15 @@
     font: inherit;
 }
 
+@mixin fui-button-size($properties) {
+    padding-inline: map-get($properties, padding-inline);
+    padding-block: map-get($properties, padding-block);
+    font-weight: map-get($properties, font-weight);
+    font-size: map-get($properties, font-size);
+    line-height: map-get($properties, line-height);
+    border-radius: var(--borderRadiusMedium);
+}
+
 .fui-Button {
     align-items: center;
     box-sizing: border-box;
@@ -63,79 +72,10 @@
         }
     }
 
-    &.fui-Button-xs {
-        padding-left: var(--spacingHorizontalXS);
-        padding-right: var(--spacingHorizontalXS);
-        padding-top: 1px;
-        padding-bottom: 1px;
-        font-weight: var(--fontWeightRegular);
-        font-size: var(--fontSizeBase100);
-        /*min-width: 64px;*/
-        border-top-left-radius: var(--borderRadiusMedium);
-        border-top-right-radius: var(--borderRadiusMedium);
-        border-bottom-left-radius: var(--borderRadiusMedium);
-        border-bottom-right-radius: var(--borderRadiusMedium);
-        line-height: var(--lineHeightBase100);
-    }
-
-    &.fui-Button-sm {
-        padding-left: var(--spacingHorizontalS);
-        padding-right: var(--spacingHorizontalS);
-        padding-top: 3px;
-        padding-bottom: 3px;
-        font-weight: var(--fontWeightRegular);
-        font-size: var(--fontSizeBase200);
-        /*min-width: 64px;*/
-        border-top-left-radius: var(--borderRadiusMedium);
-        border-top-right-radius: var(--borderRadiusMedium);
-        border-bottom-left-radius: var(--borderRadiusMedium);
-        border-bottom-right-radius: var(--borderRadiusMedium);
-        line-height: var(--lineHeightBase200);
-    }
-
-    &.fui-Button-md {
-        padding-left: var(--spacingHorizontalM);
-        padding-right: var(--spacingHorizontalM);
-        padding-top: 6px;
-        padding-bottom: 6px;
-        font-weight: var(--fontWeightSemibold);
-        font-size: var(--fontSizeBase400);
-        /*min-width: 96px;*/
-        border-top-left-radius: var(--borderRadiusMedium);
-        border-top-right-radius: var(--borderRadiusMedium);
-        border-bottom-left-radius: var(--borderRadiusMedium);
-        border-bottom-right-radius: var(--borderRadiusMedium);
-        line-height: var(--lineHeightBase400);
-    }
-
-    &.fui-Button-lg {
-        padding-left: var(--spacingHorizontalL);
-        padding-right: var(--spacingHorizontalL);
-        padding-top: 8px;
-        padding-bottom: 8px;
-        font-weight: var(--fontWeightSemibold);
-        font-size: var(--fontSizeBase400);
-        /*min-width: 96px;*/
-        border-top-left-radius: var(--borderRadiusMedium);
-        border-top-right-radius: var(--borderRadiusMedium);
-        border-bottom-left-radius: var(--borderRadiusMedium);
-        border-bottom-right-radius: var(--borderRadiusMedium);
-        line-height: var(--lineHeightBase400);
-    }
-
-    &.fui-Button-xl {
-        padding-left: var(--spacingHorizontalXL);
-        padding-right: var(--spacingHorizontalXL);
-        padding-top: 12px;
-        padding-bottom: 12px;
-        font-weight: var(--fontWeightSemibold);
-        font-size: var(--fontSizeBase400);
-        /*min-width: 96px;*/
-        border-top-left-radius: var(--borderRadiusMedium);
-        border-top-right-radius: var(--borderRadiusMedium);
-        border-bottom-left-radius: var(--borderRadiusMedium);
-        border-bottom-right-radius: var(--borderRadiusMedium);
-        line-height: var(--lineHeightBase400);
+    @each $name, $properties in $fui-button-sizes {
+        &.fui-Button-#{$name} {
+            @include fui-button-size($properties);
+        }
     }
 
     &-block {
@@ -340,6 +280,12 @@
     .fui-ButtonGroup > .fui-Button:not(:first-child) {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
+    }
+}
+
+@each $name, $properties in $fui-button-sizes {
+    .fui-ButtonGroup-#{$name} .fui-Button {
+        @include fui-button-size($properties);
     }
 }
 
