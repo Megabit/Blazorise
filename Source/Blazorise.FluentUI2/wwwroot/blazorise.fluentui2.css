@@ -9593,6 +9593,36 @@ input::file-selector-button {
   min-height: 32px;
   padding: 0 var(--spacingHorizontalMNudge);
 }
+.fui-Input-xs {
+  min-height: 18px;
+  font-size: var(--fontSizeBase100);
+  font-weight: var(--fontWeightRegular);
+  line-height: var(--lineHeightBase100);
+}
+.fui-Input-sm {
+  min-height: 24px;
+  font-size: var(--fontSizeBase200);
+  font-weight: var(--fontWeightRegular);
+  line-height: var(--lineHeightBase200);
+}
+.fui-Input-md {
+  min-height: 36px;
+  font-size: var(--fontSizeBase400);
+  font-weight: var(--fontWeightSemibold);
+  line-height: var(--lineHeightBase400);
+}
+.fui-Input-lg {
+  min-height: 40px;
+  font-size: var(--fontSizeBase400);
+  font-weight: var(--fontWeightSemibold);
+  line-height: var(--lineHeightBase400);
+}
+.fui-Input-xl {
+  min-height: 48px;
+  font-size: var(--fontSizeBase400);
+  font-weight: var(--fontWeightSemibold);
+  line-height: var(--lineHeightBase400);
+}
 .fui-Input:not(.disabled) {
   border-bottom-color: var(--colorNeutralStrokeAccessible);
   border-left-color: var(--colorNeutralStroke1);
@@ -11783,7 +11813,7 @@ input::file-selector-button {
   font-family: var(--fontFamilyBase);
 }
 .fui-Select__select.fui-Select__select-xs {
-  height: 16px;
+  height: 18px;
   font-size: var(--fontSizeBase100);
   padding-right: calc(var(--spacingHorizontalXS) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
   padding-left: calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));

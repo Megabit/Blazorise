@@ -61,7 +61,7 @@
     padding: map-get($properties, button-padding);
     font-size: map-get($properties, font-size);
     height: map-get($properties, height);
-    border-radius: map-get($properties, button-border-radius);
+    border-radius: map-get($properties, border-radius);
 
     &.ant-btn-icon-only {
         width: map-get($properties, height);

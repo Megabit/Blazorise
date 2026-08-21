@@ -1607,6 +1607,7 @@ body:before {
   padding-bottom: 0.15rem;
   padding-left: 0.5rem;
   font-size: 0.75rem;
+  border-radius: 0.15rem;
 }
 .custom-select-md {
   height: calc(1.5em + 0.94rem + 2px);
@@ -1614,6 +1615,7 @@ body:before {
   padding-bottom: 0.47rem;
   padding-left: 1rem;
   font-size: 1.125rem;
+  border-radius: 0.25rem;
 }
 .custom-select-xl {
   height: calc(1.5em + 1rem + 2px);
@@ -1621,6 +1623,7 @@ body:before {
   padding-bottom: 0.5rem;
   padding-left: 1rem;
   font-size: 1.5rem;
+  border-radius: 0.4rem;
 }
 
 .input-group > .b-numeric:not(:last-child) > input,

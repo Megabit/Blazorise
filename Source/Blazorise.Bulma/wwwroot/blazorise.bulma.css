@@ -3055,7 +3055,7 @@ label.radio.button input[type=radio] {
 .textarea.is-medium,
 .field.has-addons.are-medium > .control > .textarea.button,
 .field.is-grouped.are-medium > .control > .textarea.button {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
 }
 
 .has-addons.is-large > .control > .button, .field.has-addons.are-large > .control > .has-addons.button > .control > .button,
@@ -3078,7 +3078,7 @@ label.radio.button input[type=radio] {
 .textarea.is-large,
 .field.has-addons.are-large > .control > .textarea.button,
 .field.is-grouped.are-large > .control > .textarea.button {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 .has-addons.is-extra-large > .control > .button, .field.has-addons.are-extra-large > .control > .has-addons.button > .control > .button,
@@ -3101,7 +3101,35 @@ label.radio.button input[type=radio] {
 .textarea.is-extra-large,
 .field.has-addons.are-extra-large > .control > .textarea.button,
 .field.is-grouped.are-extra-large > .control > .textarea.button {
-  font-size: 2rem;
+  font-size: 1.375rem;
+}
+
+.has-addons.is-extra-small, .field.has-addons.are-extra-small > .control > .has-addons.button,
+.field.is-grouped.are-extra-small > .control > .has-addons.button,
+.input.is-extra-small,
+.field.has-addons.are-extra-small > .control > .input.button,
+.field.is-grouped.are-extra-small > .control > .input.button,
+.select.is-extra-small,
+.field.has-addons.are-extra-small > .control > .select.button,
+.field.is-grouped.are-extra-small > .control > .select.button,
+.textarea.is-extra-small,
+.field.has-addons.are-extra-small > .control > .textarea.button,
+.field.is-grouped.are-extra-small > .control > .textarea.button {
+  --bulma-control-radius: var(--bulma-radius-small);
+}
+
+.has-addons.is-extra-large, .field.has-addons.are-extra-large > .control > .has-addons.button,
+.field.is-grouped.are-extra-large > .control > .has-addons.button,
+.input.is-extra-large,
+.field.has-addons.are-extra-large > .control > .input.button,
+.field.is-grouped.are-extra-large > .control > .input.button,
+.select.is-extra-large,
+.field.has-addons.are-extra-large > .control > .select.button,
+.field.is-grouped.are-extra-large > .control > .select.button,
+.textarea.is-extra-large,
+.field.has-addons.are-extra-large > .control > .textarea.button,
+.field.is-grouped.are-extra-large > .control > .textarea.button {
+  --bulma-control-radius: var(--bulma-radius-medium);
 }
 
 .textarea.is-static {

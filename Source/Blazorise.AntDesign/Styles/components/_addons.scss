@@ -13,6 +13,7 @@
 }
 
 .ant-addons {
+    --ant-addons-border-radius: var(--ant-border-radius);
     display: block;
     width: 100%;
 
@@ -37,7 +38,7 @@
             text-align: start;
             background: var(--ant-input-addon-bg);
             border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border);
-            border-radius: var(--ant-border-radius);
+            border-radius: var(--ant-addons-border-radius);
             transition: all var(--ant-motion-duration-mid);
             overflow: visible;
             white-space: nowrap;
@@ -145,6 +146,16 @@
             .ant-select-selection-wrap {
                 min-width: 0;
             }
+        }
+
+        > .ant-input,
+        > textarea.ant-input,
+        > .ant-picker,
+        > .ant-input-number,
+        > .ant-input-color-picker.ant-color-picker-trigger,
+        > .ant-select-root > .ant-select,
+        > .ant-select-root > .ant-select .ant-select-selector {
+            border-radius: var(--ant-addons-border-radius);
         }
 
         > .ant-input-group-addon + .ant-input,
@@ -292,6 +303,8 @@
 
 @mixin addons-size($name, $font-size, $height, $padding-inline, $input-padding-inline, $button-padding-inline) {
     .ant-input-group-wrapper-#{$name} {
+        --ant-addons-border-radius: #{map-get(map-get($control-sizes, $name), border-radius)};
+
         > .ant-input-wrapper.ant-input-group {
             > .ant-input-group-addon {
                 min-height: $height;

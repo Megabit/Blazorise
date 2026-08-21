@@ -2406,14 +2406,14 @@ hr.divider.divider-text::before {
   padding: 0.47rem 1rem;
   font-size: 1.125rem;
   line-height: 1.5;
-  border-radius: 0.25rem;
+  border-radius: var(--bs-border-radius);
 }
 .form-control-xl {
   height: calc(1.5em + 1rem + calc(var(--bs-border-width) * 2));
   padding: 0.5rem 1rem;
   font-size: 1.5rem;
   line-height: 1.5;
-  border-radius: 1rem;
+  border-radius: var(--bs-border-radius-lg);
 }
 
 .form-select-xs {
@@ -2422,6 +2422,7 @@ hr.divider.divider-text::before {
   padding-bottom: 0.15rem;
   padding-left: 0.5rem;
   font-size: 0.75rem;
+  border-radius: 0.15rem;
 }
 .form-select-md {
   height: calc(1.5em + 0.94rem + calc(var(--bs-border-width) * 2));
@@ -2429,6 +2430,7 @@ hr.divider.divider-text::before {
   padding-bottom: 0.47rem;
   padding-left: 1rem;
   font-size: 1.125rem;
+  border-radius: var(--bs-border-radius);
 }
 .form-select-xl {
   height: calc(1.5em + 1rem + calc(var(--bs-border-width) * 2));
@@ -2436,6 +2438,7 @@ hr.divider.divider-text::before {
   padding-bottom: 0.5rem;
   padding-left: 1rem;
   font-size: 1.5rem;
+  border-radius: var(--bs-border-radius-lg);
 }
 
 .input-group > .b-numeric:not(:last-child) > input,
@@ -2493,7 +2496,7 @@ hr.divider.divider-text::before {
   padding: 0.47rem 1rem;
   font-size: 1.125rem;
   line-height: 1.5;
-  border-radius: 0.25rem;
+  border-radius: var(--bs-border-radius);
 }
 
 .input-group-lg > .b-numeric > input {
@@ -2521,7 +2524,7 @@ hr.divider.divider-text::before {
   padding: 0.5rem 1rem;
   font-size: 1.5rem;
   line-height: 1.5;
-  border-radius: 1rem;
+  border-radius: var(--bs-border-radius-lg);
 }
 
 .input-group-xs > .form-select,
@@ -2683,8 +2686,8 @@ select[readonly] optgroup {
 
 .form-control-md + .b-numeric-handler-wrap {
   font-size: 1.125rem;
-  border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
+  border-top-right-radius: var(--bs-border-radius);
+  border-bottom-right-radius: var(--bs-border-radius);
 }
 .form-control-md + .b-numeric-handler-wrap > .b-numeric-handler.btn {
   font-size: 1.125rem;
@@ -2701,8 +2704,8 @@ select[readonly] optgroup {
 
 .form-control-xl + .b-numeric-handler-wrap {
   font-size: 1.5rem;
-  border-top-right-radius: 1rem;
-  border-bottom-right-radius: 1rem;
+  border-top-right-radius: var(--bs-border-radius-lg);
+  border-bottom-right-radius: var(--bs-border-radius-lg);
 }
 .form-control-xl + .b-numeric-handler-wrap > .b-numeric-handler.btn {
   font-size: 1.5rem;
@@ -2825,13 +2828,13 @@ input[type=color].form-control-color,
   padding: 0.47rem;
 }
 .b-input-color-picker.form-control-color.form-control-md > .b-input-color-picker-preview {
-  border-radius: 0.25rem;
+  border-radius: var(--bs-border-radius);
 }
 .b-input-color-picker.form-control-color.form-control-xl {
   padding: 0.5rem;
 }
 .b-input-color-picker.form-control-color.form-control-xl > .b-input-color-picker-preview {
-  border-radius: 1rem;
+  border-radius: var(--bs-border-radius-lg);
 }
 .b-input-color-picker.form-control-color > .b-input-color-picker-preview::before {
   border-radius: inherit;
