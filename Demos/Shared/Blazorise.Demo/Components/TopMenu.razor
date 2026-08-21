@@ -87,147 +87,170 @@
             </BarItem>
         </BarStart>
         <BarEnd>
+            <BarItem>
+                <Button Clicked="@ShowSettings" aria-label="Settings">
+                    <Icon Name="IconName.Settings" />
+                </Button>
+            </BarItem>
             @if ( gitHubDemoUrl != null )
             {
                 <BarItem>
                     <BarLink To="@gitHubDemoUrl" Target="Target.Blank">
-                        Source Code <Icon Name="IconName.ExternalLinkSquareAlt" Margin="Margin.Is2.FromStart" />
+                        <Icon Name="IconName.Code" />
                     </BarLink>
                 </BarItem>
             }
             <BarItem>
-                <BarDropdown RightAligned>
-                    <BarDropdownToggle ToggleIconVisible="false"><Icon Name="IconName.Language" /></BarDropdownToggle>
-                    <BarDropdownMenu>
-                        @foreach ( var cultureInfo in LocalizationService.AvailableCultures )
-                        {
-                            <BarDropdownItem @key="@cultureInfo.Name" Clicked="@(() => SelectCulture( cultureInfo.Name ))">
-                                @if ( cultureInfo.IsNeutralCulture )
-                                {
-                                    @cultureInfo.EnglishName
-                                }
-                                else
-                                {
-                                    @cultureInfo.Parent.EnglishName
-                                }
-                            </BarDropdownItem>
-                        }
-                    </BarDropdownMenu>
-                </BarDropdown>
-            </BarItem>
-            <BarItem>
-                <BarDropdown RightAligned>
-                    <BarDropdownToggle><Icon Name="IconName.Tint" /> Theme</BarDropdownToggle>
-                    <BarDropdownMenu Style="padding: 15px; min-width:550px;">
-                        <Row>
-                            <Column Margin="Margin.Is2.FromBottom">
-                                <Field>
-                                    <Switch TValue="bool" Value="@(Theme?.Enabled == true)" ValueChanged="@ThemeEnabledChanged">Theme enabled</Switch>
-                                </Field>
-                            </Column>
-                        </Row>
-                        <Row>
-                            <Column Margin="Margin.Is2.FromBottom">
-                                <Field>
-                                    <Check TValue="bool" Value="@(Theme?.IsGradient == true)" ValueChanged="@ThemeGradientChanged">Gradient colors</Check>
-                                </Field>
-                                <Field>
-                                    <Check TValue="bool" Value="@(Theme?.IsRounded == true)" ValueChanged="@ThemeRoundedChanged">Rounded elements</Check>
-                                </Field>
-                            </Column>
-                        </Row>
-                        <Row>
-                            <Column>
-                                <Container Fluid>
-                                    <ThemeColorSelector Value="@(Theme?.ColorOptions?.Primary)" ValueChanged="@ThemeColorChanged"></ThemeColorSelector>
-                                </Container>
-                            </Column>
-                        </Row>
-                    </BarDropdownMenu>
-                </BarDropdown>
-            </BarItem>
-            <BarItem>
-                <BarDropdown RightAligned>
-                    <BarDropdownToggle>Accessibility</BarDropdownToggle>
-                    <BarDropdownMenu Style="padding: 15px; min-width:400px;">
-                        <Field>
-                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
-                                <Switch TValue="bool" Value="@OnScreenKeyboardEnabled" ValueChanged="@OnScreenKeyboardEnabledChanged">On-screen keyboard</Switch>
-                                <Tooltip Text="Shows a virtual keyboard when supported text inputs receive focus." Placement="TooltipPlacement.Left" Multiline>
-                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
-                                </Tooltip>
-                            </Div>
-                        </Field>
-                        <Field>
-                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
-                                <Switch TValue="bool" Value="@UseLabelForAttribute" ValueChanged="@UseLabelForAttributeChanged">Label for attributes</Switch>
-                                <Tooltip Text="Connects labels to inputs with the HTML for attribute." Placement="TooltipPlacement.Left" Multiline>
-                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
-                                </Tooltip>
-                            </Div>
-                        </Field>
-                        <Field>
-                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
-                                <Switch TValue="bool" Value="@UseAriaLabelledByAttribute" ValueChanged="@UseAriaLabelledByAttributeChanged">aria-labelledby attributes</Switch>
-                                <Tooltip Text="Adds aria-labelledby so assistive technologies can announce related labels." Placement="TooltipPlacement.Left" Multiline>
-                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
-                                </Tooltip>
-                            </Div>
-                        </Field>
-                        <Field>
-                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
-                                <Switch TValue="bool" Value="@UseAutoAriaInvalidAttribute" ValueChanged="@UseAutoAriaInvalidAttributeChanged">aria-invalid attributes</Switch>
-                                <Tooltip Text="Sets aria-invalid automatically when validation marks an input invalid." Placement="TooltipPlacement.Left" Multiline>
-                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
-                                </Tooltip>
-                            </Div>
-                        </Field>
-                        <Field>
-                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
-                                <Switch TValue="bool" Value="@UseAutoAriaDescribedByAttribute" ValueChanged="@UseAutoAriaDescribedByAttributeChanged">aria-describedby attributes</Switch>
-                                <Tooltip Text="Sets aria-describedby automatically for validation or help text associated with an input." Placement="TooltipPlacement.Left" Multiline>
-                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
-                                </Tooltip>
-                            </Div>
-                        </Field>
-                        <Field>
-                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
-                                <Switch TValue="bool" Value="@UseAutoAriaRequiredAttribute" ValueChanged="@UseAutoAriaRequiredAttributeChanged">aria-required attributes</Switch>
-                                <Tooltip Text="Sets aria-required automatically for required inputs." Placement="TooltipPlacement.Left" Multiline>
-                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
-                                </Tooltip>
-                            </Div>
-                        </Field>
-                        <Field>
-                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
-                                <Switch TValue="bool" Value="@UseValidationOnBlur" ValueChanged="@UseValidationOnBlurChanged">Validate on blur</Switch>
-                                <Tooltip Text="Runs validation when an input loses focus." Placement="TooltipPlacement.Left" Multiline>
-                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
-                                </Tooltip>
-                            </Div>
-                        </Field>
-                    </BarDropdownMenu>
-                </BarDropdown>
-            </BarItem>
-            <BarItem>
-                <BarLink To="https://github.com/Megabit/Blazorise">GitHub</BarLink>
-            </BarItem>
-            <BarItem>
-                <BarDropdown RightAligned>
-                    <BarDropdownToggle ToggleIconVisible="false">
-                        <Image Border="Border.RoundedCircle" Source="_content/Blazorise.Demo/img/placeholders/user.png" Width="Width.Px( 24 )" Height="Height.Px( 24 )" />
-                    </BarDropdownToggle>
-                    <BarDropdownMenu>
-                        <BarDropdownItem>Account info</BarDropdownItem>
-                        <BarDropdownItem>Settings</BarDropdownItem>
-                        <BarDropdownDivider />
-                        <BarDropdownItem>Log out</BarDropdownItem>
-                    </BarDropdownMenu>
-                </BarDropdown>
+                <BarLink To="https://github.com/Megabit/Blazorise" Target="Target.Blank">GitHub</BarLink>
             </BarItem>
         </BarEnd>
     </BarMenu>
 </Bar>
+
+<Offcanvas @ref="settingsOffcanvas" Placement="Placement.End" Size="OffcanvasSize.Large" ShowBackdrop="false">
+    <OffcanvasHeader>
+        Settings
+        <CloseButton Clicked="@HideSettings" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <Heading Size="HeadingSize.Is5" Margin="Margin.Is3.FromBottom">Language</Heading>
+        <Field Margin="Margin.Is4.FromBottom">
+            <FieldLabel>Display language</FieldLabel>
+            <Select TValue="string" Value="@LocalizationService.SelectedCulture.Name" ValueChanged="@SelectCulture">
+                @foreach ( var cultureInfo in LocalizationService.AvailableCultures )
+                {
+                    <SelectItem @key="@cultureInfo.Name" Value="@cultureInfo.Name">
+                        @if ( cultureInfo.IsNeutralCulture )
+                        {
+                            @cultureInfo.EnglishName
+                        }
+                        else
+                        {
+                            @cultureInfo.Parent.EnglishName
+                        }
+                    </SelectItem>
+                }
+            </Select>
+        </Field>
+
+        <Divider Margin="Margin.Is4.OnY" />
+
+        <Heading Size="HeadingSize.Is5" Margin="Margin.Is3.FromBottom">Theme</Heading>
+        <Fields>
+            <Field ColumnSize="ColumnSize.Is12">
+                <Switch TValue="bool" Value="@(Theme?.Enabled == true)" ValueChanged="@ThemeEnabledChanged">Theme enabled</Switch>
+            </Field>
+            <Field ColumnSize="ColumnSize.Is6">
+                <FieldLabel>Primary</FieldLabel>
+                <FieldBody>
+                    <ColorPicker Value="@(Theme?.ColorOptions?.Primary)" ValueChanged="@( value => OnThemeColorChanged( Color.Primary, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                </FieldBody>
+            </Field>
+            <Field ColumnSize="ColumnSize.Is6">
+                <FieldLabel>Secondary</FieldLabel>
+                <FieldBody>
+                    <ColorPicker Value="@(Theme?.ColorOptions?.Secondary)" ValueChanged="@( value => OnThemeColorChanged( Color.Secondary, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                </FieldBody>
+            </Field>
+            <Field ColumnSize="ColumnSize.Is6">
+                <FieldLabel>Success</FieldLabel>
+                <FieldBody>
+                    <ColorPicker Value="@(Theme?.ColorOptions?.Success)" ValueChanged="@( value => OnThemeColorChanged( Color.Success, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                </FieldBody>
+            </Field>
+            <Field ColumnSize="ColumnSize.Is6">
+                <FieldLabel>Danger</FieldLabel>
+                <FieldBody>
+                    <ColorPicker Value="@(Theme?.ColorOptions?.Danger)" ValueChanged="@( value => OnThemeColorChanged( Color.Danger, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                </FieldBody>
+            </Field>
+            <Field ColumnSize="ColumnSize.Is6">
+                <FieldLabel>Warning</FieldLabel>
+                <FieldBody>
+                    <ColorPicker Value="@(Theme?.ColorOptions?.Warning)" ValueChanged="@( value => OnThemeColorChanged( Color.Warning, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                </FieldBody>
+            </Field>
+            <Field ColumnSize="ColumnSize.Is6">
+                <FieldLabel>Info</FieldLabel>
+                <FieldBody>
+                    <ColorPicker Value="@(Theme?.ColorOptions?.Info)" ValueChanged="@( value => OnThemeColorChanged( Color.Info, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                </FieldBody>
+            </Field>
+            <Field ColumnSize="ColumnSize.Is6">
+                <FieldLabel>Light</FieldLabel>
+                <FieldBody>
+                    <ColorPicker Value="@(Theme?.ColorOptions?.Light)" ValueChanged="@( value => OnThemeColorChanged( Color.Light, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                </FieldBody>
+            </Field>
+            <Field ColumnSize="ColumnSize.Is6">
+                <FieldLabel>Dark</FieldLabel>
+                <FieldBody>
+                    <ColorPicker Value="@(Theme?.ColorOptions?.Dark)" ValueChanged="@( value => OnThemeColorChanged( Color.Dark, value ))" ShowClearButton="false" ShowCancelButton="false" ShowOpacitySlider="false" />
+                </FieldBody>
+            </Field>
+        </Fields>
+
+        <Divider Margin="Margin.Is4.OnY" />
+
+        <Heading Size="HeadingSize.Is5" Margin="Margin.Is3.FromBottom">Accessibility</Heading>
+        <Field>
+            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                <Switch TValue="bool" Value="@OnScreenKeyboardEnabled" ValueChanged="@OnScreenKeyboardEnabledChanged">On-screen keyboard</Switch>
+                <Tooltip Text="Shows a virtual keyboard when supported text inputs receive focus." Placement="TooltipPlacement.Left" Multiline>
+                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                </Tooltip>
+            </Div>
+        </Field>
+        <Field>
+            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                <Switch TValue="bool" Value="@UseLabelForAttribute" ValueChanged="@UseLabelForAttributeChanged">Label for attributes</Switch>
+                <Tooltip Text="Connects labels to inputs with the HTML for attribute." Placement="TooltipPlacement.Left" Multiline>
+                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                </Tooltip>
+            </Div>
+        </Field>
+        <Field>
+            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                <Switch TValue="bool" Value="@UseAriaLabelledByAttribute" ValueChanged="@UseAriaLabelledByAttributeChanged">aria-labelledby attributes</Switch>
+                <Tooltip Text="Adds aria-labelledby so assistive technologies can announce related labels." Placement="TooltipPlacement.Left" Multiline>
+                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                </Tooltip>
+            </Div>
+        </Field>
+        <Field>
+            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                <Switch TValue="bool" Value="@UseAutoAriaInvalidAttribute" ValueChanged="@UseAutoAriaInvalidAttributeChanged">aria-invalid attributes</Switch>
+                <Tooltip Text="Sets aria-invalid automatically when validation marks an input invalid." Placement="TooltipPlacement.Left" Multiline>
+                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                </Tooltip>
+            </Div>
+        </Field>
+        <Field>
+            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                <Switch TValue="bool" Value="@UseAutoAriaDescribedByAttribute" ValueChanged="@UseAutoAriaDescribedByAttributeChanged">aria-describedby attributes</Switch>
+                <Tooltip Text="Sets aria-describedby automatically for validation or help text associated with an input." Placement="TooltipPlacement.Left" Multiline>
+                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                </Tooltip>
+            </Div>
+        </Field>
+        <Field>
+            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                <Switch TValue="bool" Value="@UseAutoAriaRequiredAttribute" ValueChanged="@UseAutoAriaRequiredAttributeChanged">aria-required attributes</Switch>
+                <Tooltip Text="Sets aria-required automatically for required inputs." Placement="TooltipPlacement.Left" Multiline>
+                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                </Tooltip>
+            </Div>
+        </Field>
+        <Field>
+            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                <Switch TValue="bool" Value="@UseValidationOnBlur" ValueChanged="@UseValidationOnBlurChanged">Validate on blur</Switch>
+                <Tooltip Text="Runs validation when an input loses focus." Placement="TooltipPlacement.Left" Multiline>
+                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                </Tooltip>
+            </Div>
+        </Field>
+    </OffcanvasBody>
+</Offcanvas>
 @code {
     protected override async Task OnInitializedAsync()
     {
@@ -243,7 +266,19 @@
         return Task.CompletedTask;
     }
 
+    private Task ShowSettings()
+    {
+        return settingsOffcanvas.Show();
+    }
+
+    private Task HideSettings()
+    {
+        return settingsOffcanvas.Hide();
+    }
+
     private bool topbarVisible = false;
+
+    private Offcanvas settingsOffcanvas;
 
     Task OnLayoutTypeChecked( string layoutType )
     {
@@ -422,6 +457,11 @@
         }
     }
 
+    private Task OnThemeColorChanged( Color variant, string value )
+    {
+        return ThemeColorChanged.InvokeAsync( new( variant, value ) );
+    }
+
     void IDisposable.Dispose()
     {
         if ( NavigationManager is not null )
@@ -432,11 +472,7 @@
 
     [Parameter] public EventCallback<bool> ThemeEnabledChanged { get; set; }
 
-    [Parameter] public EventCallback<bool> ThemeGradientChanged { get; set; }
-
-    [Parameter] public EventCallback<bool> ThemeRoundedChanged { get; set; }
-
-    [Parameter] public EventCallback<string> ThemeColorChanged { get; set; }
+    [Parameter] public EventCallback<ThemeColorChangedEventArgs> ThemeColorChanged { get; set; }
 
     [Parameter] public string LayoutType { get; set; }
 

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Blazorise.Demo.Components;
 using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 
@@ -34,36 +35,7 @@ public partial class MainLayout
         return Task.CompletedTask;
     }
 
-    protected Task OnThemeGradientChanged( bool value )
-    {
-        if ( Theme == null )
-            return Task.CompletedTask;
-
-        Theme.IsGradient = value;
-
-        //if ( Theme.GradientOptions == null )
-        //    Theme.GradientOptions = new GradientOptions();
-
-        //Theme.GradientOptions.BlendPercentage = 80;
-
-        Theme.ThemeHasChanged();
-
-        return Task.CompletedTask;
-    }
-
-    protected Task OnThemeRoundedChanged( bool value )
-    {
-        if ( Theme == null )
-            return Task.CompletedTask;
-
-        Theme.IsRounded = value;
-
-        Theme.ThemeHasChanged();
-
-        return Task.CompletedTask;
-    }
-
-    protected Task OnThemeColorChanged( string value )
+    protected Task OnThemeColorChanged( ThemeColorChangedEventArgs eventArgs )
     {
         if ( Theme == null )
             return Task.CompletedTask;
@@ -74,23 +46,68 @@ public partial class MainLayout
 
         Theme.TextColorOptions ??= new();
 
-        Theme.ColorOptions.Primary = value;
-        Theme.BackgroundOptions.Primary = value;
-        Theme.TextColorOptions.Primary = value;
+        ApplyThemeColor( Theme, eventArgs );
 
-        Theme.InputOptions ??= new();
+        if ( eventArgs.Variant == Color.Primary )
+        {
+            Theme.InputOptions ??= new();
+            Theme.InputOptions.CheckColor = eventArgs.Value;
+            Theme.InputOptions.SliderColor = eventArgs.Value;
 
-        //Theme.InputOptions.Color = value;
-        Theme.InputOptions.CheckColor = value;
-        Theme.InputOptions.SliderColor = value;
-
-        Theme.SpinKitOptions ??= new();
-
-        Theme.SpinKitOptions.Color = value;
+            Theme.SpinKitOptions ??= new();
+            Theme.SpinKitOptions.Color = eventArgs.Value;
+        }
 
         Theme.ThemeHasChanged();
 
         return Task.CompletedTask;
+    }
+
+    private static void ApplyThemeColor( Theme theme, ThemeColorChangedEventArgs eventArgs )
+    {
+        switch ( eventArgs.Variant.Name )
+        {
+            case "primary":
+                theme.ColorOptions.Primary = eventArgs.Value;
+                theme.BackgroundOptions.Primary = eventArgs.Value;
+                theme.TextColorOptions.Primary = eventArgs.Value;
+                break;
+            case "secondary":
+                theme.ColorOptions.Secondary = eventArgs.Value;
+                theme.BackgroundOptions.Secondary = eventArgs.Value;
+                theme.TextColorOptions.Secondary = eventArgs.Value;
+                break;
+            case "success":
+                theme.ColorOptions.Success = eventArgs.Value;
+                theme.BackgroundOptions.Success = eventArgs.Value;
+                theme.TextColorOptions.Success = eventArgs.Value;
+                break;
+            case "danger":
+                theme.ColorOptions.Danger = eventArgs.Value;
+                theme.BackgroundOptions.Danger = eventArgs.Value;
+                theme.TextColorOptions.Danger = eventArgs.Value;
+                break;
+            case "warning":
+                theme.ColorOptions.Warning = eventArgs.Value;
+                theme.BackgroundOptions.Warning = eventArgs.Value;
+                theme.TextColorOptions.Warning = eventArgs.Value;
+                break;
+            case "info":
+                theme.ColorOptions.Info = eventArgs.Value;
+                theme.BackgroundOptions.Info = eventArgs.Value;
+                theme.TextColorOptions.Info = eventArgs.Value;
+                break;
+            case "light":
+                theme.ColorOptions.Light = eventArgs.Value;
+                theme.BackgroundOptions.Light = eventArgs.Value;
+                theme.TextColorOptions.Light = eventArgs.Value;
+                break;
+            case "dark":
+                theme.ColorOptions.Dark = eventArgs.Value;
+                theme.BackgroundOptions.Dark = eventArgs.Value;
+                theme.TextColorOptions.Dark = eventArgs.Value;
+                break;
+        }
     }
 
     [Inject] protected ITextLocalizerService LocalizationService { get; set; }
