@@ -143,9 +143,23 @@ public partial class QRCode : BaseComponent, IAsyncDisposable
     [Parameter] public PayloadGenerator.Payload Payload { get; set; }
 
     /// <summary>
-    /// Image alt text.
+    /// Accessible text for the QR code image.
     /// </summary>
-    [Parameter] public string Alt { get; set; }
+    [Parameter] public string Text { get; set; }
+
+    /// <summary>
+    /// Accessible text for the QR code image.
+    /// </summary>
+    /// <remarks>
+    /// This parameter is retained for source compatibility. Use <see cref="Text"/> instead.
+    /// </remarks>
+    [Obsolete( "Use Text instead." )]
+    [Parameter]
+    public string Alt
+    {
+        get => Text;
+        set => Text = value;
+    }
 
     /// <summary>
     /// The level of error correction to use.

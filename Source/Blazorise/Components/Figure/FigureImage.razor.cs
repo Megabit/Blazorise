@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -42,9 +43,23 @@ public partial class FigureImage : BaseComponent
     [Parameter] public string Source { get; set; }
 
     /// <summary>
-    /// Alternate text for an image.
+    /// Alternate text for the image.
     /// </summary>
-    [Parameter] public string AlternateText { get; set; }
+    [Parameter] public string Text { get; set; }
+
+    /// <summary>
+    /// Alternate text for the image.
+    /// </summary>
+    /// <remarks>
+    /// This parameter is retained for source compatibility. Use <see cref="Text"/> instead.
+    /// </remarks>
+    [Obsolete( "Use Text instead." )]
+    [Parameter]
+    public string AlternateText
+    {
+        get => Text;
+        set => Text = value;
+    }
 
     /// <summary>
     /// True if container should have a rounded corners.

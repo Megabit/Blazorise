@@ -88,6 +88,60 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
     }
 
     [Fact]
+    public async Task Reports_image_text_parameter_renames()
+    {
+        var source = @"
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Blazorise
+{
+    public class CardImage : Microsoft.AspNetCore.Components.ComponentBase { }
+    public class FigureImage : Microsoft.AspNetCore.Components.ComponentBase { }
+}
+
+namespace Blazorise.Cropper
+{
+    public class Cropper : Microsoft.AspNetCore.Components.ComponentBase { }
+}
+
+namespace Blazorise.QRCode
+{
+    public class QRCode : Microsoft.AspNetCore.Components.ComponentBase { }
+}
+
+public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+{
+    public void Build( RenderTreeBuilder builder )
+    {
+        builder.OpenComponent<Blazorise.CardImage>( 0 );
+        builder.AddAttribute( 1, ""Alt"", ""Card image"" );
+        builder.CloseComponent();
+
+        builder.OpenComponent<Blazorise.FigureImage>( 2 );
+        builder.AddAttribute( 3, ""AlternateText"", ""Figure image"" );
+        builder.CloseComponent();
+
+        builder.OpenComponent<Blazorise.Cropper.Cropper>( 4 );
+        builder.AddAttribute( 5, ""Alt"", ""Cropper image"" );
+        builder.CloseComponent();
+
+        builder.OpenComponent<Blazorise.QRCode.QRCode>( 6 );
+        builder.AddAttribute( 7, ""Alt"", ""QR code image"" );
+        builder.CloseComponent();
+    }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        var renameDiagnostics = diagnostics.Where( d => d.Id == "BLZP001" ).ToArray();
+        Assert.Equal( 4, renameDiagnostics.Length );
+        Assert.Contains( renameDiagnostics, d => d.GetMessage() == "Parameter 'Alt' was renamed to 'Text' for component 'CardImage'" );
+        Assert.Contains( renameDiagnostics, d => d.GetMessage() == "Parameter 'AlternateText' was renamed to 'Text' for component 'FigureImage'" );
+        Assert.Contains( renameDiagnostics, d => d.GetMessage() == "Parameter 'Alt' was renamed to 'Text' for component 'Cropper'" );
+        Assert.Contains( renameDiagnostics, d => d.GetMessage() == "Parameter 'Alt' was renamed to 'Text' for component 'QRCode'" );
+    }
+
+    [Fact]
     public async Task Reports_autocomplete_parameter_renames()
     {
         var source = @"
