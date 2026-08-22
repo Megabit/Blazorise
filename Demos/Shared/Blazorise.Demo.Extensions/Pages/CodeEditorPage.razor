@@ -1,7 +1,5 @@
 @page "/tests/codeeditor"
 @using System.Threading
-@using Microsoft.CodeAnalysis
-@using Microsoft.CodeAnalysis.CSharp
 
 <Row>
     <Column>
@@ -176,8 +174,15 @@ public class Greeting
 
     private static Task<string> FormatCSharpDocumentAsync( string value )
     {
-        SyntaxNode root = CSharpSyntaxTree.ParseText( value ?? string.Empty ).GetRoot();
-        string formattedValue = root.NormalizeWhitespace( "    ", "\r\n" ).ToFullString();
+        string normalizedValue = ( value ?? string.Empty )
+            .Replace( "\r\n", "\n" )
+            .Replace( '\r', '\n' );
+        string formattedValue = string.Join(
+            "\r\n",
+            normalizedValue
+                .Split( '\n' )
+                .Select( line => line.Replace( "\t", "    " ).TrimEnd() ) )
+            .Trim();
 
         return Task.FromResult( formattedValue );
     }

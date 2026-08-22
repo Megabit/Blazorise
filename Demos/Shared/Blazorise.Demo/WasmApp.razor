@@ -6,8 +6,11 @@
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.WebAssembly.Services
 @using Microsoft.Extensions.Logging
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
 @inject LazyAssemblyLoader AssemblyLoader
 @inject ILogger<WasmApp> Logger
+@inject IJSRuntime JSRuntime
 
 <Blazorise.ThemeProvider Theme="@theme">
     <Router AppAssembly="typeof( App ).Assembly"
@@ -35,6 +38,7 @@
     [
         "Blazorise.Demo.Charts.wasm",
         "Blazorise.Charts.wasm",
+        "Blazorise.Charts.Svg.wasm",
         "Blazorise.Charts.Annotation.wasm",
         "Blazorise.Charts.DataLabels.wasm",
         "Blazorise.Charts.Streaming.wasm",
@@ -46,6 +50,7 @@
     [
         "Blazorise.Demo.DataGrid.wasm",
         "Blazorise.DataGrid.wasm",
+        "Microsoft.CSharp.wasm",
     ];
 
     private static readonly string[] reportingAssemblies =
@@ -83,6 +88,11 @@
         "Blazorise.Splitter.wasm",
         "Blazorise.TreeView.wasm",
         "Blazorise.Video.wasm",
+    ];
+
+    private static readonly string[] todoAssemblies =
+    [
+        "TodoApp.wasm",
     ];
 
     private static readonly string[] componentRoutes =
@@ -131,18 +141,35 @@
 
     private readonly HashSet<string> loadedAssemblyFiles = new( StringComparer.OrdinalIgnoreCase );
 
+    private IJSObjectReference reCaptchaLoader;
+
     private async Task OnNavigateAsync( NavigationContext context )
     {
+        bool isReCaptchaRoute = string.Equals( context.Path?.TrimStart( '/' ), "tests/captcha", StringComparison.OrdinalIgnoreCase );
+
         var assembliesToLoad = GetAssemblyFilesForRoute( context.Path )
             .Where( assemblyFile => !loadedAssemblyFiles.Contains( assemblyFile ) )
             .ToArray();
 
-        if ( assembliesToLoad.Length == 0 )
+        if ( assembliesToLoad.Length == 0 && !isReCaptchaRoute )
             return;
 
         try
         {
             context.CancellationToken.ThrowIfCancellationRequested();
+
+            if ( isReCaptchaRoute )
+            {
+                reCaptchaLoader ??= await JSRuntime.InvokeAsync<IJSObjectReference>(
+                    "import",
+                    context.CancellationToken,
+                    "./_content/Blazorise.Demo/recaptcha-loader.js" );
+
+                await reCaptchaLoader.InvokeVoidAsync( "load", context.CancellationToken );
+            }
+
+            if ( assembliesToLoad.Length == 0 )
+                return;
 
             var loadedAssemblies = await AssemblyLoader.LoadAssembliesAsync( assembliesToLoad );
 
@@ -167,7 +194,7 @@
         }
         catch ( Exception exception )
         {
-            Logger.LogError( exception, "Unable to lazy load demo assemblies for route '{Route}'.", context.Path );
+            Logger.LogError( exception, "Unable to load demo resources for route '{Route}'.", context.Path );
         }
     }
 
@@ -194,12 +221,23 @@
         if ( IsInRouteGroup( path, extensionRoutes ) )
             return extensionAssemblies;
 
+        if ( string.Equals( path, "apps/todo", StringComparison.OrdinalIgnoreCase ) )
+            return todoAssemblies;
+
         return [];
     }
 
     private static bool IsInRouteGroup( string path, IEnumerable<string> routes )
     {
         return routes.Any( route => string.Equals( path, route, StringComparison.OrdinalIgnoreCase ) );
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if ( reCaptchaLoader is not null )
+        {
+            await reCaptchaLoader.DisposeAsync();
+        }
     }
 
     private Theme theme = new()
