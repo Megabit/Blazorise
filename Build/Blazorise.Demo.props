@@ -13,15 +13,4 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Markdig" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" />
-		<PackageReference Include="Microsoft.Extensions.Http" />
-		<PackageReference Include="FluentValidation" />
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
-		<PackageReference Include="Flurl.Http" />
-		<PackageReference Include="Blazored.LocalStorage" />
-		<PackageReference Include="Bogus" />
-	</ItemGroup>
-	
 </Project>

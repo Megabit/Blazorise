@@ -25,9 +25,6 @@
                                   ImageUploadProgressed="@OnImageUploadProgressed"
                                   ImageUploadEnded="@OnImageUploadEnded" />
                     </Column>
-                    <Column>
-                        @((MarkupString)markdownHtml)
-                    </Column>
                 </Row>
             </CardBody>
         </Card>
@@ -62,20 +59,9 @@
     string markdownValue = "# EasyMDE \n Go ahead, play around with the editor! Be sure to check out **bold**, *italic*, [links](https://google.com) and all the other features. You can type the Markdown syntax, use the toolbar, or use shortcuts like `ctrl-b` or `cmd-b`.";
     string markdownValidationValue;
 
-    string markdownHtml;
-
-    protected override void OnInitialized()
-    {
-        markdownHtml = Markdig.Markdown.ToHtml( markdownValue ?? string.Empty );
-
-        base.OnInitialized();
-    }
-
     Task OnMarkdownValueChanged( string value )
     {
         markdownValue = value;
-
-        markdownHtml = Markdig.Markdown.ToHtml( markdownValue ?? string.Empty );
 
         return Task.CompletedTask;
     }
