@@ -1,0 +1,52 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgColumnChart TItem="Workload" Items="@workloads" Options="@options">
+    <SvgChartTitle Title='@("Team workload")' Subtitle='@("Drag either segment to recalculate the stack")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value="@( item => item.Team )" />
+    <SvgChartValueAxis Min="0" Max="160" Stacked TickCount="5" />
+    <SvgChartDataDrag Enabled Mode="SvgChartDataDragMode.Y" YStep="5" HitRadius="12" DragEnded="@OnDragEnded" />
+
+    <SvgColumnSeries Name="Committed" Stack="workload" Value="@( item => item.Committed )" Color="Color.Info" BorderRadius="4" />
+    <SvgColumnSeries Name="Planned" Stack="workload" Value="@( item => item.Planned )" Color="Color.Warning" BorderRadius="4" />
+</SvgColumnChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        YAxis = new() { Min = 0, Max = 160, Stacked = true, TickCount = 5 },
+    };
+
+    private readonly List<Workload> workloads =
+    [
+        new() { Team = "Platform", Committed = 65, Planned = 35 },
+        new() { Team = "Commerce", Committed = 50, Planned = 45 },
+        new() { Team = "Mobile", Committed = 75, Planned = 30 },
+        new() { Team = "Support", Committed = 40, Planned = 50 },
+    ];
+
+    private Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
+        {
+            if ( eventArgs.SeriesIndex == 0 )
+                workloads[eventArgs.PointIndex].Committed = eventArgs.YValue.Value;
+            else if ( eventArgs.SeriesIndex == 1 )
+                workloads[eventArgs.PointIndex].Planned = eventArgs.YValue.Value;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private sealed class Workload
+    {
+        public string Team { get; set; }
+
+        public double Committed { get; set; }
+
+        public double Planned { get; set; }
+    }
+}

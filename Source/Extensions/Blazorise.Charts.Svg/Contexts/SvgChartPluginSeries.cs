@@ -57,6 +57,11 @@ public sealed class SvgChartPluginSeries
     public bool Hidden { get; init; }
 
     /// <summary>
+    /// Gets whether data points in the series can be dragged when chart data dragging is enabled.
+    /// </summary>
+    public bool Draggable { get; init; } = true;
+
+    /// <summary>
     /// Gets the resolved series render order.
     /// </summary>
     public int? Order { get; init; }

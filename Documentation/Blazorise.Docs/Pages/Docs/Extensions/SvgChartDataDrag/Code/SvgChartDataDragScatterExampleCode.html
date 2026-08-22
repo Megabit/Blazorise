@@ -1,0 +1,53 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgScatterChart</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Store</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Items</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>stores</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>options</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTitle</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Store positioning&quot;)&#39;</span> <span class="htmlAttributeName">Subtitle</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Drag points along both axes&quot;)&#39;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTooltip</span> <span class="htmlAttributeName">Enabled</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartValueAxis</span> <span class="htmlAttributeName">Min</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">0</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Max</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">100</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TickCount</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">6</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartDataDrag</span> <span class="htmlAttributeName">Enabled</span> <span class="htmlAttributeName">Mode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">SvgChartDataDragMode</span><span class="enumValue">.XY</span><span class="quot">&quot;</span> <span class="htmlAttributeName">XStep</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">5</span><span class="quot">&quot;</span> <span class="htmlAttributeName">YStep</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">5</span><span class="quot">&quot;</span> <span class="htmlAttributeName">HitRadius</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">14</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DragEnded</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnDragEnded</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgScatterSeries</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Stores</span><span class="quot">&quot;</span> <span class="htmlAttributeName">XValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.X )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">YValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Y )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Info</span><span class="quot">&quot;</span> <span class="htmlAttributeName">MarkerRadius</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">6</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SvgScatterChart</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartOptions options = <span class="keyword">new</span>()
+    {
+        Height = <span class="number">360</span>,
+        Legend = <span class="keyword">new</span>() { Visible = <span class="keyword">false</span> },
+        XAxis = <span class="keyword">new</span>() { Min = <span class="number">0</span>, Max = <span class="number">100</span>, TickCount = <span class="number">6</span>, GridLines = <span class="keyword">new</span>() { Visible = <span class="keyword">true</span>, Opacity = <span class="number">0</span>.<span class="number">2</span> } },
+        YAxis = <span class="keyword">new</span>() { Min = <span class="number">0</span>, Max = <span class="number">100</span>, TickCount = <span class="number">6</span> },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> List&lt;Store&gt; stores =
+    [
+        <span class="keyword">new</span>() { X = <span class="number">15</span>, Y = <span class="number">35</span> },
+        <span class="keyword">new</span>() { X = <span class="number">30</span>, Y = <span class="number">55</span> },
+        <span class="keyword">new</span>() { X = <span class="number">45</span>, Y = <span class="number">40</span> },
+        <span class="keyword">new</span>() { X = <span class="number">60</span>, Y = <span class="number">75</span> },
+        <span class="keyword">new</span>() { X = <span class="number">80</span>, Y = <span class="number">65</span> },
+    ];
+
+    <span class="keyword">private</span> Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        <span class="keyword">if</span> ( !eventArgs.Canceled )
+        {
+            <span class="keyword">if</span> ( eventArgs.XValue.HasValue )
+                stores[eventArgs.PointIndex].X = eventArgs.XValue.Value;
+
+            <span class="keyword">if</span> ( eventArgs.YValue.HasValue )
+                stores[eventArgs.PointIndex].Y = eventArgs.YValue.Value;
+        }
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> Store
+    {
+        <span class="keyword">public</span> <span class="keyword">double</span> X { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">double</span> Y { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

@@ -1,0 +1,37 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgDoughnutChart TItem="object" Data="@data" Options="@options">
+    <SvgChartTitle Title='@("Budget share")' Subtitle='@("Drag around a segment to resize it")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartDataDrag Enabled Mode="SvgChartDataDragMode.Y" YStep="1" DragEnded="@OnDragEnded" />
+</SvgDoughnutChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = ["Engineering", "Marketing", "Sales", "Operations"],
+        Series =
+        [
+            new()
+            {
+                Name = "Budget",
+                Values = [38, 22, 25, 15],
+            },
+        ]
+    };
+
+    private Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
+            data.Series[eventArgs.SeriesIndex].Values[eventArgs.PointIndex] = eventArgs.YValue.Value;
+
+        return Task.CompletedTask;
+    }
+}

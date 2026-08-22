@@ -92,6 +92,7 @@ public static class ManualPageEntries
     new( "docs/extensions/svg-chart/api", "SVG Chart API", "Explore the API reference for Blazorise SVG chart components, options, methods, and events." ),
     new( "docs/extensions/svg-chart-plugins", "SVG Chart Plugins", "Extend native SVG charts with custom C# and Blazor rendering logic." ),
     new( "docs/extensions/svg-chart-annotations", "SVG Chart Annotations", "Add contextual line, box, label, ellipse, and point annotations directly to native SVG charts." ),
+    new( "docs/extensions/svg-chart-data-drag", "SVG Chart Data Point Dragging", "Edit native SVG chart values by dragging data points with pointer or keyboard input." ),
     new( "docs/extensions/svg-chart-datalabels", "SVG Chart Data Labels", "Render labels around native SVG chart values and handle label interactions." ),
     new( "docs/extensions/svg-chart-streaming", "SVG Chart Streaming", "Append live data to native SVG charts with rolling or infinite retention." ),
     new( "docs/extensions/svg-chart-trendline", "SVG Chart Trendline", "Calculate and render trendlines directly in native SVG charts." ),

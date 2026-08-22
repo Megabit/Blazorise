@@ -59,6 +59,7 @@ internal sealed class SvgChartRadarSeriesRenderer : ISvgChartSeriesRenderer
             builder.AddAttribute( sequence++, "opacity", SvgChartRenderHelpers.Format( item.FillOpacity ) );
             builder.AddAttribute( sequence++, "stroke", item.Color );
             builder.AddAttribute( sequence++, "stroke-width", "2" );
+            builder.AddAttribute( sequence++, "pointer-events", "none" );
             context.AddAnimatedStyleAttribute( builder, ref sequence );
             context.RenderPathFadeAnimation( builder, ref sequence, item, "area", radarPoints, SvgChartRenderHelpers.Format( item.FillOpacity ) );
             builder.CloseElement();
@@ -85,6 +86,8 @@ internal sealed class SvgChartRadarSeriesRenderer : ISvgChartSeriesRenderer
                 var animationKey = context.TrackPointBounds( item, pointIndex, bounds );
                 var color = item.GetPointColor( pointIndex );
 
+                context.RenderDataDragHitTarget( builder, ref sequence, item, point, renderedPoint.X, renderedPoint.Y, markerRadius );
+
                 builder.OpenElement( sequence++, "circle" );
                 builder.AddAttribute( sequence++, "class", "svg-chart-point svg-chart-radar-marker" );
                 builder.AddAttribute( sequence++, "cx", SvgChartRenderHelpers.Format( renderedPoint.X ) );
@@ -94,7 +97,7 @@ internal sealed class SvgChartRadarSeriesRenderer : ISvgChartSeriesRenderer
                 builder.AddAttribute( sequence++, "stroke", "var(--bs-body-bg, #fff)" );
                 builder.AddAttribute( sequence++, "stroke-width", "1.5" );
                 context.AddAnimatedStyleAttribute( builder, ref sequence );
-                context.AddPointInteractionAttributes( builder, ref sequence, point, color );
+                context.AddPointInteractionAttributes( builder, ref sequence, point, color, item );
                 context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "cx", SvgChartRenderHelpers.Format( renderedPoint.X ), SvgChartRenderHelpers.Format( renderedPoint.X ), bounds => SvgChartRenderHelpers.Format( bounds.X + bounds.Width / 2 ) );
                 context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "cy", SvgChartRenderHelpers.Format( renderedPoint.Y ), SvgChartRenderHelpers.Format( renderedPoint.Y ), bounds => SvgChartRenderHelpers.Format( bounds.Y + bounds.Height / 2 ) );
                 context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "r", "0", SvgChartRenderHelpers.Format( markerRadius ), bounds => SvgChartRenderHelpers.Format( bounds.Width / 2 ) );

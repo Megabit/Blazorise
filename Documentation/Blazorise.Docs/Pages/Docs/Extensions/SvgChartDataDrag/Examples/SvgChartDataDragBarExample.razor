@@ -1,0 +1,43 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgBarChart TItem="Allocation" Items="@allocations" Options="@options">
+    <SvgChartTitle Title='@("Team allocation")' Subtitle='@("Drag a bar endpoint horizontally")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value="@( item => item.Team )" />
+    <SvgChartValueAxis Min="0" Max="100" TickCount="6" />
+    <SvgChartDataDrag Enabled Mode="SvgChartDataDragMode.X" XStep="5" HitRadius="12" DragEnded="@OnDragEnded" />
+
+    <SvgBarSeries Name="Allocation" Value="@( item => item.Value )" Color="Color.Primary" BorderRadius="4" />
+</SvgBarChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
+    };
+
+    private readonly List<Allocation> allocations =
+    [
+        new() { Team = "Platform", Value = 70 },
+        new() { Team = "Commerce", Value = 55 },
+        new() { Team = "Mobile", Value = 80 },
+        new() { Team = "Support", Value = 45 },
+    ];
+
+    private Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled && eventArgs.XValue.HasValue )
+            allocations[eventArgs.PointIndex].Value = eventArgs.XValue.Value;
+
+        return Task.CompletedTask;
+    }
+
+    private sealed class Allocation
+    {
+        public string Team { get; set; }
+
+        public double Value { get; set; }
+    }
+}

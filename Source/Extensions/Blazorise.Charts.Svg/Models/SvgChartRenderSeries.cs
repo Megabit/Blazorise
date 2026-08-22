@@ -28,6 +28,8 @@ internal sealed class SvgChartRenderSeries
 
     public bool Hidden { get; init; }
 
+    public bool Draggable { get; init; } = true;
+
     public int? Order { get; init; }
 
     public string CategoryAxisId { get; init; }

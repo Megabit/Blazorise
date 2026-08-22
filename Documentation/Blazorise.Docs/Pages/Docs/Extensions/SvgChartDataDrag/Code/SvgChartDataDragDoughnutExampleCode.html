@@ -1,0 +1,40 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgDoughnutChart</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">object</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>data</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>options</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTitle</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Budget share&quot;)&#39;</span> <span class="htmlAttributeName">Subtitle</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Drag around a segment to resize it&quot;)&#39;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTooltip</span> <span class="htmlAttributeName">Enabled</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartDataDrag</span> <span class="htmlAttributeName">Enabled</span> <span class="htmlAttributeName">Mode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">SvgChartDataDragMode.Y</span><span class="quot">&quot;</span> <span class="htmlAttributeName">YStep</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">1</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DragEnded</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnDragEnded</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SvgDoughnutChart</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartOptions options = <span class="keyword">new</span>()
+    {
+        Height = <span class="number">360</span>,
+        Legend = <span class="keyword">new</span>() { Position = SvgChartLegendPosition.Bottom },
+        YAxis = <span class="keyword">new</span>() { Min = <span class="number">0</span>, Max = <span class="number">100</span>, TickCount = <span class="number">6</span> },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartData&lt;<span class="keyword">double</span>?&gt; data = <span class="keyword">new</span>()
+    {
+        Labels = [<span class="string">&quot;Engineering&quot;</span>, <span class="string">&quot;Marketing&quot;</span>, <span class="string">&quot;Sales&quot;</span>, <span class="string">&quot;Operations&quot;</span>],
+        Series =
+        [
+            <span class="keyword">new</span>()
+            {
+                Name = <span class="string">&quot;Budget&quot;</span>,
+                Values = [<span class="number">38</span>, <span class="number">22</span>, <span class="number">25</span>, <span class="number">15</span>],
+            },
+        ]
+    };
+
+    <span class="keyword">private</span> Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        <span class="keyword">if</span> ( !eventArgs.Canceled &amp;&amp; eventArgs.YValue.HasValue )
+            data.Series[eventArgs.SeriesIndex].Values[eventArgs.PointIndex] = eventArgs.YValue.Value;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+}
+</pre></div>
+</div>

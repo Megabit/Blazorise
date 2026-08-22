@@ -97,6 +97,11 @@ public abstract class SvgChartSeries<TItem> : SvgChartComponentBase
     [Parameter] public bool Hidden { get; set; }
 
     /// <summary>
+    /// Defines whether data points in the series can be dragged when chart data dragging is enabled.
+    /// </summary>
+    [Parameter] public bool Draggable { get; set; } = true;
+
+    /// <summary>
     /// Defines the series rendering order. Lower values are rendered first, behind higher values.
     /// </summary>
     [Parameter] public int? Order { get; set; }

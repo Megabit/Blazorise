@@ -231,6 +231,26 @@ internal static class SvgChartGeometry
         return plot.Left + ( value - min ) / range * plot.Width;
     }
 
+    public static double UnprojectX( double x, SvgChartPlotArea plot, double min, double max )
+    {
+        if ( plot.Width <= 0 || max <= min )
+            return min;
+
+        var clamped = Math.Clamp( x, plot.Left, plot.Right );
+
+        return min + ( clamped - plot.Left ) / plot.Width * ( max - min );
+    }
+
+    public static double UnprojectY( double y, SvgChartPlotArea plot, SvgChartRenderValueAxis axis )
+    {
+        if ( plot.Height <= 0 || axis is null || axis.Max <= axis.Min )
+            return axis?.Min ?? 0;
+
+        var clamped = Math.Clamp( y, plot.Top, plot.Bottom );
+
+        return axis.Min + ( plot.Bottom - clamped ) / plot.Height * ( axis.Max - axis.Min );
+    }
+
     public static double GetCategoryX( int index, SvgChartPlotArea plot, SvgChartRenderModel model )
     {
         return GetX( index, plot, model.CategoryMin, model.CategoryMax );
