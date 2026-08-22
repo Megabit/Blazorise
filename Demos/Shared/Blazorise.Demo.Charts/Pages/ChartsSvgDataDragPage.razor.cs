@@ -8,8 +8,6 @@ namespace Blazorise.Demo.Pages.Tests;
 
 public partial class ChartsSvgDataDragPage
 {
-    private string lastEvent = "Drag a chart point to edit its value.";
-
     private readonly List<ForecastSample> Forecasts =
     [
         new() { Month = "Jan", Baseline = 42, Forecast = 48 },
@@ -78,19 +76,10 @@ public partial class ChartsSvgDataDragPage
         YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
     };
 
-    private Task OnDragging( SvgChartDataPointDragEventArgs eventArgs )
-    {
-        lastEvent = $"Dragging {eventArgs.SeriesName} point {eventArgs.PointIndex + 1}: X {FormatValue( eventArgs.XValue )}, Y {FormatValue( eventArgs.YValue )}";
-
-        return Task.CompletedTask;
-    }
-
     private Task OnForecastDragEnded( SvgChartDataPointDragEventArgs eventArgs )
     {
         if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
             Forecasts[eventArgs.PointIndex].Forecast = eventArgs.YValue.Value;
-
-        UpdateEndedEvent( eventArgs );
 
         return Task.CompletedTask;
     }
@@ -99,8 +88,6 @@ public partial class ChartsSvgDataDragPage
     {
         if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
             Capacity[eventArgs.PointIndex].Utilization = eventArgs.YValue.Value;
-
-        UpdateEndedEvent( eventArgs );
 
         return Task.CompletedTask;
     }
@@ -116,8 +103,6 @@ public partial class ChartsSvgDataDragPage
                 Stores[eventArgs.PointIndex].Y = eventArgs.YValue.Value;
         }
 
-        UpdateEndedEvent( eventArgs );
-
         return Task.CompletedTask;
     }
 
@@ -126,21 +111,7 @@ public partial class ChartsSvgDataDragPage
         if ( !eventArgs.Canceled && eventArgs.XValue.HasValue )
             Opportunities[eventArgs.PointIndex].Effort = eventArgs.XValue.Value;
 
-        UpdateEndedEvent( eventArgs );
-
         return Task.CompletedTask;
-    }
-
-    private void UpdateEndedEvent( SvgChartDataPointDragEventArgs eventArgs )
-    {
-        lastEvent = eventArgs.Canceled
-            ? $"Canceled {eventArgs.SeriesName} point {eventArgs.PointIndex + 1}; original values restored."
-            : $"Saved {eventArgs.SeriesName} point {eventArgs.PointIndex + 1}: X {FormatValue( eventArgs.XValue )}, Y {FormatValue( eventArgs.YValue )}";
-    }
-
-    private static string FormatValue( double? value )
-    {
-        return value?.ToString( "0.##" ) ?? "n/a";
     }
 
     private sealed class ForecastSample
