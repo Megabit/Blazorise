@@ -45,7 +45,7 @@ export function initializeDataDrag(element, dotNetReference) {
     const state = {
         dotNetReference,
         candidate: null,
-        pendingKey: null,
+        pendingKeys: [],
         keyInFlight: false,
         suppressClick: false,
         documentObserverScope: null,
@@ -194,12 +194,12 @@ export function initializeDataDrag(element, dotNetReference) {
 
         event.preventDefault();
         event.stopPropagation();
-        state.pendingKey = {
+        state.pendingKeys.push({
             seriesIndex: parseIndex(target.dataset.svgChartSeriesIndex),
             pointIndex: parseIndex(target.dataset.svgChartPointIndex),
             key: event.key,
             shiftKey: event.shiftKey
-        };
+        });
         dispatchDataDragKey(state);
     };
 
@@ -349,12 +349,11 @@ function dispatchDataDragMove(state, candidate) {
 }
 
 function dispatchDataDragKey(state) {
-    if (state.keyInFlight || !state.pendingKey || state.destroyed) {
+    if (state.keyInFlight || state.pendingKeys.length === 0 || state.destroyed) {
         return;
     }
 
-    const key = state.pendingKey;
-    state.pendingKey = null;
+    const key = state.pendingKeys.shift();
     state.keyInFlight = true;
 
     state.dotNetReference.invokeMethodAsync("KeyDown", key.seriesIndex, key.pointIndex, key.key, key.shiftKey)
@@ -362,7 +361,7 @@ function dispatchDataDragKey(state) {
         .finally(() => {
             state.keyInFlight = false;
 
-            if (state.pendingKey) {
+            if (state.pendingKeys.length > 0) {
                 dispatchDataDragKey(state);
             }
         });

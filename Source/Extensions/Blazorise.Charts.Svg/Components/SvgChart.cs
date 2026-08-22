@@ -1832,7 +1832,7 @@ public class SvgChart<TItem> : SvgChartBase
 
         dataPointOverrides.TryGetValue( (seriesIndex, pointIndex), out var originalOverride );
 
-        dataDragState = new()
+        var state = new SvgChartDataDragState
         {
             SeriesIndex = seriesIndex,
             PointIndex = pointIndex,
@@ -1853,9 +1853,27 @@ public class SvgChart<TItem> : SvgChartBase
             OriginalOverride = originalOverride
         };
 
+        dataDragState = state;
+
         panning = false;
         ClearTooltip();
-        await NotifyDataDragStarted( CreateDataDragEventArgs( dataDragState, false ) );
+
+        try
+        {
+            await NotifyDataDragStarted( CreateDataDragEventArgs( state, false ) );
+        }
+        catch
+        {
+            if ( ReferenceEquals( dataDragState, state ) )
+                dataDragState = null;
+
+            StateHasChanged();
+
+            throw;
+        }
+
+        if ( !ReferenceEquals( dataDragState, state ) )
+            return false;
 
         if ( dataDrag.ShowTooltip )
             UpdateDataDragTooltip();
