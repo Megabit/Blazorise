@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-21T12:21:26.2908085Z",
+  "generatedUtc": "2026-08-22T11:43:47.5354407Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -117096,8 +117096,8 @@
           "name": "ShowTooltip",
           "type": "bool",
           "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Defines whether the point tooltip is shown and updated while dragging.",
+          "defaultValue": "false",
+          "summary": "Defines whether the point tooltip is shown and updated while dragging. The default is <code>false</code>.",
           "isBlazoriseEnum": false
         },
         {
@@ -117206,8 +117206,8 @@
           "name": "ShowTooltip",
           "type": "bool",
           "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Defines whether the point tooltip is shown and updated while dragging.",
+          "defaultValue": "false",
+          "summary": "Defines whether the point tooltip is shown and updated while dragging. The default is <code>false</code>.",
           "isBlazoriseEnum": false
         },
         {
