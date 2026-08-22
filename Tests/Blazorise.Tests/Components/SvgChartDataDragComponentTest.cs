@@ -92,7 +92,7 @@ public class SvgChartDataDragComponentTest : BunitContext
     [Fact]
     public void XMode_OnlyEnablesPointSeriesWithContinuousXValues()
     {
-        var samples = new List<DragSample>
+        List<DragSample> samples =
         [
             new() { X = 1, Y = 10 },
             new() { X = 2, Y = 20 }
@@ -123,7 +123,7 @@ public class SvgChartDataDragComponentTest : BunitContext
 
     private IRenderedComponent<SvgLineChart<DragSample>> RenderLineChart( Func<SvgChartPointEventArgs, bool> canDrag = null, bool draggable = true, SvgChartOptions options = null )
     {
-        var samples = new List<DragSample>
+        List<DragSample> samples =
         [
             new() { Category = "A", Y = 10 },
             new() { Category = "B", Y = 20 },
