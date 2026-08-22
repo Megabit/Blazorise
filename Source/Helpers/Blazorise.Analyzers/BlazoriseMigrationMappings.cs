@@ -334,6 +334,46 @@ public static partial class BlazoriseMigrationMappings
             "CardLink now uses To instead of Source and Title instead of Alt." ) );
 
         list.Add( new ComponentMapping(
+            "Blazorise.CardImage",
+            "Blazorise.CardImage",
+            new Dictionary<string, string>
+            {
+                ["Alt"] = "Text",
+            },
+            TValueShape.Any,
+            "CardImage now uses Text instead of Alt for alternate image text." ) );
+
+        list.Add( new ComponentMapping(
+            "Blazorise.FigureImage",
+            "Blazorise.FigureImage",
+            new Dictionary<string, string>
+            {
+                ["AlternateText"] = "Text",
+            },
+            TValueShape.Any,
+            "FigureImage now uses Text instead of AlternateText for alternate image text." ) );
+
+        list.Add( new ComponentMapping(
+            "Blazorise.Cropper.Cropper",
+            "Blazorise.Cropper.Cropper",
+            new Dictionary<string, string>
+            {
+                ["Alt"] = "Text",
+            },
+            TValueShape.Any,
+            "Cropper now uses Text instead of Alt for alternate image text." ) );
+
+        list.Add( new ComponentMapping(
+            "Blazorise.QRCode.QRCode",
+            "Blazorise.QRCode.QRCode",
+            new Dictionary<string, string>
+            {
+                ["Alt"] = "Text",
+            },
+            TValueShape.Any,
+            "QRCode now uses Text instead of Alt for its accessible image text." ) );
+
+        list.Add( new ComponentMapping(
             "Blazorise.DataGrid.DataGrid`1",
             "Blazorise.DataGrid.DataGrid`1",
             new Dictionary<string, string>

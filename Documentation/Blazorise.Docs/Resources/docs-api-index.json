@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-22T11:43:47.5354407Z",
+  "generatedUtc": "2026-08-22T17:54:34.3151658Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -16562,7 +16562,8 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Alternative image text.",
+          "summary": "Alternate text for the image.",
+          "remarks": "This parameter is retained for source compatibility. Use <strong>Text</strong> instead.",
           "isBlazoriseEnum": false
         },
         {
@@ -16741,6 +16742,14 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Text",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Alternate text for the image.",
           "isBlazoriseEnum": false
         },
         {
@@ -29260,7 +29269,8 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "The alt text of the image.",
+          "summary": "Alternate text for the image.",
+          "remarks": "This parameter is retained for source compatibility. Use <strong>Text</strong> instead.",
           "isBlazoriseEnum": false
         },
         {
@@ -29479,6 +29489,14 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Text",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Alternate text for the image.",
           "isBlazoriseEnum": false
         },
         {
@@ -51471,7 +51489,8 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Alternate text for an image.",
+          "summary": "Alternate text for the image.",
+          "remarks": "This parameter is retained for source compatibility. Use <strong>Text</strong> instead.",
           "isBlazoriseEnum": false
         },
         {
@@ -51650,6 +51669,14 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Text",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Alternate text for the image.",
           "isBlazoriseEnum": false
         },
         {
@@ -92547,7 +92574,8 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Image alt text.",
+          "summary": "Accessible text for the QR code image.",
+          "remarks": "This parameter is retained for source compatibility. Use <strong>Text</strong> instead.",
           "isBlazoriseEnum": false
         },
         {
@@ -92774,6 +92802,14 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Text",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Accessible text for the QR code image.",
           "isBlazoriseEnum": false
         },
         {

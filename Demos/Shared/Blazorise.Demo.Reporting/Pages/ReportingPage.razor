@@ -62,7 +62,6 @@
                     </ReportToolbar>
                     <ReportDataSources>
                         <ReportObjectDataSource Name="Invoice" Data="@invoice" />
-                        <ReportCsvDataSource Name="CsvInvoiceLines" Source="@invoiceLinesCsv" Encoding="utf-8" />
                     </ReportDataSources>
                     <ReportFormulaFields>
                         <ReportFormulaField Name="BillToSummary" Formula="'Bill to: ' + {BillTo.Name}" />
@@ -137,7 +136,7 @@
 </Row>
 
 @code {
-    [Inject] private Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IMessageService MessageService { get; set; }
 
@@ -160,11 +159,6 @@
     private string cleanDefinitionJson;
 
     private bool loadingReport;
-
-    private const string invoiceLinesCsv = "Sku,Description,Quantity,UnitPrice,Total\r\n"
-        + "HB-104,CSV coastal inventory tags,18,30.00,540.00\r\n"
-        + "HB-118,CSV insulated cargo sleeves,22,50.00,1100.00\r\n"
-        + "HB-142,CSV route planning credits,31,25.00,775.00";
 
     private readonly InvoiceReportModel invoice = new()
     {
@@ -201,20 +195,28 @@
     {
         string json = ReportJsonSerializer.Serialize( reportDefinition );
 
-        await LocalStorage.SetItemAsync( ReportStorageKey, json );
+        await JSRuntime.InvokeVoidAsync( "localStorage.setItem", ReportStorageKey, json );
         cleanDefinitionJson = json;
         await NotificationService.Success( "The report definition was saved.", "Report saved" );
     }
 
     private async Task<ReportDefinition> LoadReport()
     {
-        string json = await LocalStorage.GetItemAsync<string>( ReportStorageKey );
+        string json = await JSRuntime.InvokeAsync<string>( "localStorage.getItem", ReportStorageKey );
 
         if ( string.IsNullOrWhiteSpace( json ) )
         {
             await NotificationService.Warning( "Save the report before attempting to load it.", "No saved report" );
 
             return null;
+        }
+
+        if ( json.StartsWith( '"' ) )
+        {
+            string legacyJson = System.Text.Json.JsonSerializer.Deserialize<string>( json );
+
+            if ( !string.IsNullOrWhiteSpace( legacyJson ) )
+                json = legacyJson;
         }
 
         if ( HasUnsavedChanges()

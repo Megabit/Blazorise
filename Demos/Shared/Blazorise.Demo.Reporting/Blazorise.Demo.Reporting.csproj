@@ -15,7 +15,6 @@
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Pdf\Blazorise.Pdf.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Reporting\Blazorise.Reporting.csproj" />
-    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Reporting.DataSources.Csv\Blazorise.Reporting.DataSources.Csv.csproj" />
   </ItemGroup>
 
 </Project>
