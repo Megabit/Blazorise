@@ -1,5 +1,4 @@
 ﻿@page "/tests/scheduler"
-@using Bogus
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -50,22 +49,24 @@
 
     private static DateTime start = DateTime.Today.AddHours( 10 );
 
-    private Faker<SchedulerAppointment> appointmentFaker = new Faker<SchedulerAppointment>()
-        .RuleFor( a => a.Title, f => f.Lorem.Sentence( 3 ) )
-        .RuleFor( a => a.Description, f => f.Lorem.Paragraph() );
+    private int generatedAppointmentCount = 1;
 
     private Task OnSlotClicked( SchedulerSlotClickedEventArgs eventArgs )
     {
         var start = eventArgs.Start;
         var end = eventArgs.End;
 
-        var fakeAppointment = appointmentFaker.Generate();
-        fakeAppointment.Start = start;
-        fakeAppointment.End = end;
-        fakeAppointment.Color = "#0d6efd";
-        fakeAppointment.Location = "Main office";
+        SchedulerAppointment appointment = new(
+            $"Appointment {generatedAppointmentCount++}",
+            "Created from a selected scheduler slot.",
+            start,
+            end )
+        {
+            Color = "#0d6efd",
+            Location = "Main office",
+        };
 
-        Appointments.Add( fakeAppointment );
+        Appointments.Add( appointment );
 
         return Task.CompletedTask;
     }

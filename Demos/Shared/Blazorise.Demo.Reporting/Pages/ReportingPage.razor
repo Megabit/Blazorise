@@ -137,7 +137,7 @@
 </Row>
 
 @code {
-    [Inject] private Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IMessageService MessageService { get; set; }
 
@@ -201,20 +201,28 @@
     {
         string json = ReportJsonSerializer.Serialize( reportDefinition );
 
-        await LocalStorage.SetItemAsync( ReportStorageKey, json );
+        await JSRuntime.InvokeVoidAsync( "localStorage.setItem", ReportStorageKey, json );
         cleanDefinitionJson = json;
         await NotificationService.Success( "The report definition was saved.", "Report saved" );
     }
 
     private async Task<ReportDefinition> LoadReport()
     {
-        string json = await LocalStorage.GetItemAsync<string>( ReportStorageKey );
+        string json = await JSRuntime.InvokeAsync<string>( "localStorage.getItem", ReportStorageKey );
 
         if ( string.IsNullOrWhiteSpace( json ) )
         {
             await NotificationService.Warning( "Save the report before attempting to load it.", "No saved report" );
 
             return null;
+        }
+
+        if ( json.StartsWith( '"' ) )
+        {
+            string legacyJson = System.Text.Json.JsonSerializer.Deserialize<string>( json );
+
+            if ( !string.IsNullOrWhiteSpace( legacyJson ) )
+                json = legacyJson;
         }
 
         if ( HasUnsavedChanges()

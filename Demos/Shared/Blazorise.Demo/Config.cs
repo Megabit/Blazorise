@@ -1,14 +1,15 @@
 #region Using directives
-using Blazored.LocalStorage;
 using Blazorise.Captcha.ReCaptcha;
 using Blazorise.CodeEditor;
 using Blazorise.Components;
+using Blazorise.Demo.Setup;
 using Blazorise.FluentValidation;
 using Blazorise.LoadingIndicator;
 using Blazorise.Pdf;
 using Blazorise.Reporting;
 using Blazorise.Reporting.DataSources.Csv;
 using Blazorise.RichTextEdit;
+using Blazorise.Shared.Models;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -64,11 +65,8 @@ public static class Config
             } )
             .AddBlazoriseRouterTabs();
 
-        services.AddBlazoredLocalStorage();
-
-        services.AddValidatorsFromAssembly( typeof( App ).Assembly );
-
-        services.AddMemoryCache();
+        services.AddScoped<PersonValidator>();
+        services.AddScoped<IValidator<Person>>( serviceProvider => serviceProvider.GetRequiredService<PersonValidator>() );
 
         // register demo services to fetch test data
         services.AddScoped<Shared.Data.EmployeeData>();
