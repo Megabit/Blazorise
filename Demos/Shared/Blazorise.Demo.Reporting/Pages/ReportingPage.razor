@@ -62,7 +62,6 @@
                     </ReportToolbar>
                     <ReportDataSources>
                         <ReportObjectDataSource Name="Invoice" Data="@invoice" />
-                        <ReportCsvDataSource Name="CsvInvoiceLines" Source="@invoiceLinesCsv" Encoding="utf-8" />
                     </ReportDataSources>
                     <ReportFormulaFields>
                         <ReportFormulaField Name="BillToSummary" Formula="'Bill to: ' + {BillTo.Name}" />
@@ -160,11 +159,6 @@
     private string cleanDefinitionJson;
 
     private bool loadingReport;
-
-    private const string invoiceLinesCsv = "Sku,Description,Quantity,UnitPrice,Total\r\n"
-        + "HB-104,CSV coastal inventory tags,18,30.00,540.00\r\n"
-        + "HB-118,CSV insulated cargo sleeves,22,50.00,1100.00\r\n"
-        + "HB-142,CSV route planning credits,31,25.00,775.00";
 
     private readonly InvoiceReportModel invoice = new()
     {

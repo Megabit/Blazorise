@@ -7,7 +7,6 @@ using Blazorise.FluentValidation;
 using Blazorise.LoadingIndicator;
 using Blazorise.Pdf;
 using Blazorise.Reporting;
-using Blazorise.Reporting.DataSources.Csv;
 using Blazorise.RichTextEdit;
 using Blazorise.Shared.Models;
 using FluentValidation;
@@ -58,7 +57,6 @@ public static class Config
             .AddBlazoriseFluentValidation()
             .AddBlazoriseReporting()
             .AddBlazorisePdfHttpResources()
-            .AddBlazoriseReportingCsvDataSource()
             .AddBlazoriseGoogleReCaptcha( options =>
             {
                 options.SiteKey = reCaptchaSiteKey;

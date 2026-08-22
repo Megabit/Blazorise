@@ -16,7 +16,6 @@
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Pdf\Blazorise.Pdf.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Reporting\Blazorise.Reporting.csproj" />
-    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Reporting.DataSources.Csv\Blazorise.Reporting.DataSources.Csv.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.RichTextEdit\Blazorise.RichTextEdit.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.FluentValidation\Blazorise.FluentValidation.csproj" />

@@ -18,6 +18,7 @@
 	<ItemGroup>
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Charts.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Charts.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Charts.Svg.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Charts.Annotation.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Charts.DataLabels.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Charts.Streaming.wasm" />
@@ -25,6 +26,7 @@
 		<BlazorWebAssemblyLazyLoad Include="Lambda2Js.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.DataGrid.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.DataGrid.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Microsoft.CSharp.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Reporting.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Components.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Extensions.wasm" />
@@ -44,6 +46,7 @@
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Splitter.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.TreeView.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Video.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="TodoApp.wasm" />
 	</ItemGroup>
 
 </Project>
