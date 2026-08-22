@@ -58,7 +58,7 @@ public class ModalProviderComponentTest : BunitContext
 
         await component.InvokeAsync( () => modalService.Hide() );
 
-        Assert.Null( component.Instance.TopMost );
+        component.WaitForAssertion( () => Assert.Null( component.Instance.TopMost ) );
     }
 
     [Fact]
