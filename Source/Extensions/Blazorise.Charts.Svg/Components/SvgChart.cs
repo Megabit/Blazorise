@@ -1783,7 +1783,7 @@ public class SvgChart<TItem> : SvgChartBase
         await HandleChartMouseUp( eventArgs );
     }
 
-    internal async Task<bool> HandleDataDragStart( int seriesIndex, int pointIndex )
+    internal async Task<bool> HandleDataDragStart( int seriesIndex, int pointIndex, double? pointerX = null, double? pointerY = null )
     {
         if ( dataDragState is not null || ResolveStreaming().Enabled )
             return false;
@@ -1791,20 +1791,64 @@ public class SvgChart<TItem> : SvgChartBase
         var model = BuildModel();
         var dataDrag = ResolveDataDrag( ResolveOptions() );
 
-        if ( dataDrag?.Enabled != true || IsRadialChart( model ) || seriesIndex < 0 || seriesIndex >= model.Series.Count )
+        if ( dataDrag?.Enabled != true || seriesIndex < 0 || seriesIndex >= model.Series.Count )
             return false;
 
         var series = model.Series[seriesIndex];
 
-        if ( !TryResolveDataDragValues( series, pointIndex, dataDrag, out var xValue, out var yValue, out var canDragX, out var canDragY ) )
+        if ( !TryResolveDataDragValues( series, pointIndex, dataDrag, out var xValue, out var yValue, out var canDragX, out var canDragY, out var isValueAxisHorizontal ) )
             return false;
 
         var plot = BuildCurrentPlotArea( model );
-        var xScale = canDragX ? ResolvePointXScale( model, [series] ) : null;
+        var xScale = canDragX && !isValueAxisHorizontal ? ResolvePointXScale( model, [series] ) : null;
         var valueAxis = ResolveValueAxis( model, series );
-        var x = ResolveDataDragPointX( model, plot, series, pointIndex, xValue, xScale );
-        var y = GetY( yValue.Value, plot, valueAxis );
+        var isRadial = IsRadialChart( series.Type );
+        var isStacked = series.StackEndValues.Count > 0 && series.Type is ( SvgChartType.Bar or SvgChartType.Column or SvgChartType.Area );
+
+        ResolveDataDragStackBases( model, seriesIndex, pointIndex, isStacked, out var positiveStackBaseValue, out var negativeStackBaseValue );
+
+        var value = isValueAxisHorizontal ? xValue.Value : yValue.Value;
+        var renderedValue = ResolveDataDragRenderedValue( value, isStacked, positiveStackBaseValue, negativeStackBaseValue );
+        ResolveRadialDataDragMetadata( model, series, pointIndex, value, out var radialAngle, out var angularPrefixValue, out var angularOtherValue, out var usesAngularStartBoundary, out var angularBoundaryFraction );
+
+        var radialPoint = isRadial
+            ? ResolveRadialDataDragPoint( plot, series.Type, value, valueAxis.Max, radialAngle )
+            : (X: 0d, Y: 0d);
+        var radialPointerOffset = 0d;
+        var angularPointerOffset = 0d;
+
+        if ( pointerX.HasValue && pointerY.HasValue )
+        {
+            if ( series.Type is SvgChartType.Radar or SvgChartType.PolarArea )
+            {
+                var centerX = plot.Left + plot.Width / 2;
+                var centerY = plot.Top + plot.Height / 2;
+                var pointerDistance = Math.Sqrt( Math.Pow( pointerX.Value - centerX, 2 ) + Math.Pow( pointerY.Value - centerY, 2 ) );
+                var pointDistance = Math.Sqrt( Math.Pow( radialPoint.X - centerX, 2 ) + Math.Pow( radialPoint.Y - centerY, 2 ) );
+
+                radialPointerOffset = pointerDistance - pointDistance;
+            }
+            else if ( series.Type is SvgChartType.Pie or SvgChartType.Doughnut )
+            {
+                var pointerFraction = ResolveRadialPointerFraction( pointerX.Value, pointerY.Value, plot );
+
+                angularPointerOffset = ResolveNearestRadialFraction( pointerFraction, angularBoundaryFraction ) - angularBoundaryFraction;
+            }
+        }
+
+        var x = isRadial
+            ? radialPoint.X
+            : isValueAxisHorizontal
+                ? GetX( renderedValue, plot, valueAxis.Min, valueAxis.Max )
+                : ResolveDataDragPointX( model, plot, series, pointIndex, xValue, xScale );
+        var y = isRadial
+            ? radialPoint.Y
+            : isValueAxisHorizontal
+                ? plot.Top + plot.Height * ( pointIndex + 0.5 ) / Math.Max( model.CategorySlotCount, 1 )
+                : GetY( renderedValue, plot, valueAxis );
         var markerRadius = ResolveDataDragMarkerRadius( series );
+        var pointBounds = ResolveDataDragPointBounds( series, pointIndex, x, y, markerRadius );
+
         var hasCategoryLabel = model.CategoryScaleKind == SvgChartAxisScaleKind.Continuous && pointIndex < model.Labels.Count;
         var category = hasCategoryLabel
             ? model.Labels[pointIndex]
@@ -1817,14 +1861,8 @@ public class SvgChart<TItem> : SvgChartBase
             SeriesIndex = seriesIndex,
             PointIndex = pointIndex,
             Category = category,
-            Value = yValue,
-            Bounds = new()
-            {
-                X = x - markerRadius,
-                Y = y - markerRadius,
-                Width = markerRadius * 2,
-                Height = markerRadius * 2
-            }
+            Value = value,
+            Bounds = pointBounds
         };
 
         if ( dataDrag.CanDrag is not null && !dataDrag.CanDrag( point ) )
@@ -1837,15 +1875,29 @@ public class SvgChart<TItem> : SvgChartBase
             SeriesIndex = seriesIndex,
             PointIndex = pointIndex,
             SeriesName = series.Name,
+            SeriesType = series.Type,
             Category = category,
-            CategoryTracksX = canDragX && !hasCategoryLabel,
+            CategoryTracksX = canDragX && !isValueAxisHorizontal && !hasCategoryLabel,
             CanDragX = canDragX,
             CanDragY = canDragY,
+            IsValueAxisHorizontal = isValueAxisHorizontal,
+            IsStacked = isStacked,
             ShouldShowTooltip = dataDrag.ShowTooltip,
             OriginalXValue = xValue,
             OriginalYValue = yValue,
             XValue = xValue,
             YValue = yValue,
+            PositiveStackBaseValue = positiveStackBaseValue,
+            NegativeStackBaseValue = negativeStackBaseValue,
+            CrossAxisCoordinate = isValueAxisHorizontal
+                ? pointBounds.Y + pointBounds.Height / 2
+                : series.Type == SvgChartType.Column ? pointBounds.X + pointBounds.Width / 2 : 0,
+            RadialPointerOffset = radialPointerOffset,
+            AngularPrefixValue = angularPrefixValue,
+            AngularOtherValue = angularOtherValue,
+            UsesAngularStartBoundary = usesAngularStartBoundary,
+            AngularBoundaryFraction = angularBoundaryFraction,
+            AngularPointerOffset = angularPointerOffset,
             Mode = dataDrag.Mode,
             Plot = plot,
             XScale = xScale,
@@ -1891,10 +1943,14 @@ public class SvgChart<TItem> : SvgChartBase
             return;
 
         var xValue = state.CanDragX
-            ? UnprojectX( x, state.Plot, state.XScale.Min, state.XScale.Max )
+            ? state.IsValueAxisHorizontal
+                ? ResolveDataDragStackValue( UnprojectX( x, state.Plot, state.ValueAxis.Min, state.ValueAxis.Max ), state )
+                : UnprojectX( x, state.Plot, state.XScale.Min, state.XScale.Max )
             : state.XValue;
         var yValue = state.CanDragY
-            ? UnprojectY( y, state.Plot, state.ValueAxis )
+            ? IsRadialChart( state.SeriesType )
+                ? ResolveRadialDataDragValue( x, y, state )
+                : ResolveDataDragStackValue( UnprojectY( y, state.Plot, state.ValueAxis ), state )
             : state.YValue;
 
         await ApplyDataDragValues( xValue, yValue );
@@ -1940,7 +1996,9 @@ public class SvgChart<TItem> : SvgChartBase
             return;
 
         var series = model.Series[state.SeriesIndex];
-        var sourceXValue = state.PointIndex >= 0 && state.PointIndex < series.XValues.Count ? series.XValues[state.PointIndex] : null;
+        var sourceXValue = state.IsValueAxisHorizontal
+            ? state.PointIndex >= 0 && state.PointIndex < series.Values.Count ? series.Values[state.PointIndex] : null
+            : state.PointIndex >= 0 && state.PointIndex < series.XValues.Count ? series.XValues[state.PointIndex] : null;
         var sourceYValue = series.Type is SvgChartType.Scatter or SvgChartType.Bubble
             ? state.PointIndex >= 0 && state.PointIndex < series.YValues.Count ? series.YValues[state.PointIndex] : null
             : state.PointIndex >= 0 && state.PointIndex < series.Values.Count ? series.Values[state.PointIndex] : null;
@@ -1948,7 +2006,7 @@ public class SvgChart<TItem> : SvgChartBase
         var hasPersistedYValue = state.CanDragY && AreDataDragValuesEqual( sourceYValue, state.YValue );
 
         var shouldKeepXValue = pointOverride.HasXValue && !hasPersistedXValue;
-        var shouldKeepYValue = pointOverride.HasYValue && !hasPersistedYValue;
+        var shouldKeepYValue = pointOverride.HasYValue && !( state.IsValueAxisHorizontal ? hasPersistedXValue : hasPersistedYValue );
 
         if ( shouldKeepXValue || shouldKeepYValue )
         {
@@ -1973,7 +2031,7 @@ public class SvgChart<TItem> : SvgChartBase
         var state = dataDragState;
         var factor = shiftKey ? 10 : 1;
         var dataDrag = ResolveDataDrag( ResolveOptions() );
-        var xStep = ResolveDataDragKeyboardStep( dataDrag.XStep, state.XScale?.Min, state.XScale?.Max ) * factor;
+        var xStep = ResolveDataDragKeyboardStep( dataDrag.XStep, state.IsValueAxisHorizontal ? state.ValueAxis.Min : state.XScale?.Min, state.IsValueAxisHorizontal ? state.ValueAxis.Max : state.XScale?.Max ) * factor;
         var yStep = ResolveDataDragKeyboardStep( dataDrag.YStep, state.ValueAxis.Min, state.ValueAxis.Max ) * factor;
         var xValue = state.XValue;
         var yValue = state.YValue;
@@ -2011,10 +2069,12 @@ public class SvgChart<TItem> : SvgChartBase
 
         var dataDrag = ResolveDataDrag( ResolveOptions() );
         var nextXValue = state.CanDragX
-            ? SnapAndClampDataDragValue( xValue.Value, dataDrag.XStep, state.XScale.Min, state.XScale.Max )
+            ? state.IsValueAxisHorizontal
+                ? SnapAndClampDataDragStackValue( xValue.Value, dataDrag.XStep, state )
+                : SnapAndClampDataDragValue( xValue.Value, dataDrag.XStep, state.XScale.Min, state.XScale.Max )
             : state.XValue;
         var nextYValue = state.CanDragY
-            ? SnapAndClampDataDragValue( yValue.Value, dataDrag.YStep, state.ValueAxis.Min, state.ValueAxis.Max )
+            ? SnapAndClampDataDragStackValue( yValue.Value, dataDrag.YStep, state )
             : state.YValue;
 
         if ( AreDataDragValuesEqual( state.XValue, nextXValue ) && AreDataDragValuesEqual( state.YValue, nextYValue ) )
@@ -2024,10 +2084,10 @@ public class SvgChart<TItem> : SvgChartBase
         state.YValue = nextYValue;
         dataPointOverrides[(state.SeriesIndex, state.PointIndex)] = new()
         {
-            HasXValue = state.CanDragX,
+            HasXValue = state.CanDragX && !state.IsValueAxisHorizontal,
             XValue = state.XValue,
-            HasYValue = state.CanDragY,
-            YValue = state.YValue
+            HasYValue = state.CanDragY || state.IsValueAxisHorizontal,
+            YValue = state.IsValueAxisHorizontal ? state.XValue : state.YValue
         };
 
         if ( dataDrag.ShowTooltip )
@@ -2037,20 +2097,23 @@ public class SvgChart<TItem> : SvgChartBase
         StateHasChanged();
     }
 
-    private static bool TryResolveDataDragValues( SvgChartRenderSeries series, int pointIndex, SvgChartDataDragOptions dataDrag, out double? xValue, out double? yValue, out bool canDragX, out bool canDragY )
+    private static bool TryResolveDataDragValues( SvgChartRenderSeries series, int pointIndex, SvgChartDataDragOptions dataDrag, out double? xValue, out double? yValue, out bool canDragX, out bool canDragY, out bool isValueAxisHorizontal )
     {
         xValue = null;
         yValue = null;
         canDragX = false;
         canDragY = false;
+        isValueAxisHorizontal = false;
 
-        if ( series is null || !series.Draggable || series.Hidden || series.StackEndValues.Count > 0 || pointIndex < 0 )
+        if ( series is null || !series.Draggable || series.Hidden || pointIndex < 0 )
             return false;
 
         var pointSeries = series.Type is SvgChartType.Scatter or SvgChartType.Bubble;
-        var valueSeries = series.Type is SvgChartType.Line or SvgChartType.Area;
+        var horizontalValueSeries = series.Type == SvgChartType.Bar;
+        var verticalValueSeries = series.Type is SvgChartType.Line or SvgChartType.Area or SvgChartType.Column
+            or SvgChartType.Pie or SvgChartType.Doughnut or SvgChartType.PolarArea or SvgChartType.Radar;
 
-        if ( !pointSeries && !valueSeries )
+        if ( !pointSeries && !horizontalValueSeries && !verticalValueSeries )
             return false;
 
         if ( pointSeries )
@@ -2067,10 +2130,20 @@ public class SvgChart<TItem> : SvgChartBase
             if ( pointIndex >= series.Values.Count )
                 return false;
 
-            yValue = series.Values[pointIndex];
+            if ( horizontalValueSeries )
+            {
+                xValue = series.Values[pointIndex];
+                canDragX = xValue.HasValue && dataDrag.Mode is SvgChartDataDragMode.X or SvgChartDataDragMode.XY;
+                isValueAxisHorizontal = true;
+            }
+            else
+            {
+                yValue = series.Values[pointIndex];
+            }
         }
 
-        canDragY = yValue.HasValue && dataDrag.Mode is SvgChartDataDragMode.Y or SvgChartDataDragMode.XY;
+        if ( !horizontalValueSeries )
+            canDragY = yValue.HasValue && dataDrag.Mode is SvgChartDataDragMode.Y or SvgChartDataDragMode.XY;
 
         return canDragX || canDragY;
     }
@@ -2094,6 +2167,259 @@ public class SvgChart<TItem> : SvgChartBase
     private static double ResolveDataDragMarkerRadius( SvgChartRenderSeries series )
     {
         return series.Type == SvgChartType.Area ? Math.Max( 3, series.StrokeWidth + 1 ) : Math.Max( 2, series.MarkerRadius );
+    }
+
+    private SvgChartPointBounds ResolveDataDragPointBounds( SvgChartRenderSeries series, int pointIndex, double x, double y, double markerRadius )
+    {
+        var key = $"{series.Type}|{series.Name}|{pointIndex}";
+
+        if ( previousAnimationPointBounds.TryGetValue( key, out var bounds ) )
+            return bounds;
+
+        return new()
+        {
+            X = x - markerRadius,
+            Y = y - markerRadius,
+            Width = markerRadius * 2,
+            Height = markerRadius * 2
+        };
+    }
+
+    private void ResolveRadialDataDragMetadata(
+        SvgChartRenderModel model,
+        SvgChartRenderSeries series,
+        int pointIndex,
+        double value,
+        out double radialAngle,
+        out double angularPrefixValue,
+        out double angularOtherValue,
+        out bool usesAngularStartBoundary,
+        out double angularBoundaryFraction )
+    {
+        radialAngle = 0;
+        angularPrefixValue = 0;
+        angularOtherValue = 0;
+        usesAngularStartBoundary = false;
+        angularBoundaryFraction = 0;
+
+        if ( series.Type == SvgChartType.Radar )
+        {
+            radialAngle = -Math.PI / 2 + Math.PI * 2 * pointIndex / Math.Max( model.Labels.Count, 1 );
+            return;
+        }
+
+        if ( series.Type is not ( SvgChartType.Pie or SvgChartType.Doughnut or SvgChartType.PolarArea ) )
+            return;
+
+        var values = ResolveVisibleRadialValues( series );
+        var visiblePointIndex = values.FindIndex( item => item.Index == pointIndex );
+
+        if ( visiblePointIndex < 0 || values.Count == 0 )
+            return;
+
+        if ( series.Type == SvgChartType.PolarArea )
+        {
+            radialAngle = -Math.PI / 2 + Math.PI * 2 * ( visiblePointIndex + 0.5 ) / values.Count;
+            return;
+        }
+
+        var total = values.Sum( item => item.Value );
+
+        if ( total <= 0 )
+            return;
+
+        angularPrefixValue = values.Take( visiblePointIndex ).Sum( item => item.Value );
+        angularOtherValue = Math.Max( 0, total - value );
+        var startFraction = angularPrefixValue / total;
+        var endFraction = ( angularPrefixValue + value ) / total;
+
+        usesAngularStartBoundary = visiblePointIndex == values.Count - 1;
+        angularBoundaryFraction = usesAngularStartBoundary ? startFraction : endFraction;
+        radialAngle = -Math.PI / 2 + Math.PI * 2 * ( startFraction + endFraction ) / 2;
+    }
+
+    private List<(double Value, int Index)> ResolveVisibleRadialValues( SvgChartRenderSeries series )
+    {
+        return series.Values
+            .Select( ( value, index ) => new { Value = value, Index = index } )
+            .Where( item => item.Value.HasValue
+                && item.Value.Value >= 0
+                && !IsDataPointHidden( series.Name, item.Index ) )
+            .Select( item => (item.Value.Value, item.Index) )
+            .ToList();
+    }
+
+    private static (double X, double Y) ResolveRadialDataDragPoint( SvgChartPlotArea plot, SvgChartType seriesType, double value, double maximumValue, double angle )
+    {
+        var centerX = plot.Left + plot.Width / 2;
+        var centerY = plot.Top + plot.Height / 2;
+        var radius = Math.Max( 1, Math.Min( plot.Width, plot.Height ) * 0.42 );
+        var resolvedMaximum = Math.Max( maximumValue, 1 );
+        var renderedRadius = seriesType switch
+        {
+            SvgChartType.Radar => radius * Math.Clamp( value / resolvedMaximum, 0, 1 ),
+            SvgChartType.PolarArea => radius * Math.Sqrt( Math.Clamp( value / resolvedMaximum, 0, 1 ) ),
+            SvgChartType.Doughnut => radius * 0.79,
+            _ => radius * 0.67
+        };
+
+        return SvgChartSeriesRenderHelpers.PolarToCartesian( centerX, centerY, renderedRadius, angle );
+    }
+
+    private static double ResolveRadialDataDragValue( double x, double y, SvgChartDataDragState state )
+    {
+        var centerX = state.Plot.Left + state.Plot.Width / 2;
+        var centerY = state.Plot.Top + state.Plot.Height / 2;
+        var radius = Math.Max( 1, Math.Min( state.Plot.Width, state.Plot.Height ) * 0.42 );
+
+        if ( state.SeriesType == SvgChartType.Radar )
+            return ResolveRadialDistanceValue( x, y, centerX, centerY, radius, state.ValueAxis.Max, state.RadialPointerOffset, false );
+
+        if ( state.SeriesType == SvgChartType.PolarArea )
+            return ResolveRadialDistanceValue( x, y, centerX, centerY, radius, state.ValueAxis.Max, state.RadialPointerOffset, true );
+
+        return ResolveAngularDataDragValue( x, y, centerX, centerY, state );
+    }
+
+    private static double ResolveRadialDistanceValue( double x, double y, double centerX, double centerY, double radius, double maximumValue, double pointerOffset, bool squareRatio )
+    {
+        var distance = Math.Sqrt( Math.Pow( x - centerX, 2 ) + Math.Pow( y - centerY, 2 ) ) - pointerOffset;
+        var ratio = Math.Clamp( distance / radius, 0, 1 );
+
+        if ( squareRatio )
+            ratio *= ratio;
+
+        return ratio * Math.Max( maximumValue, 0 );
+    }
+
+    private static double ResolveAngularDataDragValue( double x, double y, double centerX, double centerY, SvgChartDataDragState state )
+    {
+        if ( state.AngularOtherValue <= 0 )
+            return state.YValue ?? 0;
+
+        var angle = Math.Atan2( y - centerY, x - centerX );
+        var fraction = NormalizeRadialFraction( ( angle + Math.PI / 2 ) / ( Math.PI * 2 ) );
+        var boundaryFraction = ResolveNearestRadialFraction( fraction, state.AngularBoundaryFraction + state.AngularPointerOffset ) - state.AngularPointerOffset;
+        double value;
+
+        if ( state.UsesAngularStartBoundary )
+        {
+            boundaryFraction = Math.Clamp( boundaryFraction, 0.000001, 1 );
+            value = state.AngularPrefixValue / boundaryFraction - state.AngularOtherValue;
+        }
+        else
+        {
+            boundaryFraction = Math.Clamp( boundaryFraction, 0, 0.999999 );
+            value = ( boundaryFraction * state.AngularOtherValue - state.AngularPrefixValue ) / ( 1 - boundaryFraction );
+        }
+
+        value = Math.Max( 0, value );
+        var total = state.AngularOtherValue + value;
+
+        state.AngularBoundaryFraction = state.UsesAngularStartBoundary
+            ? state.AngularPrefixValue / Math.Max( total, 0.000001 )
+            : ( state.AngularPrefixValue + value ) / Math.Max( total, 0.000001 );
+
+        return value;
+    }
+
+    private static double NormalizeRadialFraction( double fraction )
+    {
+        fraction %= 1;
+
+        return fraction < 0 ? fraction + 1 : fraction;
+    }
+
+    private static double ResolveRadialPointerFraction( double x, double y, SvgChartPlotArea plot )
+    {
+        var centerX = plot.Left + plot.Width / 2;
+        var centerY = plot.Top + plot.Height / 2;
+        var angle = Math.Atan2( y - centerY, x - centerX );
+
+        return NormalizeRadialFraction( ( angle + Math.PI / 2 ) / ( Math.PI * 2 ) );
+    }
+
+    private static double ResolveNearestRadialFraction( double fraction, double reference )
+    {
+        while ( fraction - reference > 0.5 )
+            fraction--;
+
+        while ( reference - fraction > 0.5 )
+            fraction++;
+
+        return fraction;
+    }
+
+    private static void ResolveDataDragStackBases( SvgChartRenderModel model, int seriesIndex, int pointIndex, bool isStacked, out double positiveBaseValue, out double negativeBaseValue )
+    {
+        positiveBaseValue = 0;
+        negativeBaseValue = 0;
+
+        if ( !isStacked || seriesIndex < 0 || seriesIndex >= model.Series.Count )
+            return;
+
+        var target = model.Series[seriesIndex];
+
+        for ( var currentSeriesIndex = 0; currentSeriesIndex < seriesIndex; currentSeriesIndex++ )
+        {
+            var current = model.Series[currentSeriesIndex];
+
+            if ( current.Hidden
+                 || current.Type != target.Type
+                 || !string.Equals( current.ValueAxisId ?? string.Empty, target.ValueAxisId ?? string.Empty, StringComparison.Ordinal )
+                 || !string.Equals( current.Stack ?? string.Empty, target.Stack ?? string.Empty, StringComparison.Ordinal )
+                 || pointIndex < 0
+                 || pointIndex >= current.Values.Count
+                 || !current.Values[pointIndex].HasValue )
+            {
+                continue;
+            }
+
+            var value = current.Values[pointIndex].Value;
+
+            if ( value >= 0 )
+                positiveBaseValue += value;
+            else
+                negativeBaseValue += value;
+        }
+    }
+
+    private static double ResolveDataDragRenderedValue( double value, bool isStacked, double positiveBaseValue, double negativeBaseValue )
+    {
+        if ( !isStacked )
+            return value;
+
+        return value >= 0 ? positiveBaseValue + value : negativeBaseValue + value;
+    }
+
+    private static double ResolveDataDragStackValue( double renderedValue, SvgChartDataDragState state )
+    {
+        if ( !state.IsStacked )
+            return renderedValue;
+
+        if ( renderedValue >= state.PositiveStackBaseValue )
+            return renderedValue - state.PositiveStackBaseValue;
+
+        if ( renderedValue <= state.NegativeStackBaseValue )
+            return renderedValue - state.NegativeStackBaseValue;
+
+        return 0;
+    }
+
+    private static double SnapAndClampDataDragStackValue( double value, double? step, SvgChartDataDragState state )
+    {
+        if ( IsRadialChart( state.SeriesType ) )
+            return SnapAndClampDataDragValue( value, step, 0, Math.Max( 0, state.ValueAxis.Max ) );
+
+        if ( !state.IsStacked )
+            return SnapAndClampDataDragValue( value, step, state.ValueAxis.Min, state.ValueAxis.Max );
+
+        if ( step.HasValue && double.IsFinite( step.Value ) && step.Value > 0 )
+            value = Math.Round( value / step.Value, MidpointRounding.AwayFromZero ) * step.Value;
+
+        return value >= 0
+            ? Math.Clamp( value, 0, Math.Max( 0, state.ValueAxis.Max - state.PositiveStackBaseValue ) )
+            : Math.Clamp( value, Math.Min( 0, state.ValueAxis.Min - state.NegativeStackBaseValue ), 0 );
     }
 
     private static double SnapAndClampDataDragValue( double value, double? step, double min, double max )
@@ -2154,8 +2480,27 @@ public class SvgChart<TItem> : SvgChartBase
 
         var series = model.Series[state.SeriesIndex];
         var plot = BuildCurrentPlotArea( model );
-        var x = ResolveDataDragPointX( model, plot, series, state.PointIndex, state.XValue, state.XScale );
-        var y = GetY( state.YValue.Value, plot, state.ValueAxis );
+        var value = state.IsValueAxisHorizontal ? state.XValue.Value : state.YValue.Value;
+        var renderedValue = ResolveDataDragRenderedValue( value, state.IsStacked, state.PositiveStackBaseValue, state.NegativeStackBaseValue );
+        var isRadial = IsRadialChart( series.Type );
+
+        ResolveRadialDataDragMetadata( model, series, state.PointIndex, value, out var radialAngle, out _, out _, out _, out _ );
+
+        var radialPoint = isRadial
+            ? ResolveRadialDataDragPoint( plot, series.Type, value, state.ValueAxis.Max, radialAngle )
+            : (X: 0d, Y: 0d);
+        var x = isRadial
+            ? radialPoint.X
+            : state.IsValueAxisHorizontal
+                ? GetX( renderedValue, plot, state.ValueAxis.Min, state.ValueAxis.Max )
+                : series.Type == SvgChartType.Column
+                    ? state.CrossAxisCoordinate
+                    : ResolveDataDragPointX( model, plot, series, state.PointIndex, state.XValue, state.XScale );
+        var y = isRadial
+            ? radialPoint.Y
+            : state.IsValueAxisHorizontal
+                ? state.CrossAxisCoordinate
+                : GetY( renderedValue, plot, state.ValueAxis );
         var radius = ResolveDataDragMarkerRadius( series );
         var point = new SvgChartPointEventArgs
         {
@@ -2163,7 +2508,7 @@ public class SvgChart<TItem> : SvgChartBase
             SeriesIndex = state.SeriesIndex,
             PointIndex = state.PointIndex,
             Category = state.CategoryTracksX ? state.XValue : state.Category,
-            Value = state.YValue,
+            Value = value,
             Bounds = new()
             {
                 X = x - radius,

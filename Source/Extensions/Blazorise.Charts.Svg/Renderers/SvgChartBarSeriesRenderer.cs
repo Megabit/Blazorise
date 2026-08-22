@@ -74,12 +74,14 @@ internal sealed class SvgChartBarSeriesRenderer : ISvgChartSeriesRenderer
                 builder.AddAttribute( sequence++, "rx", SvgChartRenderHelpers.Format( item.BorderRadius ) );
                 builder.AddAttribute( sequence++, "fill", color );
                 context.AddAnimatedStyleAttribute( builder, ref sequence );
-                context.AddPointInteractionAttributes( builder, ref sequence, point, color );
+                context.AddPointInteractionAttributes( builder, ref sequence, point, color, item );
                 context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "x", SvgChartRenderHelpers.Format( baseline ), SvgChartRenderHelpers.Format( rectX ), bounds => SvgChartRenderHelpers.Format( bounds.X ) );
                 context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "y", SvgChartRenderHelpers.Format( y ), SvgChartRenderHelpers.Format( y ), bounds => SvgChartRenderHelpers.Format( bounds.Y ) );
                 context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "width", "0", SvgChartRenderHelpers.Format( width ), bounds => SvgChartRenderHelpers.Format( bounds.Width ) );
                 context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "height", SvgChartRenderHelpers.Format( rectHeight ), SvgChartRenderHelpers.Format( rectHeight ), bounds => SvgChartRenderHelpers.Format( bounds.Height ) );
                 builder.CloseElement();
+
+                context.RenderDataDragHitTarget( builder, ref sequence, item, point, endX, y + rectHeight / 2, 0 );
             }
         }
 

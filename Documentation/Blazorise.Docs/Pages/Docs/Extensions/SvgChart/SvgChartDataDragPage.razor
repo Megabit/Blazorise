@@ -7,11 +7,11 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Let users edit line, area, scatter, and bubble chart values directly in the chart.
+    Let users edit values directly in every native SVG chart type.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Add <Code>SvgChartDataDrag</Code> to enable dragging declaratively, or configure <Code>SvgChartOptions.DataDrag</Code>. Line and area series support vertical dragging. Scatter and bubble series support <Code>X</Code>, <Code>Y</Code>, or <Code>XY</Code> dragging. Set <Code>Draggable</Code> to <Code>false</Code> on an individual series to exclude it.
+    Add <Code>SvgChartDataDrag</Code> to enable dragging declaratively, or configure <Code>SvgChartOptions.DataDrag</Code>. Line, area, and column series support vertical <Code>Y</Code> dragging. Bar series support horizontal <Code>X</Code> dragging. Scatter and bubble series support <Code>X</Code>, <Code>Y</Code>, or <Code>XY</Code> dragging. Radar and polar area values are changed by dragging radially, while pie and doughnut values are changed by dragging around the chart. Stacked area, bar, and column series update the selected segment value and recalculate the stack. Set <Code>Draggable</Code> to <Code>false</Code> on an individual series to exclude it.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -36,7 +36,7 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    Data point dragging is not enabled for radial, bar, column, stacked, or streaming charts. Category positions on line and area charts remain fixed; use scatter or bubble data when the X value must also be editable.
+    Data point dragging is not enabled while chart streaming is active. Category positions on line, area, bar, column, radar, and polar area charts remain fixed; use scatter or bubble data when the category position must also be editable. Bubble radius is not changed by data dragging.
 </DocsPageParagraph>
 
 <DocsPageApi>

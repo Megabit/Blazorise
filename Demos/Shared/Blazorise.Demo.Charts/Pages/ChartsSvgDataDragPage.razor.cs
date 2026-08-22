@@ -28,6 +28,22 @@ public partial class ChartsSvgDataDragPage
         new() { Quarter = "Q2 2026", Utilization = 84 },
     ];
 
+    private readonly List<AllocationSample> Allocations =
+    [
+        new() { Team = "Platform", Allocation = 70 },
+        new() { Team = "Commerce", Allocation = 55 },
+        new() { Team = "Mobile", Allocation = 80 },
+        new() { Team = "Support", Allocation = 45 },
+    ];
+
+    private readonly List<WorkloadSample> Workloads =
+    [
+        new() { Team = "Platform", Committed = 65, Planned = 35 },
+        new() { Team = "Commerce", Committed = 50, Planned = 45 },
+        new() { Team = "Mobile", Committed = 75, Planned = 30 },
+        new() { Team = "Support", Committed = 40, Planned = 50 },
+    ];
+
     private readonly List<PointSample> Stores =
     [
         new() { X = 15, Y = 35 },
@@ -45,6 +61,66 @@ public partial class ChartsSvgDataDragPage
         new() { Effort = 70, Impact = 84, Size = 14 },
         new() { Effort = 85, Impact = 36, Size = 8 },
     ];
+
+    private readonly SvgChartData<double?> pieData = new()
+    {
+        Labels = ["Search", "Social", "Email", "Direct"],
+        Series =
+        [
+            new()
+            {
+                Name = "Traffic",
+                Values = [42, 28, 18, 12],
+            },
+        ]
+    };
+
+    private readonly SvgChartData<double?> doughnutData = new()
+    {
+        Labels = ["Engineering", "Marketing", "Sales", "Operations"],
+        Series =
+        [
+            new()
+            {
+                Name = "Budget",
+                Values = [38, 22, 25, 15],
+            },
+        ]
+    };
+
+    private readonly SvgChartData<double?> polarAreaData = new()
+    {
+        Labels = ["Organic", "Paid", "Referral", "Partner", "Direct"],
+        Series =
+        [
+            new()
+            {
+                Name = "Strength",
+                Values = [72, 55, 64, 48, 80],
+            },
+        ]
+    };
+
+    private readonly SvgChartData<double?> radarData = new()
+    {
+        Labels = ["Quality", "Speed", "Cost", "Support", "Adoption"],
+        Series =
+        [
+            new()
+            {
+                Name = "Current",
+                Color = Color.Primary,
+                Values = [82, 76, 58, 88, 72],
+            },
+            new()
+            {
+                Name = "Target",
+                Color = Color.Success,
+                Values = [92, 86, 70, 94, 84],
+                Draggable = false,
+            },
+        ]
+    };
 
     private readonly SvgChartOptions lineOptions = new()
     {
@@ -76,6 +152,48 @@ public partial class ChartsSvgDataDragPage
         YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
     };
 
+    private readonly SvgChartOptions barOptions = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
+    };
+
+    private readonly SvgChartOptions stackedBarOptions = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        YAxis = new() { Min = 0, Max = 160, Stacked = true, TickCount = 5 },
+    };
+
+    private readonly SvgChartOptions columnOptions = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
+    };
+
+    private readonly SvgChartOptions stackedAreaOptions = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        YAxis = new() { Min = 0, Max = 160, Stacked = true, TickCount = 5 },
+    };
+
+    private readonly SvgChartOptions radialOptions = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
+    };
+
+    private readonly SvgChartOptions radarOptions = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
+    };
+
     private Task OnForecastDragEnded( SvgChartDataPointDragEventArgs eventArgs )
     {
         if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
@@ -88,6 +206,48 @@ public partial class ChartsSvgDataDragPage
     {
         if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
             Capacity[eventArgs.PointIndex].Utilization = eventArgs.YValue.Value;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnAllocationDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled && eventArgs.XValue.HasValue )
+            Allocations[eventArgs.PointIndex].Allocation = eventArgs.XValue.Value;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnWorkloadDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled && eventArgs.XValue.HasValue )
+        {
+            if ( eventArgs.SeriesIndex == 0 )
+                Workloads[eventArgs.PointIndex].Committed = eventArgs.XValue.Value;
+            else if ( eventArgs.SeriesIndex == 1 )
+                Workloads[eventArgs.PointIndex].Planned = eventArgs.XValue.Value;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnAllocationColumnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
+            Allocations[eventArgs.PointIndex].Allocation = eventArgs.YValue.Value;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnWorkloadAreaDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
+        {
+            if ( eventArgs.SeriesIndex == 0 )
+                Workloads[eventArgs.PointIndex].Committed = eventArgs.YValue.Value;
+            else if ( eventArgs.SeriesIndex == 1 )
+                Workloads[eventArgs.PointIndex].Planned = eventArgs.YValue.Value;
+        }
 
         return Task.CompletedTask;
     }
@@ -114,6 +274,21 @@ public partial class ChartsSvgDataDragPage
         return Task.CompletedTask;
     }
 
+    private static Task OnRadialDragEnded( SvgChartData<double?> data, SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled
+             && eventArgs.YValue.HasValue
+             && eventArgs.SeriesIndex >= 0
+             && eventArgs.SeriesIndex < data.Series.Count
+             && eventArgs.PointIndex >= 0
+             && eventArgs.PointIndex < data.Series[eventArgs.SeriesIndex].Values.Count )
+        {
+            data.Series[eventArgs.SeriesIndex].Values[eventArgs.PointIndex] = eventArgs.YValue.Value;
+        }
+
+        return Task.CompletedTask;
+    }
+
     private sealed class ForecastSample
     {
         public string Month { get; set; }
@@ -135,6 +310,22 @@ public partial class ChartsSvgDataDragPage
         public double X { get; set; }
 
         public double Y { get; set; }
+    }
+
+    private sealed class AllocationSample
+    {
+        public string Team { get; set; }
+
+        public double Allocation { get; set; }
+    }
+
+    private sealed class WorkloadSample
+    {
+        public string Team { get; set; }
+
+        public double Committed { get; set; }
+
+        public double Planned { get; set; }
     }
 
     private sealed class BubbleSample

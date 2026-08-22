@@ -32,22 +32,22 @@ public sealed class SvgChartDataPointDragEventArgs : EventArgs
     public object Category { get; init; }
 
     /// <summary>
-    /// Gets the X value at the beginning of the drag, when the series has a continuous X value.
+    /// Gets the X-axis value at the beginning of the drag for a continuous-X point or horizontal bar.
     /// </summary>
     public double? OriginalXValue { get; init; }
 
     /// <summary>
-    /// Gets the Y value at the beginning of the drag.
+    /// Gets the Y or radial value at the beginning of the drag.
     /// </summary>
     public double? OriginalYValue { get; init; }
 
     /// <summary>
-    /// Gets the current X value, when the series has a continuous X value.
+    /// Gets the current X-axis value for a continuous-X point or horizontal bar.
     /// </summary>
     public double? XValue { get; init; }
 
     /// <summary>
-    /// Gets the current Y value.
+    /// Gets the current Y or radial value.
     /// </summary>
     public double? YValue { get; init; }
 

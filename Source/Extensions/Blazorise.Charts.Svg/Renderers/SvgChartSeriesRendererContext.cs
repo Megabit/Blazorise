@@ -214,12 +214,14 @@ internal sealed class SvgChartSeriesRendererContext
 
     public bool IsDataPointDraggable( SvgChartPluginSeries series, SvgChartPointEventArgs point )
     {
-        if ( DataDrag?.Enabled != true || series?.Draggable != true || point is null || series.StackEndValues.Count > 0 )
+        if ( DataDrag?.Enabled != true || series?.Draggable != true || point is null )
             return false;
 
-        var canDragX = series.Type is SvgChartType.Scatter or SvgChartType.Bubble
+        var canDragX = series.Type is ( SvgChartType.Bar or SvgChartType.Scatter or SvgChartType.Bubble )
             && DataDrag.Mode is SvgChartDataDragMode.X or SvgChartDataDragMode.XY;
-        var canDragY = series.Type is SvgChartType.Line or SvgChartType.Area or SvgChartType.Scatter or SvgChartType.Bubble
+        var canDragY = series.Type is ( SvgChartType.Column or SvgChartType.Line or SvgChartType.Area
+            or SvgChartType.Pie or SvgChartType.Doughnut or SvgChartType.PolarArea or SvgChartType.Radar
+            or SvgChartType.Scatter or SvgChartType.Bubble )
             && DataDrag.Mode is SvgChartDataDragMode.Y or SvgChartDataDragMode.XY;
 
         return ( canDragX || canDragY ) && ( DataDrag.CanDrag?.Invoke( point ) ?? true );

@@ -25,9 +25,9 @@ internal sealed class SvgChartDataDragAdapter<TItem>
     #region Methods
 
     [JSInvokable]
-    public Task<bool> Start( int seriesIndex, int pointIndex )
+    public Task<bool> Start( int seriesIndex, int pointIndex, double x, double y )
     {
-        return chart.HandleDataDragStart( seriesIndex, pointIndex );
+        return chart.HandleDataDragStart( seriesIndex, pointIndex, x, y );
     }
 
     [JSInvokable]

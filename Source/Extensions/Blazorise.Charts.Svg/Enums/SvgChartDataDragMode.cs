@@ -6,17 +6,17 @@ namespace Blazorise.Charts.Svg;
 public enum SvgChartDataDragMode
 {
     /// <summary>
-    /// Allows dragging along the horizontal axis.
+    /// Allows dragging along the horizontal value dimension.
     /// </summary>
     X,
 
     /// <summary>
-    /// Allows dragging along the vertical axis.
+    /// Allows dragging along the vertical or radial value dimension.
     /// </summary>
     Y,
 
     /// <summary>
-    /// Allows dragging along both axes.
+    /// Allows dragging along both value dimensions where supported.
     /// </summary>
     XY
 }

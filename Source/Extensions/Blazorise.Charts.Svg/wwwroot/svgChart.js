@@ -66,6 +66,7 @@ export function initializeDataDrag(element, dotNetReference) {
             pointerId: event.pointerId,
             startClientX: event.clientX,
             startClientY: event.clientY,
+            startPoint: toSvgPoint(element, event.clientX, event.clientY),
             seriesIndex: parseIndex(target.dataset.svgChartSeriesIndex),
             pointIndex: parseIndex(target.dataset.svgChartPointIndex),
             target,
@@ -110,7 +111,7 @@ export function initializeDataDrag(element, dotNetReference) {
             candidate.startPromise = (candidate.readyPromise ?? Promise.resolve())
                 .then(() => state.destroyed || candidate.canceled
                     ? false
-                    : state.dotNetReference.invokeMethodAsync("Start", candidate.seriesIndex, candidate.pointIndex))
+                    : state.dotNetReference.invokeMethodAsync("Start", candidate.seriesIndex, candidate.pointIndex, candidate.startPoint.x, candidate.startPoint.y))
                 .then(started => {
                     candidate.starting = false;
                     candidate.active = started === true;
