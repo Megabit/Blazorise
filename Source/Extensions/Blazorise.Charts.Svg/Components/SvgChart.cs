@@ -60,6 +60,8 @@ public class SvgChart<TItem> : SvgChartBase
 
     private readonly HashSet<string> hiddenDataPoints = [];
 
+    private readonly Dictionary<(int SeriesIndex, int PointIndex), SvgChartDataPointOverride> dataPointOverrides = [];
+
     private SvgChartData<double?> internalChartData;
 
     private SvgChartTooltipContext activeTooltip;
@@ -114,6 +116,12 @@ public class SvgChart<TItem> : SvgChartBase
 
     private DateTimeOffset lastPanRender = DateTimeOffset.MinValue;
 
+    private SvgChartDataDragState dataDragState;
+
+    private DotNetObjectReference<SvgChartDataDragAdapter<TItem>> dataDragDotNetRef;
+
+    private bool dataDragInitialized;
+
     private SvgChartViewport internalViewport;
 
     private IJSObjectReference jsModule;
@@ -121,6 +129,22 @@ public class SvgChart<TItem> : SvgChartBase
     private bool zoomWheelInitialized;
 
     private DateTimeOffset lastStreamingRender = DateTimeOffset.MinValue;
+
+    private bool isSurfacePannable;
+
+    private bool isSurfaceDataDragEnabled;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// A default <see cref="SvgChart{TItem}"/> constructor.
+    /// </summary>
+    public SvgChart()
+    {
+        SurfaceClassBuilder = new( BuildSurfaceClasses );
+    }
 
     #endregion
 
@@ -132,6 +156,25 @@ public class SvgChart<TItem> : SvgChartBase
         builder.Append( "svg-chart" );
 
         base.BuildClasses( builder );
+    }
+
+    /// <summary>
+    /// Builds the class names for the SVG surface element.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the class names.</param>
+    private void BuildSurfaceClasses( ClassBuilder builder )
+    {
+        builder.Append( "svg-chart-surface" );
+        builder.Append( "svg-chart-pannable", isSurfacePannable );
+        builder.Append( "svg-chart-data-drag-enabled", isSurfaceDataDragEnabled );
+    }
+
+    /// <inheritdoc/>
+    protected override void DirtyClasses()
+    {
+        SurfaceClassBuilder.Dirty();
+
+        base.DirtyClasses();
     }
 
     /// <inheritdoc/>
@@ -146,6 +189,12 @@ public class SvgChart<TItem> : SvgChartBase
 
         if ( paramType.Changed || paramItems.Changed || paramData.Changed || paramAnimation.Changed )
             ClearTooltip();
+
+        if ( paramType.Changed || paramItems.Changed || paramData.Changed )
+        {
+            dataPointOverrides.Clear();
+            dataDragState = null;
+        }
 
         if ( paramType.Changed || paramAnimation.Changed )
         {
@@ -173,12 +222,19 @@ public class SvgChart<TItem> : SvgChartBase
         var hasBottomLegend = legend.Visible && legend.Position == SvgChartLegendPosition.Bottom;
         var plot = BuildPlotArea( options, title, subtitle, hasTopLegend, hasBottomLegend, model );
         var streamingAnimation = ResolveStreamingAnimation( model, plot );
-        var chartAnimation = ResolveAnimation( options, streamingAnimation.Enabled );
+        var chartAnimation = dataDragState is null ? ResolveAnimation( options, streamingAnimation.Enabled ) : new SvgChartResolvedAnimation();
         var currentAnimationPointBounds = new Dictionary<string, SvgChartPointBounds>();
         var currentAnimationPathValues = new Dictionary<string, string>();
         var pluginContext = CreatePluginRenderContext( model, plot );
-        var seriesRendererContext = new SvgChartSeriesRendererContext( pluginContext, chartAnimation, previousAnimationPointBounds, currentAnimationPointBounds, previousAnimationPathValues, currentAnimationPathValues, model.Tooltip?.Enabled == true && !model.Tooltip.Intersect, ( value, index ) => FormatCategory( model, value, index ) );
+        var dataDrag = ResolveDataDrag( options );
+
+        if ( ResolveStreaming().Enabled )
+            dataDrag.Enabled = false;
+
+        var seriesRendererContext = new SvgChartSeriesRendererContext( pluginContext, chartAnimation, previousAnimationPointBounds, currentAnimationPointBounds, previousAnimationPathValues, currentAnimationPathValues, model.Tooltip?.Enabled == true && !model.Tooltip.Intersect, dataDrag, ( value, index ) => FormatCategory( model, value, index ) );
         var zoom = model.Zoom;
+
+        UpdateSurfaceClasses( zoom?.Enabled == true && zoom.Pan, dataDrag.Enabled );
 
         runStreamingAnimationAfterRender = streamingAnimation.Enabled;
 
@@ -197,7 +253,7 @@ public class SvgChart<TItem> : SvgChartBase
 
         builder.OpenElement( sequence++, "svg" );
         builder.AddAttribute( sequence++, "xmlns", "http://www.w3.org/2000/svg" );
-        builder.AddAttribute( sequence++, "class", zoom?.Enabled == true && zoom.Pan ? "svg-chart-surface svg-chart-pannable" : "svg-chart-surface" );
+        builder.AddAttribute( sequence++, "class", SurfaceClassNames );
         builder.AddAttribute( sequence++, "draggable", "false" );
         builder.AddAttribute( sequence++, "role", ResolveAccessibilityRole() );
         builder.AddAttribute( sequence++, "aria-label", ResolveAccessibilityLabel( title ) );
@@ -277,8 +333,11 @@ public class SvgChart<TItem> : SvgChartBase
     /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        var zoom = ResolveZoom( ResolveOptions() );
+        var options = ResolveOptions();
+        var zoom = ResolveZoom( options );
+        var dataDrag = ResolveDataDrag( options );
         var shouldPreventWheelScroll = zoom.Enabled && zoom.Wheel;
+        var shouldInitializeDataDrag = dataDrag.Enabled && !ResolveStreaming().Enabled;
         var shouldRunAnimations = ShouldRunAnimations();
         var shouldRunStreamingAnimations = runStreamingAnimationAfterRender;
 
@@ -291,6 +350,19 @@ public class SvgChart<TItem> : SvgChartBase
         else if ( !shouldPreventWheelScroll && zoomWheelInitialized )
         {
             await DestroyZoomWheel();
+        }
+
+        if ( shouldInitializeDataDrag && !dataDragInitialized )
+        {
+            await DocumentObserver.EnsureInitializedAsync();
+            jsModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>( "import", "./_content/Blazorise.Charts.Svg/svgChart.js" );
+            dataDragDotNetRef ??= DotNetObjectReference.Create( new SvgChartDataDragAdapter<TItem>( this ) );
+            await jsModule.InvokeVoidAsync( "initializeDataDrag", ElementRef, dataDragDotNetRef );
+            dataDragInitialized = true;
+        }
+        else if ( !shouldInitializeDataDrag && dataDragInitialized )
+        {
+            await DestroyDataDrag();
         }
 
         if ( shouldRunAnimations )
@@ -315,6 +387,7 @@ public class SvgChart<TItem> : SvgChartBase
     {
         if ( disposing )
         {
+            await DestroyDataDrag( true );
             await DestroyZoomWheel();
 
             if ( jsModule is not null )
@@ -330,6 +403,9 @@ public class SvgChart<TItem> : SvgChartBase
 
                 jsModule = null;
             }
+
+            dataDragDotNetRef?.Dispose();
+            dataDragDotNetRef = null;
         }
 
         await base.DisposeAsync( disposing );
@@ -351,10 +427,31 @@ public class SvgChart<TItem> : SvgChartBase
         zoomWheelInitialized = false;
     }
 
+    private async ValueTask DestroyDataDrag( bool disposing = false )
+    {
+        if ( jsModule is null || !dataDragInitialized )
+            return;
+
+        if ( dataDragState is not null && !disposing )
+            await HandleDataDragEnd( true );
+        else if ( disposing )
+            dataDragState = null;
+
+        try
+        {
+            await jsModule.InvokeVoidAsync( "destroyDataDrag", ElementRef );
+        }
+        catch ( JSDisconnectedException )
+        {
+        }
+
+        dataDragInitialized = false;
+    }
+
     private static void RenderFocusStyles( RenderTreeBuilder builder, ref int sequence )
     {
         builder.OpenElement( sequence++, "style" );
-        builder.AddContent( sequence++, ".svg-chart-surface [tabindex]:focus{outline:none;}.svg-chart-surface [data-svg-chart-animation-initial='true']{visibility:hidden;}.svg-chart-surface.svg-chart-pannable,.svg-chart-surface.svg-chart-pannable *{user-select:none;-webkit-user-select:none;-webkit-user-drag:none;}" );
+        builder.AddContent( sequence++, ".svg-chart-surface [tabindex]:focus{outline:none;}.svg-chart-surface [data-svg-chart-animation-initial='true']{visibility:hidden;}.svg-chart-surface.svg-chart-pannable,.svg-chart-surface.svg-chart-pannable *,.svg-chart-surface.svg-chart-data-drag-enabled,.svg-chart-surface.svg-chart-data-drag-enabled *{user-select:none;-webkit-user-select:none;-webkit-user-drag:none;}" );
         builder.CloseElement();
     }
 
@@ -374,6 +471,16 @@ public class SvgChart<TItem> : SvgChartBase
             style += panning ? "cursor:grabbing;" : "cursor:grab;";
 
         return style;
+    }
+
+    private void UpdateSurfaceClasses( bool isPannable, bool isDataDragEnabled )
+    {
+        if ( isSurfacePannable == isPannable && isSurfaceDataDragEnabled == isDataDragEnabled )
+            return;
+
+        isSurfacePannable = isPannable;
+        isSurfaceDataDragEnabled = isDataDragEnabled;
+        SurfaceClassBuilder.Dirty();
     }
 
     private SvgChartPluginRenderContext CreatePluginRenderContext( SvgChartRenderModel model, SvgChartPlotArea plot )
@@ -402,6 +509,7 @@ public class SvgChart<TItem> : SvgChartBase
                 Color = x.RenderColor,
                 PointColors = x.PointColors,
                 Hidden = x.Hidden,
+                Draggable = x.Draggable,
                 Order = x.Order,
                 CategoryAxisId = x.CategoryAxisId,
                 ValueAxisId = x.ValueAxisId,
@@ -787,7 +895,7 @@ public class SvgChart<TItem> : SvgChartBase
 
     private SvgChartRenderModel BuildModel( bool applyStreamingViewport = true, bool applyZoomViewport = true )
     {
-        return new SvgChartModelBuilder<TItem>(
+        var model = new SvgChartModelBuilder<TItem>(
             Type,
             Items,
             Data,
@@ -801,7 +909,50 @@ public class SvgChart<TItem> : SvgChartBase
             pluginComponents,
             tooltipComponents,
             hiddenSeries,
+            dataPointOverrides,
             BlazoriseLicenseLimitsHelper.GetChartsRowsLimit( ComponentLicenseChecker ) ).Build( applyStreamingViewport, applyZoomViewport );
+
+        return ApplyDataDragScales( model );
+    }
+
+    private SvgChartRenderModel ApplyDataDragScales( SvgChartRenderModel model )
+    {
+        if ( dataDragState is null )
+            return model;
+
+        var valueAxes = model.ValueAxes.Select( axis => AreAxisIdsEqual( axis.Id, dataDragState.ValueAxis.Id ) ? dataDragState.ValueAxis : axis ).ToList();
+        var primaryValueAxis = AreAxisIdsEqual( model.PrimaryValueAxis.Id, dataDragState.ValueAxis.Id ) ? dataDragState.ValueAxis : model.PrimaryValueAxis;
+        var categoryScale = dataDragState.CanDragX && dataDragState.XScale is not null ? dataDragState.XScale : model.CategoryScale;
+
+        return new()
+        {
+            Type = model.Type,
+            Options = model.Options,
+            Zoom = model.Zoom,
+            Viewport = model.Viewport,
+            Labels = model.Labels,
+            CategorySlotCount = model.CategorySlotCount,
+            CategoryLabelIndexes = model.CategoryLabelIndexes,
+            CategoryMin = model.CategoryMin,
+            CategoryMax = model.CategoryMax,
+            CategoryScaleKind = categoryScale is null ? model.CategoryScaleKind : SvgChartAxisScaleKind.Continuous,
+            CategoryScale = categoryScale,
+            CategoryAxis = model.CategoryAxis,
+            CategoryTickFormatter = model.CategoryTickFormatter,
+            CategoryValueFormatter = model.CategoryValueFormatter,
+            Series = model.Series,
+            Min = primaryValueAxis.Min,
+            Max = primaryValueAxis.Max,
+            Ticks = primaryValueAxis.Ticks,
+            ValueAxes = valueAxes,
+            PrimaryValueAxis = primaryValueAxis,
+            Tooltip = model.Tooltip
+        };
+    }
+
+    private static bool AreAxisIdsEqual( string first, string second )
+    {
+        return string.Equals( first ?? string.Empty, second ?? string.Empty, StringComparison.Ordinal );
     }
 
     private SvgChartOptions ResolveOptions()
@@ -1057,6 +1208,34 @@ public class SvgChart<TItem> : SvgChartBase
         return zoomComponent.ResolveOptions( zoomOptions );
     }
 
+    private SvgChartDataDragOptions ResolveDataDrag( SvgChartOptions options )
+    {
+        var dataDragComponent = pluginComponents.OfType<SvgChartDataDrag>().LastOrDefault();
+        var dataDragOptions = options.DataDrag ?? new();
+
+        if ( dataDragComponent is null )
+            return CreateDataDragOptions( dataDragOptions );
+
+        return dataDragComponent.ResolveOptions( dataDragOptions );
+    }
+
+    private static SvgChartDataDragOptions CreateDataDragOptions( SvgChartDataDragOptions options )
+    {
+        if ( options is null )
+            return new();
+
+        return new()
+        {
+            Enabled = options.Enabled,
+            Mode = options.Mode,
+            XStep = options.XStep,
+            YStep = options.YStep,
+            HitRadius = options.HitRadius,
+            ShowTooltip = options.ShowTooltip,
+            CanDrag = options.CanDrag
+        };
+    }
+
     private static SvgChartZoomOptions CreateZoomOptions( SvgChartZoomOptions options )
     {
         if ( options is null )
@@ -1132,6 +1311,9 @@ public class SvgChart<TItem> : SvgChartBase
 
     private void ShowTooltip( SvgChartPointEventArgs point, string color, bool pinned )
     {
+        if ( dataDragState is not null && !dataDragState.ShouldShowTooltip )
+            return;
+
         var tooltipKey = CreateTooltipKey( point, pinned );
 
         if ( activeTooltip is not null && string.Equals( activeTooltipKey, tooltipKey, StringComparison.Ordinal ) )
@@ -1602,6 +1784,768 @@ public class SvgChart<TItem> : SvgChartBase
         await HandleChartMouseUp( eventArgs );
     }
 
+    internal async Task<bool> HandleDataDragStart( int seriesIndex, int pointIndex, double? pointerX = null, double? pointerY = null )
+    {
+        if ( dataDragState is not null || ResolveStreaming().Enabled )
+            return false;
+
+        var model = BuildModel();
+        var dataDrag = ResolveDataDrag( ResolveOptions() );
+
+        if ( dataDrag?.Enabled != true || seriesIndex < 0 || seriesIndex >= model.Series.Count )
+            return false;
+
+        var series = model.Series[seriesIndex];
+
+        if ( !TryResolveDataDragValues( series, pointIndex, dataDrag, out var xValue, out var yValue, out var canDragX, out var canDragY, out var isValueAxisHorizontal ) )
+            return false;
+
+        var plot = BuildCurrentPlotArea( model );
+        var xScale = canDragX && !isValueAxisHorizontal ? ResolvePointXScale( model, [series] ) : null;
+        var valueAxis = ResolveValueAxis( model, series );
+        var isRadial = IsRadialChart( series.Type );
+        var isStacked = series.StackEndValues.Count > 0 && series.Type is ( SvgChartType.Bar or SvgChartType.Column or SvgChartType.Area );
+
+        ResolveDataDragStackBases( model, seriesIndex, pointIndex, isStacked, out var positiveStackBaseValue, out var negativeStackBaseValue );
+
+        var value = isValueAxisHorizontal ? xValue.Value : yValue.Value;
+        var renderedValue = ResolveDataDragRenderedValue( value, isStacked, positiveStackBaseValue, negativeStackBaseValue );
+        ResolveRadialDataDragMetadata( model, series, pointIndex, value, out var radialAngle, out var angularPrefixValue, out var angularOtherValue, out var usesAngularStartBoundary, out var angularBoundaryFraction );
+
+        var radialPoint = isRadial
+            ? ResolveRadialDataDragPoint( plot, series.Type, value, valueAxis.Max, radialAngle )
+            : (X: 0d, Y: 0d);
+        var radialPointerOffset = 0d;
+        var angularPointerOffset = 0d;
+
+        if ( pointerX.HasValue && pointerY.HasValue )
+        {
+            if ( series.Type is SvgChartType.Radar or SvgChartType.PolarArea )
+            {
+                var centerX = plot.Left + plot.Width / 2;
+                var centerY = plot.Top + plot.Height / 2;
+                var pointerDistance = Math.Sqrt( Math.Pow( pointerX.Value - centerX, 2 ) + Math.Pow( pointerY.Value - centerY, 2 ) );
+                var pointDistance = Math.Sqrt( Math.Pow( radialPoint.X - centerX, 2 ) + Math.Pow( radialPoint.Y - centerY, 2 ) );
+
+                radialPointerOffset = pointerDistance - pointDistance;
+            }
+            else if ( series.Type is SvgChartType.Pie or SvgChartType.Doughnut )
+            {
+                var pointerFraction = ResolveRadialPointerFraction( pointerX.Value, pointerY.Value, plot );
+
+                angularPointerOffset = ResolveNearestRadialFraction( pointerFraction, angularBoundaryFraction ) - angularBoundaryFraction;
+            }
+        }
+
+        var x = isRadial
+            ? radialPoint.X
+            : isValueAxisHorizontal
+                ? GetX( renderedValue, plot, valueAxis.Min, valueAxis.Max )
+                : ResolveDataDragPointX( model, plot, series, pointIndex, xValue, xScale );
+        var y = isRadial
+            ? radialPoint.Y
+            : isValueAxisHorizontal
+                ? plot.Top + plot.Height * ( pointIndex + 0.5 ) / Math.Max( model.CategorySlotCount, 1 )
+                : GetY( renderedValue, plot, valueAxis );
+        var markerRadius = ResolveDataDragMarkerRadius( series );
+        var pointBounds = ResolveDataDragPointBounds( series, pointIndex, x, y, markerRadius );
+
+        var hasCategoryLabel = model.CategoryScaleKind == SvgChartAxisScaleKind.Continuous && pointIndex < model.Labels.Count;
+        var category = hasCategoryLabel
+            ? model.Labels[pointIndex]
+            : series.Type is SvgChartType.Scatter or SvgChartType.Bubble
+                ? xValue
+                : pointIndex < model.Labels.Count ? model.Labels[pointIndex] : pointIndex;
+        var point = new SvgChartPointEventArgs
+        {
+            SeriesName = series.Name,
+            SeriesIndex = seriesIndex,
+            PointIndex = pointIndex,
+            Category = category,
+            Value = value,
+            Bounds = pointBounds
+        };
+
+        if ( dataDrag.CanDrag is not null && !dataDrag.CanDrag( point ) )
+            return false;
+
+        dataPointOverrides.TryGetValue( (seriesIndex, pointIndex), out var originalOverride );
+
+        var state = new SvgChartDataDragState
+        {
+            SeriesIndex = seriesIndex,
+            PointIndex = pointIndex,
+            SeriesName = series.Name,
+            SeriesType = series.Type,
+            Category = category,
+            CategoryTracksX = canDragX && !isValueAxisHorizontal && !hasCategoryLabel,
+            CanDragX = canDragX,
+            CanDragY = canDragY,
+            IsValueAxisHorizontal = isValueAxisHorizontal,
+            IsStacked = isStacked,
+            ShouldShowTooltip = dataDrag.ShowTooltip,
+            OriginalXValue = xValue,
+            OriginalYValue = yValue,
+            XValue = xValue,
+            YValue = yValue,
+            PositiveStackBaseValue = positiveStackBaseValue,
+            NegativeStackBaseValue = negativeStackBaseValue,
+            CrossAxisCoordinate = isValueAxisHorizontal
+                ? pointBounds.Y + pointBounds.Height / 2
+                : series.Type == SvgChartType.Column ? pointBounds.X + pointBounds.Width / 2 : 0,
+            RadialPointerOffset = radialPointerOffset,
+            AngularPrefixValue = angularPrefixValue,
+            AngularOtherValue = angularOtherValue,
+            UsesAngularStartBoundary = usesAngularStartBoundary,
+            AngularBoundaryFraction = angularBoundaryFraction,
+            AngularPointerOffset = angularPointerOffset,
+            Mode = dataDrag.Mode,
+            Plot = plot,
+            XScale = xScale,
+            ValueAxis = valueAxis,
+            OriginalOverride = originalOverride
+        };
+
+        dataDragState = state;
+
+        panning = false;
+        ClearTooltip();
+
+        try
+        {
+            await NotifyDataDragStarted( CreateDataDragEventArgs( state, false ) );
+        }
+        catch
+        {
+            if ( ReferenceEquals( dataDragState, state ) )
+                dataDragState = null;
+
+            StateHasChanged();
+
+            throw;
+        }
+
+        if ( !ReferenceEquals( dataDragState, state ) )
+            return false;
+
+        if ( dataDrag.ShowTooltip )
+            UpdateDataDragTooltip();
+
+        StateHasChanged();
+
+        return true;
+    }
+
+    internal async Task HandleDataDragMove( double x, double y )
+    {
+        var state = dataDragState;
+
+        if ( state is null )
+            return;
+
+        var xValue = state.CanDragX
+            ? state.IsValueAxisHorizontal
+                ? ResolveDataDragStackValue( UnprojectX( x, state.Plot, state.ValueAxis.Min, state.ValueAxis.Max ), state )
+                : UnprojectX( x, state.Plot, state.XScale.Min, state.XScale.Max )
+            : state.XValue;
+        var yValue = state.CanDragY
+            ? IsRadialChart( state.SeriesType )
+                ? ResolveRadialDataDragValue( x, y, state )
+                : ResolveDataDragStackValue( UnprojectY( y, state.Plot, state.ValueAxis ), state )
+            : state.YValue;
+
+        await ApplyDataDragValues( xValue, yValue );
+    }
+
+    internal async Task HandleDataDragEnd( bool canceled )
+    {
+        var state = dataDragState;
+
+        if ( state is null )
+            return;
+
+        var eventArgs = CreateDataDragEventArgs( state, canceled );
+
+        if ( canceled )
+        {
+            if ( state.OriginalOverride is null )
+                dataPointOverrides.Remove( (state.SeriesIndex, state.PointIndex) );
+            else
+                dataPointOverrides[(state.SeriesIndex, state.PointIndex)] = state.OriginalOverride;
+        }
+
+        dataDragState = null;
+        ClearTooltip();
+        await NotifyDataDragEnded( eventArgs );
+
+        if ( !canceled )
+            ReleasePersistedDataDragOverride( state );
+
+        StateHasChanged();
+    }
+
+    private void ReleasePersistedDataDragOverride( SvgChartDataDragState state )
+    {
+        var key = (state.SeriesIndex, state.PointIndex);
+
+        if ( !dataPointOverrides.Remove( key, out var pointOverride ) )
+            return;
+
+        var model = BuildModel();
+
+        if ( state.SeriesIndex < 0 || state.SeriesIndex >= model.Series.Count )
+            return;
+
+        var series = model.Series[state.SeriesIndex];
+        var sourceXValue = state.IsValueAxisHorizontal
+            ? state.PointIndex >= 0 && state.PointIndex < series.Values.Count ? series.Values[state.PointIndex] : null
+            : state.PointIndex >= 0 && state.PointIndex < series.XValues.Count ? series.XValues[state.PointIndex] : null;
+        var sourceYValue = series.Type is SvgChartType.Scatter or SvgChartType.Bubble
+            ? state.PointIndex >= 0 && state.PointIndex < series.YValues.Count ? series.YValues[state.PointIndex] : null
+            : state.PointIndex >= 0 && state.PointIndex < series.Values.Count ? series.Values[state.PointIndex] : null;
+        var hasPersistedXValue = state.CanDragX && AreDataDragValuesEqual( sourceXValue, state.XValue );
+        var hasPersistedYValue = state.CanDragY && AreDataDragValuesEqual( sourceYValue, state.YValue );
+
+        var shouldKeepXValue = pointOverride.HasXValue && !hasPersistedXValue;
+        var shouldKeepYValue = pointOverride.HasYValue && !( state.IsValueAxisHorizontal ? hasPersistedXValue : hasPersistedYValue );
+
+        if ( shouldKeepXValue || shouldKeepYValue )
+        {
+            dataPointOverrides[key] = new()
+            {
+                HasXValue = shouldKeepXValue,
+                XValue = pointOverride.XValue,
+                HasYValue = shouldKeepYValue,
+                YValue = pointOverride.YValue
+            };
+        }
+    }
+
+    internal async Task HandleDataDragKeyDown( int seriesIndex, int pointIndex, string key, bool shiftKey )
+    {
+        if ( key is not ( "ArrowLeft" or "ArrowRight" or "ArrowUp" or "ArrowDown" ) )
+            return;
+
+        if ( !await HandleDataDragStart( seriesIndex, pointIndex ) )
+            return;
+
+        var state = dataDragState;
+        var factor = shiftKey ? 10 : 1;
+        var dataDrag = ResolveDataDrag( ResolveOptions() );
+        var xStep = ResolveDataDragKeyboardStep( dataDrag.XStep, state.IsValueAxisHorizontal ? state.ValueAxis.Min : state.XScale?.Min, state.IsValueAxisHorizontal ? state.ValueAxis.Max : state.XScale?.Max ) * factor;
+        var yStep = ResolveDataDragKeyboardStep( dataDrag.YStep, state.ValueAxis.Min, state.ValueAxis.Max ) * factor;
+        var xValue = state.XValue;
+        var yValue = state.YValue;
+        var handled = false;
+
+        if ( state.CanDragX && key is ( "ArrowLeft" or "ArrowRight" ) )
+        {
+            xValue += key == "ArrowLeft" ? -xStep : xStep;
+            handled = true;
+        }
+
+        if ( state.CanDragY && key is ( "ArrowUp" or "ArrowDown" ) )
+        {
+            yValue += key == "ArrowDown" ? -yStep : yStep;
+            handled = true;
+        }
+
+        if ( handled )
+        {
+            await ApplyDataDragValues( xValue, yValue );
+            await HandleDataDragEnd( false );
+        }
+        else
+        {
+            await HandleDataDragEnd( true );
+        }
+    }
+
+    private async Task ApplyDataDragValues( double? xValue, double? yValue )
+    {
+        var state = dataDragState;
+
+        if ( state is null )
+            return;
+
+        var dataDrag = ResolveDataDrag( ResolveOptions() );
+        var nextXValue = state.CanDragX
+            ? state.IsValueAxisHorizontal
+                ? SnapAndClampDataDragStackValue( xValue.Value, dataDrag.XStep, state )
+                : SnapAndClampDataDragValue( xValue.Value, dataDrag.XStep, state.XScale.Min, state.XScale.Max )
+            : state.XValue;
+        var nextYValue = state.CanDragY
+            ? SnapAndClampDataDragStackValue( yValue.Value, dataDrag.YStep, state )
+            : state.YValue;
+
+        if ( AreDataDragValuesEqual( state.XValue, nextXValue ) && AreDataDragValuesEqual( state.YValue, nextYValue ) )
+            return;
+
+        state.XValue = nextXValue;
+        state.YValue = nextYValue;
+        dataPointOverrides[(state.SeriesIndex, state.PointIndex)] = new()
+        {
+            HasXValue = state.CanDragX && !state.IsValueAxisHorizontal,
+            XValue = state.XValue,
+            HasYValue = state.CanDragY || state.IsValueAxisHorizontal,
+            YValue = state.IsValueAxisHorizontal ? state.XValue : state.YValue
+        };
+
+        if ( dataDrag.ShowTooltip )
+            UpdateDataDragTooltip();
+
+        await NotifyDataDragging( CreateDataDragEventArgs( state, false ) );
+        StateHasChanged();
+    }
+
+    private static bool TryResolveDataDragValues( SvgChartRenderSeries series, int pointIndex, SvgChartDataDragOptions dataDrag, out double? xValue, out double? yValue, out bool canDragX, out bool canDragY, out bool isValueAxisHorizontal )
+    {
+        xValue = null;
+        yValue = null;
+        canDragX = false;
+        canDragY = false;
+        isValueAxisHorizontal = false;
+
+        if ( series is null || !series.Draggable || series.Hidden || pointIndex < 0 )
+            return false;
+
+        var pointSeries = series.Type is SvgChartType.Scatter or SvgChartType.Bubble;
+        var horizontalValueSeries = series.Type == SvgChartType.Bar;
+        var verticalValueSeries = series.Type is SvgChartType.Line or SvgChartType.Area or SvgChartType.Column
+            or SvgChartType.Pie or SvgChartType.Doughnut or SvgChartType.PolarArea or SvgChartType.Radar;
+
+        if ( !pointSeries && !horizontalValueSeries && !verticalValueSeries )
+            return false;
+
+        if ( pointSeries )
+        {
+            if ( pointIndex >= series.XValues.Count || pointIndex >= series.YValues.Count )
+                return false;
+
+            xValue = series.XValues[pointIndex];
+            yValue = series.YValues[pointIndex];
+            canDragX = xValue.HasValue && dataDrag.Mode is SvgChartDataDragMode.X or SvgChartDataDragMode.XY;
+        }
+        else
+        {
+            if ( pointIndex >= series.Values.Count )
+                return false;
+
+            if ( horizontalValueSeries )
+            {
+                xValue = series.Values[pointIndex];
+                canDragX = xValue.HasValue && dataDrag.Mode is SvgChartDataDragMode.X or SvgChartDataDragMode.XY;
+                isValueAxisHorizontal = true;
+            }
+            else
+            {
+                yValue = series.Values[pointIndex];
+            }
+        }
+
+        if ( !horizontalValueSeries )
+            canDragY = yValue.HasValue && dataDrag.Mode is SvgChartDataDragMode.Y or SvgChartDataDragMode.XY;
+
+        return canDragX || canDragY;
+    }
+
+    private static double ResolveDataDragPointX( SvgChartRenderModel model, SvgChartPlotArea plot, SvgChartRenderSeries series, int pointIndex, double? xValue, SvgChartScale xScale )
+    {
+        if ( series.Type is SvgChartType.Scatter or SvgChartType.Bubble && xValue.HasValue && xScale is not null )
+            return GetX( xValue.Value, plot, xScale.Min, xScale.Max );
+
+        if ( model.CategoryScaleKind == SvgChartAxisScaleKind.Continuous && pointIndex < series.XValues.Count && series.XValues[pointIndex].HasValue )
+        {
+            var continuousScale = model.CategoryScale ?? ResolvePointXScale( model, [series] );
+
+            if ( continuousScale is not null )
+                return GetX( series.XValues[pointIndex].Value, plot, continuousScale.Min, continuousScale.Max );
+        }
+
+        return GetCategoryX( pointIndex, plot, model );
+    }
+
+    private static double ResolveDataDragMarkerRadius( SvgChartRenderSeries series )
+    {
+        return series.Type == SvgChartType.Area ? Math.Max( 3, series.StrokeWidth + 1 ) : Math.Max( 2, series.MarkerRadius );
+    }
+
+    private SvgChartPointBounds ResolveDataDragPointBounds( SvgChartRenderSeries series, int pointIndex, double x, double y, double markerRadius )
+    {
+        var key = $"{series.Type}|{series.Name}|{pointIndex}";
+
+        if ( previousAnimationPointBounds.TryGetValue( key, out var bounds ) )
+            return bounds;
+
+        return new()
+        {
+            X = x - markerRadius,
+            Y = y - markerRadius,
+            Width = markerRadius * 2,
+            Height = markerRadius * 2
+        };
+    }
+
+    private void ResolveRadialDataDragMetadata(
+        SvgChartRenderModel model,
+        SvgChartRenderSeries series,
+        int pointIndex,
+        double value,
+        out double radialAngle,
+        out double angularPrefixValue,
+        out double angularOtherValue,
+        out bool usesAngularStartBoundary,
+        out double angularBoundaryFraction )
+    {
+        radialAngle = 0;
+        angularPrefixValue = 0;
+        angularOtherValue = 0;
+        usesAngularStartBoundary = false;
+        angularBoundaryFraction = 0;
+
+        if ( series.Type == SvgChartType.Radar )
+        {
+            radialAngle = -Math.PI / 2 + Math.PI * 2 * pointIndex / Math.Max( model.Labels.Count, 1 );
+            return;
+        }
+
+        if ( series.Type is not ( SvgChartType.Pie or SvgChartType.Doughnut or SvgChartType.PolarArea ) )
+            return;
+
+        var values = ResolveVisibleRadialValues( series );
+        var visiblePointIndex = values.FindIndex( item => item.Index == pointIndex );
+
+        if ( visiblePointIndex < 0 || values.Count == 0 )
+            return;
+
+        if ( series.Type == SvgChartType.PolarArea )
+        {
+            radialAngle = -Math.PI / 2 + Math.PI * 2 * ( visiblePointIndex + 0.5 ) / values.Count;
+            return;
+        }
+
+        var total = values.Sum( item => item.Value );
+
+        if ( total <= 0 )
+            return;
+
+        angularPrefixValue = values.Take( visiblePointIndex ).Sum( item => item.Value );
+        angularOtherValue = Math.Max( 0, total - value );
+        var startFraction = angularPrefixValue / total;
+        var endFraction = ( angularPrefixValue + value ) / total;
+
+        usesAngularStartBoundary = visiblePointIndex == values.Count - 1;
+        angularBoundaryFraction = usesAngularStartBoundary ? startFraction : endFraction;
+        radialAngle = -Math.PI / 2 + Math.PI * 2 * ( startFraction + endFraction ) / 2;
+    }
+
+    private List<(double Value, int Index)> ResolveVisibleRadialValues( SvgChartRenderSeries series )
+    {
+        return series.Values
+            .Select( ( value, index ) => new { Value = value, Index = index } )
+            .Where( item => item.Value.HasValue
+                && item.Value.Value >= 0
+                && !IsDataPointHidden( series.Name, item.Index ) )
+            .Select( item => (item.Value.Value, item.Index) )
+            .ToList();
+    }
+
+    private static (double X, double Y) ResolveRadialDataDragPoint( SvgChartPlotArea plot, SvgChartType seriesType, double value, double maximumValue, double angle )
+    {
+        var centerX = plot.Left + plot.Width / 2;
+        var centerY = plot.Top + plot.Height / 2;
+        var radius = Math.Max( 1, Math.Min( plot.Width, plot.Height ) * 0.42 );
+        var resolvedMaximum = Math.Max( maximumValue, 1 );
+        var renderedRadius = seriesType switch
+        {
+            SvgChartType.Radar => radius * Math.Clamp( value / resolvedMaximum, 0, 1 ),
+            SvgChartType.PolarArea => radius * Math.Sqrt( Math.Clamp( value / resolvedMaximum, 0, 1 ) ),
+            SvgChartType.Doughnut => radius * 0.79,
+            _ => radius * 0.67
+        };
+
+        return SvgChartSeriesRenderHelpers.PolarToCartesian( centerX, centerY, renderedRadius, angle );
+    }
+
+    private static double ResolveRadialDataDragValue( double x, double y, SvgChartDataDragState state )
+    {
+        var centerX = state.Plot.Left + state.Plot.Width / 2;
+        var centerY = state.Plot.Top + state.Plot.Height / 2;
+        var radius = Math.Max( 1, Math.Min( state.Plot.Width, state.Plot.Height ) * 0.42 );
+
+        if ( state.SeriesType == SvgChartType.Radar )
+            return ResolveRadialDistanceValue( x, y, centerX, centerY, radius, state.ValueAxis.Max, state.RadialPointerOffset, false );
+
+        if ( state.SeriesType == SvgChartType.PolarArea )
+            return ResolveRadialDistanceValue( x, y, centerX, centerY, radius, state.ValueAxis.Max, state.RadialPointerOffset, true );
+
+        return ResolveAngularDataDragValue( x, y, centerX, centerY, state );
+    }
+
+    private static double ResolveRadialDistanceValue( double x, double y, double centerX, double centerY, double radius, double maximumValue, double pointerOffset, bool squareRatio )
+    {
+        var distance = Math.Sqrt( Math.Pow( x - centerX, 2 ) + Math.Pow( y - centerY, 2 ) ) - pointerOffset;
+        var ratio = Math.Clamp( distance / radius, 0, 1 );
+
+        if ( squareRatio )
+            ratio *= ratio;
+
+        return ratio * Math.Max( maximumValue, 0 );
+    }
+
+    private static double ResolveAngularDataDragValue( double x, double y, double centerX, double centerY, SvgChartDataDragState state )
+    {
+        if ( state.AngularOtherValue <= 0 )
+            return state.YValue ?? 0;
+
+        var angle = Math.Atan2( y - centerY, x - centerX );
+        var fraction = NormalizeRadialFraction( ( angle + Math.PI / 2 ) / ( Math.PI * 2 ) );
+        var boundaryFraction = ResolveNearestRadialFraction( fraction, state.AngularBoundaryFraction + state.AngularPointerOffset ) - state.AngularPointerOffset;
+        double value;
+
+        if ( state.UsesAngularStartBoundary )
+        {
+            boundaryFraction = Math.Clamp( boundaryFraction, 0.000001, 1 );
+            value = state.AngularPrefixValue / boundaryFraction - state.AngularOtherValue;
+        }
+        else
+        {
+            boundaryFraction = Math.Clamp( boundaryFraction, 0, 0.999999 );
+            value = ( boundaryFraction * state.AngularOtherValue - state.AngularPrefixValue ) / ( 1 - boundaryFraction );
+        }
+
+        value = Math.Max( 0, value );
+        var total = state.AngularOtherValue + value;
+
+        state.AngularBoundaryFraction = state.UsesAngularStartBoundary
+            ? state.AngularPrefixValue / Math.Max( total, 0.000001 )
+            : ( state.AngularPrefixValue + value ) / Math.Max( total, 0.000001 );
+
+        return value;
+    }
+
+    private static double NormalizeRadialFraction( double fraction )
+    {
+        fraction %= 1;
+
+        return fraction < 0 ? fraction + 1 : fraction;
+    }
+
+    private static double ResolveRadialPointerFraction( double x, double y, SvgChartPlotArea plot )
+    {
+        var centerX = plot.Left + plot.Width / 2;
+        var centerY = plot.Top + plot.Height / 2;
+        var angle = Math.Atan2( y - centerY, x - centerX );
+
+        return NormalizeRadialFraction( ( angle + Math.PI / 2 ) / ( Math.PI * 2 ) );
+    }
+
+    private static double ResolveNearestRadialFraction( double fraction, double reference )
+    {
+        while ( fraction - reference > 0.5 )
+            fraction--;
+
+        while ( reference - fraction > 0.5 )
+            fraction++;
+
+        return fraction;
+    }
+
+    private static void ResolveDataDragStackBases( SvgChartRenderModel model, int seriesIndex, int pointIndex, bool isStacked, out double positiveBaseValue, out double negativeBaseValue )
+    {
+        positiveBaseValue = 0;
+        negativeBaseValue = 0;
+
+        if ( !isStacked || seriesIndex < 0 || seriesIndex >= model.Series.Count )
+            return;
+
+        var target = model.Series[seriesIndex];
+
+        for ( var currentSeriesIndex = 0; currentSeriesIndex < seriesIndex; currentSeriesIndex++ )
+        {
+            var current = model.Series[currentSeriesIndex];
+
+            if ( current.Hidden
+                 || current.Type != target.Type
+                 || !string.Equals( current.ValueAxisId ?? string.Empty, target.ValueAxisId ?? string.Empty, StringComparison.Ordinal )
+                 || !string.Equals( current.Stack ?? string.Empty, target.Stack ?? string.Empty, StringComparison.Ordinal )
+                 || pointIndex < 0
+                 || pointIndex >= current.Values.Count
+                 || !current.Values[pointIndex].HasValue )
+            {
+                continue;
+            }
+
+            var value = current.Values[pointIndex].Value;
+
+            if ( value >= 0 )
+                positiveBaseValue += value;
+            else
+                negativeBaseValue += value;
+        }
+    }
+
+    private static double ResolveDataDragRenderedValue( double value, bool isStacked, double positiveBaseValue, double negativeBaseValue )
+    {
+        if ( !isStacked )
+            return value;
+
+        return value >= 0 ? positiveBaseValue + value : negativeBaseValue + value;
+    }
+
+    private static double ResolveDataDragStackValue( double renderedValue, SvgChartDataDragState state )
+    {
+        if ( !state.IsStacked )
+            return renderedValue;
+
+        if ( renderedValue >= state.PositiveStackBaseValue )
+            return renderedValue - state.PositiveStackBaseValue;
+
+        if ( renderedValue <= state.NegativeStackBaseValue )
+            return renderedValue - state.NegativeStackBaseValue;
+
+        return 0;
+    }
+
+    private static double SnapAndClampDataDragStackValue( double value, double? step, SvgChartDataDragState state )
+    {
+        if ( IsRadialChart( state.SeriesType ) )
+            return SnapAndClampDataDragValue( value, step, 0, Math.Max( 0, state.ValueAxis.Max ) );
+
+        if ( !state.IsStacked )
+            return SnapAndClampDataDragValue( value, step, state.ValueAxis.Min, state.ValueAxis.Max );
+
+        if ( step.HasValue && double.IsFinite( step.Value ) && step.Value > 0 )
+            value = Math.Round( value / step.Value, MidpointRounding.AwayFromZero ) * step.Value;
+
+        return value >= 0
+            ? Math.Clamp( value, 0, Math.Max( 0, state.ValueAxis.Max - state.PositiveStackBaseValue ) )
+            : Math.Clamp( value, Math.Min( 0, state.ValueAxis.Min - state.NegativeStackBaseValue ), 0 );
+    }
+
+    private static double SnapAndClampDataDragValue( double value, double? step, double min, double max )
+    {
+        if ( step.HasValue && double.IsFinite( step.Value ) && step.Value > 0 )
+            value = Math.Round( value / step.Value, MidpointRounding.AwayFromZero ) * step.Value;
+
+        return Math.Clamp( value, min, max );
+    }
+
+    private static double ResolveDataDragKeyboardStep( double? configuredStep, double? min, double? max )
+    {
+        if ( configuredStep.HasValue && double.IsFinite( configuredStep.Value ) && configuredStep.Value > 0 )
+            return configuredStep.Value;
+
+        if ( min.HasValue && max.HasValue && max.Value > min.Value )
+            return ( max.Value - min.Value ) / 100;
+
+        return 1;
+    }
+
+    private static bool AreDataDragValuesEqual( double? first, double? second )
+    {
+        if ( !first.HasValue || !second.HasValue )
+            return first.HasValue == second.HasValue;
+
+        return Math.Abs( first.Value - second.Value ) < 0.0000001;
+    }
+
+    private SvgChartDataPointDragEventArgs CreateDataDragEventArgs( SvgChartDataDragState state, bool canceled )
+    {
+        return new()
+        {
+            SeriesName = state.SeriesName,
+            SeriesIndex = state.SeriesIndex,
+            PointIndex = state.PointIndex,
+            Category = state.CategoryTracksX ? state.XValue : state.Category,
+            OriginalXValue = state.OriginalXValue,
+            OriginalYValue = state.OriginalYValue,
+            XValue = state.XValue,
+            YValue = state.YValue,
+            Mode = state.Mode,
+            Canceled = canceled
+        };
+    }
+
+    private void UpdateDataDragTooltip()
+    {
+        var state = dataDragState;
+
+        if ( state is null )
+            return;
+
+        var model = BuildModel();
+
+        if ( state.SeriesIndex < 0 || state.SeriesIndex >= model.Series.Count )
+            return;
+
+        var series = model.Series[state.SeriesIndex];
+        var plot = BuildCurrentPlotArea( model );
+        var value = state.IsValueAxisHorizontal ? state.XValue.Value : state.YValue.Value;
+        var renderedValue = ResolveDataDragRenderedValue( value, state.IsStacked, state.PositiveStackBaseValue, state.NegativeStackBaseValue );
+        var isRadial = IsRadialChart( series.Type );
+
+        ResolveRadialDataDragMetadata( model, series, state.PointIndex, value, out var radialAngle, out _, out _, out _, out _ );
+
+        var radialPoint = isRadial
+            ? ResolveRadialDataDragPoint( plot, series.Type, value, state.ValueAxis.Max, radialAngle )
+            : (X: 0d, Y: 0d);
+        var x = isRadial
+            ? radialPoint.X
+            : state.IsValueAxisHorizontal
+                ? GetX( renderedValue, plot, state.ValueAxis.Min, state.ValueAxis.Max )
+                : series.Type == SvgChartType.Column
+                    ? state.CrossAxisCoordinate
+                    : ResolveDataDragPointX( model, plot, series, state.PointIndex, state.XValue, state.XScale );
+        var y = isRadial
+            ? radialPoint.Y
+            : state.IsValueAxisHorizontal
+                ? state.CrossAxisCoordinate
+                : GetY( renderedValue, plot, state.ValueAxis );
+        var radius = ResolveDataDragMarkerRadius( series );
+        var point = new SvgChartPointEventArgs
+        {
+            SeriesName = state.SeriesName,
+            SeriesIndex = state.SeriesIndex,
+            PointIndex = state.PointIndex,
+            Category = state.CategoryTracksX ? state.XValue : state.Category,
+            Value = value,
+            Bounds = new()
+            {
+                X = x - radius,
+                Y = y - radius,
+                Width = radius * 2,
+                Height = radius * 2
+            }
+        };
+
+        ShowTooltip( point, ResolvePointColor( series, state.PointIndex ), false );
+    }
+
+    private async Task NotifyDataDragStarted( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        var dataDragComponent = pluginComponents.OfType<SvgChartDataDrag>().LastOrDefault();
+
+        if ( dataDragComponent?.DragStarted.HasDelegate == true )
+            await dataDragComponent.DragStarted.InvokeAsync( eventArgs );
+    }
+
+    private async Task NotifyDataDragging( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        var dataDragComponent = pluginComponents.OfType<SvgChartDataDrag>().LastOrDefault();
+
+        if ( dataDragComponent?.Dragging.HasDelegate == true )
+            await dataDragComponent.Dragging.InvokeAsync( eventArgs );
+    }
+
+    private async Task NotifyDataDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        var dataDragComponent = pluginComponents.OfType<SvgChartDataDrag>().LastOrDefault();
+
+        if ( dataDragComponent?.DragEnded.HasDelegate == true )
+            await dataDragComponent.DragEnded.InvokeAsync( eventArgs );
+    }
+
     /// <summary>
     /// Replaces the chart data and refreshes the chart.
     /// </summary>
@@ -1609,6 +2553,8 @@ public class SvgChart<TItem> : SvgChartBase
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task SetData( SvgChartData<double?> data )
     {
+        dataPointOverrides.Clear();
+        dataDragState = null;
         internalChartData = NormalizeData( data );
         StateHasChanged();
 
@@ -1668,6 +2614,7 @@ public class SvgChart<TItem> : SvgChartBase
     {
         var data = EnsureInternalData();
         data.Series.RemoveAll( x => x.Name == name );
+        dataPointOverrides.Clear();
         StateHasChanged();
 
         return Task.CompletedTask;
@@ -1811,6 +2758,7 @@ public class SvgChart<TItem> : SvgChartBase
             if ( index >= 0 && index < series.Values.Count )
             {
                 series.Values[index] = value;
+                dataPointOverrides.Clear();
                 StateHasChanged();
             }
         }
@@ -2013,6 +2961,8 @@ public class SvgChart<TItem> : SvgChartBase
 
         hiddenSeries.Clear();
         hiddenDataPoints.Clear();
+        dataPointOverrides.Clear();
+        dataDragState = null;
         ClearTooltip();
         internalViewport = null;
         panning = false;
@@ -2134,7 +3084,8 @@ public class SvgChart<TItem> : SvgChartBase
                 Colors = x.PointColors?.Select( color => (Color)color ).ToList() ?? [],
                 Interpolation = x.Interpolation,
                 Tension = x.Tension,
-                Hidden = x.Hidden
+                Hidden = x.Hidden,
+                Draggable = x.Draggable
             } ).ToList()
         };
 
@@ -2364,7 +3315,19 @@ public class SvgChart<TItem> : SvgChartBase
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
+    /// <summary>
+    /// Gets the class builder for the SVG surface element.
+    /// </summary>
+    protected ClassBuilder SurfaceClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Gets the class names for the SVG surface element.
+    /// </summary>
+    protected string SurfaceClassNames => SurfaceClassBuilder.Class;
+
     [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    [Inject] private IDocumentObserver DocumentObserver { get; set; }
 
     [Inject] private BlazoriseLicenseChecker ComponentLicenseChecker { get; set; }
 

@@ -38,6 +38,8 @@ internal sealed class SvgChartModelBuilder<TItem>
 
     private readonly IReadOnlyCollection<string> hiddenSeries;
 
+    private readonly IReadOnlyDictionary<(int SeriesIndex, int PointIndex), SvgChartDataPointOverride> dataPointOverrides;
+
     private readonly int? rowLimit;
 
     #endregion
@@ -58,6 +60,7 @@ internal sealed class SvgChartModelBuilder<TItem>
         IReadOnlyList<ISvgChartPlugin> pluginComponents,
         IReadOnlyList<SvgChartTooltip> tooltipComponents,
         IReadOnlyCollection<string> hiddenSeries,
+        IReadOnlyDictionary<(int SeriesIndex, int PointIndex), SvgChartDataPointOverride> dataPointOverrides,
         int? rowLimit )
     {
         Type = type;
@@ -73,6 +76,7 @@ internal sealed class SvgChartModelBuilder<TItem>
         this.pluginComponents = pluginComponents;
         this.tooltipComponents = tooltipComponents;
         this.hiddenSeries = hiddenSeries;
+        this.dataPointOverrides = dataPointOverrides;
         this.rowLimit = rowLimit;
     }
 
@@ -201,6 +205,7 @@ internal sealed class SvgChartModelBuilder<TItem>
                     RenderColor = SvgChartRenderHelpers.ResolveColor( dataSeries.Color, i ),
                     PointColors = ResolvePointColors( dataSeries.Colors, values.Count, dataSeries.Color, i, IsRadialChart( Type ) ),
                     Hidden = dataSeries.Hidden || hiddenSeries.Contains( name ),
+                    Draggable = dataSeries.Draggable,
                     Order = dataSeries.Order,
                     CategoryAxisId = dataSeries.CategoryAxisId,
                     ValueAxisId = dataSeries.ValueAxisId,
@@ -246,6 +251,7 @@ internal sealed class SvgChartModelBuilder<TItem>
                 RenderColor = renderColor,
                 PointColors = ResolvePointColors( child.Colors, child.PointColor is null ? null : items.Select( child.PointColor ).ToList(), labelCount, child.Color, series.Count, IsRadialChart( child.ChartType ) ),
                 Hidden = child.Hidden || hiddenSeries.Contains( name ),
+                Draggable = child.Draggable,
                 Order = child.Order,
                 CategoryAxisId = child.CategoryAxisId,
                 ValueAxisId = child.ValueAxisId,
@@ -298,9 +304,43 @@ internal sealed class SvgChartModelBuilder<TItem>
         }
 
         LimitSeries( series );
+        ApplyDataPointOverrides( series );
         ApplyStacking( series, ResolveStackedValueAxisIds( series ) );
 
         return series;
+    }
+
+    private void ApplyDataPointOverrides( List<SvgChartRenderSeries> series )
+    {
+        if ( dataPointOverrides is null || dataPointOverrides.Count == 0 )
+            return;
+
+        foreach ( var item in dataPointOverrides )
+        {
+            var seriesIndex = item.Key.SeriesIndex;
+            var pointIndex = item.Key.PointIndex;
+
+            if ( seriesIndex < 0 || seriesIndex >= series.Count || pointIndex < 0 )
+                continue;
+
+            var target = series[seriesIndex];
+            var pointOverride = item.Value;
+
+            if ( pointOverride is null )
+                continue;
+
+            if ( pointOverride.HasXValue && pointIndex < target.XValues.Count )
+                target.XValues[pointIndex] = pointOverride.XValue;
+
+            if ( pointOverride.HasYValue )
+            {
+                if ( pointIndex < target.YValues.Count )
+                    target.YValues[pointIndex] = pointOverride.YValue;
+
+                if ( pointIndex < target.Values.Count )
+                    target.Values[pointIndex] = pointOverride.YValue;
+            }
+        }
     }
 
     private List<TValue> LimitValues<TValue>( IEnumerable<TValue> values )

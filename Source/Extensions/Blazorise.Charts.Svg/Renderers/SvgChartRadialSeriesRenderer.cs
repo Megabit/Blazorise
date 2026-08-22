@@ -44,7 +44,7 @@ internal sealed class SvgChartRadialSeriesRenderer : ISvgChartSeriesRenderer
         var radius = Math.Max( 1, Math.Min( plot.Width, plot.Height ) * 0.42 );
         var total = item.Type == SvgChartType.PolarArea ? values.Count : values.Sum( x => x.Value );
         var startAngle = -Math.PI / 2;
-        var max = values.Max( x => x.Value );
+        var max = item.Type == SvgChartType.PolarArea ? Math.Max( chart.ValueMax, 1 ) : values.Max( x => x.Value );
 
         if ( total <= 0 )
             return;
@@ -72,9 +72,19 @@ internal sealed class SvgChartRadialSeriesRenderer : ISvgChartSeriesRenderer
             builder.AddAttribute( sequence++, "stroke", "var(--bs-body-bg, #fff)" );
             builder.AddAttribute( sequence++, "stroke-width", "1" );
             context.AddAnimatedStyleAttribute( builder, ref sequence );
-            context.AddPointInteractionAttributes( builder, ref sequence, point, color );
+            context.AddPointInteractionAttributes( builder, ref sequence, point, color, item );
             context.RenderInitialAttributeAnimation( builder, ref sequence, "opacity", "0", "1" );
             builder.CloseElement();
+
+            var interactionRadius = item.Type switch
+            {
+                SvgChartType.PolarArea => pointRadius,
+                SvgChartType.Doughnut => radius * 0.79,
+                _ => radius * 0.67
+            };
+            var interactionPoint = SvgChartSeriesRenderHelpers.PolarToCartesian( centerX, centerY, interactionRadius, ( startAngle + endAngle ) / 2 );
+
+            context.RenderDataDragHitTarget( builder, ref sequence, item, point, interactionPoint.X, interactionPoint.Y, 0 );
 
             startAngle = endAngle;
         }

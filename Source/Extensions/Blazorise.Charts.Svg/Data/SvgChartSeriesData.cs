@@ -68,6 +68,11 @@ public class SvgChartSeriesData<TValue>
     public bool Hidden { get; set; }
 
     /// <summary>
+    /// Defines whether data points in the series can be dragged when chart data dragging is enabled.
+    /// </summary>
+    public bool Draggable { get; set; } = true;
+
+    /// <summary>
     /// Defines the series rendering order. Lower values are rendered first, behind higher values.
     /// </summary>
     public int? Order { get; set; }

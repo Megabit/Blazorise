@@ -1,0 +1,291 @@
+@page "/tests/charts/svg/data-drag"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG line chart - vertical editing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgLineChart TItem="ForecastSample"
+                              Items="@Forecasts"
+                              Options="@lineOptions">
+                    <SvgChartTitle Title='@("Demand forecast")' Subtitle='@("Drag the forecast markers; the baseline is read-only")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis Min="0" Max="100" TickCount="6" />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.Y"
+                                      YStep="5"
+                                      HitRadius="14"
+                                      DragEnded="@OnForecastDragEnded" />
+
+                    <SvgLineSeries Name="Baseline" Value="@( x => x.Baseline )" Color="Color.Secondary" StrokeWidth="2" MarkerRadius="4" Draggable="false" />
+                    <SvgLineSeries Name="Forecast" Value="@( x => x.Forecast )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="6" />
+                </SvgLineChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG area chart - filtered points</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgAreaChart TItem="CapacitySample"
+                              Items="@Capacity"
+                              Options="@areaOptions">
+                    <SvgChartTitle Title='@("Capacity plan")' Subtitle='@("Only future points can be adjusted")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Quarter )" />
+                    <SvgChartValueAxis Min="0" Max="100" TickCount="6" />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.Y"
+                                      YStep="2.5"
+                                      HitRadius="14"
+                                      CanDrag="@( point => point.PointIndex >= 2 )"
+                                      DragEnded="@OnCapacityDragEnded" />
+
+                    <SvgAreaSeries Name="Utilization" Value="@( x => x.Utilization )" Color="Color.Success" StrokeWidth="3" FillOpacity="0.2" />
+                </SvgAreaChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG bar chart - horizontal editing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgBarChart TItem="AllocationSample"
+                             Items="@Allocations"
+                             Options="@barOptions">
+                    <SvgChartTitle Title='@("Team allocation")' Subtitle='@("Drag a bar endpoint horizontally")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Team )" />
+                    <SvgChartValueAxis Min="0" Max="100" TickCount="6" />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.X"
+                                      XStep="5"
+                                      HitRadius="12"
+                                      DragEnded="@OnAllocationDragEnded" />
+
+                    <SvgBarSeries Name="Allocation" Value="@( x => x.Allocation )" Color="Color.Primary" BorderRadius="4" />
+                </SvgBarChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG stacked bar chart - segment editing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgBarChart TItem="WorkloadSample"
+                             Items="@Workloads"
+                             Options="@stackedBarOptions">
+                    <SvgChartTitle Title='@("Team workload")' Subtitle='@("Drag either segment; the stack is recalculated")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Team )" />
+                    <SvgChartValueAxis Min="0" Max="160" Stacked TickCount="5" />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.X"
+                                      XStep="5"
+                                      HitRadius="12"
+                                      DragEnded="@OnWorkloadDragEnded" />
+
+                    <SvgBarSeries Name="Committed" Stack="workload" Value="@( x => x.Committed )" Color="Color.Info" BorderRadius="4" />
+                    <SvgBarSeries Name="Planned" Stack="workload" Value="@( x => x.Planned )" Color="Color.Warning" BorderRadius="4" />
+                </SvgBarChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG column chart - vertical editing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgColumnChart TItem="AllocationSample"
+                                Items="@Allocations"
+                                Options="@columnOptions">
+                    <SvgChartTitle Title='@("Team allocation")' Subtitle='@("Drag a column endpoint vertically")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Team )" />
+                    <SvgChartValueAxis Min="0" Max="100" TickCount="6" />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.Y"
+                                      YStep="5"
+                                      HitRadius="12"
+                                      DragEnded="@OnAllocationColumnDragEnded" />
+
+                    <SvgColumnSeries Name="Allocation" Value="@( x => x.Allocation )" Color="Color.Primary" BorderRadius="4" />
+                </SvgColumnChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG stacked area chart - segment editing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgAreaChart TItem="WorkloadSample"
+                              Items="@Workloads"
+                              Options="@stackedAreaOptions">
+                    <SvgChartTitle Title='@("Workload trend")' Subtitle='@("Drag either series; the stack is recalculated")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Team )" />
+                    <SvgChartValueAxis Min="0" Max="160" Stacked TickCount="5" />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.Y"
+                                      YStep="5"
+                                      HitRadius="12"
+                                      DragEnded="@OnWorkloadAreaDragEnded" />
+
+                    <SvgAreaSeries Name="Committed" Stack="workload" Value="@( x => x.Committed )" Color="Color.Info" StrokeWidth="3" FillOpacity="0.2" />
+                    <SvgAreaSeries Name="Planned" Stack="workload" Value="@( x => x.Planned )" Color="Color.Warning" StrokeWidth="3" FillOpacity="0.2" />
+                </SvgAreaChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG scatter chart - XY editing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgScatterChart TItem="PointSample"
+                                 Items="@Stores"
+                                 Options="@scatterOptions">
+                    <SvgChartTitle Title='@("Store positioning")' Subtitle='@("Drag in both directions; values snap to five")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartValueAxis Min="0" Max="100" TickCount="6" />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.XY"
+                                      XStep="5"
+                                      YStep="5"
+                                      HitRadius="14"
+                                      DragEnded="@OnStoreDragEnded" />
+
+                    <SvgScatterSeries Name="Stores" XValue="@( x => x.X )" YValue="@( x => x.Y )" Color="Color.Info" MarkerRadius="6" />
+                </SvgScatterChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG bubble chart - horizontal editing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgBubbleChart TItem="BubbleSample"
+                                Items="@Opportunities"
+                                Options="@bubbleOptions">
+                    <SvgChartTitle Title='@("Opportunity planning")' Subtitle='@("Move effort horizontally without changing impact or size")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartValueAxis Min="0" Max="100" TickCount="6" />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.X"
+                                      XStep="5"
+                                      HitRadius="16"
+                                      DragEnded="@OnOpportunityDragEnded" />
+
+                    <SvgBubbleSeries Name="Opportunities" XValue="@( x => x.Effort )" YValue="@( x => x.Impact )" RadiusValue="@( x => x.Size )" Color="Color.Warning" />
+                </SvgBubbleChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG pie chart - angular editing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgPieChart TItem="object"
+                             Data="@pieData"
+                             Options="@radialOptions">
+                    <SvgChartTitle Title='@("Traffic share")' Subtitle='@("Drag a segment around the circle to resize it")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.Y"
+                                      YStep="1"
+                                      DragEnded="@( eventArgs => OnRadialDragEnded( pieData, eventArgs ) )" />
+                </SvgPieChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG doughnut chart - angular editing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgDoughnutChart TItem="object"
+                                  Data="@doughnutData"
+                                  Options="@radialOptions">
+                    <SvgChartTitle Title='@("Budget share")' Subtitle='@("Drag a segment around the ring to resize it")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.Y"
+                                      YStep="1"
+                                      DragEnded="@( eventArgs => OnRadialDragEnded( doughnutData, eventArgs ) )" />
+                </SvgDoughnutChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG polar area chart - radial editing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgPolarAreaChart TItem="object"
+                                   Data="@polarAreaData"
+                                   Options="@radialOptions">
+                    <SvgChartTitle Title='@("Channel strength")' Subtitle='@("Drag a segment inward or outward")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.Y"
+                                      YStep="5"
+                                      DragEnded="@( eventArgs => OnRadialDragEnded( polarAreaData, eventArgs ) )" />
+                </SvgPolarAreaChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG radar chart - radial editing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgRadarChart TItem="object"
+                               Data="@radarData"
+                               Options="@radarOptions">
+                    <SvgChartTitle Title='@("Product fit")' Subtitle='@("Drag the current markers; the target is read-only")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartDataDrag Enabled
+                                      Mode="SvgChartDataDragMode.Y"
+                                      YStep="5"
+                                      HitRadius="14"
+                                      DragEnded="@( eventArgs => OnRadialDragEnded( radarData, eventArgs ) )" />
+                </SvgRadarChart>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
