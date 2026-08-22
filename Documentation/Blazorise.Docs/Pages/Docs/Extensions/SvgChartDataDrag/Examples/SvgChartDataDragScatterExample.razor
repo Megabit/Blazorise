@@ -1,0 +1,50 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgScatterChart TItem="Store" Items="@stores" Options="@options">
+    <SvgChartTitle Title='@("Store positioning")' Subtitle='@("Drag points along both axes")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartValueAxis Min="0" Max="100" TickCount="6" />
+    <SvgChartDataDrag Enabled Mode="SvgChartDataDragMode.XY" XStep="5" YStep="5" HitRadius="14" DragEnded="@OnDragEnded" />
+
+    <SvgScatterSeries Name="Stores" XValue="@( item => item.X )" YValue="@( item => item.Y )" Color="Color.Info" MarkerRadius="6" />
+</SvgScatterChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        XAxis = new() { Min = 0, Max = 100, TickCount = 6, GridLines = new() { Visible = true, Opacity = 0.2 } },
+        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
+    };
+
+    private readonly List<Store> stores =
+    [
+        new() { X = 15, Y = 35 },
+        new() { X = 30, Y = 55 },
+        new() { X = 45, Y = 40 },
+        new() { X = 60, Y = 75 },
+        new() { X = 80, Y = 65 },
+    ];
+
+    private Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled )
+        {
+            if ( eventArgs.XValue.HasValue )
+                stores[eventArgs.PointIndex].X = eventArgs.XValue.Value;
+
+            if ( eventArgs.YValue.HasValue )
+                stores[eventArgs.PointIndex].Y = eventArgs.YValue.Value;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private sealed class Store
+    {
+        public double X { get; set; }
+
+        public double Y { get; set; }
+    }
+}

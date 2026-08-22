@@ -354,6 +354,7 @@ public class SvgChart<TItem> : SvgChartBase
 
         if ( shouldInitializeDataDrag && !dataDragInitialized )
         {
+            await DocumentObserver.EnsureInitializedAsync();
             jsModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>( "import", "./_content/Blazorise.Charts.Svg/svgChart.js" );
             dataDragDotNetRef ??= DotNetObjectReference.Create( new SvgChartDataDragAdapter<TItem>( this ) );
             await jsModule.InvokeVoidAsync( "initializeDataDrag", ElementRef, dataDragDotNetRef );
@@ -3325,6 +3326,8 @@ public class SvgChart<TItem> : SvgChartBase
     protected string SurfaceClassNames => SurfaceClassBuilder.Class;
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    [Inject] private IDocumentObserver DocumentObserver { get; set; }
 
     [Inject] private BlazoriseLicenseChecker ComponentLicenseChecker { get; set; }
 

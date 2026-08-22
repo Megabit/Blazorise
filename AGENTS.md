@@ -91,6 +91,10 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 - Keep private names context-aware and avoid repeating the component type unless needed to remove ambiguity.
 - Dependency versions are centrally managed in `Directory.Packages.props` (don’t hardcode `Version=` in `PackageReference`).
 
+## Documentation Guidelines
+
+- In documentation page introductions, including `DocsPageLead` and opening paragraphs, focus on why the feature is useful, the problems it solves, and representative use cases. Keep implementation steps, configuration details, exhaustive capability lists, and API explanations in the examples and API sections instead of front-loading them in the introduction.
+
 ## Component Development Conventions
 
 - Follow the API naming, lifecycle, state-management, and rendering patterns of the closest existing Blazorise components before introducing a new pattern.

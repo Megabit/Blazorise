@@ -1,0 +1,46 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgRadarChart TItem="object" Data="@data" Options="@options">
+    <SvgChartTitle Title='@("Product fit")' Subtitle='@("Drag the current markers; the target is read-only")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartDataDrag Enabled Mode="SvgChartDataDragMode.Y" YStep="5" HitRadius="14" DragEnded="@OnDragEnded" />
+</SvgRadarChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = ["Quality", "Speed", "Cost", "Support", "Adoption"],
+        Series =
+        [
+            new()
+            {
+                Name = "Current",
+                Color = Color.Primary,
+                Values = [82, 76, 58, 88, 72],
+            },
+            new()
+            {
+                Name = "Target",
+                Color = Color.Success,
+                Values = [92, 86, 70, 94, 84],
+                Draggable = false,
+            },
+        ]
+    };
+
+    private Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
+            data.Series[eventArgs.SeriesIndex].Values[eventArgs.PointIndex] = eventArgs.YValue.Value;
+
+        return Task.CompletedTask;
+    }
+}

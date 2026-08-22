@@ -30903,72 +30903,6 @@ builder.Services
     }
 }";
 
-        public const string SvgChartDataDragExample = @"<SvgLineChart TItem=""CropForecast""
-              Items=""@forecasts""
-              Options=""@options"">
-    <SvgChartTitle Title='@(""Crop forecast"")' Subtitle='@(""Drag the forecast series to edit projected yield"")' />
-    <SvgChartTooltip Enabled />
-    <SvgChartCategoryAxis Value=""@( item => item.Year )"" />
-    <SvgChartValueAxis Min=""0"" Max=""100"" TickCount=""6"" />
-    <SvgChartDataDrag Enabled
-                      Mode=""SvgChartDataDragMode.Y""
-                      YStep=""5""
-                      HitRadius=""14""
-                      Dragging=""@OnDragging""
-                      DragEnded=""@OnDragEnded"" />
-
-    <SvgLineSeries Name=""Baseline"" Value=""@( item => item.Baseline )"" Color=""Color.Secondary"" Draggable=""false"" />
-    <SvgLineSeries Name=""Forecast"" Value=""@( item => item.Forecast )"" Color=""Color.Primary"" MarkerRadius=""6"" />
-</SvgLineChart>
-
-<Paragraph Margin=""Margin.Is2.FromTop.Is0.FromBottom"">@status</Paragraph>
-
-@code {
-    private string status = ""Drag a forecast point, or focus one and use the arrow keys."";
-
-    private readonly SvgChartOptions options = new()
-    {
-        Height = 360,
-        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
-    };
-
-    private readonly List<CropForecast> forecasts =
-    [
-        new() { Year = ""2026"", Baseline = 46, Forecast = 52 },
-        new() { Year = ""2027"", Baseline = 49, Forecast = 61 },
-        new() { Year = ""2028"", Baseline = 51, Forecast = 68 },
-        new() { Year = ""2029"", Baseline = 54, Forecast = 73 },
-    ];
-
-    private Task OnDragging( SvgChartDataPointDragEventArgs eventArgs )
-    {
-        status = $""Editing {eventArgs.Category}: {eventArgs.YValue:0}"";
-
-        return Task.CompletedTask;
-    }
-
-    private Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
-    {
-        if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
-            forecasts[eventArgs.PointIndex].Forecast = eventArgs.YValue.Value;
-
-        status = eventArgs.Canceled
-            ? $""Restored {eventArgs.Category} to {eventArgs.OriginalYValue:0}.""
-            : $""Saved {eventArgs.Category} at {eventArgs.YValue:0}."";
-
-        return Task.CompletedTask;
-    }
-
-    private sealed class CropForecast
-    {
-        public string Year { get; set; }
-
-        public double Baseline { get; set; }
-
-        public double Forecast { get; set; }
-    }
-}";
-
         public const string SvgChartImportsExample = @"@using Blazorise.Charts.Svg";
 
         public const string SvgChartNugetInstallExample = @"dotnet add package Blazorise.Charts.Svg";
@@ -31837,6 +31771,295 @@ builder.Services
         public double Traffic { get; set; }
 
         public double Sales { get; set; }
+    }
+}";
+
+        public const string SvgChartDataDragBarExample = @"<SvgBarChart TItem=""Allocation"" Items=""@allocations"" Options=""@options"">
+    <SvgChartTitle Title='@(""Team allocation"")' Subtitle='@(""Drag a bar endpoint horizontally"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Team )"" />
+    <SvgChartValueAxis Min=""0"" Max=""100"" TickCount=""6"" />
+    <SvgChartDataDrag Enabled Mode=""SvgChartDataDragMode.X"" XStep=""5"" HitRadius=""12"" DragEnded=""@OnDragEnded"" />
+
+    <SvgBarSeries Name=""Allocation"" Value=""@( item => item.Value )"" Color=""Color.Primary"" BorderRadius=""4"" />
+</SvgBarChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
+    };
+
+    private readonly List<Allocation> allocations =
+    [
+        new() { Team = ""Platform"", Value = 70 },
+        new() { Team = ""Commerce"", Value = 55 },
+        new() { Team = ""Mobile"", Value = 80 },
+        new() { Team = ""Support"", Value = 45 },
+    ];
+
+    private Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled && eventArgs.XValue.HasValue )
+            allocations[eventArgs.PointIndex].Value = eventArgs.XValue.Value;
+
+        return Task.CompletedTask;
+    }
+
+    private sealed class Allocation
+    {
+        public string Team { get; set; }
+
+        public double Value { get; set; }
+    }
+}";
+
+        public const string SvgChartDataDragDoughnutExample = @"<SvgDoughnutChart TItem=""object"" Data=""@data"" Options=""@options"">
+    <SvgChartTitle Title='@(""Budget share"")' Subtitle='@(""Drag around a segment to resize it"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartDataDrag Enabled Mode=""SvgChartDataDragMode.Y"" YStep=""1"" DragEnded=""@OnDragEnded"" />
+</SvgDoughnutChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = [""Engineering"", ""Marketing"", ""Sales"", ""Operations""],
+        Series =
+        [
+            new()
+            {
+                Name = ""Budget"",
+                Values = [38, 22, 25, 15],
+            },
+        ]
+    };
+
+    private Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
+            data.Series[eventArgs.SeriesIndex].Values[eventArgs.PointIndex] = eventArgs.YValue.Value;
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string SvgChartDataDragExample = @"<SvgLineChart TItem=""CropForecast""
+              Items=""@forecasts""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Crop forecast"")' Subtitle='@(""Drag the forecast series to edit projected yield"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Year )"" />
+    <SvgChartValueAxis Min=""0"" Max=""100"" TickCount=""6"" />
+    <SvgChartDataDrag Enabled
+                      Mode=""SvgChartDataDragMode.Y""
+                      YStep=""5""
+                      HitRadius=""14""
+                      Dragging=""@OnDragging""
+                      DragEnded=""@OnDragEnded"" />
+
+    <SvgLineSeries Name=""Baseline"" Value=""@( item => item.Baseline )"" Color=""Color.Secondary"" Draggable=""false"" />
+    <SvgLineSeries Name=""Forecast"" Value=""@( item => item.Forecast )"" Color=""Color.Primary"" MarkerRadius=""6"" />
+</SvgLineChart>
+
+<Paragraph Margin=""Margin.Is2.FromTop.Is0.FromBottom"">@status</Paragraph>
+
+@code {
+    private string status = ""Drag a forecast point, or focus one and use the arrow keys."";
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
+    };
+
+    private readonly List<CropForecast> forecasts =
+    [
+        new() { Year = ""2026"", Baseline = 46, Forecast = 52 },
+        new() { Year = ""2027"", Baseline = 49, Forecast = 61 },
+        new() { Year = ""2028"", Baseline = 51, Forecast = 68 },
+        new() { Year = ""2029"", Baseline = 54, Forecast = 73 },
+    ];
+
+    private Task OnDragging( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        status = $""Editing {eventArgs.Category}: {eventArgs.YValue:0}"";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
+            forecasts[eventArgs.PointIndex].Forecast = eventArgs.YValue.Value;
+
+        status = eventArgs.Canceled
+            ? $""Restored {eventArgs.Category} to {eventArgs.OriginalYValue:0}.""
+            : $""Saved {eventArgs.Category} at {eventArgs.YValue:0}."";
+
+        return Task.CompletedTask;
+    }
+
+    private sealed class CropForecast
+    {
+        public string Year { get; set; }
+
+        public double Baseline { get; set; }
+
+        public double Forecast { get; set; }
+    }
+}";
+
+        public const string SvgChartDataDragRadarExample = @"<SvgRadarChart TItem=""object"" Data=""@data"" Options=""@options"">
+    <SvgChartTitle Title='@(""Product fit"")' Subtitle='@(""Drag the current markers; the target is read-only"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartDataDrag Enabled Mode=""SvgChartDataDragMode.Y"" YStep=""5"" HitRadius=""14"" DragEnded=""@OnDragEnded"" />
+</SvgRadarChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = [""Quality"", ""Speed"", ""Cost"", ""Support"", ""Adoption""],
+        Series =
+        [
+            new()
+            {
+                Name = ""Current"",
+                Color = Color.Primary,
+                Values = [82, 76, 58, 88, 72],
+            },
+            new()
+            {
+                Name = ""Target"",
+                Color = Color.Success,
+                Values = [92, 86, 70, 94, 84],
+                Draggable = false,
+            },
+        ]
+    };
+
+    private Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
+            data.Series[eventArgs.SeriesIndex].Values[eventArgs.PointIndex] = eventArgs.YValue.Value;
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string SvgChartDataDragScatterExample = @"<SvgScatterChart TItem=""Store"" Items=""@stores"" Options=""@options"">
+    <SvgChartTitle Title='@(""Store positioning"")' Subtitle='@(""Drag points along both axes"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartValueAxis Min=""0"" Max=""100"" TickCount=""6"" />
+    <SvgChartDataDrag Enabled Mode=""SvgChartDataDragMode.XY"" XStep=""5"" YStep=""5"" HitRadius=""14"" DragEnded=""@OnDragEnded"" />
+
+    <SvgScatterSeries Name=""Stores"" XValue=""@( item => item.X )"" YValue=""@( item => item.Y )"" Color=""Color.Info"" MarkerRadius=""6"" />
+</SvgScatterChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        XAxis = new() { Min = 0, Max = 100, TickCount = 6, GridLines = new() { Visible = true, Opacity = 0.2 } },
+        YAxis = new() { Min = 0, Max = 100, TickCount = 6 },
+    };
+
+    private readonly List<Store> stores =
+    [
+        new() { X = 15, Y = 35 },
+        new() { X = 30, Y = 55 },
+        new() { X = 45, Y = 40 },
+        new() { X = 60, Y = 75 },
+        new() { X = 80, Y = 65 },
+    ];
+
+    private Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled )
+        {
+            if ( eventArgs.XValue.HasValue )
+                stores[eventArgs.PointIndex].X = eventArgs.XValue.Value;
+
+            if ( eventArgs.YValue.HasValue )
+                stores[eventArgs.PointIndex].Y = eventArgs.YValue.Value;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private sealed class Store
+    {
+        public double X { get; set; }
+
+        public double Y { get; set; }
+    }
+}";
+
+        public const string SvgChartDataDragStackedExample = @"<SvgColumnChart TItem=""Workload"" Items=""@workloads"" Options=""@options"">
+    <SvgChartTitle Title='@(""Team workload"")' Subtitle='@(""Drag either segment to recalculate the stack"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Team )"" />
+    <SvgChartValueAxis Min=""0"" Max=""160"" Stacked TickCount=""5"" />
+    <SvgChartDataDrag Enabled Mode=""SvgChartDataDragMode.Y"" YStep=""5"" HitRadius=""12"" DragEnded=""@OnDragEnded"" />
+
+    <SvgColumnSeries Name=""Committed"" Stack=""workload"" Value=""@( item => item.Committed )"" Color=""Color.Info"" BorderRadius=""4"" />
+    <SvgColumnSeries Name=""Planned"" Stack=""workload"" Value=""@( item => item.Planned )"" Color=""Color.Warning"" BorderRadius=""4"" />
+</SvgColumnChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        YAxis = new() { Min = 0, Max = 160, Stacked = true, TickCount = 5 },
+    };
+
+    private readonly List<Workload> workloads =
+    [
+        new() { Team = ""Platform"", Committed = 65, Planned = 35 },
+        new() { Team = ""Commerce"", Committed = 50, Planned = 45 },
+        new() { Team = ""Mobile"", Committed = 75, Planned = 30 },
+        new() { Team = ""Support"", Committed = 40, Planned = 50 },
+    ];
+
+    private Task OnDragEnded( SvgChartDataPointDragEventArgs eventArgs )
+    {
+        if ( !eventArgs.Canceled && eventArgs.YValue.HasValue )
+        {
+            if ( eventArgs.SeriesIndex == 0 )
+                workloads[eventArgs.PointIndex].Committed = eventArgs.YValue.Value;
+            else if ( eventArgs.SeriesIndex == 1 )
+                workloads[eventArgs.PointIndex].Planned = eventArgs.YValue.Value;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private sealed class Workload
+    {
+        public string Team { get; set; }
+
+        public double Committed { get; set; }
+
+        public double Planned { get; set; }
     }
 }";
 

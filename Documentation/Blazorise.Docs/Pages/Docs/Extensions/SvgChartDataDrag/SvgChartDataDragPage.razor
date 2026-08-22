@@ -1,0 +1,92 @@
+@page "/docs/extensions/svg-chart-data-drag"
+
+<Seo Canonical="/docs/extensions/svg-chart-data-drag" Title="Blazorise SVG Chart Data Drag" Description="Learn how to edit native SVG chart values by dragging data points with pointer or keyboard input." />
+
+<DocsPageTitle Path="Extensions/SVG Chart Data Drag">
+    Blazorise SVG Chart Data Drag
+</DocsPageTitle>
+
+<DocsPageLead>
+    Turn charts into visual editors for forecasts, plans, allocations, and other values that are easier to adjust in context.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Data dragging is useful for scenario planning and approximate adjustments where users need to see the effect of a change immediately. Editing directly in the visualization avoids switching between a chart and a separate form, while keeping relationships, stacks, proportions, and trade-offs visible throughout the interaction.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The same interaction supports guided editing across cartesian, stacked, point-based, and radial charts. It is especially effective when users compare alternatives, balance stacked totals, reposition points, or reshape proportions because feedback remains continuous and the chart never stops providing context. Pointer, keyboard, and cancellation support keep that workflow accessible and recoverable.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Examples
+</DocsPageSectionTitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Editable forecast">
+        Drag a forecast marker vertically. Values snap to increments of five, while the baseline series remains read-only.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartDataDragExample" Outlined FullWidth>
+        <SvgChartDataDragExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Horizontal bar editing">
+        Drag a bar endpoint horizontally to change its value. The final value is persisted from <Code>DragEnded</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartDataDragBarExample" Outlined FullWidth>
+        <SvgChartDataDragBarExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Stacked segment editing">
+        Drag either column segment vertically. The selected value changes while the remaining stack is recalculated.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartDataDragStackedExample" Outlined FullWidth>
+        <SvgChartDataDragStackedExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Two-axis point editing">
+        Drag scatter points freely along both axes and snap the resulting X and Y values independently.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartDataDragScatterExample" Outlined FullWidth>
+        <SvgChartDataDragScatterExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Angular value editing">
+        Drag around a doughnut segment to resize it. Pie charts use the same angular interaction.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartDataDragDoughnutExample" Outlined FullWidth>
+        <SvgChartDataDragDoughnutExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Radial value editing">
+        Drag radar markers inward or outward along their spokes. The target series remains read-only.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartDataDragRadarExample" Outlined FullWidth>
+        <SvgChartDataDragRadarExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSectionTitle>
+    Limitations
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    Data point dragging is not enabled while chart streaming is active. Category positions on line, area, bar, column, radar, and polar area charts remain fixed; use scatter or bubble data when the category position must also be editable. Bubble radius is not changed by data dragging.
+</DocsPageParagraph>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="<SvgChartDataDrag />" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="SvgChartDataDragOptions" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="SvgChartDataPointDragEventArgs" />
+    <DocsPageApiItem Url="docs/extensions/svg-chart/api" Name="SvgChartDataDragMode" />
+</DocsPageApi>
