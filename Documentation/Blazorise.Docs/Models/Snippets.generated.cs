@@ -971,7 +971,7 @@ namespace Blazorise.Docs.Models
 <Button Color=""Color.Primary"" Size=""Size.Small"">Small</Button>";
 
         public const string StretchedLinkButtonExample = @"<Card Width=""Width.Rem(18)"">
-    <CardImage Source=""/img/gallery/5.jpg"" Alt=""Placeholder image"" />
+    <CardImage Source=""/img/gallery/5.jpg"" Text=""Placeholder image"" />
     <CardBody>
         <CardTitle Size=""HeadingSize.Is3"">
             Card with stretched link
@@ -1042,7 +1042,7 @@ namespace Blazorise.Docs.Models
 
         public const string CardDeckExample = @"<CardDeck>
     <Card>
-        <CardImage Source=""/img/gallery/2.jpg"" Alt=""Card image cap 3""></CardImage>
+        <CardImage Source=""/img/gallery/2.jpg"" Text=""Card image cap 3""></CardImage>
         <CardBody>
             <CardTitle Size=""HeadingSize.Is5"">Card title 1</CardTitle>
             <CardText>
@@ -1052,7 +1052,7 @@ namespace Blazorise.Docs.Models
         </CardBody>
     </Card>
     <Card>
-        <CardImage Source=""/img/gallery/3.jpg"" Alt=""Card image cap 9""></CardImage>
+        <CardImage Source=""/img/gallery/3.jpg"" Text=""Card image cap 9""></CardImage>
         <CardBody>
             <CardTitle Size=""HeadingSize.Is5"">Card title 2</CardTitle>
             <CardText>
@@ -1062,7 +1062,7 @@ namespace Blazorise.Docs.Models
         </CardBody>
     </Card>
     <Card>
-        <CardImage Source=""/img/gallery/4.jpg"" Alt=""Card image cap 12""></CardImage>
+        <CardImage Source=""/img/gallery/4.jpg"" Text=""Card image cap 12""></CardImage>
         <CardBody>
             <CardTitle Size=""HeadingSize.Is5"">Card title 3</CardTitle>
             <CardText>
@@ -1104,7 +1104,7 @@ namespace Blazorise.Docs.Models
 </Card>";
 
         public const string CardImageExample = @"<Card>
-    <CardImage Source=""/img/gallery/2.jpg"" Alt=""Placeholder image"" />
+    <CardImage Source=""/img/gallery/2.jpg"" Text=""Placeholder image"" />
     <CardBody>
         <CardTitle Size=""HeadingSize.Is3"">
             Card title
@@ -2319,12 +2319,12 @@ namespace Blazorise.Docs.Models
 </Field>";
 
         public const string FigureExample = @"<Figure Size=""FigureSize.Is256x256"">
-    <FigureImage Source=""img/empty-256x256.png"" AlternateText=""empty-256x256"" />
+    <FigureImage Source=""img/empty-256x256.png"" Text=""empty-256x256"" />
     <FigureCaption>A caption for the above image.</FigureCaption>
 </Figure>";
 
         public const string FigureRoundedExample = @"<Figure Size=""FigureSize.Is256x256"">
-    <FigureImage Source=""img/empty-256x256.png"" AlternateText=""empty-256x256"" Rounded />
+    <FigureImage Source=""img/empty-256x256.png"" Text=""empty-256x256"" Rounded />
     <FigureCaption>A caption for the above image.</FigureCaption>
 </Figure>";
 
@@ -3263,7 +3263,7 @@ namespace Blazorise.Docs.Models
 </Paragraph>";
 
         public const string LinkStretchedExample = @"<Card Width=""Width.Rem(18)"">
-    <CardImage Source=""/img/gallery/2.jpg"" Alt=""Placeholder image"" />
+    <CardImage Source=""/img/gallery/2.jpg"" Text=""Placeholder image"" />
     <CardBody>
         <CardTitle Size=""HeadingSize.Is3"">
             Card with stretched link
@@ -28033,18 +28033,18 @@ builder.Services
     }
 }";
 
-        public const string BasicQRCodeExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" />";
+        public const string BasicQRCodeExample = @"<QRCode Value=""https://blazorise.com"" Text=""QRCode image"" />";
 
         public const string ImportQRCodeExample = @"@using Blazorise.QRCode";
 
-        public const string QRCodeColorExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" DarkColor=""#7474ed"" />";
+        public const string QRCodeColorExample = @"<QRCode Value=""https://blazorise.com"" Text=""QRCode image"" DarkColor=""#7474ed"" />";
 
-        public const string QRCodeErrorCorrectionExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.L"" PixelsPerModule=""4"" />
-<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.M"" PixelsPerModule=""4"" />
-<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.Q"" PixelsPerModule=""4"" />
-<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.H"" PixelsPerModule=""4"" />";
+        public const string QRCodeErrorCorrectionExample = @"<QRCode Value=""https://blazorise.com"" Text=""QRCode image"" EccLevel=""EccLevel.L"" PixelsPerModule=""4"" />
+<QRCode Value=""https://blazorise.com"" Text=""QRCode image"" EccLevel=""EccLevel.M"" PixelsPerModule=""4"" />
+<QRCode Value=""https://blazorise.com"" Text=""QRCode image"" EccLevel=""EccLevel.Q"" PixelsPerModule=""4"" />
+<QRCode Value=""https://blazorise.com"" Text=""QRCode image"" EccLevel=""EccLevel.H"" PixelsPerModule=""4"" />";
 
-        public const string QRCodeIconExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.H"" Icon=""@base64PngIcon"" />
+        public const string QRCodeIconExample = @"<QRCode Value=""https://blazorise.com"" Text=""QRCode image"" EccLevel=""EccLevel.H"" Icon=""@base64PngIcon"" />
 
 @code {
     string base64PngIcon = ""data:image/png;base64, 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"";
@@ -28053,7 +28053,7 @@ builder.Services
         public const string QRCodeNugetInstallExample = @"dotnet add package Blazorise.QRCode";
 
         public const string QRCodeTextExample = @"<Div Padding=""Padding.Is2"" Border=""Border.Rounded"" Flex=""Flex.InlineFlex.Column.AlignItems.Center"" Background=""Background.Dark"" TextColor=""TextColor.Light"">
-    <QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" />
+    <QRCode Value=""https://blazorise.com"" Text=""QRCode image"" />
     <Div Flex=""Flex.JustifyContent.Center.AlignItems.Center"">
         <Span>
             SCAN ME
@@ -33554,15 +33554,15 @@ builder.Services
 
         public const string FigureSizeExample = @"<Div Flex=""Flex.Row.Wrap"">
     <Figure Size=""FigureSize.Is64x64"" Margin=""Margin.Is2.FromEnd.Is2.FromBottom"">
-        <FigureImage Source=""img/empty-256x256.png"" AlternateText=""Placeholder"" />
+        <FigureImage Source=""img/empty-256x256.png"" Text=""Placeholder"" />
         <FigureCaption>64x64</FigureCaption>
     </Figure>
     <Figure Size=""FigureSize.Is128x128"" Margin=""Margin.Is2.FromEnd.Is2.FromBottom"">
-        <FigureImage Source=""img/empty-256x256.png"" AlternateText=""Placeholder"" />
+        <FigureImage Source=""img/empty-256x256.png"" Text=""Placeholder"" />
         <FigureCaption>128x128</FigureCaption>
     </Figure>
     <Figure Size=""FigureSize.Is256x256"" Margin=""Margin.Is2.FromEnd.Is2.FromBottom"">
-        <FigureImage Source=""img/empty-256x256.png"" AlternateText=""Placeholder"" />
+        <FigureImage Source=""img/empty-256x256.png"" Text=""Placeholder"" />
         <FigureCaption>256x256</FigureCaption>
     </Figure>
 </Div>";

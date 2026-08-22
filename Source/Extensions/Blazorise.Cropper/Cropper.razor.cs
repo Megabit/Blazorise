@@ -28,14 +28,15 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
         if ( Rendered )
         {
             var sourceChanged = parameters.TryGetValue<string>( nameof( Source ), out var paramSource ) && paramSource != Source;
-            var altChanged = parameters.TryGetValue<string>( nameof( Alt ), out var paramAlt ) && paramAlt != Alt;
+            var paramText = ResolveText( parameters );
+            var textChanged = paramText != Text;
             var crossoriginChanged = parameters.TryGetValue<string>( nameof( CrossOrigin ), out var paramCrossOrigin ) && paramCrossOrigin != CrossOrigin;
             var imageOptionsChanged = parameters.TryGetValue<CropperImageOptions>( nameof( ImageOptions ), out var paramImageOptions ) && paramImageOptions != ImageOptions;
             var selectionOptionsChanged = parameters.TryGetValue<CropperSelectionOptions>( nameof( SelectionOptions ), out var paramSelectionOptions ) && paramSelectionOptions != SelectionOptions;
             var gridOptionsChanged = parameters.TryGetValue<CropperGridOptions>( nameof( GridOptions ), out var paramGridOptions ) && paramGridOptions != GridOptions;
             var enabledChanged = parameters.TryGetValue<bool>( nameof( Enabled ), out var paramEnabled ) && paramEnabled != Enabled;
             if ( sourceChanged
-                || altChanged
+                || textChanged
                 || crossoriginChanged
                 || imageOptionsChanged
                 || selectionOptionsChanged
@@ -45,7 +46,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new()
                 {
                     Source = new( sourceChanged, paramSource ),
-                    Alt = new( altChanged, paramAlt ),
+                    Alt = new( textChanged, paramText ),
                     CrossOrigin = new( crossoriginChanged, paramCrossOrigin ),
                     Image = new( imageOptionsChanged, new CropperImageOptions
                     {
@@ -93,7 +94,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
             await JSModule.Initialize( adapter, ElementRef, ElementId, new()
             {
                 Source = Source,
-                Alt = Alt,
+                Alt = Text,
                 Enabled = Enabled,
                 ShowBackground = ShowBackground,
                 Image = new()
@@ -267,6 +268,16 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
             await ImageLoadingFailed.Invoke( errorMessage );
     }
 
+    private string ResolveText( ParameterView parameters )
+    {
+        if ( parameters.TryGetValue<string>( nameof( Text ), out var paramText ) )
+            return paramText;
+
+        return parameters.TryGetValue<string>( "Alt", out var paramAlt )
+            ? paramAlt
+            : Text;
+    }
+
     #endregion
 
     #region Properties
@@ -287,9 +298,23 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
     [Parameter, EditorRequired] public string Source { get; set; }
 
     /// <summary>
-    /// The alt text of the image.
+    /// Alternate text for the image.
     /// </summary>
-    [Parameter] public string Alt { get; set; }
+    [Parameter] public string Text { get; set; }
+
+    /// <summary>
+    /// Alternate text for the image.
+    /// </summary>
+    /// <remarks>
+    /// This parameter is retained for source compatibility. Use <see cref="Text"/> instead.
+    /// </remarks>
+    [Obsolete( "Use Text instead." )]
+    [Parameter]
+    public string Alt
+    {
+        get => Text;
+        set => Text = value;
+    }
 
     /// <summary>
     /// The cross-origin attribute of the image.
