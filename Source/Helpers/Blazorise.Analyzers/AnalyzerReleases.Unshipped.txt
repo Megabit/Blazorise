@@ -7,6 +7,7 @@ BLZJS002: Blazorise Animate obsolete script reference
 BLZP002: Blazorise parameter type changed
 BLZP003: Blazorise parameter removed
 BLZP004: Blazorise Color.Link is button/alert-only
+BLZP005: Blazorise parameter obsolete
 BLZR001: Blazorise Razor tag renamed
 BLZS001: Blazorise member renamed
 BLZS002: Blazorise member removed

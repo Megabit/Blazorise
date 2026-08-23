@@ -7,7 +7,7 @@
                 <CardTitle>Dropdown List: Single Value</CardTitle>
             </CardHeader>
             <CardBody>
-                <Field Horizontal JustifyContent="JustifyContent.End">
+                <Field Horizontal Flex="Flex.JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <DropdownList TItem="Country"
@@ -23,7 +23,7 @@
                         </DropdownList>
                     </FieldBody>
                 </Field>
-                <Field Horizontal JustifyContent="JustifyContent.End">
+                <Field Horizontal Flex="Flex.JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                         Selected value: @selectedDropValue
                     </FieldBody>
@@ -51,7 +51,7 @@
                 Showing the use of IReadOnlyList&lt;T&gt; as the TValue type for DropdownList.
             </CardBody>
             <CardBody>
-                <Field Horizontal JustifyContent="JustifyContent.End">
+                <Field Horizontal Flex="Flex.JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <DropdownList TItem="Country"
@@ -68,7 +68,7 @@
                         </DropdownList>
                     </FieldBody>
                 </Field>
-                <Field Horizontal JustifyContent="JustifyContent.End">
+                <Field Horizontal Flex="Flex.JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                         Selected values: @(selectedDropValues is not null ? string.Join( ',', selectedDropValues ) : "")
                     </FieldBody>
@@ -94,7 +94,7 @@
                 Showing the use of Array as the TValue type for DropdownList.
             </CardBody>
             <CardBody>
-                <Field Horizontal JustifyContent="JustifyContent.End">
+                <Field Horizontal Flex="Flex.JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <DropdownList TItem="Country"
@@ -111,7 +111,7 @@
                         </DropdownList>
                     </FieldBody>
                 </Field>
-                <Field Horizontal JustifyContent="JustifyContent.End">
+                <Field Horizontal Flex="Flex.JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                         Selected values: @(selectedDropValues2 is not null ? string.Join( ',', selectedDropValues2 ) : "")
                     </FieldBody>

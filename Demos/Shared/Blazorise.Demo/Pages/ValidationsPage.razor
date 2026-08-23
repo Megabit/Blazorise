@@ -83,7 +83,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="@ValidateDateOfBirth">
-                        <Field Horizontal JustifyContent="JustifyContent.End">
+                        <Field Horizontal Flex="Flex.JustifyContent.End">
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
                                 <DateInput TValue="DateOnly ?">
@@ -95,7 +95,7 @@
                         </Field>
                     </Validation>
                     <Validation UsePattern>
-                        <Field Horizontal JustifyContent="JustifyContent.End">
+                        <Field Horizontal Flex="Flex.JustifyContent.End">
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Pattern</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
                                 <TextInput Pattern="[A-Za-z]{3}">
@@ -107,7 +107,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="ValidationRule.IsChecked">
-                        <Field Horizontal JustifyContent="JustifyContent.End">
+                        <Field Horizontal Flex="Flex.JustifyContent.End">
                             <FieldBody ColumnSize="ColumnSize.Is9.Is3.WithOffset">
                                 <Check TValue="bool">
                                     <ChildContent>
@@ -121,7 +121,7 @@
                         </Field>
                     </Validation>
                 </Validations>
-                <Field Horizontal JustifyContent="JustifyContent.End">
+                <Field Horizontal Flex="Flex.JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is9.Is3.WithOffset">
                         <Button Color="Color.Primary">Submit</Button>
                     </FieldBody>
@@ -208,7 +208,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="@ValidateDateOfBirth">
-                        <Field Horizontal JustifyContent="JustifyContent.End">
+                        <Field Horizontal Flex="Flex.JustifyContent.End">
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Date</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
                                 <DateInput TValue="DateOnly ?">
@@ -220,7 +220,7 @@
                         </Field>
                     </Validation>
                     <Validation UsePattern>
-                        <Field Horizontal JustifyContent="JustifyContent.End">
+                        <Field Horizontal Flex="Flex.JustifyContent.End">
                             <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">Pattern</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is9.OnDesktop">
                                 <TextInput Pattern="[A-Za-z]{3}">
@@ -232,7 +232,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="ValidationRule.IsChecked">
-                        <Field Horizontal JustifyContent="JustifyContent.End">
+                        <Field Horizontal Flex="Flex.JustifyContent.End">
                             <FieldBody ColumnSize="ColumnSize.Is9.Is3.WithOffset">
                                 <Check TValue="bool">
                                     <ChildContent>
@@ -245,7 +245,7 @@
                             </FieldBody>
                         </Field>
                     </Validation>
-                    <Field Horizontal JustifyContent="JustifyContent.End">
+                    <Field Horizontal Flex="Flex.JustifyContent.End">
                         <FieldBody ColumnSize="ColumnSize.Is9.Is3.WithOffset">
                             <Button Color="Color.Primary" Clicked="@Submit">Submit</Button>
                         </FieldBody>
@@ -363,7 +363,7 @@
                         </Field>
                     </Validation>
                     <Validation>
-                        <Field Horizontal JustifyContent="JustifyContent.End">
+                        <Field Horizontal Flex="Flex.JustifyContent.End">
                             <FieldBody ColumnSize="ColumnSize.Is9.Is3.WithOffset">
                                 <Check @bind-Value="@user.TermsAndConditions">
                                     <ChildContent>
@@ -376,7 +376,7 @@
                             </FieldBody>
                         </Field>
                     </Validation>
-                    <Field Horizontal JustifyContent="JustifyContent.End">
+                    <Field Horizontal Flex="Flex.JustifyContent.End">
                         <FieldBody ColumnSize="ColumnSize.Is9.Is3.WithOffset">
                             <Button Color="Color.Primary">Submit</Button>
                         </FieldBody>
@@ -461,7 +461,7 @@
                         </Field>
                     </Validation>
                     <Validation>
-                        <Field Horizontal JustifyContent="JustifyContent.End">
+                        <Field Horizontal Flex="Flex.JustifyContent.End">
                             <FieldBody ColumnSize="ColumnSize.Is9.Is3.WithOffset">
                                 <Check @bind-Value="@manualUser.TermsAndConditions">
                                     <ChildContent>
@@ -474,7 +474,7 @@
                             </FieldBody>
                         </Field>
                     </Validation>
-                    <Field Horizontal JustifyContent="JustifyContent.End">
+                    <Field Horizontal Flex="Flex.JustifyContent.End">
                         <FieldBody ColumnSize="ColumnSize.Is9.Is3.WithOffset">
                             <Button Color="Color.Primary" Clicked="@AnnotationsSubmit">Submit</Button>
                         </FieldBody>

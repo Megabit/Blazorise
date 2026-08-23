@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
 using Xunit;
 
 namespace Blazorise.Analyzers.Tests;
@@ -234,6 +235,36 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
         Assert.Contains( removalDiagnostics, d => d.GetMessage() == "Parameter 'Centered' was removed from component 'ModalContent': Use the Modal.Centered parameter instead." );
         Assert.Contains( removalDiagnostics, d => d.GetMessage() == "Parameter 'Scrollable' was removed from component 'ModalContent': Use the Modal.Scrollable parameter instead." );
         Assert.Contains( removalDiagnostics, d => d.GetMessage() == "Parameter 'Size' was removed from component 'ModalContent': Use the Modal.Size parameter instead." );
+    }
+
+    [Fact]
+    public async Task Reports_field_justifycontent_parameter_as_obsolete()
+    {
+        var source = @"
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Blazorise
+{
+    public enum JustifyContent { Default, Start, End, Center, Between, Around }
+    public class Field : Microsoft.AspNetCore.Components.ComponentBase { }
+}
+
+public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+{
+    public void Build( RenderTreeBuilder builder )
+    {
+        builder.OpenComponent<Blazorise.Field>( 0 );
+        builder.AddAttribute( 1, ""JustifyContent"", Blazorise.JustifyContent.End );
+        builder.CloseComponent();
+    }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        var diagnostic = Assert.Single( diagnostics );
+        Assert.Equal( "BLZP005", diagnostic.Id );
+        Assert.Equal( DiagnosticSeverity.Warning, diagnostic.Severity );
+        Assert.Equal( "Parameter 'JustifyContent' is obsolete on component 'Field': Use the Flex parameter with Flex.JustifyContent instead.", diagnostic.GetMessage() );
     }
 
     [Fact]

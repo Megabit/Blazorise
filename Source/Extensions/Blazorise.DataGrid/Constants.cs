@@ -27,6 +27,7 @@ static class Constants
 
     // Flex
     internal static readonly IFluentFlex FlexRow = Flex.Row;
+    internal static readonly IFluentFlex FlexJustifyContentBetween = Flex.JustifyContent.Between;
     internal static readonly IFluentFlex FlexJustifyContentEndAlignItemsCenter = Flex.JustifyContent.End.AlignItems.Center;
     internal static readonly IFluentFlex FlexRowAlignItemsCenterJustifyContentEnd = Flex.Row.AlignItems.Center.JustifyContent.End;
     internal static readonly IFluentFlex FlexInlineFlexOnTabletJustifyContentCenterOnTablet = Flex.InlineFlex.OnTablet.JustifyContent.Center.OnTablet;

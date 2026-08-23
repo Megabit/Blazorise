@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-22T17:54:34.3151658Z",
+  "generatedUtc": "2026-08-23T06:26:12.0741384Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -49027,6 +49027,7 @@
           "typeName": "JustifyContent",
           "defaultValue": "Default",
           "summary": "Specifies how the container's items are aligned along the main axis when there is extra space available.",
+          "remarks": "This parameter is retained for source compatibility. Use <strong>Flex</strong> instead.",
           "isBlazoriseEnum": true
         },
         {
