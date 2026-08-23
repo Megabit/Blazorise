@@ -5718,6 +5718,19 @@ textarea.mui-input[data-autosize=true] {
   color: var(--mui-error);
 }
 
+.mui-addons-validation-feedback {
+  display: contents;
+}
+.mui-addons-validation-feedback > [data-validation-status] {
+  display: block;
+}
+.mui-addons-validation-feedback > [data-validation-status] > :is(.valid-feedback, .warning-feedback, .invalid-feedback), .mui-addons-validation-feedback > [data-validation-status]:not([data-validation-status=none]) > .none-feedback {
+  display: none;
+}
+.mui-addons-validation-feedback > [data-validation-status][data-validation-status=success] > .valid-feedback, .mui-addons-validation-feedback > [data-validation-status][data-validation-status=warning] > .warning-feedback, .mui-addons-validation-feedback > [data-validation-status][data-validation-status=error] > .invalid-feedback {
+  display: inline-block;
+}
+
 :is(.mui-input, .mui-select, .mui-addons).is-valid + .valid-feedback,
 :is(.mui-input, .mui-select, .mui-addons).is-valid + .form-text.text-muted + .valid-feedback,
 :is(.mui-input, .mui-select, .mui-addons).is-warning + .warning-feedback,

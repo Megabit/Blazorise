@@ -53,3 +53,22 @@
 :is(div, label):has(.b-is-invalid) + .b-validation-none + .b-validation-success + .b-validation-warning + .b-validation-error {
     display: block;
 }
+
+.b-addons-validation-feedback {
+    display: contents;
+
+    > [data-validation-status] {
+        display: contents;
+
+        > :is(.b-validation-success, .b-validation-warning, .b-validation-error),
+        &:not([data-validation-status='none']) > .b-validation-none {
+            display: none;
+        }
+
+        &[data-validation-status='success'] > .b-validation-success,
+        &[data-validation-status='warning'] > .b-validation-warning,
+        &[data-validation-status='error'] > .b-validation-error {
+            display: block;
+        }
+    }
+}

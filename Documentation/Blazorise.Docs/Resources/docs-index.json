@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-22T17:54:34.8612653Z",
+  "generatedUtc": "2026-08-23T12:57:25.3380407Z",
   "pages": [
     {
       "route": "/docs",
@@ -142,9 +142,9 @@
           "code": "AddonWithValidationExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Addons/Examples/AddonWithValidationExample.razor",
-          "content": "<Validation Validator=\"ValidationRule.IsNotEmpty\">\r\n    <Addons>\r\n        <Addon AddonType=\"AddonType.Body\">\r\n            <TextInput Placeholder=\"Enter name\" />\r\n        </Addon>\r\n        <Addon AddonType=\"AddonType.End\">\r\n            <AddonLabel>This is a label</AddonLabel>\r\n        </Addon>\r\n        <ValidationNone></ValidationNone>\r\n        <ValidationSuccess></ValidationSuccess>\r\n        <ValidationError>Enter valid name!</ValidationError>\r\n    </Addons>\r\n</Validation>",
+          "content": "<Validation Validator=\"ValidationRule.IsNotEmpty\">\r\n    <Addons>\r\n        <Addon AddonType=\"AddonType.Body\">\r\n            <TextInput Placeholder=\"Enter name\">\r\n                <Feedback>\r\n                    <ValidationNone />\r\n                    <ValidationSuccess />\r\n                    <ValidationError>Enter valid name!</ValidationError>\r\n                </Feedback>\r\n            </TextInput>\r\n        </Addon>\r\n        <Addon AddonType=\"AddonType.End\">\r\n            <AddonLabel>This is a label</AddonLabel>\r\n        </Addon>\r\n    </Addons>\r\n</Validation>",
           "title": "Validation",
-          "description": "When incorporating input validation within an Addon component, the user interface may become disrupted. This issue arises due to the Addon's distinct HTML and CSS structure, which is designed to accommodate specific elements. Displaying validation error messages within an Addon is one such instance that can cause complications. In the following example, we will demonstrate a solution to this issue, ensuring that the input validation process within an Addon component functions smoothly without disrupting the user interface. This example will provide a better understanding of how to effectively handle validation errors inside of an Addon."
+          "description": "Inputs inside Addons use the regular Feedback content. Validation messages are automatically placed below the input group so they do not disrupt its layout or addon border radii."
         }
       ]
     },

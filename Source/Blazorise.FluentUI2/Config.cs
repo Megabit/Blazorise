@@ -38,6 +38,7 @@ public static class Config
     {
         { typeof( Blazorise.AccordionToggle ), typeof( Components.AccordionToggle ) },
         { typeof( Blazorise.Addon ), typeof( Components.Addon ) },
+        { typeof( Blazorise.Addons ), typeof( Components.Addons ) },
         { typeof( Blazorise.Alert ), typeof( Components.Alert ) },
         { typeof( Blazorise.AlertDescription ), typeof( Components.AlertDescription ) },
         { typeof( Blazorise.AlertMessage ), typeof( Components.AlertMessage ) },

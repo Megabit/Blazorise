@@ -3226,6 +3226,19 @@ input:is(.is-success, .is-warning, .is-danger) + label + .help.is-none {
   display: none;
 }
 
+.addons-validation-feedback {
+  display: contents;
+}
+.addons-validation-feedback > [data-validation-status] {
+  display: contents;
+}
+.addons-validation-feedback > [data-validation-status] > :is(.help.is-success, .help.is-warning, .help.is-danger), .addons-validation-feedback > [data-validation-status]:not([data-validation-status=none]) > .help.is-none {
+  display: none;
+}
+.addons-validation-feedback > [data-validation-status][data-validation-status=success] > .help.is-success, .addons-validation-feedback > [data-validation-status][data-validation-status=warning] > .help.is-warning, .addons-validation-feedback > [data-validation-status][data-validation-status=error] > .help.is-danger {
+  display: block;
+}
+
 :is(.control:has(.is-success), input.is-success, textarea.is-success, .EasyMDEContainer.b-markdown-valid, .b-richtextedit.is-success) + .help.is-success,
 :is(.control:has(.is-success), input.is-success, textarea.is-success, .EasyMDEContainer.b-markdown-valid, .b-richtextedit.is-success) + .help.is-none + .help.is-success,
 input.is-success + label + .help.is-success,

@@ -10986,6 +10986,18 @@ td:focus {
 .b-is-invalid + .b-validation-error, .b-is-invalid + .b-validation-none + .b-validation-error, .b-is-invalid + .b-validation-success + .b-validation-error, .b-is-invalid + .b-validation-none + .b-validation-success + .b-validation-error, .b-is-invalid + .b-validation-warning + .b-validation-error, .b-is-invalid + .b-validation-none + .b-validation-warning + .b-validation-error, .b-is-invalid + .b-validation-success + .b-validation-warning + .b-validation-error, .b-is-invalid + .b-validation-none + .b-validation-success + .b-validation-warning + .b-validation-error, :is(div, label):has(.b-is-invalid) + .b-validation-error, :is(div, label):has(.b-is-invalid) + .b-validation-none + .b-validation-error, :is(div, label):has(.b-is-invalid) + .b-validation-success + .b-validation-error, :is(div, label):has(.b-is-invalid) + .b-validation-none + .b-validation-success + .b-validation-error, :is(div, label):has(.b-is-invalid) + .b-validation-warning + .b-validation-error, :is(div, label):has(.b-is-invalid) + .b-validation-none + .b-validation-warning + .b-validation-error, :is(div, label):has(.b-is-invalid) + .b-validation-success + .b-validation-warning + .b-validation-error, :is(div, label):has(.b-is-invalid) + .b-validation-none + .b-validation-success + .b-validation-warning + .b-validation-error {
   display: block;
 }
+.b-addons-validation-feedback {
+  display: contents;
+}
+.b-addons-validation-feedback > [data-validation-status] {
+  display: contents;
+}
+.b-addons-validation-feedback > [data-validation-status] > :is(.b-validation-success, .b-validation-warning, .b-validation-error), .b-addons-validation-feedback > [data-validation-status]:not([data-validation-status=none]) > .b-validation-none {
+  display: none;
+}
+.b-addons-validation-feedback > [data-validation-status][data-validation-status=success] > .b-validation-success, .b-addons-validation-feedback > [data-validation-status][data-validation-status=warning] > .b-validation-warning, .b-addons-validation-feedback > [data-validation-status][data-validation-status=error] > .b-validation-error {
+  display: block;
+}
 .EasyMDEContainer .editor-toolbar, .EasyMDEContainer .editor-toolbar button, .EasyMDEContainer .editor-toolbar i, .EasyMDEContainer .editor-toolbar .separator {
   color: var(--btw-color-gray-700);
 }

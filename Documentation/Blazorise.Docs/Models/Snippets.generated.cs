@@ -49,14 +49,17 @@ namespace Blazorise.Docs.Models
         public const string AddonWithValidationExample = @"<Validation Validator=""ValidationRule.IsNotEmpty"">
     <Addons>
         <Addon AddonType=""AddonType.Body"">
-            <TextInput Placeholder=""Enter name"" />
+            <TextInput Placeholder=""Enter name"">
+                <Feedback>
+                    <ValidationNone />
+                    <ValidationSuccess />
+                    <ValidationError>Enter valid name!</ValidationError>
+                </Feedback>
+            </TextInput>
         </Addon>
         <Addon AddonType=""AddonType.End"">
             <AddonLabel>This is a label</AddonLabel>
         </Addon>
-        <ValidationNone></ValidationNone>
-        <ValidationSuccess></ValidationSuccess>
-        <ValidationError>Enter valid name!</ValidationError>
     </Addons>
 </Validation>";
 

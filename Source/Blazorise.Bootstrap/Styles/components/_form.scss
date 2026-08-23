@@ -479,6 +479,25 @@ input[readonly="readonly"][type=range] {
     color: var(--b-theme-warning, $warning);
 }
 
+.input-group-validation-feedback {
+    display: contents;
+
+    > [data-validation-status] {
+        display: contents;
+
+        > :is(.valid-feedback, .warning-feedback, .invalid-feedback),
+        &:not([data-validation-status='none']) > .none-feedback {
+            display: none;
+        }
+
+        &[data-validation-status='success'] > .valid-feedback,
+        &[data-validation-status='warning'] > .warning-feedback,
+        &[data-validation-status='error'] > .invalid-feedback {
+            display: block;
+        }
+    }
+}
+
 :is(.form-control, .custom-select).is-valid + .valid-feedback,
 :is(.form-control, .custom-select).is-valid + .form-text.text-muted + .valid-feedback,
 .custom-file-input.is-valid + .custom-file-label + .valid-feedback,

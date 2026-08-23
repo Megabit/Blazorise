@@ -287,6 +287,16 @@
             border-inline-end-color: var(--ant-color-border);
         }
     }
+
+    &.ant-input-group-wrapper-status-error > .ant-input-wrapper.ant-input-group > .ant-input-group-addon {
+        color: var(--ant-color-error-text);
+        border-color: var(--ant-color-error);
+    }
+
+    &.ant-input-group-wrapper-status-warning > .ant-input-wrapper.ant-input-group > .ant-input-group-addon {
+        color: var(--ant-color-warning-text);
+        border-color: var(--ant-color-warning);
+    }
 }
 
 .ant-addons-has-button .ant-input-group-addon {

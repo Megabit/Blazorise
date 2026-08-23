@@ -77,6 +77,7 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 - Define reusable SCSS maps and lists in the provider's `_variables.scss` file instead of declaring them inline in component or utility partials.
 - When styling provider components, always use the CSS provider's native CSS variables or design tokens whenever suitable tokens exist.
 - Provider-owned CSS classes must follow the current provider's native naming convention and prefix (for example, `ant-*` in AntDesign); do not introduce shared `b-*` class names for provider-specific selectors or runtime hooks.
+- Use provider-prefixed classes for provider styling hooks. Reserve data attributes for semantic state, and serialize their values as lowercase kebab-case.
 - Introduce new CSS variables only when the provider does not expose suitable native variables.
 - For providers without native CSS variables but with SCSS variables, prefer the provider's SCSS variables for compiled defaults and override the relevant selectors and values in the provider theme generator for runtime Blazorise theming.
 - Any new CSS variables must follow the CSS provider's established variable naming convention; do not invent a provider prefix or use a shared cross-provider naming convention.
@@ -104,7 +105,11 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 - When renaming a component parameter while retaining the old name as an obsolete compatibility alias, proxy the alias directly to the canonical parameter (for example, `get => Text; set => Text = value;`). Do not introduce a separate backing field or an `Effective{Name}` member solely for the alias. Supplying both parameter names in the same render is unsupported; do not define precedence between them.
 - Maintain a single owner for component state. Descendants should consume parent state through cascading state rather than expose parameters that can create conflicting states.
 - Route user interaction, public methods, parameter updates, and two-way binding through the same component lifecycle and event semantics.
-- Avoid additional state fields, abstractions, and public APIs unless they are required to represent genuinely distinct state or behavior.
+- Add state fields only when their values cannot be derived from existing parameters, lifecycle, or collections. Keep one source of truth, and avoid parallel collections, cached values, and pending-render flags when simple checks or Blazor render coalescing are sufficient.
+- For fixed cascading parents that own the child subtree, register children in `OnInitialized` and unregister during disposal; do not track previous parents unless the child can demonstrably survive a parent change.
+- Keep backing fields only when the raw parameter value and its effective rendered value genuinely differ.
+- Prefer Razor for component-local markup. Use shared protected `RenderFragment` builders only when common rendering logic requires provider-specific placement.
+- Avoid additional abstractions and public APIs unless they are required to represent genuinely distinct state or behavior.
 - Keep static provider styling in SCSS. Use `StyleProvider` only for styles derived from runtime component state.
 - Prefer provider-native tokens and variables. Introduce new CSS variables only when necessary and name them according to the provider's established convention.
 
@@ -112,6 +117,7 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 
 - Unit tests: xUnit + bUnit (`Tests/Blazorise.Tests`). Match existing naming like `*ComponentTest.cs`.
 - E2E: Playwright + NUnit (`Tests/Blazorise.E2E.Tests`). See `Tests/Blazorise.E2E.Tests/ReadMe.md` for codegen/debug tips and `.runsettings` for headless settings.
+- Add only the minimum focused tests needed to cover the behavior; avoid redundant tests of the same rendering path.
 
 ## Commit & Pull Request Guidelines
 
