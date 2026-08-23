@@ -19,6 +19,8 @@ public sealed record ComponentMapping
 
     public IReadOnlyDictionary<string, string> ParameterRemovals { get; init; }
 
+    public IReadOnlyDictionary<string, string> ParameterObsoleteMessages { get; init; } = new Dictionary<string, string>();
+
     public TValueShape TValueShape { get; init; }
 
     public string Notes { get; init; }
@@ -466,6 +468,19 @@ public static partial class BlazoriseMigrationMappings
             },
             TValueShape.Any,
             "Fields now uses a single IFluentGutter on Gutter; HorizontalGutter, VerticalGutter and NoGutters have been replaced by the fluent gutter API." ) );
+
+        list.Add( new ComponentMapping(
+            "Blazorise.Field",
+            "Blazorise.Field",
+            new Dictionary<string, string>(),
+            TValueShape.Any,
+            "Field uses the fluent Flex utility for flexbox alignment." )
+        {
+            ParameterObsoleteMessages = new Dictionary<string, string>
+            {
+                ["JustifyContent"] = "Use the Flex parameter with Flex.JustifyContent instead.",
+            }
+        } );
 
         list.Add( new ComponentMapping(
             "Blazorise.ModalContent",

@@ -335,6 +335,10 @@ public partial class Field : BaseColumnComponent, IDisposable
     /// <summary>
     /// Specifies how the container's items are aligned along the main axis when there is extra space available.
     /// </summary>
+    /// <remarks>
+    /// This parameter is retained for source compatibility. Use <see cref="BaseComponent.Flex"/> instead.
+    /// </remarks>
+    [Obsolete( "Use the Flex parameter with Flex.JustifyContent instead." )]
     [Parameter]
     public JustifyContent JustifyContent
     {

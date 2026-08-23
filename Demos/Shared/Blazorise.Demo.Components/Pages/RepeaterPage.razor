@@ -8,7 +8,7 @@
                 <CardTitle>Repeater</CardTitle>
             </CardHeader>
             <CardBody>
-                <Field Horizontal JustifyContent="JustifyContent.End">
+                <Field Horizontal Flex="Flex.JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is6">
                         <Buttons>
                             <Button Color="Color.Primary" Clicked="@(() => items.Add( items.Count + 1 ))">Add</Button>
@@ -30,7 +30,7 @@
                         </Dropdown>
                     </FieldBody>
                 </Field>
-                <Field Horizontal JustifyContent="JustifyContent.End">
+                <Field Horizontal Flex="Flex.JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is12">
                         <UnorderedList>
                             <Repeater Items="@items">

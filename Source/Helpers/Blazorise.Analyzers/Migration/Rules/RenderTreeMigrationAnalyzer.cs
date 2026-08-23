@@ -50,6 +50,14 @@ public sealed class RenderTreeMigrationAnalyzer : DiagnosticAnalyzer
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true );
 
+    private static readonly DiagnosticDescriptor ParameterObsoleteRule = new(
+        id: "BLZP005",
+        title: "Blazorise parameter obsolete",
+        messageFormat: "Parameter '{0}' is obsolete on component '{1}': {2}",
+        category: "Usage",
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true );
+
     private static readonly DiagnosticDescriptor ColorLinkRule = new(
         id: "BLZP004",
         title: "Blazorise Color.Link is button/alert-only",
@@ -72,6 +80,7 @@ public sealed class RenderTreeMigrationAnalyzer : DiagnosticAnalyzer
         ParameterRenameRule,
         ParameterTypeChangeRule,
         ParameterRemovedRule,
+        ParameterObsoleteRule,
         ColorLinkRule,
         TValueShapeRule );
 
@@ -208,6 +217,20 @@ public sealed class RenderTreeMigrationAnalyzer : DiagnosticAnalyzer
                     attributeName,
                     component.ComponentType.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ),
                     removalNote ) );
+            }
+
+            if ( mapping.ParameterObsoleteMessages.TryGetValue( attributeName, out string obsoleteMessage ) )
+            {
+                ImmutableDictionary<string, string?> properties = ImmutableDictionary<string, string?>.Empty
+                    .Add( MigrationDiagnosticProperties.OldName, attributeName );
+
+                context.ReportDiagnostic( Diagnostic.Create(
+                    ParameterObsoleteRule,
+                    location,
+                    properties,
+                    attributeName,
+                    component.ComponentType.ToDisplayString( SymbolDisplayFormat.MinimallyQualifiedFormat ),
+                    obsoleteMessage ) );
             }
 
             ReportParameterTypeChanges( context, component, attributeName, valueOperation, location );

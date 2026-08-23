@@ -2,7 +2,6 @@
 using System;
 using System.Threading.Tasks;
 using Blazorise.Localization;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -72,13 +71,6 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
     private async void OnLocalizationChanged( object sender, EventArgs e )
     {
         await InvokeAsync( StateHasChanged );
-    }
-
-    /// <inheritdoc />
-    protected override void BuildClasses( ClassBuilder builder )
-    {
-        builder.Append( ClassProvider.FieldJustifyContent( JustifyContent.Between ) );
-        base.BuildClasses( builder );
     }
 
     /// <summary>
