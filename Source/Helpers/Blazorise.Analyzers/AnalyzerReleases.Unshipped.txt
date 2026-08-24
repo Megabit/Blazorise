@@ -12,6 +12,7 @@ BLZS001: Blazorise member renamed
 BLZS002: Blazorise member removed
 BLZTYP001: Blazorise type renamed
 BLZTYP002: Blazorise type removed
+BLZV001: Blazorise validation feedback placement changed
 ### Removed Rules
 None
 ### Changed Rules
