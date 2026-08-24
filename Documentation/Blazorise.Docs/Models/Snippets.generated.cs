@@ -46,9 +46,9 @@ namespace Blazorise.Docs.Models
     bool accordionItem3Visible = false;
 }";
 
-        public const string AddonWithValidationExample = @"<Validation Validator=""ValidationRule.IsNotEmpty"">
-    <Addons>
-        <Addon AddonType=""AddonType.Body"">
+        public const string AddonWithValidationExample = @"<Addons>
+    <Addon AddonType=""AddonType.Body"">
+        <Validation Validator=""ValidationRule.IsNotEmpty"">
             <TextInput Placeholder=""Enter name"">
                 <Feedback>
                     <ValidationNone />
@@ -56,12 +56,12 @@ namespace Blazorise.Docs.Models
                     <ValidationError>Enter valid name!</ValidationError>
                 </Feedback>
             </TextInput>
-        </Addon>
-        <Addon AddonType=""AddonType.End"">
-            <AddonLabel>This is a label</AddonLabel>
-        </Addon>
-    </Addons>
-</Validation>";
+        </Validation>
+    </Addon>
+    <Addon AddonType=""AddonType.End"">
+        <AddonLabel>This is a label</AddonLabel>
+    </Addon>
+</Addons>";
 
         public const string ButtonAddonExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">

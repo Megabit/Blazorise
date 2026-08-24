@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-23T12:57:25.3380407Z",
+  "generatedUtc": "2026-08-24T08:33:50.3364519Z",
   "pages": [
     {
       "route": "/docs",
@@ -142,7 +142,7 @@
           "code": "AddonWithValidationExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Addons/Examples/AddonWithValidationExample.razor",
-          "content": "<Validation Validator=\"ValidationRule.IsNotEmpty\">\r\n    <Addons>\r\n        <Addon AddonType=\"AddonType.Body\">\r\n            <TextInput Placeholder=\"Enter name\">\r\n                <Feedback>\r\n                    <ValidationNone />\r\n                    <ValidationSuccess />\r\n                    <ValidationError>Enter valid name!</ValidationError>\r\n                </Feedback>\r\n            </TextInput>\r\n        </Addon>\r\n        <Addon AddonType=\"AddonType.End\">\r\n            <AddonLabel>This is a label</AddonLabel>\r\n        </Addon>\r\n    </Addons>\r\n</Validation>",
+          "content": "<Addons>\r\n    <Addon AddonType=\"AddonType.Body\">\r\n        <Validation Validator=\"ValidationRule.IsNotEmpty\">\r\n            <TextInput Placeholder=\"Enter name\">\r\n                <Feedback>\r\n                    <ValidationNone />\r\n                    <ValidationSuccess />\r\n                    <ValidationError>Enter valid name!</ValidationError>\r\n                </Feedback>\r\n            </TextInput>\r\n        </Validation>\r\n    </Addon>\r\n    <Addon AddonType=\"AddonType.End\">\r\n        <AddonLabel>This is a label</AddonLabel>\r\n    </Addon>\r\n</Addons>",
           "title": "Validation",
           "description": "Inputs inside Addons use the regular Feedback content. Validation messages are automatically placed below the input group so they do not disrupt its layout or addon border radii."
         }
@@ -4732,6 +4732,14 @@
           "content": "<Validation Validator=\"@ValidateDisplayName\">\r\n    <TextInput Placeholder=\"Enter display name\">\r\n        <Feedback>\r\n            <ValidationNone>Please enter a display name.</ValidationNone>\r\n            <ValidationWarning>Short display names are allowed, but longer names are easier to recognize.</ValidationWarning>\r\n            <ValidationSuccess>Display name looks good.</ValidationSuccess>\r\n            <ValidationError>Display name is required.</ValidationError>\r\n        </Feedback>\r\n    </TextInput>\r\n</Validation>\r\n\r\n<Validation Validator=\"@ValidateUserName\">\r\n    <TextInput Placeholder=\"Enter username\">\r\n        <Feedback>\r\n            <ValidationFeedback>\r\n                <None>Please enter a username.</None>\r\n                <Warning>Short usernames are allowed, but longer usernames are easier to identify.</Warning>\r\n                <Success>Username looks good.</Success>\r\n                <Error>Username is required.</Error>\r\n            </ValidationFeedback>\r\n        </Feedback>\r\n    </TextInput>\r\n</Validation>\r\n@code{\r\n    void ValidateDisplayName( ValidatorEventArgs e )\r\n    {\r\n        ValidateNameLength( e );\r\n    }\r\n\r\n    void ValidateUserName( ValidatorEventArgs e )\r\n    {\r\n        ValidateNameLength( e );\r\n    }\r\n\r\n    void ValidateNameLength( ValidatorEventArgs e )\r\n    {\r\n        var name = Convert.ToString( e.Value );\r\n\r\n        e.Status = string.IsNullOrWhiteSpace( name )\r\n            ? ValidationStatus.Error\r\n            : name.Length < 4\r\n                ? ValidationStatus.Warning\r\n                : ValidationStatus.Success;\r\n    }\r\n}",
           "title": "Grouped feedback",
           "description": "Use ValidationWarning when a value is acceptable but should still show non-blocking guidance. To keep all feedback fragments together, use ValidationFeedback with None , Warning , Success , and Error child fragments. The same feedback structure applies to all Edit components (check, radio, select, etc.). Some components have special rules when defining child content and feedback."
+        },
+        {
+          "code": "AddonWithValidationExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Addons/Examples/AddonWithValidationExample.razor",
+          "content": "<Addons>\r\n    <Addon AddonType=\"AddonType.Body\">\r\n        <Validation Validator=\"ValidationRule.IsNotEmpty\">\r\n            <TextInput Placeholder=\"Enter name\">\r\n                <Feedback>\r\n                    <ValidationNone />\r\n                    <ValidationSuccess />\r\n                    <ValidationError>Enter valid name!</ValidationError>\r\n                </Feedback>\r\n            </TextInput>\r\n        </Validation>\r\n    </Addon>\r\n    <Addon AddonType=\"AddonType.End\">\r\n        <AddonLabel>This is a label</AddonLabel>\r\n    </Addon>\r\n</Addons>",
+          "title": "Addons",
+          "description": "When validating an input inside Addons , place the Validation around the individual input and keep its messages in the input's Feedback content. The feedback is automatically rendered below the complete addon group so it does not disrupt the group layout or border radii."
         },
         {
           "code": "DataAnnotationValidationExample",

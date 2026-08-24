@@ -1,8 +1,8 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Validation Validator="ValidationRule.IsNotEmpty">
-    <Addons>
-        <Addon AddonType="AddonType.Body">
+<Addons>
+    <Addon AddonType="AddonType.Body">
+        <Validation Validator="ValidationRule.IsNotEmpty">
             <TextInput Placeholder="Enter name">
                 <Feedback>
                     <ValidationNone />
@@ -10,9 +10,9 @@
                     <ValidationError>Enter valid name!</ValidationError>
                 </Feedback>
             </TextInput>
-        </Addon>
-        <Addon AddonType="AddonType.End">
-            <AddonLabel>This is a label</AddonLabel>
-        </Addon>
-    </Addons>
-</Validation>
+        </Validation>
+    </Addon>
+    <Addon AddonType="AddonType.End">
+        <AddonLabel>This is a label</AddonLabel>
+    </Addon>
+</Addons>
