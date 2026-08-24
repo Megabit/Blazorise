@@ -28,7 +28,7 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
 
     private double indentation = 1.5d;
 
-    private bool? toggleIconVisible;
+    private bool? showToggleIcon;
 
     private Theme theme;
 
@@ -371,7 +371,7 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// <summary>
     /// Should the toggle icon be drawn
     /// </summary>
-    protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.BarOptions?.DropdownOptions?.ToggleIconVisible ?? true );
+    protected bool IsToggleIconVisible => ShowToggleIcon.GetValueOrDefault( Theme?.BarOptions?.DropdownOptions?.ToggleIconVisible ?? true );
 
     /// <summary>
     /// Gets the icon name for the expanded state of the dropdown.
@@ -540,18 +540,32 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// </value>
     /// <remarks>Default: True</remarks>
     [Parameter]
-    public bool? ToggleIconVisible
+    public bool? ShowToggleIcon
     {
-        get => toggleIconVisible;
+        get => showToggleIcon;
         set
         {
-            if ( toggleIconVisible == value )
+            if ( showToggleIcon == value )
                 return;
 
-            toggleIconVisible = value;
+            showToggleIcon = value;
 
             DirtyClasses();
         }
+    }
+
+    /// <summary>
+    /// Specifies a value indicating whether the dropdown toggle icon is visible.
+    /// </summary>
+    /// <remarks>
+    /// This parameter is retained for source compatibility. Use <see cref="ShowToggleIcon"/> instead.
+    /// </remarks>
+    [Obsolete( "Use ShowToggleIcon instead." )]
+    [Parameter]
+    public bool? ToggleIconVisible
+    {
+        get => ShowToggleIcon;
+        set => ShowToggleIcon = value;
     }
 
     /// <summary>

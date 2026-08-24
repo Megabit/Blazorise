@@ -637,6 +637,40 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
     }
 
     [Fact]
+    public async Task Reports_dropdown_toggle_icon_parameter_renames()
+    {
+        var source = @"
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Blazorise
+{
+    public class DropdownToggle : Microsoft.AspNetCore.Components.ComponentBase { }
+    public class BarDropdownToggle : Microsoft.AspNetCore.Components.ComponentBase { }
+}
+
+public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+{
+    public void Build( RenderTreeBuilder builder )
+    {
+        builder.OpenComponent<Blazorise.DropdownToggle>( 0 );
+        builder.AddAttribute( 1, ""ToggleIconVisible"", false );
+        builder.CloseComponent();
+
+        builder.OpenComponent<Blazorise.BarDropdownToggle>( 2 );
+        builder.AddAttribute( 3, ""ToggleIconVisible"", false );
+        builder.CloseComponent();
+    }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        var renameDiagnostics = diagnostics.Where( d => d.Id == "BLZP001" ).ToArray();
+        Assert.Equal( 2, renameDiagnostics.Length );
+        Assert.Contains( renameDiagnostics, d => d.GetMessage() == "Parameter 'ToggleIconVisible' was renamed to 'ShowToggleIcon' for component 'DropdownToggle'" );
+        Assert.Contains( renameDiagnostics, d => d.GetMessage() == "Parameter 'ToggleIconVisible' was renamed to 'ShowToggleIcon' for component 'BarDropdownToggle'" );
+    }
+
+    [Fact]
     public async Task Reports_datagridcolumn_width_type_change()
     {
         var source = @"

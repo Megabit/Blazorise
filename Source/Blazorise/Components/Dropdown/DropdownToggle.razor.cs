@@ -271,7 +271,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     /// <summary>
     /// Should the toggle icon be drawn
     /// </summary>
-    protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.DropdownOptions?.ToggleIconVisible ?? true );
+    protected bool IsToggleIconVisible => ShowToggleIcon.GetValueOrDefault( Theme?.DropdownOptions?.ToggleIconVisible ?? true );
 
     /// <summary>
     /// Gets the size based on the theme settings.
@@ -385,7 +385,21 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     /// <c>true</c> if [show toggle]; otherwise, <c>false</c>.
     /// </value>
     /// <remarks>Default: True</remarks>
-    [Parameter] public bool? ToggleIconVisible { get; set; }
+    [Parameter] public bool? ShowToggleIcon { get; set; }
+
+    /// <summary>
+    /// Specifies a value indicating whether the dropdown toggle icon is visible.
+    /// </summary>
+    /// <remarks>
+    /// This parameter is retained for source compatibility. Use <see cref="ShowToggleIcon"/> instead.
+    /// </remarks>
+    [Obsolete( "Use ShowToggleIcon instead." )]
+    [Parameter]
+    public bool? ToggleIconVisible
+    {
+        get => ShowToggleIcon;
+        set => ShowToggleIcon = value;
+    }
 
     /// <summary>
     /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.

@@ -307,6 +307,26 @@ public static partial class BlazoriseMigrationMappings
             "Dropdown uses EndAligned instead of RightAligned." ) );
 
         list.Add( new ComponentMapping(
+            "Blazorise.DropdownToggle",
+            "Blazorise.DropdownToggle",
+            new Dictionary<string, string>
+            {
+                ["ToggleIconVisible"] = "ShowToggleIcon",
+            },
+            TValueShape.Any,
+            "DropdownToggle uses ShowToggleIcon instead of ToggleIconVisible." ) );
+
+        list.Add( new ComponentMapping(
+            "Blazorise.BarDropdownToggle",
+            "Blazorise.BarDropdownToggle",
+            new Dictionary<string, string>
+            {
+                ["ToggleIconVisible"] = "ShowToggleIcon",
+            },
+            TValueShape.Any,
+            "BarDropdownToggle uses ShowToggleIcon instead of ToggleIconVisible." ) );
+
+        list.Add( new ComponentMapping(
             "Blazorise.Components.Autocomplete`2",
             "Blazorise.Components.Autocomplete`2",
             new Dictionary<string, string>
