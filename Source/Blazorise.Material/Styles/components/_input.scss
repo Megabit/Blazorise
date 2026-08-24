@@ -318,6 +318,25 @@ textarea.mui-input[data-autosize='true'] {
     color: var(--mui-error);
 }
 
+.mui-addons-validation-feedback {
+    display: contents;
+
+    > [data-validation-status] {
+        display: block;
+
+        > :is(.valid-feedback, .warning-feedback, .invalid-feedback),
+        &:not([data-validation-status='none']) > .none-feedback {
+            display: none;
+        }
+
+        &[data-validation-status='success'] > .valid-feedback,
+        &[data-validation-status='warning'] > .warning-feedback,
+        &[data-validation-status='error'] > .invalid-feedback {
+            display: inline-block;
+        }
+    }
+}
+
 :is(.mui-input, .mui-select, .mui-addons).is-valid + .valid-feedback,
 :is(.mui-input, .mui-select, .mui-addons).is-valid + .form-text.text-muted + .valid-feedback,
 :is(.mui-input, .mui-select, .mui-addons).is-warning + .warning-feedback,

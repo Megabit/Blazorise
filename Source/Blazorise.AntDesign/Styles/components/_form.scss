@@ -317,3 +317,31 @@
     content: " *";
     color: var(--ant-form-label-required-mark-color);
 }
+
+.ant-addons-validation-feedback {
+    display: contents;
+
+    > [data-validation-status] {
+        display: contents;
+
+        > :is(.valid-feedback, .ant-form-item-explain-warning, .ant-form-item-explain-error),
+        &:not([data-validation-status='none']) > .ant-form-item-explain-none {
+            display: none;
+        }
+
+        &[data-validation-status='success'] > .valid-feedback {
+            display: block;
+            color: var(--b-theme-success, var(--ant-color-success));
+        }
+
+        &[data-validation-status='warning'] > .ant-form-item-explain-warning {
+            display: block;
+            color: var(--b-theme-warning, var(--ant-color-warning));
+        }
+
+        &[data-validation-status='error'] > .ant-form-item-explain-error {
+            display: block;
+            color: var(--b-theme-danger, var(--ant-color-error));
+        }
+    }
+}

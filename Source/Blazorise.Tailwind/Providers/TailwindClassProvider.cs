@@ -690,7 +690,13 @@ public class TailwindClassProvider : ClassProvider
 
     public override string AddonsHasButton( bool hasButton ) => null;
 
-    public override string AddonsValidation( ValidationStatus validationStatus ) => null;
+    public override string AddonsValidation( ValidationStatus validationStatus ) => validationStatus switch
+    {
+        ValidationStatus.Success => "b-is-valid",
+        ValidationStatus.Warning => "b-is-warning",
+        ValidationStatus.Error => "b-is-invalid",
+        _ => null,
+    };
 
     public override string Addon( AddonType addonType )
     {

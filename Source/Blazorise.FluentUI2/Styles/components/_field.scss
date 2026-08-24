@@ -222,6 +222,56 @@
     }
 }
 
+.fui-Field__validationMessages {
+    display: contents;
+
+    > [data-validation-status] {
+        display: contents;
+
+        > :is(.fui-Field__validationMessage-error, .fui-Field__validationMessage-warning, .fui-Field__validationMessage-success) {
+            display: none;
+            margin-top: var(--spacingVerticalXXS);
+            font-family: var(--fontFamilyBase);
+            font-size: var(--fontSizeBase200);
+            font-weight: var(--fontWeightRegular);
+            line-height: var(--lineHeightBase200);
+            padding-left: calc(12px + var(--spacingHorizontalXS));
+
+            .fui-Field__validationMessageIcon {
+                display: inline-block;
+                font-size: 12px;
+                margin-left: calc(-12px - var(--spacingHorizontalXS));
+                margin-right: var(--spacingHorizontalXS);
+                line-height: 0;
+                vertical-align: -1px;
+            }
+        }
+
+        &:not([data-validation-status='none']) > .fui-Field__validationMessage-none {
+            display: none;
+        }
+
+        &[data-validation-status='error'] > .fui-Field__validationMessage-error {
+            display: block;
+            color: var(--colorPaletteRedForeground1);
+        }
+
+        &[data-validation-status='warning'] > .fui-Field__validationMessage-warning {
+            display: block;
+            color: var(--colorStatusWarningForeground2);
+        }
+
+        &[data-validation-status='success'] > .fui-Field__validationMessage-success {
+            display: block;
+            color: var(--colorPaletteGreenForeground1);
+
+            .fui-Field__validationMessageIcon {
+                color: var(--colorPaletteGreenForeground1);
+            }
+        }
+    }
+}
+
 .fui-Fields {
     display: flex;
     flex-wrap: wrap;

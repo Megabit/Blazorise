@@ -45,7 +45,8 @@ public class ModalProviderComponentTest : BunitContext
     [Fact]
     public async Task TopMost_ShouldSkipClosedStatefulModal()
     {
-        var component = Render<ModalProvider>();
+        var component = Render<ModalProvider>( parameters => parameters
+            .Add( x => x.Animated, false ) );
         var modalService = Services.GetRequiredService<IModalService>();
 
         var firstModal = await ShowModal( component, modalService, "First" );

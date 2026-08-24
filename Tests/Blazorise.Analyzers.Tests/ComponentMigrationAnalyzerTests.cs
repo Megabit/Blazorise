@@ -59,6 +59,80 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
     }
 
     [Fact]
+    public async Task Reports_validation_feedback_directly_inside_addons()
+    {
+        var source = @"
+using System;
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Blazorise
+{
+    public class Addons : Microsoft.AspNetCore.Components.ComponentBase { }
+    public class ValidationError : Microsoft.AspNetCore.Components.ComponentBase { }
+}
+
+public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+{
+    public void Build( RenderTreeBuilder builder )
+    {
+        builder.OpenComponent<Blazorise.Addons>( 0 );
+        builder.AddAttribute( 1, ""ChildContent"", (Action<RenderTreeBuilder>)( addonsBuilder =>
+        {
+            addonsBuilder.OpenComponent<Blazorise.ValidationError>( 0 );
+            addonsBuilder.CloseComponent();
+        } ) );
+        builder.CloseComponent();
+    }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        var diagnostic = Assert.Single( diagnostics );
+        Assert.Equal( "BLZV001", diagnostic.Id );
+        Assert.Equal(
+            "Validation feedback component 'ValidationError' should be placed inside the input's 'Feedback' content instead of directly inside 'Addons'",
+            diagnostic.GetMessage() );
+    }
+
+    [Fact]
+    public async Task Does_not_report_validation_feedback_inside_input_feedback()
+    {
+        var source = @"
+using System;
+using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Blazorise
+{
+    public class Addons : Microsoft.AspNetCore.Components.ComponentBase { }
+    public class TextInput : Microsoft.AspNetCore.Components.ComponentBase { }
+    public class ValidationError : Microsoft.AspNetCore.Components.ComponentBase { }
+}
+
+public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
+{
+    public void Build( RenderTreeBuilder builder )
+    {
+        builder.OpenComponent<Blazorise.Addons>( 0 );
+        builder.AddAttribute( 1, ""ChildContent"", (Action<RenderTreeBuilder>)( addonsBuilder =>
+        {
+            addonsBuilder.OpenComponent<Blazorise.TextInput>( 0 );
+            addonsBuilder.AddAttribute( 1, ""Feedback"", (Action<RenderTreeBuilder>)( feedbackBuilder =>
+            {
+                feedbackBuilder.OpenComponent<Blazorise.ValidationError>( 0 );
+                feedbackBuilder.CloseComponent();
+            } ) );
+            addonsBuilder.CloseComponent();
+        } ) );
+        builder.CloseComponent();
+    }
+}";
+
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync( source );
+
+        Assert.DoesNotContain( diagnostics, diagnostic => diagnostic.Id == "BLZV001" );
+    }
+
+    [Fact]
     public async Task Reports_parameter_rename()
     {
         var source = @"

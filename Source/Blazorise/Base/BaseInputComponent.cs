@@ -70,6 +70,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     private bool refreshRequestedWhileQueued;
 
     /// <summary>
+    /// Holds the validation feedback fragment supplied to the input.
+    /// </summary>
+    private RenderFragment feedback;
+
+    /// <summary>
     /// Defines if need to generate field names for the input components.
     /// </summary>
     protected bool shouldGenerateFieldNames;
@@ -220,6 +225,8 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
+        ParentAddons?.NotifyValidationFeedbackInitialized( this, ParentValidation, () => feedback );
+
         if ( ThemeOptions is not null )
         {
             ThemeOptions.Changed += OnThemeOptionsChanged;
@@ -287,6 +294,8 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// </summary>
     protected virtual void ReleaseResources()
     {
+        ParentAddons?.NotifyValidationFeedbackRemoved( this );
+
         if ( ParentValidation is not null )
         {
             // To avoid leaking memory, it's important to detach any event handlers in Dispose()
@@ -1013,7 +1022,12 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// <summary>
     /// Placeholder for validation messages.
     /// </summary>
-    [Parameter] public RenderFragment Feedback { get; set; }
+    [Parameter]
+    public RenderFragment Feedback
+    {
+        get => ParentAddons is not null && ParentValidation is not null ? null : feedback;
+        set => feedback = value;
+    }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="BaseInputComponent{TValue}"/>.

@@ -167,7 +167,7 @@ public partial class DockPane : BaseComponent, IDisposable
     [Parameter] public bool Closable { get; set; } = true;
 
     /// <summary>
-    /// Callback invoked before the pane closes. Set <see cref="DockPaneClosingEventArgs.Cancel"/> to prevent closing.
+    /// Callback invoked before the pane closes.
     /// </summary>
     [Parameter] public Func<DockPaneClosingEventArgs, Task> Closing { get; set; }
 

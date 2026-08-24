@@ -507,6 +507,12 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
                 .Append( $"color: {validationSuccessColor};" )
                 .AppendLine( "}" );
 
+            sb.Append( ".fui-Field__validationMessages > [data-validation-status='success'] > .fui-Field__validationMessage-success," )
+                .Append( ".fui-Field__validationMessages > [data-validation-status='success'] > .fui-Field__validationMessage-success .fui-Field__validationMessageIcon" )
+                .Append( "{" )
+                .Append( $"color: {validationSuccessColor};" )
+                .AppendLine( "}" );
+
             sb.Append( ".b-is-autocomplete.fui-Input__input-success" ).Append( "{" )
                 .Append( $"border-color: {validationSuccessColor};" )
                 .AppendLine( "}" );

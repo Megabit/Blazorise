@@ -5727,6 +5727,28 @@ template {
   color: var(--ant-form-label-required-mark-color);
 }
 
+.ant-addons-validation-feedback {
+  display: contents;
+}
+.ant-addons-validation-feedback > [data-validation-status] {
+  display: contents;
+}
+.ant-addons-validation-feedback > [data-validation-status] > :is(.valid-feedback, .ant-form-item-explain-warning, .ant-form-item-explain-error), .ant-addons-validation-feedback > [data-validation-status]:not([data-validation-status=none]) > .ant-form-item-explain-none {
+  display: none;
+}
+.ant-addons-validation-feedback > [data-validation-status][data-validation-status=success] > .valid-feedback {
+  display: block;
+  color: var(--b-theme-success, var(--ant-color-success));
+}
+.ant-addons-validation-feedback > [data-validation-status][data-validation-status=warning] > .ant-form-item-explain-warning {
+  display: block;
+  color: var(--b-theme-warning, var(--ant-color-warning));
+}
+.ant-addons-validation-feedback > [data-validation-status][data-validation-status=error] > .ant-form-item-explain-error {
+  display: block;
+  color: var(--b-theme-danger, var(--ant-color-error));
+}
+
 .ant-input {
   height: var(--ant-control-height);
 }
@@ -6747,6 +6769,14 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-inline-end-color: var(--ant-color-border);
+}
+.ant-addons.ant-input-group-wrapper-status-error > .ant-input-wrapper.ant-input-group > .ant-input-group-addon {
+  color: var(--ant-color-error-text);
+  border-color: var(--ant-color-error);
+}
+.ant-addons.ant-input-group-wrapper-status-warning > .ant-input-wrapper.ant-input-group > .ant-input-group-addon {
+  color: var(--ant-color-warning-text);
+  border-color: var(--ant-color-warning);
 }
 
 .ant-addons-has-button .ant-input-group-addon:last-child .ant-btn {

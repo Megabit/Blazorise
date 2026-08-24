@@ -1,5 +1,4 @@
-﻿@namespace Blazorise
-@inherits BaseComponent
+@inherits Blazorise.Addons
 <CascadingValue Value="@this" IsFixed>
     <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
@@ -23,3 +22,10 @@
         </div>
     }
 </CascadingValue>
+
+@code {
+    protected override void BuildFeedbackClasses( Blazorise.Utilities.ClassBuilder builder )
+    {
+        builder.Append( "mui-addons-validation-feedback" );
+    }
+}

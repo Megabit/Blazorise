@@ -74,6 +74,14 @@ public sealed class RenderTreeMigrationAnalyzer : DiagnosticAnalyzer
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true );
 
+    private static readonly DiagnosticDescriptor ValidationFeedbackPlacementRule = new(
+        id: "BLZV001",
+        title: "Blazorise validation feedback placement changed",
+        messageFormat: "Validation feedback component '{0}' should be placed inside the input's 'Feedback' content instead of directly inside 'Addons'",
+        category: "Usage",
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true );
+
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(
         ComponentRenameRule,
         TagRenameRule,
@@ -82,7 +90,8 @@ public sealed class RenderTreeMigrationAnalyzer : DiagnosticAnalyzer
         ParameterRemovedRule,
         ParameterObsoleteRule,
         ColorLinkRule,
-        TValueShapeRule );
+        TValueShapeRule,
+        ValidationFeedbackPlacementRule );
 
     public override void Initialize( AnalysisContext context )
     {
@@ -136,9 +145,15 @@ public sealed class RenderTreeMigrationAnalyzer : DiagnosticAnalyzer
             this.colorLinkState = colorLinkState;
         }
 
-        public override void OnOpenComponent( OperationAnalysisContext context, MigrationContext migration, ComponentContext component )
+        public override void OnOpenComponent(
+            OperationAnalysisContext context,
+            MigrationContext migration,
+            ComponentContext component,
+            ComponentContext? parentComponent )
         {
             string metadataName = RenderTreeMigrationEngine.GetMetadataName( component.ComponentType.ConstructedFrom );
+
+            ReportValidationFeedbackPlacement( context, component, parentComponent, metadataName );
 
             if ( migration.ComponentByOld.TryGetValue( metadataName, out ComponentMapping mapping )
                  && mapping.NewFullName is not null
@@ -156,6 +171,35 @@ public sealed class RenderTreeMigrationAnalyzer : DiagnosticAnalyzer
                     mapping.NewFullName ) );
             }
         }
+
+        private static void ReportValidationFeedbackPlacement(
+            OperationAnalysisContext context,
+            ComponentContext component,
+            ComponentContext? parentComponent,
+            string metadataName )
+        {
+            if ( parentComponent is null
+                 || !string.Equals(
+                     RenderTreeMigrationEngine.GetMetadataName( parentComponent.ComponentType.ConstructedFrom ),
+                     "Blazorise.Addons",
+                     StringComparison.Ordinal )
+                 || !IsValidationFeedbackComponent( metadataName ) )
+            {
+                return;
+            }
+
+            context.ReportDiagnostic( Diagnostic.Create(
+                ValidationFeedbackPlacementRule,
+                component.ComponentLocation,
+                component.ComponentType.Name ) );
+        }
+
+        private static bool IsValidationFeedbackComponent( string metadataName )
+            => metadataName is "Blazorise.ValidationNone"
+                or "Blazorise.ValidationSuccess"
+                or "Blazorise.ValidationWarning"
+                or "Blazorise.ValidationError"
+                or "Blazorise.ValidationFeedback";
 
         public override void OnOpenElement(
             OperationAnalysisContext context,

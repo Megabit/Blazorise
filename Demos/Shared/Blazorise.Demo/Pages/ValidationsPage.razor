@@ -1,5 +1,4 @@
 @page "/tests/forms/validations"
-@using System.Threading
 @using Blazorise.FluentValidation
 @using System.ComponentModel.DataAnnotations;
 <Row>
@@ -281,6 +280,86 @@
                             </TextInput>
                         </Field>
                     </Validation>
+                </Validations>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Addons Validation</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Validation feedback from multiple inputs is rendered below the complete <code>Addons</code> group.</CardText>
+            </CardBody>
+            <CardBody>
+                <Validations Mode="ValidationMode.Auto" ValidateOnLoad="false">
+                    <Addons>
+                        <Addon AddonType="AddonType.Start">
+                            <AddonLabel>Name</AddonLabel>
+                        </Addon>
+                        <Addon AddonType="AddonType.Body">
+                            <Validation Validator="@ValidateFeedbackName">
+                                <TextInput Placeholder="First name">
+                                    <Feedback>
+                                        <ValidationWarning>First name is short.</ValidationWarning>
+                                        <ValidationSuccess>First name looks good.</ValidationSuccess>
+                                        <ValidationError>First name is required.</ValidationError>
+                                    </Feedback>
+                                </TextInput>
+                            </Validation>
+                        </Addon>
+                        <Addon AddonType="AddonType.Body">
+                            <Validation Validator="@ValidateFeedbackName">
+                                <TextInput Placeholder="Last name">
+                                    <Feedback>
+                                        <ValidationWarning>Last name is short.</ValidationWarning>
+                                        <ValidationSuccess>Last name looks good.</ValidationSuccess>
+                                        <ValidationError>Last name is required.</ValidationError>
+                                    </Feedback>
+                                </TextInput>
+                            </Validation>
+                        </Addon>
+                        <Addon AddonType="AddonType.End">
+                            <AddonLabel>Profile</AddonLabel>
+                        </Addon>
+                    </Addons>
+                    <Div Margin="Margin.Is3.FromTop">
+                        <Addons>
+                            <Addon AddonType="AddonType.Body">
+                                <Validation Validator="@ValidateFeedbackName">
+                                    <TextInput Placeholder="Username">
+                                        <Feedback>
+                                            <ValidationWarning>Username is short.</ValidationWarning>
+                                            <ValidationSuccess>Username looks good.</ValidationSuccess>
+                                            <ValidationError>Username is required.</ValidationError>
+                                        </Feedback>
+                                    </TextInput>
+                                </Validation>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>.example.com</AddonLabel>
+                            </Addon>
+                        </Addons>
+                    </Div>
+                    <Div Margin="Margin.Is3.FromTop">
+                        <Addons>
+                            <Addon AddonType="AddonType.Start">
+                                <AddonLabel>https://</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <Validation Validator="@ValidateFeedbackName">
+                                    <TextInput Placeholder="Website">
+                                        <Feedback>
+                                            <ValidationWarning>Website is short.</ValidationWarning>
+                                            <ValidationSuccess>Website looks good.</ValidationSuccess>
+                                            <ValidationError>Website is required.</ValidationError>
+                                        </Feedback>
+                                    </TextInput>
+                                </Validation>
+                            </Addon>
+                        </Addons>
+                    </Div>
                 </Validations>
             </CardBody>
         </Card>

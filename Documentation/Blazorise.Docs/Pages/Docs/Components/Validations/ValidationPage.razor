@@ -136,6 +136,19 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Addons" New>
+        <Paragraph>
+            When validating an input inside <Code Tag>Addons</Code>, place the <Code Tag>Validation</Code> around the individual
+            input and keep its messages in the input's <Code Tag>Feedback</Code> content. The feedback is automatically rendered
+            below the complete addon group so it does not disrupt the group layout or border radii.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="AddonWithValidationExample" Outlined FullWidth>
+        <AddonWithValidationExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Data annotations">
         To use data annotations with Blazorise, you must combine both <Code>Validation</Code> and <Code>Validations</Code>
         components. The <Code>Validations</Code> component groups the fields used inside a <Code>Validation</Code>

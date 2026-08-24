@@ -2063,6 +2063,19 @@ input[readonly=readonly][type=range]::-ms-thumb {
   color: var(--b-theme-warning, #ffc107);
 }
 
+.input-group-validation-feedback {
+  display: contents;
+}
+.input-group-validation-feedback > [data-validation-status] {
+  display: contents;
+}
+.input-group-validation-feedback > [data-validation-status] > :is(.valid-feedback, .warning-feedback, .invalid-feedback), .input-group-validation-feedback > [data-validation-status]:not([data-validation-status=none]) > .none-feedback {
+  display: none;
+}
+.input-group-validation-feedback > [data-validation-status][data-validation-status=success] > .valid-feedback, .input-group-validation-feedback > [data-validation-status][data-validation-status=warning] > .warning-feedback, .input-group-validation-feedback > [data-validation-status][data-validation-status=error] > .invalid-feedback {
+  display: block;
+}
+
 :is(.form-control, .custom-select).is-valid + .valid-feedback,
 :is(.form-control, .custom-select).is-valid + .form-text.text-muted + .valid-feedback,
 .custom-file-input.is-valid + .custom-file-label + .valid-feedback,

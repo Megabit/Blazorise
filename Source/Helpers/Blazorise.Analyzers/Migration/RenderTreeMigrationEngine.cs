@@ -38,7 +38,12 @@ internal readonly struct MigrationContext
 
 internal abstract class MigrationHandler
 {
-    public virtual void OnOpenComponent( OperationAnalysisContext context, MigrationContext migration, ComponentContext component ) { }
+    public virtual void OnOpenComponent(
+        OperationAnalysisContext context,
+        MigrationContext migration,
+        ComponentContext component,
+        ComponentContext? parentComponent )
+    { }
 
     public virtual void OnOpenElement( OperationAnalysisContext context, MigrationContext migration, string oldTag, string newTag, Location location ) { }
 
@@ -189,8 +194,9 @@ internal static class RenderTreeMigrationEngine
                     {
                         var mapping = LookupComponentMapping( named, migration.ComponentByNew, migration.ComponentByOld );
                         var componentContext = new ComponentContext( named, mapping, invocation.Syntax.GetLocation() );
+                        var parentComponent = stack.Count > 0 ? stack.Peek() : null;
                         stack.Push( componentContext );
-                        handler.OnOpenComponent( context, migration, componentContext );
+                        handler.OnOpenComponent( context, migration, componentContext, parentComponent );
                     }
                 }
                 else if ( target.Name.Equals( "OpenElement", StringComparison.Ordinal ) )
@@ -462,9 +468,10 @@ internal static class RenderTreeMigrationEngine
         var componentType = CloseComponentType( mapping.ComponentType, target, migration.Compilation );
         var componentMapping = LookupComponentMapping( componentType, migration.ComponentByNew, migration.ComponentByOld );
         var componentContext = new ComponentContext( componentType, componentMapping, invocation.Syntax.GetLocation() );
+        var parentComponent = stack.Count > 0 ? stack.Peek() : null;
 
         stack.Push( componentContext );
-        handler.OnOpenComponent( context, migration, componentContext );
+        handler.OnOpenComponent( context, migration, componentContext, parentComponent );
 
         if ( componentMapping is not null )
         {

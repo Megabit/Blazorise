@@ -51,6 +51,7 @@ public static class Config
         { typeof( Blazorise.Accordion ), typeof( Components.Accordion ) },
         { typeof( Blazorise.AccordionToggle ), typeof( Components.AccordionToggle ) },
         { typeof( Blazorise.Addon ), typeof( Components.Addon ) },
+        { typeof( Blazorise.Addons ), typeof( Components.Addons ) },
         { typeof( Blazorise.Badge ), typeof( Components.Badge ) },
         { typeof( Blazorise.Bar ), typeof( Components.Bar ) },
         { typeof( Blazorise.BarDropdown ), typeof( Components.BarDropdown ) },

@@ -8873,6 +8873,48 @@ button {
   font-family: var(--fontFamilyBase);
 }
 
+.fui-Field__validationMessages {
+  display: contents;
+}
+.fui-Field__validationMessages > [data-validation-status] {
+  display: contents;
+}
+.fui-Field__validationMessages > [data-validation-status] > :is(.fui-Field__validationMessage-error, .fui-Field__validationMessage-warning, .fui-Field__validationMessage-success) {
+  display: none;
+  margin-top: var(--spacingVerticalXXS);
+  font-family: var(--fontFamilyBase);
+  font-size: var(--fontSizeBase200);
+  font-weight: var(--fontWeightRegular);
+  line-height: var(--lineHeightBase200);
+  padding-left: calc(12px + var(--spacingHorizontalXS));
+}
+.fui-Field__validationMessages > [data-validation-status] > :is(.fui-Field__validationMessage-error, .fui-Field__validationMessage-warning, .fui-Field__validationMessage-success) .fui-Field__validationMessageIcon {
+  display: inline-block;
+  font-size: 12px;
+  margin-left: calc(-12px - var(--spacingHorizontalXS));
+  margin-right: var(--spacingHorizontalXS);
+  line-height: 0;
+  vertical-align: -1px;
+}
+.fui-Field__validationMessages > [data-validation-status]:not([data-validation-status=none]) > .fui-Field__validationMessage-none {
+  display: none;
+}
+.fui-Field__validationMessages > [data-validation-status][data-validation-status=error] > .fui-Field__validationMessage-error {
+  display: block;
+  color: var(--colorPaletteRedForeground1);
+}
+.fui-Field__validationMessages > [data-validation-status][data-validation-status=warning] > .fui-Field__validationMessage-warning {
+  display: block;
+  color: var(--colorStatusWarningForeground2);
+}
+.fui-Field__validationMessages > [data-validation-status][data-validation-status=success] > .fui-Field__validationMessage-success {
+  display: block;
+  color: var(--colorPaletteGreenForeground1);
+}
+.fui-Field__validationMessages > [data-validation-status][data-validation-status=success] > .fui-Field__validationMessage-success .fui-Field__validationMessageIcon {
+  color: var(--colorPaletteGreenForeground1);
+}
+
 .fui-Fields {
   display: flex;
   flex-wrap: wrap;

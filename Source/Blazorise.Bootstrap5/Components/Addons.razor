@@ -1,0 +1,31 @@
+@inherits Blazorise.Addons
+<CascadingValue Value="@this" IsFixed>
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+        @if ( ValidationFeedbackRegistrations.Count > 0 )
+        {
+            <div class="@FeedbackClassNames" style="@FeedbackStyleNames">
+                @foreach ( var registration in ValidationFeedbackRegistrations )
+                {
+                    var feedback = registration.GetFeedback?.Invoke();
+
+                    if ( feedback is not null )
+                    {
+                    <div @key="@registration.Input" data-validation-status="@registration.ValidationStatusString">
+                            <CascadingValue Value="@registration.Validation">
+                                @feedback
+                            </CascadingValue>
+                        </div>
+                    }
+                }
+            </div>
+        }
+    </div>
+</CascadingValue>
+
+@code {
+    protected override void BuildFeedbackClasses( Blazorise.Utilities.ClassBuilder builder )
+    {
+        builder.Append( "input-group-validation-feedback" );
+    }
+}

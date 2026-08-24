@@ -75,6 +75,9 @@ public partial class _DockPaneHeaderActions : BaseComponent
 
     [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
+    /// <summary>
+    /// Gets or sets the DI registered <see cref="ITextLocalizer{DockLayout}"/>.
+    /// </summary>
     [Inject] protected ITextLocalizer<DockLayout> Localizer { get; set; }
 
     #endregion
