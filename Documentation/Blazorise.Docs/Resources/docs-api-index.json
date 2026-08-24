@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-23T06:26:12.0741384Z",
+  "generatedUtc": "2026-08-24T09:00:26.8864828Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -8832,6 +8832,15 @@
           "isBlazoriseEnum": true
         },
         {
+          "name": "ShowToggleIcon",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Specifies a value indicating whether the dropdown toggle icon is visible.",
+          "remarks": "Default: True",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Stretched",
           "type": "bool",
           "typeName": "bool",
@@ -8941,7 +8950,7 @@
           "typeName": "bool?",
           "defaultValue": "null",
           "summary": "Specifies a value indicating whether the dropdown toggle icon is visible.",
-          "remarks": "Default: True",
+          "remarks": "This parameter is retained for source compatibility. Use <strong>ShowToggleIcon</strong> instead.",
           "isBlazoriseEnum": false
         },
         {
@@ -43944,7 +43953,7 @@
           "type": "Func<,>",
           "typeName": "Func<DockPaneClosingEventArgs, Task>",
           "defaultValue": "null",
-          "summary": "Callback invoked before the pane closes. Set <strong>DockPaneClosingEventArgs.Cancel</strong> to prevent closing.",
+          "summary": "Callback invoked before the pane closes.",
           "isBlazoriseEnum": false
         }
       ],
@@ -48585,6 +48594,15 @@
           "isBlazoriseEnum": true
         },
         {
+          "name": "ShowToggleIcon",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Specifies a value indicating whether the dropdown toggle icon is visible.",
+          "remarks": "Default: True",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
@@ -48678,7 +48696,7 @@
           "typeName": "bool?",
           "defaultValue": "null",
           "summary": "Specifies a value indicating whether the dropdown toggle icon is visible.",
-          "remarks": "Default: True",
+          "remarks": "This parameter is retained for source compatibility. Use <strong>ShowToggleIcon</strong> instead.",
           "isBlazoriseEnum": false
         },
         {

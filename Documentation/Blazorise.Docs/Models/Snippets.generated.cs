@@ -2117,6 +2117,17 @@ namespace Blazorise.Docs.Models
     </DropdownMenu>
 </Dropdown>";
 
+        public const string DropdownToggleIconExample = @"<Dropdown>
+    <DropdownToggle Color=""Color.Primary"" ShowToggleIcon=""false"">
+        Dropdown without toggle icon
+    </DropdownToggle>
+    <DropdownMenu>
+        <DropdownItem>Action</DropdownItem>
+        <DropdownDivider />
+        <DropdownItem>Another Action</DropdownItem>
+    </DropdownMenu>
+</Dropdown>";
+
         public const string NestedDropdownDirectionExample = @"<Dropdown>
     <DropdownToggle Color=""Color.Primary"">Level 1</DropdownToggle>
     <DropdownMenu>

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-24T08:33:50.3364519Z",
+  "generatedUtc": "2026-08-24T09:03:32.3850362Z",
   "pages": [
     {
       "route": "/docs",
@@ -1583,6 +1583,14 @@
           "sourcePath": "Pages/Docs/Components/Dropdowns/Examples/DropdownExample.razor",
           "content": "<Dropdown>\r\n    <DropdownToggle Color=\"Color.Primary\">\r\n        Dropdown\r\n    </DropdownToggle>\r\n    <DropdownMenu>\r\n        <DropdownItem>Action</DropdownItem>\r\n        <DropdownDivider />\r\n        <DropdownItem>Another Action</DropdownItem>\r\n    </DropdownMenu>\r\n</Dropdown>",
           "title": "Dropdown"
+        },
+        {
+          "code": "DropdownToggleIconExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Dropdowns/Examples/DropdownToggleIconExample.razor",
+          "content": "<Dropdown>\r\n    <DropdownToggle Color=\"Color.Primary\" ShowToggleIcon=\"false\">\r\n        Dropdown without toggle icon\r\n    </DropdownToggle>\r\n    <DropdownMenu>\r\n        <DropdownItem>Action</DropdownItem>\r\n        <DropdownDivider />\r\n        <DropdownItem>Another Action</DropdownItem>\r\n    </DropdownMenu>\r\n</Dropdown>",
+          "title": "Toggle icon visibility",
+          "description": "Use the ShowToggleIcon parameter to control whether the dropdown toggle displays its indicator icon."
         },
         {
           "code": "DropdownCheckboxExample",
