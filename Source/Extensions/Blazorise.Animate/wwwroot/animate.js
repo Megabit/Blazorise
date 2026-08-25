@@ -1,4 +1,4 @@
-import { animate as motionAnimate, inView as motionInView } from "./vendors/motion.js?v=2.3.0.0";
+import { animate as motionAnimate, inView as motionInView } from "./vendors/motion.js?v=2.3.1.0";
 
 const _instances = new WeakMap();
 const defaultOptions = {
