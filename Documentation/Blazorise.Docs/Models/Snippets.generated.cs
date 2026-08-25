@@ -10356,7 +10356,7 @@ console.log(greeting(""Blazorise""));
                 @($""Total emails: {context.Value}"")
             </DisplayTemplate>
         </DataGridAggregate>
-        <DataGridAggregate Field=""@nameof( Employee.Salary )"" Aggregate=""DataGridAggregateType.Sum"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" />
+        <DataGridAggregate Field=""@nameof( Employee.Salary )"" Aggregate=""DataGridAggregateType.Sum"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" />
         <DataGridAggregate Field=""@nameof( Employee.IsActive )"" Aggregate=""DataGridAggregateType.TrueCount"" />
     </DataGridAggregates>
     <DataGridColumns>
@@ -10364,7 +10364,7 @@ console.log(greeting(""Blazorise""));
         <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-        <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+        <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
             <EditTemplate>
                 <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
             </EditTemplate>
@@ -10548,7 +10548,7 @@ console.log(greeting(""Blazorise""));
                 @($""Total emails: {context.Value}"")
             </DisplayTemplate>
         </DataGridAggregate>
-        <DataGridAggregate Field=""@nameof( Employee.Salary )"" Aggregate=""DataGridAggregateType.Sum"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" />
+        <DataGridAggregate Field=""@nameof( Employee.Salary )"" Aggregate=""DataGridAggregateType.Sum"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" />
         <DataGridAggregate Field=""@nameof( Employee.IsActive )"" Aggregate=""DataGridAggregateType.TrueCount"" />
     </DataGridAggregates>
     <DataGridColumns>
@@ -10556,7 +10556,7 @@ console.log(greeting(""Blazorise""));
         <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-        <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+        <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
             <EditTemplate>
                 <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
             </EditTemplate>
@@ -11212,7 +11212,7 @@ console.log(greeting(""Blazorise""));
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""Width.Px( 140 )"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" TextAlignment=""TextAlignment.End"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""Width.Px( 140 )"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" TextAlignment=""TextAlignment.End"" />
     </DataGridColumns>
     <ButtonRowTemplate>
         <Button Color=""Color.Success"" Clicked=""context.NewCommand.Clicked"">New</Button>
@@ -11425,7 +11425,7 @@ console.log(greeting(""Blazorise""));
         <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-        <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+        <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
             <EditTemplate>
                 <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
             </EditTemplate>
@@ -11785,7 +11785,7 @@ console.log(greeting(""Blazorise""));
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -13038,7 +13038,7 @@ console.log(greeting(""Blazorise""));
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -13848,7 +13848,7 @@ console.log(greeting(""Blazorise""));
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -14979,7 +14979,7 @@ console.log(greeting(""Blazorise""));
                 @($""Total emails: {context.Value}"")
             </DisplayTemplate>
         </DataGridAggregate>
-        <DataGridAggregate Field=""Salary"" Aggregate=""DataGridAggregateType.Sum"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" />
+        <DataGridAggregate Field=""Salary"" Aggregate=""DataGridAggregateType.Sum"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" />
         <DataGridAggregate Field=""IsActive"" Aggregate=""DataGridAggregateType.TrueCount"" />
         <DataGridAggregate Field=""Childrens"" Aggregate=""DataGridAggregateType.Sum"" />
     </DataGridAggregates>
@@ -14997,10 +14997,10 @@ console.log(greeting(""Blazorise""));
         </DataGridColumn>
         <DataGridColumn Editable Field=""Zip"" Caption=""Zip"">
         </DataGridColumn>
-        <DataGridDateColumn Field=""DateOfBirth"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Birth Date"" Editable />
+        <DataGridDateColumn Field=""DateOfBirth"" DisplayFormat=""dd.MM.yyyy"" Caption=""Birth Date"" Editable />
         <DataGridNumericColumn Field=""Childrens"" Caption=""Childrens"" ReverseSorting=""true"" Editable Filterable=""false"" />
         <DataGridSelectColumn Field=""Gender"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""( x ) => ( (Gender)x ).Code"" TextField=""( x ) => ( (Gender)x ).Description"" />
-        <DataGridColumn Field=""Salary"" Caption=""Salary"" Editable Width=""Width.Px( 140 )"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" TextAlignment=""TextAlignment.End"">
+        <DataGridColumn Field=""Salary"" Caption=""Salary"" Editable Width=""Width.Px( 140 )"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" TextAlignment=""TextAlignment.End"">
         </DataGridColumn>
         <DataGridCheckColumn Field=""IsActive"" Caption=""Active"" Editable Filterable=""false"">
             <DisplayTemplate>
@@ -15238,7 +15238,7 @@ console.log(greeting(""Blazorise""));
         <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-        <DataGridNumericColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable />
+        <DataGridNumericColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable />
     </DataGridColumns>
     <ButtonRowTemplate>
         <Button Color=""Color.Success"" Clicked=""context.NewCommand.Clicked"">New</Button>
@@ -15419,7 +15419,7 @@ console.log(greeting(""Blazorise""));
           Editable
           Responsive>
     <DataGridCommandColumn />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -15756,7 +15756,7 @@ public class EmployeeData
         <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-        <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+        <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
             <EditTemplate>
                 <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
             </EditTemplate>
@@ -15962,7 +15962,7 @@ public class EmployeeData
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -16603,10 +16603,10 @@ public class EmployeeData
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Email )"" Caption=""Email"" Width=""Width.Px( 250 )"" FixedPosition=""TableColumnFixedPosition.Start"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.City )"" Caption=""City"" Width=""Width.Px( 150 )"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Zip )"" Caption=""Zip"" Width=""Width.Px( 100 )"" />
-        <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Birth Date"" Width=""Width.Px( 100 )"" />
+        <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""dd.MM.yyyy"" Caption=""Birth Date"" Width=""Width.Px( 100 )"" />
         <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" Filterable=""false"" Width=""Width.Px( 100 )"" />
         <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Data=""EmployeeData.Genders"" ValueField=""( x ) => ( (Gender)x ).Code"" TextField=""( x ) => ( (Gender)x ).Description"" Width=""Width.Px( 100 )"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" TextAlignment=""TextAlignment.End"" Width=""Width.Px( 100 )"" FixedPosition=""TableColumnFixedPosition.End"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" TextAlignment=""TextAlignment.End"" Width=""Width.Px( 100 )"" FixedPosition=""TableColumnFixedPosition.End"" />
         <DataGridCheckColumn TItem=""Employee"" Field=""@nameof( Employee.IsActive )"" Caption=""Active"" Filterable=""false"" Width=""Width.Px( 100 )"" />
     </DataGridColumns>
 </DataGrid>
@@ -16788,7 +16788,7 @@ public class EmployeeData
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -17737,7 +17737,7 @@ public class EmployeeData
     <DataGridColumn Field=""@nameof( Employee.Id )"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -17965,7 +17965,7 @@ public class EmployeeData
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""( x ) => ( (Gender)x ).Code"" TextField=""( x ) => ( (Gender)x ).Description"" />
     <DataGridNumericColumn Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" Editable />
-    <DataGridDateColumn Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Birth Date"" Editable />
+    <DataGridDateColumn Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""dd.MM.yyyy"" Caption=""Birth Date"" Editable />
 </DataGrid>
 
 @code {
@@ -18177,7 +18177,7 @@ public class EmployeeData
         <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-        <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+        <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
             <EditTemplate>
                 <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
             </EditTemplate>
@@ -18396,7 +18396,7 @@ public class EmployeeData
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -18759,7 +18759,7 @@ public class EmployeeData
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -18944,7 +18944,7 @@ public class EmployeeData
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -19660,7 +19660,7 @@ public class EmployeeData
         <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-        <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+        <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
             <EditTemplate>
                 <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
             </EditTemplate>
@@ -19894,7 +19894,7 @@ public class EmployeeData
         <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
         <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-        <DataGridNumericColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable />
+        <DataGridNumericColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable />
     </DataGridColumns>
 </DataGrid>
 
@@ -20263,7 +20263,7 @@ public class EmployeeData
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -20621,7 +20621,7 @@ public class EmployeeData
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -20824,7 +20824,7 @@ public class Salary
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -21573,7 +21573,7 @@ public class Salary
     <DataGridColumns>
         <DataGridColumn Field=""@nameof( SelfReferenceEmployee.FullName )"" Caption=""Employee"" Width=""Width.Px( 280 )"" Editable />
         <DataGridColumn Field=""@nameof( SelfReferenceEmployee.City )"" Caption=""City"" Editable />
-        <DataGridNumericColumn Field=""@nameof( SelfReferenceEmployee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" Editable />
+        <DataGridNumericColumn Field=""@nameof( SelfReferenceEmployee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" Editable />
         <DataGridCheckColumn Field=""@nameof( SelfReferenceEmployee.IsActive )"" Caption=""Active"" Editable />
         <DataGridCommandColumn NewCommandAllowed=""false"" DeleteCommandAllowed=""false"" />
     </DataGridColumns>
@@ -21853,7 +21853,7 @@ public class Salary
           ShowPager>
     <DataGridColumn Field=""@nameof( SelfReferenceEmployee.FullName )"" Caption=""Employee"" Width=""Width.Px( 280 )"" />
     <DataGridColumn Field=""@nameof( SelfReferenceEmployee.City )"" Caption=""City"" />
-    <DataGridColumn Field=""@nameof( SelfReferenceEmployee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" />
+    <DataGridColumn Field=""@nameof( SelfReferenceEmployee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" />
     <DataGridCheckColumn Field=""@nameof( SelfReferenceEmployee.IsActive )"" Caption=""Active"" />
 </DataGrid>
 
@@ -22151,7 +22151,7 @@ public class Salary
             </DisplayTemplate>
         </DataGridColumn>
         <DataGridColumn Field=""@nameof( SelfReferenceEmployee.City )"" Caption=""City"" />
-        <DataGridNumericColumn Field=""@nameof( SelfReferenceEmployee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" />
+        <DataGridNumericColumn Field=""@nameof( SelfReferenceEmployee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" />
     </DataGridColumns>
 </DataGrid>
 
@@ -22583,7 +22583,7 @@ public class Salary
         </DisplayTemplate>
     </DataGridNumericColumn>
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -22785,7 +22785,7 @@ public class Salary
     <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -22970,7 +22970,7 @@ public class Salary
     <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
         </EditTemplate>
@@ -23153,7 +23153,7 @@ public class Salary
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -23353,10 +23353,10 @@ public class Salary
         </DataGridColumn>
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Zip )"" Caption=""Zip"">
         </DataGridColumn>
-        <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Birth Date"" Editable />
+        <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""dd.MM.yyyy"" Caption=""Birth Date"" Editable />
         <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" ReverseSorting=""true"" Editable Filterable=""false"" />
         <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
-        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""Width.Px(140)"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" TextAlignment=""TextAlignment.End"">
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""Width.Px(140)"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" TextAlignment=""TextAlignment.End"">
         </DataGridColumn>
         <DataGridCheckColumn TItem=""Employee"" Field=""@nameof(Employee.IsActive)"" Caption=""Active"" Editable Filterable=""false"">
             <DisplayTemplate>
@@ -23591,7 +23591,7 @@ public class Salary
           Responsive
           ShowPager>
     <DataGridCommandColumn />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
         <EditTemplate>
             <NumericInput TValue=""decimal""
                          Value=""@((decimal)context.CellValue)""
@@ -23601,7 +23601,7 @@ public class Salary
                          })"" />
         </EditTemplate>
     </DataGridColumn>
-    <DataGridColumn Field=""@nameof( Employee.Tax )"" Caption=""Tax"" Editable DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
+    <DataGridColumn Field=""@nameof( Employee.Tax )"" Caption=""Tax"" Editable DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"">
         <EditTemplate>
             <NumericInput TValue=""decimal""
                          Value=""@((decimal)context.CellValue)""
@@ -24149,7 +24149,7 @@ public class Salary
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridColumn Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
+    <DataGridColumn Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""C"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" Editable>
         <EditTemplate>
             <NumericInput TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@(v => context.CellValue = v)"" />
         </EditTemplate>
@@ -27088,7 +27088,7 @@ builder.Services
     <PivotGridAggregates>
         <PivotGridAggregate Field=""@nameof( PivotSale.Amount )""
                             Caption=""Amount""
-                            DisplayFormat=""{0:C0}""
+                            DisplayFormat=""C0""
                             DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
         <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
                             Caption=""Units""
@@ -27142,13 +27142,13 @@ builder.Services
     <PivotGridAggregates>
         <PivotGridAggregate Field=""@nameof( MarginSale.Amount )""
                             Caption=""Revenue""
-                            DisplayFormat=""{0:C0}""
+                            DisplayFormat=""C0""
                             DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
         <PivotGridAggregate TItem=""MarginSale""
                             Field=""@nameof( MarginSale.Margin )""
                             Caption=""Margin %""
                             Aggregator=""@WeightedMargin""
-                            DisplayFormat=""{0:P1}"" />
+                            DisplayFormat=""P1"" />
     </PivotGridAggregates>
 </PivotGrid>
 
@@ -27244,7 +27244,7 @@ builder.Services
         <PivotGridAggregates>
             <PivotGridAggregate Field=""@nameof( ToolbarSale.Amount )""
                                 Caption=""Amount""
-                                DisplayFormat=""{0:C0}""
+                                DisplayFormat=""C0""
                                 DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
         </PivotGridAggregates>
     </ChildContent>
@@ -27302,7 +27302,7 @@ builder.Services
     <PivotGridAggregates>
         <PivotGridAggregate Field=""@nameof( PivotSale.Amount )""
                             Caption=""Amount""
-                            DisplayFormat=""{0:C0}""
+                            DisplayFormat=""C0""
                             DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
         <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
                             Caption=""Units""
@@ -27366,7 +27366,7 @@ builder.Services
     <PivotGridAggregates>
         <PivotGridAggregate Field=""@nameof( FilterSale.Amount )""
                             Caption=""Amount""
-                            DisplayFormat=""{0:C0}""
+                            DisplayFormat=""C0""
                             DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
     </PivotGridAggregates>
 </PivotGrid>
@@ -27428,7 +27428,7 @@ builder.Services
     <PivotGridAggregates>
         <PivotGridAggregate Field=""@nameof( PivotSale.Amount )""
                             Caption=""Amount""
-                            DisplayFormat=""{0:C0}""
+                            DisplayFormat=""C0""
                             DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
         <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
                             Caption=""Units""
@@ -27532,7 +27532,7 @@ builder.Services
         <PivotGridAggregate Field=""@nameof( RemoteSale.Amount )""
                             Caption=""Amount""
                             Aggregate=""PivotGridAggregateFunction.Sum""
-                            DisplayFormat=""{0:C0}""
+                            DisplayFormat=""C0""
                             DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
     </PivotGridAggregates>
 </PivotGrid>
@@ -27584,7 +27584,7 @@ builder.Services
             Field = nameof( RemoteSale.Amount ),
             Caption = ""Amount"",
             Aggregate = PivotGridAggregateFunction.Sum,
-            DisplayFormat = ""{0:C0}"",
+            DisplayFormat = ""C0"",
             DisplayFormatProvider = System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" ),
         };
 
@@ -27723,7 +27723,7 @@ builder.Services
         <PivotGridAggregate Field=""@nameof( RemotePivotSale.Amount )""
                             Caption=""Amount""
                             Aggregate=""PivotGridAggregateFunction.Sum""
-                            DisplayFormat=""{0:C0}""
+                            DisplayFormat=""C0""
                             DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
     </PivotGridAggregates>
 </PivotGrid>
@@ -27788,7 +27788,7 @@ builder.Services
             Field = nameof( RemotePivotSale.Amount ),
             Caption = ""Amount"",
             Aggregate = PivotGridAggregateFunction.Sum,
-            DisplayFormat = ""{0:C0}"",
+            DisplayFormat = ""C0"",
             DisplayFormatProvider = System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" ),
         };
 
@@ -27899,7 +27899,7 @@ builder.Services
     <PivotGridAggregates>
         <PivotGridAggregate Field=""@nameof( PivotSale.Amount )""
                             Caption=""Amount""
-                            DisplayFormat=""{0:C0}""
+                            DisplayFormat=""C0""
                             DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
         <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
                             Caption=""Units""
@@ -28004,7 +28004,7 @@ builder.Services
     <PivotGridAggregates>
         <PivotGridAggregate Field=""@nameof( TemplateSale.Amount )""
                             Caption=""Revenue""
-                            DisplayFormat=""{0:C0}""
+                            DisplayFormat=""C0""
                             DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"">
             <CellTemplate Context=""context"">
                 <Span TextWeight=""@(context.IsGrandTotal ? TextWeight.Bold : TextWeight.Default)"">

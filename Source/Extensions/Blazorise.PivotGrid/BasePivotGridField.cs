@@ -1,8 +1,8 @@
 #region Using directives
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
 using Blazorise.PivotGrid.Utilities;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -54,12 +54,7 @@ public abstract class BasePivotGridField<TItem> : ComponentBase, IDisposable
     /// </summary>
     public virtual string FormatValue( object value )
     {
-        if ( DisplayFormat is not null )
-        {
-            return string.Format( DisplayFormatProvider ?? CultureInfo.CurrentCulture, DisplayFormat, value );
-        }
-
-        return value?.ToString() ?? EmptyText;
+        return Formaters.FormatDisplayValue( value, DisplayFormat, DisplayFormatProvider ) ?? EmptyText;
     }
 
     /// <summary>
@@ -134,7 +129,7 @@ public abstract class BasePivotGridField<TItem> : ComponentBase, IDisposable
     [Parameter] public bool Visible { get; set; } = true;
 
     /// <summary>
-    /// Specifies display format for default display text.
+    /// Specifies a direct format specifier or composite format string for the default display text.
     /// </summary>
     [Parameter] public string DisplayFormat { get; set; }
 

@@ -24,6 +24,58 @@ public static class Formaters
     private const long BytesPerExabyte = BytesPerPetabyte * 1_024;
 
     /// <summary>
+    /// Formats a display value using either a direct format specifier or a composite format string.
+    /// </summary>
+    /// <param name="value">Value to format.</param>
+    /// <param name="displayFormat">Direct format specifier or composite format string.</param>
+    /// <param name="displayFormatProvider">Format provider to use.</param>
+    /// <returns>Formatted display value.</returns>
+    public static string FormatDisplayValue( object value, string displayFormat, IFormatProvider displayFormatProvider = null )
+    {
+        if ( displayFormat is null )
+            return value?.ToString();
+
+        var formatProvider = displayFormatProvider ?? CultureInfo.CurrentCulture;
+
+        if ( displayFormat.IndexOf( '{' ) >= 0
+             && TryParseCompositeFormat( displayFormat, out var compositeFormat ) )
+        {
+            return string.Format( formatProvider, compositeFormat, value );
+        }
+
+        if ( value is null )
+            return string.Empty;
+
+        if ( formatProvider.GetFormat( typeof( ICustomFormatter ) ) is ICustomFormatter customFormatter )
+        {
+            var customFormattedValue = customFormatter.Format( displayFormat, value, formatProvider );
+
+            if ( customFormattedValue is not null )
+                return customFormattedValue;
+        }
+
+        return value is IFormattable formattable
+            ? formattable.ToString( displayFormat, formatProvider )
+            : value.ToString();
+    }
+
+    private static bool TryParseCompositeFormat( string displayFormat, out CompositeFormat compositeFormat )
+    {
+        try
+        {
+            compositeFormat = CompositeFormat.Parse( displayFormat );
+
+            return compositeFormat.MinimumArgumentCount > 0;
+        }
+        catch ( FormatException )
+        {
+            compositeFormat = null;
+
+            return false;
+        }
+    }
+
+    /// <summary>
     /// Formats the supplied value to it's valid string representation.
     /// </summary>
     /// <param name="value">Value to format.</param>
