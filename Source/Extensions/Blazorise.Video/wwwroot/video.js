@@ -1,4 +1,4 @@
-import { getRequiredElement, insertCSSIntoDocumentHead, isString, firstNonNull, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.3.0.0";
+import { getRequiredElement, insertCSSIntoDocumentHead, isString, firstNonNull, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.3.1.0";
 
 const videoJsVendorRoot = "./vendors/videojs";
 const videoJsPlayerUrl = `${videoJsVendorRoot}/videojs.js`;
@@ -7,7 +7,7 @@ const videoJsDashUrl = `${videoJsVendorRoot}/dash-video.js`;
 const videoJsYouTubeUrl = `${videoJsVendorRoot}/youtube-video.js`;
 const videoJsVimeoUrl = `${videoJsVendorRoot}/vimeo-video.js`;
 
-insertCSSIntoDocumentHead("_content/Blazorise.Video/vendors/videojs/videojs.css?v=2.3.0.0");
+insertCSSIntoDocumentHead("_content/Blazorise.Video/vendors/videojs/videojs.css?v=2.3.1.0");
 
 const instances = new Map();
 const modulePromises = new Map();

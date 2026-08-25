@@ -73,7 +73,7 @@
   </ItemGroup>
 
   <!--Execute the code generator-->
-  <Target Name="CompileDocs" BeforeTargets="BeforeBuild">
+  <Target Name="CompileDocs" BeforeTargets="BeforeBuild" Condition="'$(DesignTimeBuild)' != 'true'">
     <!--Command-line for the code generator-->
     <Message Text="Generating Docs and Tests" Importance="high" />
     <Exec Command="$(ProjectDocsCompiler) --api-docs-path &quot;$(ApiDocsIntermediatePath)&quot;" />

@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=2.3.0.0";
+import { getRequiredElement } from "./utilities.js?v=2.3.1.0";
 
 const _instances = [];
 const supportsNativeFieldSizing = typeof CSS !== "undefined"
@@ -104,7 +104,7 @@ async function updateBehave(instance) {
     if (!instance.replaceTab)
         return;
 
-    behaveModulePromise ??= import("./vendors/Behave.js?v=2.3.0.0");
+    behaveModulePromise ??= import("./vendors/Behave.js?v=2.3.1.0");
 
     const { Behave } = await behaveModulePromise;
 
