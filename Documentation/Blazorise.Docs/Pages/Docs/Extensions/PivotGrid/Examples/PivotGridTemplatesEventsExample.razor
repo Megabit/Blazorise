@@ -27,7 +27,7 @@
     <PivotGridAggregates>
         <PivotGridAggregate Field="@nameof( TemplateSale.Amount )"
                             Caption="Revenue"
-                            DisplayFormat="{0:C0}"
+                            DisplayFormat="C0"
                             DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "en-US" )">
             <CellTemplate Context="context">
                 <Span TextWeight="@(context.IsGrandTotal ? TextWeight.Bold : TextWeight.Default)">

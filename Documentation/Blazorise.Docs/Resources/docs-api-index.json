@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-24T09:00:26.8864828Z",
+  "generatedUtc": "2026-08-25T09:09:26.8542360Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -32187,7 +32187,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the format for display value.",
+          "summary": "Specifies a direct format specifier or composite format string for the display value.",
           "isBlazoriseEnum": false
         },
         {
@@ -32511,7 +32511,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the format for display value.",
+          "summary": "Specifies a direct format specifier or composite format string for the display value.",
           "isBlazoriseEnum": false
         },
         {
@@ -33339,7 +33339,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the format for display value.",
+          "summary": "Specifies a direct format specifier or composite format string for the display value.",
           "isBlazoriseEnum": false
         },
         {
@@ -34231,7 +34231,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the format for display value.",
+          "summary": "Specifies a direct format specifier or composite format string for the display value.",
           "isBlazoriseEnum": false
         },
         {
@@ -35147,7 +35147,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the format for display value.",
+          "summary": "Specifies a direct format specifier or composite format string for the display value.",
           "isBlazoriseEnum": false
         },
         {
@@ -36113,7 +36113,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the format for display value.",
+          "summary": "Specifies a direct format specifier or composite format string for the display value.",
           "isBlazoriseEnum": false
         },
         {
@@ -36982,7 +36982,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the format for display value.",
+          "summary": "Specifies a direct format specifier or composite format string for the display value.",
           "isBlazoriseEnum": false
         },
         {
@@ -37963,7 +37963,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies the format for display value.",
+          "summary": "Specifies a direct format specifier or composite format string for the display value.",
           "isBlazoriseEnum": false
         },
         {
@@ -54592,7 +54592,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies display format for default display text.",
+          "summary": "Specifies a direct format specifier or composite format string for the default display text.",
           "isBlazoriseEnum": false
         },
         {
@@ -54778,7 +54778,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies display format for default display text.",
+          "summary": "Specifies a direct format specifier or composite format string for the default display text.",
           "isBlazoriseEnum": false
         },
         {
@@ -85778,7 +85778,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies display format for default display text.",
+          "summary": "Specifies a direct format specifier or composite format string for the default display text.",
           "isBlazoriseEnum": false
         },
         {
@@ -85900,7 +85900,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies display format for default display text.",
+          "summary": "Specifies a direct format specifier or composite format string for the default display text.",
           "isBlazoriseEnum": false
         },
         {
@@ -86002,7 +86002,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies display format for default display text.",
+          "summary": "Specifies a direct format specifier or composite format string for the default display text.",
           "isBlazoriseEnum": false
         },
         {
@@ -86104,7 +86104,7 @@
           "type": "string",
           "typeName": "string",
           "defaultValue": "null",
-          "summary": "Specifies display format for default display text.",
+          "summary": "Specifies a direct format specifier or composite format string for the default display text.",
           "isBlazoriseEnum": false
         },
         {

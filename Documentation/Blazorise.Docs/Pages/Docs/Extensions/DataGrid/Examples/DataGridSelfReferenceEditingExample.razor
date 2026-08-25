@@ -17,7 +17,7 @@
     <DataGridColumns>
         <DataGridColumn Field="@nameof( SelfReferenceEmployee.FullName )" Caption="Employee" Width="Width.Px( 280 )" Editable />
         <DataGridColumn Field="@nameof( SelfReferenceEmployee.City )" Caption="City" Editable />
-        <DataGridNumericColumn Field="@nameof( SelfReferenceEmployee.Salary )" Caption="Salary" DisplayFormat="{0:C}" Editable />
+        <DataGridNumericColumn Field="@nameof( SelfReferenceEmployee.Salary )" Caption="Salary" DisplayFormat="C" Editable />
         <DataGridCheckColumn Field="@nameof( SelfReferenceEmployee.IsActive )" Caption="Active" Editable />
         <DataGridCommandColumn NewCommandAllowed="false" DeleteCommandAllowed="false" />
     </DataGridColumns>

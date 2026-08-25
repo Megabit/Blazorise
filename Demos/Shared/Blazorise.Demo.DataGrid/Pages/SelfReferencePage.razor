@@ -50,7 +50,7 @@
                     <DataGridColumns>
                         <DataGridColumn TItem="SelfReferenceEmployee" Field="@nameof( SelfReferenceEmployee.FullName )" Caption="Employee" Width="Width.Px( 300 )" />
                         <DataGridColumn TItem="SelfReferenceEmployee" Field="@nameof( SelfReferenceEmployee.City )" Caption="City" />
-                        <DataGridColumn TItem="SelfReferenceEmployee" Field="@nameof( SelfReferenceEmployee.Salary )" Caption="Salary" DisplayFormat="{0:C}" />
+                        <DataGridColumn TItem="SelfReferenceEmployee" Field="@nameof( SelfReferenceEmployee.Salary )" Caption="Salary" DisplayFormat="C" />
                         <DataGridCheckColumn TItem="SelfReferenceEmployee" Field="@nameof( SelfReferenceEmployee.IsActive )" Caption="Active" />
                     </DataGridColumns>
                 </DataGrid>

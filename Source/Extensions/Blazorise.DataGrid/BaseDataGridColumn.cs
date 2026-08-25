@@ -1,6 +1,6 @@
 #region Using directives
 using System;
-using System.Globalization;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -21,12 +21,7 @@ public class BaseDataGridColumn<TItem> : BaseDataGridComponent
     /// <returns>Formatted display value.</returns>
     public virtual string FormatDisplayValue( object value )
     {
-        if ( DisplayFormat is not null )
-        {
-            return string.Format( DisplayFormatProvider ?? CultureInfo.CurrentCulture, DisplayFormat, value );
-        }
-
-        return value?.ToString();
+        return Formaters.FormatDisplayValue( value, DisplayFormat, DisplayFormatProvider );
     }
 
     #endregion
@@ -39,7 +34,7 @@ public class BaseDataGridColumn<TItem> : BaseDataGridComponent
     [Parameter] public string Field { get; set; }
 
     /// <summary>
-    /// Specifies the format for display value.
+    /// Specifies a direct format specifier or composite format string for the display value.
     /// </summary>
     [Parameter] public string DisplayFormat { get; set; }
 

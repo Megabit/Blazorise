@@ -15,13 +15,13 @@
     <PivotGridAggregates>
         <PivotGridAggregate Field="@nameof( MarginSale.Amount )"
                             Caption="Revenue"
-                            DisplayFormat="{0:C0}"
+                            DisplayFormat="C0"
                             DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "en-US" )" />
         <PivotGridAggregate TItem="MarginSale"
                             Field="@nameof( MarginSale.Margin )"
                             Caption="Margin %"
                             Aggregator="@WeightedMargin"
-                            DisplayFormat="{0:P1}" />
+                            DisplayFormat="P1" />
     </PivotGridAggregates>
 </PivotGrid>
 

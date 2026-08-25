@@ -7,7 +7,7 @@
           Responsive
           ShowPager>
     <DataGridCommandColumn />
-    <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" Editable DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
+    <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" Editable DisplayFormat="C" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
         <EditTemplate>
             <NumericInput TValue="decimal"
                          Value="@((decimal)context.CellValue)"
@@ -17,7 +17,7 @@
                          })" />
         </EditTemplate>
     </DataGridColumn>
-    <DataGridColumn Field="@nameof( Employee.Tax )" Caption="Tax" Editable DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
+    <DataGridColumn Field="@nameof( Employee.Tax )" Caption="Tax" Editable DisplayFormat="C" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
         <EditTemplate>
             <NumericInput TValue="decimal"
                          Value="@((decimal)context.CellValue)"

@@ -73,6 +73,14 @@
     Bind in-memory data with <Code>Data</Code>, handle callback loading with <Code>ReadData</Code>, or provide a reusable implementation with <Code>DataProvider</Code>. A data provider can be implemented in a separate package when the data comes from a specific backend or protocol.
 </DocsPageParagraph>
 
+<Heading Size="HeadingSize.Is3">
+    Value Formatting
+</Heading>
+
+<DocsPageParagraph>
+    Use <Code>DisplayFormat</Code> with a direct .NET format specifier, such as <Code>C0</Code> or <Code>P1</Code>. Composite formats such as <Code>Total: {0:C0}</Code> remain supported when you need literal text, alignment, or other composite-format features.
+</DocsPageParagraph>
+
 <DocsPageSectionTitle>
     Examples
 </DocsPageSectionTitle>

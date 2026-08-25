@@ -28,7 +28,7 @@
         <PivotGridAggregate Field="@nameof( RemoteSale.Amount )"
                             Caption="Amount"
                             Aggregate="PivotGridAggregateFunction.Sum"
-                            DisplayFormat="{0:C0}"
+                            DisplayFormat="C0"
                             DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "en-US" )" />
     </PivotGridAggregates>
 </PivotGrid>
@@ -80,7 +80,7 @@
             Field = nameof( RemoteSale.Amount ),
             Caption = "Amount",
             Aggregate = PivotGridAggregateFunction.Sum,
-            DisplayFormat = "{0:C0}",
+            DisplayFormat = "C0",
             DisplayFormatProvider = System.Globalization.CultureInfo.GetCultureInfo( "en-US" ),
         };
 

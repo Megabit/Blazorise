@@ -1,4 +1,6 @@
-﻿using Blazorise.Utilities;
+﻿using System;
+using System.Globalization;
+using Blazorise.Utilities;
 using Xunit;
 
 namespace Blazorise.Tests.Utils;
@@ -6,6 +8,40 @@ namespace Blazorise.Tests.Utils;
 public class FormatersTests
 {
 
+    [Theory]
+    [InlineData( "C2", "$12.50" )]
+    [InlineData( "{0:C2}", "$12.50" )]
+    [InlineData( "Amount: {0:C2}", "Amount: $12.50" )]
+    public void FormatDisplayValue_Supports_DirectAndCompositeFormats( string displayFormat, string expected )
+    {
+        var result = Formaters.FormatDisplayValue( 12.5m, displayFormat, CultureInfo.GetCultureInfo( "en-US" ) );
+
+        Assert.Equal( expected, result );
+    }
+
+    [Fact]
+    public void FormatDisplayValue_Supports_DirectDateFormat()
+    {
+        var result = Formaters.FormatDisplayValue( new DateTime( 2026, 8, 25 ), "dd.MM.yyyy", CultureInfo.InvariantCulture );
+
+        Assert.Equal( "25.08.2026", result );
+    }
+
+    [Fact]
+    public void FormatDisplayValue_Supports_CustomFormatterWithDirectFormat()
+    {
+        var result = Formaters.FormatDisplayValue( 12.5m, "custom", new TestCustomFormatter() );
+
+        Assert.Equal( "custom:12.5", result );
+    }
+
+    [Fact]
+    public void FormatDisplayValue_PreservesNullBehavior()
+    {
+        Assert.Null( Formaters.FormatDisplayValue( null, null ) );
+        Assert.Equal( string.Empty, Formaters.FormatDisplayValue( null, "C" ) );
+        Assert.Equal( string.Empty, Formaters.FormatDisplayValue( null, "{0:C}" ) );
+    }
 
     [Theory]
     [InlineData( 1, "1 B" )]
@@ -38,6 +74,17 @@ public class FormatersTests
         var result = Formaters.PascalCaseToFriendlyName( input );
 
         Assert.Equal( expected, result );
+    }
+
+    private sealed class TestCustomFormatter : IFormatProvider, ICustomFormatter
+    {
+        public object GetFormat( Type formatType )
+            => formatType == typeof( ICustomFormatter ) ? this : null;
+
+        public string Format( string format, object arg, IFormatProvider formatProvider )
+            => format == "custom"
+                ? $"custom:{Convert.ToString( arg, CultureInfo.InvariantCulture )}"
+                : null;
     }
 
 }

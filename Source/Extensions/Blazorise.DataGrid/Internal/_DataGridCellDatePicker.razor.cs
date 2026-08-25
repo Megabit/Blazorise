@@ -26,8 +26,6 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
     /// </summary>
     private Type valueType;
 
-    private string dateDisplayFormat;
-
     #endregion
 
     #region Methods
@@ -37,13 +35,6 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
     {
         valueType = Column.GetValueType( default );
         elementId = IdGenerator.Generate;
-
-        // this is a woraround for https://github.com/Megabit/Blazorise/issues/5837
-        // in 2.0 we need to remove formating as {0:dd.MM.yyyy}, and on support dd.MM.yyyy
-        if ( Column.DisplayFormat is not null && Column.DisplayFormat.StartsWith( "{0:" ) && Column.DisplayFormat.EndsWith( "}" ) )
-        {
-            dateDisplayFormat = Column.DisplayFormat.Substring( 3, Column.DisplayFormat.Length - 4 );
-        }
 
         base.OnInitialized();
     }
@@ -76,6 +67,19 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
     public async Task Focus()
     {
         await JSUtilitiesModule.Focus( default, elementId, true );
+    }
+
+    private static string ResolveDateDisplayFormat( string displayFormat )
+    {
+        if ( displayFormat is null )
+            return null;
+
+        if ( displayFormat.StartsWith( "{0:", StringComparison.Ordinal ) && displayFormat.EndsWith( "}", StringComparison.Ordinal ) )
+            return displayFormat.Substring( 3, displayFormat.Length - 4 );
+
+        return displayFormat.Contains( "{0", StringComparison.Ordinal )
+            ? null
+            : displayFormat;
     }
 
     #endregion
@@ -119,7 +123,7 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
         builder.AddAttribute( 12, nameof( DatePicker<object>.Inline ), Column.Inline );
         builder.AddAttribute( 13, nameof( DatePicker<object>.DisableMobile ), Column.DisableMobile );
         builder.AddAttribute( 14, nameof( DatePicker<object>.StaticPicker ), Column.StaticPicker );
-        builder.AddAttribute( 15, nameof( DatePicker<object>.DisplayFormat ), dateDisplayFormat );
+        builder.AddAttribute( 15, nameof( DatePicker<object>.DisplayFormat ), ResolveDateDisplayFormat( Column.DisplayFormat ) );
         builder.CloseComponent();
     };
 

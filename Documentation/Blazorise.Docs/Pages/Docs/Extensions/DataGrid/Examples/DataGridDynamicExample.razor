@@ -16,7 +16,7 @@
                 @($"Total emails: {context.Value}")
             </DisplayTemplate>
         </DataGridAggregate>
-        <DataGridAggregate Field="Salary" Aggregate="DataGridAggregateType.Sum" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" />
+        <DataGridAggregate Field="Salary" Aggregate="DataGridAggregateType.Sum" DisplayFormat="C" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" />
         <DataGridAggregate Field="IsActive" Aggregate="DataGridAggregateType.TrueCount" />
         <DataGridAggregate Field="Childrens" Aggregate="DataGridAggregateType.Sum" />
     </DataGridAggregates>
@@ -34,10 +34,10 @@
         </DataGridColumn>
         <DataGridColumn Editable Field="Zip" Caption="Zip">
         </DataGridColumn>
-        <DataGridDateColumn Field="DateOfBirth" DisplayFormat="{0:dd.MM.yyyy}" Caption="Birth Date" Editable />
+        <DataGridDateColumn Field="DateOfBirth" DisplayFormat="dd.MM.yyyy" Caption="Birth Date" Editable />
         <DataGridNumericColumn Field="Childrens" Caption="Childrens" ReverseSorting="true" Editable Filterable="false" />
         <DataGridSelectColumn Field="Gender" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="( x ) => ( (Gender)x ).Code" TextField="( x ) => ( (Gender)x ).Description" />
-        <DataGridColumn Field="Salary" Caption="Salary" Editable Width="Width.Px( 140 )" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" TextAlignment="TextAlignment.End">
+        <DataGridColumn Field="Salary" Caption="Salary" Editable Width="Width.Px( 140 )" DisplayFormat="C" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" TextAlignment="TextAlignment.End">
         </DataGridColumn>
         <DataGridCheckColumn Field="IsActive" Caption="Active" Editable Filterable="false">
             <DisplayTemplate>

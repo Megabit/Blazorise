@@ -1,7 +1,7 @@
 #region Using directives
 using System;
-using System.Globalization;
 using Blazorise.Gantt.Utilities;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -80,12 +80,7 @@ public abstract class BaseGanttColumn<TItem> : ComponentBase, IDisposable
     /// </summary>
     public virtual string FormatDisplayValue( object value )
     {
-        if ( DisplayFormat is not null )
-        {
-            return string.Format( DisplayFormatProvider ?? CultureInfo.CurrentCulture, DisplayFormat, value );
-        }
-
-        return value?.ToString();
+        return Formaters.FormatDisplayValue( value, DisplayFormat, DisplayFormatProvider );
     }
 
     /// <summary>
@@ -158,7 +153,7 @@ public abstract class BaseGanttColumn<TItem> : ComponentBase, IDisposable
     [Parameter] public TextAlignment TextAlignment { get; set; } = TextAlignment.Default;
 
     /// <summary>
-    /// Specifies display format for default display text.
+    /// Specifies a direct format specifier or composite format string for the default display text.
     /// </summary>
     [Parameter] public string DisplayFormat { get; set; }
 

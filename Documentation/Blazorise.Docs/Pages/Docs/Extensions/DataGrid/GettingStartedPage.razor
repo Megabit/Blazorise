@@ -111,6 +111,10 @@
     </DocsPageSectionHeader>
 </DocsPageSection>
 
+<DocsPageParagraph>
+    Use <Code>DisplayFormat</Code> with a direct .NET format specifier, such as <Code>C</Code> or <Code>dd.MM.yyyy</Code>. Composite formats such as <Code>Total: {0:C}</Code> remain supported when you need literal text, alignment, or other composite-format features.
+</DocsPageParagraph>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="Nested fields">
         Field attribute also supports nested fields. You can define a column with field name like <Code>"City.Country.Name"</Code> and it will work. Just keep in mind that when editing nested fields they must be initialized first or otherwise they will raise an exception.
