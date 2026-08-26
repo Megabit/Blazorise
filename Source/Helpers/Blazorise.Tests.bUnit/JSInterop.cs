@@ -334,6 +334,15 @@ public static class JSInterop
         return jsInterop;
     }
 
+    public static BunitJSInterop AddBlazoriseTooltip( this BunitJSInterop jsInterop )
+    {
+        var module = jsInterop.SetupModule( "./_content/Blazorise.Bootstrap/tooltip.js?v=" );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateContent", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
 
     public static BunitJSInterop AddBlazoriseTable( this BunitJSInterop jsInterop )
     {
