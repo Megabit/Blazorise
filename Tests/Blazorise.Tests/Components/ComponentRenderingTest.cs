@@ -53,12 +53,12 @@ public class ComponentRenderingTest : BunitContext
         // setup
 
         // test
-        Render<Tooltip>( parameters => parameters
+        var component = Render<Tooltip>( parameters => parameters
             .Add( x => x.Text, "Tooltip content" )
             .AddChildContent( "Tooltip target" ) );
 
         // validate
-        this.JSInterop.VerifyInvoke( "initialize" );
+        component.WaitForAssertion( () => this.JSInterop.VerifyInvoke( "initialize" ) );
     }
 
     [Fact]
