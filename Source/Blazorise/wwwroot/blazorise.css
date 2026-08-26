@@ -56,9 +56,8 @@ hr.divider.divider-text::before {
 .b-drop-zone .draggable-preview-start {
   height: 20px;
   width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
+  margin-bottom: -20px;
   z-index: 1;
 }
 

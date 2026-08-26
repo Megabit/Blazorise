@@ -335,6 +335,36 @@ public class DropZoneTest : BunitContext
     }
 
     [Fact]
+    public async Task DropZone_Reorder_MoveBetweenZones_BetweenItemsAfterMovingBelow()
+    {
+        var comp = Render<DropZoneReorderComponent>();
+
+        var firstDropZone = comp.Find( ".dropzone-1" );
+        var secondDropZone = comp.Find( ".dropzone-2" );
+        var secondDropItemInFirstZone = firstDropZone.Children.Single( x => x.TextContent == "Item 2" );
+
+        await secondDropItemInFirstZone.DragStartAsync( new DragEventArgs() );
+        await secondDropZone.DragEnterAsync( new DragEventArgs() );
+
+        var secondDropItemInSecondZone = secondDropZone.Children.Single( x => x.TextContent == "Item 6" );
+
+        await secondDropItemInSecondZone.DragEnterAsync( new DragEventArgs() );
+
+        var firstDropItemInSecondZone = secondDropZone.Children.Single( x => x.TextContent == "Item 5" );
+
+        await firstDropItemInSecondZone.DragEnterAsync( new DragEventArgs() );
+
+        secondDropZone.Children[2].ClassList.Should().Contain( "draggable-placeholder" ).And.NotContain( "d-none" );
+
+        await secondDropZone.DropAsync( new DragEventArgs() );
+
+        secondDropZone.Children[2].TextContent.Should().Be( "Item 5" );
+        secondDropZone.Children[3].TextContent.Should().Be( "Item 2" );
+        secondDropZone.Children[4].TextContent.Should().Be( "Item 6" );
+        comp.Instance.IndexHistory.Should().ContainSingle().And.Contain( 1 );
+    }
+
+    [Fact]
     public async Task DropZone_Reorder_MoveBetweenZones()
     {
         var comp = Render<DropZoneReorderComponent>();
