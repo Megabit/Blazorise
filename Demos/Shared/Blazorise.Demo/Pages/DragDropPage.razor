@@ -6,7 +6,7 @@
             <Div>
                 <Heading Size="HeadingSize.Is3" Margin="Margin.Is0.FromBottom">Sort the basket</Heading>
                 <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
-                    Drag each item into the correct group. Fruit and vegetable zones accept only matching items, and every column supports reordering.
+                    Drag each item into the correct group. Fruit and vegetable zones accept only matching items, every column supports reordering, and a custom placeholder previews each insertion point.
                 </Paragraph>
             </Div>
             <Button Color="Color.Secondary" Outline Clicked="@ResetItems" Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
@@ -98,6 +98,18 @@
             </CardBody>
         </Card>
     </ItemTemplate>
+    <PlaceholderTemplate>
+        <Div Background="Background.Primary.Subtle"
+             TextColor="TextColor.Primary.Emphasis"
+             Border="Border.Is1.Rounded"
+             Padding="Padding.Is3"
+             Margin="Margin.Is2.OnY"
+             Flex="Flex.JustifyContent.Center.AlignItems.Center"
+             Gap="Gap.Is2">
+            <Icon Name="IconName.ArrowDown" />
+            Place @context.Name here
+        </Div>
+    </PlaceholderTemplate>
 </DropContainer>
 @code {
     public class DropItem
