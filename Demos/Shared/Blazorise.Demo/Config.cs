@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using Blazorise.Captcha.ReCaptcha;
 using Blazorise.CodeEditor;
 using Blazorise.Components;
@@ -10,6 +11,7 @@ using Blazorise.Reporting;
 using Blazorise.RichTextEdit;
 using Blazorise.Shared.Models;
 using FluentValidation;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -56,7 +58,9 @@ public static class Config
             .AddLoadingIndicator()
             .AddBlazoriseFluentValidation()
             .AddBlazoriseReporting()
-            .AddBlazorisePdfHttpResources()
+            .AddBlazorisePdfHttpResources( httpClient =>
+                httpClient.ConfigureHttpClient( ( serviceProvider, client ) =>
+                    client.BaseAddress = new Uri( serviceProvider.GetRequiredService<NavigationManager>().BaseUri ) ) )
             .AddBlazoriseGoogleReCaptcha( options =>
             {
                 options.SiteKey = reCaptchaSiteKey;
