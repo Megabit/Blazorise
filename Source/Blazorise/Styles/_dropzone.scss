@@ -24,8 +24,10 @@
     }
 
     .draggable-placeholder {
-        outline: 2px dashed var(--b-theme-primary, "#0000FF") !important;
-        padding: 1rem;
+        &:empty {
+            outline: 2px dashed var(--b-theme-primary, "#0000FF") !important;
+            padding: 1rem;
+        }
     }
 
     .draggable-preview-start {

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -246,6 +246,11 @@ public partial class DropContainer<TItem> : BaseComponent
     /// The render method that is used to render the items withing the dropzone.
     /// </summary>
     [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
+
+    /// <summary>
+    /// The template used to render the placeholder for the item being reordered. The template receives the item currently being dragged.
+    /// </summary>
+    [Parameter] public RenderFragment<TItem> PlaceholderTemplate { get; set; }
 
     /// <summary>
     /// Callback that indicates that an item has been dropped on a drop zone. Should be used to update the "status" of the data item.

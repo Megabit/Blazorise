@@ -49,7 +49,7 @@ hr.divider.divider-text::before {
 .b-drop-zone-draggable:not(.draggable-preview-start):active {
   cursor: grabbing;
 }
-.b-drop-zone .draggable-placeholder {
+.b-drop-zone .draggable-placeholder:empty {
   outline: 2px dashed var(--b-theme-primary, "#0000FF") !important;
   padding: 1rem;
 }

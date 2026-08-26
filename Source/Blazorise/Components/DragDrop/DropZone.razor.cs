@@ -441,6 +441,11 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     protected string TransactionSourceZoneName => ParentContainer?.TransactionSourceZoneName;
 
     /// <summary>
+    /// Gets the placeholder template defined for this drop zone or its parent container.
+    /// </summary>
+    protected RenderFragment<TItem> EffectivePlaceholderTemplate => PlaceholderTemplate ?? ParentContainer?.PlaceholderTemplate;
+
+    /// <summary>
     /// Placeholder class builder.
     /// </summary>
     protected ClassBuilder PlaceholderClassBuilder { get; private set; }
@@ -464,6 +469,11 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     /// The render method that is used to render the items withing the dropzone.
     /// </summary>
     [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
+
+    /// <summary>
+    /// The template used to render the placeholder for the item being reordered. The template receives the item currently being dragged and overrides the template defined by the parent container.
+    /// </summary>
+    [Parameter] public RenderFragment<TItem> PlaceholderTemplate { get; set; }
 
     /// <summary>
     /// Determines if the item is allowed to be dropped to this zone.

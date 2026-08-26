@@ -1,0 +1,56 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<DropContainer TItem="DropItem" Items="@items" ItemsFilter="@(( item, dropZone ) => item.Group == dropZone)" ItemDropped="@ItemDropped" Flex="Flex.Wrap.Grow.Is1">
+    <ChildContent>
+        @foreach ( var dropZoneName in DropZoneNames )
+        {
+            <DropZone TItem="DropItem" Name="@dropZoneName" AllowReorder Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
+                <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">@dropZoneName</Heading>
+            </DropZone>
+        }
+    </ChildContent>
+    <ItemTemplate>
+        <Card Shadow="Shadow.Default" Margin="Margin.Is2.OnY">
+            <CardBody Padding="Padding.Is3">
+                @context.Name
+            </CardBody>
+        </Card>
+    </ItemTemplate>
+    <PlaceholderTemplate>
+        <Div Background="Background.Primary.Subtle"
+             TextColor="TextColor.Primary.Emphasis"
+             Border="Border.Is1.Rounded"
+             Padding="Padding.Is3"
+             Margin="Margin.Is2.OnY"
+             Flex="Flex.JustifyContent.Center.AlignItems.Center"
+             Gap="Gap.Is2">
+            <Icon Name="IconName.ArrowDown" />
+            Place @context.Name here
+        </Div>
+    </PlaceholderTemplate>
+</DropContainer>
+
+@code {
+    public class DropItem
+    {
+        public string Name { get; init; }
+
+        public string Group { get; set; }
+    }
+
+    private static readonly string[] DropZoneNames = new[] { "Backlog", "Done" };
+
+    private List<DropItem> items = new()
+    {
+        new DropItem() { Name = "Write proposal", Group = "Backlog" },
+        new DropItem() { Name = "Review design", Group = "Backlog" },
+        new DropItem() { Name = "Create prototype", Group = "Done" },
+    };
+
+    private Task ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
+    {
+        dropItem.Item.Group = dropItem.DropZoneName;
+
+        return Task.CompletedTask;
+    }
+}

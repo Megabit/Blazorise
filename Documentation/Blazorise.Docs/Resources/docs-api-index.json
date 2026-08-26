@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-25T09:09:26.8542360Z",
+  "generatedUtc": "2026-08-26T08:20:20.0728155Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -46051,6 +46051,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "PlaceholderTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<TItem>",
+          "defaultValue": "null",
+          "summary": "The template used to render the placeholder for the item being reordered. The template receives the item currently being dragged.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Position",
           "type": "global::Blazorise.IFluentPosition",
           "typeName": "IFluentPosition",
@@ -46533,6 +46541,14 @@
           "typeName": "IFluentSpacing",
           "defaultValue": "null",
           "summary": "Configures the padding spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "PlaceholderTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<TItem>",
+          "defaultValue": "null",
+          "summary": "The template used to render the placeholder for the item being reordered. The template receives the item currently being dragged and overrides the template defined by the parent container.",
           "isBlazoriseEnum": false
         },
         {

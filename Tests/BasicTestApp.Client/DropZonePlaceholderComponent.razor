@@ -1,0 +1,31 @@
+<DropContainer TItem="DropItem" Items="@items" ItemsFilter="@(( item, dropZone ) => item.Group == dropZone)">
+    <ChildContent>
+        <DropZone TItem="DropItem" Class="placeholder-source" Name="Source" AllowReorder />
+        <DropZone TItem="DropItem" Class="placeholder-container" Name="Container" AllowReorder />
+        <DropZone TItem="DropItem" Class="placeholder-zone" Name="Zone" AllowReorder>
+            <PlaceholderTemplate Context="item">
+                <Span Class="zone-placeholder">Add @item.Name to this zone</Span>
+            </PlaceholderTemplate>
+        </DropZone>
+    </ChildContent>
+    <ItemTemplate Context="item">
+        <Span>@item.Name</Span>
+    </ItemTemplate>
+    <PlaceholderTemplate Context="item">
+        <Span Class="container-placeholder">Move @item.Name here</Span>
+    </PlaceholderTemplate>
+</DropContainer>
+
+@code {
+    public class DropItem
+    {
+        public string Name { get; init; }
+
+        public string Group { get; set; }
+    }
+
+    private List<DropItem> items = new()
+    {
+        new DropItem() { Name = "Item 1", Group = "Source" },
+    };
+}
