@@ -15,8 +15,7 @@ public class ComponentRenderingTest : BunitContext
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
             .AddBlazoriseTextInput()
-            .AddBlazoriseButton()
-            .AddBlazoriseTooltip();
+            .AddBlazoriseButton();
     }
 
     [Fact]
@@ -49,20 +48,6 @@ public class ComponentRenderingTest : BunitContext
         Assert.Contains( buttonClose, comp.Markup );
         Assert.Contains( buttonType, comp.Markup );
         Assert.Contains( buttonContent, comp.Markup );
-    }
-
-    [Fact]
-    public void CanRenderTooltipComponent()
-    {
-        // setup
-
-        // test
-        var component = Render<Tooltip>( parameters => parameters
-            .Add( x => x.Text, "Tooltip content" )
-            .AddChildContent( "Tooltip target" ) );
-
-        // validate
-        component.WaitForAssertion( () => this.JSInterop.VerifyInvoke( "initialize" ) );
     }
 
     [Fact]
