@@ -1369,7 +1369,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
 
     private static bool TryParseHexComponent( string value, int startIndex, out int component )
     {
-        return int.TryParse( value.Substring( startIndex, 2 ), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out component );
+        return int.TryParse( value.AsSpan( startIndex, 2 ), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out component );
     }
 
     private static bool TryParseRgbFunction( string value, out double red, out double green, out double blue, out double alpha )

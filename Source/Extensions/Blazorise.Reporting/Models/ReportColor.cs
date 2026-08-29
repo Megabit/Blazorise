@@ -138,7 +138,7 @@ public readonly record struct ReportColor
 
     private static bool TryParseHexComponent( string value, int startIndex, out byte component )
     {
-        return byte.TryParse( value.Substring( startIndex, 2 ), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out component );
+        return byte.TryParse( value.AsSpan( startIndex, 2 ), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out component );
     }
 
     private static bool TryParseRgbFunction( string value, out ReportColor color )
