@@ -116,13 +116,13 @@ public struct ChartColor
 
         try
         {
-            var r = byte.Parse( hc.Substring( 0, 2 ), NumberStyles.HexNumber );
-            var g = byte.Parse( hc.Substring( 2, 2 ), NumberStyles.HexNumber );
-            var b = byte.Parse( hc.Substring( 4, 2 ), NumberStyles.HexNumber );
+            var r = byte.Parse( hc.AsSpan( 0, 2 ), NumberStyles.HexNumber );
+            var g = byte.Parse( hc.AsSpan( 2, 2 ), NumberStyles.HexNumber );
+            var b = byte.Parse( hc.AsSpan( 4, 2 ), NumberStyles.HexNumber );
 
             if ( hc.Length == 8 )
             {
-                var a = byte.Parse( hc.Substring( 6, 2 ), NumberStyles.HexNumber );
+                var a = byte.Parse( hc.AsSpan( 6, 2 ), NumberStyles.HexNumber );
 
                 return new ChartColor( r, g, b, a / 255f );
             }

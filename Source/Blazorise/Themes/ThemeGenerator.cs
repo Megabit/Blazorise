@@ -1522,13 +1522,13 @@ public abstract class ThemeGenerator : IThemeGenerator
 
         try
         {
-            var r = int.Parse( hc.Substring( 0, 2 ), NumberStyles.HexNumber );
-            var g = int.Parse( hc.Substring( 2, 2 ), NumberStyles.HexNumber );
-            var b = int.Parse( hc.Substring( 4, 2 ), NumberStyles.HexNumber );
+            var r = int.Parse( hc.AsSpan( 0, 2 ), NumberStyles.HexNumber );
+            var g = int.Parse( hc.AsSpan( 2, 2 ), NumberStyles.HexNumber );
+            var b = int.Parse( hc.AsSpan( 4, 2 ), NumberStyles.HexNumber );
 
             if ( hc.Length == 8 )
             {
-                var a = int.Parse( hc.Substring( 6, 2 ), NumberStyles.HexNumber );
+                var a = int.Parse( hc.AsSpan( 6, 2 ), NumberStyles.HexNumber );
 
                 return System.Drawing.Color.FromArgb( a, r, g, b );
             }

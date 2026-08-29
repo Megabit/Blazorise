@@ -474,7 +474,7 @@ public class MaterialThemeGenerator : ThemeGenerator
         else
             return false;
 
-        string numericPart = normalized.Substring( 0, normalized.Length - unit.Length ).Trim();
+        ReadOnlySpan<char> numericPart = normalized.AsSpan( 0, normalized.Length - unit.Length ).Trim();
 
         if ( !decimal.TryParse( numericPart, NumberStyles.Float, CultureInfo.InvariantCulture, out length ) )
             return false;
