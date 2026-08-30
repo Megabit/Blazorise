@@ -74,7 +74,7 @@ public partial class SidebarLink : BaseComponent
     /// <summary>
     /// Accessible expansion state exposed for collapsible links.
     /// </summary>
-    protected string AriaExpanded => Collapsable ? Visible.ToString().ToLowerInvariant() : null;
+    protected string AriaExpanded => Collapsable ? ( Visible ? "true" : "false" ) : null;
 
     /// <summary>
     /// Gets the combined list of link attributes and any receiving attribute.

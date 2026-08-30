@@ -80,7 +80,7 @@ public partial class AccordionToggle : BaseComponent, IDisposable
     /// Gets the aria-expanded attribute value.
     /// </summary>
     protected string AriaExpanded
-        => ( ParentAccordionItem is not null ? AccordionItemVisible : CollapseVisible ).ToString().ToLowerInvariant();
+        => ( ParentAccordionItem is not null ? AccordionItemVisible : CollapseVisible ) ? "true" : "false";
 
     /// <summary>
     /// Gets the aria-controls attribute value.

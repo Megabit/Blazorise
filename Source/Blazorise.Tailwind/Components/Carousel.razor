@@ -26,7 +26,7 @@
                         }
                         else
                         {
-                            <button @onclick="@carouselSlides[index].Activate" class="@carouselSlides[index].IndicatorClassNames" style="@carouselSlides[index].IndicatorStyleNames" aria-current="@(carouselSlides[index].Active.ToString().ToLowerInvariant())"></button>
+                            <button @onclick="@carouselSlides[index].Activate" class="@carouselSlides[index].IndicatorClassNames" style="@carouselSlides[index].IndicatorStyleNames" aria-current="@( carouselSlides[index].Active ? "true" : "false" )"></button>
                         }
                     }
                 </div>

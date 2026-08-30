@@ -89,7 +89,7 @@ public partial class TabPanel : BaseComponent, IDisposable
     protected string AriaHidden
         => ( ParentTabsState is null && ParentTabsContentState is null )
             ? null
-            : ( !Active ).ToString().ToLowerInvariant();
+            : ( !Active ? "true" : "false" );
 
     /// <summary>
     /// Gets the current render mode.

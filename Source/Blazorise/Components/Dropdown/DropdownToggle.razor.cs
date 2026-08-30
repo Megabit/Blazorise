@@ -288,7 +288,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     /// Gets the aria-expanded attribute value.
     /// </summary>
     protected string AriaExpanded
-        => ParentDropdownState is null ? null : ParentDropdownState.Visible.ToString().ToLowerInvariant();
+        => ParentDropdownState is null ? null : ParentDropdownState.Visible ? "true" : "false";
 
     /// <summary>
     /// Gets the aria-controls attribute value.

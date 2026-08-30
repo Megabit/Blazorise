@@ -1,7 +1,7 @@
 @namespace Blazorise
 @inherits BaseComponent
 <span class="@ClassNames" data-dock-tab-name="@PaneName" @onpointerdown="@BeginPaneTabDrag" @onclick="@ActivateTab">
-    <button id="@ElementId" type="button" class="@LabelClassNames" role="tab" aria-selected="@( Active.ToString().ToLowerInvariant() )" aria-controls="@Context.GetDockNodeElementId( NodeId )" data-dock-tab-label="true">@Caption</button>
+    <button id="@ElementId" type="button" class="@LabelClassNames" role="tab" aria-selected="@( Active ? "true" : "false" )" aria-controls="@Context.GetDockNodeElementId( NodeId )" data-dock-tab-label="true">@Caption</button>
     @if ( CloseButtonVisible )
     {
         <button type="button" class="@CloseClassNames" title="@Localizer["Close"]" aria-label="@Localizer["Close {0}", Caption]" @onclick="@ClosePane" @onclick:stopPropagation @onpointerdown:stopPropagation>

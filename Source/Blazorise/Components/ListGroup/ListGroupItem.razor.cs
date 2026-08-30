@@ -130,7 +130,7 @@ public partial class ListGroupItem : BaseComponent
     /// <summary>
     /// Gets the string representing the disabled state.
     /// </summary>
-    protected string DisabledString => Disabled.ToString().ToLowerInvariant();
+    protected string DisabledString => Disabled ? "true" : "false";
 
     /// <summary>
     /// Gets the item role.
@@ -143,7 +143,7 @@ public partial class ListGroupItem : BaseComponent
     /// Gets the aria-selected value.
     /// </summary>
     protected string AriaSelected => ParentListGroupState?.Mode == ListGroupMode.Selectable
-        ? Active.ToString().ToLowerInvariant()
+        ? ( Active ? "true" : "false" )
         : null;
 
     /// <summary>

@@ -994,7 +994,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// <summary>
     /// Gets the ARIA expanded state used by the custom picker input.
     /// </summary>
-    protected string InputAriaExpanded => UseNativeMobilePicker ? null : MenuVisible.ToString().ToLowerInvariant();
+    protected string InputAriaExpanded => UseNativeMobilePicker ? null : MenuVisible ? "true" : "false";
 
     /// <summary>
     /// Gets the ARIA control target used by the custom picker input.

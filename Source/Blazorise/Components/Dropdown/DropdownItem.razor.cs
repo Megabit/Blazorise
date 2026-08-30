@@ -123,7 +123,7 @@ public partial class DropdownItem : BaseComponent
     /// <summary>
     /// Gets the aria-disabled attribute value.
     /// </summary>
-    protected string AriaDisabled => Disabled.ToString().ToLowerInvariant();
+    protected string AriaDisabled => Disabled ? "true" : "false";
 
     /// <summary>
     /// Gets the aria-labelledby value that references the item text.

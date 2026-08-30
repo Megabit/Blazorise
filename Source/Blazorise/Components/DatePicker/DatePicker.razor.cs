@@ -1890,7 +1890,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// <summary>
     /// Gets the ARIA expanded state used by the custom picker input.
     /// </summary>
-    protected string InputAriaExpanded => UseNativeMobilePicker ? null : CalendarVisible.ToString().ToLowerInvariant();
+    protected string InputAriaExpanded => UseNativeMobilePicker ? null : CalendarVisible ? "true" : "false";
 
     /// <summary>
     /// Gets the ARIA control target used by the custom picker input.

@@ -402,7 +402,7 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// Gets the aria-expanded attribute value.
     /// </summary>
     protected string AriaExpanded
-        => ParentBarDropdownState is null ? null : ParentBarDropdownState.Visible.ToString().ToLowerInvariant();
+        => ParentBarDropdownState is null ? null : ParentBarDropdownState.Visible ? "true" : "false";
 
     /// <summary>
     /// Gets a value indicating whether toggle-area click can trigger menu toggle.
