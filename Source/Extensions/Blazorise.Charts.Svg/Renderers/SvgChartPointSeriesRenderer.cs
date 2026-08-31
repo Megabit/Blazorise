@@ -2,10 +2,276 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
 namespace Blazorise.Charts.Svg;
+
+internal sealed class SvgChartPointSeriesContent : SvgChartSeriesContentBase
+{
+    #region Members
+
+    private IReadOnlyList<SvgChartRenderedPoint> points = [];
+
+    private SvgChartSeriesProjectionState? pointsProjectionState;
+
+    private SvgChartSeriesProjectionTransform transform = SvgChartSeriesProjectionTransform.Identity;
+
+    #endregion
+
+    #region Methods
+
+    protected override bool UpdateRenderState()
+    {
+        var projectionState = Context.GetProjectionState( Series, true );
+        var canTransformPoints = !Context.Animation.Enabled
+            && pointsProjectionState.HasValue
+            && projectionState.CanTransformFrom( pointsProjectionState.Value )
+            && SeriesInputEquals( Context, Series, points );
+
+        if ( canTransformPoints )
+        {
+            var resolvedTransform = SvgChartSeriesProjectionTransform.Create( pointsProjectionState.Value, projectionState );
+
+            var shouldRender = resolvedTransform != transform;
+            transform = resolvedTransform;
+
+            return shouldRender;
+        }
+
+        points = ResolvePoints( Context, Series );
+        pointsProjectionState = projectionState;
+        transform = SvgChartSeriesProjectionTransform.Identity;
+
+        return true;
+    }
+
+    /// <inheritdoc />
+    protected override void BuildRenderTree( RenderTreeBuilder builder )
+    {
+        var sequence = 0;
+
+        if ( Context is null || Series is null )
+            return;
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-point-geometry" );
+        var transformSequence = sequence++;
+        var markerScaleStyleSequence = sequence++;
+
+        if ( !transform.IsIdentity )
+        {
+            builder.AddAttribute( transformSequence, "transform", transform.ToTransformString() );
+            builder.AddAttribute( markerScaleStyleSequence, "style", transform.ToMarkerScaleStyleString() );
+        }
+
+        builder.OpenComponent<SvgChartPointSeriesGeometry>( sequence++ );
+        builder.AddAttribute( sequence++, nameof( SvgChartPointSeriesGeometry.Context ), Context );
+        builder.AddAttribute( sequence++, nameof( SvgChartPointSeriesGeometry.Series ), Series );
+        builder.AddAttribute( sequence++, nameof( SvgChartPointSeriesGeometry.Points ), points );
+        builder.AddAttribute( sequence++, nameof( SvgChartPointSeriesGeometry.Transform ), transform );
+        builder.CloseComponent();
+
+        builder.CloseElement();
+    }
+
+    private static List<SvgChartRenderedPoint> ResolvePoints( SvgChartSeriesRendererContext context, SvgChartPluginSeries series )
+    {
+        var chart = context.Chart;
+        var result = new List<SvgChartRenderedPoint>( series.YValues.Count );
+
+        for ( var pointIndex = 0; pointIndex < series.YValues.Count; pointIndex++ )
+        {
+            var yValue = series.YValues[pointIndex];
+            var xValue = pointIndex < series.XValues.Count ? series.XValues[pointIndex] : pointIndex;
+
+            if ( !xValue.HasValue || !yValue.HasValue )
+                continue;
+
+            var x = chart.ProjectX( xValue.Value );
+            var y = chart.ProjectY( yValue.Value, series.ValueAxisId );
+            var radius = series.Type == SvgChartType.Bubble
+                ? Math.Max( 2, pointIndex < series.RadiusValues.Count && series.RadiusValues[pointIndex].HasValue ? series.RadiusValues[pointIndex].Value : series.MarkerRadius )
+                : series.MarkerRadius;
+            var category = chart.ContinuousCategoryAxis && pointIndex < chart.Labels.Count
+                ? chart.Labels[pointIndex]
+                : xValue.Value;
+
+            result.Add( new(
+                pointIndex,
+                category,
+                yValue.Value,
+                xValue.Value,
+                x,
+                y,
+                radius,
+                series.GetPointColor( pointIndex ),
+                context.GetPointLabel( category, yValue.Value, series.Name, pointIndex ) ) );
+        }
+
+        return result;
+    }
+
+    private static bool SeriesInputEquals( SvgChartSeriesRendererContext context, SvgChartPluginSeries series, IReadOnlyList<SvgChartRenderedPoint> renderedPoints )
+    {
+        var chart = context.Chart;
+        var renderedPointIndex = 0;
+
+        for ( var pointIndex = 0; pointIndex < series.YValues.Count; pointIndex++ )
+        {
+            var yValue = series.YValues[pointIndex];
+            var xValue = pointIndex < series.XValues.Count ? series.XValues[pointIndex] : pointIndex;
+
+            if ( !xValue.HasValue || !yValue.HasValue )
+                continue;
+
+            if ( renderedPointIndex >= renderedPoints.Count )
+                return false;
+
+            var renderedPoint = renderedPoints[renderedPointIndex++];
+            var radius = series.Type == SvgChartType.Bubble
+                ? Math.Max( 2, pointIndex < series.RadiusValues.Count && series.RadiusValues[pointIndex].HasValue ? series.RadiusValues[pointIndex].Value : series.MarkerRadius )
+                : series.MarkerRadius;
+            var category = chart.ContinuousCategoryAxis && pointIndex < chart.Labels.Count
+                ? chart.Labels[pointIndex]
+                : xValue.Value;
+
+            if ( renderedPoint.PointIndex != pointIndex
+                 || !Equals( renderedPoint.Category, category )
+                 || renderedPoint.Value != yValue.Value
+                 || renderedPoint.XValue != xValue.Value
+                 || renderedPoint.Radius != radius
+                 || !string.Equals( renderedPoint.Color, series.GetPointColor( pointIndex ), StringComparison.Ordinal ) )
+                return false;
+        }
+
+        return renderedPointIndex == renderedPoints.Count;
+    }
+
+    #endregion
+}
+
+internal sealed class SvgChartPointSeriesGeometry : ComponentBase
+{
+    #region Members
+
+    private IReadOnlyList<SvgChartRenderedPoint> renderedPoints = [];
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        var shouldRender = Context?.Animation.Enabled == true || !ReferenceEquals( Points, renderedPoints );
+
+        if ( !shouldRender && Context is not null && Series is not null )
+        {
+            var seriesIndex = Context.GetSeriesKey( Series ).SeriesIndex;
+
+            foreach ( var renderedPoint in Points )
+            {
+                var point = CreatePoint( renderedPoint, Transform, seriesIndex, Series.Name );
+
+                Context.UpdatePointInteraction( point, renderedPoint.Color );
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    protected override bool ShouldRender()
+    {
+        return Context?.Animation.Enabled == true || !ReferenceEquals( Points, renderedPoints );
+    }
+
+    /// <inheritdoc />
+    protected override void BuildRenderTree( RenderTreeBuilder builder )
+    {
+        var sequence = 0;
+
+        if ( Context is null || Series is null )
+            return;
+
+        var seriesIndex = Context.GetSeriesKey( Series ).SeriesIndex;
+
+        foreach ( var renderedPoint in Points )
+        {
+            var point = CreatePoint( renderedPoint, Transform, seriesIndex, Series.Name );
+            var bounds = point.Bounds;
+            var animationKey = Context.TrackPointBounds( Series, renderedPoint.PointIndex, bounds );
+            var xString = SvgChartRenderHelpers.Format( renderedPoint.X );
+            var yString = SvgChartRenderHelpers.Format( renderedPoint.Y );
+            var radiusString = SvgChartRenderHelpers.Format( renderedPoint.Radius );
+            var opacityString = Series.Type == SvgChartType.Bubble ? "0.72" : "1";
+
+            builder.OpenElement( sequence++, "circle" );
+            builder.AddAttribute( sequence++, "class", $"svg-chart-point svg-chart-{Series.Type.ToString().ToLowerInvariant()}" );
+            builder.AddAttribute( sequence++, "cx", xString );
+            builder.AddAttribute( sequence++, "cy", yString );
+            builder.AddAttribute( sequence++, "r", radiusString );
+            builder.AddAttribute( sequence++, "fill", renderedPoint.Color );
+            builder.AddAttribute( sequence++, "opacity", opacityString );
+            builder.AddAttribute( sequence++, "style", SvgChartSeriesProjectionTransform.MarkerTransformStyleString );
+            Context.AddPointInteractionAttributes( builder, ref sequence, point, renderedPoint.Color, renderedPoint.Label );
+            Context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "cx", xString, xString, previousBounds => SvgChartRenderHelpers.Format( previousBounds.X + previousBounds.Width / 2 ) );
+            Context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "cy", yString, yString, previousBounds => SvgChartRenderHelpers.Format( previousBounds.Y + previousBounds.Height / 2 ) );
+            Context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "r", "0", radiusString, previousBounds => SvgChartRenderHelpers.Format( previousBounds.Width / 2 ) );
+            Context.RenderInitialAttributeAnimation( builder, ref sequence, "opacity", "0", opacityString );
+            builder.CloseElement();
+        }
+
+        renderedPoints = Points;
+    }
+
+    private static SvgChartPointEventArgs CreatePoint( SvgChartRenderedPoint renderedPoint, SvgChartSeriesProjectionTransform transform, int seriesIndex, string seriesName )
+    {
+        var x = transform.ProjectX( renderedPoint.X );
+        var y = transform.ProjectY( renderedPoint.Y );
+
+        return new()
+        {
+            SeriesName = seriesName,
+            SeriesIndex = seriesIndex,
+            PointIndex = renderedPoint.PointIndex,
+            Category = renderedPoint.Category,
+            Value = renderedPoint.Value,
+            Bounds = new()
+            {
+                X = x - renderedPoint.Radius,
+                Y = y - renderedPoint.Radius,
+                Width = renderedPoint.Radius * 2,
+                Height = renderedPoint.Radius * 2
+            }
+        };
+    }
+
+    #endregion
+
+    #region Properties
+
+    [Parameter] public SvgChartSeriesRendererContext Context { get; set; }
+
+    [Parameter] public SvgChartPluginSeries Series { get; set; }
+
+    [Parameter] public IReadOnlyList<SvgChartRenderedPoint> Points { get; set; } = [];
+
+    [Parameter] public SvgChartSeriesProjectionTransform Transform { get; set; }
+
+    #endregion
+}
+
+internal readonly record struct SvgChartRenderedPoint(
+    int PointIndex,
+    object Category,
+    double Value,
+    double XValue,
+    double X,
+    double Y,
+    double Radius,
+    string Color,
+    string Label );
 
 internal sealed class SvgChartPointSeriesRenderer : ISvgChartSeriesRenderer
 {
@@ -23,56 +289,13 @@ internal sealed class SvgChartPointSeriesRenderer : ISvgChartSeriesRenderer
 
     public void Render( SvgChartSeriesRendererContext context, IReadOnlyList<SvgChartPluginSeries> series, RenderTreeBuilder builder, ref int sequence )
     {
-        var chart = context.Chart;
-        var renderSeries = series.Where( x => !x.Hidden && CanRender( x ) ).ToList();
+        var renderSeries = series.Where( x => CanRender( x ) && context.ShouldRenderSeries( x ) ).ToList();
 
         if ( renderSeries.Count == 0 )
             return;
 
-        builder.OpenElement( sequence++, "g" );
-        builder.AddAttribute( sequence++, "class", "svg-chart-points" );
-
         foreach ( var item in renderSeries )
-        {
-            for ( var pointIndex = 0; pointIndex < item.YValues.Count; pointIndex++ )
-            {
-                var yValue = item.YValues[pointIndex];
-                var xValue = pointIndex < item.XValues.Count ? item.XValues[pointIndex] : pointIndex;
-
-                if ( !xValue.HasValue || !yValue.HasValue )
-                    continue;
-
-                var x = chart.ProjectX( xValue.Value );
-                var y = chart.ProjectY( yValue.Value, item.ValueAxisId );
-                var radius = item.Type == SvgChartType.Bubble
-                    ? Math.Max( 2, pointIndex < item.RadiusValues.Count && item.RadiusValues[pointIndex].HasValue ? item.RadiusValues[pointIndex].Value : item.MarkerRadius )
-                    : item.MarkerRadius;
-                var bounds = new SvgChartPointBounds { X = x - radius, Y = y - radius, Width = radius * 2, Height = radius * 2 };
-                var category = chart.ContinuousCategoryAxis && pointIndex < chart.Labels.Count
-                    ? chart.Labels[pointIndex]
-                    : xValue.Value;
-                var point = chart.CreatePoint( item, pointIndex, category, yValue.Value, bounds );
-                var animationKey = context.TrackPointBounds( item, pointIndex, bounds );
-                var color = item.GetPointColor( pointIndex );
-
-                builder.OpenElement( sequence++, "circle" );
-                builder.AddAttribute( sequence++, "class", $"svg-chart-point svg-chart-{item.Type.ToString().ToLowerInvariant()}" );
-                builder.AddAttribute( sequence++, "cx", SvgChartRenderHelpers.Format( x ) );
-                builder.AddAttribute( sequence++, "cy", SvgChartRenderHelpers.Format( y ) );
-                builder.AddAttribute( sequence++, "r", SvgChartRenderHelpers.Format( radius ) );
-                builder.AddAttribute( sequence++, "fill", color );
-                builder.AddAttribute( sequence++, "opacity", item.Type == SvgChartType.Bubble ? "0.72" : "1" );
-                context.AddAnimatedStyleAttribute( builder, ref sequence );
-                context.AddPointInteractionAttributes( builder, ref sequence, point, color );
-                context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "cx", SvgChartRenderHelpers.Format( x ), SvgChartRenderHelpers.Format( x ), bounds => SvgChartRenderHelpers.Format( bounds.X + bounds.Width / 2 ) );
-                context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "cy", SvgChartRenderHelpers.Format( y ), SvgChartRenderHelpers.Format( y ), bounds => SvgChartRenderHelpers.Format( bounds.Y + bounds.Height / 2 ) );
-                context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "r", "0", SvgChartRenderHelpers.Format( radius ), bounds => SvgChartRenderHelpers.Format( bounds.Width / 2 ) );
-                context.RenderInitialAttributeAnimation( builder, ref sequence, "opacity", "0", item.Type == SvgChartType.Bubble ? "0.72" : "1" );
-                builder.CloseElement();
-            }
-        }
-
-        builder.CloseElement();
+            context.RenderRetainedSeries<SvgChartPointSeriesContent>( builder, ref sequence, item, "svg-chart-points", item.Hidden );
     }
 
     #endregion

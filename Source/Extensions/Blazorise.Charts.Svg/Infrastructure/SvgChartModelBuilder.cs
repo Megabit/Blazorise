@@ -342,9 +342,13 @@ internal sealed class SvgChartModelBuilder<TItem>
 
     private static List<string> ResolvePointColors( IReadOnlyList<Color> colors, IReadOnlyList<Color> selectedColors, int count, Color seriesColor, int seriesIndex, bool usePalettePerPoint )
     {
-        var result = new List<string>();
-        var seriesFallback = SvgChartRenderHelpers.ResolveColor( seriesColor, seriesIndex );
         var palettePerPoint = usePalettePerPoint && SvgChartRenderHelpers.IsDefaultColor( seriesColor );
+
+        if ( !palettePerPoint && ( colors?.Count ?? 0 ) == 0 && ( selectedColors?.Count ?? 0 ) == 0 )
+            return [];
+
+        var seriesFallback = SvgChartRenderHelpers.ResolveColor( seriesColor, seriesIndex );
+        var result = new List<string>( count );
 
         for ( var i = 0; i < count; i++ )
         {

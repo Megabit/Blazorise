@@ -40,7 +40,6 @@ public abstract class SvgChartComponentBase : ComponentBase, System.IDisposable
     protected void SetRegisteredParent()
     {
         registeredParent = Parent;
-        registeredParent?.Refresh();
     }
 
     /// <inheritdoc />

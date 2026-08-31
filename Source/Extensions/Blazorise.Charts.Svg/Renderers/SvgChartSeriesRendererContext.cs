@@ -3,10 +3,49 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.Charts.Svg;
+
+internal abstract class SvgChartSeriesContentBase : ComponentBase
+{
+    #region Members
+
+    private bool shouldRender;
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc />
+    protected sealed override void OnParametersSet()
+    {
+        shouldRender = !Hidden
+            && Context is not null
+            && Series is not null
+            && UpdateRenderState();
+    }
+
+    /// <inheritdoc />
+    protected override bool ShouldRender()
+    {
+        return shouldRender;
+    }
+
+    protected abstract bool UpdateRenderState();
+
+    #endregion
+
+    #region Properties
+
+    [Parameter] public SvgChartSeriesRendererContext Context { get; set; }
+
+    [Parameter] public SvgChartPluginSeries Series { get; set; }
+
+    [Parameter] public bool Hidden { get; set; }
+
+    #endregion
+}
 
 internal sealed class SvgChartSeriesRendererContext
 {
@@ -19,7 +58,10 @@ internal sealed class SvgChartSeriesRendererContext
         Dictionary<string, SvgChartPointBounds> currentPointBounds,
         IReadOnlyDictionary<string, string> previousPathValues,
         Dictionary<string, string> currentPathValues,
+        Dictionary<(int SeriesIndex, string SeriesName, int PointIndex), SvgChartPointInteraction> pointInteractions,
+        HashSet<(int SeriesIndex, SvgChartType Type, string Name)> materializedSeries,
         bool passThroughSeriesPaths,
+        object categoryFormatterKey,
         Func<object, int, string> categoryFormatter )
     {
         Chart = chart;
@@ -28,7 +70,10 @@ internal sealed class SvgChartSeriesRendererContext
         this.currentPointBounds = currentPointBounds ?? [];
         this.previousPathValues = previousPathValues ?? new Dictionary<string, string>();
         this.currentPathValues = currentPathValues ?? [];
+        this.pointInteractions = pointInteractions ?? [];
+        this.materializedSeries = materializedSeries ?? [];
         PassThroughSeriesPaths = passThroughSeriesPaths;
+        CategoryFormatterKey = categoryFormatterKey;
         this.categoryFormatter = categoryFormatter;
     }
 
@@ -44,22 +89,21 @@ internal sealed class SvgChartSeriesRendererContext
 
     private readonly Dictionary<string, string> currentPathValues;
 
+    private readonly Dictionary<(int SeriesIndex, string SeriesName, int PointIndex), SvgChartPointInteraction> pointInteractions;
+
+    private readonly HashSet<(int SeriesIndex, SvgChartType Type, string Name)> materializedSeries;
+
     private readonly Func<object, int, string> categoryFormatter;
 
     #endregion
 
     #region Methods
 
-    public void AddAnimatedStyleAttribute( RenderTreeBuilder builder, ref int sequence, string style = null )
-    {
-        if ( !string.IsNullOrWhiteSpace( style ) )
-        {
-            builder.AddAttribute( sequence++, "style", style );
-        }
-    }
-
     public string TrackPointBounds( SvgChartPluginSeries series, int pointIndex, SvgChartPointBounds bounds )
     {
+        if ( !Animation.Geometry.Enabled )
+            return string.Empty;
+
         var key = CreatePointKey( series, pointIndex );
 
         currentPointBounds[key] = bounds;
@@ -167,28 +211,111 @@ internal sealed class SvgChartSeriesRendererContext
         return false;
     }
 
-    public void AddPointInteractionAttributes( RenderTreeBuilder builder, ref int sequence, SvgChartPointEventArgs point, string color )
+    public void AddPointInteractionAttributes( RenderTreeBuilder builder, ref int sequence, SvgChartPointEventArgs point, string color, string label = null )
     {
+        var interaction = UpdatePointInteraction( point, color );
+
         builder.AddAttribute( sequence++, "tabindex", "0" );
         builder.AddAttribute( sequence++, "role", "img" );
-        builder.AddAttribute( sequence++, "aria-label", GetPointLabel( point ) );
-        builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( Chart.EventReceiver, () => Chart.NotifyPointClicked( point, color ) ) );
-        builder.AddAttribute( sequence++, "onmouseenter", EventCallback.Factory.Create<MouseEventArgs>( Chart.EventReceiver, () => Chart.NotifyPointHovered( point, color ) ) );
-        builder.AddAttribute( sequence++, "onmouseleave", EventCallback.Factory.Create<MouseEventArgs>( Chart.EventReceiver, Chart.NotifyPointLeft ) );
-        builder.AddAttribute( sequence++, "onfocus", EventCallback.Factory.Create<FocusEventArgs>( Chart.EventReceiver, () => Chart.ShowTooltip( point, color, false ) ) );
-        builder.AddAttribute( sequence++, "onblur", EventCallback.Factory.Create<FocusEventArgs>( Chart.EventReceiver, Chart.NotifyPointLeft ) );
+        builder.AddAttribute( sequence++, "aria-label", label ?? GetPointLabel( point ) );
+        builder.AddAttribute( sequence++, "onclick", interaction.Clicked );
+        builder.AddAttribute( sequence++, "onmouseenter", interaction.MouseEntered );
+        builder.AddAttribute( sequence++, "onmouseleave", interaction.MouseLeft );
+        builder.AddAttribute( sequence++, "onfocus", interaction.Focused );
+        builder.AddAttribute( sequence++, "onblur", interaction.Blurred );
+    }
+
+    public SvgChartPointInteraction UpdatePointInteraction( SvgChartPointEventArgs point, string color )
+    {
+        var interactionKey = (point.SeriesIndex, point.SeriesName, point.PointIndex);
+
+        if ( !pointInteractions.TryGetValue( interactionKey, out var interaction ) )
+        {
+            interaction = new( Chart );
+            pointInteractions.Add( interactionKey, interaction );
+        }
+
+        interaction.Update( point, color );
+
+        return interaction;
+    }
+
+    public bool ShouldRenderSeries( SvgChartPluginSeries series )
+    {
+        var key = GetSeriesKey( series );
+
+        if ( !series.Hidden )
+            materializedSeries.Add( key );
+
+        return !series.Hidden || materializedSeries.Contains( key );
+    }
+
+    public void RenderRetainedSeries<TContent>( RenderTreeBuilder builder, ref int sequence, SvgChartPluginSeries series, string className, bool hidden )
+        where TContent : SvgChartSeriesContentBase
+    {
+        var seriesKey = GetSeriesKey( series );
+
+        builder.OpenElement( sequence++, "g" );
+        builder.SetKey( seriesKey );
+        builder.AddAttribute( sequence++, "class", className );
+        var visibilitySequence = sequence++;
+        var ariaHiddenSequence = sequence++;
+
+        if ( hidden )
+        {
+            builder.AddAttribute( visibilitySequence, "visibility", "hidden" );
+            builder.AddAttribute( ariaHiddenSequence, "aria-hidden", "true" );
+        }
+
+        builder.OpenComponent<TContent>( sequence++ );
+        builder.AddAttribute( sequence++, nameof( SvgChartSeriesContentBase.Context ), this );
+        builder.AddAttribute( sequence++, nameof( SvgChartSeriesContentBase.Series ), series );
+        builder.AddAttribute( sequence++, nameof( SvgChartSeriesContentBase.Hidden ), hidden );
+        builder.CloseComponent();
+
+        builder.CloseElement();
+    }
+
+    public (int SeriesIndex, SvgChartType Type, string Name) GetSeriesKey( SvgChartPluginSeries series )
+    {
+        for ( var seriesIndex = 0; seriesIndex < Chart.Series.Count; seriesIndex++ )
+        {
+            if ( ReferenceEquals( Chart.Series[seriesIndex], series ) )
+                return (seriesIndex, series.Type, series.Name);
+        }
+
+        return (-1, series.Type, series.Name);
     }
 
     public string GetPointLabel( SvgChartPointEventArgs point )
     {
-        var category = categoryFormatter?.Invoke( point.Category, point.PointIndex ) ?? point.Category?.ToString();
-
-        return $"{category}, {point.Value}. {point.SeriesName}.";
+        return GetPointLabel( point.Category, point.Value, point.SeriesName, point.PointIndex );
     }
 
-    public string ResolveColor( int index )
+    public string GetPointLabel( object category, object value, string seriesName, int pointIndex )
     {
-        return SvgChartRenderHelpers.ResolveColor( null, index );
+        var categoryString = categoryFormatter?.Invoke( category, pointIndex ) ?? category?.ToString();
+
+        return $"{categoryString}, {value}. {seriesName}.";
+    }
+
+    public SvgChartSeriesProjectionState GetProjectionState( SvgChartPluginSeries series, bool useValueCategoryProjection )
+    {
+        var chart = Chart;
+        var categoryStart = useValueCategoryProjection || chart.ContinuousCategoryAxis
+            ? chart.ProjectX( 0, series.CategoryAxisId )
+            : chart.ProjectCategory( 0, series.CategoryAxisId );
+        var categoryEnd = useValueCategoryProjection || chart.ContinuousCategoryAxis
+            ? chart.ProjectX( 1, series.CategoryAxisId )
+            : chart.ProjectCategory( 1, series.CategoryAxisId );
+
+        return new(
+            chart.ContinuousCategoryAxis,
+            categoryStart,
+            categoryEnd,
+            chart.ProjectY( 0, series.ValueAxisId ),
+            chart.ProjectY( 1, series.ValueAxisId ),
+            CategoryFormatterKey );
     }
 
     private static string CreatePointKey( SvgChartPluginSeries series, int pointIndex )
@@ -248,5 +375,84 @@ internal sealed class SvgChartSeriesRendererContext
 
     public bool PassThroughSeriesPaths { get; }
 
+    public object CategoryFormatterKey { get; }
+
     #endregion
+}
+
+internal readonly record struct SvgChartSeriesProjectionState(
+    bool ContinuousCategoryAxis,
+    double CategoryStart,
+    double CategoryEnd,
+    double ValueStart,
+    double ValueEnd,
+    object CategoryFormatterKey )
+{
+    public bool CanTransformFrom( SvgChartSeriesProjectionState source )
+    {
+        return ContinuousCategoryAxis == source.ContinuousCategoryAxis
+            && Equals( CategoryFormatterKey, source.CategoryFormatterKey );
+    }
+}
+
+internal readonly record struct SvgChartSeriesProjectionTransform(
+    double ScaleX,
+    double ScaleY,
+    double TranslateX,
+    double TranslateY )
+{
+    private const double MinimumScale = 0.0000001;
+
+    public const string MarkerTransformStyleString = "transform-box:fill-box;transform-origin:center;transform:scale(var(--svg-chart-marker-scale-x,1),var(--svg-chart-marker-scale-y,1));";
+
+    public static SvgChartSeriesProjectionTransform Identity { get; } = new( 1, 1, 0, 0 );
+
+    public static SvgChartSeriesProjectionTransform Create( SvgChartSeriesProjectionState source, SvgChartSeriesProjectionState target )
+    {
+        var scaleX = ResolveScale( source.CategoryStart, source.CategoryEnd, target.CategoryStart, target.CategoryEnd );
+        var scaleY = ResolveScale( source.ValueStart, source.ValueEnd, target.ValueStart, target.ValueEnd );
+
+        return new(
+            scaleX,
+            scaleY,
+            target.CategoryStart - scaleX * source.CategoryStart,
+            target.ValueStart - scaleY * source.ValueStart );
+    }
+
+    public double ProjectX( double value )
+    {
+        return ScaleX * value + TranslateX;
+    }
+
+    public double ProjectY( double value )
+    {
+        return ScaleY * value + TranslateY;
+    }
+
+    public string ToTransformString()
+    {
+        return $"matrix({SvgChartRenderHelpers.Format( ScaleX )} 0 0 {SvgChartRenderHelpers.Format( ScaleY )} {SvgChartRenderHelpers.Format( TranslateX )} {SvgChartRenderHelpers.Format( TranslateY )})";
+    }
+
+    public string ToMarkerScaleStyleString()
+    {
+        return $"--svg-chart-marker-scale-x:{SvgChartRenderHelpers.Format( 1 / ScaleX )};--svg-chart-marker-scale-y:{SvgChartRenderHelpers.Format( 1 / ScaleY )};";
+    }
+
+    public bool IsIdentity => ScaleX == 1
+        && ScaleY == 1
+        && TranslateX == 0
+        && TranslateY == 0;
+
+    private static double ResolveScale( double sourceStart, double sourceEnd, double targetStart, double targetEnd )
+    {
+        var sourceSize = sourceEnd - sourceStart;
+
+        if ( Math.Abs( sourceSize ) < MinimumScale )
+            return 1;
+
+        var scale = ( targetEnd - targetStart ) / sourceSize;
+
+        return Math.Abs( scale ) < MinimumScale ? 1 : scale;
+    }
 }

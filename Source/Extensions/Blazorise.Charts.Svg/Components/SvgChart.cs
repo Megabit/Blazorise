@@ -60,6 +60,10 @@ public class SvgChart<TItem> : SvgChartBase
 
     private readonly HashSet<string> hiddenDataPoints = [];
 
+    private readonly Dictionary<(int SeriesIndex, string SeriesName, int PointIndex), SvgChartPointInteraction> pointInteractions = [];
+
+    private readonly HashSet<(int SeriesIndex, SvgChartType Type, string Name)> materializedSeries = [];
+
     private SvgChartData<double?> internalChartData;
 
     private SvgChartTooltipContext activeTooltip;
@@ -164,6 +168,28 @@ public class SvgChart<TItem> : SvgChartBase
     protected override void BuildRenderTree( RenderTreeBuilder builder )
     {
         var sequence = 0;
+
+        builder.OpenComponent<CascadingValue<SvgChartBase>>( sequence++ );
+        builder.AddAttribute( sequence++, "Value", this );
+        builder.AddAttribute( sequence++, "IsFixed", true );
+        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)BuildChartTree );
+        builder.CloseComponent();
+    }
+
+    private void BuildChartTree( RenderTreeBuilder builder )
+    {
+        var sequence = 0;
+
+        builder.AddContent( sequence++, ChildContent );
+
+        builder.OpenComponent<SvgChartContent>( sequence++ );
+        builder.AddAttribute( sequence++, nameof( SvgChartContent.ChildContent ), (RenderFragment)BuildChartContent );
+        builder.CloseComponent();
+    }
+
+    private void BuildChartContent( RenderTreeBuilder builder )
+    {
+        var sequence = 0;
         var model = BuildModel();
         var options = ResolveOptions();
         var legend = ResolveLegend( options );
@@ -177,16 +203,10 @@ public class SvgChart<TItem> : SvgChartBase
         var currentAnimationPointBounds = new Dictionary<string, SvgChartPointBounds>();
         var currentAnimationPathValues = new Dictionary<string, string>();
         var pluginContext = CreatePluginRenderContext( model, plot );
-        var seriesRendererContext = new SvgChartSeriesRendererContext( pluginContext, chartAnimation, previousAnimationPointBounds, currentAnimationPointBounds, previousAnimationPathValues, currentAnimationPathValues, model.Tooltip?.Enabled == true && !model.Tooltip.Intersect, ( value, index ) => FormatCategory( model, value, index ) );
+        var seriesRendererContext = new SvgChartSeriesRendererContext( pluginContext, chartAnimation, previousAnimationPointBounds, currentAnimationPointBounds, previousAnimationPathValues, currentAnimationPathValues, pointInteractions, materializedSeries, model.Tooltip?.Enabled == true && !model.Tooltip.Intersect, ResolveCategoryFormatterKey( model ), ( value, index ) => FormatCategory( model, value, index ) );
         var zoom = model.Zoom;
 
         runStreamingAnimationAfterRender = streamingAnimation.Enabled;
-
-        builder.OpenComponent<CascadingValue<SvgChartBase>>( sequence++ );
-        builder.AddAttribute( sequence++, "Value", this );
-        builder.AddAttribute( sequence++, "IsFixed", true );
-        builder.AddAttribute( sequence++, "ChildContent", ChildContent );
-        builder.CloseComponent();
 
         builder.OpenElement( sequence++, "div" );
         builder.AddMultipleAttributes( sequence++, Attributes );
@@ -578,7 +598,7 @@ public class SvgChart<TItem> : SvgChartBase
     {
         var renderers = ResolveSeriesRenderers();
         var rendererItems = context.Chart.Series
-            .Where( x => !x.Hidden && filter( x ) )
+            .Where( filter )
             .Select( series => new { Series = series, Renderer = ResolveSeriesRenderer( renderers, series ) } )
             .Where( x => x.Renderer is not null )
             .Select( x => new { x.Series, x.Renderer, Order = x.Renderer.GetRenderOrder( x.Series ) } )
@@ -1305,6 +1325,27 @@ public class SvgChart<TItem> : SvgChartBase
         } ) ?? SvgChartRenderHelpers.FormatDataLabelValue( value );
     }
 
+    private object ResolveCategoryFormatterKey( SvgChartRenderModel model )
+    {
+        var timeAxes = categoryAxisComponents.OfType<SvgChartTimeAxis<TItem>>();
+        var axisId = model.CategoryAxis?.Id;
+        var timeAxis = !string.IsNullOrWhiteSpace( axisId )
+            ? timeAxes.LastOrDefault( x => string.Equals( x.Id, axisId, StringComparison.Ordinal ) )
+            : null;
+        timeAxis ??= timeAxes.LastOrDefault();
+
+        if ( timeAxis is null )
+            return null;
+
+        return (
+            timeAxis.Scale,
+            timeAxis.Unit,
+            timeAxis.Format,
+            timeAxis.Culture,
+            CultureInfo.CurrentCulture.Name,
+            timeAxis.TimeZone ?? TimeZoneInfo.Local );
+    }
+
     private static string ResolvePointColor( SvgChartRenderSeries series, int pointIndex )
     {
         return pointIndex >= 0 && pointIndex < ( series.PointColors?.Count ?? 0 ) && !string.IsNullOrWhiteSpace( series.PointColors[pointIndex] )
@@ -2013,6 +2054,8 @@ public class SvgChart<TItem> : SvgChartBase
 
         hiddenSeries.Clear();
         hiddenDataPoints.Clear();
+        pointInteractions.Clear();
+        materializedSeries.Clear();
         ClearTooltip();
         internalViewport = null;
         panning = false;
@@ -2350,11 +2393,6 @@ public class SvgChart<TItem> : SvgChartBase
     internal override void UnregisterPlugin( ISvgChartPlugin plugin )
     {
         pluginComponents.Remove( plugin );
-    }
-
-    internal override void Refresh()
-    {
-        _ = InvokeAsync( StateHasChanged );
     }
 
     #endregion
