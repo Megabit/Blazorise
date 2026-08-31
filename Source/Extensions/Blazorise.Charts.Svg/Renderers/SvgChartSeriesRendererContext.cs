@@ -168,7 +168,9 @@ internal sealed class SvgChartSeriesRendererContext
     {
         from = null;
 
-        if ( target.AnimateUpdates && previousPointBounds.TryGetValue( key, out var previousBounds ) )
+        if ( !Animation.InitialRender
+             && target.AnimateUpdates
+             && previousPointBounds.TryGetValue( key, out var previousBounds ) )
         {
             from = previousValue( previousBounds );
 
