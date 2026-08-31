@@ -1,5 +1,6 @@
 @using Blazorise.Extensions
 @using Blazorise
+@using Blazorise.Components.Internal
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @inherits BaseInputComponent<TValue, AutocompleteClasses<TItem, TValue>, AutocompleteStyles<TItem, TValue>>
 @typeparam TItem
@@ -59,20 +60,21 @@
             @if ( VirtualizeManualReadMode )
             {
                 <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" ItemsProvider="VirtualizeItemsProviderHandler">
-                    @itemFragment( item )
+                    @RenderItem( item, FilteredData.IndexOf( item ) )
                 </Virtualize>
             }
             else if ( Virtualize )
             {
                 <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" Items="@FilteredData">
-                    @itemFragment( item )
+                    @RenderItem( item, FilteredData.IndexOf( item ) )
                 </Virtualize>
             }
             else
             {
-                @foreach ( var item in FilteredData ?? Enumerable.Empty<TItem>() )
+                @for ( int itemIndex = 0; itemIndex < FilteredData.Count; itemIndex++ )
                 {
-                    @itemFragment( item )
+                    TItem item = FilteredData[itemIndex];
+                    @RenderItem( item, itemIndex )
                 }
             }
         }
@@ -96,41 +98,27 @@
 </Dropdown>
 @Feedback
 @code {
-    protected RenderFragment<TItem> itemFragment => item => __builder =>
+    protected RenderFragment RenderItem( TItem item, int itemIndex ) => __builder =>
     {
         var isActiveItem = IsSuggestedActiveItem( item );
-        var itemIndex = FilteredData.IndexOf( item );
         var isFocusedItem = itemIndex == ActiveItemIndex;
         var disabled = GetItemDisabled( item );
-
-        var isCheckbox = SelectionMode == AutocompleteSelectionMode.Checkbox;
-
         var text = GetItemText( item );
         var value = GetItemValue( item );
         var itemContext = CreateItemContext( item, value, text, itemIndex, isActiveItem, isFocusedItem, disabled );
 
-        <DropdownItem @key="@item" ElementId="@DropdownItemId( itemIndex )" Active="@isActiveItem" Checked=@isActiveItem ShowCheckbox=@isCheckbox TabIndex="-1" Class="@DropdownItemClassNames( itemContext )" Style="@DropdownItemStyleNames( itemContext )" Value="@value"
-                      Disabled="@disabled"
-                      CloseParentDropdowns="@CloseParentDropdowns"
-                      @onmousedown="@(() => clickFromCheck = true)"
-                      @onpointerdown="@(() => clickFromCheck = true)"
-                      Clicked="() => isCheckbox ? Task.CompletedTask : OnDropdownItemSelected(value)"
-                      CheckedChanged="() => isCheckbox ? OnDropdownItemSelected(value) : Task.CompletedTask">
-            @if ( ItemContent is not null )
-            {
-                @ItemContent( itemContext )
-            }
-            else
-            {
-                @if ( HighlightSearch && Search?.Length > 0 )
-                {
-                    <Highlighter Text="@text" HighlightedText="@Search" />
-                }
-                else
-                {
-                    @text
-                }
-            }
-        </DropdownItem>
+        <_AutocompleteItem @key="@item"
+                           TItem="TItem"
+                           TValue="TValue"
+                           Context="@itemContext"
+                           ElementId="@DropdownItemId( itemIndex )"
+                           Class="@DropdownItemClassNames( itemContext )"
+                           Style="@DropdownItemStyleNames( itemContext )"
+                           CloseParentDropdowns="@CloseParentDropdowns"
+                           HighlightSearch="@HighlightSearch"
+                           Search="@Search"
+                           ItemContent="@ItemContent"
+                           PointerDown="@(() => clickFromCheck = true)"
+                           Selected="@OnDropdownItemSelected" />
     };
 }
