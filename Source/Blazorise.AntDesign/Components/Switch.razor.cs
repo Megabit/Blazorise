@@ -26,5 +26,7 @@ public partial class Switch<TValue>
         await base.DisposeAsync( disposing );
     }
 
+    private string AriaCheckedString => IsCurrentChecked ? "true" : "false";
+
     [Inject] public AntDesignJSWaveModule JSWaveModule { get; set; }
 }

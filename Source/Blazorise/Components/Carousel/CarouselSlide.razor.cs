@@ -170,6 +170,16 @@ public partial class CarouselSlide : BaseComponent<CarouselSlideClasses, Carouse
         }
     }
 
+    /// <summary>
+    /// Gets the active state serialized for the aria-current attribute.
+    /// </summary>
+    internal string AriaCurrentString => Active ? "true" : "false";
+
+    /// <summary>
+    /// Gets the inactive state serialized for the aria-hidden attribute.
+    /// </summary>
+    internal string AriaHiddenString => Active ? "false" : "true";
+
     internal bool Left
     {
         get => left; set

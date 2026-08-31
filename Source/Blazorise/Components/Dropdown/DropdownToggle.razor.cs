@@ -285,6 +285,11 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
         => null;
 
     /// <summary>
+    /// Gets the disabled state serialized for the aria-disabled attribute.
+    /// </summary>
+    protected string AriaDisabledString => IsDisabled ? "true" : "false";
+
+    /// <summary>
     /// Gets the aria-expanded attribute value.
     /// </summary>
     protected string AriaExpanded

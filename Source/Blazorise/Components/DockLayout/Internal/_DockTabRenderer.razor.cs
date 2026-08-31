@@ -73,6 +73,8 @@ public partial class _DockTabRenderer : BaseComponent
 
     private bool CloseButtonVisible => Context?.IsPaneTabCloseButtonVisible( PaneName, GroupPosition ) == true;
 
+    private string AriaSelectedString => Active ? "true" : "false";
+
     private ClassBuilder LabelClassBuilder { get; set; }
 
     private ClassBuilder CloseClassBuilder { get; set; }

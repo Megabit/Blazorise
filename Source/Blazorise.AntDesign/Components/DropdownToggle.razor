@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.DropdownToggle
 @if ( ParentDropdown?.IsDropdownSubmenu == true )
 {
-    <div @ref="@ElementRef" id="@ElementId" class="@SubmenuClassNames" style="@StyleNames" tabindex="@TabIndex" role="menuitem" aria-haspopup="true" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" aria-disabled="@( IsDisabled ? "true" : "false" )" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@SubmenuClassNames" style="@StyleNames" tabindex="@TabIndex" role="menuitem" aria-haspopup="true" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" aria-disabled="@AriaDisabledString" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
         <span class="ant-dropdown-menu-title-content">@ChildContent</span>
         @if ( IsToggleIconVisible )
         {

@@ -116,6 +116,16 @@ public partial class Tab : BaseComponent<TabClasses, TabStyles>
     protected bool Active => ParentTabsState?.SelectedTab == Name;
 
     /// <summary>
+    /// Gets the active state serialized for the aria-selected attribute.
+    /// </summary>
+    protected string AriaSelectedString => Active ? "true" : "false";
+
+    /// <summary>
+    /// Gets the disabled state serialized for the aria-disabled attribute.
+    /// </summary>
+    protected string AriaDisabledString => Disabled ? "true" : "false";
+
+    /// <summary>
     /// Specifies the tab name. Must match the corresponding panel name.
     /// </summary>
     [Parameter] public string Name { get; set; }

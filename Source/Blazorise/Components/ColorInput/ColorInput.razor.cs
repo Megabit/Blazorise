@@ -53,4 +53,13 @@ public partial class ColorInput : BaseInputComponent<string, ColorInputClasses, 
     }
 
     #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets the disabled state serialized for the aria-disabled attribute.
+    /// </summary>
+    protected string AriaDisabledString => IsDisabled ? "true" : "false";
+
+    #endregion
 }
