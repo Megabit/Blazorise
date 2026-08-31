@@ -172,15 +172,8 @@ public class SvgChart<TItem> : SvgChartBase
         builder.OpenComponent<CascadingValue<SvgChartBase>>( sequence++ );
         builder.AddAttribute( sequence++, "Value", this );
         builder.AddAttribute( sequence++, "IsFixed", true );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)BuildChartTree );
+        builder.AddAttribute( sequence++, "ChildContent", ChildContent );
         builder.CloseComponent();
-    }
-
-    private void BuildChartTree( RenderTreeBuilder builder )
-    {
-        var sequence = 0;
-
-        builder.AddContent( sequence++, ChildContent );
 
         builder.OpenComponent<SvgChartContent>( sequence++ );
         builder.AddAttribute( sequence++, nameof( SvgChartContent.ChildContent ), (RenderFragment)BuildChartContent );
@@ -2393,6 +2386,11 @@ public class SvgChart<TItem> : SvgChartBase
     internal override void UnregisterPlugin( ISvgChartPlugin plugin )
     {
         pluginComponents.Remove( plugin );
+    }
+
+    internal override void Refresh()
+    {
+        _ = InvokeAsync( StateHasChanged );
     }
 
     #endregion

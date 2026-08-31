@@ -39,5 +39,7 @@ public abstract class SvgChartBase : BaseComponent
 
     internal abstract void UnregisterPlugin( ISvgChartPlugin plugin );
 
+    internal abstract void Refresh();
+
     #endregion
 }
