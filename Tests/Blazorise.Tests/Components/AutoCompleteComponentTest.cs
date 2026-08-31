@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise;
 using Blazorise.Components;
+using Blazorise.Components.Autocomplete;
 using Blazorise.Shared.Models;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Xunit;
 #endregion
 
@@ -121,6 +123,37 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         await autoComplete.KeyDownAsync( Key.Get( 'S' ) );
 
         Assert.Equal( 1, changedCount );
+    }
+
+    [Fact]
+    public async Task KeyboardNavigation_ShouldOnlyRenderRowsWhoseFocusChanged()
+    {
+        int itemContentRenderCount = 0;
+        RenderFragment<ItemContext<string, string>> itemContent = context => builder =>
+        {
+            itemContentRenderCount++;
+            builder.AddContent( 0, context.Text );
+        };
+        IRenderedComponent<Autocomplete<string, string>> comp = Render<Autocomplete<string, string>>( parameters => parameters
+            .Add( x => x.Data, new List<string> { "Alpha", "Beta", "Gamma" } )
+            .Add( x => x.TextField, x => x )
+            .Add( x => x.ValueField, x => x )
+            .Add( x => x.MinSearchLength, 0 )
+            .Add( x => x.AutoPreSelect, false )
+            .Add( x => x.ItemContent, itemContent ) );
+
+        AngleSharp.Dom.IElement autoComplete = comp.Find( ".b-is-autocomplete input" );
+        await autoComplete.FocusAsync( new() );
+        int initialRenderCount = itemContentRenderCount;
+        Assert.Equal( 3, initialRenderCount );
+
+        await autoComplete.KeyDownAsync( Key.Down );
+
+        Assert.Equal( initialRenderCount + 1, itemContentRenderCount );
+
+        await autoComplete.KeyDownAsync( Key.Down );
+
+        Assert.Equal( initialRenderCount + 3, itemContentRenderCount );
     }
 
     [Fact]

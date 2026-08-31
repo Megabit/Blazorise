@@ -1,0 +1,32 @@
+@namespace Blazorise.Components.Internal
+@using Blazorise.Components.Autocomplete
+@typeparam TItem
+@typeparam TValue
+
+<DropdownItem ElementId="@ElementId"
+              Active="@Context.Active"
+              Checked="@Context.Active"
+              ShowCheckbox="@Context.Checkbox"
+              TabIndex="-1"
+              Class="@Class"
+              Style="@Style"
+              Value="@Context.Value"
+              Disabled="@Context.Disabled"
+              CloseParentDropdowns="@CloseParentDropdowns"
+              @onmousedown="@OnPointerDown"
+              @onpointerdown="@OnPointerDown"
+              Clicked="@OnClicked"
+              CheckedChanged="@OnCheckedChanged">
+    @if ( ItemContent is not null )
+    {
+        @ItemContent( Context )
+    }
+    else if ( HighlightSearch && Search?.Length > 0 )
+    {
+        <Highlighter Text="@Context.Text" HighlightedText="@Search" />
+    }
+    else
+    {
+        @Context.Text
+    }
+</DropdownItem>
