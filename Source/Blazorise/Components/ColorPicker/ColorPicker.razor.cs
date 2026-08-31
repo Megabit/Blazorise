@@ -230,6 +230,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     protected override bool UsesAutomaticAriaLabelledBy => true;
 
     /// <summary>
+    /// Gets the disabled state serialized for the aria-disabled attribute.
+    /// </summary>
+    protected string AriaDisabledString => Disabled ? "true" : "false";
+
+    /// <summary>
     /// Gets the CSS selector for the color preview element.
     /// </summary>
     protected virtual string ColorPreviewElementSelector => ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-color";

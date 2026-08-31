@@ -689,6 +689,11 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     protected override string FieldLabelTargetElementId => null;
 
     /// <summary>
+    /// Gets the disabled state serialized for the aria-disabled attribute.
+    /// </summary>
+    protected string AriaDisabledString => Disabled ? "true" : "false";
+
+    /// <summary>
     /// Gets or sets the JS module.
     /// </summary>
     [Inject] protected JSCodeEditorModule JSModule { get; set; }

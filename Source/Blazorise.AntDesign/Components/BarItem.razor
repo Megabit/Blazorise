@@ -7,7 +7,7 @@
         }
         else
         {
-            <li @ref="@ElementRef" id="@ElementId" class="@ItemClassNames" style="@StyleNames" role="menuitem" aria-disabled="@State.Disabled.ToString().ToLowerInvariant()" @attributes="@Attributes">
+            <li @ref="@ElementRef" id="@ElementId" class="@ItemClassNames" style="@StyleNames" role="menuitem" aria-disabled="@AriaDisabledString" @attributes="@Attributes">
                 @ChildContent
             </li>
         }

@@ -318,7 +318,7 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     /// Converts the disabled state to the lowercase ARIA boolean format.
     /// </summary>
     protected string AriaDisabled
-        => Disabled.ToString().ToLowerInvariant();
+        => Disabled ? "true" : "false";
 
     /// <summary>
     /// Removes disabled resizers from the tab order and otherwise uses <see cref="TabIndex"/>.

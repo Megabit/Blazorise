@@ -19,7 +19,7 @@ else
         @if ( Rating.ReadOnly )
         {
             <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames">
-                <div role="radio" aria-checked="@(IsSelected.ToString().ToLowerInvariant())" aria-posinset="@Value" aria-setsize="5" tabindex="0">
+                <div role="radio" aria-checked="@AriaCheckedString" aria-posinset="@Value" aria-setsize="5" tabindex="0">
                     <Icon Name="@IconName" IconStyle="@IconStyle" Style="width: 1em; height: 1em;" />
                 </div>
             </li>
@@ -27,7 +27,7 @@ else
         else
         {
             <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@HandleClick" @onmouseover="@HandleMouseOver" @onmouseout="@HandleMouseOut">
-                <div role="radio" aria-checked="@(IsSelected.ToString().ToLowerInvariant())" aria-posinset="@Value" aria-setsize="5" tabindex="0">
+                <div role="radio" aria-checked="@AriaCheckedString" aria-posinset="@Value" aria-setsize="5" tabindex="0">
                     <Icon Name="@IconName" IconStyle="@IconStyle" Style="width: 1em; height: 1em;" />
                 </div>
             </li>

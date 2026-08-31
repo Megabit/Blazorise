@@ -44,7 +44,7 @@ public partial class PaginationItem : BaseComponent
     /// <summary>
     /// Gets the string representing the disabled state.
     /// </summary>
-    protected string DisabledString => Disabled.ToString().ToLowerInvariant();
+    protected string DisabledString => Disabled ? "true" : "false";
 
     /// <summary>
     /// Indicate the currently active page.

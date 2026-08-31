@@ -73,7 +73,7 @@ public partial class CloseButton : BaseComponent
     /// Gets the string representing the disabled state.
     /// </summary>
     protected string DisabledString
-        => Disabled ? bool.TrueString.ToLowerInvariant() : null;
+        => Disabled ? "true" : null;
 
     /// <summary>
     /// Holds the information about the Blazorise global options.

@@ -123,6 +123,11 @@ public partial class RatingItem : BaseComponent
     protected bool IsSelected => Rating.SelectedValue == Value;
 
     /// <summary>
+    /// Gets the selected state serialized for the aria-checked attribute.
+    /// </summary>
+    protected string AriaCheckedString => IsSelected ? "true" : "false";
+
+    /// <summary>
     /// Specifies the item value.
     /// </summary>
     [Parameter] public int Value { get; set; }

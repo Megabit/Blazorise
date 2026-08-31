@@ -132,6 +132,11 @@ public partial class BarItem : BaseComponent, IAsyncDisposable
     protected BarItemState State => state;
 
     /// <summary>
+    /// Gets the disabled state serialized for the aria-disabled attribute.
+    /// </summary>
+    protected string AriaDisabledString => State.Disabled ? "true" : "false";
+
+    /// <summary>
     /// True if <see cref="BarDropdown"/> component is placed inside of this <see cref="BarItem"/>.
     /// </summary>
     protected bool HasDropdown => barDropdown is not null;

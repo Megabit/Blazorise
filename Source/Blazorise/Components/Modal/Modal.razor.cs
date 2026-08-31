@@ -568,6 +568,11 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     protected internal bool IsVisible => State.Visible == true;
 
     /// <summary>
+    /// Gets the visibility state serialized for the aria-hidden attribute.
+    /// </summary>
+    protected string AriaHiddenString => Visible ? "false" : "true";
+
+    /// <summary>
     /// Gets the aria-modal attribute value.
     /// </summary>
     protected string AriaModal => IsVisible ? "true" : null;

@@ -97,9 +97,9 @@ public partial class ContextMenuItem : BaseComponent
             ? "menuitemcheckbox"
             : "menuitem";
 
-    private string AriaDisabled => Disabled.ToString().ToLowerInvariant();
+    private string AriaDisabled => Disabled ? "true" : "false";
 
-    private string AriaChecked => EffectiveShowCheckbox ? IsChecked.ToString().ToLowerInvariant() : null;
+    private string AriaChecked => EffectiveShowCheckbox ? ( IsChecked ? "true" : "false" ) : null;
 
     private string ContentClassNames => ClassProvider.ContextMenuItemContent();
 
