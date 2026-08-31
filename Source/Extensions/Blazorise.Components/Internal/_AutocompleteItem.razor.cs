@@ -18,6 +18,7 @@ public partial class _AutocompleteItem<TItem, TValue> : ComponentBase
     #region Members
 
     private bool rendered;
+
     private bool shouldRender = true;
 
     #endregion
