@@ -55,7 +55,8 @@ internal static class SvgChartOptionsMapper
             AutoRotate = labels.AutoRotate,
             MaxRotation = labels.MaxRotation,
             Offset = labels.Offset,
-            MaxWidth = labels.MaxWidth
+            MaxWidth = labels.MaxWidth,
+            Font = CreateFontOptions( labels.Font )
         };
     }
 
@@ -74,7 +75,8 @@ internal static class SvgChartOptionsMapper
             AutoRotate = overrides.AutoRotate,
             MaxRotation = overrides.MaxRotation,
             Offset = overrides.Offset,
-            MaxWidth = overrides.MaxWidth ?? options?.MaxWidth
+            MaxWidth = overrides.MaxWidth ?? options?.MaxWidth,
+            Font = CreateFontOptions( options?.Font, overrides.Font )
         };
     }
 

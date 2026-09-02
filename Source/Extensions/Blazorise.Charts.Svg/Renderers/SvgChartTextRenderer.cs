@@ -92,7 +92,12 @@ internal static class SvgChartTextRenderer
 
     public static void AddFontAttributes( RenderTreeBuilder builder, ref int sequence, SvgChartOptions options, double fallbackSize = 11, double? opacity = null )
     {
-        var font = options?.Font;
+        AddFontAttributes( builder, ref sequence, options, null, fallbackSize, opacity );
+    }
+
+    public static void AddFontAttributes( RenderTreeBuilder builder, ref int sequence, SvgChartOptions options, SvgChartFontOptions overrides, double fallbackSize = 11, double? opacity = null )
+    {
+        SvgChartFontOptions font = ResolveFont( options, overrides );
 
         builder.AddAttribute( sequence++, "font-size", SvgChartRenderHelpers.Format( font?.Size ?? fallbackSize ) );
         SvgChartRenderHelpers.AddFontFamilyAttribute( builder, ref sequence, font?.Family );
@@ -103,6 +108,16 @@ internal static class SvgChartTextRenderer
 
         if ( opacity is not null )
             builder.AddAttribute( sequence++, "opacity", SvgChartRenderHelpers.Format( Math.Clamp( opacity.Value, 0, 1 ) ) );
+    }
+
+    internal static SvgChartFontOptions ResolveFont( SvgChartOptions options, SvgChartFontOptions overrides )
+    {
+        return SvgChartOptionsMapper.CreateFontOptions( options?.Font, overrides );
+    }
+
+    internal static double ResolveFontSize( SvgChartOptions options, SvgChartFontOptions overrides, double fallbackSize = 11 )
+    {
+        return ResolveFont( options, overrides )?.Size ?? fallbackSize;
     }
 
     private static void Render( RenderTreeBuilder builder, ref int sequence, SvgChartOptions options, SvgChartTextOptions text, ref double top, ref double bottom, ref double start, ref double end )
@@ -227,7 +242,7 @@ internal static class SvgChartTextRenderer
         if ( model?.Type != SvgChartType.Bar || model.CategoryAxis?.Labels?.Visible == false )
             return fallback;
 
-        var fontSize = options?.Font?.Size ?? 11;
+        var fontSize = ResolveFontSize( options, model.CategoryAxis?.Labels?.Font );
         var maxLabelWidth = model.Labels
             .Select( ( label, index ) => FormatCategoryLabel( model, label, index ) )
             .DefaultIfEmpty( string.Empty )
@@ -254,7 +269,7 @@ internal static class SvgChartTextRenderer
         if ( model is null || model.Type == SvgChartType.Bar || labels?.AutoSkip != true || !labels.AutoRotate || labels.MaxRotation <= 0 )
             return fallback;
 
-        var fontSize = options?.Font?.Size ?? 11;
+        var fontSize = ResolveFontSize( options, labels?.Font );
         var maxLabelWidth = model.Labels
             .Select( ( label, index ) => FormatCategoryLabel( model, label, index ) )
             .DefaultIfEmpty( string.Empty )

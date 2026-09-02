@@ -108,6 +108,9 @@
     <DocsPageParagraph>
         Automatic skipping is enabled by default. Use <Code>MaxTicksLimit</Code>, <Code>AutoRotate</Code>, and <Code>MaxRotation</Code> to tune label density, or set <Code>AutoSkip</Code> to <Code>false</Code> when every label should be rendered. The <Code>Step</Code> option still acts as a manual minimum interval.
     </DocsPageParagraph>
+    <DocsPageParagraph>
+        Set <Code>Font</Code> on the axis <Code>LabelsOptions</Code> to style that axis independently. Unspecified font values inherit from <Code>SvgChartOptions.Font</Code>. Font sizes use SVG units and scale with the chart when <Code>Responsive</Code> is enabled; set <Code>Responsive</Code> to <Code>false</Code> for fixed-size rendering.
+    </DocsPageParagraph>
     <DocsPageSectionContent Code="SvgAxisLabelDensityChartExample" Outlined FullWidth>
         <SvgAxisLabelDensityChartExample />
     </DocsPageSectionContent>

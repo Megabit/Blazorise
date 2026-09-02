@@ -264,7 +264,19 @@ internal static class SvgChartGeometry
 
         var axis = ApplyPointXAxisViewport( model.Options.XAxis ?? new(), model.Zoom, model.Viewport );
 
-        return BuildScale( series.SelectMany( x => x.XValues ).Where( x => x.HasValue ).Select( x => x.Value ).ToList(), axis );
+        return BuildScale( series.SelectMany( GetPlottedXValues ).ToList(), axis );
+    }
+
+    public static IEnumerable<double> GetPlottedXValues( SvgChartRenderSeries series )
+    {
+        List<double?> values = IsPointChart( series.Type ) ? series.YValues : series.Values;
+        int valueCount = Math.Min( series.XValues.Count, values.Count );
+
+        for ( int i = 0; i < valueCount; i++ )
+        {
+            if ( series.XValues[i].HasValue && values[i].HasValue )
+                yield return series.XValues[i].Value;
+        }
     }
 
     public static SvgChartRenderValueAxis ResolveValueAxis( SvgChartRenderModel model, SvgChartRenderSeries series )
