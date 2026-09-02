@@ -938,10 +938,6 @@ html[data-theme=dark] {
   scrollbar-color: var(--colorScrollbarOverlay) var(--colorNeutralBackground2);
 }
 html[data-theme=dark] body {
-  margin: 0;
-  font-family: var(--fontFamilyBase);
-  font-weight: var(--fontWeightRegular);
-  line-height: var(--lineHeightBase400);
   background-color: var(--colorNeutralBackground1);
   color: var(--colorNeutralForeground1);
   -webkit-font-smoothing: antialiased;
@@ -966,15 +962,13 @@ html[data-theme=dark] h4,
 html[data-theme=dark] h5,
 html[data-theme=dark] h6 {
   color: var(--colorNeutralForeground1);
-  margin: 0 0 var(--spacingVerticalM);
 }
 html[data-theme=dark] .text-subtle {
   color: var(--colorNeutralForeground3);
 }
 html[data-theme=dark] hr {
-  border: 0;
-  height: 1px;
-  background: var(--colorNeutralStroke1);
+  border-top-color: var(--colorNeutralStroke1);
+  opacity: 1;
 }
 html[data-theme=dark] :where(a, button, input, textarea, [tabindex]):focus-visible {
   outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
@@ -984,10 +978,6 @@ html[data-theme=dark] :where(a, button, input, textarea, [tabindex]):focus-visib
 html[data-theme=dark] ::selection {
   background: var(--colorBrandBackground);
   color: var(--colorNeutralForegroundOnBrand);
-}
-html[data-theme=dark] *::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
 }
 html[data-theme=dark] *::-webkit-scrollbar-track {
   background: var(--colorNeutralBackground2);
@@ -1000,7 +990,7 @@ html[data-theme=dark] *::-webkit-scrollbar-thumb {
 html[data-theme=dark] .surface {
   background: var(--colorNeutralBackground2);
   color: var(--colorNeutralForeground1);
-  border: 1px solid var(--colorNeutralStroke1);
+  outline: 1px solid var(--colorNeutralStroke1);
   border-radius: var(--borderRadiusLarge);
   box-shadow: var(--shadow4);
 }
