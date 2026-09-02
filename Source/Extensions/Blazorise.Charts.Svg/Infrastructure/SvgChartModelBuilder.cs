@@ -499,12 +499,18 @@ internal sealed class SvgChartModelBuilder<TItem>
             return null;
 
         var timeZone = ResolveTimeZone( timeAxis.TimeZone );
-        var values = visibleSeries
-            .SelectMany( x => x.XValues )
-            .Concat( labels.Select( value => ToUnixMilliseconds( value, timeZone ) ) )
-            .Where( x => x.HasValue )
-            .Select( x => x.Value )
+        List<double> values = visibleSeries
+            .SelectMany( GetPlottedXValues )
             .ToList();
+
+        if ( values.Count == 0 )
+        {
+            values = labels
+                .Select( value => ToUnixMilliseconds( value, timeZone ) )
+                .Where( x => x.HasValue )
+                .Select( x => x.Value )
+                .ToList();
+        }
 
         if ( values.Count == 0 )
             return null;

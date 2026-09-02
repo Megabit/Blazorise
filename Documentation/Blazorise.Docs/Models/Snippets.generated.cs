@@ -31266,10 +31266,13 @@ builder.Services
         public const string SvgTimeAxisChartExample = @"<SvgLineChart TItem=""LatencySample""
               Items=""@samples""
               Options=""@options"">
-    <SvgChartTitle Title='@(""Service latency"")' Subtitle='@(""Irregular samples spaced by elapsed time"")' />
+    <SvgChartTitle Title='@(""Service latency"")' Subtitle='@(""Explicit bounds remove outer time margins"")' />
     <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
     <SvgChartTooltip Enabled InteractionMode=""SvgChartInteractionMode.Index"" Width=""220"" />
-    <SvgChartTimeAxis TimeValue=""@( item => item.Timestamp )"" Scale=""SvgChartTimeScale.Continuous"" Unit=""SvgChartTimeUnit.Minute"" />
+    <SvgChartTimeAxis TimeValue=""@( item => item.Timestamp )""
+                      Scale=""SvgChartTimeScale.Continuous""
+                      Unit=""SvgChartTimeUnit.Minute""
+                      TimeZone=""@TimeZoneInfo.Utc"" />
     <SvgChartValueAxis BeginAtZero TickCount=""6"" />
 
     <SvgLineSeries Name=""API"" Value=""@( item => item.Api )"" Color=""Color.Primary"" StrokeWidth=""3"" MarkerRadius=""4"" />
@@ -31281,7 +31284,13 @@ builder.Services
     {
         Height = 360,
         Legend = new() { Position = SvgChartLegendPosition.Bottom },
-        XAxis = new() { TickCount = 5, GridLines = new() { Visible = true } },
+        XAxis = new()
+        {
+            Min = new DateTimeOffset( 2026, 5, 23, 9, 0, 0, TimeSpan.Zero ).ToUnixTimeMilliseconds(),
+            Max = new DateTimeOffset( 2026, 5, 23, 10, 30, 0, TimeSpan.Zero ).ToUnixTimeMilliseconds(),
+            TickCount = 5,
+            GridLines = new() { Visible = true },
+        },
     };
 
     private readonly List<LatencySample> samples =
