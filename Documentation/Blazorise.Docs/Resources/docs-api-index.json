@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-19T07:25:22.9971102Z",
+  "generatedUtc": "2026-09-02T06:54:55.8072177Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -116331,6 +116331,14 @@
           "typeName": "double",
           "defaultValue": "8",
           "summary": "Defines the extra spacing between automatically skipped labels, in SVG units.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Font",
+          "type": "global::Blazorise.Charts.Svg.SvgChartFontOptions",
+          "typeName": "SvgChartFontOptions",
+          "defaultValue": "null",
+          "summary": "Defines font options for the axis labels. Unspecified values are inherited from the chart font options.",
           "isBlazoriseEnum": false
         },
         {

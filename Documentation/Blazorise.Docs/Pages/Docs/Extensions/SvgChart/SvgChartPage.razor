@@ -177,6 +177,9 @@
         Continuous time axes use UTC milliseconds internally and display values in the <Code>TimeZone</Code> configured on <Code>SvgChartTimeAxis</Code>. The default is <Code>TimeZoneInfo.Local</Code>.
     </DocsPageParagraph>
     <DocsPageParagraph>
+        Set <Code>SvgChartOptions.XAxis.Min</Code> and <Code>Max</Code> to the first and last timestamps, expressed as Unix milliseconds, when the axis should have no outer time margins. The example below defines both bounds explicitly.
+    </DocsPageParagraph>
+    <DocsPageParagraph>
         A <Code>DateTime</Code> with <Code>Kind</Code> set to <Code>Utc</Code> or <Code>Local</Code> represents an instant and is converted to the configured time zone. A <Code>DateTime</Code> with <Code>Kind</Code> set to <Code>Unspecified</Code> is interpreted as a wall-clock value in the configured time zone. Axis labels and default tooltips use the same conversion and format.
     </DocsPageParagraph>
     <DocsPageParagraph>
