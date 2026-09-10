@@ -130,7 +130,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     protected virtual void CaptureParameters( ParameterView parameters )
     {
         // Capture synchronously since ParameterView is not safe after awaits.
-        if ( Rendered )
+        if ( Rendered || hasInitializedParameters )
             parameters.TryGetParameter( Value, IsSameAsInternalValue, out paramValue );
         else
             paramValue = new ComponentParameterInfo<TValue>( default );
