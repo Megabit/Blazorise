@@ -201,69 +201,102 @@
 <Container Padding="Padding.Is5.OnY">
     <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
         <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
-            Learn at your pace or teach a classroom
+            Learn with guided Blazor courses
         </Heading>
         <Lead TextColor="TextColor.Muted">
-            Explore guided courses as an individual learner, or bring Blazorise Education to a group with a Classroom License.
+            The public course catalog is open to everyone. Explore structured, practical courses in C#, Blazor, and Blazorise before deciding where to begin.
         </Lead>
     </Div>
 
     <Row>
-        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom">
+        <Column ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
             <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
-                <CardBody Display="Display.Flex" Flex="Flex.Column" Padding="Padding.Is5">
-                    <Div Flex="Flex.JustifyContent.Between.AlignItems.Start" Margin="Margin.Is4.FromBottom">
-                        <Div>
-                            <Paragraph TextColor="TextColor.Primary" TextWeight="TextWeight.Bold" Margin="Margin.Is2.FromBottom">For individual learners</Paragraph>
-                            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">Guided courses</Heading>
-                        </Div>
-                        <Icon Name="IconName.BookReader" IconSize="IconSize.x2" TextColor="TextColor.Primary" />
-                    </Div>
-                    <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted" Margin="Margin.Is4.FromBottom">
-                        Learn C#, Blazor, and Blazorise at your own pace through structured, practical courses.
+                <CardBody>
+                    <Icon Name="IconName.BookReader" IconSize="IconSize.x2" TextColor="TextColor.Primary" Margin="Margin.Is3.FromBottom" />
+                    <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">Browse before signing in</Heading>
+                    <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
+                        Preview learning outcomes, prerequisites, modules, lesson titles, difficulty, and estimated duration without an account.
                     </Paragraph>
-                    <Div Flex="Flex.Column" Gap="Gap.Is2">
-                        <Span><Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />Preview outcomes, prerequisites, modules, lesson titles, difficulty, and estimated duration without signing in</Span>
-                        <Span><Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />Sign in with an eligible account to start a course</Span>
-                        <Span><Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />Complete exercises and assessments and track your progress</Span>
-                    </Div>
-                    <Div Margin="Margin.IsAuto.FromTop" Padding="Padding.Is4.FromTop">
-                        <Button Type="ButtonType.Link" To="https://blazorise.com/support/courses" Color="Color.Primary" Size="Size.Large">
-                            Explore courses
-                        </Button>
-                    </Div>
                 </CardBody>
             </Card>
         </Column>
-
-        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom">
+        <Column ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
             <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
-                <CardBody Display="Display.Flex" Flex="Flex.Column" Padding="Padding.Is5">
-                    <Div Flex="Flex.JustifyContent.Between.AlignItems.Start" Margin="Margin.Is4.FromBottom">
-                        <Div>
-                            <Paragraph TextColor="TextColor.Info" TextWeight="TextWeight.Bold" Margin="Margin.Is2.FromBottom">For educators and institutions</Paragraph>
-                            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">Classroom Licenses</Heading>
-                        </Div>
-                        <Icon Name="IconName.School" IconSize="IconSize.x2" TextColor="TextColor.Info" />
-                    </Div>
-                    <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted" Margin="Margin.Is4.FromBottom">
-                        Universities, schools, training programs, and educators can request centrally managed access for a group of learners.
+                <CardBody>
+                    <Icon Name="IconName.Code" IconSize="IconSize.x2" TextColor="TextColor.Success" Margin="Margin.Is3.FromBottom" />
+                    <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">Learn by doing</Heading>
+                    <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
+                        Sign in with an eligible account to start courses and reinforce each topic through practical exercises and assessments.
                     </Paragraph>
-                    <Div Flex="Flex.Column" Gap="Gap.Is2">
-                        <Span><Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />Receive a defined number of seats after approval</Span>
-                        <Span><Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />Invite students and assign seats through an administrator</Span>
-                        <Span><Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />Give learners educational benefits and access to the guided course platform</Span>
-                        <Span><Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />Manage classroom access centrally</Span>
-                    </Div>
-                    <Div Margin="Margin.IsAuto.FromTop" Padding="Padding.Is4.FromTop">
-                        <Button Type="ButtonType.Link" To="https://blazorise.com/support/education/classroom/apply" Color="Color.Primary" Size="Size.Large">
-                            Apply for a Classroom License
-                        </Button>
-                    </Div>
+                </CardBody>
+            </Card>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
+            <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                <CardBody>
+                    <Icon Name="IconName.CheckCircle" IconSize="IconSize.x2" TextColor="TextColor.Info" Margin="Margin.Is3.FromBottom" />
+                    <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">Track your progress</Heading>
+                    <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
+                        Continue where you left off and follow your progress as you complete lessons, exercises, and assessments.
+                    </Paragraph>
                 </CardBody>
             </Card>
         </Column>
     </Row>
+
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is3.FromTop">
+        <Button Type="ButtonType.Link" To="https://blazorise.com/support/courses" Color="Color.Primary" Size="Size.Large">
+            Explore courses
+        </Button>
+    </Div>
+</Container>
+
+<Container Padding="Padding.Is5.OnY">
+    <Card Border="Border.Rounded" Shadow="Shadow.Small">
+        <CardBody Padding="Padding.Is5">
+            <Row Flex="Flex.AlignItems.Center">
+                <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop">
+                    <Paragraph TextColor="TextColor.Info" TextWeight="TextWeight.Bold" Margin="Margin.Is2.FromBottom">For educators and institutions</Paragraph>
+                    <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">Bring Blazorise to your classroom</Heading>
+                    <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted" Margin="Margin.Is4.FromBottom">
+                        Universities, schools, training programs, and educators can request a Classroom License to provide centrally managed educational access to a group of students.
+                    </Paragraph>
+                    <Row>
+                        <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet" Margin="Margin.Is3.FromBottom">
+                            <Div Flex="Flex.AlignItems.Start" Gap="Gap.Is3">
+                                <Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is1.FromTop" />
+                                <Span>Receive a defined number of seats after approval</Span>
+                            </Div>
+                        </Column>
+                        <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet" Margin="Margin.Is3.FromBottom">
+                            <Div Flex="Flex.AlignItems.Start" Gap="Gap.Is3">
+                                <Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is1.FromTop" />
+                                <Span>Let administrators invite students and assign seats</Span>
+                            </Div>
+                        </Column>
+                        <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet" Margin="Margin.Is3.FromBottom">
+                            <Div Flex="Flex.AlignItems.Start" Gap="Gap.Is3">
+                                <Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is1.FromTop" />
+                                <Span>Give students educational benefits and guided course access</Span>
+                            </Div>
+                        </Column>
+                        <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet" Margin="Margin.Is3.FromBottom">
+                            <Div Flex="Flex.AlignItems.Start" Gap="Gap.Is3">
+                                <Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is1.FromTop" />
+                                <Span>Manage classroom access centrally</Span>
+                            </Div>
+                        </Column>
+                    </Row>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Display="Display.Flex" Flex="Flex.Column.JustifyContent.Center.AlignItems.Start" Margin="Margin.Is4.FromTop.OnMobile">
+                    <Icon Name="IconName.School" IconSize="IconSize.x3" TextColor="TextColor.Info" Margin="Margin.Is4.FromBottom" />
+                    <Button Type="ButtonType.Link" To="https://blazorise.com/support/education/classroom/apply" Color="Color.Primary" Size="Size.Large">
+                        Apply for a Classroom License
+                    </Button>
+                </Column>
+            </Row>
+        </CardBody>
+    </Card>
 </Container>
 
 <Container Padding="Padding.Is5.OnY">
