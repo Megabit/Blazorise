@@ -440,7 +440,7 @@ function estimateNumberInputCaret(element, clientX) {
 }
 
 export function getRequiredElement(element, elementId) {
-    if (element)
+    if (element instanceof Element)
         return element;
 
     return document.getElementById(elementId);
