@@ -1,7 +1,7 @@
 <Div Margin="Margin.Is5.FromBottom">
-    <Row Margin="Margin.Is4.FromBottom">
+    <Row Margin="Margin.Is4.FromBottom" TextAlignment="TextAlignment.Center">
         <Column>
-            <Heading Size="HeadingSize.Is3" Margin="Margin.Is0.FromBottom">
+            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold" Margin="Margin.Is0.FromBottom">
                 Clear license terms before you buy
             </Heading>
             <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is2.FromTop.Is0.FromBottom">
@@ -13,9 +13,9 @@
     <Row Gutter="Gutter.Is3" TextAlignment="TextAlignment.Start">
         @foreach ( AssuranceItem item in AssuranceItems )
         {
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Card Height="Height.Is100" Border="Border.Rounded">
-                    <CardBody Flex="Flex.Column" Gap="Gap.Is2">
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop" Margin="Margin.Is3.FromBottom">
+                <Card Height="Height.Is100" Border="Border.Rounded" Shadow="Shadow.Small">
+                    <CardBody Padding="Padding.Is4" Display="Display.Flex" Flex="Flex.Column" Gap="Gap.Is2">
                         <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
                             <Icon Name="@item.Icon" TextColor="@item.TextColor" />
                             <Strong>@item.Title</Strong>

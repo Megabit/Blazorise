@@ -1,74 +1,82 @@
-﻿@using System.Globalization;
-<Card Margin="Margin.Is4.FromBottom" Border="Border.Rounded" Class="pricing-card" Height="Height.Is100" TextAlignment="TextAlignment.Start">
-    <CardBody Flex="Flex.Column.AlignItems.Start" Gap="Gap.Is3" Padding="Padding.Is0.FromBottom">
-        <Heading Size="HeadingSize.Is4" Margin="Margin.Is0" TextWeight="TextWeight.Normal" TextColor="@TextAccentColor">
+﻿@using System.Globalization
+
+<Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100" TextAlignment="TextAlignment.Start">
+    <CardBody Padding="Padding.Is4" Display="Display.Flex" Flex="Flex.Column">
+        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading4" Margin="Margin.Is2.FromBottom" TextWeight="TextWeight.SemiBold" TextColor="@TextAccentColor">
             @PlanName
         </Heading>
-        <Div Width="Width.Is100">
-            <Div Height="Height.Px( 50 )" Flex="Flex.AlignItems.Baseline" Gap="Gap.Is3">
-                @if ( ShowHigherPlan )
-                {
-                    <Span TextSize="TextSize.Heading3" TextColor="TextColor.Muted" TextDecoration="@(ShowDiscount ? TextDecoration.LineThrough : TextDecoration.Default)">@TotalHigherPlanPriceString</Span>
-                    @if ( ShowDiscount )
-                    {
-                        <Span TextSize="TextSize.Heading4" TextColor="TextColor.Success" TextWeight="TextWeight.SemiBold">
-                            <Icon Name="IconName.ArrowDown" />
-                            @PercentageDiscountString
-                        </Span>
-                    }
-                }
-            </Div>
-            <Div Flex="Flex.JustifyContent.Start.AlignItems.Center" Gap="Gap.Is1">
-                @if ( ShowPlan )
-                {
-                    <Span TextSize="TextSize.Heading1" Flex="Flex.InlineFlex">
-                        <Span>@CurrencySymbol</Span>
-                        <Span>@TotalPlanPriceString</Span>
-                    </Span>
-
+        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is4.FromBottom">
+            @PlanDescription
+        </Paragraph>
+        @if ( ShowPlan )
+        {
+            <Div Margin="Margin.Is4.FromBottom">
+                <Paragraph TextSize="TextSize.Heading2" TextWeight="TextWeight.Bold" Margin="Margin.Is1.FromBottom">
                     @if ( PlanPrice > 0 )
                     {
-                        <Span Flex="Flex.InlineFlex.Column">
-                            <Span TextSize="TextSize.ExtraSmall" TextColor="TextColor.Muted" TextWeight="TextWeight.Light">@CurrencyCode</Span>
-                            <Span TextSize="TextSize.Small" TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@PlanUnit</Span>
-                        </Span>
+                        <Span>@CurrencySymbol</Span><Span>@TotalPlanPriceString</Span>
+                    }
+                    else
+                    {
+                        @TotalPlanPriceString
+                    }
+                </Paragraph>
+                @if ( PlanPrice > 0 )
+                {
+                    <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" Margin="Margin.Is0">
+                        @CurrencyCode / @PlanUnit for @Quantity @( Quantity == 1 ? "developer" : "developers" )
+                    </Paragraph>
+                    @if ( ShowHigherPlan && ShowDiscount )
+                    {
+                        <Div Flex="Flex.AlignItems.Center.Wrap" Gap="Gap.Is2" Margin="Margin.Is2.FromTop">
+                            <Span TextSize="TextSize.Small" TextColor="TextColor.Muted" TextDecoration="TextDecoration.LineThrough">@($"{CurrencySymbol}{TotalHigherPlanPriceString}")</Span>
+                            <Badge Color="Color.Success" Subtle Pill>Save @PercentageDiscountString annually</Badge>
+                        </Div>
                     }
                 }
+                else
+                {
+                    <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" Margin="Margin.Is0">
+                        @( PlanPrice == 0 ? "For eligible individual developers" : "A tailored plan for your organization" )
+                    </Paragraph>
+                }
             </Div>
-        </Div>
+        }
+        <Divider />
+        @if ( IncludesContent is not null )
+        {
+            <Div TextWeight="TextWeight.SemiBold" TextSize="TextSize.Small" Margin="Margin.Is3.FromBottom">
+                @IncludesContent
+            </Div>
+        }
+        @ChildContent
         @if ( ButtonContent is not null )
         {
-            @ButtonContent
+            <Div Margin="Margin.IsAuto.FromTop" Padding="Padding.Is4.FromTop">
+                @ButtonContent
+            </Div>
         }
-        <Div Width="Width.Is100">
-            @if ( IncludesContent is not null )
-            {
-                <Div TextSize="TextSize.Default" TextColor="@TextAccentColor">
-                    @IncludesContent
-                </Div>
-                <Divider />
-            }
-            @ChildContent
-        </Div>
     </CardBody>
 </Card>
 
 @code {
-    string TotalPlanPriceString => PlanPrice switch
+    private string TotalPlanPriceString => PlanPrice switch
     {
         0 => "Free",
         -1 => "Custom",
-        _ => ( PlanPrice * Quantity ).ToString( CultureInfo.InvariantCulture )
+        _ => ( PlanPrice * Quantity ).ToString( "N0", CultureInfo.InvariantCulture )
     };
 
-    string TotalHigherPlanPriceString
-        => ShowHigherPlan ? ( HigherPlanPrice * Quantity ).ToString( CultureInfo.InvariantCulture ) : null;
+    private string TotalHigherPlanPriceString
+        => ShowHigherPlan ? ( HigherPlanPrice * Quantity ).ToString( "N0", CultureInfo.InvariantCulture ) : null;
 
-    decimal HigherPlanPrice => ( PlanPrice * 12 ) / 10;
+    private decimal HigherPlanPrice => ( PlanPrice * 12 ) / 10;
 
-    string PercentageDiscountString => $"{( 100 - ( ( PlanPrice / HigherPlanPrice ) * 100 ) ).ToString( "F0", CultureInfo.InvariantCulture )}%";
+    private string PercentageDiscountString => $"{( 100 - ( ( PlanPrice / HigherPlanPrice ) * 100 ) ).ToString( "F0", CultureInfo.InvariantCulture )}%";
 
     [Parameter] public string PlanName { get; set; }
+
+    [Parameter] public string PlanDescription { get; set; }
 
     [Parameter] public bool ShowPlan { get; set; }
 

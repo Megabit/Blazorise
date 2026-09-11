@@ -1,13 +1,19 @@
 @using System.Globalization
 @using Blazorise.Licensing
-<Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is4.FromBottom">
-    Compare Plan Features
-</Paragraph>
+<Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+    <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">Compare plans in detail</Heading>
+    <Lead TextColor="TextColor.Muted">
+        See which components, support channels, and service limits are included in each plan.
+    </Lead>
+    <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small">
+        Paid plan prices below are totals for @Quantity @( Quantity == 1 ? "developer" : "developers" ) on @( Plan == "monthly" ? "monthly" : "annual" ) billing.
+    </Paragraph>
+</Div>
 
-<Table Responsive TextAlignment="TextAlignment.Center">
-    <TableHeader>
+<Table Responsive Hoverable Striped TextAlignment="TextAlignment.Center">
+    <TableHeader Background="Background.Light">
         <TableRow>
-            <TableHeaderCell style="width: 40%;"></TableHeaderCell>
+            <TableHeaderCell style="width: 40%;" TextAlignment="TextAlignment.Start">Features and support</TableHeaderCell>
             <TableHeaderCell style="width: 15%;">
                 <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
                     <Div>
@@ -28,7 +34,7 @@
                             @($"{ProfessionalPrices[Plan].CurrencySymbol}{( ProfessionalPrices[Plan].Price * Quantity ):n0}")
                         </Span>
                         <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">
-                            /@ProfessionalPrices[Plan].Unit per developer
+                            /@ProfessionalPrices[Plan].Unit
                         </Small>
                     </Div>
                 </Div>
@@ -43,7 +49,7 @@
                             @($"{EnterprisePrices[Plan].CurrencySymbol}{( EnterprisePrices[Plan].Price * Quantity ):n0}")
                         </Span>
                         <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">
-                            /@EnterprisePrices[Plan].Unit per developer
+                            /@EnterprisePrices[Plan].Unit
                         </Small>
                     </Div>
                 </Div>
@@ -54,7 +60,7 @@
                         Enterprise Plus
                     </Div>
                     <Div Padding="Padding.Is2.OnY">
-                        <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">On Request</Small>
+                        <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">Custom pricing</Small>
                     </Div>
                 </Div>
             </TableHeaderCell>

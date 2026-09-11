@@ -1,41 +1,24 @@
-﻿<Div Class="developers-picker" Border="Border.Light.OnAll.RoundedPill" Flex="Flex.JustifyContent.Between" Padding="Padding.Is2">
-    <Button Clicked="@OnDownClicked" Border="Border.RoundedCircle" Margin="Margin.Is2.FromEnd">
-        <Icon Name="IconName.ChevronLeft" IconSize="IconSize.Large" />
+﻿<Div Border="Border.Light.OnAll.Rounded" Display="Display.InlineFlex" Flex="Flex.AlignItems.Center" Padding="Padding.Is1" Gap="Gap.Is1">
+    <Button Clicked="@OnDownClicked" Color="Color.Light" Disabled="@( Value <= 1 )" aria-label="Remove a developer">
+        <Icon Name="IconName.Minus" />
     </Button>
-    <NumericPicker TValue="int" Value="@Value" ValueChanged="@OnValueChanged" Min="1" Max="999" ShowStepButtons="false" Style="max-width: 4rem;" Border="Border.Is0" TextAlignment="TextAlignment.Center" />
-    <Button Clicked="@OnUpClicked" Border="Border.RoundedCircle" Margin="Margin.Is2.FromStart">
-        <Icon Name="IconName.ChevronRight" IconSize="IconSize.Large" />
+    <NumericPicker TValue="int" Value="@Value" ValueChanged="@OnValueChanged" Min="1" Max="999" ShowStepButtons="false" Width="Width.Rem( 4 )" Border="Border.Is0" TextAlignment="TextAlignment.Center" aria-label="Number of developers" />
+    <Button Clicked="@OnUpClicked" Color="Color.Light" Disabled="@( Value >= 999 )" aria-label="Add a developer">
+        <Icon Name="IconName.Add" />
     </Button>
 </Div>
+
 @code {
     [Parameter] public int Value { get; set; } = 1;
 
     [Parameter] public EventCallback<int> ValueChanged { get; set; }
 
     private Task OnValueChanged( int value )
-    {
-        Value = value;
-
-        return ValueChanged.InvokeAsync( Value );
-    }
+        => ValueChanged.InvokeAsync( Math.Clamp( value, 1, 999 ) );
 
     private Task OnDownClicked()
-    {
-        Value--;
-
-        if ( Value < 1 )
-            Value = 1;
-
-        return ValueChanged.InvokeAsync( Value );
-    }
+        => OnValueChanged( Value - 1 );
 
     private Task OnUpClicked()
-    {
-        Value++;
-
-        if ( Value > 999 )
-            Value = 999;
-
-        return ValueChanged.InvokeAsync( Value );
-    }
+        => OnValueChanged( Value + 1 );
 }

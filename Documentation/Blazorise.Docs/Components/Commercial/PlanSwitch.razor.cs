@@ -1,41 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using Blazorise.Docs.Services;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Docs.Components.Commercial;
 
-public partial class PlanSwitch : IDisposable
+public partial class PlanSwitch
 {
-    private Background GetSelectedBackground( string value ) => SelectedValue == value ? Background.Primary : Background.Default;
-
-    private TextColor GetTextSelectedColor( string value ) => SelectedValue == value
-        ? TextColor.White
-        : ThemeService.ShouldDark ? TextColor.Dark : TextColor.Default;
-
     private Task OnClicked( string value )
-    {
-        return SelectedValueChanged.InvokeAsync( value );
-    }
-
-    protected override void OnInitialized()
-    {
-        ThemeService.ThemeChanged += OnThemeChanged;
-
-        base.OnInitialized();
-    }
-
-    public void Dispose()
-    {
-        ThemeService.ThemeChanged -= OnThemeChanged;
-    }
-
-    void OnThemeChanged( object sender, string theme )
-    {
-        InvokeAsync( StateHasChanged );
-    }
-
-    [Inject] private ThemeService ThemeService { get; set; }
+        => SelectedValueChanged.InvokeAsync( value );
 
     [Parameter] public string SelectedValue { get; set; }
 
