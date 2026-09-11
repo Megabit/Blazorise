@@ -1,10 +1,10 @@
 <Container Padding="Padding.Is5.OnY">
     <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
         <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
-            Popular Components
+            Find the components your next feature needs
         </Heading>
         <Lead TextColor="TextColor.Muted">
-            Start with the components used most in Blazor apps.
+            From editable data grids to scheduling and media, explore examples and documentation for common application features.
         </Lead>
     </Div>
 
@@ -14,11 +14,11 @@
             <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
                 <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
                     <CardBody Flex="Flex.Column" Height="Height.Is100">
-                        <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
+                        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
                         <Paragraph TextColor="TextColor.Muted">@item.Description</Paragraph>
                         <Div Margin="Margin.IsAuto.FromTop">
                             <Anchor To="@item.Url" Title="@($"Open {item.Title} documentation")">
-                                View docs
+                                Explore @item.Title
                             </Anchor>
                         </Div>
                     </CardBody>
@@ -26,6 +26,11 @@
             </Column>
         }
     </Row>
+    <Div TextAlignment="TextAlignment.Center">
+        <Button Type="ButtonType.Link" To="docs" Color="Color.Primary" Outline>
+            Browse all documentation
+        </Button>
+    </Div>
 </Container>
 
 @code {

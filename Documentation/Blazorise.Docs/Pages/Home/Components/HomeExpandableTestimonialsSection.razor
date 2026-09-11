@@ -1,18 +1,21 @@
 <Container Padding="Padding.Is5.OnY">
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            What developers say about Blazorise
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Hear from teams using Blazorise in their products.
+        </Lead>
+    </Div>
+
     <Row>
         @foreach ( Testimonial item in Testimonials )
         {
             <Column @key="@item.Name" ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
                 <Card Border="Border.Rounded"
                       Shadow="Shadow.Small"
-                      Height="Height.Is100"
-                      @onclick="@(() => ToggleTestimonial( item.Name ))"
-                      @onkeydown="@(( KeyboardEventArgs eventArgs ) => OnTestimonialKeyDown( eventArgs, item.Name ))"
-                      role="button"
-                      tabindex="0"
-                      aria-expanded="@IsTestimonialExpanded( item.Name )"
-                      Style="cursor: pointer;">
-                    <CardBody>
+                      Height="Height.Is100">
+                    <CardBody Display="Display.Flex" Flex="Flex.Column">
                         <Rating SelectedValue="5" ReadOnly />
                         <Blockquote Margin="Margin.Is0.FromBottom">
                             @GetTestimonialPreview( item.Quote )@( CanExpandTestimonial( item.Quote ) && !IsTestimonialExpanded( item.Name ) ? "..." : null )
@@ -25,8 +28,20 @@
                                 </Blockquote>
                             </Animate>
                         }
-                        <Strong>@item.Name</Strong>
-                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is0.FromBottom">@item.Company</Paragraph>
+                        <Div Margin="Margin.IsAuto.FromTop" Padding="Padding.Is3.FromTop">
+                            <Strong>@item.Name</Strong>
+                            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is0.FromBottom">@item.Company</Paragraph>
+                            @if ( CanExpandTestimonial( item.Quote ) )
+                            {
+                                <Button Color="Color.Link"
+                                        Padding="Padding.Is0"
+                                        Margin="Margin.Is3.FromTop"
+                                        Clicked="@(() => ToggleTestimonial( item.Name ))"
+                                        aria-expanded="@( IsTestimonialExpanded( item.Name ) ? "true" : "false" )">
+                                    @( IsTestimonialExpanded( item.Name ) ? "Show less" : "Read full testimonial" )
+                                </Button>
+                            }
+                        </Div>
                     </CardBody>
                 </Card>
             </Column>
@@ -35,7 +50,7 @@
 </Container>
 
 @code {
-    private const int TestimonialPreviewLength = 58;
+    private const int TestimonialPreviewLength = 180;
 
     private string expandedTestimonialName;
 
@@ -47,14 +62,6 @@
         expandedTestimonialName = IsTestimonialExpanded( name )
             ? null
             : name;
-    }
-
-    private void OnTestimonialKeyDown( KeyboardEventArgs eventArgs, string name )
-    {
-        if ( eventArgs.Key is "Enter" or " " )
-        {
-            ToggleTestimonial( name );
-        }
     }
 
     private static string GetTestimonialPreview( string quote )
