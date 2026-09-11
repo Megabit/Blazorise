@@ -1,126 +1,141 @@
 @page "/jobs"
 @using Blazorise.Docs.Models
 
-<Seo Canonical="/jobs" Title="Blazorise Jobs" Description="Community-posted roles for Blazor and .NET teams, from startups to enterprises, with filters for location, seniority, and remote roles." />
+<Seo Canonical="/jobs" Title="Blazorise Jobs | Blazor and .NET opportunities" Description="Find community-posted Blazor and .NET jobs. Search by role, company, or location, filter remote opportunities, and explore salary details where provided." />
 
 <PageHeader>
     <Title>
         Blazorise Jobs
     </Title>
     <Description>
-        Community-posted roles for Blazor and .NET teams.
+        Explore community-posted opportunities from companies building with .NET.
     </Description>
     <Actions>
-        <Button Color="Color.Primary" Size="Size.Large" Type="ButtonType.Link" To="/jobs/submit">
-            Submit a job
+        <Button Color="Color.Primary" Size="Size.Large" Type="ButtonType.Link" To="/jobs/submit" Padding="Padding.Is4.OnX">
+            Submit a job for free
         </Button>
     </Actions>
 </PageHeader>
 
-<Container Padding="Padding.Is4.OnX.Is5.OnY">
+<Container ElementId="open-roles" Padding="Padding.Is5.OnY">
     @{
         IReadOnlyList<JobPost> filteredJobs = GetFilteredJobs();
         string resultsSummary = BuildResultsSummary( filteredJobs );
     }
 
-    <Card Shadow="Shadow.Default" Border="Border.Is0">
-        <CardBody>
+    <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold" Margin="Margin.Is4.FromBottom">Open roles</Heading>
+
+    <Card Shadow="Shadow.Small" Border="Border.Rounded">
+        <CardBody Padding="Padding.Is4">
+            <Field>
+                <FieldLabel>Search jobs</FieldLabel>
+                <FieldBody>
+                    <TextInput Placeholder="Job title, company, technology, or location" @bind-Value="@searchText" Disabled="@isLoading" />
+                </FieldBody>
+            </Field>
             <Fields>
-                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is4.OnDesktop">
-                    <FieldLabel>Search</FieldLabel>
-                    <FieldBody>
-                        <TextInput Placeholder="Title, company, tags, location" @bind-Value="@searchText" />
-                    </FieldBody>
-                </Field>
-                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                    <FieldLabel>Remote</FieldLabel>
-                    <FieldBody>
-                        <Switch TValue="bool" @bind-Value="@remoteOnly">Remote only</Switch>
-                    </FieldBody>
-                </Field>
-                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop">
                     <FieldLabel>Employment type</FieldLabel>
                     <FieldBody>
-                        <Select TValue="string" @bind-Value="@selectedEmploymentType">
+                        <Select TValue="string" @bind-Value="@selectedEmploymentType" Disabled="@isLoading">
                             @foreach ( string option in EmploymentTypeOptions )
                             {
-                                <SelectItem TValue="string" Value="@option">@option</SelectItem>
+                                <SelectItem @key="@option" TValue="string" Value="@option">@option</SelectItem>
                             }
                         </Select>
                     </FieldBody>
                 </Field>
-                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is2.OnDesktop">
+                <Field ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop">
                     <FieldLabel>Seniority</FieldLabel>
                     <FieldBody>
-                        <Select TValue="string" @bind-Value="@selectedSeniority">
+                        <Select TValue="string" @bind-Value="@selectedSeniority" Disabled="@isLoading">
                             @foreach ( string option in SeniorityOptions )
                             {
-                                <SelectItem TValue="string" Value="@option">@option</SelectItem>
+                                <SelectItem @key="@option" TValue="string" Value="@option">@option</SelectItem>
                             }
                         </Select>
                     </FieldBody>
                 </Field>
-                <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                    <FieldLabel>Sort</FieldLabel>
+                <Field ColumnSize="ColumnSize.Is12.Is4.OnDesktop">
+                    <FieldLabel>Work location</FieldLabel>
                     <FieldBody>
-                        <Select TValue="JobsSortOption" @bind-Value="@selectedSort">
-                            <SelectItem TValue="JobsSortOption" Value="@JobsSortOption.MostRecent">Most recent</SelectItem>
-                            <SelectItem TValue="JobsSortOption" Value="@JobsSortOption.CompanyAscending">Company A-Z</SelectItem>
-                        </Select>
+                        <Switch TValue="bool" @bind-Value="@remoteOnly" Disabled="@isLoading">Remote only</Switch>
                     </FieldBody>
                 </Field>
             </Fields>
-            <Div Border="Border.Is1.OnTop" Padding="Padding.Is3.FromTop" Margin="Margin.Is3.FromTop">
-                <Span TextColor="TextColor.Muted" TextSize="TextSize.Small">@resultsSummary</Span>
-            </Div>
+            @if ( HasActiveFilters )
+            {
+                <Button Color="Color.Secondary" Outline Clicked="@ClearFilters">Clear filters</Button>
+            }
         </CardBody>
     </Card>
 
+    <Row Flex="Flex.AlignItems.Center" Margin="Margin.Is4.FromTop.Is3.FromBottom">
+        <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop">
+            <Span TextColor="TextColor.Muted" aria-live="polite">@resultsSummary</Span>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is4.OnDesktop">
+            <Field Margin="Margin.Is0">
+                <FieldLabel>Sort by</FieldLabel>
+                <FieldBody>
+                    <Select TValue="JobsSortOption" @bind-Value="@selectedSort" Disabled="@(isLoading || jobs.Count == 0)">
+                        <SelectItem TValue="JobsSortOption" Value="@JobsSortOption.RecentlyUpdated">Recently updated</SelectItem>
+                        <SelectItem TValue="JobsSortOption" Value="@JobsSortOption.CompanyAscending">Company A-Z</SelectItem>
+                    </Select>
+                </FieldBody>
+            </Field>
+        </Column>
+    </Row>
+
     @if ( isLoading )
     {
-        <Div Border="Border.Is1" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
+        <Div TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
             <SpinKit Type="SpinKitType.Wave" Color="Color.Primary" Size="Size.ExtraLarge" />
             <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromTop">Loading jobs...</Paragraph>
         </Div>
     }
     else if ( loadError is not null )
     {
-        <Alert Color="Color.Danger" Margin="Margin.Is4.FromTop">
+        <Alert Color="Color.Danger">
             <Div Flex="Flex.Column.Row.OnDesktop.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is2">
                 <Span>@loadError</Span>
                 <Button Color="Color.Primary" Clicked="@ReloadAsync">Retry</Button>
             </Div>
         </Alert>
     }
+    else if ( jobs.Count == 0 )
+    {
+        <Div TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
+            <Heading Size="HeadingSize.Is3">No open roles are listed right now</Heading>
+            <Paragraph TextColor="TextColor.Muted">Hiring a Blazor or .NET developer? Share your opportunity with the community.</Paragraph>
+            <Button Color="Color.Primary" Type="ButtonType.Link" To="/jobs/submit">Submit a job for free</Button>
+        </Div>
+    }
     else if ( filteredJobs.Count == 0 )
     {
-        <Alert Color="Color.Light" Margin="Margin.Is4.FromTop">
-            No jobs match your filters. Try clearing a filter or search term.
-        </Alert>
+        <Div TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
+            <Heading Size="HeadingSize.Is3">No roles match your search</Heading>
+            <Paragraph TextColor="TextColor.Muted">Try a different keyword or clear your filters to see all available roles.</Paragraph>
+            <Button Color="Color.Primary" Clicked="@ClearFilters">Clear filters</Button>
+        </Div>
     }
     else
     {
-        <Row RowColumns="RowColumns.Are1.Are2.OnDesktop.Are3.OnWidescreen" Margin="Margin.Is4.FromTop">
+        <Div Flex="Flex.Column" Gap="Gap.Is3">
             @foreach ( JobPost job in filteredJobs )
             {
-                <Column @key="@job.Id">
-                    <Card Height="Height.Is100" Shadow="Shadow.Default" Border="Border.Is0.Rounded">
-                        <CardBody>
-                            <Div Flex="Flex.Column" Gap="Gap.Is2">
-                                <Div Flex="Flex.JustifyContent.Between.AlignItems.Start" Gap="Gap.Is2">
-                                    <Div>
-                                        <Heading Size="HeadingSize.Is5" Margin="Margin.Is0">@job.Title</Heading>
-                                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is0.FromBottom">@job.Company</Paragraph>
-                                    </Div>
+                <Card @key="@job.Id" Shadow="Shadow.Small" Border="Border.Rounded">
+                    <CardBody Padding="Padding.Is4">
+                        <Row Flex="Flex.AlignItems.Center">
+                            <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop">
+                                <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading4" TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@job.Title</Heading>
+                                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is2.FromBottom">@job.Company</Paragraph>
+                                <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is2.FromBottom">
+                                    <Span TextColor="TextColor.Muted">@GetLocationText( job )</Span>
                                     @if ( job.Remote )
                                     {
                                         <Badge Color="Color.Primary" Subtle Pill>Remote</Badge>
                                     }
-                                </Div>
-                                <Div TextColor="TextColor.Muted" TextSize="TextSize.Small">
-                                    <Span>@GetLocationText( job )</Span>
-                                </Div>
-                                <Div Flex="Flex.Wrap" Gap="Gap.Is1">
                                     @if ( !string.IsNullOrWhiteSpace( job.EmploymentType ) )
                                     {
                                         <Badge Color="Color.Success" Subtle Pill>@job.EmploymentType</Badge>
@@ -130,34 +145,68 @@
                                         <Badge Color="Color.Dark" Subtle Pill>@job.Seniority</Badge>
                                     }
                                 </Div>
+                                @if ( !string.IsNullOrWhiteSpace( job.SalaryRange ) )
+                                {
+                                    <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is2.FromBottom">
+                                        Salary: @job.SalaryRange
+                                    </Paragraph>
+                                }
                                 @if ( job.Tags is not null && job.Tags.Count > 0 )
                                 {
-                                    <Div Flex="Flex.Wrap" Gap="Gap.Is1">
+                                    <Div Flex="Flex.Wrap" Gap="Gap.Is1" Margin="Margin.Is2.FromBottom">
                                         @foreach ( string tag in job.Tags )
                                         {
                                             if ( string.IsNullOrWhiteSpace( tag ) )
                                                 continue;
+
                                             <Badge Color="Color.Info" Subtle Pill>@tag</Badge>
                                         }
                                     </Div>
                                 }
-                                <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Margin="Margin.Is2.FromTop">
-                                    <Span TextColor="TextColor.Muted" TextSize="TextSize.Small">@FormatUpdatedText( job )</Span>
-                                    <Div Flex="Flex.Row" Gap="Gap.Is2">
-                                        <Button Color="Color.Secondary" Clicked="@(() => ShowDetails( job ))">Details</Button>
-                                        <Button Color="Color.Primary" Type="ButtonType.Link" To="@job.ApplyUrl" Target="Target.Blank">Apply</Button>
+                                <Span TextColor="TextColor.Muted" TextSize="TextSize.Small">@FormatUpdatedText( job )</Span>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is12.Is4.OnDesktop">
+                                <Div Flex="Flex.Column" Gap="Gap.Is2" Padding="Padding.Is3.OnY">
+                                    <Div Flex="Flex.Wrap.JustifyContent.End" Gap="Gap.Is2">
+                                        <Button Color="Color.Secondary" Outline Clicked="@(() => ShowDetails( job ))">View details</Button>
+                                        @if ( !string.IsNullOrWhiteSpace( job.ApplyUrl ) )
+                                        {
+                                            <Button Color="Color.Primary" Type="ButtonType.Link" To="@job.ApplyUrl" Target="Target.Blank">Apply</Button>
+                                        }
                                     </Div>
+                                    @if ( !string.IsNullOrWhiteSpace( job.ApplyUrl ) )
+                                    {
+                                        <Span TextColor="TextColor.Muted" TextSize="TextSize.Small" TextAlignment="TextAlignment.End">Apply opens an external site in a new tab.</Span>
+                                    }
                                 </Div>
-                            </Div>
-                        </CardBody>
-                    </Card>
-                </Column>
+                            </Column>
+                        </Row>
+                    </CardBody>
+                </Card>
             }
-        </Row>
+        </Div>
     }
 </Container>
 
-<Modal @bind-Visible="@detailsVisible" Size="ModalSize.Large" Centered>
+<Container Padding="Padding.Is5.OnY">
+    <Card Shadow="Shadow.Small" Border="Border.Rounded">
+        <CardBody Padding="Padding.Is4.Is5.OnDesktop">
+            <Row Flex="Flex.AlignItems.Center">
+                <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop">
+                    <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">Hiring Blazor or .NET developers?</Heading>
+                    <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Large">
+                        Reach the Blazorise community. Submit your role for review before it appears on the jobs board.
+                    </Paragraph>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is4.OnDesktop">
+                    <Button Color="Color.Primary" Size="Size.Large" Type="ButtonType.Link" To="/jobs/submit" TextOverflow="TextOverflow.Wrap">Submit a job for free</Button>
+                </Column>
+            </Row>
+        </CardBody>
+    </Card>
+</Container>
+
+<Modal @bind-Visible="@detailsVisible" Size="ModalSize.Large" Centered Scrollable>
     <ModalContent>
         <ModalHeader>
             <ModalTitle>@DetailsTitle</ModalTitle>
@@ -240,23 +289,25 @@
 
                 <Divider Margin="Margin.Is4.OnY" />
 
-                <Heading Size="HeadingSize.Is6">
+                <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading5">
                     Role description
                 </Heading>
 
-                <Div Height="Height.Rem( 15 ).Max( 15 )" Overflow="Overflow.Auto">
-                    @DescriptionMarkup
-                </Div>
+                @DescriptionMarkup
             }
         </ModalBody>
         <ModalFooter>
+            @if ( selectedJob is not null && !string.IsNullOrWhiteSpace( selectedJob.ApplyUrl ) )
+            {
+                <Span TextColor="TextColor.Muted" TextSize="TextSize.Small">Applications open on an external site in a new tab.</Span>
+            }
             <Button Color="Color.Secondary" Clicked="@HideDetails">
                 Close
             </Button>
             @if ( selectedJob is not null && !string.IsNullOrWhiteSpace( selectedJob.ApplyUrl ) )
             {
                 <Button Color="Color.Primary" Type="ButtonType.Link" To="@selectedJob.ApplyUrl" Target="Target.Blank">
-                    Apply for this Job
+                    Apply
                 </Button>
             }
         </ModalFooter>

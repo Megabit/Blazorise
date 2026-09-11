@@ -29,7 +29,7 @@ public partial class JobsPage
     private bool remoteOnly;
     private string selectedEmploymentType = AllFilterOption;
     private string selectedSeniority = AllFilterOption;
-    private JobsSortOption selectedSort = JobsSortOption.MostRecent;
+    private JobsSortOption selectedSort = JobsSortOption.RecentlyUpdated;
 
     private JobPost selectedJob;
     private bool detailsVisible;
@@ -41,6 +41,10 @@ public partial class JobsPage
     private IReadOnlyList<string> SeniorityOptions => seniorityOptions;
     private string DetailsTitle => selectedJob?.Title ?? "Job details";
     private MarkupString DescriptionMarkup => descriptionMarkup;
+    private bool HasActiveFilters => !string.IsNullOrWhiteSpace( searchText )
+        || remoteOnly
+        || !IsAllFilter( selectedEmploymentType )
+        || !IsAllFilter( selectedSeniority );
 
     protected override async Task OnInitializedAsync()
     {
@@ -97,6 +101,14 @@ public partial class JobsPage
         descriptionMarkup = default;
     }
 
+    private void ClearFilters()
+    {
+        searchText = string.Empty;
+        remoteOnly = false;
+        selectedEmploymentType = AllFilterOption;
+        selectedSeniority = AllFilterOption;
+    }
+
     private IReadOnlyList<JobPost> GetFilteredJobs()
     {
         IEnumerable<JobPost> query = jobs;
@@ -132,9 +144,9 @@ public partial class JobsPage
             return "No roles listed yet.";
 
         if ( filtered == total )
-            return $"{total.ToString( CultureInfo.InvariantCulture )} roles available";
+            return $"{total.ToString( CultureInfo.InvariantCulture )} {( total == 1 ? "role" : "roles" )} available";
 
-        return $"{filtered.ToString( CultureInfo.InvariantCulture )} of {total.ToString( CultureInfo.InvariantCulture )} roles";
+        return $"{filtered.ToString( CultureInfo.InvariantCulture )} of {total.ToString( CultureInfo.InvariantCulture )} {( total == 1 ? "role" : "roles" )}";
     }
 
     private List<JobPost> SortJobs( List<JobPost> items )
@@ -328,7 +340,7 @@ public partial class JobsPage
 
     private enum JobsSortOption
     {
-        MostRecent,
+        RecentlyUpdated,
         CompanyAscending
     }
 }
