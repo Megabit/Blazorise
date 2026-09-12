@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -19,6 +19,16 @@ public interface IJSDragDropModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask Initialize( ElementReference elementRef, string elementId );
+
+    /// <summary>
+    /// Updates the reorder animation options for a drop zone.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <param name="elementId">ID of the rendered element.</param>
+    /// <param name="dotNetObjectRef">Reference used to update the insertion point.</param>
+    /// <param name="options">Reorder animation options.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask UpdateOptions<T>( ElementReference elementRef, string elementId, DotNetObjectReference<T> dotNetObjectRef, DragDropJSOptions options ) where T : class;
 
     /// <summary>
     /// Initializes throttled events for drag and drop events.

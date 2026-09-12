@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.Tests.TestServices;
 using Bunit;
 using Microsoft.AspNetCore.Components;
@@ -56,6 +57,106 @@ public class DropZoneTest : BunitContext
         zone.DropNotAllowedClass.Should().BeNullOrEmpty();
         zone.OnlyZone.Should().BeFalse();
         zone.AllowReorder.Should().BeFalse();
+        zone.Animated.Should().BeFalse();
+        zone.AnimationDuration.Should().Be( 200 );
+    }
+
+    [Fact]
+    public void DropZone_AnimationOptions_UpdateAfterParameterChanges()
+    {
+        var comp = Render<DropZoneReorderComponent>();
+
+        JSInterop.VerifyNotInvoke( "updateOptions" );
+
+        comp.Render( parameters => parameters
+            .Add( x => x.Animated, true )
+            .Add( x => x.AnimationDuration, 400 ) );
+
+        AssertAnimationOptions( true, 400, 3 );
+
+        comp.Render( parameters => parameters.Add( x => x.AnimationDuration, -1 ) );
+        AssertAnimationOptions( false, 0, 6 );
+
+        comp.Render( parameters => parameters
+            .Add( x => x.AnimationDuration, 200 )
+            .Add( x => x.AllowReorder, false ) );
+        AssertAnimationOptions( false, 200, 9 );
+
+        comp.Render( parameters => parameters
+            .Add( x => x.AllowReorder, true )
+            .Add( x => x.OnlyZone, true ) );
+        AssertAnimationOptions( false, 200, 12 );
+
+        comp.Render( parameters => parameters.Add( x => x.OnlyZone, false ) );
+        AssertAnimationOptions( true, 200, 15 );
+
+        comp.Render( parameters => parameters.Add( x => x.Animated, false ) );
+        AssertAnimationOptions( false, 200, 18 );
+
+        void AssertAnimationOptions( bool animated, int duration, int count )
+        {
+            comp.WaitForAssertion( () =>
+            {
+                var invocations = JSInterop.Invocations["updateOptions"];
+                invocations.Should().HaveCount( count );
+
+                foreach ( var invocation in invocations.TakeLast( 3 ) )
+                {
+                    var options = Assert.IsType<DragDropJSOptions>( invocation.Arguments[3] );
+                    options.Animated.Should().Be( animated );
+                    options.AnimationDuration.Should().Be( duration );
+                }
+            } );
+        }
+    }
+
+    [Fact]
+    public async Task DropZone_AnimatedReorder_PreservesItemIdentityAndDropSemantics()
+    {
+        var comp = Render<DropZoneReorderComponent>( parameters => parameters.Add( x => x.Animated, true ) );
+        var zone = comp.FindComponents<DropZone<DropZoneReorderComponent.DropItem>>().First();
+        var container = comp.FindComponent<DropContainer<DropZoneReorderComponent.DropItem>>().Instance;
+        var selector = ".b-drop-zone-draggable:not(.draggable-preview-start)";
+        var items = zone.FindAll( selector );
+        var elementIds = items.ToDictionary( x => x.TextContent, x => x.Id );
+
+        await items[0].DragStartAsync( new DragEventArgs() );
+        await zone.InvokeAsync( () => zone.Instance.OnReorderDragOver( 2 ) );
+        await items[3].DragEnterAsync( new DragEventArgs() );
+
+        container.GetTransactionIndex().Should().Be( 2 );
+        comp.Instance.IndexHistory.Should().BeEmpty();
+
+        await zone.Find( ".b-drop-zone" ).DropAsync( new DragEventArgs() );
+
+        zone.FindAll( selector ).Select( x => x.TextContent ).Should().Equal( "Item 2", "Item 3", "Item 1", "Item 4" );
+        comp.Instance.IndexHistory.Should().Equal( 2 );
+
+        foreach ( var item in zone.FindAll( selector ) )
+        {
+            item.Id.Should().Be( elementIds[item.TextContent] );
+        }
+
+        // A delayed browser callback after the transaction ended must be harmless.
+        await zone.InvokeAsync( () => zone.Instance.OnReorderDragOver( 1 ) );
+        container.TransactionInProgress.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task DropZone_AnimatedReorder_CancelPreservesOrder()
+    {
+        var comp = Render<DropZoneReorderComponent>( parameters => parameters.Add( x => x.Animated, true ) );
+        var zone = comp.FindComponents<DropZone<DropZoneReorderComponent.DropItem>>().First();
+        var selector = ".b-drop-zone-draggable:not(.draggable-preview-start)";
+        var source = zone.FindAll( selector )[0];
+
+        await source.DragStartAsync( new DragEventArgs() );
+        await zone.InvokeAsync( () => zone.Instance.OnReorderDragOver( 2 ) );
+        await source.DragEndAsync( new DragEventArgs() );
+
+        zone.FindAll( selector ).Select( x => x.TextContent ).Should().Equal( "Item 1", "Item 2", "Item 3", "Item 4" );
+        comp.Instance.IndexHistory.Should().BeEmpty();
+        zone.Find( ".b-drop-zone" ).GetAttribute( "data-transaction-active" ).Should().Be( "false" );
     }
 
     [Fact]

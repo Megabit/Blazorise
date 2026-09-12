@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-26T08:20:20.0728155Z",
+  "generatedUtc": "2026-09-12T06:36:02.5553048Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -46323,6 +46323,22 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "If true, the reordering of the items will be enabled.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Animated",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "If true, animates item movement during reordering. Requires <strong>AllowReorder</strong>.     Respects the user's reduced motion preference.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AnimationDuration",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "200",
+          "summary": "Gets or sets the reorder animation duration, in milliseconds.     Values less than or equal to zero disable the animation.",
           "isBlazoriseEnum": false
         },
         {

@@ -68,7 +68,7 @@ public partial class _Draggable<TItem> : BaseComponent
 
     private void OnDragEnterHandler()
     {
-        if ( ParentContainer is null || ParentContainer.TransactionInProgress == false )
+        if ( ParentContainer is null || ParentContainer.TransactionInProgress == false || ParentZone?.ShouldAnimateReorder == true )
             return;
 
         ParentContainer.UpdateTransactionIndex( Index );
@@ -101,6 +101,14 @@ public partial class _Draggable<TItem> : BaseComponent
     #endregion
 
     #region Properties
+
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Gets the dragging state serialized for JavaScript.
+    /// </summary>
+    protected string DraggingString => dragging ? "true" : "false";
 
     /// <summary>
     /// The dropzone name this this draggable belongs to.
@@ -169,6 +177,11 @@ public partial class _Draggable<TItem> : BaseComponent
     /// Provides the reference to the parent <see cref="DropContainer{TItem}"/> component.
     /// </summary>
     [CascadingParameter] protected DropContainer<TItem> ParentContainer { get; set; }
+
+    /// <summary>
+    /// Provides the reference to the owning drop zone.
+    /// </summary>
+    [CascadingParameter] protected DropZone<TItem> ParentZone { get; set; }
 
     #endregion
 }

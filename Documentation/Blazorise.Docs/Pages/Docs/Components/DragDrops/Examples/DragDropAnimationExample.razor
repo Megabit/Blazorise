@@ -1,0 +1,54 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <Switch @bind-Value="animated">Animate reordering</Switch>
+</Field>
+<Field>
+    <FieldLabel>Animation duration</FieldLabel>
+    <Select TValue="int" @bind-Value="animationDuration">
+        <SelectItem TValue="int" Value="100">100 ms</SelectItem>
+        <SelectItem TValue="int" Value="200">200 ms</SelectItem>
+        <SelectItem TValue="int" Value="400">400 ms</SelectItem>
+        <SelectItem TValue="int" Value="800">800 ms</SelectItem>
+    </Select>
+</Field>
+
+<DropContainer TItem="DropItem" Items="@items" ItemsFilter="@(( item, dropZone ) => true)">
+    <ChildContent>
+        <DropZone TItem="DropItem"
+                  Name="Tasks"
+                  AllowReorder
+                  Animated="@animated"
+                  AnimationDuration="@animationDuration"
+                  Border="Border.Is1.Rounded"
+                  Padding="Padding.Is3">
+            <Heading Size="HeadingSize.Is5">Task priorities</Heading>
+        </DropZone>
+    </ChildContent>
+    <ItemTemplate>
+        <Card Margin="Margin.Is2.OnY" Shadow="Shadow.Small">
+            <CardBody Padding="Padding.Is3">
+                @context.Name
+            </CardBody>
+        </Card>
+    </ItemTemplate>
+</DropContainer>
+
+@code {
+    private bool animated = true;
+
+    private int animationDuration = 200;
+
+    private readonly List<DropItem> items = new()
+    {
+        new() { Name = "Review the proposal" },
+        new() { Name = "Plan the release" },
+        new() { Name = "Update the documentation" },
+        new() { Name = "Prepare the demo" },
+    };
+
+    public class DropItem
+    {
+        public string Name { get; init; }
+    }
+}

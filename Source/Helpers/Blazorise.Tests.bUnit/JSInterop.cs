@@ -386,6 +386,7 @@ public static class JSInterop
 
         var module = jsInterop.SetupModule( new JSDragDropModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
         module.SetupVoid( "initializeThrottledDragEvents", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
         module.SetupVoid( "destroyThrottledDragEvents", _ => true ).SetVoidResult();

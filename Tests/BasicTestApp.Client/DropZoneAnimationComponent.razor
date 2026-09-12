@@ -1,0 +1,6 @@
+<Button ElementId="toggle-animation" Clicked="@(() => animated = !animated)">Toggle animation</Button>
+<DropZoneReorderComponent Animated="@animated" AnimationDuration="1000" />
+
+@code {
+    private bool animated = true;
+}

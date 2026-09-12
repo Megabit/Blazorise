@@ -7,6 +7,7 @@ using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise;
@@ -39,6 +40,8 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
 
     private IEnumerable<TItem> items;
 
+    private DotNetObjectReference<DropZone<TItem>> dotNetObjectRef;
+
     #endregion
 
     #region Constructors
@@ -54,6 +57,26 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        var animationChanged = parameters.IsParameterChanged( Animated )
+            || parameters.IsParameterChanged( AnimationDuration )
+            || parameters.IsParameterChanged( AllowReorder )
+            || parameters.IsParameterChanged( OnlyZone );
+
+        if ( animationChanged )
+        {
+            shouldRerender = true;
+            DirtyClasses();
+
+            if ( Rendered )
+                ExecuteAfterRender( UpdateAnimationOptions );
+        }
+
+        await base.SetParametersAsync( parameters );
+    }
 
     /// <inheritdoc/>
     protected override void OnInitialized()
@@ -75,6 +98,9 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
         if ( firstRender )
         {
             await JSModule.Initialize( ElementRef, ElementId );
+
+            if ( ShouldAnimateReorder )
+                await UpdateAnimationOptions();
         }
 
         await base.OnAfterRenderAsync( firstRender );
@@ -134,6 +160,9 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
                 ParentContainer.RefreshRequested -= OnContainerRefreshRequested;
                 ParentContainer.TransactionIndexChanged -= OnContainerTransactionIndexChanged;
             }
+
+            DisposeDotNetObjectRef( dotNetObjectRef );
+            dotNetObjectRef = null;
         }
 
         await base.DisposeAsync( disposing );
@@ -141,6 +170,9 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
 
     private void OnContainerTransactionStarted( object sender, DraggableTransaction<TItem> e )
     {
+        shouldRerender = true;
+        DirtyClasses();
+
         if ( GetApplyDropClassesOnDragStarted() )
         {
             var dropResult = ItemCanBeDropped();
@@ -246,6 +278,23 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
         }
 
         DirtyClasses();
+    }
+
+    /// <summary>
+    /// Updates the insertion point using the unanimated item layout. Intended for JavaScript interop.
+    /// </summary>
+    /// <param name="index">Index of the item under the pointer, or -1 for the start of the zone.</param>
+    [JSInvokable]
+    public Task OnReorderDragOver( int index )
+    {
+        if ( ShouldAnimateReorder && ParentContainer?.TransactionInProgress == true
+            && index >= -1 && index < GetItems().Count() )
+        {
+            ParentContainer.UpdateTransactionZone( Name );
+            ParentContainer.UpdateTransactionIndex( index );
+        }
+
+        return Task.CompletedTask;
     }
 
     private async Task OnDropHandler()
@@ -416,6 +465,18 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
 
     private bool IsOrigin( int index ) => ParentContainer.IsOrigin( index, Name );
 
+    private async Task UpdateAnimationOptions()
+    {
+        if ( ShouldAnimateReorder )
+            dotNetObjectRef ??= CreateDotNetObjectRef( this );
+
+        await JSModule.UpdateOptions( ElementRef, ElementId, dotNetObjectRef, new()
+        {
+            Animated = ShouldAnimateReorder,
+            AnimationDuration = EffectiveAnimationDuration,
+        } );
+    }
+
     #endregion
 
     #region Properties
@@ -444,6 +505,26 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     /// Gets the placeholder template defined for this drop zone or its parent container.
     /// </summary>
     protected RenderFragment<TItem> EffectivePlaceholderTemplate => PlaceholderTemplate ?? ParentContainer?.PlaceholderTemplate;
+
+    /// <summary>
+    /// Gets the nonnegative animation duration, in milliseconds.
+    /// </summary>
+    protected int EffectiveAnimationDuration => Math.Max( 0, AnimationDuration );
+
+    /// <summary>
+    /// Indicates whether this zone should animate item movement during reordering.
+    /// </summary>
+    internal bool ShouldAnimateReorder => Animated && AllowReorder && !OnlyZone && EffectiveAnimationDuration > 0;
+
+    /// <summary>
+    /// Gets the transaction activity serialized for JavaScript.
+    /// </summary>
+    protected string TransactionActiveString => ParentContainer?.TransactionInProgress == true ? "true" : "false";
+
+    /// <summary>
+    /// Gets whether this is the current transaction zone serialized for JavaScript.
+    /// </summary>
+    protected string TransactionCurrentString => ParentContainer?.TransactionInProgress == true && ParentContainer.TransactionCurrentZoneName == Name ? "true" : "false";
 
     /// <summary>
     /// Placeholder class builder.
@@ -519,6 +600,18 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     /// If true, the reordering of the items will be enabled.
     /// </summary>
     [Parameter] public bool AllowReorder { get; set; }
+
+    /// <summary>
+    /// If true, animates item movement during reordering. Requires <see cref="AllowReorder"/>.
+    /// Respects the user's reduced motion preference.
+    /// </summary>
+    [Parameter] public bool Animated { get; set; }
+
+    /// <summary>
+    /// Gets or sets the reorder animation duration, in milliseconds.
+    /// Values less than or equal to zero disable the animation.
+    /// </summary>
+    [Parameter] public int AnimationDuration { get; set; } = 200;
 
     /// <summary>
     /// The callback that is raised when the order of items changed. Only if <see cref="AllowReorder"/> is enabled.
