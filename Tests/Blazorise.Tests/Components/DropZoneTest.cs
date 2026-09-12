@@ -58,42 +58,43 @@ public class DropZoneTest : BunitContext
         zone.OnlyZone.Should().BeFalse();
         zone.AllowReorder.Should().BeFalse();
         zone.Animated.Should().BeFalse();
+        zone.ShowPlaceholder.Should().BeNull();
         zone.AnimationDuration.Should().Be( 200 );
     }
 
     [Fact]
-    public void DropZone_AnimationOptions_UpdateAfterParameterChanges()
+    public void DropZone_ReorderOptions_UpdateAfterParameterChanges()
     {
         var comp = Render<DropZoneReorderComponent>();
 
-        JSInterop.VerifyNotInvoke( "updateOptions" );
+        AssertReorderOptions( true, false, 200, 3 );
 
         comp.Render( parameters => parameters
             .Add( x => x.Animated, true )
             .Add( x => x.AnimationDuration, 400 ) );
 
-        AssertAnimationOptions( true, 400, 3 );
+        AssertReorderOptions( true, true, 400, 6 );
 
         comp.Render( parameters => parameters.Add( x => x.AnimationDuration, -1 ) );
-        AssertAnimationOptions( false, 0, 6 );
+        AssertReorderOptions( true, false, 0, 9 );
 
         comp.Render( parameters => parameters
             .Add( x => x.AnimationDuration, 200 )
             .Add( x => x.AllowReorder, false ) );
-        AssertAnimationOptions( false, 200, 9 );
+        AssertReorderOptions( false, false, 200, 12 );
 
         comp.Render( parameters => parameters
             .Add( x => x.AllowReorder, true )
             .Add( x => x.OnlyZone, true ) );
-        AssertAnimationOptions( false, 200, 12 );
+        AssertReorderOptions( false, false, 200, 15 );
 
         comp.Render( parameters => parameters.Add( x => x.OnlyZone, false ) );
-        AssertAnimationOptions( true, 200, 15 );
+        AssertReorderOptions( true, true, 200, 18 );
 
         comp.Render( parameters => parameters.Add( x => x.Animated, false ) );
-        AssertAnimationOptions( false, 200, 18 );
+        AssertReorderOptions( true, false, 200, 21 );
 
-        void AssertAnimationOptions( bool animated, int duration, int count )
+        void AssertReorderOptions( bool allowReorder, bool animated, int duration, int count )
         {
             comp.WaitForAssertion( () =>
             {
@@ -103,6 +104,7 @@ public class DropZoneTest : BunitContext
                 foreach ( var invocation in invocations.TakeLast( 3 ) )
                 {
                     var options = Assert.IsType<DragDropJSOptions>( invocation.Arguments[3] );
+                    options.AllowReorder.Should().Be( allowReorder );
                     options.Animated.Should().Be( animated );
                     options.AnimationDuration.Should().Be( duration );
                 }
@@ -110,10 +112,15 @@ public class DropZoneTest : BunitContext
         }
     }
 
-    [Fact]
-    public async Task DropZone_AnimatedReorder_PreservesItemIdentityAndDropSemantics()
+    [Theory]
+    [InlineData( true, 200 )]
+    [InlineData( false, 200 )]
+    [InlineData( true, 0 )]
+    public async Task DropZone_Reorder_PreservesItemIdentityAndDropSemantics( bool animated, int duration )
     {
-        var comp = Render<DropZoneReorderComponent>( parameters => parameters.Add( x => x.Animated, true ) );
+        var comp = Render<DropZoneReorderComponent>( parameters => parameters
+            .Add( x => x.Animated, animated )
+            .Add( x => x.AnimationDuration, duration ) );
         var zone = comp.FindComponents<DropZone<DropZoneReorderComponent.DropItem>>().First();
         var container = comp.FindComponent<DropContainer<DropZoneReorderComponent.DropItem>>().Instance;
         var selector = ".b-drop-zone-draggable:not(.draggable-preview-start)";
@@ -150,10 +157,12 @@ public class DropZoneTest : BunitContext
         container.TransactionInProgress.Should().BeFalse();
     }
 
-    [Fact]
-    public async Task DropZone_AnimatedReorder_CancelPreservesOrder()
+    [Theory]
+    [InlineData( true )]
+    [InlineData( false )]
+    public async Task DropZone_Reorder_CancelPreservesOrder( bool animated )
     {
-        var comp = Render<DropZoneReorderComponent>( parameters => parameters.Add( x => x.Animated, true ) );
+        var comp = Render<DropZoneReorderComponent>( parameters => parameters.Add( x => x.Animated, animated ) );
         var zone = comp.FindComponents<DropZone<DropZoneReorderComponent.DropItem>>().First();
         var selector = ".b-drop-zone-draggable:not(.draggable-preview-start)";
         var source = zone.FindAll( selector )[0];
@@ -168,11 +177,13 @@ public class DropZoneTest : BunitContext
         source.HasAttribute( "data-reorder-source" ).Should().BeFalse();
     }
 
-    [Fact]
-    public async Task DropZone_AnimatedPlaceholder_TracksZoneAndPreservesCustomTemplate()
+    [Theory]
+    [InlineData( true )]
+    [InlineData( false )]
+    public async Task DropZone_Placeholder_TracksZoneAndPreservesCustomTemplate( bool animated )
     {
         var comp = Render<DropZoneReorderComponent>( parameters => parameters
-            .Add( x => x.Animated, true )
+            .Add( x => x.Animated, animated )
             .Add( x => x.PlaceholderTemplate, item => builder => builder.AddContent( 0, $"Move {item.Name} here" ) ) );
         var source = comp.Find( ".dropzone-1 .b-drop-zone-draggable:not(.draggable-preview-start)" );
 
@@ -192,6 +203,65 @@ public class DropZoneTest : BunitContext
 
         source.HasAttribute( "data-reorder-source" ).Should().BeFalse();
         comp.Find( ".dropzone-3 [data-reorder-placeholder='true']" ).ClassList.Should().Contain( "d-none" );
+    }
+
+    [Theory]
+    [InlineData( true, null, false, false )]
+    [InlineData( false, null, false, true )]
+    [InlineData( true, null, true, true )]
+    [InlineData( false, null, true, true )]
+    [InlineData( true, true, false, true )]
+    [InlineData( false, false, false, false )]
+    [InlineData( true, false, true, false )]
+    [InlineData( false, false, true, false )]
+    public async Task DropZone_ShowPlaceholder_ResolvesVisibility( bool animated, bool? showPlaceholder, bool hasTemplate, bool expected )
+    {
+        RenderFragment<DropZoneReorderComponent.DropItem> template = hasTemplate
+            ? item => builder => builder.AddContent( 0, $"Move {item.Name} here" )
+            : null;
+        var comp = Render<DropZoneReorderComponent>( parameters => parameters
+            .Add( x => x.Animated, animated )
+            .Add( x => x.ShowPlaceholder, showPlaceholder )
+            .Add( x => x.PlaceholderTemplate, template ) );
+
+        await comp.Find( ".dropzone-1 [data-index='0']" ).DragStartAsync( new DragEventArgs() );
+
+        var placeholder = comp.Find( ".dropzone-1 [data-reorder-placeholder='true']" );
+        placeholder.GetAttribute( "data-placeholder-visible" ).Should().Be( expected ? "true" : "false" );
+        placeholder.HasAttribute( "inert" ).Should().Be( !expected );
+        placeholder.ClassList.Should().NotContain( "d-none" );
+        placeholder.TextContent.Should().Be( hasTemplate ? "Move Item 1 here" : string.Empty );
+    }
+
+    [Theory]
+    [InlineData( true )]
+    [InlineData( false )]
+    public async Task DropZone_ShowPlaceholder_ChangesDuringReorderWithoutReplacingSlot( bool animated )
+    {
+        var comp = Render<DropZoneReorderComponent>( parameters => parameters
+            .Add( x => x.Animated, animated )
+            .Add( x => x.ShowPlaceholder, true )
+            .Add( x => x.PlaceholderTemplate, item => builder => builder.AddContent( 0, $"Move {item.Name} here" ) ) );
+        var zone = comp.FindComponents<DropZone<DropZoneReorderComponent.DropItem>>().First();
+
+        await zone.Find( "[data-index='0']" ).DragStartAsync( new DragEventArgs() );
+        await zone.InvokeAsync( () => zone.Instance.OnReorderDragOver( 2 ) );
+
+        var placeholder = zone.Find( "[data-reorder-placeholder='true']" );
+        comp.Render( parameters => parameters.Add( x => x.ShowPlaceholder, false ) );
+
+        zone.Find( "[data-reorder-placeholder='true']" ).Should().BeSameAs( placeholder );
+        placeholder.GetAttribute( "data-placeholder-visible" ).Should().Be( "false" );
+        placeholder.TextContent.Should().Be( "Move Item 1 here" );
+        placeholder.PreviousElementSibling.GetAttribute( "data-index" ).Should().Be( "2" );
+
+        comp.Render( parameters => parameters.Add( x => x.ShowPlaceholder, true ) );
+
+        placeholder.GetAttribute( "data-placeholder-visible" ).Should().Be( "true" );
+        placeholder.HasAttribute( "inert" ).Should().BeFalse();
+
+        await zone.Find( ".b-drop-zone" ).DropAsync( new DragEventArgs() );
+        comp.Instance.IndexHistory.Should().Equal( 2 );
     }
 
     [Fact]
@@ -278,47 +348,28 @@ public class DropZoneTest : BunitContext
         comp.Instance.IndexHistory.Distinct().Should().ContainSingle().And.Contain( 0 );
     }
 
-    [Fact]
-    public async Task DropZone_Reorder_NoPreviewOnSameItem()
+    [Theory]
+    [InlineData( 2 )]
+    [InlineData( 1 )]
+    public async Task DropZone_Reorder_PreservesSlotAtOriginalPosition( int index )
     {
         var comp = Render<DropZoneReorderComponent>();
+        var zone = comp.FindComponents<DropZone<DropZoneReorderComponent.DropItem>>().First();
+        var source = zone.Find( "[data-index='2']" );
 
-        comp.Find( ".b-drop-zone" );
-        var firstDropZone = comp.Find( ".dropzone-1" );
-        firstDropZone.Children.Should().HaveCount( 6 );
-        firstDropZone.Children[0].ClassList.Should().Contain( new[] { "d-none", "draggable-placeholder" } );
-        firstDropZone.Children[1].ClassList.Should().Contain( "draggable-preview-start" );
-        firstDropZone.Children[1].GetAttribute( "draggable" ).Should().Be( "false" );
-        firstDropZone.Children[2].TextContent.Should().Be( "Item 1" );
+        await source.DragStartAsync( new DragEventArgs() );
+        await zone.InvokeAsync( () => zone.Instance.OnReorderDragOver( index ) );
 
-        var thirdDropItem = firstDropZone.Children[4];
-        thirdDropItem.TextContent.Should().Be( "Item 3" );
-        await thirdDropItem.DragStartAsync( new DragEventArgs() );
+        source.GetAttribute( "data-reorder-source" ).Should().Be( "true" );
+        var placeholder = zone.Find( "[data-reorder-placeholder='true']" );
+        placeholder.ClassList.Should().NotContain( "d-none" );
+        placeholder.PreviousElementSibling.GetAttribute( "data-index" ).Should().Be( index.ToString() );
 
-        firstDropZone.Children.Should().HaveCount( 5 );
-        firstDropZone.Children[0].TextContent.Should().BeNullOrEmpty();
-        firstDropZone.Children[1].TextContent.Should().Be( "Item 1" );
-        firstDropZone.Children[2].TextContent.Should().Be( "Item 2" );
-        firstDropZone.Children[3].TextContent.Should().Be( "Item 3" );
-        firstDropZone.Children[4].TextContent.Should().Be( "Item 4" );
+        await zone.Find( ".b-drop-zone" ).DropAsync( new DragEventArgs() );
 
-        await firstDropZone.Children[3].DragEnterAsync( new DragEventArgs() );
-
-        firstDropZone.Children.Should().HaveCount( 5 );
-        firstDropZone.Children[0].TextContent.Should().BeNullOrEmpty();
-        firstDropZone.Children[1].TextContent.Should().Be( "Item 1" );
-        firstDropZone.Children[2].TextContent.Should().Be( "Item 2" );
-        firstDropZone.Children[3].TextContent.Should().Be( "Item 3" );
-        firstDropZone.Children[4].TextContent.Should().Be( "Item 4" );
-
-        await firstDropZone.Children[2].DragEnterAsync( new DragEventArgs() );
-
-        firstDropZone.Children.Should().HaveCount( 5 );
-        firstDropZone.Children[0].TextContent.Should().BeNullOrEmpty();
-        firstDropZone.Children[1].TextContent.Should().Be( "Item 1" );
-        firstDropZone.Children[2].TextContent.Should().Be( "Item 2" );
-        firstDropZone.Children[3].TextContent.Should().Be( "Item 3" );
-        firstDropZone.Children[4].TextContent.Should().Be( "Item 4" );
+        zone.FindAll( ".b-drop-zone-draggable:not(.draggable-preview-start)" )
+            .Select( x => x.TextContent ).Should().Equal( "Item 1", "Item 2", "Item 3", "Item 4" );
+        source.HasAttribute( "data-reorder-source" ).Should().BeFalse();
     }
 
     [Fact]
@@ -338,9 +389,9 @@ public class DropZoneTest : BunitContext
         secondDropItem.TextContent.Should().Be( "Item 2" );
         await secondDropItem.DragStartAsync( new DragEventArgs() );
 
-        var thirdDropItem = firstDropZone.Children[3];
+        var thirdDropItem = firstDropZone.QuerySelector( "[data-index='2']" );
         thirdDropItem.TextContent.Should().Be( "Item 3" );
-        await thirdDropItem.DragEnterAsync( new DragEventArgs() );
+        await ReorderOverAsync( comp, "1", 2 );
 
         firstDropZone.Children.Should().HaveCount( 6 );
         firstDropZone.Children[4].ClassList.Should().Contain( "draggable-placeholder" ).And.NotContain( "d-none" );
@@ -377,7 +428,7 @@ public class DropZoneTest : BunitContext
 
         var firstDropItem = firstDropZone.Children[1];
         firstDropItem.TextContent.Should().Be( "Item 1" );
-        await firstDropItem.DragEnterAsync( new DragEventArgs() );
+        await ReorderOverAsync( comp, "1", 0 );
 
         firstDropZone.Children.Should().HaveCount( 6 );
         firstDropZone.Children[2].ClassList.Should().Contain( "draggable-placeholder" ).And.NotContain( "d-none" );
@@ -412,9 +463,9 @@ public class DropZoneTest : BunitContext
         secondDropItem.TextContent.Should().Be( "Item 2" );
         await secondDropItem.DragStartAsync( new DragEventArgs() );
 
-        var lastDropItem = firstDropZone.Children[4];
+        var lastDropItem = firstDropZone.QuerySelector( "[data-index='3']" );
         lastDropItem.TextContent.Should().Be( "Item 4" );
-        await lastDropItem.DragEnterAsync( new DragEventArgs() );
+        await ReorderOverAsync( comp, "1", 3 );
 
         firstDropZone.Children.Should().HaveCount( 6 );
         firstDropZone.Children[5].ClassList.Should().Contain( "draggable-placeholder" ).And.NotContain( "d-none" );
@@ -452,7 +503,7 @@ public class DropZoneTest : BunitContext
 
         var firstDropItem = firstDropZone.Children[0];
         firstDropItem.TextContent.Should().BeEmpty();
-        await firstDropItem.DragEnterAsync( new DragEventArgs() );
+        await ReorderOverAsync( comp, "1", -1 );
 
         firstDropZone.Children.Should().HaveCount( 6 );
         firstDropZone.Children[0].ClassList.Should().Contain( "draggable-placeholder" ).And.NotContain( "d-none" );
@@ -482,13 +533,9 @@ public class DropZoneTest : BunitContext
         await secondDropItemInFirstZone.DragStartAsync( new DragEventArgs() );
         await secondDropZone.DragEnterAsync( new DragEventArgs() );
 
-        var secondDropItemInSecondZone = secondDropZone.Children.Single( x => x.TextContent == "Item 6" );
+        await ReorderOverAsync( comp, "2", 1 );
 
-        await secondDropItemInSecondZone.DragEnterAsync( new DragEventArgs() );
-
-        var firstDropItemInSecondZone = secondDropZone.Children.Single( x => x.TextContent == "Item 5" );
-
-        await firstDropItemInSecondZone.DragEnterAsync( new DragEventArgs() );
+        await ReorderOverAsync( comp, "2", 0 );
 
         secondDropZone.Children[2].ClassList.Should().Contain( "draggable-placeholder" ).And.NotContain( "d-none" );
 
@@ -523,7 +570,7 @@ public class DropZoneTest : BunitContext
 
         var firstItemInSecondDropZone = secondDropZone.Children[3];
         firstItemInSecondDropZone.TextContent.Should().Be( "Item 6" );
-        await firstItemInSecondDropZone.DragEnterAsync( new DragEventArgs() );
+        await ReorderOverAsync( comp, "2", 1 );
 
         secondDropZone.Children.Should().HaveCount( 4 );
         secondDropZone.Children[3].ClassList.Should().Contain( "draggable-placeholder" ).And.NotContain( "d-none" );
@@ -547,7 +594,7 @@ public class DropZoneTest : BunitContext
 
         await secondDropZone.Children[3].DragStartAsync( new DragEventArgs() );
         await firstDropZone.DragEnterAsync( new DragEventArgs() );
-        await firstDropZone.Children[3].DragEnterAsync( new DragEventArgs() );
+        await ReorderOverAsync( comp, "1", 1 );
         await firstDropZone.DropAsync( new DragEventArgs() );
 
         firstDropZone.Children.Should().HaveCount( 6 );
@@ -568,7 +615,7 @@ public class DropZoneTest : BunitContext
 
         await firstDropZone.Children[4].DragStartAsync( new DragEventArgs() );
         await secondDropZone.DragEnterAsync( new DragEventArgs() );
-        await secondDropZone.Children[3].DragEnterAsync( new DragEventArgs() );
+        await ReorderOverAsync( comp, "2", 1 );
         await secondDropZone.DropAsync( new DragEventArgs() );
 
         firstDropZone.Children.Should().HaveCount( 5 );
@@ -589,7 +636,7 @@ public class DropZoneTest : BunitContext
 
         await secondDropZone.Children[3].DragStartAsync( new DragEventArgs() );
         await firstDropZone.DragEnterAsync( new DragEventArgs() );
-        await firstDropZone.Children[2].DragEnterAsync( new DragEventArgs() );
+        await ReorderOverAsync( comp, "1", 0 );
         await firstDropZone.DropAsync( new DragEventArgs() );
 
         firstDropZone.Children.Should().HaveCount( 6 );
@@ -638,5 +685,13 @@ public class DropZoneTest : BunitContext
         returnedArgs.Should().NotBe( null );
         returnedArgs.SourceDropZoneName.Should().Be( "source_zone_name" );
         returnedArgs.DropZoneName.Should().Be( "destination_zone_name" );
+    }
+
+    private static Task ReorderOverAsync( IRenderedComponent<DropZoneReorderComponent> comp, string zoneName, int index )
+    {
+        var zone = comp.FindComponents<DropZone<DropZoneReorderComponent.DropItem>>()
+            .Single( x => x.Instance.Name == zoneName );
+
+        return zone.InvokeAsync( () => zone.Instance.OnReorderDragOver( index ) );
     }
 }

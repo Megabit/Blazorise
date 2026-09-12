@@ -61,18 +61,18 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        var animationChanged = parameters.IsParameterChanged( Animated )
+        var reorderChanged = parameters.IsParameterChanged( Animated )
             || parameters.IsParameterChanged( AnimationDuration )
             || parameters.IsParameterChanged( AllowReorder )
             || parameters.IsParameterChanged( OnlyZone );
 
-        if ( animationChanged )
+        if ( reorderChanged || parameters.IsParameterChanged( ShowPlaceholder ) )
         {
             shouldRerender = true;
             DirtyClasses();
 
-            if ( Rendered )
-                ExecuteAfterRender( UpdateAnimationOptions );
+            if ( reorderChanged && Rendered )
+                ExecuteAfterRender( UpdateReorderOptions );
         }
 
         await base.SetParametersAsync( parameters );
@@ -99,8 +99,8 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
         {
             await JSModule.Initialize( ElementRef, ElementId );
 
-            if ( ShouldAnimateReorder )
-                await UpdateAnimationOptions();
+            if ( CanReorder )
+                await UpdateReorderOptions();
         }
 
         await base.OnAfterRenderAsync( firstRender );
@@ -287,7 +287,7 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     [JSInvokable]
     public Task OnReorderDragOver( int index )
     {
-        if ( ShouldAnimateReorder && ParentContainer?.TransactionInProgress == true
+        if ( CanReorder && ParentContainer?.TransactionInProgress == true
             && index >= -1 && index < GetItems().Count() )
         {
             ParentContainer.UpdateTransactionZone( Name );
@@ -463,15 +463,14 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
         return indices[item];
     }
 
-    private bool IsOrigin( int index ) => ParentContainer.IsOrigin( index, Name );
-
-    private async Task UpdateAnimationOptions()
+    private async Task UpdateReorderOptions()
     {
-        if ( ShouldAnimateReorder )
+        if ( CanReorder )
             dotNetObjectRef ??= CreateDotNetObjectRef( this );
 
         await JSModule.UpdateOptions( ElementRef, ElementId, dotNetObjectRef, new()
         {
+            AllowReorder = CanReorder,
             Animated = ShouldAnimateReorder,
             AnimationDuration = EffectiveAnimationDuration,
         } );
@@ -514,7 +513,22 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     /// <summary>
     /// Indicates whether this zone should animate item movement during reordering.
     /// </summary>
-    internal bool ShouldAnimateReorder => Animated && AllowReorder && !OnlyZone && EffectiveAnimationDuration > 0;
+    private bool ShouldAnimateReorder => CanReorder && Animated && EffectiveAnimationDuration > 0;
+
+    /// <summary>
+    /// Indicates whether this zone can reorder its rendered items.
+    /// </summary>
+    internal bool CanReorder => AllowReorder && !OnlyZone;
+
+    /// <summary>
+    /// Gets whether the placeholder should be visible, preserving custom templates by default.
+    /// </summary>
+    protected bool EffectiveShowPlaceholder => ShowPlaceholder ?? ( !ShouldAnimateReorder || EffectivePlaceholderTemplate is not null );
+
+    /// <summary>
+    /// Gets the placeholder visibility serialized for CSS.
+    /// </summary>
+    protected string PlaceholderVisibleString => EffectiveShowPlaceholder ? "true" : "false";
 
     /// <summary>
     /// Gets the transaction activity serialized for JavaScript.
@@ -529,7 +543,7 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     /// <summary>
     /// Gets whether the placeholder reserves the dragged item's space, serialized for CSS and JavaScript.
     /// </summary>
-    protected string ReorderPlaceholderString => ShouldAnimateReorder ? "true" : null;
+    protected string ReorderPlaceholderString => CanReorder ? "true" : null;
 
     /// <summary>
     /// Placeholder class builder.
@@ -560,6 +574,12 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     /// The template used to render the placeholder for the item being reordered. The template receives the item currently being dragged and overrides the template defined by the parent container.
     /// </summary>
     [Parameter] public RenderFragment<TItem> PlaceholderTemplate { get; set; }
+
+    /// <summary>
+    /// Controls the visibility of the reorder placeholder's outline and content without removing its reserved space.
+    /// When null, the placeholder is visible for non-animated reordering or when a placeholder template is supplied.
+    /// </summary>
+    [Parameter] public bool? ShowPlaceholder { get; set; }
 
     /// <summary>
     /// Determines if the item is allowed to be dropped to this zone.

@@ -32,13 +32,13 @@ export function updateOptions(element, elementId, dotnetAdapter, options) {
 
     destroyReorderZone(element);
 
-    if (!options.animated || options.animationDuration <= 0 || !dotnetAdapter)
+    if (!options.allowReorder || !dotnetAdapter)
         return;
 
     const state = {
         element,
         dotnetAdapter,
-        duration: options.animationDuration,
+        duration: options.animated ? options.animationDuration : 0,
         items: new Map(),
         isActive: false,
         isCurrent: false,
@@ -122,12 +122,20 @@ function synchronizeItems(state) {
 
     const isActive = element.dataset.transactionActive === 'true';
     const isCurrent = element.dataset.transactionCurrent === 'true';
-    const shouldAnimate = (isActive || state.isActive) && !state.reducedMotion.matches;
+    const shouldAnimate = state.duration > 0 && (isActive || state.isActive) && !state.reducedMotion.matches;
 
     if (isActive && isCurrent && dragSource) {
+        const style = getComputedStyle(element);
+        const shouldReserveWidth = (style.display === 'flex' || style.display === 'inline-flex') && style.flexDirection.startsWith('row');
+
         // Size the slot before measuring the neighbors' new layout positions.
         for (const placeholder of element.querySelectorAll(':scope > [data-reorder-placeholder="true"]')) {
             for (const [property, value] of Object.entries(dragSource.placeholderStyles)) {
+                // Vertical slots stretch naturally. A captured pixel width increases
+                // the zone's intrinsic width and redistributes space between flex siblings.
+                if (property === 'width' && !shouldReserveWidth)
+                    continue;
+
                 if (placeholder.style[property] !== value) {
                     placeholder.style[property] = value;
                 }

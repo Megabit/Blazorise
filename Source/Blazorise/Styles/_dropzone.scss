@@ -35,6 +35,11 @@
     }
 
     .draggable-placeholder {
+        &[data-placeholder-visible="false"] {
+            visibility: hidden;
+            pointer-events: none;
+        }
+
         &:empty {
             outline: 2px dashed var(--b-theme-primary, "#0000FF") !important;
             padding: 1rem;
@@ -45,7 +50,6 @@
             max-width: 100%;
 
             &:empty {
-                outline: 0 !important;
                 padding: 0;
             }
         }

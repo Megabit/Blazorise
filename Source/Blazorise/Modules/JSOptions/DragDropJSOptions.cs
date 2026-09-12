@@ -1,10 +1,15 @@
 namespace Blazorise.Modules;
 
 /// <summary>
-/// Options for animating item movement in a drop zone.
+/// Options for reordering items in a drop zone.
 /// </summary>
 public class DragDropJSOptions
 {
+    /// <summary>
+    /// Gets or sets whether item reordering is enabled.
+    /// </summary>
+    public bool AllowReorder { get; set; }
+
     /// <summary>
     /// Gets or sets whether reorder animations are enabled.
     /// </summary>

@@ -59,6 +59,10 @@ hr.divider.divider-text::before {
   visibility: hidden;
   pointer-events: none;
 }
+.b-drop-zone .draggable-placeholder[data-placeholder-visible=false] {
+  visibility: hidden;
+  pointer-events: none;
+}
 .b-drop-zone .draggable-placeholder:empty {
   outline: 2px dashed var(--b-theme-primary, "#0000FF") !important;
   padding: 1rem;
@@ -68,7 +72,6 @@ hr.divider.divider-text::before {
   max-width: 100%;
 }
 .b-drop-zone .draggable-placeholder[data-reorder-placeholder=true]:empty {
-  outline: 0 !important;
   padding: 0;
 }
 .b-drop-zone .draggable-preview-start {

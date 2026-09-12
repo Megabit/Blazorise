@@ -2026,12 +2026,14 @@ namespace Blazorise.Docs.Models
     public sealed record WorkItem( int Id, string Name, string Group );
 }";
 
-        public const string DragDropAnimationExample = @"<Field>
+        public const string DragDropAnimationExample = @"<Field Display=""Display.Flex"" Flex=""Flex.Wrap.AlignItems.Center"" Gap=""Gap.Is3"">
     <Switch @bind-Value=""animated"">Animate reordering</Switch>
+    <Switch @bind-Value=""showPlaceholder"">Show placeholder</Switch>
 </Field>
 <Field>
     <FieldLabel>Animation duration</FieldLabel>
     <Select TValue=""int"" @bind-Value=""animationDuration"">
+        <SelectItem TValue=""int"" Value=""0"">No animation</SelectItem>
         <SelectItem TValue=""int"" Value=""100"">100 ms</SelectItem>
         <SelectItem TValue=""int"" Value=""200"">200 ms</SelectItem>
         <SelectItem TValue=""int"" Value=""400"">400 ms</SelectItem>
@@ -2044,6 +2046,7 @@ namespace Blazorise.Docs.Models
         <DropZone TItem=""DropItem""
                   Name=""Tasks""
                   AllowReorder
+                  ShowPlaceholder=""@showPlaceholder""
                   Animated=""@animated""
                   AnimationDuration=""@animationDuration""
                   Border=""Border.Is1.Rounded""
@@ -2063,6 +2066,8 @@ namespace Blazorise.Docs.Models
 @code {
     private bool animated = true;
 
+    private bool showPlaceholder;
+
     private int animationDuration = 200;
 
     private readonly List<DropItem> items = new()
@@ -2079,14 +2084,18 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string DragDropCustomPlaceholderExample = @"<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@(( item, dropZone ) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
+        public const string DragDropCustomPlaceholderExample = @"<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@(( item, dropZone ) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"">
     <ChildContent>
-        @foreach ( var dropZoneName in DropZoneNames )
-        {
-            <DropZone TItem=""DropItem"" Name=""@dropZoneName"" AllowReorder Border=""Border.Rounded"" Background=""Background.Light"" Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"">
-                <Heading Size=""HeadingSize.Is4"" Margin=""Margin.Is3.FromBottom"">@dropZoneName</Heading>
-            </DropZone>
-        }
+        <Row>
+            @foreach ( var dropZoneName in DropZoneNames )
+            {
+                <Column ColumnSize=""ColumnSize.Is12.OnMobile.Is6.OnDesktop"" Margin=""Margin.Is3.OnY"">
+                    <DropZone TItem=""DropItem"" Name=""@dropZoneName"" AllowReorder Border=""Border.Rounded"" Background=""Background.Light"" Padding=""Padding.Is3"" Height=""Height.Is100"">
+                        <Heading Size=""HeadingSize.Is4"" Margin=""Margin.Is3.FromBottom"">@dropZoneName</Heading>
+                    </DropZone>
+                </Column>
+            }
+        </Row>
     </ChildContent>
     <ItemTemplate>
         <Card Shadow=""Shadow.Default"" Margin=""Margin.Is2.OnY"">

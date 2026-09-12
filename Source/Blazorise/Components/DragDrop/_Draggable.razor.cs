@@ -69,7 +69,7 @@ public partial class _Draggable<TItem> : BaseComponent
 
     private void OnDragEnterHandler()
     {
-        if ( ParentContainer is null || ParentContainer.TransactionInProgress == false || ParentZone?.ShouldAnimateReorder == true )
+        if ( ParentContainer is null || ParentContainer.TransactionInProgress == false || ParentZone?.CanReorder == true )
             return;
 
         ParentContainer.UpdateTransactionIndex( Index );
@@ -114,7 +114,7 @@ public partial class _Draggable<TItem> : BaseComponent
     /// <summary>
     /// Indicates whether the transaction's source should leave its space to the reorder placeholder.
     /// </summary>
-    protected bool ShouldHideReorderSource => ParentZone?.ShouldAnimateReorder == true
+    protected bool ShouldHideReorderSource => ParentZone?.CanReorder == true
         && Index >= 0
         && ParentContainer?.TransactionInProgress == true
         && ParentContainer.TransactionSourceZoneName == ZoneName

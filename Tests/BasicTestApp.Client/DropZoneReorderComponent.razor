@@ -4,7 +4,7 @@
         {
             var dropzone = i.ToString();
 
-            <DropZone Class="@($"dropzone-{dropzone}")" TItem="DropItem" Name="@dropzone" AllowReorder="@AllowReorder" Animated="@Animated" AnimationDuration="@AnimationDuration" OnlyZone="@OnlyZone" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1" />
+            <DropZone Class="@($"dropzone-{dropzone}")" TItem="DropItem" Name="@dropzone" AllowReorder="@AllowReorder" Animated="@Animated" AnimationDuration="@AnimationDuration" ShowPlaceholder="@ShowPlaceholder" OnlyZone="@OnlyZone" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1" />
         }
     </ChildContent>
     <ItemTemplate>
@@ -17,6 +17,8 @@
 </DropContainer>
 @code {
     [Parameter] public bool Animated { get; set; }
+
+    [Parameter] public bool? ShowPlaceholder { get; set; }
 
     [Parameter] public int AnimationDuration { get; set; } = 200;
 

@@ -57,6 +57,7 @@
     <DocsPageSectionHeader Title="Reorder items">
         <Paragraph>
             Items can be reordered inside each dropzone with the <Code>AllowReorder</Code> bool set to true on the dropzone.
+            The dragged item leaves a slot that moves with the insertion point, with or without animation.
             The <Code>Reordered</Code> function triggers each time the order changes or items are added or removed from the dropzone, providing the current order in a dictionary.
         </Paragraph>
     </DocsPageSectionHeader>
@@ -69,10 +70,13 @@
     <DocsPageSectionHeader Title="Animated reordering">
         <Paragraph>
             Animated movement helps users follow where items will land as they reorder a list. Enable <Code>Animated</Code> together with <Code>AllowReorder</Code> on a <Code>DropZone</Code> to animate neighboring items around the insertion placeholder.
-            The dragged item leaves an empty slot that moves with the insertion point. Use <Code>PlaceholderTemplate</Code> to display custom content in that slot.
         </Paragraph>
         <Paragraph>
             Set <Code>AnimationDuration</Code> to control the movement duration in milliseconds. The default is <Code>200</Code>. Animations are disabled by default, and a duration of zero or less disables them. The user's reduced motion preference is respected automatically.
+        </Paragraph>
+        <Paragraph>
+            Set <Code>ShowPlaceholder="true"</Code> to show a dashed outline or your <Code>PlaceholderTemplate</Code> inside the moving slot. Set it to <Code>false</Code> to hide the outline and content while retaining the slot's space.
+            The default, <Code>null</Code>, shows the placeholder for non-animated reordering or when a custom template is supplied; otherwise, it leaves an empty slot. Use the controls below to compare visibility and animation independently.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="DragDropAnimationExample" Outlined FullWidth>
@@ -84,6 +88,9 @@
     <DocsPageSectionHeader Title="Custom placeholder">
         <Paragraph>
             Use <Code>PlaceholderTemplate</Code> to replace the default reorder indicator with custom content. The template receives the item being dragged and can be defined on the <Code>DropContainer</Code> or overridden by an individual <Code>DropZone</Code>.
+        </Paragraph>
+        <Paragraph>
+            This example places the zones in equal responsive columns so that longer placeholder content and changes in item count do not resize the zones during dragging.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="DragDropCustomPlaceholderExample" Outlined FullWidth>

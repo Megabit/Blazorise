@@ -1,13 +1,17 @@
 @namespace Blazorise.Docs.Docs.Examples
 
-<DropContainer TItem="DropItem" Items="@items" ItemsFilter="@(( item, dropZone ) => item.Group == dropZone)" ItemDropped="@ItemDropped" Flex="Flex.Wrap.Grow.Is1">
+<DropContainer TItem="DropItem" Items="@items" ItemsFilter="@(( item, dropZone ) => item.Group == dropZone)" ItemDropped="@ItemDropped">
     <ChildContent>
-        @foreach ( var dropZoneName in DropZoneNames )
-        {
-            <DropZone TItem="DropItem" Name="@dropZoneName" AllowReorder Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
-                <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">@dropZoneName</Heading>
-            </DropZone>
-        }
+        <Row>
+            @foreach ( var dropZoneName in DropZoneNames )
+            {
+                <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnDesktop" Margin="Margin.Is3.OnY">
+                    <DropZone TItem="DropItem" Name="@dropZoneName" AllowReorder Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Height="Height.Is100">
+                        <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">@dropZoneName</Heading>
+                    </DropZone>
+                </Column>
+            }
+        </Row>
     </ChildContent>
     <ItemTemplate>
         <Card Shadow="Shadow.Default" Margin="Margin.Is2.OnY">

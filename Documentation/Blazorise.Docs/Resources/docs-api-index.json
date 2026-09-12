@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-12T06:36:02.5553048Z",
+  "generatedUtc": "2026-09-12T09:56:23.2521090Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -46582,6 +46582,14 @@
           "defaultValue": "None",
           "summary": "Configures the shadow effect of the component.",
           "isBlazoriseEnum": true
+        },
+        {
+          "name": "ShowPlaceholder",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Controls the visibility of the reorder placeholder's outline and content without removing its reserved space.     When null, the placeholder is visible for non-animated reordering or when a placeholder template is supplied.",
+          "isBlazoriseEnum": false
         },
         {
           "name": "Style",

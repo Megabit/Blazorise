@@ -1,11 +1,13 @@
 @namespace Blazorise.Docs.Docs.Examples
 
-<Field>
+<Field Display="Display.Flex" Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is3">
     <Switch @bind-Value="animated">Animate reordering</Switch>
+    <Switch @bind-Value="showPlaceholder">Show placeholder</Switch>
 </Field>
 <Field>
     <FieldLabel>Animation duration</FieldLabel>
     <Select TValue="int" @bind-Value="animationDuration">
+        <SelectItem TValue="int" Value="0">No animation</SelectItem>
         <SelectItem TValue="int" Value="100">100 ms</SelectItem>
         <SelectItem TValue="int" Value="200">200 ms</SelectItem>
         <SelectItem TValue="int" Value="400">400 ms</SelectItem>
@@ -18,6 +20,7 @@
         <DropZone TItem="DropItem"
                   Name="Tasks"
                   AllowReorder
+                  ShowPlaceholder="@showPlaceholder"
                   Animated="@animated"
                   AnimationDuration="@animationDuration"
                   Border="Border.Is1.Rounded"
@@ -36,6 +39,8 @@
 
 @code {
     private bool animated = true;
+
+    private bool showPlaceholder;
 
     private int animationDuration = 200;
 
