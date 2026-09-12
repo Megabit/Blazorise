@@ -49,9 +49,27 @@ hr.divider.divider-text::before {
 .b-drop-zone-draggable:not(.draggable-preview-start):active {
   cursor: grabbing;
 }
+.b-drop-zone-draggable:not(.draggable-preview-start)[data-reorder-source=true] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
 .b-drop-zone .draggable-placeholder:empty {
   outline: 2px dashed var(--b-theme-primary, "#0000FF") !important;
   padding: 1rem;
+}
+.b-drop-zone .draggable-placeholder[data-reorder-placeholder=true] {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.b-drop-zone .draggable-placeholder[data-reorder-placeholder=true]:empty {
+  outline: 0 !important;
+  padding: 0;
 }
 .b-drop-zone .draggable-preview-start {
   height: 20px;
@@ -59,6 +77,14 @@ hr.divider.divider-text::before {
   position: relative;
   margin-bottom: -20px;
   z-index: 1;
+}
+.b-drop-zone-drag-image {
+  position: fixed;
+  top: 0;
+  left: -10000px;
+  box-sizing: border-box;
+  margin: 0;
+  pointer-events: none;
 }
 
 .b-file-picker {

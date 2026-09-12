@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -109,6 +110,20 @@ public partial class _Draggable<TItem> : BaseComponent
     /// Gets the dragging state serialized for JavaScript.
     /// </summary>
     protected string DraggingString => dragging ? "true" : "false";
+
+    /// <summary>
+    /// Indicates whether the transaction's source should leave its space to the reorder placeholder.
+    /// </summary>
+    protected bool ShouldHideReorderSource => ParentZone?.ShouldAnimateReorder == true
+        && Index >= 0
+        && ParentContainer?.TransactionInProgress == true
+        && ParentContainer.TransactionSourceZoneName == ZoneName
+        && EqualityComparer<TItem>.Default.Equals( Item, ParentContainer.GetTransactionItem() );
+
+    /// <summary>
+    /// Gets the reorder source state serialized for CSS and JavaScript.
+    /// </summary>
+    protected string ReorderSourceString => ShouldHideReorderSource ? "true" : null;
 
     /// <summary>
     /// The dropzone name this this draggable belongs to.

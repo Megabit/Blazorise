@@ -1,6 +1,7 @@
 import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=2.3.1.0";
 
 const reorderZones = new Map();
+let dragSource = null;
 
 export function initialize(element, elementId) {
     element = getRequiredElement(element, elementId);
@@ -74,7 +75,7 @@ export function updateOptions(element, elementId, dotnetAdapter, options) {
         childList: true,
         subtree: true,
         attributes: true,
-        attributeFilter: ['class', 'style', 'data-index', 'data-dragging', 'data-transaction-active', 'data-transaction-current']
+        attributeFilter: ['class', 'style', 'data-index', 'data-dragging', 'data-reorder-source', 'data-reorder-placeholder', 'data-transaction-active', 'data-transaction-current']
     });
     state.resizeObserver.observe(element);
     state.reducedMotion.addEventListener('change', state.onMotionChanged);
@@ -100,6 +101,10 @@ function destroyReorderZone(element) {
     }
 
     state.items.clear();
+
+    if (dragSource && !dragSource.element.isConnected) {
+        clearDragSource();
+    }
 }
 
 function cancelAnimation(item) {
@@ -118,13 +123,25 @@ function synchronizeItems(state) {
     const isActive = element.dataset.transactionActive === 'true';
     const isCurrent = element.dataset.transactionCurrent === 'true';
     const shouldAnimate = (isActive || state.isActive) && !state.reducedMotion.matches;
+
+    if (isActive && isCurrent && dragSource) {
+        // Size the slot before measuring the neighbors' new layout positions.
+        for (const placeholder of element.querySelectorAll(':scope > [data-reorder-placeholder="true"]')) {
+            for (const [property, value] of Object.entries(dragSource.placeholderStyles)) {
+                if (placeholder.style[property] !== value) {
+                    placeholder.style[property] = value;
+                }
+            }
+        }
+    }
+
     const zoneRect = element.getBoundingClientRect();
     const measurements = [];
 
     // Read all positions before starting any animations. Coordinates are relative
     // to the zone's scrollable content so scrolling is not mistaken for reordering.
     for (const child of element.children) {
-        if (!child.classList.contains('b-drop-zone-draggable'))
+        if (!child.classList.contains('b-drop-zone-draggable') || child.dataset.reorderSource === 'true')
             continue;
 
         const previous = state.items.get(child);
@@ -198,6 +215,10 @@ function synchronizeItems(state) {
             cancelAnimation(item);
             state.resizeObserver.unobserve(child);
         }
+    }
+
+    if (!isActive && state.isActive && dragSource?.zone === element) {
+        clearDragSource();
     }
 
     state.items = items;
@@ -287,6 +308,82 @@ function dragOverHandler(e) {
 
 function dragStartHandler(e) {
     e.dataTransfer.setData('', e.target.id);
+
+    const source = e.target.closest('.b-drop-zone-draggable');
+
+    if (!source || source.parentElement !== e.currentTarget || source.draggable !== true)
+        return;
+
+    clearDragSource();
+
+    const rect = source.getBoundingClientRect();
+    const style = getComputedStyle(source);
+    dragSource = {
+        element: source,
+        zone: e.currentTarget,
+        placeholderStyles: {
+            minHeight: `${rect.height}px`,
+            width: `${rect.width}px`,
+            marginTop: `${getCollapsedMargin(source, 'Top')}px`,
+            marginBottom: `${getCollapsedMargin(source, 'Bottom')}px`,
+            marginLeft: style.marginLeft,
+            marginRight: style.marginRight
+        }
+    };
+
+    source.addEventListener('dragend', clearDragSource, { once: true });
+    dragSource.cleanupId = registerDisconnectCleanup(source, clearDragSource);
+
+    if (reorderZones.has(e.currentTarget)) {
+        // The browser captures the drag image after dragstart. Give it a separate
+        // copy before Blazor hides the connected source element for reordering.
+        const dragImage = source.cloneNode(true);
+        dragImage.removeAttribute('id');
+        dragImage.removeAttribute('data-reorder-source');
+        dragImage.querySelectorAll('[id]').forEach(child => child.removeAttribute('id'));
+        dragImage.classList.add('b-drop-zone-drag-image');
+        dragImage.setAttribute('aria-hidden', 'true');
+        dragImage.inert = true;
+        dragImage.style.width = `${rect.width}px`;
+        dragImage.style.height = `${rect.height}px`;
+        document.body.appendChild(dragImage);
+        e.dataTransfer.setDragImage(dragImage, e.clientX - rect.left, e.clientY - rect.top);
+        dragSource.dragImage = dragImage;
+        dragSource.dragImageFrameId = requestAnimationFrame(() => dragImage.remove());
+    }
+}
+
+function getCollapsedMargin(element, side) {
+    const style = getComputedStyle(element);
+    const margin = parseFloat(style[`margin${side}`]) || 0;
+    const child = side === 'Top' ? element.firstElementChild : element.lastElementChild;
+
+    if (child && style.display === 'block' && style.overflow === 'visible'
+        && parseFloat(style[`padding${side}`]) === 0 && parseFloat(style[`border${side}Width`]) === 0) {
+        const edge = side.toLowerCase();
+
+        if (Math.abs(element.getBoundingClientRect()[edge] - child.getBoundingClientRect()[edge]) < 0.5) {
+            const childMargin = getCollapsedMargin(child, side);
+            return Math.max(0, margin, childMargin) + Math.min(0, margin, childMargin);
+        }
+    }
+
+    return margin;
+}
+
+function clearDragSource() {
+    if (!dragSource)
+        return;
+
+    dragSource.element.removeEventListener('dragend', clearDragSource);
+    unregisterDisconnectCleanup(dragSource.cleanupId);
+
+    if (dragSource.dragImage) {
+        cancelAnimationFrame(dragSource.dragImageFrameId);
+        dragSource.dragImage.remove();
+    }
+
+    dragSource = null;
 }
 
 function throttledDragHandler(e) {

@@ -527,6 +527,11 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     protected string TransactionCurrentString => ParentContainer?.TransactionInProgress == true && ParentContainer.TransactionCurrentZoneName == Name ? "true" : "false";
 
     /// <summary>
+    /// Gets whether the placeholder reserves the dragged item's space, serialized for CSS and JavaScript.
+    /// </summary>
+    protected string ReorderPlaceholderString => ShouldAnimateReorder ? "true" : null;
+
+    /// <summary>
     /// Placeholder class builder.
     /// </summary>
     protected ClassBuilder PlaceholderClassBuilder { get; private set; }

@@ -69,6 +69,7 @@
     <DocsPageSectionHeader Title="Animated reordering">
         <Paragraph>
             Animated movement helps users follow where items will land as they reorder a list. Enable <Code>Animated</Code> together with <Code>AllowReorder</Code> on a <Code>DropZone</Code> to animate neighboring items around the insertion placeholder.
+            The dragged item leaves an empty slot that moves with the insertion point. Use <Code>PlaceholderTemplate</Code> to display custom content in that slot.
         </Paragraph>
         <Paragraph>
             Set <Code>AnimationDuration</Code> to control the movement duration in milliseconds. The default is <Code>200</Code>. Animations are disabled by default, and a duration of zero or less disables them. The user's reduced motion preference is respected automatically.

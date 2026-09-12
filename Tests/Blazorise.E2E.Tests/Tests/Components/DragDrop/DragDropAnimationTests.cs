@@ -20,7 +20,7 @@ public class DragDropAnimationTests : BlazorisePageTest
 
         await Page.WaitForFunctionAsync( "selector => [...document.querySelectorAll(selector)].some(item => item.getAnimations().length > 0)", ".dropzone-1 " + ItemSelector );
 
-        var distance = await items.Nth( 3 ).EvaluateAsync<double>( """
+        var distance = await items.Nth( 1 ).EvaluateAsync<double>( """
             element => {
                 const animation = element.getAnimations()[0];
                 animation.pause();
@@ -44,6 +44,7 @@ public class DragDropAnimationTests : BlazorisePageTest
 
         await Expect( items ).ToHaveTextAsync( new[] { "Item 2", "Item 3", "Item 1", "Item 4" } );
         await Expect( items.Nth( 2 ) ).ToHaveAttributeAsync( "id", sourceId );
+        await Expect( items.Nth( 2 ) ).ToBeVisibleAsync();
         await Expect( zone ).ToHaveAttributeAsync( "data-transaction-active", "false" );
     }
 
@@ -58,7 +59,7 @@ public class DragDropAnimationTests : BlazorisePageTest
             await Page.Locator( "#toggle-animation" ).ClickAsync();
 
         var zone = Page.Locator( ".dropzone-1" );
-        await DragFirstItemOverThird( zone );
+        await DragFirstItemOverThird( zone, reducedMotion );
 
         var animationCount = await zone.EvaluateAsync<int>( "element => element.getAnimations({ subtree: true }).length" );
         Assert.That( animationCount, Is.Zero );
@@ -68,7 +69,23 @@ public class DragDropAnimationTests : BlazorisePageTest
         await Expect( zone.Locator( ItemSelector ) ).ToHaveTextAsync( new[] { "Item 2", "Item 3", "Item 1", "Item 4" } );
     }
 
-    private async Task DragFirstItemOverThird( ILocator zone )
+    [Test]
+    public async Task CancelingReorderRestoresSourceAndRemovesSlot()
+    {
+        await SelectTestComponent<DropZoneAnimationComponent>();
+
+        var zone = Page.Locator( ".dropzone-1" );
+        await DragFirstItemOverThird( zone );
+        await Page.Keyboard.PressAsync( "Escape" );
+        await Page.Mouse.UpAsync();
+
+        await Expect( zone ).ToHaveAttributeAsync( "data-transaction-active", "false" );
+        await Expect( zone.Locator( ItemSelector ).Nth( 0 ) ).ToBeVisibleAsync();
+        await Expect( zone.Locator( ".draggable-placeholder" ) ).ToBeHiddenAsync();
+        await Expect( zone.Locator( ItemSelector ) ).ToHaveTextAsync( new[] { "Item 1", "Item 2", "Item 3", "Item 4" } );
+    }
+
+    private async Task DragFirstItemOverThird( ILocator zone, bool animated = true )
     {
         var items = zone.Locator( ItemSelector );
         var source = await items.Nth( 0 ).BoundingBoxAsync();
@@ -78,10 +95,20 @@ public class DragDropAnimationTests : BlazorisePageTest
         await Page.Mouse.MoveAsync( source.X + source.Width / 2 + 10, source.Y + source.Height / 2, new() { Steps = 5 } );
         await Expect( items.Nth( 0 ) ).ToHaveAttributeAsync( "data-dragging", "true" );
 
+        if ( animated )
+        {
+            await Expect( items.Nth( 0 ) ).ToBeHiddenAsync();
+            var placeholder = zone.Locator( "[data-reorder-placeholder='true']" );
+            await Expect( placeholder ).ToBeVisibleAsync();
+            var slot = await placeholder.BoundingBoxAsync();
+            Assert.That( slot.Height, Is.EqualTo( source.Height ).Within( 1 ) );
+            await Expect( zone.Locator( ItemSelector + ":visible" ) ).ToHaveTextAsync( new[] { "Item 2", "Item 3", "Item 4" } );
+        }
+
         var target = await items.Nth( 2 ).BoundingBoxAsync();
 
         await Page.Mouse.MoveAsync( target.X + target.Width / 2, target.Y + target.Height / 2 );
         await Page.Mouse.MoveAsync( target.X + target.Width / 2 + 1, target.Y + target.Height / 2 );
-        await Expect( zone.Locator( ".draggable-placeholder" ) ).ToBeVisibleAsync();
+        await Expect( zone.Locator( "[data-index='2'] + .draggable-placeholder" ) ).ToBeVisibleAsync();
     }
 }

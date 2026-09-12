@@ -121,9 +121,16 @@ public class DropZoneTest : BunitContext
         var elementIds = items.ToDictionary( x => x.TextContent, x => x.Id );
 
         await items[0].DragStartAsync( new DragEventArgs() );
+
+        items[0].GetAttribute( "data-reorder-source" ).Should().Be( "true" );
+        var placeholder = zone.Find( "[data-reorder-placeholder='true']" );
+        placeholder.PreviousElementSibling.Should().BeSameAs( items[0] );
+        placeholder.ClassList.Should().NotContain( "d-none" );
+
         await zone.InvokeAsync( () => zone.Instance.OnReorderDragOver( 2 ) );
         await items[3].DragEnterAsync( new DragEventArgs() );
 
+        zone.Find( "[data-reorder-placeholder='true']" ).PreviousElementSibling.Should().BeSameAs( items[2] );
         container.GetTransactionIndex().Should().Be( 2 );
         comp.Instance.IndexHistory.Should().BeEmpty();
 
@@ -135,6 +142,7 @@ public class DropZoneTest : BunitContext
         foreach ( var item in zone.FindAll( selector ) )
         {
             item.Id.Should().Be( elementIds[item.TextContent] );
+            item.HasAttribute( "data-reorder-source" ).Should().BeFalse();
         }
 
         // A delayed browser callback after the transaction ended must be harmless.
@@ -157,6 +165,33 @@ public class DropZoneTest : BunitContext
         zone.FindAll( selector ).Select( x => x.TextContent ).Should().Equal( "Item 1", "Item 2", "Item 3", "Item 4" );
         comp.Instance.IndexHistory.Should().BeEmpty();
         zone.Find( ".b-drop-zone" ).GetAttribute( "data-transaction-active" ).Should().Be( "false" );
+        source.HasAttribute( "data-reorder-source" ).Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task DropZone_AnimatedPlaceholder_TracksZoneAndPreservesCustomTemplate()
+    {
+        var comp = Render<DropZoneReorderComponent>( parameters => parameters
+            .Add( x => x.Animated, true )
+            .Add( x => x.PlaceholderTemplate, item => builder => builder.AddContent( 0, $"Move {item.Name} here" ) ) );
+        var source = comp.Find( ".dropzone-1 .b-drop-zone-draggable:not(.draggable-preview-start)" );
+
+        await source.DragStartAsync( new DragEventArgs() );
+
+        comp.Find( ".dropzone-1 [data-reorder-placeholder='true']" ).TextContent.Should().Be( "Move Item 1 here" );
+
+        await comp.Find( ".dropzone-3" ).DragEnterAsync( new DragEventArgs() );
+
+        source.GetAttribute( "data-reorder-source" ).Should().Be( "true" );
+        comp.Find( ".dropzone-1 [data-reorder-placeholder='true']" ).ClassList.Should().Contain( "d-none" );
+        var placeholder = comp.Find( ".dropzone-3 [data-reorder-placeholder='true']" );
+        placeholder.TextContent.Should().Be( "Move Item 1 here" );
+        placeholder.ClassList.Should().NotContain( "d-none" );
+
+        await source.DragEndAsync( new DragEventArgs() );
+
+        source.HasAttribute( "data-reorder-source" ).Should().BeFalse();
+        comp.Find( ".dropzone-3 [data-reorder-placeholder='true']" ).ClassList.Should().Contain( "d-none" );
     }
 
     [Fact]

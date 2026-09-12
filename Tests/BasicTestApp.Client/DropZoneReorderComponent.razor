@@ -1,4 +1,4 @@
-<DropContainer TItem="DropItem" Items="@items" ItemsFilter="@((item, dropZone) => item.Group == dropZone)" ItemDropped="@ItemDropped" Flex="Flex.Wrap.Grow.Is1">
+<DropContainer TItem="DropItem" Items="@items" ItemsFilter="@((item, dropZone) => item.Group == dropZone)" ItemDropped="@ItemDropped" PlaceholderTemplate="@PlaceholderTemplate" Flex="Flex.Wrap.Grow.Is1">
     <ChildContent>
         @for ( int i = 1; i < 4; i++ )
         {
@@ -23,6 +23,8 @@
     [Parameter] public bool AllowReorder { get; set; } = true;
 
     [Parameter] public bool OnlyZone { get; set; }
+
+    [Parameter] public RenderFragment<DropItem> PlaceholderTemplate { get; set; }
 
     public class DropItem
     {
