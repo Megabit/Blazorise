@@ -33,3 +33,43 @@
         }
     }
 }
+
+.b-accordion-body,
+.b-collapse-body {
+    transition-property: height;
+    transition-duration: var(--tw-duration, var(--default-transition-duration, 150ms));
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function, cubic-bezier(.4, 0, .2, 1)));
+
+    @media (prefers-reduced-motion: reduce) {
+        transition-duration: 0s;
+    }
+}
+
+.b-accordion[data-animation-duration] > .b-accordion-item {
+    &,
+    > .b-accordion-body,
+    > .b-accordion-body > div,
+    > .b-accordion-header,
+    > .b-accordion-header .b-accordion-button,
+    > .b-accordion-header .b-accordion-button::after {
+        transition-duration: var(--tw-accordion-animation-duration);
+        transition-delay: 0s;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition-duration: 0s;
+        }
+    }
+}
+
+.b-collapse[data-animation-duration] {
+    > .b-collapse-body,
+    > .b-collapse-body > div,
+    > .b-collapse-header {
+        transition-duration: var(--tw-collapse-animation-duration);
+        transition-delay: 0s;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition-duration: 0s;
+        }
+    }
+}

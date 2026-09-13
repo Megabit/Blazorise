@@ -68,9 +68,28 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 
 ## Coding Style & Naming Conventions
 
-- Follow `.editorconfig`: 4-space indentation, CRLF endings, braces preferred, and prefer `var` whenever the type can be inferred; use an explicit type only when it cannot.
+- Follow `.editorconfig` for repository formatting such as 4-space indentation, CRLF endings, spacing, and brace placement.
+- Do not split handwritten classes across partial files (for example, `{Type}.Properties.cs` or `{Type}.Selection.cs`). Keep a class in one file and extract distinct responsibilities into separate types when needed. Partial declarations required by Razor or source generation are the only exception.
+- Prefer `var` whenever the type can be inferred; use an explicit type only when it cannot. This rule governs new and edited code even where older files or silent IDE preferences still use explicit locals.
 - Always preserve consistent `CRLF` line endings per file; never introduce mixed `LF`/`CRLF` endings in the same file.
 - Do not add a trailing newline at EOF, except in `*.css` and `*.scss` files; keep all other file endings without an extra line.
+- Keep a declaration or expression on one line when it represents one short, direct operation and remains easy to scan. Typical examples are auto-properties, expression-bodied properties and accessors, simple forwarding methods, compact record `with` expressions, and short initializers.
+- Use a block body when a member validates input, changes state, performs multiple operations, or benefits from named intermediate values. Do not compress stateful behavior merely to reduce line count.
+- There is no fixed maximum line length. Wrap code when its structure becomes easier to understand, not solely because it crosses an arbitrary column. Keep short signatures on one line; for long signatures, inheritance lists, argument lists, initializers, and fluent chains, place one structural item or operation on each continuation line.
+- When a Boolean condition spans multiple lines, keep the first operand on the opening line and begin continuation lines with `&&` or `||`. Indent nested condition groups one additional level.
+- Always use braces for `if`, `else`, `for`, `foreach`, `while`, and `using` bodies in new or substantially edited code, including single-statement bodies. Put `else`, `catch`, and `finally` on a new line after the preceding closing brace.
+- Prefer guard clauses and early returns to reduce nesting. Do not add an `else` after a branch that unconditionally returns, throws, continues, or breaks.
+- Use blank lines to separate semantic phases within a method, such as validation, calculation, state mutation, invalidation/rendering, and the final return. Keep tightly related statements together and do not insert blank lines between every statement.
+- Keep homogeneous operation sequences together, such as consecutive `builder.Append` calls or related event subscriptions. Add a blank line before a distinct operation such as a `base` call, return, or a new logical phase.
+- Separate fields and documented members with blank lines instead of creating dense declaration blocks. Do not use multiple declarations on one line.
+- Wrap explicit C# `using` directives in a `Using directives` region. Sort `System` directives first and do not create blank-line subgroups inside that region.
+- Use regions to organize substantial component and service types in this order: `Events` when applicable, `Members`, `Constructors`, `Methods`, and `Properties`. Small data-only types do not need empty or artificial regions.
+- Place simple parameter and injected auto-properties on one line with their attribute, for example `[Parameter] public bool Disabled { get; set; }`. Put the attribute on its own line when the property has a custom accessor body.
+- Use expression-bodied members for properties, accessors, and methods that perform one direct expression. If the declaration is long, place `=>` on the following indented line. Do not use expression bodies for multi-step logic.
+- Prefer `is null`, `is not null`, property patterns, null propagation, and null coalescing over verbose null checks or casts followed by null checks.
+- Keep object and collection initializers multiline when they contain several meaningful entries, and include a trailing comma in multiline initializers. A short initializer that represents one compact value may remain on one line.
+- Keep `switch` labels indented one level inside the switch, with statements indented one further level. Do not insert blank lines between short, structurally identical cases; use blank lines only to separate materially different case groups.
+- Wrap LINQ and render-tree fluent chains with one operation per line once the chain no longer reads clearly as a single expression.
 - When editing `*.scss` files, do not manually edit generated `*.css` files; CSS will be generated manually by the team.
 - In `*.scss` files, use native SCSS syntax to reduce repetition: group selectors that share declarations, nest related descendants, modifiers, states, and pseudo-selectors under their common parent with `&`, and use loops, maps, or mixins for repeated rule families.
 - Keep SCSS nesting logical and reasonably shallow, and preserve the compiled selector specificity, cascade order, and behavior; do not nest unrelated selectors merely because they appear in the same file.
@@ -105,6 +124,9 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 - When renaming a component parameter while retaining the old name as an obsolete compatibility alias, proxy the alias directly to the canonical parameter (for example, `get => Text; set => Text = value;`). Do not introduce a separate backing field or an `Effective{Name}` member solely for the alias. Supplying both parameter names in the same render is unsupported; do not define precedence between them.
 - Maintain a single owner for component state. Descendants should consume parent state through cascading state rather than expose parameters that can create conflicting states.
 - Route user interaction, public methods, parameter updates, and two-way binding through the same component lifecycle and event semantics.
+- Always bind Razor events to named `On{Name}Handler` entry methods. Use `Handle{Name}` for overridable behavior invoked by those handlers. When argument conversion is needed, perform it in the entry method before calling the behavior method. Do not bind events directly to `Handle{Name}`, overload an entry-method name with different argument types, or resolve method-group ambiguity with lambdas or new forwarding members.
+- Provider-specific component overrides must inherit the closest applicable shared implementation so common behavior is implemented once. Keep provider overrides focused on provider-specific markup, styling, and behavior. 
+- Keep shared component options and service contracts focused on component behavior rather than browser implementation details. Translate them into JavaScript option models, CSS selectors, class names, and DOM properties within the browser interop layer. Do not expose those details through shared component contracts merely because the existing JavaScript implementation requires them.
 - Add state fields only when their values cannot be derived from existing parameters, lifecycle, or collections. Keep one source of truth, and avoid parallel collections, cached values, and pending-render flags when simple checks or Blazor render coalescing are sufficient.
 - For fixed cascading parents that own the child subtree, register children in `OnInitialized` and unregister during disposal; do not track previous parents unless the child can demonstrably survive a parent change.
 - Keep backing fields only when the raw parameter value and its effective rendered value genuinely differ.

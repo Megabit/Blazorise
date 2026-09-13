@@ -100,3 +100,34 @@
         }
     }
 }
+
+.fui-Accordion[data-animation-duration] > .fui-AccordionItem {
+    &,
+    > .fui-AccordionPanel,
+    > .fui-AccordionPanel > .fui-AccordionPanel__content,
+    > .fui-AccordionHeader,
+    > .fui-AccordionHeader .fui-AccordionHeader__button,
+    > .fui-AccordionHeader .fui-AccordionHeader__button::after,
+    > .fui-AccordionHeader .fui-AccordionHeader__expandIcon > svg {
+        transition-duration: var(--fui-accordion-animation-duration);
+        transition-delay: 0s;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition-duration: 0s;
+        }
+    }
+}
+
+.fui-AccordionItem[data-animation-duration] {
+    > .fui-AccordionPanel,
+    > .fui-AccordionPanel > .card-body,
+    > .fui-AccordionHeader,
+    > .fui-AccordionHeader .fui-AccordionHeader__expandIcon > svg {
+        transition-duration: var(--fui-collapse-animation-duration);
+        transition-delay: 0s;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition-duration: 0s;
+        }
+    }
+}

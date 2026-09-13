@@ -681,6 +681,40 @@ body {
   padding-block: 0.75rem 1rem;
 }
 
+.mui-accordion[data-animation-duration] > .mui-accordion-item,
+.mui-accordion[data-animation-duration] > .mui-accordion-item > .mui-accordion-body,
+.mui-accordion[data-animation-duration] > .mui-accordion-item > .mui-accordion-body > .mui-accordion-body-content,
+.mui-accordion[data-animation-duration] > .mui-accordion-item > .mui-accordion-header,
+.mui-accordion[data-animation-duration] > .mui-accordion-item > .mui-accordion-header .mui-accordion-toggle,
+.mui-accordion[data-animation-duration] > .mui-accordion-item > .mui-accordion-header .mui-accordion-toggle::after {
+  transition-duration: var(--mui-accordion-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mui-accordion[data-animation-duration] > .mui-accordion-item,
+  .mui-accordion[data-animation-duration] > .mui-accordion-item > .mui-accordion-body,
+  .mui-accordion[data-animation-duration] > .mui-accordion-item > .mui-accordion-body > .mui-accordion-body-content,
+  .mui-accordion[data-animation-duration] > .mui-accordion-item > .mui-accordion-header,
+  .mui-accordion[data-animation-duration] > .mui-accordion-item > .mui-accordion-header .mui-accordion-toggle,
+  .mui-accordion[data-animation-duration] > .mui-accordion-item > .mui-accordion-header .mui-accordion-toggle::after {
+    transition-duration: 0s;
+  }
+}
+
+.mui-collapse[data-animation-duration] > .mui-collapse-body,
+.mui-collapse[data-animation-duration] > .mui-collapse-body > .mui-collapse-body-content,
+.mui-collapse[data-animation-duration] > .mui-collapse-header {
+  transition-duration: var(--mui-collapse-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mui-collapse[data-animation-duration] > .mui-collapse-body,
+  .mui-collapse[data-animation-duration] > .mui-collapse-body > .mui-collapse-body-content,
+  .mui-collapse[data-animation-duration] > .mui-collapse-header {
+    transition-duration: 0s;
+  }
+}
+
 .mui-alert {
   position: relative;
   display: block;

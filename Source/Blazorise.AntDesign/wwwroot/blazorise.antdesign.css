@@ -1391,6 +1391,44 @@ template {
   box-shadow: none;
 }
 
+.ant-collapse[data-animation-duration] > .ant-collapse-item,
+.ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-panel,
+.ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-panel > .ant-collapse-body,
+.ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header,
+.ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header .ant-accordion-toggle,
+.ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header .ant-accordion-toggle::after,
+.ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow > svg {
+  transition-duration: var(--ant-accordion-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ant-collapse[data-animation-duration] > .ant-collapse-item,
+  .ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-panel,
+  .ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-panel > .ant-collapse-body,
+  .ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header,
+  .ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header .ant-accordion-toggle,
+  .ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header .ant-accordion-toggle::after,
+  .ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow > svg {
+    transition-duration: 0s;
+  }
+}
+
+.ant-collapse-item[data-animation-duration] > .ant-collapse-panel,
+.ant-collapse-item[data-animation-duration] > .ant-collapse-panel > .ant-collapse-body,
+.ant-collapse-item[data-animation-duration] > .ant-collapse-header,
+.ant-collapse-item[data-animation-duration] > .ant-collapse-header .ant-collapse-arrow > svg {
+  transition-duration: var(--ant-collapse-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ant-collapse-item[data-animation-duration] > .ant-collapse-panel,
+  .ant-collapse-item[data-animation-duration] > .ant-collapse-panel > .ant-collapse-body,
+  .ant-collapse-item[data-animation-duration] > .ant-collapse-header,
+  .ant-collapse-item[data-animation-duration] > .ant-collapse-header .ant-collapse-arrow > svg {
+    transition-duration: 0s;
+  }
+}
+
 .ant-tag-pill {
   padding-inline: 0.6em;
   border-radius: 10rem;

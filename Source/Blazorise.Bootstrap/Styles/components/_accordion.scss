@@ -1,0 +1,32 @@
+.accordion[data-animation-duration] > .card {
+    &,
+    > .collapse,
+    > .collapse > .card-body,
+    > .collapsing,
+    > .collapsing > .card-body,
+    > .card-header,
+    > .card-header .btn,
+    > .card-header .btn::after {
+        transition-duration: var(--accordion-animation-duration);
+        transition-delay: 0s;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition-duration: 0s;
+        }
+    }
+}
+
+.card[data-animation-duration] {
+    > .collapse,
+    > .collapsing,
+    > .collapse > .card-body,
+    > .collapsing > .card-body,
+    > .card-header {
+        transition-duration: var(--collapse-animation-duration);
+        transition-delay: 0s;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition-duration: 0s;
+        }
+    }
+}

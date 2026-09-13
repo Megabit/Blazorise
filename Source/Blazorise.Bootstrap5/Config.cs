@@ -48,6 +48,8 @@ public static class Config
 
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
+        { typeof( Blazorise.AccordionBody ), typeof( Components.AccordionBody ) },
+        { typeof( Blazorise.CollapseBody ), typeof( Components.CollapseBody ) },
         { typeof( Blazorise.AccordionToggle ), typeof( Components.AccordionToggle ) },
         { typeof( Blazorise.Addon ), typeof( Components.Addon ) },
         { typeof( Blazorise.Addons ), typeof( Components.Addons ) },

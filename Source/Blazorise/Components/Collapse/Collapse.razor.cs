@@ -1,6 +1,8 @@
 #region Using directives
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -21,12 +23,29 @@ public partial class Collapse : BaseComponent, IDisposable
     #region Methods
 
     /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.IsParameterChanged( Animated ) || parameters.IsParameterChanged( AnimationDuration ) )
+            DirtyStyles();
+
+        await base.SetParametersAsync( parameters );
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Collapse() );
         builder.Append( ClassProvider.CollapseActive( Visible ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.CollapseAnimationDuration( EffectiveAnimationDuration ) );
+
+        base.BuildStyles( builder );
     }
 
     /// <summary>
@@ -61,6 +80,27 @@ public partial class Collapse : BaseComponent, IDisposable
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the duration override, or null to retain the provider's default timing.
+    /// </summary>
+    protected int? EffectiveAnimationDuration => !Animated ? 0 : AnimationDuration.HasValue ? Math.Max( 0, AnimationDuration.Value ) : null;
+
+    /// <summary>
+    /// Gets the animation duration serialized for markup.
+    /// </summary>
+    protected string AnimationDurationString => EffectiveAnimationDuration?.ToString( CultureInfo.InvariantCulture );
+
+    /// <summary>
+    /// Enables the transitions supplied by the CSS provider. Set to false for immediate changes.
+    /// </summary>
+    [Parameter] public bool Animated { get; set; } = true;
+
+    /// <summary>
+    /// Overrides the provider's animation duration, in milliseconds. Null preserves the provider's default.
+    /// Zero or a negative value disables transitions.
+    /// </summary>
+    [Parameter] public int? AnimationDuration { get; set; }
 
     /// <summary>
     /// Specifies the collapse visibility state.

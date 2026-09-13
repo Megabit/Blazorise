@@ -51,6 +51,7 @@ public static class Configuration
         services.AddScoped<IJSFocusTrapModule, JSFocusTrapModule>();
         services.AddScoped<IJSButtonModule, JSButtonModule>();
         services.AddScoped<IJSClosableModule, JSClosableModule>();
+        services.AddScoped<IJSCollapseModule, JSCollapseModule>();
         services.AddScoped<IJSBreakpointModule, JSBreakpointModule>();
         services.AddScoped<IJSDocumentObserverModule, JSDocumentObserverModule>();
         services.AddScoped<IJSTextInputModule, JSTextInputModule>();

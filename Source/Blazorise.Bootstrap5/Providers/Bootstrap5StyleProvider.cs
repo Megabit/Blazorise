@@ -11,6 +11,20 @@ public class Bootstrap5StyleProvider : StyleProvider
 
     #endregion
 
+    #region Accordion
+
+    public override string AccordionAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--bs-accordion-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Collapse
+
+    public override string CollapseAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--bs-collapse-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 1055;

@@ -8,6 +8,39 @@ namespace Blazorise.Docs.Models
 {
     public static partial class Snippets
     {
+        public const string AccordionAnimationExample = @"<Field>
+    <Switch @bind-Value=""animated"">Animate transitions</Switch>
+</Field>
+<Field>
+    <FieldLabel>Animation duration</FieldLabel>
+    <Select TValue=""int?"" @bind-Value=""animationDuration"">
+        <SelectItem TValue=""int?"" Value=""@((int?)null)"">Provider default</SelectItem>
+        <SelectItem TValue=""int?"" Value=""0"">Immediate</SelectItem>
+        <SelectItem TValue=""int?"" Value=""100"">100 ms</SelectItem>
+        <SelectItem TValue=""int?"" Value=""200"">200 ms</SelectItem>
+        <SelectItem TValue=""int?"" Value=""400"">400 ms</SelectItem>
+    </Select>
+</Field>
+
+<Accordion Animated=""@animated"" AnimationDuration=""@animationDuration"">
+    <AccordionItem @bind-Visible=""visible"">
+        <AccordionHeader>
+            <AccordionToggle>Machine settings</AccordionToggle>
+        </AccordionHeader>
+        <AccordionBody>
+            Adjust the operating settings before starting the next production run.
+        </AccordionBody>
+    </AccordionItem>
+</Accordion>
+
+@code {
+    private bool animated = true;
+
+    private int? animationDuration;
+
+    private bool visible = true;
+}";
+
         public const string BasicAccordionExample = @"<Accordion>
     <AccordionItem @bind-Visible=""@accordionItem1Visible"">
         <AccordionHeader>
@@ -1332,6 +1365,39 @@ namespace Blazorise.Docs.Models
 
         return Task.CompletedTask;
     }
+}";
+
+        public const string CollapseAnimationExample = @"<Field>
+    <Switch @bind-Value=""animated"">Animate transitions</Switch>
+</Field>
+<Field>
+    <FieldLabel>Animation duration</FieldLabel>
+    <Select TValue=""int?"" @bind-Value=""animationDuration"">
+        <SelectItem TValue=""int?"" Value=""@((int?)null)"">Provider default</SelectItem>
+        <SelectItem TValue=""int?"" Value=""0"">Immediate</SelectItem>
+        <SelectItem TValue=""int?"" Value=""100"">100 ms</SelectItem>
+        <SelectItem TValue=""int?"" Value=""200"">200 ms</SelectItem>
+        <SelectItem TValue=""int?"" Value=""400"">400 ms</SelectItem>
+    </Select>
+</Field>
+
+<Collapse Animated=""@animated"" AnimationDuration=""@animationDuration"" @bind-Visible=""visible"">
+    <CollapseHeader>
+        <Button Color=""Color.Primary"" Clicked=""@(() => visible = !visible)"">Toggle settings</Button>
+    </CollapseHeader>
+    <CollapseBody>
+        <Paragraph Margin=""Margin.Is0"">
+            Adjust the operating settings before starting the next production run.
+        </Paragraph>
+    </CollapseBody>
+</Collapse>
+
+@code {
+    private bool animated = true;
+
+    private int? animationDuration;
+
+    private bool visible = true;
 }";
 
         public const string CollapseBasicExample = @"<Collapse @bind-Visible=""@visible"">

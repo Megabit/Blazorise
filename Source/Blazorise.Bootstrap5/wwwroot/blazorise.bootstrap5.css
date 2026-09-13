@@ -36,6 +36,44 @@ body:before {
     content: "quadhd";
   }
 }
+.accordion[data-animation-duration] > .accordion-item,
+.accordion[data-animation-duration] > .accordion-item > .accordion-collapse,
+.accordion[data-animation-duration] > .accordion-item > .accordion-collapse > .accordion-body,
+.accordion[data-animation-duration] > .accordion-item > .accordion-header,
+.accordion[data-animation-duration] > .accordion-item > .accordion-header .accordion-button,
+.accordion[data-animation-duration] > .accordion-item > .accordion-header .accordion-button::after {
+  transition-duration: var(--bs-accordion-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .accordion[data-animation-duration] > .accordion-item,
+  .accordion[data-animation-duration] > .accordion-item > .accordion-collapse,
+  .accordion[data-animation-duration] > .accordion-item > .accordion-collapse > .accordion-body,
+  .accordion[data-animation-duration] > .accordion-item > .accordion-header,
+  .accordion[data-animation-duration] > .accordion-item > .accordion-header .accordion-button,
+  .accordion[data-animation-duration] > .accordion-item > .accordion-header .accordion-button::after {
+    transition-duration: 0s;
+  }
+}
+
+.card[data-animation-duration] > .collapse,
+.card[data-animation-duration] > .collapsing,
+.card[data-animation-duration] > .collapse > .card-body,
+.card[data-animation-duration] > .collapsing > .card-body,
+.card[data-animation-duration] > .card-header {
+  transition-duration: var(--bs-collapse-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .card[data-animation-duration] > .collapse,
+  .card[data-animation-duration] > .collapsing,
+  .card[data-animation-duration] > .collapse > .card-body,
+  .card[data-animation-duration] > .collapsing > .card-body,
+  .card[data-animation-duration] > .card-header {
+    transition-duration: 0s;
+  }
+}
+
 .badge-close {
   cursor: pointer;
 }

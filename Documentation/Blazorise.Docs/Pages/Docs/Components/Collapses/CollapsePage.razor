@@ -76,6 +76,22 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Animation">
+        <Paragraph>
+            Set <Code>Animated="false"</Code> for immediate transitions, or use <Code>AnimationDuration</Code> to adjust their duration in milliseconds.
+            A duration of zero or less disables transitions. Leaving the duration unset preserves the selected CSS provider's timing.
+        </Paragraph>
+        <Paragraph>
+            These settings control panel transitions where supported. Bootstrap 4 and Bootstrap 5 animate expansion and collapse, using a default duration of 350 milliseconds.
+            The controls apply to this collapse; nested components keep their own settings.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="CollapseAnimationExample" Outlined FullWidth>
+        <CollapseAnimationExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
 <DocsPageSectionTitle>
     Best Practices
 </DocsPageSectionTitle>

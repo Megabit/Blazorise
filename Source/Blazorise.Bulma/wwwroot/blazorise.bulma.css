@@ -1644,8 +1644,19 @@ body:before {
   background-color: $color-invert !important;*/
 }
 
-.collapse:not(.show) {
+.collapse:not(.is-block) {
   display: none;
+}
+
+.collapse,
+.card > .is-clipped {
+  transition: height var(--bulma-duration, 294ms) var(--bulma-easing, ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .collapse,
+  .card > .is-clipped {
+    transition-duration: 0s;
+  }
 }
 
 .accordion > .card {
@@ -1679,6 +1690,48 @@ body:before {
   align-items: center;
   padding: 0.5rem 0.75rem;
   position: relative;
+}
+
+.accordion[data-animation-duration] > .card,
+.accordion[data-animation-duration] > .card > .collapse,
+.accordion[data-animation-duration] > .card > .is-clipped,
+.accordion[data-animation-duration] > .card > .collapse > .card-content,
+.accordion[data-animation-duration] > .card > .is-clipped > .card-content,
+.accordion[data-animation-duration] > .card > .card-header,
+.accordion[data-animation-duration] > .card > .card-header .accordion-toggle,
+.accordion[data-animation-duration] > .card > .card-header .accordion-toggle::after {
+  transition-duration: var(--bulma-accordion-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .accordion[data-animation-duration] > .card,
+  .accordion[data-animation-duration] > .card > .collapse,
+  .accordion[data-animation-duration] > .card > .is-clipped,
+  .accordion[data-animation-duration] > .card > .collapse > .card-content,
+  .accordion[data-animation-duration] > .card > .is-clipped > .card-content,
+  .accordion[data-animation-duration] > .card > .card-header,
+  .accordion[data-animation-duration] > .card > .card-header .accordion-toggle,
+  .accordion[data-animation-duration] > .card > .card-header .accordion-toggle::after {
+    transition-duration: 0s;
+  }
+}
+
+.card[data-animation-duration] > .collapse,
+.card[data-animation-duration] > .is-clipped,
+.card[data-animation-duration] > .collapse > .card-content,
+.card[data-animation-duration] > .is-clipped > .card-content,
+.card[data-animation-duration] > .card-header {
+  transition-duration: var(--bulma-collapse-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .card[data-animation-duration] > .collapse,
+  .card[data-animation-duration] > .is-clipped,
+  .card[data-animation-duration] > .collapse > .card-content,
+  .card[data-animation-duration] > .is-clipped > .card-content,
+  .card[data-animation-duration] > .card-header {
+    transition-duration: 0s;
+  }
 }
 
 .context-menu {

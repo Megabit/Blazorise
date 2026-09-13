@@ -61,3 +61,34 @@
         }
     }
 }
+
+.ant-collapse[data-animation-duration] > .ant-collapse-item {
+    &,
+    > .ant-collapse-panel,
+    > .ant-collapse-panel > .ant-collapse-body,
+    > .ant-collapse-header,
+    > .ant-collapse-header .ant-accordion-toggle,
+    > .ant-collapse-header .ant-accordion-toggle::after,
+    > .ant-collapse-header .ant-collapse-arrow > svg {
+        transition-duration: var(--ant-accordion-animation-duration);
+        transition-delay: 0s;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition-duration: 0s;
+        }
+    }
+}
+
+.ant-collapse-item[data-animation-duration] {
+    > .ant-collapse-panel,
+    > .ant-collapse-panel > .ant-collapse-body,
+    > .ant-collapse-header,
+    > .ant-collapse-header .ant-collapse-arrow > svg {
+        transition-duration: var(--ant-collapse-animation-duration);
+        transition-delay: 0s;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition-duration: 0s;
+        }
+    }
+}

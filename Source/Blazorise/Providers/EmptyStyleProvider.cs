@@ -5,6 +5,18 @@ namespace Blazorise.Providers;
 
 class EmptyStyleProvider : IStyleProvider
 {
+    #region Accordion
+
+    public string AccordionAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
+    #region Collapse
+
+    public string CollapseAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
     #region MemoInput
 
     public string MemoInputAutoSize( int minimumRows ) => $"field-sizing: content; min-block-size: {minimumRows}lh";

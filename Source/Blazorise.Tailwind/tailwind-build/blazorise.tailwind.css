@@ -51,6 +51,53 @@ body:before {
   border-bottom-width: 0;
 }
 
+.b-accordion-body,
+.b-collapse-body {
+  transition-property: height;
+  transition-duration: var(--tw-duration, var(--default-transition-duration, 150ms));
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function, cubic-bezier(0.4, 0, 0.2, 1)));
+}
+@media (prefers-reduced-motion: reduce) {
+  .b-accordion-body,
+  .b-collapse-body {
+    transition-duration: 0s;
+  }
+}
+
+.b-accordion[data-animation-duration] > .b-accordion-item,
+.b-accordion[data-animation-duration] > .b-accordion-item > .b-accordion-body,
+.b-accordion[data-animation-duration] > .b-accordion-item > .b-accordion-body > div,
+.b-accordion[data-animation-duration] > .b-accordion-item > .b-accordion-header,
+.b-accordion[data-animation-duration] > .b-accordion-item > .b-accordion-header .b-accordion-button,
+.b-accordion[data-animation-duration] > .b-accordion-item > .b-accordion-header .b-accordion-button::after {
+  transition-duration: var(--tw-accordion-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .b-accordion[data-animation-duration] > .b-accordion-item,
+  .b-accordion[data-animation-duration] > .b-accordion-item > .b-accordion-body,
+  .b-accordion[data-animation-duration] > .b-accordion-item > .b-accordion-body > div,
+  .b-accordion[data-animation-duration] > .b-accordion-item > .b-accordion-header,
+  .b-accordion[data-animation-duration] > .b-accordion-item > .b-accordion-header .b-accordion-button,
+  .b-accordion[data-animation-duration] > .b-accordion-item > .b-accordion-header .b-accordion-button::after {
+    transition-duration: 0s;
+  }
+}
+
+.b-collapse[data-animation-duration] > .b-collapse-body,
+.b-collapse[data-animation-duration] > .b-collapse-body > div,
+.b-collapse[data-animation-duration] > .b-collapse-header {
+  transition-duration: var(--tw-collapse-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .b-collapse[data-animation-duration] > .b-collapse-body,
+  .b-collapse[data-animation-duration] > .b-collapse-body > div,
+  .b-collapse[data-animation-duration] > .b-collapse-header {
+    transition-duration: 0s;
+  }
+}
+
 .b-addons > .b-addon-body:not(:last-child) > input,
 .b-addons > .b-addon-body:not(:last-child) > div.tw-datepicker > input,
 .b-addons > .b-addon-body:not(:last-child) > div.tw-timepicker > input {

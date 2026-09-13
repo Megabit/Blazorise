@@ -1146,6 +1146,44 @@ html[data-theme=dark] .surface {
   grid-template-rows: 1fr;
 }
 
+.fui-Accordion[data-animation-duration] > .fui-AccordionItem,
+.fui-Accordion[data-animation-duration] > .fui-AccordionItem > .fui-AccordionPanel,
+.fui-Accordion[data-animation-duration] > .fui-AccordionItem > .fui-AccordionPanel > .fui-AccordionPanel__content,
+.fui-Accordion[data-animation-duration] > .fui-AccordionItem > .fui-AccordionHeader,
+.fui-Accordion[data-animation-duration] > .fui-AccordionItem > .fui-AccordionHeader .fui-AccordionHeader__button,
+.fui-Accordion[data-animation-duration] > .fui-AccordionItem > .fui-AccordionHeader .fui-AccordionHeader__button::after,
+.fui-Accordion[data-animation-duration] > .fui-AccordionItem > .fui-AccordionHeader .fui-AccordionHeader__expandIcon > svg {
+  transition-duration: var(--fui-accordion-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fui-Accordion[data-animation-duration] > .fui-AccordionItem,
+  .fui-Accordion[data-animation-duration] > .fui-AccordionItem > .fui-AccordionPanel,
+  .fui-Accordion[data-animation-duration] > .fui-AccordionItem > .fui-AccordionPanel > .fui-AccordionPanel__content,
+  .fui-Accordion[data-animation-duration] > .fui-AccordionItem > .fui-AccordionHeader,
+  .fui-Accordion[data-animation-duration] > .fui-AccordionItem > .fui-AccordionHeader .fui-AccordionHeader__button,
+  .fui-Accordion[data-animation-duration] > .fui-AccordionItem > .fui-AccordionHeader .fui-AccordionHeader__button::after,
+  .fui-Accordion[data-animation-duration] > .fui-AccordionItem > .fui-AccordionHeader .fui-AccordionHeader__expandIcon > svg {
+    transition-duration: 0s;
+  }
+}
+
+.fui-AccordionItem[data-animation-duration] > .fui-AccordionPanel,
+.fui-AccordionItem[data-animation-duration] > .fui-AccordionPanel > .card-body,
+.fui-AccordionItem[data-animation-duration] > .fui-AccordionHeader,
+.fui-AccordionItem[data-animation-duration] > .fui-AccordionHeader .fui-AccordionHeader__expandIcon > svg {
+  transition-duration: var(--fui-collapse-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fui-AccordionItem[data-animation-duration] > .fui-AccordionPanel,
+  .fui-AccordionItem[data-animation-duration] > .fui-AccordionPanel > .card-body,
+  .fui-AccordionItem[data-animation-duration] > .fui-AccordionHeader,
+  .fui-AccordionItem[data-animation-duration] > .fui-AccordionHeader .fui-AccordionHeader__expandIcon > svg {
+    transition-duration: 0s;
+  }
+}
+
 .fui-Input {
   --fui-addon-icon-size: var(--fontSizeBase500);
 }

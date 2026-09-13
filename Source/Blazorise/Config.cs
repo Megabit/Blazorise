@@ -110,6 +110,7 @@ public static class Config
         { typeof( IJSFocusTrapModule ), typeof( JSFocusTrapModule ) },
         { typeof( IJSButtonModule ), typeof( JSButtonModule ) },
         { typeof( IJSClosableModule ), typeof( JSClosableModule ) },
+        { typeof( IJSCollapseModule ), typeof( JSCollapseModule ) },
         { typeof( IJSBreakpointModule ), typeof( JSBreakpointModule ) },
         { typeof( IJSDocumentObserverModule ), typeof( JSDocumentObserverModule ) },
         { typeof( IJSGesturesModule ), typeof( JSGesturesModule ) },
