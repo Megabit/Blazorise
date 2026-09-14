@@ -1,0 +1,48 @@
+<Card Height="Height.Is100" Border="Border.Rounded" Shadow="Shadow.Small">
+    <CardBody Padding="Padding.Is4" Display="Display.Flex" Flex="Flex.Column">
+        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading5" Margin="Margin.Is3.FromBottom">Upload report</Heading>
+        <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small">Preview only. File contents are not read or uploaded.</Paragraph>
+        <Field>
+            <FilePicker Filter=".pdf,.csv,.xlsx" MaxFileSize="10485760" aria-label="Choose a sample report to preview">
+                <FileTemplate>
+                    <Div Flex="Flex.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is2">
+                        <Span TextSize="TextSize.Small" TextOverflow="TextOverflow.Truncate">@context.File.Name</Span>
+                        <Button Size="Size.Small" Color="Color.Link" Clicked="@context.RemoveFile" aria-label="Remove selected report">
+                            <Icon Name="IconName.Times" />
+                        </Button>
+                    </Div>
+                </FileTemplate>
+                <ButtonsTemplate>
+                    <Button Size="Size.Small" Color="Color.Link" Clicked="@context.Clear">Clear selection</Button>
+                </ButtonsTemplate>
+            </FilePicker>
+        </Field>
+        <Row Gutter="Gutter.Is3">
+            <Column ColumnSize="ColumnSize.Is6">
+                <Field>
+                    <FieldLabel TextSize="TextSize.Small">From</FieldLabel>
+                    <DatePicker TValue="DateTime?" @bind-Value="@periodStart" DisplayFormat="MMM d, yyyy" />
+                </Field>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is6">
+                <Field>
+                    <FieldLabel TextSize="TextSize.Small">To</FieldLabel>
+                    <DatePicker TValue="DateTime?" @bind-Value="@periodEnd" DisplayFormat="MMM d, yyyy" />
+                </Field>
+            </Column>
+        </Row>
+        <Field Margin="Margin.Is0" Display="Display.Flex" Flex="Flex.Column.Grow.Is1">
+            <FieldLabel TextSize="TextSize.Small">Notes</FieldLabel>
+            <MemoInput @bind-Value="@notes" Rows="2" MaxLength="200" Flex="Flex.Grow.Is1" />
+        </Field>
+        <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+            <Icon Name="IconName.File" Margin="Margin.Is1.FromEnd" /> PDF, CSV or XLSX · Up to 10 MB
+        </Paragraph>
+    </CardBody>
+</Card>
+
+@code {
+    private DateTime? periodStart = new DateTime( 2026, 4, 1 );
+    private DateTime? periodEnd = new DateTime( 2026, 6, 30 );
+    private string notes = "Quarterly results and plans for the next release.";
+}
