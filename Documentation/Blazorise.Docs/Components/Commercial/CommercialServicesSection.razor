@@ -1,0 +1,54 @@
+<Container ElementId="services" Padding="Padding.Is5.OnY">
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Paragraph TextColor="TextColor.Primary" TextWeight="TextWeight.Bold" Margin="Margin.Is2.FromBottom">
+            Optional expert services
+        </Paragraph>
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            Bring the Blazorise team into your project
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Get hands-on help with a specific challenge, or discuss a larger implementation engagement.
+        </Lead>
+        <Paragraph TextColor="TextColor.Muted">
+            These services are separate from standard asynchronous license support. Scope, scheduling, and commercial terms are agreed for your engagement.
+        </Paragraph>
+    </Div>
+
+    <Row>
+        @foreach ( ServiceOffering item in ServiceOfferings )
+        {
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody Padding="Padding.Is4">
+                        <Icon Name="@item.Icon" IconSize="IconSize.x2" TextColor="TextColor.Primary" Margin="Margin.Is3.FromBottom" />
+                        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+
+    <Div Flex="Flex.Column.Row.OnTablet.JustifyContent.Center" Gap="Gap.Is3">
+        <Button Type="ButtonType.Link" To="custom-work" Color="Color.Primary" Size="Size.Large">
+            Explore services and custom work
+        </Button>
+        <Button Type="ButtonType.Link" To="custom-work/quote" Color="Color.Primary" Size="Size.Large" Outline>
+            Request a quote
+        </Button>
+    </Div>
+</Container>
+
+@code {
+    private static readonly ServiceOffering[] ServiceOfferings =
+    [
+        new( IconName.Headset, "Live expert support", "Work through debugging, code review, and implementation questions in a hands-on session with a Blazorise expert." ),
+        new( IconName.Building, "Design system integration", "Adapt components and themes to your brand, design tokens, and existing interface conventions." ),
+        new( IconName.Sync, "Application migration", "Plan and implement a move to Blazor and Blazorise, with guidance on your existing application." ),
+        new( IconName.Code, "Custom development", "Discuss specialized components, integrations, and workflows, or sponsor a feature for Blazorise." ),
+        new( IconName.Book, "Team training", "Build your team's Blazor and Blazorise skills through practical, hands-on guidance." ),
+        new( IconName.Check, "Project onboarding", "Get help with project structure, provider configuration, and development practices as your team gets started." )
+    ];
+
+    private sealed record ServiceOffering( IconName Icon, string Title, string Description );
+}

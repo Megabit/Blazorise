@@ -1,0 +1,39 @@
+<Container ElementId="purchasing" Padding="Padding.Is5.OnY">
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            Move from evaluation to approval
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Build the business case, work with procurement, or discuss a tailored engagement.
+        </Lead>
+    </Div>
+
+    <Row>
+        @foreach ( BuyingResource item in BuyingResources )
+        {
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody Padding="Padding.Is4" Display="Display.Flex" Flex="Flex.Column">
+                        <Icon Name="@item.Icon" IconSize="IconSize.x2" TextColor="@item.TextColor" Margin="Margin.Is3.FromBottom" />
+                        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
+                        <Paragraph TextColor="TextColor.Muted">@item.Description</Paragraph>
+                        <Div Margin="Margin.IsAuto.FromTop">
+                            <Anchor To="@item.To">@item.Action</Anchor>
+                        </Div>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Container>
+
+@code {
+    private static readonly BuyingResource[] BuyingResources =
+    [
+        new( IconName.ChartLine, TextColor.Primary, "Estimate the business value", "Compare licensing costs with your estimated internal development and maintenance effort. Use your own assumptions to support a budget discussion.", "roi-calculator", "Open the ROI calculator" ),
+        new( IconName.Receipt, TextColor.Info, "Work with procurement", "Need a quote or purchase order instead of online checkout? Use the purchase-order process to arrange your team's licenses.", "purchase-order", "Request a purchase order" ),
+        new( IconName.Briefcase, TextColor.Secondary, "Explore Enterprise Plus", "For teams that need a closer working relationship, discuss a tailored subscription with expert guidance and hands-on assistance.", "enterprise-plus", "Explore Enterprise Plus" )
+    ];
+
+    private sealed record BuyingResource( IconName Icon, TextColor TextColor, string Title, string Description, string To, string Action );
+}

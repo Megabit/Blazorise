@@ -1,0 +1,58 @@
+@using System.Collections.Generic
+
+<Card Height="Height.Is100" Border="Border.Rounded" Shadow="Shadow.Small">
+    <CardBody Padding="Padding.Is4" Display="Display.Flex" Flex="Flex.Column">
+        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading5" Margin="Margin.Is3.FromBottom">Team conversation</Heading>
+        <Div Height="Height.Px( 220 )" Flex="Flex.Grow.Is1" Overflow="Overflow.Auto" Margin="Margin.Is3.FromBottom" aria-live="polite">
+            @foreach ( Message message in messages )
+            {
+                <Div @key="message.Id" Flex="Flex.AlignItems.Start" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
+                    <Badge Color="@message.Color" Subtle Pill Padding="Padding.Is2">@message.Initials</Badge>
+                    <Div>
+                        <Strong TextSize="TextSize.Small">@message.Name</Strong>
+                        <Paragraph TextSize="TextSize.Small" Margin="Margin.Is1.FromTop.Is0.FromBottom">@message.Text</Paragraph>
+                    </Div>
+                </Div>
+            }
+        </Div>
+        <Div Margin="Margin.IsAuto.FromTop">
+            <Addons>
+                <Addon AddonType="AddonType.Body">
+                    <TextInput @bind-Value="@draft" MaxLength="160" Placeholder="Write a demo message…" aria-label="Demo message" />
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    <Button Color="Color.Primary" Clicked="@Send" Disabled="@string.IsNullOrWhiteSpace( draft )" aria-label="Add demo message">
+                        <Icon Name="IconName.PaperPlane" />
+                    </Button>
+                </Addon>
+            </Addons>
+            <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" Margin="Margin.Is2.FromTop.Is0.FromBottom">Only visible in your demo. Not sent to anyone.</Paragraph>
+        </Div>
+    </CardBody>
+</Card>
+
+@code {
+    private string draft;
+    private readonly List<Message> messages =
+    [
+        new( "ML", "Mia Larsen", "The new dashboard is ready for review.", Color.Primary ),
+        new( "AK", "Alex Kim", "Looks great. The chart makes the trends much clearer.", Color.Info ),
+        new( "SL", "Sam Lee", "I'll check the mobile layout next.", Color.Success ),
+    ];
+
+    private void Send()
+    {
+        if ( string.IsNullOrWhiteSpace( draft ) )
+        {
+            return;
+        }
+
+        messages.Add( new( "YO", "You", draft.Trim(), Color.Primary ) );
+        draft = string.Empty;
+    }
+
+    private sealed record Message( string Initials, string Name, string Text, Color Color )
+    {
+        public Guid Id { get; } = Guid.NewGuid();
+    }
+}

@@ -1,0 +1,54 @@
+<Container ElementId="licensing" Padding="Padding.Is5.OnY">
+    <Row Flex="Flex.AlignItems.Center">
+        <Column ColumnSize="ColumnSize.Is12.Is5.OnDesktop" Margin="Margin.Is4.FromBottom.Is0.FromBottom.OnDesktop">
+            <Paragraph TextColor="TextColor.Primary" TextWeight="TextWeight.Bold" Margin="Margin.Is2.FromBottom">
+                Licensing and support
+            </Paragraph>
+            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                A plan for your team. Support for your application.
+            </Heading>
+            <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted">
+                Professional and Enterprise plans combine commercial licensing with direct product support. Compare the included components, support channels, and response-time targets to find the right fit.
+            </Paragraph>
+            <Div Flex="Flex.Column.Row.OnTablet" Gap="Gap.Is3">
+                <Button Type="ButtonType.Link" To="pricing" Color="Color.Primary" Size="Size.Large">
+                    Compare plans
+                </Button>
+                <Button Type="ButtonType.Link" To="license" Color="Color.Primary" Size="Size.Large" Outline>
+                    Read the license
+                </Button>
+            </Div>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is7.OnDesktop">
+            <Card Border="Border.Rounded" Shadow="Shadow.Small">
+                <CardBody Padding="Padding.Is4.Is5.OnDesktop">
+                    <Row>
+                        @foreach ( LicenseBenefit item in LicenseBenefits )
+                        {
+                            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet" Margin="Margin.Is3.FromBottom">
+                                <Icon Name="@item.Icon" IconSize="IconSize.Large" TextColor="TextColor.Primary" Margin="Margin.Is3.FromBottom" />
+                                <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading5" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
+                                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
+                            </Column>
+                        }
+                    </Row>
+                    <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" Margin="Margin.Is0.FromBottom">
+                        Included features, support limits, and response-time targets vary by plan. See the full comparison before choosing.
+                    </Paragraph>
+                </CardBody>
+            </Card>
+        </Column>
+    </Row>
+</Container>
+
+@code {
+    private static readonly LicenseBenefit[] LicenseBenefits =
+    [
+        new( IconName.Users, "Per-developer licensing", "Choose the number of developers using Blazorise, with monthly or annual billing." ),
+        new( IconName.Key, "Royalty-free deployment", "Deploy your applications without per-application royalties, subject to the license terms." ),
+        new( IconName.Headset, "Direct product support", "Get help with product questions and issues through the support channels included in your plan." ),
+        new( IconName.LayerGroup, "A consistent UI foundation", "Use Blazorise components, theming, and utilities across your team's applications." )
+    ];
+
+    private sealed record LicenseBenefit( IconName Icon, string Title, string Description );
+}

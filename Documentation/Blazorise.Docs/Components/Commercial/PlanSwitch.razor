@@ -1,15 +1,14 @@
-﻿@using Blazorise.Docs.Services
-<Div Class="plan-switch" Position="Position.Relative" Flex="Flex.JustifyContent.Center.AlignItems.Center.Wrap" Background="Background.Light" Border="Border.Rounded" Padding="Padding.Is3" Gap="Gap.Is3">
-    @* <Div Class="plan-switch-button" Display="Display.InlineBlock" Padding="Padding.Is3" Background="@(GetSelectedBackground("one-time"))" TextColor="@(GetTextSelectedColor("one-time"))" @onclick="@(()=>OnClicked("one-time"))" Style="cursor: pointer;" Border="Border.Rounded">
-        One time payment
-    </Div> *@
-    <Div Class="plan-switch-button" Display="Display.InlineBlock" Padding="Padding.Is3.OnY.Is5.OnX" Background="@(GetSelectedBackground("monthly"))" TextColor="@(GetTextSelectedColor("monthly"))" @onclick="@(()=>OnClicked("monthly"))" Style="cursor: pointer;" Border="Border.Rounded">
+﻿<Div Display="Display.InlineFlex" Flex="Flex.JustifyContent.Center.Wrap" Background="Background.Light" Border="Border.Rounded" Padding="Padding.Is1" Gap="Gap.Is1" role="group" aria-label="Billing frequency">
+    <Button Color="@( SelectedValue == "monthly" ? Color.Primary : Color.Light )"
+            Padding="Padding.Is2.OnY.Is4.OnX"
+            Clicked="@(() => OnClicked( "monthly" ))"
+            aria-pressed="@( SelectedValue == "monthly" ? "true" : "false" )">
         Monthly
-    </Div>
-    <Div Class="plan-switch-button" Display="Display.InlineBlock" Padding="Padding.Is3.OnY.Is5.OnX" Background="@(GetSelectedBackground("annually"))" TextColor="@(GetTextSelectedColor("annually"))" @onclick="@(()=>OnClicked("annually"))" Style="cursor: pointer;" Border="Border.Rounded">
+    </Button>
+    <Button Color="@( SelectedValue == "annually" ? Color.Primary : Color.Light )"
+            Padding="Padding.Is2.OnY.Is4.OnX"
+            Clicked="@(() => OnClicked( "annually" ))"
+            aria-pressed="@( SelectedValue == "annually" ? "true" : "false" )">
         Annually
-    </Div>
-    <Div Display="Display.None.Block.OnDesktop" Position="Position.Absolute.Top.Is0.End.Is0" Flex="Flex.AlignSelf.Start" Style="transform: translateX(calc(100% - 1.5rem)) translateY(calc(100% - 3.5rem));">
-        <Image Source="img/illustrations/save-tag-monthly.svg" Text="Save annually" />
-    </Div>
+    </Button>
 </Div>

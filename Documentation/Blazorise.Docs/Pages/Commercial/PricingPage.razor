@@ -1,27 +1,49 @@
 ﻿@page "/pricing"
 
-<Seo Canonical="/pricing" Title="Blazorise Pricing & Plans" Description="Per-developer licenses with monthly or annual billing. 80+ production-ready Blazor components, premium support, and long-term maintenance. Choose Community, Professional, Enterprise, or Enterprise Plus." />
+<Seo Canonical="/pricing" Title="Blazorise Pricing & Plans" Description="Compare Community, Professional, Enterprise, and Enterprise Plus. Choose monthly or annual per-developer licensing, product support, and purchasing options for your team." />
 
 <PageHeader>
     <Title>
         Blazorise <Span Class="gradient-commercial">Plans</Span>
     </Title>
     <Subtitle>
-        Build on a solid foundation that scales from side project to enterprise.
+        The right tools and support for what you build.
     </Subtitle>
     <Description>
-        <Paragraph>
-            Per-developer plans with monthly or annual billing, premium support, source-code access on commercial plans, and procurement options for teams that need a quote or purchase order.
-        </Paragraph>
+        Start with Community or choose a commercial plan for your team. Compare components, support, and expert services, with monthly or annual billing and flexible purchasing options.
     </Description>
+    <Actions>
+        <Div Flex="Flex.Column.Row.OnTablet.JustifyContent.Center" Gap="Gap.Is3">
+            <Anchor To="/pricing#compare-plans">Compare features</Anchor>
+            <Anchor To="/pricing#purchasing">Purchasing options</Anchor>
+            <Anchor To="/pricing#licensing-faq">Licensing FAQ</Anchor>
+        </Div>
+    </Actions>
 </PageHeader>
 
-<Container TextAlignment="TextAlignment.Center">
+<Container Padding="Padding.Is5.OnY">
     <Pricing @bind-Quantity="@quantity" @bind-Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
+</Container>
 
-    <PricingAssurance />
-
+<Container ElementId="compare-plans" Padding="Padding.Is5.OnY">
     <PlansComparer Quantity="@quantity" Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
+</Container>
 
-    <Faq />
+<Container ElementId="purchasing" Padding="Padding.Is5.OnY">
+    <PricingAssurance />
+</Container>
+
+<Container ElementId="licensing-faq" Padding="Padding.Is5.OnY">
+    <Row>
+        <Column ColumnSize="ColumnSize.Is12.Is10.OnDesktop" Margin="Margin.IsAuto.OnX">
+            <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+                <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">Questions about licensing?</Heading>
+                <Lead TextColor="TextColor.Muted">Find answers about plans, renewals, and using Blazorise in your applications.</Lead>
+            </Div>
+            <Faq ShowHeader="false" />
+            <Paragraph TextAlignment="TextAlignment.Center" TextColor="TextColor.Muted" Margin="Margin.Is4.FromTop">
+                Need help choosing? <Anchor To="contact">Contact sales</Anchor> or <Anchor To="book-a-demo">book a demo</Anchor> with our team.
+            </Paragraph>
+        </Column>
+    </Row>
 </Container>

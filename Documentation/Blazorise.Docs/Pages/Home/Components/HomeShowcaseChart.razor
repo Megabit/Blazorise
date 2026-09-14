@@ -1,0 +1,53 @@
+<Card Height="Height.Is100" Border="Border.Rounded" Shadow="Shadow.Small">
+    <CardBody Padding="Padding.Is4">
+        <Div Flex="Flex.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is2" Margin="Margin.Is2.FromBottom">
+            <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading5" Margin="Margin.Is0">Revenue overview</Heading>
+            <Badge Color="Color.Success" Subtle Pill>+18.6%</Badge>
+        </Div>
+        <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" Margin="Margin.Is2.FromBottom">First half of 2026 · EUR thousands</Paragraph>
+        <SvgAreaChart TItem="RevenuePoint" Items="@revenue" Options="@options" aria-label="Sample monthly revenue by product and services">
+            <SvgChartLegend Visible="false" />
+            <SvgChartTooltip Enabled InteractionMode="SvgChartInteractionMode.Index" />
+            <SvgChartCategoryAxis Value="@( item => item.Month )" LabelsOptions="@axisLabels" />
+            <SvgChartValueAxis BeginAtZero TickCount="5" LabelsOptions="@axisLabels" />
+            <SvgAreaSeries Name="Product" Value="@( item => item.Product )" Color="Color.Primary" StrokeWidth="3" FillOpacity="0.22" />
+            <SvgAreaSeries Name="Services" Value="@( item => item.Services )" Color="Color.Info" StrokeWidth="3" FillOpacity="0.16" />
+        </SvgAreaChart>
+    </CardBody>
+</Card>
+
+@code {
+    private readonly SvgChartAxisLabelsOptions axisLabels = new()
+    {
+        Font = new() { Color = "var(--bs-body-color)" },
+    };
+
+    private readonly SvgChartOptions options = new()
+    {
+        Width = 520,
+        Height = 320,
+        Responsive = true,
+        // Category charts otherwise include half a category of space at each end.
+        Zoom = new()
+        {
+            Enabled = true,
+            Wheel = false,
+            Pan = false,
+            Viewport = new() { XMin = 0, XMax = 5 },
+        },
+        Font = new() { Family = "Inter, sans-serif", Size = 12 },
+        YAxis = new() { GridLines = new() { Color = "var(--bs-body-color)", Opacity = 0.12 } },
+    };
+
+    private readonly RevenuePoint[] revenue =
+    [
+        new( "Jan", 42, 24 ),
+        new( "Feb", 54, 32 ),
+        new( "Mar", 48, 28 ),
+        new( "Apr", 72, 46 ),
+        new( "May", 65, 38 ),
+        new( "Jun", 84, 52 ),
+    ];
+
+    private sealed record RevenuePoint( string Month, double Product, double Services );
+}
