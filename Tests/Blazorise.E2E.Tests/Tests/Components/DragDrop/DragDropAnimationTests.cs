@@ -40,7 +40,7 @@ public class DragDropAnimationTests : BlazorisePageTest
         var precedingItem = await zone.Locator( ".draggable-placeholder" ).EvaluateAsync<string>( "element => element.previousElementSibling.textContent.trim()" );
         Assert.That( precedingItem, Is.EqualTo( "Item 3" ) );
 
-        await Page.Mouse.UpAsync();
+        await DropIntoReorderSlot( zone );
 
         await Expect( items ).ToHaveTextAsync( new[] { "Item 2", "Item 3", "Item 1", "Item 4" } );
         await Expect( items.Nth( 2 ) ).ToHaveAttributeAsync( "id", sourceId );
@@ -64,7 +64,7 @@ public class DragDropAnimationTests : BlazorisePageTest
         var animationCount = await zone.EvaluateAsync<int>( "element => element.getAnimations({ subtree: true }).length" );
         Assert.That( animationCount, Is.Zero );
 
-        await Page.Mouse.UpAsync();
+        await DropIntoReorderSlot( zone );
 
         await Expect( zone.Locator( ItemSelector ) ).ToHaveTextAsync( new[] { "Item 2", "Item 3", "Item 1", "Item 4" } );
     }
@@ -109,7 +109,7 @@ public class DragDropAnimationTests : BlazorisePageTest
         if ( showPlaceholder )
             await Expect( zone.Locator( ".draggable-placeholder" ) ).ToHaveCSSAsync( "outline-style", "dashed" );
 
-        await Page.Mouse.UpAsync();
+        await DropIntoReorderSlot( zone );
 
         await Expect( zone.Locator( ItemSelector ) ).ToHaveTextAsync( new[] { "Item 2", "Item 3", "Item 1", "Item 4" } );
         await Expect( zone.Locator( ItemSelector ).Nth( 2 ) ).ToBeVisibleAsync();
@@ -159,10 +159,37 @@ public class DragDropAnimationTests : BlazorisePageTest
         }
     }
 
+    private async Task DropIntoReorderSlot( ILocator zone )
+    {
+        var placeholder = zone.Locator( "[data-index='2'] + [data-reorder-placeholder='true']" );
+        await Expect( placeholder ).ToHaveCountAsync( 1 );
+
+        // Hidden placeholders still reserve space, so read their layout bounds directly.
+        var position = await placeholder.EvaluateAsync<float[]>( """
+            element => {
+                const rect = element.getBoundingClientRect();
+                return [rect.left + rect.width / 2, rect.top + rect.height / 2];
+            }
+            """ );
+
+        // Reordering changes the element beneath the pointer. Send dragover to the
+        // final drop location before releasing, even when the layout moved instantly.
+        await Page.Mouse.MoveAsync( position[0], position[1] );
+        await Page.Mouse.MoveAsync( position[0], position[1] );
+        await Expect( placeholder ).ToHaveCountAsync( 1 );
+        await Expect( zone ).ToHaveAttributeAsync( "data-transaction-current", "true" );
+        await Page.Mouse.UpAsync();
+        await Expect( zone ).ToHaveAttributeAsync( "data-transaction-active", "false" );
+    }
+
     private async Task DragFirstItemOverThird( ILocator zone, bool showPlaceholder = false )
     {
         var items = zone.Locator( ItemSelector );
-        var source = await items.Nth( 0 ).BoundingBoxAsync();
+        var sourceItem = items.Nth( 0 );
+
+        // Wait for the actual item to receive pointer events before starting the native drag.
+        await sourceItem.HoverAsync();
+        var source = await sourceItem.BoundingBoxAsync();
 
         await Page.Mouse.MoveAsync( source.X + source.Width / 2, source.Y + source.Height / 2 );
         await Page.Mouse.DownAsync();

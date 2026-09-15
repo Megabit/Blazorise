@@ -7,11 +7,11 @@
     }
 
     &.b-drop-zone-drop-allowed {
-        outline: 1px solid var(--b-theme-success, "#00FF00") !important;
+        outline: 1px solid var(--b-theme-success, #00FF00) !important;
     }
 
     &.b-drop-zone-drop-not-allowed {
-        outline: 1px solid var(--b-theme-danger, "#FF0000") !important;
+        outline: 1px solid var(--b-theme-danger, #FF0000) !important;
     }
 
     &-draggable:not(.draggable-preview-start) {
@@ -41,7 +41,7 @@
         }
 
         &:empty {
-            outline: 2px dashed var(--b-theme-primary, "#0000FF") !important;
+            outline: 2px dashed var(--b-theme-primary, #0000FF) !important;
             padding: 1rem;
         }
 
@@ -61,6 +61,7 @@
         position: relative;
         margin-bottom: -20px;
         z-index: +1;
+        pointer-events: none;
     }
 
     &-drag-image {
