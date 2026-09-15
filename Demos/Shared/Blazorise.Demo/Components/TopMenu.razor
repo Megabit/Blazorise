@@ -249,6 +249,29 @@
                 </Tooltip>
             </Div>
         </Field>
+
+        <Divider Margin="Margin.Is4.OnY" />
+
+        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
+            <Heading Size="HeadingSize.Is5" Margin="Margin.Is0">Animations</Heading>
+            <Tooltip Text="These settings apply only to selected demo components that support animation controls." Placement="TooltipPlacement.Left" Multiline>
+                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+            </Tooltip>
+        </Div>
+        <Field>
+            <Switch TValue="bool" Value="@AppSettings.AnimationSettings.Animated" ValueChanged="@OnAnimatedChanged">Animate transitions</Switch>
+        </Field>
+        <Field>
+            <FieldLabel>Animation duration</FieldLabel>
+            <Select TValue="int?" Value="@AppSettings.AnimationSettings.AnimationDuration" ValueChanged="@OnAnimationDurationChanged" Disabled="@(!AppSettings.AnimationSettings.Animated)">
+                <SelectItem TValue="int?" Value="@((int?)null)">Provider default</SelectItem>
+                <SelectItem TValue="int?" Value="0">Immediate</SelectItem>
+                <SelectItem TValue="int?" Value="100">100 ms</SelectItem>
+                <SelectItem TValue="int?" Value="200">200 ms</SelectItem>
+                <SelectItem TValue="int?" Value="400">400 ms</SelectItem>
+                <SelectItem TValue="int?" Value="1000">1000 ms</SelectItem>
+            </Select>
+        </Field>
     </OffcanvasBody>
 </Offcanvas>
 @code {
@@ -297,6 +320,22 @@
         }
 
         StateHasChanged();
+    }
+
+    private Task OnAnimatedChanged( bool value )
+    {
+        return AppSettingsChanged.InvokeAsync( AppSettings with
+        {
+            AnimationSettings = AppSettings.AnimationSettings with { Animated = value }
+        } );
+    }
+
+    private Task OnAnimationDurationChanged( int? value )
+    {
+        return AppSettingsChanged.InvokeAsync( AppSettings with
+        {
+            AnimationSettings = AppSettings.AnimationSettings with { AnimationDuration = value }
+        } );
     }
 
     private Task SetAccessibilityOption( Action<BlazoriseAccessibilityOptions> action )
@@ -475,6 +514,8 @@
 
     [Parameter] public EventCallback<ThemeColorChangedEventArgs> ThemeColorChanged { get; set; }
 
+    [Parameter] public EventCallback<AppSettings> AppSettingsChanged { get; set; }
+
     [Parameter] public string LayoutType { get; set; }
 
     [Parameter] public EventCallback<string> LayoutTypeChanged { get; set; }
@@ -486,6 +527,8 @@
     [Inject] protected IOnScreenKeyboardService OnScreenKeyboardService { get; set; }
 
     [CascadingParameter] protected Theme Theme { get; set; }
+
+    [CascadingParameter] protected AppSettings AppSettings { get; set; }
 
     private BlazoriseAccessibilityOptions AccessibilityOptions => BlazoriseOptions.AccessibilityOptions ??= new();
 

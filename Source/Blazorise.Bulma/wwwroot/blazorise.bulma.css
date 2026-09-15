@@ -50,6 +50,75 @@ body:before {
     content: "quadhd";
   }
 }
+.notification[data-animation-duration] {
+  transition-duration: var(--bulma-alert-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--bulma-alert-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .notification[data-animation-duration] {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+
+.notification[data-visible] {
+  transition: opacity var(--bulma-duration, 294ms) var(--bulma-easing, ease-out);
+  transition-property: opacity, display;
+  transition-behavior: allow-discrete;
+  opacity: 1 !important;
+}
+@supports (interpolate-size: allow-keywords) {
+  .notification[data-visible] {
+    interpolate-size: allow-keywords;
+    height: auto;
+    overflow: clip;
+    transition-property: opacity, display, height, min-height, padding-top, padding-bottom, margin-top, margin-bottom, border-top-width, border-bottom-width;
+  }
+  .notification[data-visible][data-visible=false] {
+    height: 0 !important;
+    min-height: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    border-top-width: 0 !important;
+    border-bottom-width: 0 !important;
+  }
+  @starting-style {
+    .notification[data-visible][data-visible=true][data-animation-ready=true] {
+      height: 0 !important;
+      min-height: 0 !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+      border-top-width: 0 !important;
+      border-bottom-width: 0 !important;
+    }
+  }
+}
+.notification[data-visible][data-visible=false] {
+  opacity: 0 !important;
+}
+@starting-style {
+  .notification[data-visible][data-visible=true][data-animation-ready=true] {
+    opacity: 0 !important;
+  }
+}
+.notification[data-visible][data-animation-duration="0"] {
+  transition: none !important;
+  animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .notification[data-visible] {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
 .b-bar-initial.navbar-expand-mobile {
   display: flex !important;
 }
@@ -621,6 +690,20 @@ body:before {
 }
 .carousel-arrow .icon.has-icons-right {
   right: 1.5rem;
+}
+
+.carousel[data-animation-duration] > .carousel-items > .carousel-item {
+  transition-duration: var(--bulma-carousel-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--bulma-carousel-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .carousel[data-animation-duration] > .carousel-items > .carousel-item {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
 }
 
 /*taken from https://github.com/Wikiki/bulma-checkradio/blob/master/src/sass/index.sass */
@@ -2388,6 +2471,9 @@ body:before {
   box-shadow: none;
 }
 
+.dropdown > .dropdown-menu {
+  transition-property: none;
+}
 .dropdown .button.dropdown-trigger:not(.is-outlined) {
   box-shadow: none;
 }
@@ -2435,6 +2521,22 @@ body:before {
 .dropdown.is-left > .dropdown-menu {
   left: 0;
   right: auto;
+}
+
+.dropdown[data-animation-duration] > .dropdown-menu,
+.dropdown[data-animation-duration] > .dropdown-trigger > .button {
+  transition-duration: var(--bulma-dropdown-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--bulma-dropdown-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dropdown[data-animation-duration] > .dropdown-menu,
+  .dropdown[data-animation-duration] > .dropdown-trigger > .button {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
 }
 
 .dock-layout {

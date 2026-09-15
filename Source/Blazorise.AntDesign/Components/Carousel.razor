@@ -3,7 +3,7 @@
     <CascadingValue Value="@State">
         @ChildContent
 
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-animation-duration="@AnimationDurationString" @attributes="@Attributes">
             <div class="slick-slider slick-initialized" dir="ltr">
                 <div @ref="@slickListElementRef" id="@slickListElementId" class="@SlidesClassNames" style="@SlidesStyleNames">
                     <div class="slick-track" style="@SlickTrackStyle">

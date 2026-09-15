@@ -4,40 +4,6 @@
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Offcanvas (Configuration)</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <Row>
-                    <Column ColumnSize="ColumnSize.IsAuto">
-                        <Field>
-                            <FieldLabel>
-                                Animation
-                            </FieldLabel>
-                            <FieldBody>
-                                <Switch @bind-Value="@animation">Animation</Switch>
-                            </FieldBody>
-                        </Field>
-                    </Column>
-                    <Column ColumnSize="ColumnSize.IsAuto">
-                        <Field>
-                            <FieldLabel>
-                                Animation Duration (ms)
-                            </FieldLabel>
-                            <FieldBody>
-                                <NumericInput TValue="int" @bind-Value="animationDuration" />
-                            </FieldBody>
-                        </Field>
-                    </Column>
-                </Row>
-            </CardBody>
-        </Card>
-    </Column>
-</Row>
-
-<Row>
-    <Column>
-        <Card Margin="Margin.Is4.FromBottom">
-            <CardHeader>
                 <CardTitle>Offcanvas</CardTitle>
             </CardHeader>
             <CardBody>
@@ -104,7 +70,7 @@
     </Column>
 </Row>
 
-<Offcanvas @ref="offcanvasRef1" Placement="Placement.Start" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasRef1" Placement="Placement.Start" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 300)">
     <OffcanvasHeader>
         Offcanvas Header
         <CloseButton Clicked="@HideOffcanvas1" />
@@ -118,7 +84,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
-<Offcanvas @ref="offcanvasRef2" Placement="Placement.End" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasRef2" Placement="Placement.End" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 300)">
     <OffcanvasHeader>
         Offcanvas Header
         <CloseButton Clicked="@HideOffcanvas2" />
@@ -132,7 +98,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
-<Offcanvas @ref="offcanvasRef3" Placement="Placement.Top" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasRef3" Placement="Placement.Top" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 300)">
     <OffcanvasHeader>
         Offcanvas Header
         <CloseButton Clicked="@HideOffcanvas3" />
@@ -146,7 +112,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
-<Offcanvas @ref="offcanvasRef4" Placement="Placement.Bottom" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasRef4" Placement="Placement.Bottom" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 300)">
     <OffcanvasHeader>
         Offcanvas Header
         <CloseButton Clicked="@HideOffcanvas4" />
@@ -160,7 +126,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
-<Offcanvas @ref="offcanvasEndSmallRef" Placement="Placement.End" Size="OffcanvasSize.Small" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasEndSmallRef" Placement="Placement.End" Size="OffcanvasSize.Small" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 300)">
     <OffcanvasHeader>
         Small End Offcanvas
         <CloseButton Clicked="@(() => HideOffcanvas( offcanvasEndSmallRef ))" />
@@ -173,7 +139,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
-<Offcanvas @ref="offcanvasEndLargeRef" Placement="Placement.End" Size="OffcanvasSize.Large" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasEndLargeRef" Placement="Placement.End" Size="OffcanvasSize.Large" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 300)">
     <OffcanvasHeader>
         Large End Offcanvas
         <CloseButton Clicked="@(() => HideOffcanvas( offcanvasEndLargeRef ))" />
@@ -186,7 +152,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
-<Offcanvas @ref="offcanvasEndExtraLargeRef" Placement="Placement.End" Size="OffcanvasSize.ExtraLarge" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasEndExtraLargeRef" Placement="Placement.End" Size="OffcanvasSize.ExtraLarge" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 300)">
     <OffcanvasHeader>
         Extra Large End Offcanvas
         <CloseButton Clicked="@(() => HideOffcanvas( offcanvasEndExtraLargeRef ))" />
@@ -199,7 +165,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
-<Offcanvas @ref="offcanvasEndFullscreenRef" Placement="Placement.End" Size="OffcanvasSize.Fullscreen" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasEndFullscreenRef" Placement="Placement.End" Size="OffcanvasSize.Fullscreen" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 300)">
     <OffcanvasHeader>
         Fullscreen End Offcanvas
         <CloseButton Clicked="@(() => HideOffcanvas( offcanvasEndFullscreenRef ))" />
@@ -212,7 +178,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
-<Offcanvas @ref="offcanvasTopSmallRef" Placement="Placement.Top" Size="OffcanvasSize.Small" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasTopSmallRef" Placement="Placement.Top" Size="OffcanvasSize.Small" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 300)">
     <OffcanvasHeader>
         Small Top Offcanvas
         <CloseButton Clicked="@(() => HideOffcanvas( offcanvasTopSmallRef ))" />
@@ -225,7 +191,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
-<Offcanvas @ref="offcanvasTopLargeRef" Placement="Placement.Top" Size="OffcanvasSize.Large" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasTopLargeRef" Placement="Placement.Top" Size="OffcanvasSize.Large" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 300)">
     <OffcanvasHeader>
         Large Top Offcanvas
         <CloseButton Clicked="@(() => HideOffcanvas( offcanvasTopLargeRef ))" />
@@ -238,7 +204,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
-<Offcanvas @ref="offcanvasTopExtraLargeRef" Placement="Placement.Top" Size="OffcanvasSize.ExtraLarge" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasTopExtraLargeRef" Placement="Placement.Top" Size="OffcanvasSize.ExtraLarge" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 300)">
     <OffcanvasHeader>
         Extra Large Top Offcanvas
         <CloseButton Clicked="@(() => HideOffcanvas( offcanvasTopExtraLargeRef ))" />
@@ -251,7 +217,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
-<Offcanvas @ref="offcanvasTopFullscreenRef" Placement="Placement.Top" Size="OffcanvasSize.Fullscreen" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasTopFullscreenRef" Placement="Placement.Top" Size="OffcanvasSize.Fullscreen" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 300)">
     <OffcanvasHeader>
         Fullscreen Top Offcanvas
         <CloseButton Clicked="@(() => HideOffcanvas( offcanvasTopFullscreenRef ))" />
@@ -277,9 +243,6 @@
     private Offcanvas offcanvasTopLargeRef;
     private Offcanvas offcanvasTopExtraLargeRef;
     private Offcanvas offcanvasTopFullscreenRef;
-
-    private bool animation = true;
-    private int animationDuration = 300;
 
     private Task HideOffcanvas1()
     {
@@ -310,4 +273,6 @@
     {
         return offcanvas.Hide();
     }
+
+    [CascadingParameter] protected AppSettings AppSettings { get; set; }
 }

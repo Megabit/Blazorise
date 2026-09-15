@@ -18,6 +18,7 @@
         flex-shrink: 0;
         display: grid;
         align-items: center;
+        font-weight: var(--fontWeightBold);
         padding-top: var(--fui-Card--size);
         padding-inline: var(--fui-Card--size);
         margin-bottom: 0;
@@ -31,7 +32,7 @@
             overflow-y: visible;
             text-overflow: clip;
             font-size: var(--fontSizeBase300);
-            font-weight: var(--fontWeightRegular);
+            font-weight: inherit;
             line-height: var(--lineHeightBase300);
         }
     }

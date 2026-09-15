@@ -1,0 +1,7 @@
+.alert[data-animation-duration] {
+    @include component-animation-duration(var(--bs-alert-animation-duration));
+}
+
+.alert {
+    @include visibility-transition($transition-fade);
+}

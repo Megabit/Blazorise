@@ -133,6 +133,7 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 - Prefer Razor for component-local markup. Use shared protected `RenderFragment` builders only when common rendering logic requires provider-specific placement.
 - Avoid additional abstractions and public APIs unless they are required to represent genuinely distinct state or behavior.
 - Keep static provider styling in SCSS. Use `StyleProvider` only for styles derived from runtime component state.
+- Keep each CSS provider's SCSS self-contained. Do not import mixins, functions, or styles from the core Blazorise project or another provider. When multiple providers need the same styling helper, copy it into each provider and maintain the local copies independently.
 - Prefer provider-native tokens and variables. Introduce new CSS variables only when necessary and name them according to the provider's established convention.
 
 ## Testing Guidelines

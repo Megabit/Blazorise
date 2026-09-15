@@ -3,7 +3,7 @@
     <CascadingValue Value="@State">
         @ChildContent
 
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-animation-duration="@AnimationDurationString" @attributes="@Attributes">
             @if ( ShowControls )
             {
                 <div class="fui-Carousel__paddlescontainer">

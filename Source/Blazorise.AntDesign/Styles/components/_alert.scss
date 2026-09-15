@@ -1,4 +1,4 @@
-﻿@mixin ant-alert-variant($name, $color, $background, $border) {
+@mixin ant-alert-variant($name, $color, $background, $border) {
     &-#{$name} {
         color: #{$color};
         background-color: #{$background};
@@ -52,4 +52,12 @@
     @each $name, $colors in $alert-variants {
         @include ant-alert-variant($name, nth($colors, 1), nth($colors, 2), nth($colors, 3));
     }
+}
+
+.ant-alert[data-animation-duration] {
+    @include component-animation-duration(var(--ant-alert-animation-duration));
+}
+
+.ant-alert {
+    @include visibility-transition(opacity var(--ant-motion-duration-slow) var(--ant-motion-ease-in-out));
 }

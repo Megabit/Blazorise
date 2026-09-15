@@ -1,4 +1,4 @@
-﻿.b-carousel-fade {
+.b-carousel-fade {
     .b-carousel-slide {
         opacity: 0;
         transition-property: opacity;
@@ -17,5 +17,15 @@
         z-index: 0;
         opacity: 0;
         @include transition(opacity 0s $carousel-transition-duration);
+    }
+}
+
+.b-carousel[data-animation-duration] {
+    > .b-carousel-slides > .b-carousel-slide {
+        @include component-animation-duration(var(--tw-carousel-animation-duration));
+    }
+
+    &.b-carousel-fade > .b-carousel-slides > .b-carousel-slide-active:is(.b-carousel-slide-start, .b-carousel-slide-end) {
+        @include component-animation-duration(0s, var(--tw-carousel-animation-duration));
     }
 }

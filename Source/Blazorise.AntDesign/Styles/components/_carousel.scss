@@ -182,3 +182,9 @@
         }
     }
 }
+
+.ant-carousel[data-animation-duration] {
+    > .slick-slider > .slick-list > .slick-track {
+        @include component-animation-duration(var(--ant-carousel-animation-duration));
+    }
+}

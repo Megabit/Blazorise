@@ -144,6 +144,45 @@ namespace Blazorise.Docs.Models
     </Addon>
 </Addons>";
 
+        public const string AlertAnimationExample = @"<Div Flex=""Flex.Wrap.AlignItems.Center"" Gap=""Gap.Is3"" Margin=""Margin.Is3.FromBottom"">
+    <Field Margin=""Margin.Is0"" Width=""Width.Auto"">
+        <Switch @bind-Value=""animated"">Animate transitions</Switch>
+    </Field>
+    <Field Margin=""Margin.Is0"" Width=""Width.Auto"">
+        <Switch @bind-Value=""dismissable"">Show close button</Switch>
+    </Field>
+    <Field Flex=""Flex.InlineFlex.AlignItems.Center"" Gap=""Gap.Is2"" Margin=""Margin.Is0"" Width=""Width.Auto"">
+        <FieldLabel Margin=""Margin.Is0"">Animation duration</FieldLabel>
+        <Select TValue=""int?"" @bind-Value=""animationDuration"" Width=""Width.Auto"">
+            <SelectItem TValue=""int?"" Value=""@((int?)null)"">Provider default</SelectItem>
+            <SelectItem TValue=""int?"" Value=""0"">Immediate</SelectItem>
+            <SelectItem TValue=""int?"" Value=""100"">100 ms</SelectItem>
+            <SelectItem TValue=""int?"" Value=""200"">200 ms</SelectItem>
+            <SelectItem TValue=""int?"" Value=""400"">400 ms</SelectItem>
+            <SelectItem TValue=""int?"" Value=""1000"">1000 ms</SelectItem>
+        </Select>
+    </Field>
+    <Button Color=""Color.Primary"" Clicked=""@(() => visible = !visible)"">Toggle alert</Button>
+</Div>
+<Alert Color=""Color.Success"" Dismisable=""@dismissable"" @bind-Visible=""visible"" Animated=""@animated"" AnimationDuration=""@animationDuration"">
+    <AlertMessage>Settings saved</AlertMessage>
+    <AlertDescription>The machine is ready for the next production run.</AlertDescription>
+    @if ( dismissable )
+    {
+        <CloseButton />
+    }
+</Alert>
+
+@code {
+    private bool animated = true;
+
+    private int? animationDuration = 400;
+
+    private bool dismissable = true;
+
+    private bool visible = true;
+}";
+
         public const string AlertUseProgrammaticallyExample = @"<Alert @ref=""myAlert"" Color=""Color.Success"">
     <AlertMessage>
         Alert test.
@@ -180,7 +219,7 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string AlertWithContentExample = @"<Alert Color=""Color.Info"" @bind-Visible=""@visible"">
+        public const string AlertWithContentExample = @"<Alert Color=""Color.Info"" @bind-Visible=""@visible"" Dismisable>
     <Heading Size=""HeadingSize.Is4"" TextColor=""TextColor.Success"">
         Big one!
         <CloseButton />
@@ -203,12 +242,12 @@ namespace Blazorise.Docs.Models
 </Alert>";
 
         public const string CloseAlertExample = @"<Alert Color=""Color.Success"" @bind-Visible=""@visible"">
-    <AlertDescription>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    </AlertDescription>
     <AlertMessage>
         Alert Link.
     </AlertMessage>
+    <AlertDescription>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </AlertDescription>
     <CloseButton />
 </Alert>
 @code {
@@ -1153,6 +1192,44 @@ namespace Blazorise.Docs.Models
         </Button>
     </CardBody>
 </Card>";
+
+        public const string CarouselAnimationExample = @"<Field>
+    <Switch @bind-Value=""animated"">Animate transitions</Switch>
+</Field>
+<Field>
+    <FieldLabel>Animation duration</FieldLabel>
+    <Select TValue=""int?"" @bind-Value=""animationDuration"">
+        <SelectItem TValue=""int?"" Value=""@((int?)null)"">Provider default</SelectItem>
+        <SelectItem TValue=""int?"" Value=""0"">Immediate</SelectItem>
+        <SelectItem TValue=""int?"" Value=""100"">100 ms</SelectItem>
+        <SelectItem TValue=""int?"" Value=""200"">200 ms</SelectItem>
+        <SelectItem TValue=""int?"" Value=""400"">400 ms</SelectItem>
+        <SelectItem TValue=""int?"" Value=""1000"">1000 ms</SelectItem>
+    </Select>
+</Field>
+
+<Field>
+    <Switch @bind-Value=""crossfade"">Crossfade</Switch>
+</Field>
+<Carousel Autoplay=""false"" Crossfade=""@crossfade"" Animated=""@animated"" AnimationDuration=""@animationDuration"">
+    <CarouselSlide Name=""1"">
+        <Image Source=""img/gallery/1.jpg"" Text=""Lights"" Display=""Display.Block"" Width=""Width.Is100"" />
+    </CarouselSlide>
+    <CarouselSlide Name=""2"">
+        <Image Source=""img/gallery/2.jpg"" Text=""Keyboard"" Display=""Display.Block"" Width=""Width.Is100"" />
+    </CarouselSlide>
+    <CarouselSlide Name=""3"">
+        <Image Source=""img/gallery/3.jpg"" Text=""Road"" Display=""Display.Block"" Width=""Width.Is100"" />
+    </CarouselSlide>
+</Carousel>
+
+@code {
+    private bool animated = true;
+
+    private int? animationDuration;
+
+    private bool crossfade;
+}";
 
         public const string CarouselCustomTemplatesExample = @"<Carousel @bind-SelectedSlide=""@selectedSlide""
           Autoplay=""false""
@@ -2262,6 +2339,36 @@ namespace Blazorise.Docs.Models
         reorderStatus = $""Order in dropzone {order.DestinationDropZoneName}: {string.Join( "", "", order.OrderedItems.OrderBy( x => x.Order ).Select( x => x.Item.Name ) )}"";
         return Task.CompletedTask;
     }
+}";
+
+        public const string DropdownAnimationExample = @"<Field>
+    <Switch @bind-Value=""animated"">Animate transitions</Switch>
+</Field>
+<Field>
+    <FieldLabel>Animation duration</FieldLabel>
+    <Select TValue=""int?"" @bind-Value=""animationDuration"">
+        <SelectItem TValue=""int?"" Value=""@((int?)null)"">Provider default</SelectItem>
+        <SelectItem TValue=""int?"" Value=""0"">Immediate</SelectItem>
+        <SelectItem TValue=""int?"" Value=""100"">100 ms</SelectItem>
+        <SelectItem TValue=""int?"" Value=""200"">200 ms</SelectItem>
+        <SelectItem TValue=""int?"" Value=""400"">400 ms</SelectItem>
+        <SelectItem TValue=""int?"" Value=""1000"">1000 ms</SelectItem>
+    </Select>
+</Field>
+
+<Dropdown Animated=""@animated"" AnimationDuration=""@animationDuration"">
+    <DropdownToggle Color=""Color.Primary"">Machine settings</DropdownToggle>
+    <DropdownMenu>
+        <DropdownItem>Operating mode</DropdownItem>
+        <DropdownItem>Production speed</DropdownItem>
+        <DropdownItem>Maintenance schedule</DropdownItem>
+    </DropdownMenu>
+</Dropdown>
+
+@code {
+    private bool animated = true;
+
+    private int? animationDuration;
 }";
 
         public const string DropdownCheckboxExample = @"<Dropdown>

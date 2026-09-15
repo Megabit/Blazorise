@@ -3,6 +3,8 @@
 }
 
 .dropdown-menu {
+    transition-property: none;
+
     &-position-strategy {
         width: max-content;
         top: 0;
@@ -250,5 +252,13 @@
             border-bottom: .3em solid transparent;
             vertical-align: 0;
         }
+    }
+}
+
+.dropdown[data-animation-duration] {
+    > .dropdown-menu,
+    > .dropdown-toggle,
+    > .dropdown-toggle::after {
+        @include component-animation-duration(var(--dropdown-animation-duration));
     }
 }

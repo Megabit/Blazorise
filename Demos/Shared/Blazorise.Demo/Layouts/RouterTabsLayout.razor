@@ -1,49 +1,8 @@
 @inherits MainLayout
 
-@if ( layoutType == "fixed-header" )
-{
-    <Layout Sider>
-        <LayoutSider>
-            <LayoutSiderContent>
-                <SideMenu />
-            </LayoutSiderContent>
-        </LayoutSider>
-        <Layout>
-            <LayoutHeader Fixed>
-                <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
-                         ThemeColorChanged="@OnThemeColorChanged"
-                         @bind-LayoutType="@layoutType" />
-            </LayoutHeader>
-            <LayoutContent Padding="Padding.Is4.OnX">
-                <RouterTabs />
-            </LayoutContent>
-        </Layout>
-    </Layout>
-}
-else if ( layoutType == "fixed-header-footer-only" )
-{
-    <Layout>
-        <LayoutHeader Fixed>
-            <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
-                     ThemeColorChanged="@OnThemeColorChanged"
-                     @bind-LayoutType="@layoutType" />
-        </LayoutHeader>
-        <LayoutContent Padding="Padding.Is4.OnX">
-            <RouterTabs />
-        </LayoutContent>
-        <LayoutFooter Fixed>
-            <FooterMenu></FooterMenu>
-        </LayoutFooter>
-    </Layout>
-}
-else if ( layoutType == "sider-with-header-on-top" )
-{
-    <Layout>
-        <LayoutHeader Fixed>
-            <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
-                     ThemeColorChanged="@OnThemeColorChanged"
-                     @bind-LayoutType="@layoutType" />
-        </LayoutHeader>
+<CascadingValue Value="@appSettings">
+    @if ( layoutType == "fixed-header" )
+    {
         <Layout Sider>
             <LayoutSider>
                 <LayoutSiderContent>
@@ -51,10 +10,56 @@ else if ( layoutType == "sider-with-header-on-top" )
                 </LayoutSiderContent>
             </LayoutSider>
             <Layout>
+                <LayoutHeader Fixed>
+                    <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
+                             ThemeColorChanged="@OnThemeColorChanged"
+                             AppSettingsChanged="@OnAppSettingsChanged"
+                             @bind-LayoutType="@layoutType" />
+                </LayoutHeader>
                 <LayoutContent Padding="Padding.Is4.OnX">
                     <RouterTabs />
                 </LayoutContent>
             </Layout>
         </Layout>
-    </Layout>
-}
+    }
+    else if ( layoutType == "fixed-header-footer-only" )
+    {
+        <Layout>
+            <LayoutHeader Fixed>
+                <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
+                         ThemeColorChanged="@OnThemeColorChanged"
+                         AppSettingsChanged="@OnAppSettingsChanged"
+                         @bind-LayoutType="@layoutType" />
+            </LayoutHeader>
+            <LayoutContent Padding="Padding.Is4.OnX">
+                <RouterTabs />
+            </LayoutContent>
+            <LayoutFooter Fixed>
+                <FooterMenu></FooterMenu>
+            </LayoutFooter>
+        </Layout>
+    }
+    else if ( layoutType == "sider-with-header-on-top" )
+    {
+        <Layout>
+            <LayoutHeader Fixed>
+                <TopMenu ThemeEnabledChanged="@OnThemeEnabledChanged"
+                         ThemeColorChanged="@OnThemeColorChanged"
+                         AppSettingsChanged="@OnAppSettingsChanged"
+                         @bind-LayoutType="@layoutType" />
+            </LayoutHeader>
+            <Layout Sider>
+                <LayoutSider>
+                    <LayoutSiderContent>
+                        <SideMenu />
+                    </LayoutSiderContent>
+                </LayoutSider>
+                <Layout>
+                    <LayoutContent Padding="Padding.Is4.OnX">
+                        <RouterTabs />
+                    </LayoutContent>
+                </Layout>
+            </Layout>
+        </Layout>
+    }
+</CascadingValue>

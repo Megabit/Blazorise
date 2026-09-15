@@ -1,4 +1,4 @@
-﻿.fui-Dropdown {
+.fui-Dropdown {
     min-width: 250px;
     display: inline-block;
     border-bottom-color: var(--colorNeutralStrokeAccessible);
@@ -421,27 +421,13 @@
         }
     }
 
-    @keyframes fadein {
-        0% {
-            opacity: 0;
-        }
-
-        100% {
-            opacity: 1;
-        }
-    }
-
-    @keyframes slidein {
-        0% {
-            transform: translate(var(--fui-positioning-slide-distance-x), var(--fui-positioning-slide-distance-y));
-        }
-    }
-
     .fui-MenuPopover {
-        animation-name: fadein, slidein;
-        animation-timing-function: var(--curveDecelerateMid);
-        animation-duration: var(--durationSlower);
-        animation-composition: accumulate;
+        opacity: 0;
+        translate: var(--fui-positioning-slide-distance-x) var(--fui-positioning-slide-distance-y);
+        pointer-events: none;
+        transition-property: none;
+        transition-duration: var(--durationSlower);
+        transition-timing-function: var(--curveDecelerateMid);
         padding-bottom: 4px;
         box-shadow: var(--shadow16);
         width: max-content;
@@ -478,6 +464,19 @@
 
         &-show {
             display: flex;
+            opacity: 1;
+            translate: none;
+            pointer-events: auto;
+            transition-property: opacity, translate;
+
+            @starting-style {
+                opacity: 0;
+                translate: var(--fui-positioning-slide-distance-x) var(--fui-positioning-slide-distance-y);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none !important;
         }
 
         &-position-strategy {
@@ -498,6 +497,8 @@
         }
 
         .fui-MenuList {
+            flex: 1 1 auto;
+            min-width: 0;
             height: 100%;
             row-gap: 2px;
             column-gap: 2px;
@@ -623,5 +624,13 @@
                 }
             }
         }
+    }
+}
+
+.fui-Menu[data-animation-duration] {
+    > .fui-MenuPopover,
+    > .fui-MenuButton > .fui-MenuButton__menuIcon,
+    > .fui-MenuButton > .fui-MenuButton__menuIcon > svg {
+        @include component-animation-duration(var(--fui-dropdown-animation-duration));
     }
 }

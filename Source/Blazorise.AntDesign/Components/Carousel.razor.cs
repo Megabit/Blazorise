@@ -2,7 +2,6 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -71,8 +70,6 @@ public partial class Carousel : Blazorise.Carousel
     {
         if ( ShouldUseSlickWraparoundTransition )
         {
-            await Task.Delay( SlickTransitionDuration );
-
             suppressSlickTrackTransition = true;
 
             await InvokeAsync( StateHasChanged );
@@ -106,7 +103,7 @@ public partial class Carousel : Blazorise.Carousel
                 targetSlidePosition = 0;
             }
 
-            return $"width: {totalWidth}px; opacity: 1; transform: translate3d(-{slickWidth * targetSlidePosition}px, 0px, 0px);transition: {( suppressSlickTrackTransition ? "none" : $"-webkit-transform {SlickTransitionDuration}ms ease 0s" )};";
+            return $"width: {totalWidth}px; opacity: 1; transform: translate3d(-{slickWidth * targetSlidePosition}px, 0px, 0px);transition: {( suppressSlickTrackTransition || EffectiveAnimationDuration == 0 ? "none" : $"transform {EffectiveAnimationDuration ?? SlickTransitionDuration}ms ease 0s" )};";
         }
     }
 
@@ -115,11 +112,6 @@ public partial class Carousel : Blazorise.Carousel
 
     protected string SlickStyle
         => $"outline: none; width: {slickWidth}px;";
-
-    /// <summary>
-    /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
-    /// </summary>
-    [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     private bool ShouldUseSlickWraparoundTransition
         => carouselSlides.Count > 1

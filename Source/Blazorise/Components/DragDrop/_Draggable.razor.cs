@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -41,10 +42,19 @@ public partial class _Draggable<TItem> : BaseComponent
 
     private async Task OnDragStartHandler()
     {
-        if ( ParentContainer is null )
+        if ( ParentContainer is null || Disabled )
             return;
 
         dragging = true;
+
+        if ( ParentZone?.CanReorder == true )
+        {
+            // Let the browser finish dragstart before the transaction hides the source.
+            await JSUtilitiesModule.WaitForAnimationFrame();
+
+            if ( !dragging || Disposed )
+                return;
+        }
 
         ParentContainer.StartTransaction( Item, ZoneName ?? string.Empty, Index, OnDroppedSucceeded, OnDroppedCanceled );
 
@@ -58,7 +68,8 @@ public partial class _Draggable<TItem> : BaseComponent
         {
             dragging = false;
 
-            await ParentContainer?.CancelTransaction();
+            if ( ParentContainer?.TransactionInProgress == true )
+                await ParentContainer.CancelTransaction();
         }
         else
         {
@@ -124,6 +135,11 @@ public partial class _Draggable<TItem> : BaseComponent
     /// Gets the reorder source state serialized for CSS and JavaScript.
     /// </summary>
     protected string ReorderSourceString => ShouldHideReorderSource ? "true" : null;
+
+    /// <summary>
+    /// Gets or sets the JavaScript utilities module.
+    /// </summary>
+    [Inject] protected IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     /// <summary>
     /// The dropzone name this this draggable belongs to.

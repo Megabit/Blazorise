@@ -1,4 +1,4 @@
-﻿.table-container-fixed-header .table thead tr th.dropdown-table-fixed-header-visible {
+.table-container-fixed-header .table thead tr th.dropdown-table-fixed-header-visible {
     z-index: 11;
 }
 
@@ -130,6 +130,10 @@
 }
 
 .dropdown {
+    > .dropdown-menu {
+        transition-property: none;
+    }
+
     .button.dropdown-trigger:not(.is-outlined) {
         box-shadow: none;
     }
@@ -207,5 +211,12 @@
             left: 0;
             right: auto;
         }
+    }
+}
+
+.dropdown[data-animation-duration] {
+    > .dropdown-menu,
+    > .dropdown-trigger > .button {
+        @include component-animation-duration(var(--bulma-dropdown-animation-duration));
     }
 }

@@ -8,6 +8,24 @@ public interface IStyleProvider
 
     #endregion
 
+    #region Dropdown
+
+    string DropdownAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
+    #region Carousel
+
+    string CarouselAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
+    #region Alert
+
+    string AlertAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
     #region Collapse
 
     string CollapseAnimationDuration( int? animationDuration ) => null;

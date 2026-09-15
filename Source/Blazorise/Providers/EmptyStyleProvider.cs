@@ -11,6 +11,24 @@ class EmptyStyleProvider : IStyleProvider
 
     #endregion
 
+    #region Dropdown
+
+    public string DropdownAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
+    #region Carousel
+
+    public string CarouselAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
+    #region Alert
+
+    public string AlertAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
     #region Collapse
 
     public string CollapseAnimationDuration( int? animationDuration ) => null;

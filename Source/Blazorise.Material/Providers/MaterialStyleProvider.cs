@@ -15,6 +15,27 @@ public class MaterialStyleProvider : StyleProvider
 
     #endregion
 
+    #region Dropdown
+
+    public override string DropdownAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--mui-dropdown-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Carousel
+
+    public override string CarouselAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--mui-carousel-transition-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Alert
+
+    public override string AlertAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--mui-alert-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
     #region Collapse
 
     public override string CollapseAnimationDuration( int? animationDuration )

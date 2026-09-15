@@ -6,29 +6,7 @@
                 <CardTitle>Accordion</CardTitle>
             </CardHeader>
             <CardBody>
-                <Row>
-                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
-                        <Field>
-                            <Switch @bind-Value="@animated">Animate transitions</Switch>
-                        </Field>
-                    </Column>
-                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
-                        <Field>
-                            <FieldLabel>Animation duration</FieldLabel>
-                            <Select TValue="int?" @bind-Value="@animationDuration">
-                                <SelectItem TValue="int?" Value="@((int?)null)">Provider default</SelectItem>
-                                <SelectItem TValue="int?" Value="0">Immediate</SelectItem>
-                                <SelectItem TValue="int?" Value="100">100 ms</SelectItem>
-                                <SelectItem TValue="int?" Value="200">200 ms</SelectItem>
-                                <SelectItem TValue="int?" Value="400">400 ms</SelectItem>
-                                <SelectItem TValue="int?" Value="1000">1000 ms</SelectItem>
-                            </Select>
-                        </Field>
-                    </Column>
-                </Row>
-            </CardBody>
-            <CardBody>
-                <Accordion Animated="@animated" AnimationDuration="@animationDuration">
+                <Accordion Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration">
                     <AccordionItem @bind-Visible="@accordionItem1Visible">
                         <AccordionHeader>
                             <Heading Size="HeadingSize.Is5">
@@ -65,9 +43,9 @@
     </Column>
 </Row>
 @code {
-    bool animated = true;
-    int? animationDuration;
     bool accordionItem1Visible = true;
     bool accordionItem2Visible = false;
     bool accordionItem3Visible = false;
+
+    [CascadingParameter] protected AppSettings AppSettings { get; set; }
 }

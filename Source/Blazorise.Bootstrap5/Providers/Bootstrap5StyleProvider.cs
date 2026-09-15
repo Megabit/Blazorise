@@ -18,6 +18,27 @@ public class Bootstrap5StyleProvider : StyleProvider
 
     #endregion
 
+    #region Dropdown
+
+    public override string DropdownAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--bs-dropdown-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Carousel
+
+    public override string CarouselAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--bs-carousel-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Alert
+
+    public override string AlertAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--bs-alert-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
     #region Collapse
 
     public override string CollapseAnimationDuration( int? animationDuration )

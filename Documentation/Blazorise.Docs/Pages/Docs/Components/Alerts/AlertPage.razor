@@ -70,7 +70,9 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Close button">
-        You can also add a <Code>CloseButton</Code>.
+        Adding a <Code>CloseButton</Code> automatically applies the padding and positioning needed for dismissal.
+        An explicit <Code>Dismisable</Code> value overrides this behavior: use <Code>true</Code> for custom close controls or <Code>false</Code> to opt out of automatic styling.
+        The close button's <Code>AutoClose</Code> parameter controls whether clicking it hides the alert.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="CloseAlertExample" Outlined FullWidth>
         <CloseAlertExample />
@@ -104,6 +106,19 @@
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="AlertUseProgrammaticallyExample" Outlined FullWidth>
         <AlertUseProgrammaticallyExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Animation" New>
+        Set <Code>Animated="false"</Code> for immediate changes, or use <Code>AnimationDuration</Code> to adjust the duration in milliseconds.
+        A null duration preserves the provider's default; zero or a negative value disables animations.
+        Toggle the alert or use its close button to see the entrance and exit effects. The alert stays in layout until its exit animation finishes. Animations also work without a close button, and the initial visibility is applied immediately. Reduced-motion preferences disable the effects.
+        <Code>VisibleChanged</Code> reports the requested visibility without waiting for animation completion.
+        The effects use CSS display transitions and starting styles. Unsupported effects fall back to immediate visibility changes.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="AlertAnimationExample" Outlined>
+        <AlertAnimationExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 

@@ -1,8 +1,10 @@
 @import "variables";
 @import "mixins";
+@import "mixins/animation";
 @import "mixins/breakpoints";
 
 @import "components/accordion";
+@import "components/alert";
 @import "components/addon";
 @import "components/bar";
 @import "components/breadcrumb";

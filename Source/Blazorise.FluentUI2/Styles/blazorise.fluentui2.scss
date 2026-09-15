@@ -1,6 +1,7 @@
 @import "variables";
 @import "functions";
 @import "mixins";
+@import "mixins/animation";
 @import "mixins/breakpoints";
 @import "themes";
 
@@ -58,8 +59,8 @@
 @import "utilities/background";
 @import "utilities/borders";
 @import "utilities/cursor";
-@import "utilities/display";
 @import "utilities/flex";
+@import "utilities/display";
 @import "utilities/float";
 @import "utilities/grid";
 @import "utilities/object-fit";

@@ -1,16 +1,49 @@
-@keyframes mui-dropdown-fadein {
-    0% {
-        opacity: 0;
+// Share the interpolated scale with the contents so their size stays constant.
+@property --mui-dropdown-expansion {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@keyframes mui-dropdown-expand {
+    from {
+        --mui-dropdown-expansion: 0.35;
     }
 
-    100% {
-        opacity: 1;
+    to {
+        --mui-dropdown-expansion: 1;
+    }
+
+    from, to {
+        overflow: hidden;
+        scale: 1 var(--mui-dropdown-expansion);
     }
 }
 
-@keyframes mui-dropdown-slidein {
-    0% {
-        transform: translate(var(--mui-positioning-slide-distance-x), var(--mui-positioning-slide-distance-y));
+@keyframes mui-dropdown-collapse {
+    from {
+        --mui-dropdown-expansion: 1;
+    }
+
+    to {
+        --mui-dropdown-expansion: 0.35;
+    }
+
+    from, to {
+        overflow: hidden;
+        scale: 1 var(--mui-dropdown-expansion);
+    }
+}
+
+@keyframes mui-dropdown-content-expand {
+    from, to {
+        scale: 1 calc(1 / var(--mui-dropdown-expansion));
+    }
+}
+
+@keyframes mui-dropdown-content-collapse {
+    from, to {
+        scale: 1 calc(1 / var(--mui-dropdown-expansion));
     }
 }
 
@@ -27,22 +60,7 @@
 
     &.dropup {
         > .mui-dropdown-menu {
-            --mui-positioning-slide-distance-y: 10px;
-            --mui-positioning-slide-distance-x: 0px;
-        }
-    }
-
-    &.dropstart {
-        > .mui-dropdown-menu {
-            --mui-positioning-slide-distance-y: 0px;
-            --mui-positioning-slide-distance-x: 10px;
-        }
-    }
-
-    &.dropend {
-        > .mui-dropdown-menu {
-            --mui-positioning-slide-distance-y: 0px;
-            --mui-positioning-slide-distance-x: -10px;
+            transform-origin: center bottom;
         }
     }
 
@@ -50,14 +68,13 @@
         --mui-dropdown-radius: 1rem;
         --mui-dropdown-padding: 0.25rem;
         --mui-dropdown-item-edge-radius: calc(var(--mui-dropdown-radius) - var(--mui-dropdown-padding));
-        --mui-positioning-slide-distance-y: -10px;
-        --mui-positioning-slide-distance-x: 0px;
-        animation-name: mui-dropdown-fadein, mui-dropdown-slidein;
-        animation-timing-function: var(--mui-curve-decelerate-mid);
-        animation-duration: var(--mui-duration-slower);
-        animation-composition: accumulate;
+        --mui-dropdown-expansion: 1;
+        animation-name: mui-dropdown-collapse;
+        animation-duration: var(--mui-duration-fast);
+        animation-timing-function: var(--mui-curve-accelerate-min);
+        transform-origin: center top;
         opacity: 0;
-        visibility: hidden;
+        pointer-events: none;
         display: none;
         box-shadow: var(--mui-elevate2);
         background-color: var(--mui-surface-container);
@@ -78,13 +95,25 @@
         padding: var(--mui-dropdown-padding);
         flex-direction: column;
         gap: 0.125rem;
-        transition: opacity var(--mui-duration-normal), visibility 0s linear var(--mui-duration-normal);
+        transition-property: opacity, display;
+        transition-duration: var(--mui-duration-fast);
+        transition-timing-function: var(--mui-curve-accelerate-min);
+        transition-behavior: allow-discrete;
 
         &-active {
+            animation-name: mui-dropdown-expand;
+            animation-duration: var(--mui-duration-slow);
+            animation-timing-function: var(--mui-curve-decelerate-min);
             display: flex;
             opacity: 1;
             visibility: visible;
-            transition: opacity var(--mui-duration-normal), visibility 0s;
+            pointer-events: auto;
+            transition-duration: var(--mui-duration-faster), var(--mui-duration-slow);
+            transition-timing-function: var(--mui-curve-decelerate-min);
+
+            @starting-style {
+                opacity: 0;
+            }
         }
 
         &-position-strategy {
@@ -186,11 +215,62 @@
             background-color: var(--mui-outline-variant);
             margin: 0.25rem 0;
         }
+        // Transforms must end with the animation so fixed submenus can escape the scroll container.
+        > .mui-dropdown-item,
+        > .mui-dropdown-header,
+        > * {
+            animation-name: mui-dropdown-content-collapse;
+            animation-duration: inherit;
+            animation-timing-function: inherit;
+        }
+
+        &-active {
+            > .mui-dropdown-item,
+            > .mui-dropdown-header,
+            > * {
+                animation-name: mui-dropdown-content-expand;
+            }
+        }
+        // Submenus fade at their final size while the parent menu stays in place.
+        .mui-dropdown-menu {
+            animation-name: none;
+            transition-duration: var(--mui-duration-fast);
+
+            > .mui-dropdown-item,
+            > .mui-dropdown-header,
+            > * {
+                animation-name: none;
+            }
+        }
+        // Keep an opening submenu outside its ancestors' clipping areas.
+        &:has(.mui-dropdown-menu-active) {
+            &,
+            > * {
+                scale: none !important;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none !important;
+
+            &,
+            > * {
+                animation: none !important;
+            }
+        }
     }
 }
 
 .mui-dropdown {
     &-toggle-hidden > :last-child {
         display: none !important;
+    }
+}
+
+.mui-dropdown[data-animation-duration] {
+    > .mui-dropdown-menu,
+    > .mui-dropdown-toggle,
+    > .mui-dropdown-toggle::after {
+        @include component-animation-duration(var(--mui-dropdown-animation-duration));
     }
 }

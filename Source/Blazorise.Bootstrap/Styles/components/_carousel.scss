@@ -1,0 +1,9 @@
+.carousel[data-animation-duration] {
+    > .carousel-inner > .carousel-item {
+        @include component-animation-duration(var(--carousel-animation-duration));
+    }
+
+    &.carousel-fade > .carousel-inner > .carousel-item.active:is(.carousel-item-left, .carousel-item-right) {
+        @include component-animation-duration(0s, var(--carousel-animation-duration));
+    }
+}

@@ -52,8 +52,8 @@
             <DropZone TItem="DropItem"
                       Name="@zoneName"
                       AllowReorder
-                      Animated
-                      AnimationDuration="200"
+                      Animated="@AppSettings.AnimationSettings.Animated"
+                      AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 200)"
                       Border="Border.Is1.Rounded"
                       Background="Background.Light"
                       Padding="Padding.Is4"
@@ -261,4 +261,6 @@
         lastAction = "Items were returned to the basket.";
         dropContainer?.Refresh();
     }
+
+    [CascadingParameter] protected AppSettings AppSettings { get; set; }
 }

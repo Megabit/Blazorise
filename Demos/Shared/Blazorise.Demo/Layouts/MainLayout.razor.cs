@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Blazorise.Demo.Components;
+using Blazorise.Demo.Models;
 using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 
@@ -9,11 +10,18 @@ public partial class MainLayout
 {
     protected string layoutType = "fixed-header";
 
+    protected AppSettings appSettings = new();
+
     protected override async Task OnInitializedAsync()
     {
         await SelectCulture( "en-US" );
 
         await base.OnInitializedAsync();
+    }
+
+    protected void OnAppSettingsChanged( AppSettings settings )
+    {
+        appSettings = settings;
     }
 
     private Task SelectCulture( string name )

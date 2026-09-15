@@ -1,10 +1,10 @@
-<DropContainer TItem="DropItem" Items="@items" ItemsFilter="@((item, dropZone) => item.Group == dropZone)" ItemDropped="@ItemDropped" PlaceholderTemplate="@PlaceholderTemplate" Flex="Flex.Wrap.Grow.Is1">
+<DropContainer TItem="DropItem" Items="@items" ItemsFilter="@((item, dropZone) => item.Group == dropZone)" ItemDropped="@ItemDropped" Flex="Flex.Wrap.Grow.Is1">
     <ChildContent>
         @for ( int i = 1; i < 4; i++ )
         {
             var dropzone = i.ToString();
 
-            <DropZone Class="@($"dropzone-{dropzone}")" TItem="DropItem" Name="@dropzone" AllowReorder="@AllowReorder" Animated="@Animated" AnimationDuration="@AnimationDuration" ShowPlaceholder="@ShowPlaceholder" OnlyZone="@OnlyZone" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1" />
+            <DropZone Class="@($"dropzone-{dropzone}")" TItem="DropItem" Name="@dropzone" AllowReorder Animated="@Animated" AnimationDuration="@AnimationDuration" ShowPlaceholder="@ShowPlaceholder" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1" />
         }
     </ChildContent>
     <ItemTemplate>
@@ -21,12 +21,6 @@
     [Parameter] public bool? ShowPlaceholder { get; set; }
 
     [Parameter] public int AnimationDuration { get; set; } = 200;
-
-    [Parameter] public bool AllowReorder { get; set; } = true;
-
-    [Parameter] public bool OnlyZone { get; set; }
-
-    [Parameter] public RenderFragment<DropItem> PlaceholderTemplate { get; set; }
 
     public class DropItem
     {

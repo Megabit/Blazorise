@@ -10,7 +10,7 @@
                 <CardText>Choose from four different dropdown menu directions.</CardText>
             </CardBody>
             <CardBody>
-                <Dropdown Display="Display.InlineBlock">
+                <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration" Display="Display.InlineBlock">
                     <DropdownToggle Color="Color.Secondary">Default</DropdownToggle>
                     <DropdownMenu>
                         <DropdownHeader>Dropdown header</DropdownHeader>
@@ -21,7 +21,7 @@
                         <DropdownItem>Another Action</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <Dropdown Direction="Direction.Up" Display="Display.InlineBlock">
+                <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration" Direction="Direction.Up" Display="Display.InlineBlock">
                     <DropdownToggle Color="Color.Secondary">Up</DropdownToggle>
                     <DropdownMenu>
                         <DropdownHeader>Dropdown header</DropdownHeader>
@@ -32,7 +32,7 @@
                         <DropdownItem>Another Action</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <Dropdown Direction="Direction.Start" Display="Display.InlineBlock">
+                <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration" Direction="Direction.Start" Display="Display.InlineBlock">
                     <DropdownToggle Color="Color.Secondary">Left</DropdownToggle>
                     <DropdownMenu>
                         <DropdownHeader>Dropdown header</DropdownHeader>
@@ -43,7 +43,7 @@
                         <DropdownItem>Another Action</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <Dropdown Direction="Direction.End" Display="Display.InlineBlock">
+                <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration" Direction="Direction.End" Display="Display.InlineBlock">
                     <DropdownToggle Color="Color.Secondary">Right</DropdownToggle>
                     <DropdownMenu>
                         <DropdownHeader>Dropdown header</DropdownHeader>
@@ -66,7 +66,7 @@
                 <CardText>Turn a button into a dropdown.</CardText>
             </CardBody>
             <CardBody>
-                <Dropdown>
+                <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration">
                     <DropdownToggle Color="Color.Primary">
                         Dropdown button
                     </DropdownToggle>
@@ -79,7 +79,7 @@
                         <DropdownItem>Another Action</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <Dropdown>
+                <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration">
                     <Button Color="Color.Secondary">Split dropdown button</Button>
                     <DropdownToggle Color="Color.Secondary" Split></DropdownToggle>
                     <DropdownMenu>
@@ -91,7 +91,7 @@
                         <DropdownItem>Another Action</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <Dropdown>
+                <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration">
                     <DropdownToggle Color="Color.Danger" ShowToggleIcon="false">
                         Hidden toggle button
                     </DropdownToggle>
@@ -119,21 +119,21 @@
                 <CardText>Nesting multiple dropdowns inside of another dropdown is also supported.</CardText>
             </CardBody>
             <CardBody>
-                <Dropdown Display="Display.InlineBlock">
+                <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration" Display="Display.InlineBlock">
                     <DropdownToggle Color="Color.Primary">Multi level dropdown</DropdownToggle>
                     <DropdownMenu>
                         <DropdownItem>Item 1.1</DropdownItem>
-                        <Dropdown>
+                        <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration">
                             <DropdownToggle>Level 2</DropdownToggle>
                             <DropdownMenu>
                                 <DropdownItem>Item 2.1</DropdownItem>
                                 <DropdownItem>Item 2.2</DropdownItem>
-                                <Dropdown>
+                                <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration">
                                     <DropdownToggle>Level 3</DropdownToggle>
                                     <DropdownMenu>
                                         <DropdownItem>Item 3.1</DropdownItem>
                                         <DropdownItem>Item 3.2</DropdownItem>
-                                        <Dropdown>
+                                        <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration">
                                             <DropdownToggle>Level 4</DropdownToggle>
                                             <DropdownMenu>
                                                 <DropdownItem>Item 4.1</DropdownItem>
@@ -146,21 +146,21 @@
                         </Dropdown>
                     </DropdownMenu>
                 </Dropdown>
-                <Dropdown Display="Display.InlineBlock">
+                <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration" Display="Display.InlineBlock">
                     <DropdownToggle Color="Color.Primary">Multi level dropdown</DropdownToggle>
                     <DropdownMenu>
                         <DropdownItem>Item 1.1</DropdownItem>
-                        <Dropdown Direction="Direction.Up">
+                        <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration" Direction="Direction.Up">
                             <DropdownToggle>Menu Up</DropdownToggle>
                             <DropdownMenu>
                                 <DropdownItem>Item 2.1</DropdownItem>
                                 <DropdownItem>Item 2.2</DropdownItem>
-                                <Dropdown Direction="Direction.Down">
+                                <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration" Direction="Direction.Down">
                                     <DropdownToggle>Menu Down</DropdownToggle>
                                     <DropdownMenu>
                                         <DropdownItem>Item 3.1</DropdownItem>
                                         <DropdownItem>Item 3.2</DropdownItem>
-                                        <Dropdown Direction="Direction.Start">
+                                        <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration" Direction="Direction.Start">
                                             <DropdownToggle>Menu Left</DropdownToggle>
                                             <DropdownMenu>
                                                 <DropdownItem>Item 4.1</DropdownItem>
@@ -188,7 +188,7 @@
                 <Buttons>
                     <Button Color="Color.Secondary">Action</Button>
                     <Button Color="Color.Secondary">Settings</Button>
-                    <Dropdown>
+                    <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration">
                         <DropdownToggle Color="Color.Secondary">Dropdown</DropdownToggle>
                         <DropdownMenu>
                             <DropdownItem>Item 1</DropdownItem>
@@ -210,7 +210,7 @@
             </CardBody>
             <CardBody>
                 <Buttons>
-                    <Dropdown>
+                    <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration">
                         <DropdownToggle Color="Color.Secondary">Dropdown with checkboxes</DropdownToggle>
                         <DropdownMenu>
                             <DropdownItem ShowCheckbox>Item 1</DropdownItem>
@@ -224,3 +224,7 @@
         </Card>
     </Column>
 </Row>
+
+@code {
+    [CascadingParameter] protected AppSettings AppSettings { get; set; }
+}
