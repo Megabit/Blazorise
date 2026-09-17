@@ -1484,6 +1484,12 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
+    #region Kbd
+
+    public override string Kbd() => null;
+
+    #endregion
+
     #region Code
 
     public override string Code() => null;

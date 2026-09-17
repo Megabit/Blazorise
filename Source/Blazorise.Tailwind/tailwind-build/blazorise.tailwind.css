@@ -160,6 +160,31 @@ body:before {
   padding: 0.5rem;
 }
 
+.tw-kbd {
+  padding: 0.2em 0.4em;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Consolas, monospace);
+  font-size: 0.875em;
+  color: var(--color-gray-900, var(--btw-color-gray-900));
+  background-color: var(--color-gray-100, var(--btw-color-gray-100));
+  border: 1px solid var(--color-gray-300, var(--btw-color-gray-300));
+  border-radius: var(--radius-sm, 0.25rem);
+  white-space: nowrap;
+}
+.dark .tw-kbd {
+  color: var(--color-gray-100, var(--btw-color-gray-100));
+  background-color: var(--color-gray-800, var(--btw-color-gray-800));
+  border-color: var(--color-gray-600, var(--btw-color-gray-600));
+}
+.tw-kbd .tw-kbd {
+  padding: 0;
+  font-size: 1em;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 .b-breadcrumb .b-breadcrumb-item:first-child > div > svg {
   display: none;
 }

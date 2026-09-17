@@ -1408,6 +1408,12 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region Kbd
+
+    public abstract string Kbd();
+
+    #endregion
+
     #region Code
 
     public abstract string Code();

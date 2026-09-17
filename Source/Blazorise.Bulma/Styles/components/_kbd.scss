@@ -1,0 +1,20 @@
+.kbd {
+    padding: .2em .4em;
+    font-family: var(--bulma-family-code);
+    font-size: .875em;
+    color: var(--bulma-text-strong);
+    background-color: var(--bulma-scheme-main-ter);
+    border: 1px solid var(--bulma-border);
+    border-radius: var(--bulma-radius-small);
+    white-space: nowrap;
+
+    & & {
+        padding: 0;
+        font-size: 1em;
+        color: inherit;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+}

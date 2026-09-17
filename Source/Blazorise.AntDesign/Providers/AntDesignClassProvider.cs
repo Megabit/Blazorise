@@ -1535,6 +1535,12 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region Kbd
+
+    public override string Kbd() => "ant-kbd";
+
+    #endregion
+
     #region Code
 
     public override string Code() => null;

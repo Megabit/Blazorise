@@ -1390,6 +1390,12 @@ public interface IClassProvider
 
     #endregion
 
+    #region Kbd
+
+    string Kbd();
+
+    #endregion
+
     #region Code
 
     string Code();

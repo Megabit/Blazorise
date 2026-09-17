@@ -1,0 +1,11 @@
+blockquote,
+dl,
+ol,
+p,
+pre,
+table,
+ul {
+    &:not(:last-child) {
+        margin-bottom: var(--bulma-content-block-margin-bottom, 1em);
+    }
+}
