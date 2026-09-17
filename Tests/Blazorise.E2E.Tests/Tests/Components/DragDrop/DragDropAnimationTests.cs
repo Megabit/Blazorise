@@ -16,24 +16,47 @@ public class DragDropAnimationTests : BlazorisePageTest
         var items = zone.Locator( ItemSelector );
         var sourceId = await items.Nth( 0 ).GetAttributeAsync( "id" );
 
-        await DragFirstItemOverThird( zone );
-
-        await Page.WaitForFunctionAsync( "selector => [...document.querySelectorAll(selector)].some(item => item.getAnimations().length > 0)", ".dropzone-1 " + ItemSelector );
-
-        var distance = await items.Nth( 1 ).EvaluateAsync<double>( """
+        // Capture movement as the animation is created. CI can finish the drag
+        // helper after the animation has already completed and been removed.
+        var observation = await items.Nth( 1 ).EvaluateHandleAsync( """
             element => {
-                const animation = element.getAnimations()[0];
-                animation.pause();
-                animation.currentTime = 0;
-                const start = element.getBoundingClientRect().top;
-                animation.currentTime = 500;
-                const end = element.getBoundingClientRect().top;
-                animation.play();
-                return Math.abs(end - start);
+                const animate = element.animate;
+                const observation = {
+                    distance: 0,
+                    restore: () => { delete element.animate; }
+                };
+
+                element.animate = function (...args) {
+                    const animation = animate.apply(this, args);
+                    animation.pause();
+                    animation.currentTime = 0;
+                    const start = this.getBoundingClientRect().top;
+                    animation.currentTime = animation.effect.getTiming().duration / 2;
+                    const end = this.getBoundingClientRect().top;
+                    observation.distance = Math.max(observation.distance, Math.abs(end - start));
+                    animation.currentTime = 0;
+                    animation.play();
+                    return animation;
+                };
+
+                return observation;
             }
             """ );
 
-        Assert.That( distance, Is.GreaterThan( 0 ) );
+        try
+        {
+            await DragFirstItemOverThird( zone );
+            await Page.WaitForFunctionAsync( "observation => observation.distance > 0", observation );
+
+            var distance = await observation.EvaluateAsync<double>( "observation => observation.distance" );
+            Assert.That( distance, Is.GreaterThan( 0 ) );
+        }
+        finally
+        {
+            await observation.EvaluateAsync( "observation => observation.restore()" );
+            await observation.DisposeAsync();
+        }
+
         await Expect( items ).ToHaveTextAsync( new[] { "Item 1", "Item 2", "Item 3", "Item 4" } );
 
         await Page.WaitForFunctionAsync( "selector => [...document.querySelectorAll(selector)].every(item => item.getAnimations().length === 0)", ".dropzone-1 " + ItemSelector );
