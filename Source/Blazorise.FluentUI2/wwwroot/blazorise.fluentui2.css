@@ -13774,13 +13774,24 @@ code {
 .fui-DatePicker__calendar .fui-DatePicker__months [data-outside=true] {
   color: var(--colorNeutralForegroundDisabled);
 }
-.fui-DatePicker__calendar .fui-DatePicker__timeInput {
-  box-sizing: border-box;
+.fui-DatePicker__calendar .fui-DatePicker__timeControl {
+  position: relative;
+  display: flex;
+  min-width: 0;
   flex: 1 1 0;
   width: 40%;
   height: 2.5rem;
+}
+.fui-DatePicker__calendar .fui-DatePicker__timeControl:first-child .fui-DatePicker__timeInput {
+  font-weight: var(--fontWeightSemibold);
+}
+.fui-DatePicker__calendar .fui-DatePicker__timeInput {
+  box-sizing: border-box;
+  width: 100%;
+  height: 2.5rem;
   margin: 0;
   padding: 0;
+  padding-inline-end: calc(var(--spacingHorizontalXXL) + var(--spacingHorizontalXXS));
   border: 0;
   border-radius: 0;
   outline: 0;
@@ -13792,9 +13803,6 @@ code {
   font-weight: var(--fontWeightRegular);
   line-height: 2.5rem;
   text-align: center;
-}
-.fui-DatePicker__calendar .fui-DatePicker__timeInput:first-child {
-  font-weight: var(--fontWeightSemibold);
 }
 .fui-DatePicker__calendar .fui-DatePicker__timeInput:hover:not(:disabled), .fui-DatePicker__calendar .fui-DatePicker__timeInput:focus {
   background: var(--colorNeutralBackground1Hover);
@@ -13810,6 +13818,78 @@ code {
 
 .fui-Input__input.fui-Input__input--colorPicker {
   height: 20px;
+}
+
+.fui-DatePicker__timeButtons {
+  box-sizing: border-box;
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: var(--strokeWidthThin);
+  display: flex;
+  flex-direction: column;
+  width: var(--spacingHorizontalXXL);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--borderRadiusMedium);
+  background: transparent;
+  transform: translateY(-50%);
+}
+.fui-DatePicker__timeButton {
+  display: inline-flex;
+  flex: 0 0 16px;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  height: 16px;
+  padding: 0 5px;
+  border: 0;
+  background: transparent;
+  color: var(--colorNeutralForeground3);
+  font: inherit;
+  font-size: var(--fontSizeBase200);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--durationUltraFast) var(--curveEasyEase), color var(--durationUltraFast) var(--curveEasyEase);
+}
+.fui-DatePicker__timeButton > i,
+.fui-DatePicker__timeButton > span,
+.fui-DatePicker__timeButton > svg {
+  display: none;
+}
+.fui-DatePicker__timeButton::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.15 10.35c.2.2.5.2.7 0L8 6.21l4.15 4.14a.5.5 0 0 0 .7-.7l-4.5-4.5a.5.5 0 0 0-.7 0l-4.5 4.5a.5.5 0 0 0 0 .7Z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.fui-DatePicker__timeButton:first-child {
+  padding-block: 4px 1px;
+  border-start-end-radius: var(--borderRadiusMedium);
+}
+.fui-DatePicker__timeButton:last-child {
+  padding-block: 1px 4px;
+  border-end-end-radius: var(--borderRadiusMedium);
+}
+.fui-DatePicker__timeButton:last-child::before {
+  transform: rotate(180deg);
+}
+.fui-DatePicker__timeButton:hover:not(:disabled) {
+  background: var(--colorSubtleBackgroundHover);
+  color: var(--colorNeutralForeground3Hover);
+}
+.fui-DatePicker__timeButton:active:not(:disabled) {
+  background: var(--colorSubtleBackgroundPressed);
+  color: var(--colorNeutralForeground3Pressed);
+}
+.fui-DatePicker__timeButton:focus-visible {
+  outline: 0.125rem solid var(--colorCompoundBrandStroke);
+  outline-offset: -0.125rem;
+}
+.fui-DatePicker__timeButton:disabled {
+  color: var(--colorNeutralForegroundDisabled);
+  cursor: not-allowed;
 }
 
 .fui-TimePicker-container {
@@ -13876,6 +13956,8 @@ code {
   flex-wrap: nowrap;
 }
 .fui-TimePicker__control {
+  position: relative;
+  min-width: 0;
   display: flex;
   flex: 1 1 0;
   align-items: center;
@@ -13889,6 +13971,7 @@ code {
   height: 2.5rem;
   margin: 0;
   padding: 0;
+  padding-inline-end: calc(var(--spacingHorizontalXXL) + var(--spacingHorizontalXXS));
   border: 0;
   border-radius: 0;
   outline: 0;
@@ -13958,6 +14041,78 @@ code {
 }
 .fui-TimePicker__control--focused .fui-TimePicker__input {
   background: var(--colorNeutralBackground1Hover);
+}
+
+.fui-TimePicker__buttons {
+  box-sizing: border-box;
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: var(--strokeWidthThin);
+  display: flex;
+  flex-direction: column;
+  width: var(--spacingHorizontalXXL);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--borderRadiusMedium);
+  background: transparent;
+  transform: translateY(-50%);
+}
+.fui-TimePicker__button {
+  display: inline-flex;
+  flex: 0 0 16px;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  height: 16px;
+  padding: 0 5px;
+  border: 0;
+  background: transparent;
+  color: var(--colorNeutralForeground3);
+  font: inherit;
+  font-size: var(--fontSizeBase200);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--durationUltraFast) var(--curveEasyEase), color var(--durationUltraFast) var(--curveEasyEase);
+}
+.fui-TimePicker__button > i,
+.fui-TimePicker__button > span,
+.fui-TimePicker__button > svg {
+  display: none;
+}
+.fui-TimePicker__button::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.15 10.35c.2.2.5.2.7 0L8 6.21l4.15 4.14a.5.5 0 0 0 .7-.7l-4.5-4.5a.5.5 0 0 0-.7 0l-4.5 4.5a.5.5 0 0 0 0 .7Z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.fui-TimePicker__button:first-child {
+  padding-block: 4px 1px;
+  border-start-end-radius: var(--borderRadiusMedium);
+}
+.fui-TimePicker__button:last-child {
+  padding-block: 1px 4px;
+  border-end-end-radius: var(--borderRadiusMedium);
+}
+.fui-TimePicker__button:last-child::before {
+  transform: rotate(180deg);
+}
+.fui-TimePicker__button:hover:not(:disabled) {
+  background: var(--colorSubtleBackgroundHover);
+  color: var(--colorNeutralForeground3Hover);
+}
+.fui-TimePicker__button:active:not(:disabled) {
+  background: var(--colorSubtleBackgroundPressed);
+  color: var(--colorNeutralForeground3Pressed);
+}
+.fui-TimePicker__button:focus-visible {
+  outline: 0.125rem solid var(--colorCompoundBrandStroke);
+  outline-offset: -0.125rem;
+}
+.fui-TimePicker__button:disabled {
+  color: var(--colorNeutralForegroundDisabled);
+  cursor: not-allowed;
 }
 
 .fui-Align-baseline {

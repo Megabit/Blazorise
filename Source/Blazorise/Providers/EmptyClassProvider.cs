@@ -129,6 +129,12 @@ class EmptyClassProvider : IClassProvider
 
     public string DatePickerCalendarTimeInput() => null;
 
+    public string DatePickerCalendarTimeControl() => null;
+
+    public string DatePickerCalendarTimeButtons() => null;
+
+    public string DatePickerCalendarTimeButton() => null;
+
     public string DatePickerCalendarActions() => null;
 
     public string DatePickerCalendarButton() => null;
@@ -136,6 +142,10 @@ class EmptyClassProvider : IClassProvider
     #endregion
 
     #region TimePicker
+
+    public string TimePickerButtons() => null;
+
+    public string TimePickerButton() => null;
 
     public string TimePicker( bool plaintext ) => null;
 

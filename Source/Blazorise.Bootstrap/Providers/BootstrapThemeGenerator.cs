@@ -332,7 +332,7 @@ public class BootstrapThemeGenerator : ThemeGenerator
         {
             var borderRadius = GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) );
 
-            sb.Append( ".form-control" ).Append( "{" )
+            sb.Append( ".form-control, .datepicker-time-buttons, .timepicker-buttons" ).Append( "{" )
                 .Append( $"border-radius: {borderRadius};" )
                 .AppendLine( "}" );
 
@@ -477,7 +477,7 @@ public class BootstrapThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( theme.BodyOptions?.BackgroundColor ) )
         {
             sb
-                .Append( ".datepicker-calendar.dropdown-menu, .timepicker-menu.dropdown-menu" )
+                .Append( ".datepicker-calendar.dropdown-menu, .timepicker-menu.dropdown-menu, .datepicker-time-buttons, .timepicker-buttons" )
                 .Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BodyBackgroundColor )};" )
                 .AppendLine( "}" );
@@ -498,7 +498,8 @@ public class BootstrapThemeGenerator : ThemeGenerator
         {
             sb
                 .Append( ".datepicker-weekday, .datepicker-week-number, .datepicker-day-outside," )
-                .Append( ".datepicker-time-input:disabled, .timepicker-input:disabled, .timepicker-meridiem:disabled" )
+                .Append( ".datepicker-time-input:disabled, .timepicker-input:disabled, .timepicker-meridiem:disabled," )
+                .Append( ".datepicker-time-button, .timepicker-button, .datepicker-time-button:disabled, .timepicker-button:disabled" )
                 .Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.TextColor( "muted" ) )};" )
                 .AppendLine( "}" );
@@ -511,6 +512,22 @@ public class BootstrapThemeGenerator : ThemeGenerator
             string hoverBackground = ToHex( Lighten( primary, 90f ) );
             string rangeBackground = ToHex( Lighten( primary, 85f ) );
             string focusShadow = ToHex( Lighten( primary, 75f ) );
+
+            sb
+                .Append( ".datepicker-time-button:hover:not(:disabled), .timepicker-button:hover:not(:disabled)" ).Append( "{" )
+                .Append( $"background: {hoverBackground};" )
+                .Append( $"color: {primary};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( ".datepicker-time-button:active:not(:disabled), .timepicker-button:active:not(:disabled)" ).Append( "{" )
+                .Append( $"background: {rangeBackground};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( ".datepicker-time-button:focus-visible, .timepicker-button:focus-visible" ).Append( "{" )
+                .Append( $"outline-color: {primary};" )
+                .AppendLine( "}" );
 
             sb
                 .Append( ".datepicker-day-selected, .datepicker-day-range-start, .datepicker-day-range-end, .datepicker-month-selected," )
