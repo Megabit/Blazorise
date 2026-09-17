@@ -5282,7 +5282,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
          Padding=""Padding.Is4"">
         <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Editor</Heading>
         <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
-            Drag the boundary between the explorer and editor. Click it or reach it with Tab, then use the arrow keys.
+            Drag the boundary between the explorer and editor. Click it or reach it with <Kbd>Tab</Kbd>, then use the arrow keys.
         </Paragraph>
     </Div>
 </Div>
@@ -6704,6 +6704,16 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <Heading Size=""HeadingSize.Is4"">h4. Blazorise heading</Heading>
 <Heading Size=""HeadingSize.Is5"">h5. Blazorise heading</Heading>
 <Heading Size=""HeadingSize.Is6"">h6. Blazorise heading</Heading>";
+
+        public const string TypographyKbdExample = @"<Paragraph>
+    Press <Kbd>Enter</Kbd> to continue.
+</Paragraph>
+<Paragraph>
+    Press <Kbd>Ctrl</Kbd> + <Kbd>S</Kbd> to save, or <Kbd>Cmd</Kbd> + <Kbd>S</Kbd> on macOS.
+</Paragraph>
+<Paragraph Margin=""Margin.Is0"">
+    A shortcut can also be grouped: <Kbd><Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>P</Kbd></Kbd>.
+</Paragraph>";
 
         public const string TypographyLeadExample = @"<Lead>
     Deliver great service experiences fast - without the complexity of traditional ITSM solutions.Accelerate critical development work and deploy.
@@ -9861,7 +9871,7 @@ public static string Greet( string name )
 }";
 
         public const string CodeEditorCompletionExample = @"<Paragraph>
-    Type <Code>console.</Code>, or press <Code>Ctrl+Space</Code>, and select a suggestion. Press <Code>Tab</Code> to move through snippet placeholders.
+    Type <Code>console.</Code>, or press <Kbd>Ctrl</Kbd> + <Kbd>Space</Kbd>, and select a suggestion. Press <Kbd>Tab</Kbd> to move through snippet placeholders.
 </Paragraph>
 
 <CodeEditor @bind-Value=""@sourceCode""

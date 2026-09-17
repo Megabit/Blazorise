@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-08-26T08:20:20.7748227Z",
+  "generatedUtc": "2026-09-17T21:12:30.2844131Z",
   "pages": [
     {
       "route": "/docs",
@@ -567,7 +567,7 @@
           "sourcePath": "Pages/Docs/Components/Buttons/Examples/DisabledButtonExample.razor",
           "content": "<Button Color=\"Color.Primary\" Disabled>Primary</Button>\r\n<Button Color=\"Color.Secondary\" Disabled>Secondary</Button>",
           "title": "Disabled",
-          "description": "Buttons representing actions that are not currently available to the user should be either hidden or disabled. A disabled button is rendered as \"dimmed\", and is excluded from the focus order (such as when interactive UI elements are focused using the tab key)."
+          "description": "Buttons representing actions that are not currently available to the user should be either hidden or disabled. A disabled button is rendered as \"dimmed\", and is excluded from the focus order (such as when interactive UI elements are focused using the Tab key)."
         },
         {
           "code": "LoadingButtonExample",
@@ -2521,7 +2521,7 @@
           "sourcePath": "Pages/Docs/Components/Memos/Examples/MemoInputTabExample.razor",
           "content": "<MemoInput Rows=\"5\" ReplaceTab TabSize=\"4\" />",
           "title": "Tab override",
-          "description": "By default a textarea will lose focus when you press the tab key. If you want to allow tabs to be entered you just need to enable it with ReplaceTab , and optionally a TabSize parameter."
+          "description": "By default a textarea will lose focus when you press the Tab key. If you want to allow tabs to be entered you just need to enable it with ReplaceTab , and optionally a TabSize parameter."
         },
         {
           "code": "MemoInputAutoSizeExample",
@@ -2584,7 +2584,7 @@
           "sourcePath": "Pages/Docs/Components/Memos/Examples/MemoInputTabExample.razor",
           "content": "<MemoInput Rows=\"5\" ReplaceTab TabSize=\"4\" />",
           "title": "Tab override",
-          "description": "By default a textarea will lose focus when you press the tab key. If you want to allow tabs to be entered you just need to enable it with ReplaceTab , and optionally a TabSize parameter."
+          "description": "By default a textarea will lose focus when you press the Tab key. If you want to allow tabs to be entered you just need to enable it with ReplaceTab , and optionally a TabSize parameter."
         },
         {
           "code": "MemoInputAutoSizeExample",
@@ -3455,7 +3455,7 @@
           "code": "ResizerPanelExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Resizers/Examples/ResizerPanelExample.razor",
-          "content": "<Div Flex=\"Flex.Row\"\r\n     Height=\"Height.Px( 260 )\"\r\n     Border=\"Border.Is1.Rounded\"\r\n     Overflow=\"Overflow.Hidden\">\r\n    <Div Position=\"Position.Relative\"\r\n         Flex=\"Flex.Shrink.Is0\"\r\n         Width=\"@Width.Px( panelWidth )\"\r\n        Background=\"Background.Light\"\r\n         Padding=\"Padding.Is4\">\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is3\">\r\n            <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0\">Explorer</Heading>\r\n            <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\">\r\n                <Icon Name=\"IconName.FolderOpen\" />\r\n                <Span>Components</Span>\r\n            </Div>\r\n            <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\">\r\n                <Icon Name=\"IconName.File\" />\r\n                <Span>App.razor</Span>\r\n            </Div>\r\n            <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\">\r\n                <Icon Name=\"IconName.File\" />\r\n                <Span>Program.cs</Span>\r\n            </Div>\r\n        </Div>\r\n\r\n        <Resizer Orientation=\"Orientation.Vertical\"\r\n                 Placement=\"Placement.End\"\r\n                 Min=\"160\"\r\n                 Max=\"360\"\r\n                 KeyboardStep=\"10\"\r\n                 @bind-Value=\"panelWidth\"\r\n                 AriaLabel=\"Resize explorer panel\" />\r\n    </Div>\r\n\r\n    <Div Flex=\"Flex.Grow.Is1\"\r\n         Padding=\"Padding.Is4\">\r\n        <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">Editor</Heading>\r\n        <Paragraph TextColor=\"TextColor.Secondary\" Margin=\"Margin.Is2.FromTop.Is0.FromBottom\">\r\n            Drag the boundary between the explorer and editor. Click it or reach it with Tab, then use the arrow keys.\r\n        </Paragraph>\r\n    </Div>\r\n</Div>\r\n\r\n@code {\r\n    private double panelWidth = 220;\r\n}",
+          "content": "<Div Flex=\"Flex.Row\"\r\n     Height=\"Height.Px( 260 )\"\r\n     Border=\"Border.Is1.Rounded\"\r\n     Overflow=\"Overflow.Hidden\">\r\n    <Div Position=\"Position.Relative\"\r\n         Flex=\"Flex.Shrink.Is0\"\r\n         Width=\"@Width.Px( panelWidth )\"\r\n        Background=\"Background.Light\"\r\n         Padding=\"Padding.Is4\">\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is3\">\r\n            <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0\">Explorer</Heading>\r\n            <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\">\r\n                <Icon Name=\"IconName.FolderOpen\" />\r\n                <Span>Components</Span>\r\n            </Div>\r\n            <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\">\r\n                <Icon Name=\"IconName.File\" />\r\n                <Span>App.razor</Span>\r\n            </Div>\r\n            <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\">\r\n                <Icon Name=\"IconName.File\" />\r\n                <Span>Program.cs</Span>\r\n            </Div>\r\n        </Div>\r\n\r\n        <Resizer Orientation=\"Orientation.Vertical\"\r\n                 Placement=\"Placement.End\"\r\n                 Min=\"160\"\r\n                 Max=\"360\"\r\n                 KeyboardStep=\"10\"\r\n                 @bind-Value=\"panelWidth\"\r\n                 AriaLabel=\"Resize explorer panel\" />\r\n    </Div>\r\n\r\n    <Div Flex=\"Flex.Grow.Is1\"\r\n         Padding=\"Padding.Is4\">\r\n        <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">Editor</Heading>\r\n        <Paragraph TextColor=\"TextColor.Secondary\" Margin=\"Margin.Is2.FromTop.Is0.FromBottom\">\r\n            Drag the boundary between the explorer and editor. Click it or reach it with <Kbd>Tab</Kbd>, then use the arrow keys.\r\n        </Paragraph>\r\n    </Div>\r\n</Div>\r\n\r\n@code {\r\n    private double panelWidth = 220;\r\n}",
           "title": "Side panel",
           "description": "Place the resizer inside a relatively positioned element to resize its width. Use @@bind-Value when the application also needs the committed value."
         },
@@ -4585,6 +4585,14 @@
           "description": "Displays a simple static text on a page."
         },
         {
+          "code": "TypographyKbdExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Typographies/Examples/TypographyKbdExample.razor",
+          "content": "<Paragraph>\r\n    Press <Kbd>Enter</Kbd> to continue.\r\n</Paragraph>\r\n<Paragraph>\r\n    Press <Kbd>Ctrl</Kbd> + <Kbd>S</Kbd> to save, or <Kbd>Cmd</Kbd> + <Kbd>S</Kbd> on macOS.\r\n</Paragraph>\r\n<Paragraph Margin=\"Margin.Is0\">\r\n    A shortcut can also be grouped: <Kbd><Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>P</Kbd></Kbd>.\r\n</Paragraph>",
+          "title": "Keyboard Key",
+          "description": "Use Kbd to make keyboard keys and shortcuts stand out in instructions. It helps users quickly recognize which keys to press, making tutorials, help text, and shortcut guides easier to follow."
+        },
+        {
           "code": "TypographyParagraphExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Typographies/Examples/TypographyParagraphExample.razor",
@@ -4692,6 +4700,10 @@
         {
           "kind": "type",
           "name": "Text"
+        },
+        {
+          "kind": "type",
+          "name": "Kbd"
         },
         {
           "kind": "type",
@@ -5506,9 +5518,9 @@
           "code": "CodeEditorCompletionExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/CodeEditor/Examples/CodeEditorCompletionExample.razor",
-          "content": "<Paragraph>\r\n    Type <Code>console.</Code>, or press <Code>Ctrl+Space</Code>, and select a suggestion. Press <Code>Tab</Code> to move through snippet placeholders.\r\n</Paragraph>\r\n\r\n<CodeEditor @bind-Value=\"@sourceCode\"\r\n            Language=\"@CodeEditorLanguage.JavaScript\"\r\n            CompletionItems=\"@completionItems\"\r\n            CompletionTriggerCharacters=\"@triggerCharacters\"\r\n            Immediate\r\n            Height=\"220.Px()\" />\r\n\r\n@code {\r\n    private string sourceCode = \"\"\"\r\nfunction greet( name ) {\r\n    // Type console. here\r\n}\r\n\"\"\";\r\n\r\n    private static readonly IReadOnlyList<string> triggerCharacters = [\".\"];\r\n\r\n    private static readonly IReadOnlyList<CodeEditorCompletionItem> completionItems =\r\n    [\r\n        new()\r\n        {\r\n            Label = \"log\",\r\n            InsertText = \"log(${1:value});\",\r\n            Kind = CodeEditorCompletionItemKind.Method,\r\n            Detail = \"Write a message to the console\",\r\n            Documentation = \"Inserts console.log with an editable value placeholder.\",\r\n            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,\r\n        },\r\n        new()\r\n        {\r\n            Label = \"warn\",\r\n            InsertText = \"warn(${1:value});\",\r\n            Kind = CodeEditorCompletionItemKind.Method,\r\n            Detail = \"Write a warning to the console\",\r\n            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,\r\n        },\r\n        new()\r\n        {\r\n            Label = \"error\",\r\n            InsertText = \"error(${1:value});\",\r\n            Kind = CodeEditorCompletionItemKind.Method,\r\n            Detail = \"Write an error to the console\",\r\n            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,\r\n        },\r\n    ];\r\n}",
+          "content": "<Paragraph>\r\n    Type <Code>console.</Code>, or press <Kbd>Ctrl</Kbd> + <Kbd>Space</Kbd>, and select a suggestion. Press <Kbd>Tab</Kbd> to move through snippet placeholders.\r\n</Paragraph>\r\n\r\n<CodeEditor @bind-Value=\"@sourceCode\"\r\n            Language=\"@CodeEditorLanguage.JavaScript\"\r\n            CompletionItems=\"@completionItems\"\r\n            CompletionTriggerCharacters=\"@triggerCharacters\"\r\n            Immediate\r\n            Height=\"220.Px()\" />\r\n\r\n@code {\r\n    private string sourceCode = \"\"\"\r\nfunction greet( name ) {\r\n    // Type console. here\r\n}\r\n\"\"\";\r\n\r\n    private static readonly IReadOnlyList<string> triggerCharacters = [\".\"];\r\n\r\n    private static readonly IReadOnlyList<CodeEditorCompletionItem> completionItems =\r\n    [\r\n        new()\r\n        {\r\n            Label = \"log\",\r\n            InsertText = \"log(${1:value});\",\r\n            Kind = CodeEditorCompletionItemKind.Method,\r\n            Detail = \"Write a message to the console\",\r\n            Documentation = \"Inserts console.log with an editable value placeholder.\",\r\n            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,\r\n        },\r\n        new()\r\n        {\r\n            Label = \"warn\",\r\n            InsertText = \"warn(${1:value});\",\r\n            Kind = CodeEditorCompletionItemKind.Method,\r\n            Detail = \"Write a warning to the console\",\r\n            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,\r\n        },\r\n        new()\r\n        {\r\n            Label = \"error\",\r\n            InsertText = \"error(${1:value});\",\r\n            Kind = CodeEditorCompletionItemKind.Method,\r\n            Detail = \"Write an error to the console\",\r\n            InsertTextRules = CodeEditorCompletionItemInsertTextRule.InsertAsSnippet,\r\n        },\r\n    ];\r\n}",
           "title": "Completion",
-          "description": "Use CompletionItems when the same suggestions are valid everywhere. InsertAsSnippet enables numbered placeholders, and CompletionTriggerCharacters can open suggestions after characters such as a dot. Press Ctrl+Space to request suggestions manually."
+          "description": "Use CompletionItems when the same suggestions are valid everywhere. InsertAsSnippet enables numbered placeholders, and CompletionTriggerCharacters can open suggestions after characters such as a dot. Press Ctrl + Space to request suggestions manually."
         },
         {
           "code": "CodeEditorCustomLanguageExample",
@@ -6422,7 +6434,7 @@
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridMultipleSelectionExample.razor",
           "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          @bind-SelectedRow=\"@selectedEmployee\"\r\n          SelectionMode=\"DataGridSelectionMode.Multiple\"\r\n          @bind-SelectedRows=\"selectedEmployees\"\r\n          Responsive>\r\n    <DataGridMultiSelectColumn Width=\"Width.Px( 30 )\"></DataGridMultiSelectColumn>\r\n    <DataGridCommandColumn />\r\n    <DataGridColumn Field=\"@nameof( Employee.Id )\" Caption=\"#\" Sortable=\"false\" />\r\n    <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" DisplayFormat=\"C\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" Editable>\r\n        <EditTemplate>\r\n            <NumericInput TValue=\"decimal\" Value=\"@((decimal)context.CellValue)\" ValueChanged=\"@(v => context.CellValue = v)\" />\r\n        </EditTemplate>\r\n    </DataGridColumn>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    private Employee selectedEmployee;\r\n    private List<Employee> selectedEmployees;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
           "title": "Multiple Selection",
-          "description": "Set SelectionMode to DataGridSelectionMode.Multiple to enable multiple selection on Datagrid. Clicking rows will now select multiple records at a time. You can now access them by using the SelectedRows parameter and also bind to the SelectedRowsChanged event callback. Optionally you can use the new Datagrid column DataGridMultiSelectColumn to enable a checkbox column that works exclusively with multiple selection. You can either use your own MultiSelectTemplate render fragment to customize the input that will appear in the column and trigger the multiple selection by then binding to the provided SelectedChanged event callback or just use the provided default by not specifying a MultiSelectTemplate render fragment. When using this extra column, the top row column, will provide the ability to select or unselect all rows. Shift-clicking will also select multiple rows starting from the last selected row."
+          "description": "Set SelectionMode to DataGridSelectionMode.Multiple to enable multiple selection on Datagrid. Clicking rows will now select multiple records at a time. You can now access them by using the SelectedRows parameter and also bind to the SelectedRowsChanged event callback. Optionally you can use the new Datagrid column DataGridMultiSelectColumn to enable a checkbox column that works exclusively with multiple selection. You can either use your own MultiSelectTemplate render fragment to customize the input that will appear in the column and trigger the multiple selection by then binding to the provided SelectedChanged event callback or just use the provided default by not specifying a MultiSelectTemplate render fragment. When using this extra column, the top row column, will provide the ability to select or unselect all rows. Shift -clicking will also select multiple rows starting from the last selected row."
         },
         {
           "code": "DataGridRowSelectableMultipleSelectionExample",
@@ -7444,7 +7456,7 @@
           "sourcePath": "Pages/Docs/Extensions/Markdown/Examples/MarkdownShortcutsExample.razor",
           "content": "<Markdown Shortcuts=\"@(new MarkdownShortcuts{ CleanBlock = null, ToggleCodeBlock = \"Cmd-E\" })\" />",
           "title": "Change Shortcuts",
-          "description": "EasyMDE comes with an array of predefined keyboard shortcuts, but they can be altered with a configuration option."
+          "description": "EasyMDE comes with an array of predefined keyboard shortcuts, but they can be altered with a configuration option. This example changes the code block shortcut to Cmd + E ."
         },
         {
           "code": "MarkdownPreviewRenderExample",

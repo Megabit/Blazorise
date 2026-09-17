@@ -132,6 +132,26 @@ body:before {
   color: inherit;
 }
 
+.kbd {
+  padding: 0.2em 0.4em;
+  font-family: var(--bulma-family-code);
+  font-size: 0.875em;
+  color: var(--bulma-text-strong);
+  background-color: var(--bulma-scheme-main-ter);
+  border: 1px solid var(--bulma-border);
+  border-radius: var(--bulma-radius-small);
+  white-space: nowrap;
+}
+.kbd .kbd {
+  padding: 0;
+  font-size: 1em;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 .blockquote {
   background-color: var(--bulma-content-blockquote-background-color, var(--bulma-background));
   border-inline-start: var(--bulma-content-blockquote-border-left, 5px solid var(--bulma-border));
@@ -5725,6 +5745,16 @@ td:focus {
     transition-duration: 0ms;
   }
 }
+blockquote:not(:last-child),
+dl:not(:last-child),
+ol:not(:last-child),
+p:not(:last-child),
+pre:not(:last-child),
+table:not(:last-child),
+ul:not(:last-child) {
+  margin-bottom: var(--bulma-content-block-margin-bottom, 1em);
+}
+
 .b-richtextedit > .b-richtextedit-toolbar.ql-bubble,
 .b-richtextedit > .b-richtextedit-editor.ql-bubble {
   border-style: solid;

@@ -1395,6 +1395,12 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region Kbd
+
+    public string Kbd() => null;
+
+    #endregion
+
     #region Code
 
     public string Code() => null;

@@ -1500,6 +1500,12 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
+    #region Kbd
+
+    public override string Kbd() => "kbd";
+
+    #endregion
+
     #region Code
 
     public override string Code() => null;

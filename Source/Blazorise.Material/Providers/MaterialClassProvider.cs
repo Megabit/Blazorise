@@ -1527,6 +1527,12 @@ public class MaterialClassProvider : ClassProvider
 
     #endregion
 
+    #region Kbd
+
+    public override string Kbd() => "mui-kbd";
+
+    #endregion
+
     #region Code
 
     public override string Code() => "mui-code";
