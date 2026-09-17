@@ -1,0 +1,20 @@
+.mui-kbd {
+    padding: .2em .4em;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: .875em;
+    color: var(--mui-on-surface);
+    background-color: var(--mui-surface-container);
+    border: 1px solid var(--mui-outline-variant);
+    border-radius: .25rem;
+    white-space: nowrap;
+
+    & & {
+        padding: 0;
+        font-size: 1em;
+        color: inherit;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+}

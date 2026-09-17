@@ -2267,6 +2267,12 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region Kbd
+
+    public override string Kbd() => "tw-kbd";
+
+    #endregion
+
     #region Code
 
     public override string Code() => "b-code";

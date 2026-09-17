@@ -2704,6 +2704,26 @@ body {
     max-inline-size: none;
   }
 }
+.mui-kbd {
+  padding: 0.2em 0.4em;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.875em;
+  color: var(--mui-on-surface);
+  background-color: var(--mui-surface-container);
+  border: 1px solid var(--mui-outline-variant);
+  border-radius: 0.25rem;
+  white-space: nowrap;
+}
+.mui-kbd .mui-kbd {
+  padding: 0;
+  font-size: 1em;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 .mui-breadcrumb {
   --mui-breadcrumb-gap: 0.5rem;
   --mui-breadcrumb-item-min-size: 2rem;

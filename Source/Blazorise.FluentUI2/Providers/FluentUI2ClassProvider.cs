@@ -1611,6 +1611,12 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region Kbd
+
+    public override string Kbd() => "fui-Kbd";
+
+    #endregion
+
     #region Code
 
     public override string Code() => null;

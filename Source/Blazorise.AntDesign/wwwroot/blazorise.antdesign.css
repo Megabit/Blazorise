@@ -3026,6 +3026,27 @@ template {
   color: var(--ant-menu-item-color);
 }
 
+.ant-kbd {
+  padding: 0 var(--ant-padding-xxs);
+  font-family: var(--ant-font-family-code);
+  font-size: 0.875em;
+  color: var(--ant-color-text);
+  background-color: var(--ant-color-fill-quaternary);
+  border: var(--ant-line-width) solid var(--ant-color-border);
+  border-bottom-width: calc(var(--ant-line-width) * 2);
+  border-radius: var(--ant-border-radius-sm);
+  white-space: nowrap;
+}
+.ant-kbd .ant-kbd {
+  padding: 0;
+  font-size: 1em;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 .ant-breadcrumb > ol {
   display: flex;
   flex-wrap: wrap;

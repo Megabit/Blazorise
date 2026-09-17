@@ -1,0 +1,20 @@
+.fui-Kbd {
+    padding: var(--spacingVerticalXXS) var(--spacingHorizontalXS);
+    font-family: var(--fontFamilyMonospace);
+    font-size: .875em;
+    color: var(--colorNeutralForeground1);
+    background-color: var(--colorNeutralBackground3);
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+    border-radius: var(--borderRadiusSmall);
+    white-space: nowrap;
+
+    & & {
+        padding: 0;
+        font-size: 1em;
+        color: inherit;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+}
