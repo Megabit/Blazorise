@@ -2056,17 +2056,108 @@ body:before {
 }
 .datepicker .datepicker-time {
   justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  width: 13.875rem;
+  max-width: 100%;
+  margin-inline: auto;
+}
+.datepicker .datepicker-time > span {
+  flex: 0 0 2%;
+  width: 2%;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.datepicker .datepicker-time .datepicker-button {
+  flex: 0 0 18%;
+  width: 18%;
+  height: 2.5rem;
+  padding: 0;
+  font-size: 0.875rem;
+  line-height: 2.5rem;
 }
 .datepicker .datepicker-actions {
   justify-content: flex-end;
 }
-.datepicker .datepicker-time-input {
-  width: 3.25rem;
-  height: 2.25rem;
+.datepicker .datepicker-time-control {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex: 1 1 0;
+  width: 40%;
+  height: 2.5rem;
+}
+.datepicker .datepicker-time-control:first-child .datepicker-time-input {
+  font-weight: 700;
+}
+.datepicker .datepicker-time-input.input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 2.5rem;
+  margin: 0;
   padding: 0;
-  border-color: transparent;
+  padding-inline-end: 1.625rem;
+  border: 0;
+  appearance: textfield;
   box-shadow: none;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 2.5rem;
   text-align: center;
+}
+.datepicker .datepicker-time-input.input::-webkit-inner-spin-button, .datepicker .datepicker-time-input.input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.datepicker-time-buttons {
+  box-sizing: border-box;
+  position: absolute;
+  inset-block: 0.125rem;
+  inset-inline-end: 0.125rem;
+  display: flex;
+  flex-direction: column;
+  width: 1.375rem;
+  overflow: hidden;
+  border: 1px solid hsl(221, 14%, 86%);
+  border-radius: 0.25rem;
+  background: hsl(221, 14%, 100%);
+}
+.datepicker-time-button {
+  display: inline-flex;
+  flex: 1 1 50%;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: hsl(221, 14%, 29%);
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.datepicker-time-button + .datepicker-time-button {
+  border-block-start: 1px solid hsl(221, 14%, 86%);
+}
+.datepicker-time-button:hover:not(:disabled) {
+  background: rgba(0, 209.1, 177.735, 0.1);
+  color: hsl(171, 100%, 41%);
+}
+.datepicker-time-button:active:not(:disabled) {
+  background: rgba(0, 209.1, 177.735, 0.2);
+}
+.datepicker-time-button:focus-visible {
+  outline: 0.125rem solid hsl(171, 100%, 41%);
+  outline-offset: -0.125rem;
+}
+.datepicker-time-button:disabled {
+  color: hsl(221, 14%, 48%);
+  cursor: not-allowed;
 }
 
 .timepicker {
@@ -2130,6 +2221,8 @@ body:before {
   margin: 0;
 }
 .timepicker .timepicker-control {
+  position: relative;
+  min-width: 0;
   display: flex;
   flex: 1 1 0;
   align-items: center;
@@ -2143,10 +2236,11 @@ body:before {
   height: 2.5rem;
   margin: 0;
   padding: 0;
+  padding-inline-end: 1.625rem;
   border: 0;
   border-radius: 0;
   outline: 0;
-  appearance: auto;
+  appearance: textfield;
   color: hsl(221, 14%, 29%);
   background: transparent;
   box-shadow: none;
@@ -2156,9 +2250,8 @@ body:before {
   text-align: center;
 }
 .timepicker .timepicker-input.input::-webkit-inner-spin-button, .timepicker .timepicker-input.input::-webkit-outer-spin-button {
-  height: auto;
-  opacity: 0.65;
-  cursor: pointer;
+  margin: 0;
+  appearance: none;
 }
 .timepicker .timepicker-input.input:hover:not(:disabled), .timepicker .timepicker-input.input:focus {
   background: rgba(0, 209.1, 177.735, 0.1);
@@ -2219,6 +2312,54 @@ body:before {
 }
 .timepicker .timepicker-control.is-focused .timepicker-input {
   background: rgba(0, 209.1, 177.735, 0.1);
+}
+
+.timepicker-buttons {
+  box-sizing: border-box;
+  position: absolute;
+  inset-block: 0.125rem;
+  inset-inline-end: 0.125rem;
+  display: flex;
+  flex-direction: column;
+  width: 1.375rem;
+  overflow: hidden;
+  border: 1px solid hsl(221, 14%, 86%);
+  border-radius: 0.25rem;
+  background: hsl(221, 14%, 100%);
+}
+.timepicker-button {
+  display: inline-flex;
+  flex: 1 1 50%;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: hsl(221, 14%, 29%);
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.timepicker-button + .timepicker-button {
+  border-block-start: 1px solid hsl(221, 14%, 86%);
+}
+.timepicker-button:hover:not(:disabled) {
+  background: rgba(0, 209.1, 177.735, 0.1);
+  color: hsl(171, 100%, 41%);
+}
+.timepicker-button:active:not(:disabled) {
+  background: rgba(0, 209.1, 177.735, 0.2);
+}
+.timepicker-button:focus-visible {
+  outline: 0.125rem solid hsl(171, 100%, 41%);
+  outline-offset: -0.125rem;
+}
+.timepicker-button:disabled {
+  color: hsl(221, 14%, 48%);
+  cursor: not-allowed;
 }
 
 .table-container-fixed-header .table thead tr th.dropdown-table-fixed-header-visible {

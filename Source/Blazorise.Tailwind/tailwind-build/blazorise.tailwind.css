@@ -53,6 +53,8 @@ body:before {
 
 .b-addons > .b-addon-body:not(:last-child) > input,
 .b-addons > .b-addon-body:not(:last-child) > div.tw-datepicker > input,
+.b-addons > .b-addon-body:not(:last-child) > div.tw-numeric > input,
+.b-addons > .b-addon-body:not(:last-child) > div.tw-numeric > .tw-numeric-buttons,
 .b-addons > .b-addon-body:not(:last-child) > div.tw-timepicker > input {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -63,6 +65,7 @@ body:before {
 }
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-datepicker > input,
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-numeric > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -83,6 +86,7 @@ body:before {
 }
 .b-addons > .b-addon-body > input,
 .b-addons > .b-addon-body > div.tw-datepicker,
+.b-addons > .b-addon-body > div.tw-numeric,
 .b-addons > .b-addon-body > div.tw-timepicker {
   position: relative;
   flex: 1 1 auto;
@@ -91,6 +95,7 @@ body:before {
 }
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-datepicker > input,
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-numeric > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input {
   border-left: 0;
   border-top-left-radius: 0;
@@ -195,6 +200,28 @@ body:before {
   padding: calc(var(--spacing) * 4) calc(var(--spacing) * 6);
   font-size: var(--text-base);
   line-height: var(--text-base--line-height);
+}
+
+.b-input {
+  height: calc(var(--spacing) * 10);
+}
+.b-input-xs {
+  height: calc(var(--spacing) * 8);
+}
+.b-input-sm {
+  height: calc(var(--spacing) * 9);
+}
+.b-input-md {
+  height: calc(var(--spacing) * 12);
+}
+.b-input-lg {
+  height: calc(var(--spacing) * 13);
+}
+.b-input-xl {
+  height: calc(var(--spacing) * 14);
+}
+.b-input[multiple] {
+  height: auto;
 }
 
 .b-card-group > .b-card {
@@ -697,17 +724,28 @@ body:before {
   color: var(--color-gray-400, var(--btw-color-gray-400));
   cursor: not-allowed;
 }
-.tw-datepicker-calendar .tw-datepicker-time-input {
-  box-sizing: border-box;
+.tw-datepicker-calendar .tw-datepicker-time-control {
+  position: relative;
+  display: flex;
+  min-width: 0;
   flex: 1 1 0;
   width: 40%;
   height: 2.5rem;
+}
+.tw-datepicker-calendar .tw-datepicker-time-control:first-child .tw-datepicker-time-input {
+  font-weight: 600;
+}
+.tw-datepicker-calendar .tw-datepicker-time-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 2.5rem;
   margin: 0;
   padding: 0;
+  padding-inline-end: 1.875rem;
   border: 0;
   border-radius: 0;
   outline: 0;
-  appearance: auto;
+  appearance: textfield;
   color: inherit;
   background: transparent;
   box-shadow: none;
@@ -716,8 +754,9 @@ body:before {
   line-height: 2.5rem;
   text-align: center;
 }
-.tw-datepicker-calendar .tw-datepicker-time-input:first-child {
-  font-weight: 600;
+.tw-datepicker-calendar .tw-datepicker-time-input::-webkit-inner-spin-button, .tw-datepicker-calendar .tw-datepicker-time-input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
 }
 .tw-datepicker-calendar .tw-datepicker-time-input:hover:not(:disabled), .tw-datepicker-calendar .tw-datepicker-time-input:focus {
   background: var(--color-gray-100, var(--btw-color-gray-100));
@@ -782,6 +821,79 @@ body:before {
   }
 }
 
+.tw-datepicker-time-buttons {
+  box-sizing: border-box;
+  position: absolute;
+  inset-block: 0.125rem;
+  inset-inline-end: 0.125rem;
+  display: flex;
+  flex-direction: column;
+  width: 1.5rem;
+  overflow: hidden;
+  border: 1px solid var(--color-gray-200, var(--btw-color-gray-200));
+  border-radius: 0.25rem;
+  background: var(--color-gray-50, var(--btw-color-gray-50));
+}
+.tw-datepicker-time-button {
+  display: inline-flex;
+  flex: 1 1 50%;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-gray-500, var(--btw-color-gray-500));
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.tw-datepicker-time-button + .tw-datepicker-time-button {
+  border-block-start: 1px solid var(--color-gray-200, var(--btw-color-gray-200));
+}
+.tw-datepicker-time-button:hover:not(:disabled) {
+  background: var(--color-primary-50, var(--btw-color-primary-50));
+  color: var(--color-primary-600, var(--btw-color-primary-600));
+}
+.tw-datepicker-time-button:active:not(:disabled) {
+  background: var(--color-primary-100, var(--btw-color-primary-100));
+}
+.tw-datepicker-time-button:focus-visible {
+  outline: 0.125rem solid var(--color-primary-500, var(--btw-color-primary-500));
+  outline-offset: -0.125rem;
+}
+.tw-datepicker-time-button:disabled {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+  cursor: not-allowed;
+}
+
+.dark .tw-datepicker-time-buttons {
+  border-color: var(--color-gray-600, var(--btw-color-gray-600));
+  background: var(--color-gray-900, var(--btw-color-gray-900));
+}
+.dark .tw-datepicker-time-button {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+}
+.dark .tw-datepicker-time-button + .tw-datepicker-time-button {
+  border-color: var(--color-gray-600, var(--btw-color-gray-600));
+}
+.dark .tw-datepicker-time-button:hover:not(:disabled) {
+  background: var(--color-gray-700, var(--btw-color-gray-700));
+  color: var(--color-primary-400, var(--btw-color-primary-400));
+}
+.dark .tw-datepicker-time-button:active:not(:disabled) {
+  background: var(--color-primary-900, var(--btw-color-primary-900));
+}
+.dark .tw-datepicker-time-button:focus-visible {
+  outline-color: var(--color-primary-400, var(--btw-color-primary-400));
+}
+.dark .tw-datepicker-time-button:disabled {
+  color: var(--color-gray-600, var(--btw-color-gray-600));
+}
+
 .tw-timepicker {
   position: relative;
   display: inline-block;
@@ -842,6 +954,8 @@ body:before {
   flex-wrap: nowrap;
 }
 .tw-timepicker-control {
+  position: relative;
+  min-width: 0;
   display: flex;
   flex: 1 1 0;
   align-items: center;
@@ -855,10 +969,11 @@ body:before {
   height: 2.5rem;
   margin: 0;
   padding: 0;
+  padding-inline-end: 1.875rem;
   border: 0;
   border-radius: 0;
   outline: 0;
-  appearance: auto;
+  appearance: textfield;
   color: inherit;
   background: transparent;
   box-shadow: none;
@@ -866,6 +981,10 @@ body:before {
   font-size: 0.875rem;
   line-height: 2.5rem;
   text-align: center;
+}
+.tw-timepicker-input::-webkit-inner-spin-button, .tw-timepicker-input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
 }
 .tw-timepicker-input:hover:not(:disabled), .tw-timepicker-input:focus {
   background: var(--color-gray-100, var(--btw-color-gray-100));
@@ -931,6 +1050,79 @@ body:before {
 .dark .tw-timepicker-menu .tw-timepicker-meridiem:focus-visible,
 .dark .tw-timepicker-menu .tw-timepicker-meridiem.tw-timepicker-control-focused {
   background: var(--color-gray-700, var(--btw-color-gray-700));
+}
+
+.tw-timepicker-buttons {
+  box-sizing: border-box;
+  position: absolute;
+  inset-block: 0.125rem;
+  inset-inline-end: 0.125rem;
+  display: flex;
+  flex-direction: column;
+  width: 1.5rem;
+  overflow: hidden;
+  border: 1px solid var(--color-gray-200, var(--btw-color-gray-200));
+  border-radius: 0.25rem;
+  background: var(--color-gray-50, var(--btw-color-gray-50));
+}
+.tw-timepicker-button {
+  display: inline-flex;
+  flex: 1 1 50%;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-gray-500, var(--btw-color-gray-500));
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.tw-timepicker-button + .tw-timepicker-button {
+  border-block-start: 1px solid var(--color-gray-200, var(--btw-color-gray-200));
+}
+.tw-timepicker-button:hover:not(:disabled) {
+  background: var(--color-primary-50, var(--btw-color-primary-50));
+  color: var(--color-primary-600, var(--btw-color-primary-600));
+}
+.tw-timepicker-button:active:not(:disabled) {
+  background: var(--color-primary-100, var(--btw-color-primary-100));
+}
+.tw-timepicker-button:focus-visible {
+  outline: 0.125rem solid var(--color-primary-500, var(--btw-color-primary-500));
+  outline-offset: -0.125rem;
+}
+.tw-timepicker-button:disabled {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+  cursor: not-allowed;
+}
+
+.dark .tw-timepicker-buttons {
+  border-color: var(--color-gray-600, var(--btw-color-gray-600));
+  background: var(--color-gray-900, var(--btw-color-gray-900));
+}
+.dark .tw-timepicker-button {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+}
+.dark .tw-timepicker-button + .tw-timepicker-button {
+  border-color: var(--color-gray-600, var(--btw-color-gray-600));
+}
+.dark .tw-timepicker-button:hover:not(:disabled) {
+  background: var(--color-gray-700, var(--btw-color-gray-700));
+  color: var(--color-primary-400, var(--btw-color-primary-400));
+}
+.dark .tw-timepicker-button:active:not(:disabled) {
+  background: var(--color-primary-900, var(--btw-color-primary-900));
+}
+.dark .tw-timepicker-button:focus-visible {
+  outline-color: var(--color-primary-400, var(--btw-color-primary-400));
+}
+.dark .tw-timepicker-button:disabled {
+  color: var(--color-gray-600, var(--btw-color-gray-600));
 }
 
 .b-dropdown.b-dropdown-group > .b-button:not(:last-child):not(.b-dropdown-toggle) {
@@ -1577,6 +1769,99 @@ body:before {
     opacity: 0;
   }
 }
+.tw-numeric {
+  position: relative;
+  display: inline-flex;
+  align-self: flex-start;
+  width: 100%;
+  min-width: 0;
+}
+.tw-numeric > input {
+  min-width: 0;
+}
+.tw-numeric:has(> .tw-numeric-buttons) > input {
+  padding-inline-end: calc(var(--spacing, 0.25rem) * 9);
+}
+.tw-numeric-buttons {
+  position: absolute;
+  inset-block: 1px;
+  inset-inline-end: 1px;
+  display: flex;
+  flex-direction: column;
+  width: calc(var(--spacing, 0.25rem) * 6);
+  overflow: hidden;
+  border-inline-start: 1px solid var(--color-gray-300, var(--btw-color-gray-300));
+  border-start-end-radius: calc(var(--radius-lg, 0.5rem) - 1px);
+  border-end-end-radius: calc(var(--radius-lg, 0.5rem) - 1px);
+  background: var(--color-gray-50, var(--btw-color-gray-50));
+}
+.tw-numeric-button {
+  display: inline-flex;
+  flex: 1 1 50%;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-gray-500, var(--btw-color-gray-500));
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.tw-numeric-button > i,
+.tw-numeric-button > span,
+.tw-numeric-button > svg {
+  width: 1em;
+  height: 1em;
+  font-size: inherit;
+}
+.tw-numeric-button + .tw-numeric-button {
+  border-block-start: 1px solid var(--color-gray-200, var(--btw-color-gray-200));
+}
+.tw-numeric-button:hover:not(:disabled) {
+  background: var(--color-primary-50, var(--btw-color-primary-50));
+  color: var(--color-primary-600, var(--btw-color-primary-600));
+}
+.tw-numeric-button:active:not(:disabled) {
+  background: var(--color-primary-100, var(--btw-color-primary-100));
+}
+.tw-numeric-button:focus-visible {
+  outline: 0.125rem solid var(--color-primary-500, var(--btw-color-primary-500));
+  outline-offset: -0.125rem;
+}
+.tw-numeric-button:disabled {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+  cursor: not-allowed;
+}
+
+.dark .tw-numeric-buttons {
+  border-color: var(--color-gray-600, var(--btw-color-gray-600));
+  background: var(--color-gray-800, var(--btw-color-gray-800));
+}
+.dark .tw-numeric-button {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+}
+.dark .tw-numeric-button + .tw-numeric-button {
+  border-color: var(--color-gray-600, var(--btw-color-gray-600));
+}
+.dark .tw-numeric-button:hover:not(:disabled) {
+  background: var(--color-gray-700, var(--btw-color-gray-700));
+  color: var(--color-primary-400, var(--btw-color-primary-400));
+}
+.dark .tw-numeric-button:active:not(:disabled) {
+  background: var(--color-primary-900, var(--btw-color-primary-900));
+}
+.dark .tw-numeric-button:focus-visible {
+  outline-color: var(--color-primary-400, var(--btw-color-primary-400));
+}
+.dark .tw-numeric-button:disabled {
+  color: var(--color-gray-600, var(--btw-color-gray-600));
+}
+
 .pagination > li.pagination-item:first-child > * {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;

@@ -409,13 +409,26 @@
         }
     }
 
-    .datepicker-time-input {
-        box-sizing: border-box;
+    .datepicker-time-control {
+        position: relative;
+        display: flex;
+        min-width: 0;
         flex: 1 1 0;
         width: 40%;
         height: 2.5rem;
+
+        &:first-child .datepicker-time-input {
+            font-weight: $font-weight-bold;
+        }
+    }
+
+    .datepicker-time-input {
+        box-sizing: border-box;
+        width: 100%;
+        height: 2.5rem;
         margin: 0;
         padding: 0;
+        padding-inline-end: 1.625rem;
         border: 0;
         border-radius: 0;
         outline: 0;
@@ -429,10 +442,6 @@
         line-height: 2.5rem;
         text-align: center;
 
-        &:first-child {
-            font-weight: $font-weight-bold;
-        }
-
         &:hover:not(:disabled),
         &:focus {
             background: rgba(var(--#{$prefix}primary-rgb), .1);
@@ -442,6 +451,63 @@
         &::-webkit-outer-spin-button {
             margin: 0;
             appearance: none;
+        }
+
+        &:disabled {
+            color: var(--#{$prefix}secondary-color);
+            cursor: not-allowed;
+        }
+    }
+}
+
+.datepicker-time {
+    &-buttons {
+        box-sizing: border-box;
+        position: absolute;
+        inset-block: .125rem;
+        inset-inline-end: .125rem;
+        display: flex;
+        flex-direction: column;
+        width: 1.375rem;
+        overflow: hidden;
+        border: var(--#{$prefix}border-width) solid var(--#{$prefix}border-color);
+        border-radius: var(--#{$prefix}border-radius-sm);
+        background: var(--#{$prefix}body-bg);
+    }
+
+    &-button {
+        display: inline-flex;
+        flex: 1 1 50%;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        min-height: 0;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--#{$prefix}secondary-color);
+        font: inherit;
+        font-size: .75rem;
+        line-height: 1;
+        cursor: pointer;
+        transition: $btn-transition;
+
+        + .datepicker-time-button {
+            border-block-start: var(--#{$prefix}border-width) solid var(--#{$prefix}border-color);
+        }
+
+        &:hover:not(:disabled) {
+            background: rgba(var(--#{$prefix}primary-rgb), .1);
+            color: var(--#{$prefix}primary);
+        }
+
+        &:active:not(:disabled) {
+            background: rgba(var(--#{$prefix}primary-rgb), .2);
+        }
+
+        &:focus-visible {
+            outline: .125rem solid var(--#{$prefix}primary);
+            outline-offset: -.125rem;
         }
 
         &:disabled {

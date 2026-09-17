@@ -137,6 +137,21 @@ internal sealed class DatePickerCalendarContext<TValue>
     #region Properties
 
     /// <summary>
+    /// Gets the provider classes for a time input and its step buttons.
+    /// </summary>
+    public string TimeControlClassNames => parent.PickerClassProvider.DatePickerCalendarTimeControl();
+
+    /// <summary>
+    /// Gets the provider classes for the time step buttons container.
+    /// </summary>
+    public string TimeButtonsClassNames => parent.PickerClassProvider.DatePickerCalendarTimeButtons();
+
+    /// <summary>
+    /// Gets the provider classes for a time step button.
+    /// </summary>
+    public string TimeButtonClassNames => parent.PickerClassProvider.DatePickerCalendarTimeButton();
+
+    /// <summary>
     /// Gets the tab index applied to interactive calendar controls.
     /// </summary>
     public int ControlTabIndex => parent.FocusCalendarOnOpen ? 0 : -1;

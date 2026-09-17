@@ -129,6 +129,12 @@ public class MaterialClassProvider : ClassProvider
 
     public override string DatePickerCalendarTimeInput() => "mui-date-picker-time-input";
 
+    public override string DatePickerCalendarTimeControl() => "mui-date-picker-time-control";
+
+    public override string DatePickerCalendarTimeButtons() => "mui-date-picker-time-buttons";
+
+    public override string DatePickerCalendarTimeButton() => "mui-date-picker-time-button";
+
     public override string DatePickerCalendarActions() => "mui-date-picker-actions";
 
     public override string DatePickerCalendarButton() => "mui-date-picker-button";
@@ -136,6 +142,10 @@ public class MaterialClassProvider : ClassProvider
     #endregion
 
     #region TimePicker
+
+    public override string TimePickerButtons() => "mui-time-picker-buttons";
+
+    public override string TimePickerButton() => "mui-time-picker-button";
 
     public override string TimePicker( bool plaintext ) => plaintext ? "mui-input-plaintext" : "mui-input";
 

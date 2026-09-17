@@ -129,7 +129,13 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DatePickerCalendarTime() => "datepicker-time field has-addons";
 
-    public override string DatePickerCalendarTimeInput() => "datepicker-time-input input is-small";
+    public override string DatePickerCalendarTimeInput() => "datepicker-time-input input";
+
+    public override string DatePickerCalendarTimeControl() => "datepicker-time-control";
+
+    public override string DatePickerCalendarTimeButtons() => "datepicker-time-buttons";
+
+    public override string DatePickerCalendarTimeButton() => "datepicker-time-button";
 
     public override string DatePickerCalendarActions() => "datepicker-actions buttons is-right";
 
@@ -138,6 +144,10 @@ public class BulmaClassProvider : ClassProvider
     #endregion
 
     #region TimePicker
+
+    public override string TimePickerButtons() => "timepicker-buttons";
+
+    public override string TimePickerButton() => "timepicker-button";
 
     public override string TimePicker( bool plaintext ) => plaintext ? "input is-static" : "input";
 
