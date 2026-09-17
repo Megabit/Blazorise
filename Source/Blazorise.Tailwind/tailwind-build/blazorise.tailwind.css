@@ -53,6 +53,8 @@ body:before {
 
 .b-addons > .b-addon-body:not(:last-child) > input,
 .b-addons > .b-addon-body:not(:last-child) > div.tw-datepicker > input,
+.b-addons > .b-addon-body:not(:last-child) > div.tw-numeric > input,
+.b-addons > .b-addon-body:not(:last-child) > div.tw-numeric > .tw-numeric-buttons,
 .b-addons > .b-addon-body:not(:last-child) > div.tw-timepicker > input {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -63,6 +65,7 @@ body:before {
 }
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-datepicker > input,
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-numeric > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -83,6 +86,7 @@ body:before {
 }
 .b-addons > .b-addon-body > input,
 .b-addons > .b-addon-body > div.tw-datepicker,
+.b-addons > .b-addon-body > div.tw-numeric,
 .b-addons > .b-addon-body > div.tw-timepicker {
   position: relative;
   flex: 1 1 auto;
@@ -91,6 +95,7 @@ body:before {
 }
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-datepicker > input,
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-numeric > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input {
   border-left: 0;
   border-top-left-radius: 0;
@@ -1764,6 +1769,99 @@ body:before {
     opacity: 0;
   }
 }
+.tw-numeric {
+  position: relative;
+  display: inline-flex;
+  align-self: flex-start;
+  width: 100%;
+  min-width: 0;
+}
+.tw-numeric > input {
+  min-width: 0;
+}
+.tw-numeric:has(> .tw-numeric-buttons) > input {
+  padding-inline-end: calc(var(--spacing, 0.25rem) * 9);
+}
+.tw-numeric-buttons {
+  position: absolute;
+  inset-block: 1px;
+  inset-inline-end: 1px;
+  display: flex;
+  flex-direction: column;
+  width: calc(var(--spacing, 0.25rem) * 6);
+  overflow: hidden;
+  border-inline-start: 1px solid var(--color-gray-300, var(--btw-color-gray-300));
+  border-start-end-radius: calc(var(--radius-lg, 0.5rem) - 1px);
+  border-end-end-radius: calc(var(--radius-lg, 0.5rem) - 1px);
+  background: var(--color-gray-50, var(--btw-color-gray-50));
+}
+.tw-numeric-button {
+  display: inline-flex;
+  flex: 1 1 50%;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-gray-500, var(--btw-color-gray-500));
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.tw-numeric-button > i,
+.tw-numeric-button > span,
+.tw-numeric-button > svg {
+  width: 1em;
+  height: 1em;
+  font-size: inherit;
+}
+.tw-numeric-button + .tw-numeric-button {
+  border-block-start: 1px solid var(--color-gray-200, var(--btw-color-gray-200));
+}
+.tw-numeric-button:hover:not(:disabled) {
+  background: var(--color-primary-50, var(--btw-color-primary-50));
+  color: var(--color-primary-600, var(--btw-color-primary-600));
+}
+.tw-numeric-button:active:not(:disabled) {
+  background: var(--color-primary-100, var(--btw-color-primary-100));
+}
+.tw-numeric-button:focus-visible {
+  outline: 0.125rem solid var(--color-primary-500, var(--btw-color-primary-500));
+  outline-offset: -0.125rem;
+}
+.tw-numeric-button:disabled {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+  cursor: not-allowed;
+}
+
+.dark .tw-numeric-buttons {
+  border-color: var(--color-gray-600, var(--btw-color-gray-600));
+  background: var(--color-gray-800, var(--btw-color-gray-800));
+}
+.dark .tw-numeric-button {
+  color: var(--color-gray-400, var(--btw-color-gray-400));
+}
+.dark .tw-numeric-button + .tw-numeric-button {
+  border-color: var(--color-gray-600, var(--btw-color-gray-600));
+}
+.dark .tw-numeric-button:hover:not(:disabled) {
+  background: var(--color-gray-700, var(--btw-color-gray-700));
+  color: var(--color-primary-400, var(--btw-color-primary-400));
+}
+.dark .tw-numeric-button:active:not(:disabled) {
+  background: var(--color-primary-900, var(--btw-color-primary-900));
+}
+.dark .tw-numeric-button:focus-visible {
+  outline-color: var(--color-primary-400, var(--btw-color-primary-400));
+}
+.dark .tw-numeric-button:disabled {
+  color: var(--color-gray-600, var(--btw-color-gray-600));
+}
+
 .pagination > li.pagination-item:first-child > * {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
