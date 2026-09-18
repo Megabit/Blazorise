@@ -1,0 +1,31 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <Switch @bind-Value="animated">Animate transitions</Switch>
+</Field>
+<Field>
+    <FieldLabel>Animation duration</FieldLabel>
+    <Select TValue="int?" @bind-Value="animationDuration">
+        <SelectItem TValue="int?" Value="@((int?)null)">Provider default</SelectItem>
+        <SelectItem TValue="int?" Value="0">Immediate</SelectItem>
+        <SelectItem TValue="int?" Value="100">100 ms</SelectItem>
+        <SelectItem TValue="int?" Value="200">200 ms</SelectItem>
+        <SelectItem TValue="int?" Value="400">400 ms</SelectItem>
+        <SelectItem TValue="int?" Value="1000">1000 ms</SelectItem>
+    </Select>
+</Field>
+
+<Dropdown Animated="@animated" AnimationDuration="@animationDuration">
+    <DropdownToggle Color="Color.Primary">Machine settings</DropdownToggle>
+    <DropdownMenu>
+        <DropdownItem>Operating mode</DropdownItem>
+        <DropdownItem>Production speed</DropdownItem>
+        <DropdownItem>Maintenance schedule</DropdownItem>
+    </DropdownMenu>
+</Dropdown>
+
+@code {
+    private bool animated = true;
+
+    private int? animationDuration;
+}

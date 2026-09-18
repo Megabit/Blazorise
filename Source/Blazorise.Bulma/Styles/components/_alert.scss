@@ -1,0 +1,7 @@
+.notification[data-animation-duration] {
+    @include component-animation-duration(var(--bulma-alert-animation-duration));
+}
+
+.notification {
+    @include visibility-transition(opacity var(--bulma-duration, #{$duration}) var(--bulma-easing, #{$easing}));
+}

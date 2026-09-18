@@ -1,4 +1,4 @@
-﻿@page "/docs/components/carousel"
+@page "/docs/components/carousel"
 
 <Seo Canonical="/docs/components/carousel" Title="Blazorise Carousel component" Description="Learn to use and work with the Blazorise Carousel, a slideshow component for cycling through elements - images or slides of text - like a carousel." />
 
@@ -63,6 +63,17 @@
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="CarouselCustomTemplatesExample" Outlined>
         <CarouselCustomTemplatesExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Animation" New>
+        Set <Code>Animated="false"</Code> for immediate changes, or use <Code>AnimationDuration</Code> to adjust the duration in milliseconds.
+        A null duration preserves the provider's default; zero or a negative value disables animations.
+        These settings control the provider's existing animations, so providers that show this component immediately keep that behavior. <Code>AnimationDuration</Code> controls the slide transition; <Code>Interval</Code> still controls autoplay timing. Disabling animations also skips the transition waits.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="CarouselAnimationExample" Outlined>
+        <CarouselAnimationExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 

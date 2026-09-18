@@ -1,10 +1,14 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+using Blazorise.Extensions;
 using Blazorise.Localization;
+using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -54,6 +58,11 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     /// </summary>
     private bool resourcesDisposed;
 
+    /// <summary>
+    /// Cancels transition work when navigation, animation settings, or component lifetime changes.
+    /// </summary>
+    private CancellationTokenSource animationCancellationTokenSource;
+
     #endregion
 
     #region Constructors
@@ -72,6 +81,25 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        var shouldUpdateAnimation = parameters.IsParameterChanged( Animated ) || parameters.IsParameterChanged( AnimationDuration );
+
+        if ( shouldUpdateAnimation )
+            DirtyStyles();
+
+        await base.SetParametersAsync( parameters );
+
+        if ( AnimationRunning && shouldUpdateAnimation )
+        {
+            animationCancellationTokenSource?.Cancel();
+
+            if ( GetSelectedCarouselSlide() is { } selectedSlide )
+                await AnimationEnd( selectedSlide );
+        }
+    }
 
     /// <inheritdoc/>
     protected override void OnParametersSet()
@@ -144,6 +172,14 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
         builder.Append( ClassProvider.CarouselFade( Crossfade ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.CarouselAnimationDuration( EffectiveAnimationDuration ) );
+
+        base.BuildStyles( builder );
     }
 
     /// <summary>
@@ -283,6 +319,8 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
 
     private void Reset()
     {
+        animationCancellationTokenSource?.Cancel();
+
         AnimationRunning = false;
         ResetTimer();
         ResetTransitionTimer();
@@ -469,45 +507,76 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected virtual async Task RunAnimations()
     {
-        if ( NumberOfSlides == 0 )
-            return;
+        animationCancellationTokenSource?.Cancel();
 
-        var selectedSlide = GetSelectedCarouselSlide();
-        var previouslySelectedSlide = GetPreviouslySelectedCarouselSlide();
+        using var cancellationTokenSource = new CancellationTokenSource();
+        animationCancellationTokenSource = cancellationTokenSource;
 
-        if ( TimerEnabled )
+        try
         {
-            Timer.Stop();
-            Timer.Interval = selectedSlide?.Interval ?? Interval;
-        }
+            if ( NumberOfSlides == 0 )
+                return;
 
-        AnimationRunning = true;
-        Direction = DetermineDirection();
+            var selectedSlide = GetSelectedCarouselSlide();
+            var previouslySelectedSlide = GetPreviouslySelectedCarouselSlide();
 
+            if ( selectedSlide is null )
+                return;
 
-        //Add new item to DOM on appropriate side
-        if ( selectedSlide is not null )
-        {
+            if ( TimerEnabled )
+            {
+                Timer.Stop();
+                Timer.Interval = selectedSlide.Interval ?? Interval;
+            }
+
+            AnimationRunning = true;
+            Direction = DetermineDirection();
+
+            var animationDuration = EffectiveAnimationDuration ?? selectedSlide.AnimationTime;
+
+            if ( animationDuration == 0 )
+            {
+                await AnimationEnd( selectedSlide );
+                return;
+            }
+
+            // Add the incoming slide on the appropriate side.
             selectedSlide.Clean();
             selectedSlide.Next = Direction == CarouselDirection.Previous;
             selectedSlide.Prev = Direction == CarouselDirection.Next;
+
+            await InvokeAsync( StateHasChanged );
+
+            // Allow the browser to paint the starting position before changing the slide classes.
+            await JSUtilitiesModule.WaitForAnimationFrame();
+            await JSUtilitiesModule.WaitForAnimationFrame();
+
+            if ( cancellationTokenSource.IsCancellationRequested || resourcesDisposed || !AnimationRunning || selectedSlide != GetSelectedCarouselSlide() )
+                return;
+
+            // Start the transition.
+            SetSlideDirection( selectedSlide );
+            SetSlideDirection( previouslySelectedSlide );
+
+            await InvokeAsync( StateHasChanged );
+            await Task.Delay( animationDuration, cancellationTokenSource.Token );
+
+            if ( cancellationTokenSource.IsCancellationRequested || resourcesDisposed || !AnimationRunning || selectedSlide != GetSelectedCarouselSlide() )
+                return;
+
+            await AnimationEnd( selectedSlide );
+            if ( AnimationRunning ) //Animation is still running for some reason, let's go ahead and setup a timer to reset it
+            {
+                ResetTransitionTimer();
+            }
         }
-
-        await InvokeAsync( StateHasChanged );
-
-        await Task.Delay( 300 ); //Ensure new item is rendered on DOM before continuing
-
-        //Trigger Animation
-        SetSlideDirection( selectedSlide );
-        SetSlideDirection( previouslySelectedSlide );
-
-        await InvokeAsync( StateHasChanged );
-        await Task.Delay( selectedSlide.AnimationTime );
-
-        await AnimationEnd( selectedSlide );
-        if ( AnimationRunning ) //Animation is still running for some reason, let's go ahead and setup a timer to reset it
+        catch ( OperationCanceledException ) when ( cancellationTokenSource.IsCancellationRequested )
         {
-            ResetTransitionTimer();
+        }
+        finally
+        {
+            if ( animationCancellationTokenSource == cancellationTokenSource )
+                animationCancellationTokenSource = null;
         }
     }
 
@@ -675,6 +744,8 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
 
         resourcesDisposed = true;
 
+        animationCancellationTokenSource?.Cancel();
+
         if ( Timer is not null )
         {
             Timer.Stop();
@@ -697,6 +768,16 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the duration override, or null to retain the provider's default timing.
+    /// </summary>
+    protected int? EffectiveAnimationDuration => !Animated ? 0 : AnimationDuration.HasValue ? Math.Max( 0, AnimationDuration.Value ) : null;
+
+    /// <summary>
+    /// Gets the animation duration serialized for markup.
+    /// </summary>
+    protected string AnimationDurationString => EffectiveAnimationDuration?.ToString( CultureInfo.InvariantCulture );
 
     /// <summary>
     /// Gets the direction of slide animation.
@@ -782,6 +863,11 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     public bool AnimationRunning { get; private set; } = false;
 
     /// <summary>
+    /// Gets or sets the JavaScript utilities used to synchronize slide transitions with rendering.
+    /// </summary>
+    [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+    /// <summary>
     /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
     /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
@@ -827,6 +913,17 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
             return Localizer[localizationString];
         }
     }
+
+    /// <summary>
+    /// Enables the transitions supplied by the CSS provider. Set to false for immediate changes.
+    /// </summary>
+    [Parameter] public bool Animated { get; set; } = true;
+
+    /// <summary>
+    /// Overrides the provider's animation duration, in milliseconds. Null preserves the provider's default.
+    /// Zero or a negative value disables transitions.
+    /// </summary>
+    [Parameter] public int? AnimationDuration { get; set; }
 
     /// <summary>
     /// Determines whether playback starts automatically.

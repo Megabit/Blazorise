@@ -1,8 +1,10 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -55,6 +57,15 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.IsParameterChanged( Animated ) || parameters.IsParameterChanged( AnimationDuration ) )
+            DirtyStyles();
+
+        await base.SetParametersAsync( parameters );
+    }
 
     /// <inheritdoc/>
     protected override void OnInitialized()
@@ -112,6 +123,14 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.DropdownDirection( GetDropdownDirection() ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.DropdownAnimationDuration( EffectiveAnimationDuration ) );
+
+        base.BuildStyles( builder );
     }
 
     /// <summary>
@@ -452,6 +471,19 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Gets the duration override, or null to retain the provider's default timing.
+    /// </summary>
+    protected int? EffectiveAnimationDuration => !Animated ? 0 : AnimationDuration.HasValue ? Math.Max( 0, AnimationDuration.Value ) : null;
+
+    /// <summary>
+    /// Gets the animation duration serialized for markup.
+    /// </summary>
+    protected string AnimationDurationString => EffectiveAnimationDuration?.ToString( CultureInfo.InvariantCulture );
+
     /// <summary>
     /// Keeps track whether the Dropdown is in a state where it should close.
     /// </summary>
@@ -461,9 +493,6 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// Keeps track whether the Dropdown was just toggled, ignoring possible DropdownItem clicks which would otherwise close the dropdown.
     /// </summary>
     internal bool WasJustToggled { get; set; } = false;
-
-    /// <inheritdoc/>
-    protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
     /// Gets the reference to the <see cref="DropdownState"/>.
@@ -514,6 +543,17 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// Specifies the service provider.
     /// </summary>
     [Inject] public IDropdownCoordinator DropdownCoordinator { get; set; }
+
+    /// <summary>
+    /// Enables the transitions supplied by the CSS provider. Set to false for immediate changes.
+    /// </summary>
+    [Parameter] public bool Animated { get; set; } = true;
+
+    /// <summary>
+    /// Overrides the provider's animation duration, in milliseconds. Null preserves the provider's default.
+    /// Zero or a negative value disables transitions.
+    /// </summary>
+    [Parameter] public int? AnimationDuration { get; set; }
 
     /// <summary>
     /// If true, a dropdown menu will be visible.

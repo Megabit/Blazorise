@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.CardHeader
 <CascadingValue Value="@this" IsFixed>
     <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        <b>@ChildContent</b>
+        @ChildContent
     </div>
 </CascadingValue>

@@ -199,3 +199,13 @@
         --mui-carousel-control-offset: 0.5rem;
     }
 }
+
+.mui-carousel[data-animation-duration] {
+    > .mui-carousel-slides > .mui-carousel-slide {
+        @include component-animation-duration(var(--mui-carousel-transition-duration));
+    }
+
+    &.mui-carousel-fade > .mui-carousel-slides > .mui-carousel-slide-active:is(.mui-carousel-slide-start, .mui-carousel-slide-end) {
+        @include component-animation-duration(0s, var(--mui-carousel-transition-duration));
+    }
+}

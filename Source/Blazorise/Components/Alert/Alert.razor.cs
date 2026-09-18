@@ -1,4 +1,6 @@
 #region Using directives
+using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.States;
@@ -11,7 +13,7 @@ namespace Blazorise;
 /// <summary>
 /// Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages.
 /// </summary>
-public partial class Alert : BaseComponent
+public partial class Alert : BaseComponent, IDisposable
 {
     #region Members
 
@@ -33,22 +35,35 @@ public partial class Alert : BaseComponent
     /// </summary>
     private bool hasDescription;
 
+    /// <summary>
+    /// Tracks whether dismissible styling was explicitly configured.
+    /// </summary>
+    private ComponentParameterInfo<bool> paramDismisable;
+
+    /// <summary>
+    /// Flag that indicates if the alert contains a close button.
+    /// </summary>
+    private bool hasCloseButton;
+
     #endregion
 
     #region Methods
 
     /// <inheritdoc/>
-    protected override void BuildClasses( ClassBuilder builder )
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        builder.Append( ClassProvider.Alert() );
-        builder.Append( ClassProvider.AlertColor( Color ) );
-        builder.Append( ClassProvider.AlertDismisable( Dismisable ) );
-        builder.Append( ClassProvider.AlertFade( Dismisable ) );
-        builder.Append( ClassProvider.AlertShow( Dismisable, Visible ) );
-        builder.Append( ClassProvider.AlertHasMessage( hasMessage ) );
-        builder.Append( ClassProvider.AlertHasDescription( hasDescription ) );
+        parameters.TryGetParameter( Dismisable, out paramDismisable );
 
-        base.BuildClasses( builder );
+        if ( paramDismisable.Changed )
+            DirtyClasses();
+
+        if ( parameters.IsParameterChanged( Animated ) || parameters.IsParameterChanged( AnimationDuration ) )
+        {
+            DirtyClasses();
+            DirtyStyles();
+        }
+
+        await base.SetParametersAsync( parameters );
     }
 
     /// <inheritdoc/>
@@ -57,6 +72,28 @@ public partial class Alert : BaseComponent
         HandleVisibilityState( Visible );
 
         base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.Alert() );
+        builder.Append( ClassProvider.AlertColor( Color ) );
+        builder.Append( ClassProvider.AlertDismisable( EffectiveDismisable ) );
+        builder.Append( ClassProvider.AlertFade( Animated ) );
+        builder.Append( ClassProvider.AlertShow( true, Visible ) );
+        builder.Append( ClassProvider.AlertHasMessage( hasMessage ) );
+        builder.Append( ClassProvider.AlertHasDescription( hasDescription ) );
+
+        base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.AlertAnimationDuration( EffectiveAnimationDuration ) );
+
+        base.BuildStyles( builder );
     }
 
     /// <summary>
@@ -142,9 +179,75 @@ public partial class Alert : BaseComponent
         InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Registers a close button and applies automatic dismissible styling.
+    /// </summary>
+    internal void NotifyCloseButtonInitialized()
+    {
+        hasCloseButton = true;
+
+        if ( !paramDismisable.Defined )
+        {
+            DirtyClasses();
+            InvokeAsync( StateHasChanged );
+        }
+    }
+
+    /// <summary>
+    /// Unregisters the close button and removes automatic dismissible styling.
+    /// </summary>
+    internal void NotifyCloseButtonRemoved()
+    {
+        if ( Disposed || AsyncDisposed )
+            return;
+
+        hasCloseButton = false;
+
+        if ( !paramDismisable.Defined )
+        {
+            DirtyClasses();
+            InvokeAsync( StateHasChanged );
+        }
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets dismissible styling from the explicit parameter or close button presence.
+    /// </summary>
+    protected bool EffectiveDismisable => paramDismisable.Defined ? Dismisable : hasCloseButton;
+
+    /// <summary>
+    /// Gets whether the hidden alert should prevent interaction.
+    /// </summary>
+    protected bool IsInert => !Visible;
+
+    /// <summary>
+    /// Gets the duration override, or null to retain the provider's default timing.
+    /// </summary>
+    protected int? EffectiveAnimationDuration => !Animated ? 0 : AnimationDuration.HasValue ? Math.Max( 0, AnimationDuration.Value ) : null;
+
+    /// <summary>
+    /// Gets the animation duration serialized for markup.
+    /// </summary>
+    protected string AnimationDurationString => EffectiveAnimationDuration?.ToString( CultureInfo.InvariantCulture );
+
+    /// <summary>
+    /// Gets the readiness for subsequent entrance animations serialized for markup.
+    /// </summary>
+    protected string AnimationReadyString => Rendered ? "true" : null;
+
+    /// <summary>
+    /// Gets the requested visibility serialized for markup.
+    /// </summary>
+    protected string VisibleString => Visible ? "true" : "false";
+
+    /// <summary>
+    /// Gets the accessibility visibility state serialized for markup.
+    /// </summary>
+    protected string AriaHidden => !Visible ? "true" : null;
 
     /// <summary>
     /// Gets the reference to state object for this alert.
@@ -152,7 +255,20 @@ public partial class Alert : BaseComponent
     protected internal AlertState State => state;
 
     /// <summary>
-    /// Enables the alert to be closed by placing the padding for close button.
+    /// Enables the transitions supplied by the CSS provider. Set to false for immediate changes.
+    /// </summary>
+    [Parameter] public bool Animated { get; set; } = true;
+
+    /// <summary>
+    /// Overrides the provider's animation duration, in milliseconds. Null preserves the provider's default.
+    /// Zero or a negative value disables transitions.
+    /// </summary>
+    [Parameter] public int? AnimationDuration { get; set; }
+
+    /// <summary>
+    /// Controls the padding and positioning for close buttons.
+    /// When omitted, dismissible styling is enabled automatically when a <see cref="CloseButton"/> is present.
+    /// An explicit value overrides this automatic behavior.
     /// </summary>
     [Parameter]
     public bool Dismisable
@@ -187,6 +303,7 @@ public partial class Alert : BaseComponent
 
     /// <summary>
     /// Notifies when the alert visibility state changes.
+    /// This notification does not wait for the entrance or exit animation to finish.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 

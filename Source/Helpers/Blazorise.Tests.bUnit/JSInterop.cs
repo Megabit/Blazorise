@@ -265,6 +265,7 @@ public static class JSInterop
     public static BunitJSInterop AddBlazoriseUtilities( this BunitJSInterop jsInterop, string userAgent = null, bool mobileDevice = false )
     {
         var module = jsInterop.SetupModule( new JSUtilitiesModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "waitForAnimationFrame", _ => true ).SetVoidResult();
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "setProperty", _ => true ).SetVoidResult();
         module.Setup<string>( "getUserAgent", _ => true ).SetResult( userAgent ?? String.Empty );
@@ -386,6 +387,7 @@ public static class JSInterop
 
         var module = jsInterop.SetupModule( new JSDragDropModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
         module.SetupVoid( "initializeThrottledDragEvents", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
         module.SetupVoid( "destroyThrottledDragEvents", _ => true ).SetVoidResult();

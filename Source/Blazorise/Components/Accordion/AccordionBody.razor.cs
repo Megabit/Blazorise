@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -51,6 +52,15 @@ public partial class AccordionBody : BaseComponent<AccordionBodyClasses, Accordi
         }
 
         base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+            ParentAccordionItem?.NotifyAccordionBodyRemoved( this );
+
+        await base.DisposeAsync( disposing );
     }
 
     /// <inheritdoc/>

@@ -49,6 +49,7 @@ public static class Config
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
         { typeof( Blazorise.Accordion ), typeof( Components.Accordion ) },
+        { typeof( Blazorise.AccordionBody ), typeof( Components.AccordionBody ) },
         { typeof( Blazorise.AccordionToggle ), typeof( Components.AccordionToggle ) },
         { typeof( Blazorise.Addon ), typeof( Components.Addon ) },
         { typeof( Blazorise.Addons ), typeof( Components.Addons ) },
@@ -73,6 +74,7 @@ public static class Config
         { typeof( Blazorise.CarouselSlide ), typeof( Components.CarouselSlide ) },
         { typeof( Blazorise.Check<> ), typeof( Components.Check<> ) },
         { typeof( Blazorise.CloseButton ), typeof( Components.CloseButton ) },
+        { typeof( Blazorise.CollapseBody ), typeof( Components.CollapseBody ) },
         { typeof( Blazorise.ColorPicker ), typeof( Components.ColorPicker ) },
         { typeof( Blazorise.Dropdown ), typeof( Components.Dropdown ) },
         { typeof( Blazorise.DropdownHeader ), typeof( Components.DropdownHeader ) },

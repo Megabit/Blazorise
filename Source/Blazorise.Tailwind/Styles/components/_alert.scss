@@ -1,0 +1,7 @@
+.b-alert[data-animation-duration] {
+    @include component-animation-duration(var(--tw-alert-animation-duration));
+}
+
+.b-alert {
+    @include visibility-transition(opacity var(--tw-duration, var(--default-transition-duration, 150ms)) var(--default-transition-timing-function, ease));
+}

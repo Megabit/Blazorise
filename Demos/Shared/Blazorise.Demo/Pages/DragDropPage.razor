@@ -6,7 +6,7 @@
             <Div>
                 <Heading Size="HeadingSize.Is3" Margin="Margin.Is0.FromBottom">Sort the basket</Heading>
                 <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
-                    Drag each item into the correct group. Fruit and vegetable zones accept only matching items, every column supports reordering, and a custom placeholder previews each insertion point.
+                    Drag each item into the correct group. Fruit and vegetable zones accept only matching items, neighboring items animate as you reorder them, and a custom placeholder previews each insertion point.
                 </Paragraph>
             </Div>
             <Button Color="Color.Secondary" Outline Clicked="@ResetItems" Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
@@ -52,6 +52,8 @@
             <DropZone TItem="DropItem"
                       Name="@zoneName"
                       AllowReorder
+                      Animated="@AppSettings.AnimationSettings.Animated"
+                      AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 200)"
                       Border="Border.Is1.Rounded"
                       Background="Background.Light"
                       Padding="Padding.Is4"
@@ -259,4 +261,6 @@
         lastAction = "Items were returned to the basket.";
         dropContainer?.Refresh();
     }
+
+    [CascadingParameter] protected AppSettings AppSettings { get; set; }
 }

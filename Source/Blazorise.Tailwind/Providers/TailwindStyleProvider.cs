@@ -11,6 +11,41 @@ public class TailwindStyleProvider : StyleProvider
 
     #endregion
 
+    #region Accordion
+
+    public override string AccordionAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--tw-accordion-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Dropdown
+
+    public override string DropdownAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--tw-dropdown-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Carousel
+
+    public override string CarouselAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--tw-carousel-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Alert
+
+    public override string AlertAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--tw-alert-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Collapse
+
+    public override string CollapseAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--tw-collapse-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 50;

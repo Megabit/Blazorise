@@ -3,25 +3,6 @@
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Modals (Configuration)</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <Row>
-                    <Column>
-                        <Switch @bind-Value="@animation">Animation</Switch>
-                    </Column>
-                    <Column>
-                        <NumericInput TValue="int" @bind-Value="animationDuration">Animation Duration (ms)</NumericInput>
-                    </Column>
-                </Row>
-            </CardBody>
-        </Card>
-    </Column>
-</Row>
-<Row>
-    <Column>
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>
                 <CardTitle>Modals (Default)</CardTitle>
             </CardHeader>
             <CardBody>
@@ -101,7 +82,7 @@
     </Column>
 </Row>
 
-<Modal @ref="modalRef" Animated="animation" AnimationDuration="animationDuration" Centered="@centered" Size="@modalSize">
+<Modal @ref="modalRef" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 150)" Centered="@centered" Size="@modalSize">
     <ModalContent>
         <ModalHeader>
             <ModalTitle>
@@ -133,7 +114,7 @@
         </ModalFooter>
     </ModalContent>
 </Modal>
-<Modal @ref="modalRef2" Animated="animation" AnimationDuration="animationDuration" Centered Size="ModalSize.Small">
+<Modal @ref="modalRef2" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 150)" Centered Size="ModalSize.Small">
     <ModalContent>
         <ModalHeader>
             <ModalTitle>
@@ -150,7 +131,7 @@
     </ModalContent>
 </Modal>
 
-<Modal @ref="defaultModalRef" Animated="animation" AnimationDuration="animationDuration" RenderMode="ModalRenderMode.Default" Centered Size="ModalSize.Small">
+<Modal @ref="defaultModalRef" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 150)" RenderMode="ModalRenderMode.Default" Centered Size="ModalSize.Small">
     <ModalContent>
         <ModalHeader>
             <ModalTitle>
@@ -172,7 +153,7 @@
 </Modal>
 
 
-<Modal @ref="lazyModalRef" Animated="animation" AnimationDuration="animationDuration" RenderMode="ModalRenderMode.LazyLoad" Centered Size="ModalSize.Small">
+<Modal @ref="lazyModalRef" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 150)" RenderMode="ModalRenderMode.LazyLoad" Centered Size="ModalSize.Small">
     <ModalContent>
         <ModalHeader>
             <ModalTitle>
@@ -196,7 +177,7 @@
 </Modal>
 
 
-<Modal @ref="lazyReloadModalRef" Animated="animation" AnimationDuration="animationDuration" RenderMode="ModalRenderMode.LazyReload" Centered Size="ModalSize.Small">
+<Modal @ref="lazyReloadModalRef" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 150)" RenderMode="ModalRenderMode.LazyReload" Centered Size="ModalSize.Small">
     <ModalContent>
         <ModalHeader>
             <ModalTitle>
@@ -227,8 +208,6 @@
     private bool centered = false;
     private ModalSize modalSize = ModalSize.Default;
     private int? maxHeight = null;
-    private bool animation = true;
-    private int animationDuration = 150;
 
     private Task ShowModal( ModalSize modalSize, int? maxHeight = null, bool centered = false )
     {
@@ -284,4 +263,5 @@
         return lazyReloadModalRef.Hide();
     }
 
+    [CascadingParameter] protected AppSettings AppSettings { get; set; }
 }

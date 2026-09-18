@@ -1772,7 +1772,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string OffcanvasFooter() => "flex items-center justify-between p-4";
 
-    public override string OffcanvasBody() => "flex grow text-sm text-gray-500 dark:text-gray-400 p-4";
+    public override string OffcanvasBody() => "grow overflow-y-auto text-sm text-gray-500 dark:text-gray-400 p-4";
 
     public override string OffcanvasBackdrop() => "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-30";
 

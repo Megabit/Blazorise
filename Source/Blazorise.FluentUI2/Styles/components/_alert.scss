@@ -1,14 +1,3 @@
-﻿@keyframes alert-slide-away {
-    from {
-        display: block;
-    }
-
-    to {
-        transform: translateY(-1rem);
-        opacity: 0;
-    }
-}
-
 .fui-MessageBar {
     position: relative;
     align-items: center;
@@ -36,10 +25,6 @@
 
     &-closable {
         padding-right: 4rem;
-    }
-
-    &.fui-Display-none {
-        animation: alert-slide-away var(--durationNormal);
     }
 
     .fui-MessageBar__description {
@@ -189,5 +174,27 @@
 
     .alert-link {
         color: var(--colorBrandForegroundLink);
+    }
+}
+
+.fui-MessageBar[data-animation-duration] {
+    @include component-animation-duration(var(--fui-alert-animation-duration));
+}
+
+.fui-MessageBar {
+    @include visibility-transition((opacity var(--durationNormal) var(--curveEasyEase), transform var(--durationNormal) var(--curveEasyEase)), (opacity, transform, display));
+
+    &[data-visible] {
+        transform: none;
+
+        &[data-visible="false"] {
+            transform: translateY(-1rem);
+        }
+
+        &[data-visible="true"][data-animation-ready="true"] {
+            @starting-style {
+                transform: translateY(-1rem);
+            }
+        }
     }
 }

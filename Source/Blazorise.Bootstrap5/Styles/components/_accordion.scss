@@ -1,0 +1,30 @@
+.accordion[data-animation-duration] > .accordion-item {
+    &,
+    > .accordion-collapse,
+    > .accordion-collapse > .accordion-body,
+    > .accordion-header,
+    > .accordion-header .accordion-button,
+    > .accordion-header .accordion-button::after {
+        transition-duration: var(--bs-accordion-animation-duration);
+        transition-delay: 0s;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition-duration: 0s;
+        }
+    }
+}
+
+.card[data-animation-duration] {
+    > .collapse,
+    > .collapsing,
+    > .collapse > .card-body,
+    > .collapsing > .card-body,
+    > .card-header {
+        transition-duration: var(--bs-collapse-animation-duration);
+        transition-delay: 0s;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition-duration: 0s;
+        }
+    }
+}

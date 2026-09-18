@@ -1,6 +1,15 @@
 ﻿.collapse {
-    &:not(.show) {
+    &:not(.is-block) {
         display: none;
+    }
+}
+
+.collapse,
+.card > .is-clipped {
+    transition: height var(--bulma-duration, #{$duration}) var(--bulma-easing, #{$easing});
+
+    @media (prefers-reduced-motion: reduce) {
+        transition-duration: 0s;
     }
 }
 
@@ -44,6 +53,39 @@
                 padding: 0.5rem 0.75rem;
                 position: relative;
             }
+        }
+    }
+}
+
+.accordion[data-animation-duration] > .card {
+    &,
+    > .collapse,
+    > .is-clipped,
+    > .collapse > .card-content,
+    > .is-clipped > .card-content,
+    > .card-header,
+    > .card-header .accordion-toggle,
+    > .card-header .accordion-toggle::after {
+        transition-duration: var(--bulma-accordion-animation-duration);
+        transition-delay: 0s;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition-duration: 0s;
+        }
+    }
+}
+
+.card[data-animation-duration] {
+    > .collapse,
+    > .is-clipped,
+    > .collapse > .card-content,
+    > .is-clipped > .card-content,
+    > .card-header {
+        transition-duration: var(--bulma-collapse-animation-duration);
+        transition-delay: 0s;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition-duration: 0s;
         }
     }
 }

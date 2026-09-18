@@ -1,6 +1,8 @@
 #region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -40,10 +42,19 @@ public partial class _Draggable<TItem> : BaseComponent
 
     private async Task OnDragStartHandler()
     {
-        if ( ParentContainer is null )
+        if ( ParentContainer is null || Disabled )
             return;
 
         dragging = true;
+
+        if ( ParentZone?.CanReorder == true )
+        {
+            // Let the browser finish dragstart before the transaction hides the source.
+            await JSUtilitiesModule.WaitForAnimationFrame();
+
+            if ( !dragging || Disposed )
+                return;
+        }
 
         ParentContainer.StartTransaction( Item, ZoneName ?? string.Empty, Index, OnDroppedSucceeded, OnDroppedCanceled );
 
@@ -57,7 +68,8 @@ public partial class _Draggable<TItem> : BaseComponent
         {
             dragging = false;
 
-            await ParentContainer?.CancelTransaction();
+            if ( ParentContainer?.TransactionInProgress == true )
+                await ParentContainer.CancelTransaction();
         }
         else
         {
@@ -68,7 +80,7 @@ public partial class _Draggable<TItem> : BaseComponent
 
     private void OnDragEnterHandler()
     {
-        if ( ParentContainer is null || ParentContainer.TransactionInProgress == false )
+        if ( ParentContainer is null || ParentContainer.TransactionInProgress == false || ParentZone?.CanReorder == true )
             return;
 
         ParentContainer.UpdateTransactionIndex( Index );
@@ -101,6 +113,33 @@ public partial class _Draggable<TItem> : BaseComponent
     #endregion
 
     #region Properties
+
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Gets the dragging state serialized for JavaScript.
+    /// </summary>
+    protected string DraggingString => dragging ? "true" : "false";
+
+    /// <summary>
+    /// Indicates whether the transaction's source should leave its space to the reorder placeholder.
+    /// </summary>
+    protected bool ShouldHideReorderSource => ParentZone?.CanReorder == true
+        && Index >= 0
+        && ParentContainer?.TransactionInProgress == true
+        && ParentContainer.TransactionSourceZoneName == ZoneName
+        && EqualityComparer<TItem>.Default.Equals( Item, ParentContainer.GetTransactionItem() );
+
+    /// <summary>
+    /// Gets the reorder source state serialized for CSS and JavaScript.
+    /// </summary>
+    protected string ReorderSourceString => ShouldHideReorderSource ? "true" : null;
+
+    /// <summary>
+    /// Gets or sets the JavaScript utilities module.
+    /// </summary>
+    [Inject] protected IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     /// <summary>
     /// The dropzone name this this draggable belongs to.
@@ -169,6 +208,11 @@ public partial class _Draggable<TItem> : BaseComponent
     /// Provides the reference to the parent <see cref="DropContainer{TItem}"/> component.
     /// </summary>
     [CascadingParameter] protected DropContainer<TItem> ParentContainer { get; set; }
+
+    /// <summary>
+    /// Provides the reference to the owning drop zone.
+    /// </summary>
+    [CascadingParameter] protected DropZone<TItem> ParentZone { get; set; }
 
     #endregion
 }

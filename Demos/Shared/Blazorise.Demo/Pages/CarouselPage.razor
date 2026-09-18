@@ -1,4 +1,5 @@
 @page "/tests/carousel"
+
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -26,7 +27,7 @@
                 <CardText>Carousel that loops automatically.</CardText>
             </CardBody>
             <CardBody>
-                <Carousel @bind-SelectedSlide="@selectedSlide" ShowIndicators="@showIndicators" ShowControls="@showControls">
+                <Carousel Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration" @bind-SelectedSlide="@selectedSlide" ShowIndicators="@showIndicators" ShowControls="@showControls">
                     <CarouselSlide Name="1">
                         <Image Source="_content/Blazorise.Demo/img/slides/slide-01.jpg" Text="City Skyline" Display="Display.Block" Width="Width.Is100" />
                     </CarouselSlide>
@@ -58,7 +59,7 @@
                 <CardText>Carousel with disabled <Code>Autoplay</Code>.</CardText>
             </CardBody>
             <CardBody>
-                <Carousel @bind-SelectedSlide="@selectedSlide2" ShowIndicators="@showIndicators" ShowControls="@showControls" Autoplay="false" Swipeable>
+                <Carousel Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration" @bind-SelectedSlide="@selectedSlide2" ShowIndicators="@showIndicators" ShowControls="@showControls" Autoplay="false" Swipeable>
                     <CarouselSlide Name="1">
                         <Image Source="_content/Blazorise.Demo/img/slides/slide-01.jpg" Text="City Skyline" Display="Display.Block" Width="Width.Is100" />
                     </CarouselSlide>
@@ -87,4 +88,6 @@
     private string selectedSlide2 = "2";
     bool showIndicators = true;
     bool showControls = true;
+
+    [CascadingParameter] protected AppSettings AppSettings { get; set; }
 }

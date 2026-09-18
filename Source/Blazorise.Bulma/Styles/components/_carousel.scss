@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------
+// ----------------------------------------------------------------
 // taken from: https://buefy.org/documentation/carousel/
 // ----------------------------------------------------------------
 
@@ -255,5 +255,11 @@ $carousel-overlay-z: 40 !default;
                 right: $carousel-arrow-icon-spaced;
             }
         }
+    }
+}
+
+.carousel[data-animation-duration] {
+    > .carousel-items > .carousel-item {
+        @include component-animation-duration(var(--bulma-carousel-animation-duration));
     }
 }

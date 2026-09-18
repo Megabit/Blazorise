@@ -1338,6 +1338,75 @@ template {
   color: var(--b-theme-link, var(--ant-color-link));
 }
 
+.ant-alert[data-animation-duration] {
+  transition-duration: var(--ant-alert-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--ant-alert-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ant-alert[data-animation-duration] {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+
+.ant-alert[data-visible] {
+  transition: opacity var(--ant-motion-duration-slow) var(--ant-motion-ease-in-out);
+  transition-property: opacity, display;
+  transition-behavior: allow-discrete;
+  opacity: 1 !important;
+}
+@supports (interpolate-size: allow-keywords) {
+  .ant-alert[data-visible] {
+    interpolate-size: allow-keywords;
+    height: auto;
+    overflow: clip;
+    transition-property: opacity, display, height, min-height, padding-top, padding-bottom, margin-top, margin-bottom, border-top-width, border-bottom-width;
+  }
+  .ant-alert[data-visible][data-visible=false] {
+    height: 0 !important;
+    min-height: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    border-top-width: 0 !important;
+    border-bottom-width: 0 !important;
+  }
+  @starting-style {
+    .ant-alert[data-visible][data-visible=true][data-animation-ready=true] {
+      height: 0 !important;
+      min-height: 0 !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+      border-top-width: 0 !important;
+      border-bottom-width: 0 !important;
+    }
+  }
+}
+.ant-alert[data-visible][data-visible=false] {
+  opacity: 0 !important;
+}
+@starting-style {
+  .ant-alert[data-visible][data-visible=true][data-animation-ready=true] {
+    opacity: 0 !important;
+  }
+}
+.ant-alert[data-visible][data-animation-duration="0"] {
+  transition: none !important;
+  animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ant-alert[data-visible] {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
 .ant-collapse .ant-collapse-panel {
   display: grid;
   grid-template-rows: 1fr;
@@ -1389,6 +1458,44 @@ template {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
+}
+
+.ant-collapse[data-animation-duration] > .ant-collapse-item,
+.ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-panel,
+.ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-panel > .ant-collapse-body,
+.ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header,
+.ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header .ant-accordion-toggle,
+.ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header .ant-accordion-toggle::after,
+.ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow > svg {
+  transition-duration: var(--ant-accordion-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ant-collapse[data-animation-duration] > .ant-collapse-item,
+  .ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-panel,
+  .ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-panel > .ant-collapse-body,
+  .ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header,
+  .ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header .ant-accordion-toggle,
+  .ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header .ant-accordion-toggle::after,
+  .ant-collapse[data-animation-duration] > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow > svg {
+    transition-duration: 0s;
+  }
+}
+
+.ant-collapse-item[data-animation-duration] > .ant-collapse-panel,
+.ant-collapse-item[data-animation-duration] > .ant-collapse-panel > .ant-collapse-body,
+.ant-collapse-item[data-animation-duration] > .ant-collapse-header,
+.ant-collapse-item[data-animation-duration] > .ant-collapse-header .ant-collapse-arrow > svg {
+  transition-duration: var(--ant-collapse-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ant-collapse-item[data-animation-duration] > .ant-collapse-panel,
+  .ant-collapse-item[data-animation-duration] > .ant-collapse-panel > .ant-collapse-body,
+  .ant-collapse-item[data-animation-duration] > .ant-collapse-header,
+  .ant-collapse-item[data-animation-duration] > .ant-collapse-header .ant-collapse-arrow > svg {
+    transition-duration: 0s;
+  }
 }
 
 .ant-tag-pill {
@@ -3894,6 +4001,20 @@ template {
   background: var(--ant-color-white);
 }
 
+.ant-carousel[data-animation-duration] > .slick-slider > .slick-list > .slick-track {
+  transition-duration: var(--ant-carousel-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--ant-carousel-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ant-carousel[data-animation-duration] > .slick-slider > .slick-list > .slick-track {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+
 .ant-context-menu {
   display: contents;
 }
@@ -4612,6 +4733,7 @@ template {
   width: max-content;
   top: 0;
   left: 0;
+  transition-property: none;
 }
 .ant-dropdown-position-strategy-absolute {
   position: absolute;
@@ -4650,10 +4772,49 @@ template {
   width: 100%;
 }
 
-.ant-dropdown:not(.ant-dropdown-hidden) .ant-dropdown-menu {
-  animation-duration: 0.3s;
-  animation-fill-mode: both;
-  animation-name: fadeIn;
+.ant-dropdown-overlay {
+  --ant-dropdown-menu-closed-scale: 1 0.8;
+  transition-property: display;
+  transition-duration: var(--ant-motion-duration-mid);
+  transition-behavior: allow-discrete;
+}
+.ant-dropdown-overlay > .ant-dropdown-menu {
+  opacity: 1;
+  scale: none;
+  transform-origin: top left;
+  transition-property: opacity, scale;
+  transition-duration: inherit;
+  transition-timing-function: var(--ant-motion-ease-out-quint);
+}
+@starting-style {
+  .ant-dropdown-overlay > .ant-dropdown-menu {
+    opacity: 0;
+    scale: var(--ant-dropdown-menu-closed-scale);
+  }
+}
+.ant-dropdown-overlay.ant-dropdown-hidden {
+  display: none;
+  pointer-events: none;
+}
+.ant-dropdown-overlay.ant-dropdown-hidden > .ant-dropdown-menu {
+  opacity: 0;
+  scale: var(--ant-dropdown-menu-closed-scale);
+  transition-timing-function: var(--ant-motion-ease-in-quint);
+}
+.ant-dropdown-overlay.ant-dropdown-placement-topLeft > .ant-dropdown-menu, .ant-dropdown-overlay.ant-dropdown-placement-topRight > .ant-dropdown-menu, .ant-dropdown-overlay.ant-dropdown-menu-submenu-placement-topLeft > .ant-dropdown-menu {
+  transform-origin: bottom left;
+}
+.ant-dropdown-overlay.ant-dropdown-placement-leftTop, .ant-dropdown-overlay.ant-dropdown-placement-rightTop, .ant-dropdown-overlay.ant-dropdown-menu-submenu-placement-leftTop, .ant-dropdown-overlay.ant-dropdown-menu-submenu-placement-rightTop {
+  --ant-dropdown-menu-closed-scale: 0.8 1;
+}
+.ant-dropdown-overlay.ant-dropdown-placement-leftTop > .ant-dropdown-menu, .ant-dropdown-overlay.ant-dropdown-menu-submenu-placement-leftTop > .ant-dropdown-menu {
+  transform-origin: top right;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ant-dropdown-overlay,
+  .ant-dropdown-overlay > .ant-dropdown-menu {
+    transition: none !important;
+  }
 }
 
 .ant-dropdown-overlay:has(.ant-select-root, .b-is-autocomplete) {
@@ -4747,6 +4908,26 @@ template {
 .b-is-autocomplete.ant-input-status-success > input.ant-input, .b-is-autocomplete.ant-input-status-warning > input.ant-input, .b-is-autocomplete.ant-input-status-error > input.ant-input {
   border-color: transparent;
   box-shadow: none;
+}
+
+:is(.ant-dropdown-root, .ant-dropdown-menu-submenu)[data-animation-duration] > .ant-dropdown-overlay,
+:is(.ant-dropdown-root, .ant-dropdown-menu-submenu)[data-animation-duration] > .ant-dropdown-overlay > .ant-dropdown-menu,
+:is(.ant-dropdown-root, .ant-dropdown-menu-submenu)[data-animation-duration] > .ant-dropdown-menu-submenu-popup,
+:is(.ant-dropdown-root, .ant-dropdown-menu-submenu)[data-animation-duration] > .ant-dropdown-menu-submenu-title > .ant-dropdown-menu-submenu-arrow {
+  transition-duration: var(--ant-dropdown-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--ant-dropdown-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.ant-dropdown-root, .ant-dropdown-menu-submenu)[data-animation-duration] > .ant-dropdown-overlay,
+  :is(.ant-dropdown-root, .ant-dropdown-menu-submenu)[data-animation-duration] > .ant-dropdown-overlay > .ant-dropdown-menu,
+  :is(.ant-dropdown-root, .ant-dropdown-menu-submenu)[data-animation-duration] > .ant-dropdown-menu-submenu-popup,
+  :is(.ant-dropdown-root, .ant-dropdown-menu-submenu)[data-animation-duration] > .ant-dropdown-menu-submenu-title > .ant-dropdown-menu-submenu-arrow {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
 }
 
 .ant-dock-layout {

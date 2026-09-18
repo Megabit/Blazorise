@@ -99,7 +99,6 @@ public partial class AccordionItem : BaseComponent, IDisposable
             return;
 
         accordionBody = null;
-        InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -128,7 +127,6 @@ public partial class AccordionItem : BaseComponent, IDisposable
             return;
 
         accordionToggle = null;
-        InvokeAsync( StateHasChanged );
     }
 
     /// <summary>

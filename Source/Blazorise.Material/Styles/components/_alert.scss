@@ -96,3 +96,11 @@
         }
     }
 }
+
+.mui-alert[data-animation-duration] {
+    @include component-animation-duration(var(--mui-alert-animation-duration));
+}
+
+.mui-alert {
+    @include visibility-transition((opacity var(--mui-duration-normal), background-color var(--mui-duration-normal), color var(--mui-duration-normal), border-color var(--mui-duration-normal), box-shadow var(--mui-duration-normal)), (opacity, background-color, color, border-color, box-shadow, display));
+}

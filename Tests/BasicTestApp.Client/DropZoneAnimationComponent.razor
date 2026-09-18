@@ -1,0 +1,9 @@
+<Button ElementId="toggle-animation" Clicked="@(() => animated = !animated)">Toggle animation</Button>
+<Button ElementId="toggle-placeholder" Clicked="@(() => showPlaceholder = !( showPlaceholder ?? !animated ))">Toggle placeholder</Button>
+<DropZoneReorderComponent Animated="@animated" AnimationDuration="1000" ShowPlaceholder="@showPlaceholder" />
+
+@code {
+    private bool animated = true;
+
+    private bool? showPlaceholder;
+}

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-17T20:55:52.8072423Z",
+  "generatedUtc": "2026-09-17T21:23:47.8261242Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -274,6 +274,22 @@
       "summary": "$\"\"\"\r\n       An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.\r\n       \"\"\"",
       "searchUrl": "docs/components/accordion",
       "parameters": [
+        {
+          "name": "Animated",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Enables the transitions supplied by the CSS provider. Set to false for immediate changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AnimationDuration",
+          "type": "int?",
+          "typeName": "int?",
+          "defaultValue": "null",
+          "summary": "Overrides the provider's animation duration, in milliseconds. Null preserves the provider's default.     Zero or a negative value disables transitions.",
+          "isBlazoriseEnum": false
+        },
         {
           "name": "Attributes",
           "type": "Dictionary<string, object>",
@@ -2688,6 +2704,22 @@
       "searchUrl": "docs/components/alert",
       "parameters": [
         {
+          "name": "Animated",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Enables the transitions supplied by the CSS provider. Set to false for immediate changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AnimationDuration",
+          "type": "int?",
+          "typeName": "int?",
+          "defaultValue": "null",
+          "summary": "Overrides the provider's animation duration, in milliseconds. Null preserves the provider's default.     Zero or a negative value disables transitions.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Attributes",
           "type": "Dictionary<string, object>",
           "typeName": "Dictionary<string, object>",
@@ -2757,7 +2789,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "Enables the alert to be closed by placing the padding for close button.",
+          "summary": "Controls the padding and positioning for close buttons.     When omitted, dismissible styling is enabled automatically when a <strong>CloseButton</strong> is present.     An explicit value overrides this automatic behavior.",
           "isBlazoriseEnum": false
         },
         {
@@ -2976,7 +3008,7 @@
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<bool>",
           "defaultValue": "null",
-          "summary": "Notifies when the alert visibility state changes.",
+          "summary": "Notifies when the alert visibility state changes.     This notification does not wait for the entrance or exit animation to finish.",
           "isBlazoriseEnum": false
         }
       ],
@@ -18045,6 +18077,22 @@
       "searchUrl": "docs/components/carousel",
       "parameters": [
         {
+          "name": "Animated",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Enables the transitions supplied by the CSS provider. Set to false for immediate changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AnimationDuration",
+          "type": "int?",
+          "typeName": "int?",
+          "defaultValue": "null",
+          "summary": "Overrides the provider's animation duration, in milliseconds. Null preserves the provider's default.     Zero or a negative value disables transitions.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Attributes",
           "type": "Dictionary<string, object>",
           "typeName": "Dictionary<string, object>",
@@ -23624,6 +23672,22 @@
       "summary": "$\"\"\"\r\n       Toggle visibility of almost any content on your pages in a vertically collapsing container.\r\n       \"\"\"",
       "searchUrl": "docs/components/collapse",
       "parameters": [
+        {
+          "name": "Animated",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Enables the transitions supplied by the CSS provider. Set to false for immediate changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AnimationDuration",
+          "type": "int?",
+          "typeName": "int?",
+          "defaultValue": "null",
+          "summary": "Overrides the provider's animation duration, in milliseconds. Null preserves the provider's default.     Zero or a negative value disables transitions.",
+          "isBlazoriseEnum": false
+        },
         {
           "name": "Attributes",
           "type": "Dictionary<string, object>",
@@ -46326,6 +46390,22 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Animated",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "If true, animates item movement during reordering. Requires <strong>AllowReorder</strong>.     Respects the user's reduced motion preference.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AnimationDuration",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "200",
+          "summary": "Gets or sets the reorder animation duration, in milliseconds.     Values less than or equal to zero disable the animation.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "ApplyDropClassesOnDragStarted",
           "type": "bool?",
           "typeName": "bool?",
@@ -46568,6 +46648,14 @@
           "isBlazoriseEnum": true
         },
         {
+          "name": "ShowPlaceholder",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Controls the visibility of the reorder placeholder's outline and content without removing its reserved space.     When null, the placeholder is visible for non-animated reordering or when a placeholder template is supplied.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Style",
           "type": "string",
           "typeName": "string",
@@ -46714,6 +46802,22 @@
       "summary": "$\"\"\"\r\n       Dropdown is toggleable, contextual overlay for displaying lists of links and more.\r\n       \"\"\"",
       "searchUrl": "docs/components/dropdown",
       "parameters": [
+        {
+          "name": "Animated",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Enables the transitions supplied by the CSS provider. Set to false for immediate changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AnimationDuration",
+          "type": "int?",
+          "typeName": "int?",
+          "defaultValue": "null",
+          "summary": "Overrides the provider's animation duration, in milliseconds. Null preserves the provider's default.     Zero or a negative value disables transitions.",
+          "isBlazoriseEnum": false
+        },
         {
           "name": "AriaDescribedBy",
           "type": "string",

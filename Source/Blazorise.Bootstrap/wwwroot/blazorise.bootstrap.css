@@ -36,6 +36,144 @@ body:before {
     content: "quadhd";
   }
 }
+.accordion[data-animation-duration] > .card,
+.accordion[data-animation-duration] > .card > .collapse,
+.accordion[data-animation-duration] > .card > .collapse > .card-body,
+.accordion[data-animation-duration] > .card > .collapsing,
+.accordion[data-animation-duration] > .card > .collapsing > .card-body,
+.accordion[data-animation-duration] > .card > .card-header,
+.accordion[data-animation-duration] > .card > .card-header .btn,
+.accordion[data-animation-duration] > .card > .card-header .btn::after {
+  transition-duration: var(--accordion-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .accordion[data-animation-duration] > .card,
+  .accordion[data-animation-duration] > .card > .collapse,
+  .accordion[data-animation-duration] > .card > .collapse > .card-body,
+  .accordion[data-animation-duration] > .card > .collapsing,
+  .accordion[data-animation-duration] > .card > .collapsing > .card-body,
+  .accordion[data-animation-duration] > .card > .card-header,
+  .accordion[data-animation-duration] > .card > .card-header .btn,
+  .accordion[data-animation-duration] > .card > .card-header .btn::after {
+    transition-duration: 0s;
+  }
+}
+
+.card[data-animation-duration] > .collapse,
+.card[data-animation-duration] > .collapsing,
+.card[data-animation-duration] > .collapse > .card-body,
+.card[data-animation-duration] > .collapsing > .card-body,
+.card[data-animation-duration] > .card-header {
+  transition-duration: var(--collapse-animation-duration);
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .card[data-animation-duration] > .collapse,
+  .card[data-animation-duration] > .collapsing,
+  .card[data-animation-duration] > .collapse > .card-body,
+  .card[data-animation-duration] > .collapsing > .card-body,
+  .card[data-animation-duration] > .card-header {
+    transition-duration: 0s;
+  }
+}
+
+.alert[data-animation-duration] {
+  transition-duration: var(--alert-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--alert-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .alert[data-animation-duration] {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+
+.alert[data-visible] {
+  transition: opacity 0.15s linear;
+  transition-property: opacity, display;
+  transition-behavior: allow-discrete;
+  opacity: 1 !important;
+}
+@supports (interpolate-size: allow-keywords) {
+  .alert[data-visible] {
+    interpolate-size: allow-keywords;
+    height: auto;
+    overflow: clip;
+    transition-property: opacity, display, height, min-height, padding-top, padding-bottom, margin-top, margin-bottom, border-top-width, border-bottom-width;
+  }
+  .alert[data-visible][data-visible=false] {
+    height: 0 !important;
+    min-height: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    border-top-width: 0 !important;
+    border-bottom-width: 0 !important;
+  }
+  @starting-style {
+    .alert[data-visible][data-visible=true][data-animation-ready=true] {
+      height: 0 !important;
+      min-height: 0 !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+      border-top-width: 0 !important;
+      border-bottom-width: 0 !important;
+    }
+  }
+}
+.alert[data-visible][data-visible=false] {
+  opacity: 0 !important;
+}
+@starting-style {
+  .alert[data-visible][data-visible=true][data-animation-ready=true] {
+    opacity: 0 !important;
+  }
+}
+.alert[data-visible][data-animation-duration="0"] {
+  transition: none !important;
+  animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .alert[data-visible] {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+.carousel[data-animation-duration] > .carousel-inner > .carousel-item {
+  transition-duration: var(--carousel-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--carousel-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .carousel[data-animation-duration] > .carousel-inner > .carousel-item {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+.carousel[data-animation-duration].carousel-fade > .carousel-inner > .carousel-item.active:is(.carousel-item-left, .carousel-item-right) {
+  transition-duration: 0s !important;
+  transition-delay: var(--carousel-animation-duration) !important;
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .carousel[data-animation-duration].carousel-fade > .carousel-inner > .carousel-item.active:is(.carousel-item-left, .carousel-item-right) {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+
 .badge-close {
   cursor: pointer;
 }
@@ -1317,6 +1455,9 @@ body:before {
   z-index: 11;
 }
 
+.dropdown-menu {
+  transition-property: none;
+}
 .dropdown-menu-position-strategy {
   width: max-content;
   top: 0;
@@ -1521,6 +1662,24 @@ body:before {
   border-right: 0.3em solid;
   border-bottom: 0.3em solid transparent;
   vertical-align: 0;
+}
+
+.dropdown[data-animation-duration] > .dropdown-menu,
+.dropdown[data-animation-duration] > .dropdown-toggle,
+.dropdown[data-animation-duration] > .dropdown-toggle::after {
+  transition-duration: var(--dropdown-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--dropdown-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dropdown[data-animation-duration] > .dropdown-menu,
+  .dropdown[data-animation-duration] > .dropdown-toggle,
+  .dropdown[data-animation-duration] > .dropdown-toggle::after {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
 }
 
 .figure.figure-is-16x16 {

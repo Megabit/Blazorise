@@ -1,4 +1,4 @@
-﻿
+
 .b-dropdown {
     &.b-dropdown-group {
         > .b-button:not(:last-child):not(.b-dropdown-toggle) {
@@ -32,6 +32,28 @@
 
 .b-dropdown {
     position: relative;
+
+    > .b-dropdown-menu {
+        opacity: 0;
+        pointer-events: none;
+        transition-property: opacity, display;
+        transition-duration: var(--tw-duration, var(--default-transition-duration, 150ms));
+        transition-timing-function: var(--default-transition-timing-function, ease);
+        transition-behavior: allow-discrete;
+
+        &.b-dropdown-menu-show {
+            opacity: 1;
+            pointer-events: auto;
+
+            @starting-style {
+                opacity: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none !important;
+        }
+    }
 
     &.b-dropdown-disabled.b-is-autocomplete {
         background-color: var(--b-theme-light, #f5f5f5);
@@ -219,5 +241,12 @@
             border-color: transparent;
             box-shadow: none;
         }
+    }
+}
+
+.b-dropdown[data-animation-duration] {
+    > .b-dropdown-menu,
+    > .b-dropdown-toggle > .b-dropdown-toggle-arrow {
+        @include component-animation-duration(var(--tw-dropdown-animation-duration));
     }
 }

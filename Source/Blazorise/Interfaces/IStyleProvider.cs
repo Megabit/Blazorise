@@ -2,6 +2,36 @@
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public interface IStyleProvider
 {
+    #region Accordion
+
+    string AccordionAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
+    #region Dropdown
+
+    string DropdownAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
+    #region Carousel
+
+    string CarouselAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
+    #region Alert
+
+    string AlertAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
+    #region Collapse
+
+    string CollapseAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
     #region MemoInput
 
     string MemoInputAutoSize( int minimumRows ) => $"field-sizing: content; min-block-size: {minimumRows}lh";

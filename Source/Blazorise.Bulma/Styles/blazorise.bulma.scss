@@ -7,8 +7,10 @@
 @import "variables";
 @import "functions";
 @import "mixins";
+@import "mixins/animation";
 @import "mixins/breakpoints";
 
+@import "components/alert";
 @import "components/bar";
 @import "components/kbd";
 @import "components/blockquote";

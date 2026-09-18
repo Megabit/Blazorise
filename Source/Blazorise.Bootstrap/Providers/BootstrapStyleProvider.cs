@@ -11,6 +11,41 @@ public class BootstrapStyleProvider : StyleProvider
 
     #endregion
 
+    #region Accordion
+
+    public override string AccordionAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--accordion-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Dropdown
+
+    public override string DropdownAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--dropdown-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Carousel
+
+    public override string CarouselAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--carousel-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Alert
+
+    public override string AlertAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--alert-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Collapse
+
+    public override string CollapseAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--collapse-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 1050;

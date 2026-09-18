@@ -1,0 +1,40 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
+    <Field Margin="Margin.Is0" Width="Width.Auto">
+        <Switch @bind-Value="animated">Animate transitions</Switch>
+    </Field>
+    <Field Margin="Margin.Is0" Width="Width.Auto">
+        <Switch @bind-Value="dismissable">Show close button</Switch>
+    </Field>
+    <Field Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2" Margin="Margin.Is0" Width="Width.Auto">
+        <FieldLabel Margin="Margin.Is0">Animation duration</FieldLabel>
+        <Select TValue="int?" @bind-Value="animationDuration" Width="Width.Auto">
+            <SelectItem TValue="int?" Value="@((int?)null)">Provider default</SelectItem>
+            <SelectItem TValue="int?" Value="0">Immediate</SelectItem>
+            <SelectItem TValue="int?" Value="100">100 ms</SelectItem>
+            <SelectItem TValue="int?" Value="200">200 ms</SelectItem>
+            <SelectItem TValue="int?" Value="400">400 ms</SelectItem>
+            <SelectItem TValue="int?" Value="1000">1000 ms</SelectItem>
+        </Select>
+    </Field>
+    <Button Color="Color.Primary" Clicked="@(() => visible = !visible)">Toggle alert</Button>
+</Div>
+<Alert Color="Color.Success" Dismisable="@dismissable" @bind-Visible="visible" Animated="@animated" AnimationDuration="@animationDuration">
+    <AlertMessage>Settings saved</AlertMessage>
+    <AlertDescription>The machine is ready for the next production run.</AlertDescription>
+    @if ( dismissable )
+    {
+        <CloseButton />
+    }
+</Alert>
+
+@code {
+    private bool animated = true;
+
+    private int? animationDuration = 400;
+
+    private bool dismissable = true;
+
+    private bool visible = true;
+}

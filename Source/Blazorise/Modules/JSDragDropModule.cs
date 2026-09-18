@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -31,6 +31,10 @@ public class JSDragDropModule : BaseJSModule, IJSDragDropModule
     /// <inheritdoc/>
     public virtual ValueTask Initialize( ElementReference elementRef, string elementId )
         => InvokeSafeVoidAsync( "initialize", elementRef, elementId );
+
+    /// <inheritdoc/>
+    public virtual ValueTask UpdateOptions<T>( ElementReference elementRef, string elementId, DotNetObjectReference<T> dotNetObjectRef, DragDropJSOptions options ) where T : class
+        => InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, dotNetObjectRef, options );
 
     /// <inheritdoc/>
     public virtual ValueTask InitializeThrottledDragEvents<T>( ElementReference elementRef, string elementId, DotNetObjectReference<T> dotNetObjectReference ) where T : class

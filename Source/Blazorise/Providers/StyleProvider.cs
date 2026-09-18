@@ -28,6 +28,36 @@ public abstract class StyleProvider : IStyleProvider
 
     #endregion
 
+    #region Accordion
+
+    public virtual string AccordionAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
+    #region Dropdown
+
+    public virtual string DropdownAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
+    #region Carousel
+
+    public virtual string CarouselAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
+    #region Alert
+
+    public virtual string AlertAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
+    #region Collapse
+
+    public virtual string CollapseAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
     #region MemoInput
 
     public virtual string MemoInputAutoSize( int minimumRows ) => $"field-sizing: content; min-block-size: {minimumRows}lh";

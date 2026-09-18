@@ -1,4 +1,4 @@
-﻿.fui-Carousel {
+.fui-Carousel {
     position: relative;
     display: inline-block;
 
@@ -191,5 +191,11 @@
     100% {
         transform: translateX(0px);
         opacity: 1;
+    }
+}
+
+.fui-Carousel[data-animation-duration] {
+    > .fui-Carousel__itemswrapper > .fui-Carousel__itemscontainer > .fui-Carousel__item {
+        @include component-animation-duration(var(--fui-carousel-animation-duration));
     }
 }

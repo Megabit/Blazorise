@@ -28,26 +28,6 @@
                     <Column ColumnSize="ColumnSize.IsAuto">
                         <Field>
                             <FieldLabel>
-                                Animation
-                            </FieldLabel>
-                            <FieldBody>
-                                <Switch @bind-Value="@animation">Animation</Switch>
-                            </FieldBody>
-                        </Field>
-                    </Column>
-                    <Column ColumnSize="ColumnSize.IsAuto">
-                        <Field>
-                            <FieldLabel>
-                                Animation Duration (ms)
-                            </FieldLabel>
-                            <FieldBody>
-                                <NumericInput @bind-Value="animationDuration" />
-                            </FieldBody>
-                        </Field>
-                    </Column>
-                    <Column ColumnSize="ColumnSize.IsAuto">
-                        <Field>
-                            <FieldLabel>
                                 Autohide
                             </FieldLabel>
                             <FieldBody>
@@ -113,23 +93,23 @@
     </Column>
 </Row>
 
-<ToastProvider @ref="toastProviderRef" Placement="@toasterPlacement" Animated="@animation" AnimationDuration="@animationDuration" Autohide="@autohide" AutohideDelay="@autohideDelay" />
+<ToastProvider @ref="toastProviderRef" Placement="@toasterPlacement" Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@(AppSettings.AnimationSettings.AnimationDuration ?? 300)" Autohide="@autohide" AutohideDelay="@autohideDelay" />
 @code {
     [Inject] IToastService ToastService { get; set; }
 
     ToastProvider toastProviderRef;
 
     ToasterPlacement toasterPlacement = ToasterPlacement.BottomEnd;
-    private bool animation = true;
-    private int animationDuration = 300;
     private bool autohide = true;
     private int autohideDelay = 5000;
 
     private void BuildToastInstanceOptions( ToastInstanceOptions toastInstanceOptions )
     {
-        toastInstanceOptions.Animated = animation;
-        toastInstanceOptions.AnimationDuration = animationDuration;
+        toastInstanceOptions.Animated = AppSettings.AnimationSettings.Animated;
+        toastInstanceOptions.AnimationDuration = AppSettings.AnimationSettings.AnimationDuration;
         toastInstanceOptions.Autohide = autohide;
         toastInstanceOptions.AutohideDelay = autohideDelay;
     }
+
+    [CascadingParameter] protected AppSettings AppSettings { get; set; }
 }

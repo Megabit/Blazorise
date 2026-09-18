@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -10,13 +11,30 @@ namespace Blazorise;
 /// <summary>
 /// A generic close button for dismissing content like modals and alerts.
 /// </summary>
-public partial class CloseButton : BaseComponent
+public partial class CloseButton : BaseComponent, IDisposable
 {
     #region Members
 
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        ParentAlert?.NotifyCloseButtonInitialized();
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing && !Disposed )
+            ParentAlert?.NotifyCloseButtonRemoved();
+
+        base.Dispose( disposing );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )

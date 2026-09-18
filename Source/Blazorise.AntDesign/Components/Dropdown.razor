@@ -3,19 +3,19 @@
     <CascadingValue Value="@State">
         @if ( IsDropdownSubmenu )
         {
-            <li @ref="@ElementRef" id="@ElementId" class="@SubmenuClassNames" style="@StyleNames" role="none" @attributes="@Attributes" @onmouseleave="OnMouseLeaveHandler" @onmouseenter="OnMouseEnterHandler">
+            <li @ref="@ElementRef" id="@ElementId" class="@SubmenuClassNames" style="@StyleNames" data-animation-duration="@AnimationDurationString" role="none" @attributes="@Attributes" @onmouseleave="OnMouseLeaveHandler" @onmouseenter="OnMouseEnterHandler">
                 @ChildContent
             </li>
         }
         else if ( ParentButtons is not null )
         {
-            <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @attributes="@Attributes" @onmouseleave="OnMouseLeaveHandler" @onmouseenter="OnMouseEnterHandler">
+            <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-animation-duration="@AnimationDurationString" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @attributes="@Attributes" @onmouseleave="OnMouseLeaveHandler" @onmouseenter="OnMouseEnterHandler">
                 @ChildContent
             </span>
         }
         else
         {
-            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @attributes="@Attributes" @onmouseleave="OnMouseLeaveHandler" @onmouseenter="OnMouseEnterHandler">
+            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-animation-duration="@AnimationDurationString" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @attributes="@Attributes" @onmouseleave="OnMouseLeaveHandler" @onmouseenter="OnMouseEnterHandler">
                 @ChildContent
             </div>
         }

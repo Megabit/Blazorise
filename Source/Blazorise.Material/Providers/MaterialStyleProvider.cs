@@ -8,6 +8,41 @@ public class MaterialStyleProvider : StyleProvider
 
     #endregion
 
+    #region Accordion
+
+    public override string AccordionAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--mui-accordion-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Dropdown
+
+    public override string DropdownAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--mui-dropdown-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Carousel
+
+    public override string CarouselAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--mui-carousel-transition-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Alert
+
+    public override string AlertAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--mui-alert-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
+    #region Collapse
+
+    public override string CollapseAnimationDuration( int? animationDuration )
+        => animationDuration.HasValue ? $"--mui-collapse-animation-duration: {animationDuration.Value}ms" : null;
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 1055;

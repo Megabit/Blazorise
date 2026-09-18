@@ -6,7 +6,7 @@
                 <CardTitle>Accordion</CardTitle>
             </CardHeader>
             <CardBody>
-                <Accordion>
+                <Accordion Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration">
                     <AccordionItem @bind-Visible="@accordionItem1Visible">
                         <AccordionHeader>
                             <Heading Size="HeadingSize.Is5">
@@ -46,4 +46,6 @@
     bool accordionItem1Visible = true;
     bool accordionItem2Visible = false;
     bool accordionItem3Visible = false;
+
+    [CascadingParameter] protected AppSettings AppSettings { get; set; }
 }

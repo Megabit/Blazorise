@@ -6,6 +6,7 @@
     width: max-content;
     top: 0;
     left: 0;
+    transition-property: none;
 
     &-absolute {
         position: absolute;
@@ -48,10 +49,65 @@
     }
 }
 
-.ant-dropdown:not(.ant-dropdown-hidden) .ant-dropdown-menu {
-    animation-duration: 0.3s;
-    animation-fill-mode: both;
-    animation-name: fadeIn;
+.ant-dropdown-overlay {
+    --ant-dropdown-menu-closed-scale: 1 0.8;
+    transition-property: display;
+    transition-duration: var(--ant-motion-duration-mid);
+    transition-behavior: allow-discrete;
+
+    > .ant-dropdown-menu {
+        opacity: 1;
+        scale: none;
+        transform-origin: top left;
+        transition-property: opacity, scale;
+        transition-duration: inherit;
+        transition-timing-function: var(--ant-motion-ease-out-quint);
+
+        @starting-style {
+            opacity: 0;
+            scale: var(--ant-dropdown-menu-closed-scale);
+        }
+    }
+
+    &.ant-dropdown-hidden {
+        display: none;
+        pointer-events: none;
+
+        > .ant-dropdown-menu {
+            opacity: 0;
+            scale: var(--ant-dropdown-menu-closed-scale);
+            transition-timing-function: var(--ant-motion-ease-in-quint);
+        }
+    }
+
+    &.ant-dropdown-placement-topLeft,
+    &.ant-dropdown-placement-topRight,
+    &.ant-dropdown-menu-submenu-placement-topLeft {
+        > .ant-dropdown-menu {
+            transform-origin: bottom left;
+        }
+    }
+
+    &.ant-dropdown-placement-leftTop,
+    &.ant-dropdown-placement-rightTop,
+    &.ant-dropdown-menu-submenu-placement-leftTop,
+    &.ant-dropdown-menu-submenu-placement-rightTop {
+        --ant-dropdown-menu-closed-scale: 0.8 1;
+    }
+
+    &.ant-dropdown-placement-leftTop,
+    &.ant-dropdown-menu-submenu-placement-leftTop {
+        > .ant-dropdown-menu {
+            transform-origin: top right;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        &,
+        > .ant-dropdown-menu {
+            transition: none !important;
+        }
+    }
 }
 
 .ant-dropdown-overlay:has(.ant-select-root, .b-is-autocomplete) {
@@ -147,5 +203,14 @@
     &.ant-input-status-error > input.ant-input {
         border-color: transparent;
         box-shadow: none;
+    }
+}
+
+:is(.ant-dropdown-root, .ant-dropdown-menu-submenu)[data-animation-duration] {
+    > .ant-dropdown-overlay,
+    > .ant-dropdown-overlay > .ant-dropdown-menu,
+    > .ant-dropdown-menu-submenu-popup,
+    > .ant-dropdown-menu-submenu-title > .ant-dropdown-menu-submenu-arrow {
+        @include component-animation-duration(var(--ant-dropdown-animation-duration));
     }
 }

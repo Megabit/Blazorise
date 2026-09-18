@@ -46,6 +46,8 @@ public partial class DropdownMenu : Blazorise.DropdownMenu
         {
             Direction.Up => ParentDropdownState?.EndAligned == true ? "ant-dropdown-placement-topRight" : "ant-dropdown-placement-topLeft",
             Direction.Down or Direction.Default => ParentDropdownState?.EndAligned == true ? "ant-dropdown-placement-bottomRight" : "ant-dropdown-placement-bottomLeft",
+            Direction.Start => "ant-dropdown-placement-leftTop",
+            Direction.End => "ant-dropdown-placement-rightTop",
             _ => null,
         };
     }
@@ -55,6 +57,8 @@ public partial class DropdownMenu : Blazorise.DropdownMenu
         return GetEffectiveDirection() switch
         {
             Direction.Start => "ant-dropdown-menu-submenu-placement-leftTop",
+            Direction.Up => "ant-dropdown-menu-submenu-placement-topLeft",
+            Direction.Down => "ant-dropdown-menu-submenu-placement-bottomLeft",
             _ => "ant-dropdown-menu-submenu-placement-rightTop",
         };
     }

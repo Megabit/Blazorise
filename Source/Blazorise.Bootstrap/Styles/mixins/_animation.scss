@@ -1,0 +1,72 @@
+// Explicit component timing takes precedence over provider state rules and utility classes.
+@mixin component-animation-duration($duration, $transition-delay: 0s) {
+    transition-duration: $duration !important;
+    transition-delay: $transition-delay !important;
+    animation-duration: $duration !important;
+    animation-delay: 0s !important;
+
+    @media (prefers-reduced-motion: reduce) {
+        transition-duration: 0s !important;
+        transition-delay: 0s !important;
+        animation-duration: 0s !important;
+    }
+}
+
+// Remove the entire occupied space, including provider and utility spacing.
+@mixin visibility-collapsed {
+    height: 0 !important;
+    min-height: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    border-top-width: 0 !important;
+    border-bottom-width: 0 !important;
+}
+
+// Discrete display transitions retain layout until the exit effect finishes.
+@mixin visibility-transition($transition, $properties: (opacity, display)) {
+    &[data-visible] {
+        transition: $transition;
+        transition-property: $properties;
+        transition-behavior: allow-discrete;
+        opacity: 1 !important;
+
+        @supports (interpolate-size: allow-keywords) {
+            interpolate-size: allow-keywords;
+            height: auto;
+            overflow: clip;
+            transition-property: join($properties, (height, min-height, padding-top, padding-bottom, margin-top, margin-bottom, border-top-width, border-bottom-width), comma);
+
+            &[data-visible="false"] {
+                @include visibility-collapsed;
+            }
+
+            &[data-visible="true"][data-animation-ready="true"] {
+                @starting-style {
+                    @include visibility-collapsed;
+                }
+            }
+        }
+
+        &[data-visible="false"] {
+            opacity: 0 !important;
+        }
+        // Initial visibility is immediate; later appearances have an entrance effect.
+        &[data-visible="true"][data-animation-ready="true"] {
+            @starting-style {
+                opacity: 0 !important;
+            }
+        }
+
+        &[data-animation-duration="0"] {
+            transition: none !important;
+            animation: none !important;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none !important;
+            animation: none !important;
+        }
+    }
+}
