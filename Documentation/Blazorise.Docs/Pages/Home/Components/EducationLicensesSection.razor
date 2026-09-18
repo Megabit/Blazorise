@@ -1,0 +1,82 @@
+<Container ElementId="individual-licenses" Padding="Padding.Is5.OnY">
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            Free individual licenses for students and teachers
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Use Blazorise Professional or Enterprise components for coursework, teaching, and non-commercial academic research. Choose the license that matches your role.
+        </Lead>
+    </Div>
+
+    <Div Flex="Flex.Column.Row.OnTablet.JustifyContent.Center" Gap="Gap.Is4" TextColor="TextColor.Muted" Margin="Margin.Is4.FromBottom">
+        <Span><Icon Name="IconName.CheckCircle" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />Free for eligible students and teachers</Span>
+        <Span><Icon Name="IconName.CalendarWeek" TextColor="TextColor.Primary" Margin="Margin.Is2.FromEnd" />Valid for one year</Span>
+        <Span><Icon Name="IconName.ShieldAlt" TextColor="TextColor.Info" Margin="Margin.Is2.FromEnd" />Renewable after re-verification</Span>
+    </Div>
+
+    <Row>
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom">
+            <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                <CardBody Padding="Padding.Is4.Is5.OnDesktop" Display="Display.Flex" Flex="Flex.Column">
+                    <Div Flex="Flex.JustifyContent.Between.AlignItems.Start" Margin="Margin.Is4.FromBottom">
+                        <Div>
+                            <Paragraph TextColor="TextColor.Primary" TextWeight="TextWeight.Bold" Margin="Margin.Is2.FromBottom">For students</Paragraph>
+                            <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.SemiBold">Student license</Heading>
+                        </Div>
+                        <Icon Name="IconName.User" IconSize="IconSize.x2" TextColor="TextColor.Primary" />
+                    </Div>
+                    <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted" Margin="Margin.Is4.FromBottom">
+                        Build coursework and portfolio projects, and carry out academic research with professional Blazor components.
+                    </Paragraph>
+                    <Heading Size="HeadingSize.Is4" TextSize="TextSize.Heading5">Who can apply</Heading>
+                    <Div Flex="Flex.Column" Gap="Gap.Is2" Margin="Margin.Is4.FromBottom">
+                        <Span><Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />Currently enrolled students</Span>
+                        <Span><Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />A verified university email address</Span>
+                        <Span><Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />Non-commercial educational use</Span>
+                    </Div>
+                    <Heading Size="HeadingSize.Is4" TextSize="TextSize.Heading5">Verification options</Heading>
+                    <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is4.FromBottom">
+                        A university email is required for every method. You may also provide an ISIC card number, official academic documents, or authorization through an existing GitHub Student Developer Pack.
+                    </Paragraph>
+                    <Div Margin="Margin.IsAuto.FromTop">
+                        <Button Type="ButtonType.Link" To="/support/education/apply?type=student" Color="Color.Primary" Size="Size.Large">
+                            Apply as a student
+                        </Button>
+                    </Div>
+                </CardBody>
+            </Card>
+        </Column>
+
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom">
+            <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                <CardBody Padding="Padding.Is4.Is5.OnDesktop" Display="Display.Flex" Flex="Flex.Column">
+                    <Div Flex="Flex.JustifyContent.Between.AlignItems.Start" Margin="Margin.Is4.FromBottom">
+                        <Div>
+                            <Paragraph TextColor="TextColor.Info" TextWeight="TextWeight.Bold" Margin="Margin.Is2.FromBottom">For teachers</Paragraph>
+                            <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.SemiBold">Teacher license</Heading>
+                        </Div>
+                        <Icon Name="IconName.Users" IconSize="IconSize.x2" TextColor="TextColor.Info" />
+                    </Div>
+                    <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted" Margin="Margin.Is4.FromBottom">
+                        An individual license for your teaching preparation, classroom demonstrations, and academic work.
+                    </Paragraph>
+                    <Heading Size="HeadingSize.Is4" TextSize="TextSize.Heading5">Who can apply</Heading>
+                    <Div Flex="Flex.Column" Gap="Gap.Is2" Margin="Margin.Is4.FromBottom">
+                        <Span><Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />Active teachers at eligible institutions</Span>
+                        <Span><Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />A verified university email address</Span>
+                        <Span><Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is2.FromEnd" />Non-commercial teaching and academic use</Span>
+                    </Div>
+                    <Heading Size="HeadingSize.Is4" TextSize="TextSize.Heading5">Verification options</Heading>
+                    <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is4.FromBottom">
+                        A university email is required for every method. You may also provide an ITIC card number or official documents confirming your academic employment.
+                    </Paragraph>
+                    <Div Margin="Margin.IsAuto.FromTop">
+                        <Button Type="ButtonType.Link" To="/support/education/apply?type=teacher" Color="Color.Primary" Size="Size.Large">
+                            Apply as a teacher
+                        </Button>
+                    </Div>
+                </CardBody>
+            </Card>
+        </Column>
+    </Row>
+</Container>

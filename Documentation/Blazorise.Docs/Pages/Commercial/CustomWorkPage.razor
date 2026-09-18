@@ -2,26 +2,14 @@
 
 <Seo Canonical="/custom-work" Title="Blazor Consulting, Expert Support, and Custom Work" Description="Get hands-on Blazorise expert support, custom development, or feature sponsorship. Compare services, pricing guidance, and engagement options for your project." />
 
-<PageHeader>
-    <Title>
-        Blazorise <Span Class="gradient-commercial">Custom Work</Span>
-    </Title>
-    <Subtitle>
-        Expert help for the work ahead.
-    </Subtitle>
-    <Description>
-        Work with the Blazorise team to solve a technical problem, build a custom integration, or sponsor a new feature. Choose focused live support or a development engagement shaped around your project.
-    </Description>
-    <Actions>
-        <Button Type="ButtonType.Link" To="custom-work/quote" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">
-            <Icon Name="IconName.PaperPlane" />
-            Request a quote
-        </Button>
-        <Button Type="ButtonType.Link" To="/custom-work#service-options" Color="Color.Secondary" Size="Size.Large" Padding="Padding.Is4.OnX" Outline>
-            <Icon Name="IconName.Briefcase" />
-            Explore services
-        </Button>
-    </Actions>
-</PageHeader>
+<Div Class="b-visual b-marketing b-expanded-page b-custom-work-page">
+    <MarketingPageHeader Variant="BrandBackdropVariant.Circuit">
+        <Title>Expert help.<br /><Span>Real progress.</Span></Title>
+        <Description>Work with the Blazorise team to solve a technical problem, build a custom integration, or sponsor a new feature. Choose focused live support or a development engagement shaped around your project.</Description>
+        <Actions><Anchor To="custom-work/quote" Class="b-visual-button b-visual-button--primary">Request a quote</Anchor><Anchor To="/custom-work#service-options" Class="b-visual-button b-visual-button--outline">Explore services</Anchor></Actions>
+    </MarketingPageHeader>
 
-<CustomWorkOptions ShowHeader="false" />
+    <Div Class="b-services-content b-visual-section">
+        <CustomWorkOptions ShowHeader="false" />
+    </Div>
+</Div>

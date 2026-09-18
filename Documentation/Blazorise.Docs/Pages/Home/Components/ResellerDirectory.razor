@@ -1,0 +1,52 @@
+<Container>
+    <Div Class="b-reseller-grid">
+        @foreach ( Reseller item in Resellers )
+        {
+            <ResellerCard @key="item.Name" Item="item" />
+        }
+    </Div>
+</Container>
+
+@code {
+    private static readonly Reseller[] Resellers =
+    [
+        new( "ComponentSource", "https://www.componentsource.com/", "img/logos/resellers/component-source.png",
+        [
+            new( "US Headquarters", [new( "Tel:", "+1 770 250 6100" ), new( "Languages:", "English / Spanish / Portuguese" ), new( "Office hours:", "9:00am - 7:00pm EDT" )] ),
+            new( "European Headquarters", [new( "Tel:", "+44 118 958 1111" ), new( "Languages:", "English / French / German / Spanish / Italian / Portuguese" ), new( "Office hours:", "9:00am - 5:30pm BST & CEST" )] ),
+            new( "Asia-Pac Headquarters", [new( "Tel:", "+81 3 3237 0281" ), new( "Languages:", "English / Japanese / Korean / Mandarin / Cantonese" ), new( "Office hours:", "10:00am - 6:00pm JST" )] )
+        ] ),
+        new( "SoftwareOne Deutschland GmbH", "https://www.softwareone.com", "img/logos/resellers/softwareone.svg",
+        [
+            new( "Germany Headquarters", [new( "Tel:", "+49 341 2568 999" ), new( "Email:", "procurement.global@softwareone.com" ), new( "Languages:", "English / German" ), new( "Office hours:", "9:00am - 7:00pm CET" )] )
+        ] ),
+        new( "QBS Software", "https://www.qbssoftware.com/contact-us/", "https://www.qbssoftware.com/wp-content/uploads/2024/06/qbs-logo-d-i.png",
+        [
+            new( "United Kingdom Headquarters", [new( "Tel:", "+44 (0)20 8733 7100" ), new( "Languages:", "English" ), new( "Office hours:", "Monday - Friday, 9:00am - 5:00pm GMT" )] )
+        ] ),
+        new( "MEGASOFT IT GmbH & Co. KG", "https://www.megasoft.de/en/kontakt/", "https://www.megasoft.de/wp-content/uploads/megasoft_logo_IT_Procurement_Partner.png",
+        [
+            new( "Germany Headquarters", [new( "Tel:", "+49 2173 265 06 0" ), new( "Email:", "vertrieb@megasoft.de" ), new( "Languages:", "English / German" ), new( "Office hours:", "Monday - Thursday, 8:00am - 5:00pm; Friday, 8:00am - 3:00pm" )] )
+        ] ),
+        new( "SHI International Corp.", "https://www.shi.com/us/customerservice/contact-us", "https://media.ceros.com/shi-international/images/2025/11/10/c33a5d5386351fe52bfc28c89dda4f00/shi-logo-copyright-2025-primary-digital.png",
+        [
+            new( "US Headquarters", [new( "Tel:", "888-764-8888" ), new( "Languages:", "English" ), new( "Office hours:", "8:00am - 5:00pm ET" )] )
+        ] ),
+        new( "Tailor Made Technologies", "https://www.tmtech.co.uk/contact/", "https://www.tmtech.co.uk/wp-content/uploads/2024/08/TMT_Logo-Pos.png",
+        [
+            new( "United Kingdom Headquarters", [new( "Tel:", "0800 988 2002" ), new( "Email:", "info@tmtech.co.uk" ), new( "Languages:", "English" ), new( "Office hours:", "Not publicly listed" )] )
+        ] ),
+        new( "Blue System Technology Co., Ltd.", "https://www.bluesystem.co.th/2016/index.php/contact-us", "https://www.bluesystem.co.th/2016/templates/jd_newjersey/images/logo.png",
+        [
+            new( "Thailand Headquarters", [new( "Tel:", "+66 (0) 2246 2550-3" ), new( "Email:", "support@bluesystem.co.th" ), new( "Languages:", "English / Thai" ), new( "Office hours:", "24-hour Call Center" )] )
+        ] ),
+        new( "Cloud Solutions Professional Services S.L.", "https://cspservices.net/", "https://cspservices.net/wp-content/uploads/2026/02/logo7_color_con_fondo.png",
+        [
+            new( "Spain Headquarters", [new( "Tel:", "+34 914 211 297" ), new( "Email:", "info@cspservices.com.es" ), new( "Languages:", "Spanish" ), new( "Office hours:", "Not publicly listed" )] )
+        ] )
+    ];
+
+    public sealed record Reseller( string Name, string Url, string Logo, Office[] Offices );
+    public sealed record Office( string Name, Detail[] Details );
+    public sealed record Detail( string Label, string Value );
+}

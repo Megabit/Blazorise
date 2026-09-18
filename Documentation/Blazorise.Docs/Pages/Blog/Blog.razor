@@ -1,19 +1,31 @@
-﻿@page "/blog"
+@page "/blog"
 @using Blazorise.Docs.BlogRuntime
 @inject Blazorise.Docs.BlogRuntime.IBlogProvider BlogProvider
 
 <Seo Canonical="/blog" Title="Blazorise Blog" Description="Blazorise blogs, product news, release updates, .NET development, cross-platform, mobile apps, Blazorise UI controls, and more." ImageUrl="@BlogEntries?.FirstOrDefault( x => x.Pinned )?.ImageUrl" />
 
-<BlogPageTitle>
-    Blazorise Blog
-</BlogPageTitle>
+<Div Class="b-blog-index">
+<Div Class="b-blog-intro">
+<Div Class="b-blog-intro__art" aria-hidden="true">
+    <BrandBackdrop Variant="BrandBackdropVariant.EdgeSteps" />
+</Div>
+<Div Class="b-blog-intro__counterpoint" aria-hidden="true">
+    <BrandBackdrop Variant="BrandBackdropVariant.EdgeSteps" Primary="#7524aa" Secondary="#e03d76" Accent="#bb61f6" Density="BrandBackdropDensity.Low" />
+</Div>
+<MarketingPageIntro>
+    <Title>Inside <Span>Blazorise.</Span></Title>
+    <Description>Product news, release updates, and practical guides from the Blazorise team. Explore ideas for your next .NET and Blazor project.</Description>
+</MarketingPageIntro>
+</Div>
+<Div Class="b-visual-container b-blog-editorial">
 
-<Row>
+<Row Class="b-blog-filters">
     <Column ColumnSize="ColumnSize.Is8.OnDesktop">
         <BlogCategorySelect Categories="@BlogEntries.Select( x => x.Category ).Distinct()" @bind-SelectedCategory="@selectedCategory" />
     </Column>
     <Column ColumnSize="ColumnSize.Is4.OnDesktop" Margin="Margin.Is3.FromBottom">
-        <TextInput Placeholder="Search..." @bind-Value="@search" />
+        <FieldLabel For="blog-search">Search articles</FieldLabel>
+        <TextInput ElementId="blog-search" Placeholder="Search the blog..." @bind-Value="@search" />
     </Column>
 </Row>
 
@@ -29,17 +41,18 @@
 
                 if ( pinnedBlog != null )
                 {
-                    <Card Margin="Margin.Is4.FromBottom" Shadow="Shadow.Default" Border="Border.Is0">
-                        <CardImage Source="@pinnedBlog.ImageUrl" Alt="Blog post image"></CardImage>
+                    <Card Class="b-blog-featured" Margin="Margin.Is4.FromBottom" Shadow="Shadow.Default" Border="Border.Is0">
+                        <CardImage Source="@pinnedBlog.ImageUrl" Alt="@pinnedBlog.Title"></CardImage>
                         <CardBody Padding="Padding.Is0.FromBottom">
-                            <CardTitle>
+                            <Paragraph Class="b-visual-eyebrow">FEATURED STORY</Paragraph>
+                            <Heading Size="HeadingSize.Is2">
                                 @if ( pinnedBlog.Permalink != null )
                                 {
                                     <Anchor To="@BlogPermalinks.ToCanonicalBlogPath( pinnedBlog.Permalink )" Stretched>
                                         @pinnedBlog.Summary
                                     </Anchor>
                                 }
-                            </CardTitle>
+                            </Heading>
                         </CardBody>
                         <CardBody Padding="Padding.Is0.OnY">
                             <BlogPagePostInfo UserName="@pinnedBlog.AuthorName" ImageName="@pinnedBlog.AuthorImage" PostedOn="@pinnedBlog.PostedOn" Read="@pinnedBlog.ReadTime" />
@@ -56,15 +69,25 @@
     </Row>
 }
 
-<BlogPageEntries Year="2022">
-    @foreach ( var item in BlogEntries.Where( x => ( ( selectedCategory == "All" || !string.IsNullOrEmpty( search ) ) || x.Category == selectedCategory ) && x.Summary.Contains( search ?? string.Empty, StringComparison.InvariantCultureIgnoreCase ) ) )
+<Heading Size="HeadingSize.Is2" Class="b-blog-feed-title">@( IsCustomSearch ? "Search results" : "More from the team" )</Heading>
+<Div role="status" aria-live="polite" Class="b-blog-result-count">@FilteredEntries.Count() articles</Div>
+<BlogPageEntries>
+    @foreach ( BlogIndexItem item in FilteredEntries )
     {
         <BlogPageEntriesItem @key="@item" To="@BlogPermalinks.ToCanonicalBlogPath( item.Permalink )" ToText="@item.Title" ImageSource="@item.ImageUrl" AuthorName="@item.AuthorName" AuthorImage="@item.AuthorImage" PostedOn="@item.PostedOn" ReadTime="@item.ReadTime" />
     }
 </BlogPageEntries>
+@if ( !FilteredEntries.Any() )
+{
+    <Paragraph Class="b-blog-empty">No articles match your search. Try another phrase or choose a different category.</Paragraph>
+}
+</Div>
+</Div>
 
 @code {
     private IReadOnlyList<BlogIndexItem> BlogEntries = new List<BlogIndexItem>();
+    private IEnumerable<BlogIndexItem> FilteredEntries => BlogEntries.Where( x => ( selectedCategory == "All" || !string.IsNullOrEmpty( search ) || x.Category == selectedCategory ) && x.Summary.Contains( search ?? string.Empty, StringComparison.InvariantCultureIgnoreCase ) );
+
     bool IsCustomSearch => selectedCategory != "All" || !string.IsNullOrEmpty( search );
     string search = "";
     string selectedCategory = "All";

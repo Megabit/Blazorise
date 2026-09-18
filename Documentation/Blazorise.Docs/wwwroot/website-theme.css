@@ -1,0 +1,38 @@
+/* Authored site-shell tokens. Keep Bootstrap's provider tokens unchanged for examples. */
+:root {
+    --b-site-dark-surface: #25232b;
+    --b-site-dark-raised: #302d36;
+    --b-site-dark-border: #4a4153;
+    --b-site-hero-background: linear-gradient(90deg, var(--b-site-dark-surface), #30243b);
+}
+
+/* ThemeService sets the effective theme on html/body, including System mode. */
+[data-bs-theme="dark"] {
+    --b-site-hero-background: var(--b-site-dark-surface);
+}
+
+html[data-bs-theme="dark"] body,
+body[data-bs-theme="dark"],
+[data-bs-theme="dark"] .b-site,
+[data-bs-theme="dark"] .b-docs {
+    background-color: var(--b-site-dark-surface);
+}
+
+[data-bs-theme="dark"] .b-site > .b-layout-header > .b-top-bar,
+[data-bs-theme="dark"] #b-docs-layout-header > .b-top-bar {
+    background: var(--b-site-dark-surface) !important;
+    border-bottom-color: var(--b-site-dark-border);
+}
+
+[data-bs-theme="dark"] .b-site > .b-layout-header > .b-top-bar .dropdown-menu,
+[data-bs-theme="dark"] #b-docs-layout-header > .b-top-bar .dropdown-menu {
+    --bs-dropdown-bg: var(--b-site-dark-raised);
+    --bs-dropdown-border-color: var(--b-site-dark-border);
+}
+
+[data-bs-theme="dark"] .b-docs .b-docs-sidebar {
+    --b-bar-dark-background: var(--b-site-dark-surface);
+    --b-bar-brand-dark-background: var(--b-site-dark-surface);
+    --b-bar-dropdown-dark-background: var(--b-site-dark-raised);
+    border-inline-end-color: var(--b-site-dark-border);
+}

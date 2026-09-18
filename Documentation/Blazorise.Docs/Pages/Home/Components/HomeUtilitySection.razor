@@ -1,13 +1,6 @@
-<Container Padding="Padding.Is5.OnY">
-    <Row Flex="Flex.AlignItems.Center">
-        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom.OnMobile">
-            <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Rem( 24 )">
-                <CardBody Padding="Padding.Is0" Height="Height.Is100">
-                    @((MarkupString)UtilityExampleMarkup)
-                </CardBody>
-            </Card>
-        </Column>
-        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+<Container>
+    <Div Class="b-utility-grid">
+        <Div Class="b-utility-copy">
             <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
                 Ship consistent UI without scattering custom CSS
             </Heading>
@@ -28,8 +21,33 @@
                     </Column>
                 }
             </Row>
-        </Column>
-    </Row>
+        </Div>
+        <Div Class="b-utility-example">
+            <Div Class="b-utility-example__header">
+                <Strong>From Razor to UI</Strong>
+                <Span>Blazorise utilities</Span>
+            </Div>
+            <Div Class="b-utility-example__code">
+                @((MarkupString)UtilityExampleMarkup)
+            </Div>
+            <Div Class="b-utility-example__preview">
+                <Paragraph Class="b-visual-eyebrow">LIVE RESULT</Paragraph>
+                <Card Border="Border.Rounded" Shadow="Shadow.Small">
+                    <CardBody Padding="Padding.Is4">
+                        <Div Flex="Flex.Column" Gap="Gap.Is3">
+                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Strong>Delivery dashboard</Strong>
+                                <Badge Color="Color.Success" Subtle>Ready</Badge>
+                            </Div>
+                            <Paragraph Margin="Margin.Is0" TextColor="TextColor.Muted">
+                                Your next delivery, organized.
+                            </Paragraph>
+                        </Div>
+                    </CardBody>
+                </Card>
+            </Div>
+        </Div>
+    </Div>
 </Container>
 
 @code {
@@ -44,17 +62,15 @@
     private const string UtilityExampleSource = """
 <Card Border="Border.Rounded" Shadow="Shadow.Small">
     <CardBody Padding="Padding.Is4">
-        <Div Flex="Flex.Column.Row.OnDesktop" Gap="Gap.Is3">
-            <Badge Color="Color.Success" Subtle>Ready</Badge>
-            <Div>
-                <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.SemiBold">
-                    Delivery dashboard
-                </Heading>
-                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0">
-                    Utility-first layout without custom CSS.
-                </Paragraph>
+        <Div Flex="Flex.Column" Gap="Gap.Is3">
+            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center"
+                 Gap="Gap.Is3">
+                <Strong>Delivery dashboard</Strong>
+                <Badge Color="Color.Success" Subtle>Ready</Badge>
             </Div>
-            <Button Color="Color.Primary">Open</Button>
+            <Paragraph Margin="Margin.Is0" TextColor="TextColor.Muted">
+                Your next delivery, organized.
+            </Paragraph>
         </Div>
     </CardBody>
 </Card>

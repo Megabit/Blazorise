@@ -1,4 +1,4 @@
-﻿@using Blazorise.Components
+@using Blazorise.Components
 @using System.Reflection;
 @using Blazorise.Docs.Infrastructure
 @using Blazorise.Docs.Layouts;
@@ -58,6 +58,8 @@
 
     <link href="_content/Blazorise.Docs/blazorise.docs.min.css?v=@BuildStamp.V" rel="stylesheet" />
     <link href="css/site.css?v=@BuildStamp.V" rel="stylesheet" />
+    <link href="_content/Blazorise.Docs/website-theme.css?v=@BuildStamp.V" rel="stylesheet" />
+    <link href="_content/Blazorise.Docs/website.css?v=@BuildStamp.V" rel="stylesheet" />
 
     <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" defer></script>
 
@@ -103,7 +105,7 @@
 
     <script src="_content/Blazorise.Docs/blazorise.docs.min.js?v=@BuildStamp.V"></script>
 
-    <script src="_framework/blazor.web.js" suppress-error="BL9992"></script>
+    <script src="_framework/blazor.web.js" autostart="false" suppress-error="BL9992"></script>
 
     <script>
         Blazor.start({

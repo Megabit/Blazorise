@@ -1,0 +1,25 @@
+<section class="@HeaderClass">
+    <Div Class="b-marketing-header__art" aria-hidden="true">
+        <BrandBackdrop Variant="@Variant" Dark="@Dark" Density="BrandBackdropDensity.Medium" />
+    </Div>
+    @if ( Counterpoint.HasValue )
+    {
+        <Div Class="b-marketing-header__counterpoint" aria-hidden="true">
+            <BrandBackdrop Variant="@Counterpoint.Value" Dark="@Dark" Density="BrandBackdropDensity.Low" />
+        </Div>
+    }
+    <MarketingPageIntro Title="@Title" Description="@Description" Actions="@Actions" Centered="@Centered" />
+</section>
+
+@code {
+    [Parameter] public RenderFragment Title { get; set; }
+    [Parameter] public RenderFragment Description { get; set; }
+    [Parameter] public RenderFragment Actions { get; set; }
+    [Parameter] public BrandBackdropVariant Variant { get; set; } = BrandBackdropVariant.EdgeArcs;
+    [Parameter] public BrandBackdropVariant? Counterpoint { get; set; }
+    [Parameter] public bool Centered { get; set; }
+    [Parameter] public bool Compact { get; set; }
+    [Parameter] public bool Dark { get; set; }
+
+    private string HeaderClass => $"b-marketing-header{( Compact ? " b-marketing-header--compact" : string.Empty )}{( Dark ? " b-marketing-header--dark" : string.Empty )}";
+}

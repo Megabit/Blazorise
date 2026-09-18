@@ -2,39 +2,35 @@
 
 <Seo Canonical="/" Title="Blazorise - Blazor Component Library" Description="Battle-tested since 2018 and actively maintained. Build with 100+ Blazor components, your choice of CSS framework, flexible theming, and commercial support." />
 
-<PageHeader>
-    <Title>
-        We handle the <Span Class="gradient-commercial">UI</Span>. You handle the product.
-    </Title>
-    <Subtitle>
-        Battle-tested <Span Class="gradient-commercial">since 2018</Span>. Actively maintained for what you ship next.
-    </Subtitle>
-    <Description>
-        Build on one of Blazor's longest-running UI frameworks. Get 100+ components, flexible theming, and your choice of CSS framework, with commercial support from the team behind it.
-    </Description>
-    <Actions>
-        <Button Type="ButtonType.Link" To="docs/start" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">
-            <Icon Name="IconName.Book" />
-            Get started
-        </Button>
-        <Button Type="ButtonType.Link" To="/#framework-demos" Color="Color.Secondary" Size="Size.Large" Padding="Padding.Is4.OnX" Outline>
-            <Icon Name="IconName.PlayCircle" />
-            Explore live demos
-        </Button>
-    </Actions>
-</PageHeader>
-
-<HomeStatsSection />
-<HomeTrustedBySection />
-<HomeComponentsShowcaseSection />
-<HomePopularBuildingBlocksSection />
-<HomeFrameworksSection />
-<HomeUtilitySection />
-<HomeExpandableTestimonialsSection />
-<HomeCommercialCalloutSection />
-<HomeResourcesSection />
-<HomeCommunitySection />
-
-<Container Padding="Padding.Is5.OnY">
-    <HomeNewsletterWidget />
-</Container>
+<Div Class="b-visual b-decorated-page" ElementId="home-content">
+    <HomeHeroSection />
+    <section class="b-visual-section b-visual-trust" aria-label="Trusted by product teams">
+        <HomeTrustedBySection />
+    </section>
+    <section class="b-visual-section b-visual-building-blocks b-decorated-section" aria-label="Featured components">
+        <SectionDecoration Variant="BrandBackdropVariant.Blob" Side="SectionDecorationSide.Left" Placement="SectionDecorationPlacement.Bottom" Size="SectionDecorationSize.Large" Rotation="-20" Opacity="1" FadeTowardContent="false" />
+        <HomePopularBuildingBlocksSection />
+    </section>
+    <section class="b-visual-section b-visual-frameworks" aria-label="CSS frameworks and demos">
+        <HomeFrameworksSection />
+    </section>
+    <section class="b-visual-section b-visual-utility" aria-label="Razor utilities">
+        <HomeUtilitySection />
+    </section>
+    <section class="b-visual-section b-visual-testimonials" aria-label="Customer testimonials">
+        <HomeExpandableTestimonialsSection />
+    </section>
+    <HomeCommercialCalloutSection />
+    <section class="b-visual-section b-visual-resources b-decorated-section" aria-label="Resources and learning">
+        <SectionDecoration Variant="BrandBackdropVariant.PetalFan" Placement="SectionDecorationPlacement.Bottom" Rotation="-90" Opacity="0.65" />
+        <HomeResourcesSection />
+    </section>
+    <section class="b-visual-section b-visual-community" aria-label="Community">
+        <HomeCommunitySection />
+    </section>
+    <section class="b-visual-section b-visual-newsletter" aria-label="Newsletter">
+        <Container Padding="Padding.Is5.OnY">
+            <HomeNewsletterWidget />
+        </Container>
+    </section>
+</Div>

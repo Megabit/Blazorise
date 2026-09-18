@@ -1,24 +1,19 @@
-﻿<Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is4.OnDesktop">
-    <Card Margin="Margin.Is4.FromBottom" Shadow="Shadow.Default" Border="Border.Is0">
-        <CardImage Source="@ImageSource" Alt="Blog post image"></CardImage>
+﻿<Column Class="b-blog-entry" ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is4.OnWidescreen">
+    <Card Class="b-blog-story" Margin="Margin.Is4.FromBottom" Shadow="Shadow.Default" Border="Border.Is0">
+        <CardImage Source="@ImageSource" Alt="@ToText" loading="lazy"></CardImage>
         <CardBody Padding="Padding.Is0.FromBottom">
-            <CardTitle>
+            <Heading Size="HeadingSize.Is3">
                 @if ( To != null )
                 {
-                    <Anchor To="@To" Title="Blog post image" Stretched>
+                    <Anchor To="@To" Stretched>
                         @ToText
                     </Anchor>
                 }
-            </CardTitle>
-            <CardText>
-                <article>
-                    <Paragraph Margin="Margin.Is0.FromTop">
-                        <Small>
-                            @ChildContent
-                        </Small>
-                    </Paragraph>
-                </article>
-            </CardText>
+            </Heading>
+            @if ( ChildContent is not null )
+            {
+                <CardText>@ChildContent</CardText>
+            }
         </CardBody>
         <CardBody Padding="Padding.Is0.OnY">
             <BlogPagePostInfo UserName="@AuthorName" ImageName="@AuthorImage" PostedOn="@PostedOn" Read="@ReadTime" />

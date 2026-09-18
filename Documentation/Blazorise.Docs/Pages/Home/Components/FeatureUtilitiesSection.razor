@@ -1,0 +1,41 @@
+<Container>
+    <Row Flex="Flex.AlignItems.Center">
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom.OnMobile">
+            <Image Source="img/features/code-utils-1.png" Text="Blazorise fluent utilities" Shadow="Shadow.Small" Border="Border.Rounded" Fluid Loading />
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                Keep markup expressive without losing control
+            </Heading>
+            <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted">
+                Use Blazorise utilities for responsive layout, spacing, display, sizing, borders, shadows, typography, and flex behavior directly from Razor. You get predictable UI composition without scattering one-off CSS across the application.
+            </Paragraph>
+            <Row Margin="Margin.Is4.FromTop">
+                @foreach ( var item in UtilityHighlights )
+                {
+                    <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet" Margin="Margin.Is3.FromBottom">
+                        <Div Flex="Flex.AlignItems.Start" Gap="Gap.Is3">
+                            <Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is1.FromTop" />
+                            <Div>
+                                <Strong>@item.Title</Strong>
+                                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is0.FromBottom">@item.Description</Paragraph>
+                            </Div>
+                        </Div>
+                    </Column>
+                }
+            </Row>
+        </Column>
+    </Row>
+</Container>
+
+@code {
+    private static readonly UtilityHighlight[] UtilityHighlights =
+    [
+        new( "Responsive by default", "Control layout behavior through breakpoints and fluent utility parameters." ),
+        new( "Readable Razor", "Keep common styling decisions close to the component markup." ),
+        new( "Less custom CSS", "Use shared utility APIs instead of inventing local classes for routine layout work." ),
+        new( "Consistent UI rules", "Apply the same spacing, display, and sizing language across your app." )
+    ];
+
+    private sealed record UtilityHighlight( string Title, string Description );
+}

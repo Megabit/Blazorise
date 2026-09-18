@@ -1,0 +1,28 @@
+<article class="b-reseller-card">
+    <Div Class="b-reseller-card__logo">
+        <Image Source="@Item.Logo" Text="@Item.Name" Loading />
+    </Div>
+    <Div Class="b-reseller-card__content">
+        <Heading Size="HeadingSize.Is2">
+            <Anchor To="@Item.Url" Target="Target.Blank">@Item.Name</Anchor>
+        </Heading>
+        @foreach ( ResellerDirectory.Office office in Item.Offices )
+        {
+            <Div Class="b-reseller-office" @key="office.Name">
+                <Heading Size="HeadingSize.Is3">@office.Name</Heading>
+                <DescriptionList>
+                    @foreach ( ResellerDirectory.Detail detail in office.Details )
+                    {
+                        <DescriptionListTerm>@detail.Label</DescriptionListTerm>
+                        <DescriptionListDefinition>@detail.Value</DescriptionListDefinition>
+                    }
+                </DescriptionList>
+            </Div>
+        }
+        <Anchor To="@Item.Url" Target="Target.Blank" Class="b-reseller-card__link">Visit reseller <Span aria-hidden="true">&#8599;</Span></Anchor>
+    </Div>
+</article>
+
+@code {
+    [Parameter] public ResellerDirectory.Reseller Item { get; set; }
+}

@@ -1,0 +1,36 @@
+<section class="b-visual-section b-contact-section" id="request-form">
+    <Container>
+        <Div Class="b-contact-grid">
+            <Div Class="b-contact-guide">
+                @if ( Introduction is not null )
+                {
+                    @Introduction
+                }
+                else
+                {
+                    <Paragraph Class="b-visual-eyebrow">LET'S TALK</Paragraph>
+                }
+                <Heading Size="HeadingSize.Is2">@Title</Heading>
+                <Paragraph TextColor="TextColor.Muted">@Description</Paragraph>
+                <Div Class="b-contact-related">
+                    <Strong>Useful links</Strong>
+                    <Anchor To="@RelatedTo">@RelatedLabel</Anchor>
+                    <Anchor To="docs">Browse documentation</Anchor>
+                    <Anchor To="privacy">Privacy policy</Anchor>
+                </Div>
+            </Div>
+            <Div Class="b-contact-form">
+                @ChildContent
+            </Div>
+        </Div>
+    </Container>
+</section>
+
+@code {
+    [Parameter] public string Title { get; set; }
+    [Parameter] public string Description { get; set; }
+    [Parameter] public string RelatedTo { get; set; }
+    [Parameter] public string RelatedLabel { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment Introduction { get; set; }
+}

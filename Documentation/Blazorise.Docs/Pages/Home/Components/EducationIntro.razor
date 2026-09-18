@@ -1,0 +1,20 @@
+<section class="@( Dark ? "b-education-intro b-marketing-header--dark" : "b-education-intro" )">
+    <Div Class="b-education-intro__art" aria-hidden="true">
+        <BrandBackdrop Variant="BrandBackdropVariant.FlowingPaths" Density="BrandBackdropDensity.Medium" Dark="@Dark" />
+    </Div>
+    <Div Class="b-education-intro__corner" aria-hidden="true">
+        <BrandBackdrop Variant="BrandBackdropVariant.FlowingPaths" Density="BrandBackdropDensity.Low" Dark="@Dark" />
+    </Div>
+    <MarketingPageIntro>
+        <Title>Learn by building.<br /><Span>Make it your own.</Span></Title>
+        <Description>Build real-world apps with professional Blazor tools. Explore practical C#, Blazor, and Blazorise courses, free educational licenses for eligible students and teachers, and classroom access for institutions.</Description>
+        <Actions>
+            <Anchor To="/support/education/apply?type=student" Class="b-visual-button b-visual-button--primary">Apply as a student <Span aria-hidden="true">&#8599;</Span></Anchor>
+            <Anchor To="/support/education/apply?type=teacher" Class="b-visual-button b-visual-button--outline">Apply as a teacher</Anchor>
+        </Actions>
+    </MarketingPageIntro>
+</section>
+
+@code {
+    [Parameter] public bool Dark { get; set; }
+}
