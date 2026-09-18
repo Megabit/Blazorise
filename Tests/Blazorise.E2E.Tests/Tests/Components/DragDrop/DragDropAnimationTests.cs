@@ -84,8 +84,16 @@ public class DragDropAnimationTests : BlazorisePageTest
         var zone = Page.Locator( ".dropzone-1" );
         await DragFirstItemOverThird( zone, !reducedMotion );
 
-        var animationCount = await zone.EvaluateAsync<int>( "element => element.getAnimations({ subtree: true }).length" );
-        Assert.That( animationCount, Is.Zero );
+        // Animated controls item reordering, not CSS transitions on the zone or item content.
+        var animations = await zone.Locator( ItemSelector ).EvaluateAllAsync<string[]>( """
+            elements => elements.flatMap(element => element.getAnimations().map(animation => JSON.stringify({
+                item: element.textContent.trim(),
+                type: animation.constructor.name,
+                timing: animation.effect.getTiming(),
+                keyframes: animation.effect.getKeyframes()
+            })))
+            """ );
+        Assert.That( animations, Is.Empty, string.Join( Environment.NewLine, animations ) );
 
         await DropIntoReorderSlot( zone );
 
