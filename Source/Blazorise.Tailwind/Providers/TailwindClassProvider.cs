@@ -1919,6 +1919,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ProgressBarColor( Color color )
     {
+        if ( color?.IsCssValue == true )
+            return "progress-bar-custom";
+
         if ( color.IsNullOrDefault() )
             return null;
 

@@ -37,6 +37,16 @@
         background-color: var(--b-ant-progress-track-background);
         border-radius: inherit;
         transition: all var(--ant-motion-duration-slow) var(--ant-motion-ease-in-out-circ);
+
+        &.ant-progress-track-custom {
+            background-color: var(--ant-progress-default-color);
+            // Labels sit outside the fill, so use the surface foreground.
+            color: var(--ant-color-text);
+
+            .ant-progress-indicator-inner {
+                color: inherit;
+            }
+        }
     }
 
     .ant-progress-indicator {

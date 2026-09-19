@@ -39,6 +39,8 @@ public class Bootstrap5StyleProvider : StyleProvider
 
     #region ProgressBar
 
+    public override string ProgressBarColor( Color color ) => ColorStyle( color, "--bs-progress-bar-bg" );
+
     public override string ProgressBarValue( int value ) => $"width: {value}%";
 
     public override string ProgressBarSize( Size size ) => null;

@@ -87,6 +87,28 @@
     <Column ColumnSize="ColumnSize.IsFull">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
+                <CardTitle>Custom Colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Custom colors on single, animated, indeterminate, and stacked progress bars.</CardText>
+            </CardBody>
+            <CardBody>
+                <Progress Color="@(new Color("#DBB5E6"))" Value="65" Margin="Margin.Is3.FromBottom" />
+                <Progress Color="@(new Color(CssColor.Rgb(14, 165, 233)))" Value="75" Striped Animated Margin="Margin.Is3.FromBottom" />
+                <Progress Color="@(new Color(CssColor.Variable("progress-accent", "#7C3AED")))" Indeterminate Margin="Margin.Is3.FromBottom" />
+                <Progress>
+                    <ProgressBar Color="Color.Success" Value="20" />
+                    <ProgressBar Color="@(new Color("#DBB5E6"))" Value="25" />
+                    <ProgressBar Color="@(new Color(CssColor.Rgb(14, 165, 233)))" Value="20" />
+                </Progress>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
                 <CardTitle>Page Progress</CardTitle>
             </CardHeader>
             <CardBody>

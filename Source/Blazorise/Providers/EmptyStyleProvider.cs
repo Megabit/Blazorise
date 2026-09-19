@@ -31,7 +31,15 @@ class EmptyStyleProvider : IStyleProvider
 
     #endregion
 
+    #region Progress
+
+    public string ProgressColor( Color color ) => null;
+
+    #endregion
+
     #region ProgressBar
+
+    public string ProgressBarColor( Color color ) => null;
 
     public string ProgressBarValue( int value ) => null;
 

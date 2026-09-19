@@ -1356,7 +1356,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => null;
 
-    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-progress-track-{ToColor( color )}" : null;
+    public override string ProgressBarColor( Color color ) => color?.IsCssValue == true
+        ? "ant-progress-track-custom"
+        : color.IsNotNullOrDefault() ? $"ant-progress-track-{ToColor( color )}" : null;
 
     public override string ProgressBarStriped( bool striped ) => striped ? "ant-progress-track-striped" : null;
 

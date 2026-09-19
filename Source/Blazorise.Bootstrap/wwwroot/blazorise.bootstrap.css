@@ -3340,6 +3340,15 @@ li.list-group-item-action {
 .progress {
   position: relative;
 }
+.progress .progress-bar-custom {
+  background-color: var(--bs-progress-bar-bg);
+  color: #fff;
+}
+@supports (color: contrast-color(red)) {
+  .progress .progress-bar-custom {
+    color: contrast-color(var(--bs-progress-bar-bg));
+  }
+}
 .progress-indeterminate .progress-bar:before, .progress-linear .progress-bar:before {
   content: "";
   position: absolute;

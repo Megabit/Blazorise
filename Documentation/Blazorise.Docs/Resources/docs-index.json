@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-08T06:26:41.0897583Z",
+  "generatedUtc": "2026-09-18T16:21:03.7900194Z",
   "pages": [
     {
       "route": "/docs",
@@ -3111,6 +3111,14 @@
           "content": "<Progress>\r\n    <ProgressBar Value=\"15\" />\r\n    <ProgressBar Color=\"Color.Success\" Value=\"30\" />\r\n    <ProgressBar Color=\"Color.Info\" Value=\"20\" />\r\n</Progress>",
           "title": "Multiple bars",
           "description": "Include multiple ProgressBar sub-components in a Progress component to build a horizontally stacked set of progress bars."
+        },
+        {
+          "code": "CustomColorsProgressExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Progresses/Examples/CustomColorsProgressExample.razor",
+          "content": "<Progress Color=\"@(new Color(\"#DBB5E6\"))\" Value=\"65\" Margin=\"Margin.Is3.FromBottom\" />\r\n\r\n<Progress>\r\n    <ProgressBar Color=\"Color.Success\" Value=\"20\" />\r\n    <ProgressBar Color=\"@(new Color(\"#DBB5E6\"))\" Value=\"25\" />\r\n    <ProgressBar Color=\"@(new Color(CssColor.Rgb(14, 165, 233)))\" Value=\"20\" />\r\n</Progress>",
+          "title": "Custom colors",
+          "description": "Use custom CSS colors for a single bar or combine them with contextual colors in stacked bars."
         },
         {
           "code": "AnimatedProgressExample",

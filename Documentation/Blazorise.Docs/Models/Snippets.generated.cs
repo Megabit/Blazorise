@@ -4326,6 +4326,14 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string BasicProgressExample = @"<Progress Value=""25"" />";
 
+        public const string CustomColorsProgressExample = @"<Progress Color=""@(new Color(""#DBB5E6""))"" Value=""65"" Margin=""Margin.Is3.FromBottom"" />
+
+<Progress>
+    <ProgressBar Color=""Color.Success"" Value=""20"" />
+    <ProgressBar Color=""@(new Color(""#DBB5E6""))"" Value=""25"" />
+    <ProgressBar Color=""@(new Color(CssColor.Rgb(14, 165, 233)))"" Value=""20"" />
+</Progress>";
+
         public const string IndeterminatePageProgressExample = @"<PageProgress Visible />";
 
         public const string IndeterminateProgressExample = @"<Progress Indeterminate />";

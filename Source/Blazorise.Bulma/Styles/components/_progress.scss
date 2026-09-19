@@ -146,10 +146,17 @@ $progress-indeterminate-duration: 1.5s !default;
         display: inline-block;
         vertical-align: top;
         height: 100%;
-        background-color: $progress-value-background-color;
+        background-color: var(--bulma-progress-value-background-color, #{$progress-value-background-color});
+        color: findColorInvert($progress-value-background-color);
+
+        @supports (color: contrast-color(red)) {
+            &.is-custom {
+                color: contrast-color(var(--bulma-progress-value-background-color));
+            }
+        }
 
         .progress-value {
-            color: findColorInvert($progress-value-background-color);
+            color: inherit;
         }
 
         @each $name, $color in $theme-colors {
@@ -157,10 +164,7 @@ $progress-indeterminate-duration: 1.5s !default;
 
             &.is-#{$name} {
                 background-color: $color;
-
-                .progress-value {
-                    color: $color-invert;
-                }
+                color: $color-invert;
             }
         }
     }

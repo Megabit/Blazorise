@@ -1359,7 +1359,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => size == Size.Default ? null : $"fui-ProgressBar__bar-{ToSize( size )}";
 
-    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-ProgressBar__bar-{ToColor( color )}" : null;
+    public override string ProgressBarColor( Color color ) => color?.IsCssValue == true
+        ? "fui-ProgressBar__bar-custom"
+        : color.IsNotNullOrDefault() ? $"fui-ProgressBar__bar-{ToColor( color )}" : null;
 
     public override string ProgressBarStriped( bool striped ) => striped ? "fui-ProgressBar__bar-striped" : null;
 

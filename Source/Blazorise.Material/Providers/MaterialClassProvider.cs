@@ -1354,7 +1354,9 @@ public class MaterialClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => size != Size.Default ? $"mui-progress-bar-{ToSize( size )}" : null;
 
-    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-progress-bar-{ToColor( color )}" : null;
+    public override string ProgressBarColor( Color color ) => color?.IsCssValue == true
+        ? "mui-progress-bar-custom"
+        : color.IsNotNullOrDefault() ? $"mui-progress-bar-{ToColor( color )}" : null;
 
     public override string ProgressBarStriped( bool striped ) => striped ? "mui-progress-bar-striped" : null;
 

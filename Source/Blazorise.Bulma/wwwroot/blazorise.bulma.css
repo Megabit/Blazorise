@@ -4526,63 +4526,51 @@ li.list-group-item-action {
   display: inline-block;
   vertical-align: top;
   height: 100%;
-  background-color: hsl(221, 14%, 29%);
+  background-color: var(--bulma-progress-value-background-color, hsl(221, 14%, 29%));
+  color: findColorInvert(hsl(221, 14%, 29%));
+}
+@supports (color: contrast-color(red)) {
+  .progress-bars-wrapper .progress-bar.is-custom {
+    color: contrast-color(var(--bulma-progress-value-background-color));
+  }
 }
 .progress-bars-wrapper .progress-bar .progress-value {
-  color: findColorInvert(hsl(221, 14%, 29%));
+  color: inherit;
 }
 .progress-bars-wrapper .progress-bar.is-primary {
   background-color: hsl(171, 100%, 41%);
-}
-.progress-bars-wrapper .progress-bar.is-primary .progress-value {
   color: hsl(221, 14%, 100%);
 }
 .progress-bars-wrapper .progress-bar.is-secondary {
   background-color: hsl(221, 14%, 48%);
-}
-.progress-bars-wrapper .progress-bar.is-secondary .progress-value {
   color: hsl(221, 14%, 100%);
 }
 .progress-bars-wrapper .progress-bar.is-success {
   background-color: hsl(153, 53%, 53%);
-}
-.progress-bars-wrapper .progress-bar.is-success .progress-value {
   color: hsl(221, 14%, 4%);
 }
 .progress-bars-wrapper .progress-bar.is-info {
   background-color: hsl(198, 100%, 70%);
-}
-.progress-bars-wrapper .progress-bar.is-info .progress-value {
   color: hsl(221, 14%, 4%);
 }
 .progress-bars-wrapper .progress-bar.is-warning {
   background-color: hsl(42, 100%, 53%);
-}
-.progress-bars-wrapper .progress-bar.is-warning .progress-value {
   color: hsl(221, 14%, 4%);
 }
 .progress-bars-wrapper .progress-bar.is-danger {
   background-color: hsl(348, 100%, 70%);
-}
-.progress-bars-wrapper .progress-bar.is-danger .progress-value {
   color: hsl(221, 14%, 4%);
 }
 .progress-bars-wrapper .progress-bar.is-light {
   background-color: hsl(221, 14%, 96%);
-}
-.progress-bars-wrapper .progress-bar.is-light .progress-value {
   color: hsl(221, 14%, 4%);
 }
 .progress-bars-wrapper .progress-bar.is-dark {
   background-color: hsl(221, 14%, 21%);
-}
-.progress-bars-wrapper .progress-bar.is-dark .progress-value {
   color: hsl(221, 14%, 100%);
 }
 .progress-bars-wrapper .progress-bar.is-link {
   background-color: hsl(233, 100%, 63%);
-}
-.progress-bars-wrapper .progress-bar.is-link .progress-value {
   color: hsl(221, 14%, 100%);
 }
 

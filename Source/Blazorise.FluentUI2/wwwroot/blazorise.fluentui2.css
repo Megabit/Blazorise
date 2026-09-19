@@ -11214,6 +11214,14 @@ input::file-selector-button {
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
 }
+.fui-ProgressBar .fui-ProgressBar__bar.fui-ProgressBar__bar-custom {
+  color: var(--colorNeutralForegroundOnBrand);
+}
+@supports (color: contrast-color(red)) {
+  .fui-ProgressBar .fui-ProgressBar__bar.fui-ProgressBar__bar-custom {
+    color: contrast-color(var(--colorCompoundBrandBackground));
+  }
+}
 .fui-ProgressBar .fui-ProgressBar__bar-success {
   background-color: var(--colorPaletteGreenBackground3);
 }

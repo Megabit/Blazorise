@@ -1311,7 +1311,9 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => null;
 
-    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"bg-{ToColor( color )}" : null;
+    public override string ProgressBarColor( Color color ) => color?.IsCssValue == true
+        ? "progress-bar-custom"
+        : color.IsNotNullOrDefault() ? $"bg-{ToColor( color )}" : null;
 
     public override string ProgressBarStriped( bool striped ) => striped ? "progress-bar-striped" : null;
 

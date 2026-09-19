@@ -28,7 +28,15 @@ public interface IStyleProvider
 
     #endregion
 
+    #region Progress
+
+    string ProgressColor( Color color ) => null;
+
+    #endregion
+
     #region ProgressBar
+
+    string ProgressBarColor( Color color ) => null;
 
     string ProgressBarValue( int value );
 

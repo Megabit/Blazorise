@@ -13,6 +13,12 @@
 .progress {
     position: relative;
 
+    @supports (color: contrast-color(red)) {
+        .progress-bar-custom {
+            --bs-progress-bar-color: contrast-color(var(--bs-progress-bar-bg));
+        }
+    }
+
     &-indeterminate,
     &-linear {
         .progress-bar {

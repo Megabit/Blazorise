@@ -10659,6 +10659,15 @@ body:before {
 .bg-striped-animated {
   animation: 1s linear infinite progress-bar-stripes;
 }
+.progress-bar-custom {
+  background-color: var(--tw-progress-bar-bg);
+  color: var(--color-white);
+}
+@supports (color: contrast-color(red)) {
+  .progress-bar-custom {
+    color: contrast-color(var(--tw-progress-bar-bg));
+  }
+}
 .progress-bar-indeterminate {
   animation: progress 1s infinite linear;
   transform-origin: 0% 50%;

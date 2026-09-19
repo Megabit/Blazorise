@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-02T06:54:55.8072177Z",
+  "generatedUtc": "2026-09-18T15:46:15.7896261Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -87046,7 +87046,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "null",
-          "summary": "Specifies the progress bar color.",
+          "summary": "Specifies the contextual or explicit CSS color of the progress bar.",
           "isBlazoriseEnum": false
         },
         {
@@ -87394,7 +87394,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Primary",
-          "summary": "Specifies the progress bar color.",
+          "summary": "Specifies the contextual or explicit CSS color of the progress bar.",
           "isBlazoriseEnum": false
         },
         {

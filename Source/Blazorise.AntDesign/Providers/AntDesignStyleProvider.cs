@@ -39,6 +39,8 @@ public class AntDesignStyleProvider : StyleProvider
 
     #region ProgressBar
 
+    public override string ProgressBarColor( Color color ) => ColorStyle( color, "--ant-progress-default-color" );
+
     public override string ProgressBarValue( int value ) => $"width: {value}%";
 
     public override string ProgressBarSize( Size size ) => null;

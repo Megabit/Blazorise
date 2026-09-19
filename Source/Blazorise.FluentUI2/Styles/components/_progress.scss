@@ -31,6 +31,14 @@
     }
 
     .fui-ProgressBar__bar {
+        &.fui-ProgressBar__bar-custom {
+            color: var(--colorNeutralForegroundOnBrand);
+
+            @supports (color: contrast-color(red)) {
+                color: contrast-color(var(--colorCompoundBrandBackground));
+            }
+        }
+
         width: 50%;
         background-color: var(--colorCompoundBrandBackground);
         transition-timing-function: ease;

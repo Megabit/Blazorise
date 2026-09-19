@@ -1323,7 +1323,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => $"is-{ToSize( size )}";
 
-    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string ProgressBarColor( Color color ) => color?.IsCssValue == true
+        ? "is-custom"
+        : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string ProgressBarStriped( bool striped ) => striped ? "progress-striped" : null;
 

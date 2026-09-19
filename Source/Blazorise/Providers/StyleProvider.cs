@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System.Text;
 #endregion
 
 namespace Blazorise;
@@ -32,7 +31,22 @@ public abstract class StyleProvider : IStyleProvider
 
     #endregion
 
+    #region Color
+
+    protected static string ColorStyle( Color color, string property )
+        => color?.IsCssValue == true ? $"{property}:{color.Name}" : null;
+
+    #endregion
+
+    #region Progress
+
+    public virtual string ProgressColor( Color color ) => null;
+
+    #endregion
+
     #region ProgressBar
+
+    public virtual string ProgressBarColor( Color color ) => null;
 
     public abstract string ProgressBarValue( int value );
 

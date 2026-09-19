@@ -37,7 +37,15 @@ public class BulmaStyleProvider : StyleProvider
 
     #endregion
 
+    #region Progress
+
+    public override string ProgressColor( Color color ) => ColorStyle( color, "--bulma-progress-value-background-color" );
+
+    #endregion
+
     #region ProgressBar
+
+    public override string ProgressBarColor( Color color ) => ColorStyle( color, "--bulma-progress-value-background-color" );
 
     public override string ProgressBarValue( int value ) => $"width: {value}%";
 

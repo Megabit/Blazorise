@@ -998,7 +998,7 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
             sb.Append( ".progress-bar" ).Append( "{" )
-                .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( $"--bs-progress-bar-bg: {Var( ThemeVariables.Color( "primary" ) )};" )
                 .AppendLine( "}" );
         }
 
@@ -1442,70 +1442,7 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
     /// <returns>The preferred threshold-based contrast color, or the best WCAG fallback.</returns>
     private static System.Drawing.Color GetBootstrapContrastColor( Theme theme, System.Drawing.Color background )
     {
-        const double minContrastRatio = 4.5d;
-
-        var preferred = Contrast( theme, background );
-
-        if ( GetContrastRatio( background, preferred ) >= minContrastRatio )
-            return preferred;
-
-        var foregrounds = new[]
-        {
-            ParseColor( theme.White ),
-            ParseColor( theme.Black ),
-            System.Drawing.Color.White,
-            System.Drawing.Color.Black,
-        };
-
-        var maxRatio = 0d;
-        var maxRatioColor = preferred;
-
-        foreach ( var foreground in foregrounds )
-        {
-            var contrastRatio = GetContrastRatio( background, foreground );
-
-            if ( contrastRatio > maxRatio )
-            {
-                maxRatio = contrastRatio;
-                maxRatioColor = foreground;
-            }
-        }
-
-        return maxRatioColor;
-    }
-
-    private static double GetContrastRatio( System.Drawing.Color background, System.Drawing.Color foreground )
-    {
-        var backgroundLuminance = GetRelativeLuminance( background );
-        var foregroundLuminance = GetRelativeLuminance( GetOpaqueColor( background, foreground ) );
-
-        return backgroundLuminance > foregroundLuminance
-            ? ( backgroundLuminance + .05d ) / ( foregroundLuminance + .05d )
-            : ( foregroundLuminance + .05d ) / ( backgroundLuminance + .05d );
-    }
-
-    private static double GetRelativeLuminance( System.Drawing.Color color )
-    {
-        static double ChannelLuminance( byte channel )
-        {
-            var value = channel / 255d;
-
-            return value < .04045d
-                ? value / 12.92d
-                : Math.Pow( ( value + .055d ) / 1.055d, 2.4d );
-        }
-
-        return ChannelLuminance( color.R ) * .2126d
-            + ChannelLuminance( color.G ) * .7152d
-            + ChannelLuminance( color.B ) * .0722d;
-    }
-
-    private static System.Drawing.Color GetOpaqueColor( System.Drawing.Color background, System.Drawing.Color foreground )
-    {
-        return Mix(
-            System.Drawing.Color.FromArgb( 255, foreground.R, foreground.G, foreground.B ),
-            background,
-            foreground.A / 255d * 100d );
+        return GetAccessibleContrastColor( theme, background );
     }
 
     #endregion

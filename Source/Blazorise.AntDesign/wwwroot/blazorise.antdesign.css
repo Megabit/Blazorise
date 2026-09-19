@@ -8139,6 +8139,13 @@ a.ant-typography-disabled[aria-disabled=true] {
   border-radius: inherit;
   transition: all var(--ant-motion-duration-slow) var(--ant-motion-ease-in-out-circ);
 }
+.ant-progress .ant-progress-track.ant-progress-track-custom {
+  background-color: var(--ant-progress-default-color);
+  color: var(--ant-color-text);
+}
+.ant-progress .ant-progress-track.ant-progress-track-custom .ant-progress-indicator-inner {
+  color: inherit;
+}
 .ant-progress .ant-progress-indicator {
   color: var(--ant-color-text);
   line-height: 1;

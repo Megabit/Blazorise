@@ -7198,6 +7198,11 @@ body.modal-open {
   overflow: hidden;
   transition: width var(--mui-duration-normal) linear;
 }
+@supports (color: contrast-color(red)) {
+  .mui-progress-bar.mui-progress-bar-custom {
+    --mui-progress-text-color: contrast-color(var(--mui-progress-color));
+  }
+}
 .mui-progress-bar-has-value-indicator {
   position: relative;
   overflow: visible;
