@@ -4348,6 +4348,82 @@ button {
     transform: rotate(360deg);
   }
 }
+.fui-Button.fui-Button-custom, .fui-Button.fui-ButtonOutline-custom {
+  --colorBrandBackgroundHover: color-mix(in srgb, var(--colorBrandBackground) 90%, black);
+  --colorBrandBackgroundPressed: color-mix(in srgb, var(--colorBrandBackground) 80%, black);
+}
+.fui-Button.fui-Button-custom:focus-visible, .fui-Button.fui-ButtonOutline-custom:focus-visible {
+  outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+  outline-offset: var(--strokeWidthThick);
+}
+.fui-Button.fui-Button-custom {
+  background-color: var(--colorBrandBackground);
+  color: var(--colorNeutralForegroundOnBrand);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-custom.fui-Button-disabled, .fui-Button.fui-Button-custom:disabled {
+  cursor: not-allowed;
+  border-bottom-color: var(--colorNeutralStrokeDisabled);
+  border-left-color: var(--colorNeutralStrokeDisabled);
+  border-right-color: var(--colorNeutralStrokeDisabled);
+  border-top-color: var(--colorNeutralStrokeDisabled);
+  background-color: var(--colorNeutralBackgroundDisabled);
+}
+.fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):hover {
+  background-color: var(--colorBrandBackgroundHover);
+  color: var(--colorNeutralForegroundOnBrand);
+}
+.fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):active, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):active, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+  background-color: var(--colorBrandBackgroundPressed);
+  color: var(--colorNeutralForegroundOnBrand);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Button.fui-Button-custom {
+    background-color: var(--colorBrandBackground);
+    color: contrast-color(var(--colorBrandBackground));
+    border-color: transparent;
+  }
+  .fui-Button.fui-Button-custom.fui-Button-disabled, .fui-Button.fui-Button-custom:disabled {
+    cursor: not-allowed;
+    border-bottom-color: var(--colorNeutralStrokeDisabled);
+    border-left-color: var(--colorNeutralStrokeDisabled);
+    border-right-color: var(--colorNeutralStrokeDisabled);
+    border-top-color: var(--colorNeutralStrokeDisabled);
+    background-color: var(--colorNeutralBackgroundDisabled);
+  }
+  .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):hover {
+    background-color: var(--colorBrandBackgroundHover);
+    color: contrast-color(var(--colorBrandBackgroundHover));
+  }
+  .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):active, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):active, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+    background-color: var(--colorBrandBackgroundPressed);
+    color: contrast-color(var(--colorBrandBackgroundPressed));
+  }
+}
+.fui-Button.fui-ButtonOutline-custom {
+  color: var(--colorBrandBackground);
+  border-color: var(--colorBrandBackground);
+}
+.fui-Button.fui-ButtonOutline-custom.fui-Button-disabled, .fui-Button.fui-ButtonOutline-custom:disabled {
+  cursor: not-allowed;
+  border-bottom-color: var(--colorNeutralStrokeDisabled);
+  border-left-color: var(--colorNeutralStrokeDisabled);
+  border-right-color: var(--colorNeutralStrokeDisabled);
+  border-top-color: var(--colorNeutralStrokeDisabled);
+  background-color: var(--colorNeutralBackgroundDisabled);
+}
+.fui-Button.fui-ButtonOutline-custom:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button.fui-ButtonOutline-custom:not(:disabled):not(.fui-Button-disabled):hover {
+  border-color: var(--colorBrandBackgroundHover);
+  color: var(--colorBrandBackgroundHover);
+}
+.fui-Button.fui-ButtonOutline-custom:not(:disabled):not(.fui-Button-disabled):active, .fui-Button.fui-ButtonOutline-custom:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button.fui-ButtonOutline-custom:not(:disabled):not(.fui-Button-disabled):active, .fui-Button.fui-ButtonOutline-custom:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+  border-color: var(--colorBrandBackgroundPressed);
+  color: var(--colorBrandBackgroundPressed);
+}
+.fui-Button.fui-Button-custom.fui-Button-disabled, .fui-Button.fui-Button-custom:disabled, .fui-Button.fui-ButtonOutline-custom.fui-Button-disabled, .fui-Button.fui-ButtonOutline-custom:disabled {
+  color: var(--colorNeutralForegroundDisabled);
+}
+
 .fui-Card {
   --fui-Card--size: 12px;
   --fui-Card--border-radius: var(--borderRadiusMedium);

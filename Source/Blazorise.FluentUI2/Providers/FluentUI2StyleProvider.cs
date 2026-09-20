@@ -5,6 +5,12 @@ namespace Blazorise.FluentUI2.Providers;
 
 public class FluentUI2StyleProvider : StyleProvider
 {
+    #region Button
+
+    public override string ButtonColor( Color color ) => ColorStyle( color, "--colorBrandBackground" );
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 1055;

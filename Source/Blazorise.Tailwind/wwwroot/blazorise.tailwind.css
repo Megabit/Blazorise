@@ -1826,6 +1826,10 @@
     --tw-border-style: none;
     border-style: none;
   }
+  .border-solid {
+    --tw-border-style: solid;
+    border-style: solid;
+  }
   .\!border-danger-600 {
     border-color: var(--color-danger-600) !important;
   }
@@ -1849,6 +1853,9 @@
   }
   .\!border-warning-600 {
     border-color: var(--color-warning-600) !important;
+  }
+  .border-\[color\:var\(--tw-button-bg\)\] {
+    border-color: var(--tw-button-bg);
   }
   .border-danger-100 {
     border-color: var(--color-danger-100);
@@ -1984,6 +1991,9 @@
   }
   .\!bg-white {
     background-color: var(--color-white) !important;
+  }
+  .bg-\[color\:var\(--tw-button-bg\)\] {
+    background-color: var(--tw-button-bg);
   }
   .bg-blue-100 {
     background-color: var(--color-blue-100);
@@ -2659,6 +2669,9 @@
   .\!text-white {
     color: var(--color-white) !important;
   }
+  .text-\[color\:var\(--tw-button-bg\)\] {
+    color: var(--tw-button-bg);
+  }
   .text-blue-500 {
     color: var(--color-blue-500);
   }
@@ -3010,6 +3023,12 @@
       --tw-shadow-color: color-mix(in oklab, var(--color-warning-500) var(--tw-shadow-alpha), transparent);
     }
   }
+  .ring-\[color\:color-mix\(in_srgb\,var\(--tw-button-bg\)_50\%\,transparent\)\] {
+    --tw-ring-color: var(--tw-button-bg);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-ring-color: color-mix(in srgb,var(--tw-button-bg) 50%,transparent);
+    }
+  }
   .outline {
     outline-style: var(--tw-outline-style);
     outline-width: 1px;
@@ -3042,6 +3061,24 @@
   .select-none {
     -webkit-user-select: none;
     user-select: none;
+  }
+  .\[--tw-button-active-bg\:color-mix\(in_srgb\,var\(--tw-button-bg\)_80\%\,black\)\] {
+    --tw-button-active-bg: var(--tw-button-bg);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-button-active-bg: color-mix(in srgb,var(--tw-button-bg) 80%,black);
+    }
+  }
+  .\[--tw-button-active-bg\:var\(--tw-button-bg\)\] {
+    --tw-button-active-bg: var(--tw-button-bg);
+  }
+  .\[--tw-button-hover-bg\:color-mix\(in_srgb\,var\(--tw-button-bg\)_85\%\,black\)\] {
+    --tw-button-hover-bg: var(--tw-button-bg);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-button-hover-bg: color-mix(in srgb,var(--tw-button-bg) 85%,black);
+    }
+  }
+  .\[--tw-button-hover-bg\:var\(--tw-button-bg\)\] {
+    --tw-button-hover-bg: var(--tw-button-bg);
   }
   .group-hover\:bg-white\/50 {
     &:is(:where(.group):hover *) {
@@ -3940,6 +3977,11 @@
   .aria-disabled\:opacity-60 {
     &[aria-disabled="true"] {
       opacity: 60%;
+    }
+  }
+  .supports-\[color\:contrast-color\(white\)\]\:text-\[color\:contrast-color\(var\(--tw-button-bg\)\)\] {
+    @supports (color:contrast-color(white)) {
+      color: contrast-color(var(--tw-button-bg));
     }
   }
   .\32 xl\:col-auto {
@@ -8367,6 +8409,34 @@
       }
     }
   }
+  .\[\&\:is\(\:active\,\.active\,\[aria-expanded\=true\]\)\:not\(\:disabled\)\:not\(\[aria-disabled\=true\]\)\]\:border-\[color\:var\(--tw-button-active-bg\)\] {
+    &:is(:active,.active,[aria-expanded=true]):not(:disabled):not([aria-disabled=true]) {
+      border-color: var(--tw-button-active-bg);
+    }
+  }
+  .\[\&\:is\(\:active\,\.active\,\[aria-expanded\=true\]\)\:not\(\:disabled\)\:not\(\[aria-disabled\=true\]\)\]\:bg-\[color\:var\(--tw-button-active-bg\)\] {
+    &:is(:active,.active,[aria-expanded=true]):not(:disabled):not([aria-disabled=true]) {
+      background-color: var(--tw-button-active-bg);
+    }
+  }
+  .\[\&\:is\(\:active\,\.active\,\[aria-expanded\=true\]\)\:not\(\:disabled\)\:not\(\[aria-disabled\=true\]\)\]\:text-white {
+    &:is(:active,.active,[aria-expanded=true]):not(:disabled):not([aria-disabled=true]) {
+      color: var(--color-white);
+    }
+  }
+  .supports-\[color\:contrast-color\(white\)\]\:\[\&\:is\(\:active\,\.active\,\[aria-expanded\=true\]\)\:not\(\:disabled\)\:not\(\[aria-disabled\=true\]\)\]\:text-\[color\:contrast-color\(var\(--tw-button-active-bg\)\)\] {
+    @supports (color:contrast-color(white)) {
+      &:is(:active,.active,[aria-expanded=true]):not(:disabled):not([aria-disabled=true]) {
+        color: contrast-color(var(--tw-button-active-bg));
+      }
+    }
+  }
+  .\[\&\:is\(\:disabled\,\[aria-disabled\=true\]\)\]\:ring-0 {
+    &:is(:disabled,[aria-disabled=true]) {
+      --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    }
+  }
   .\[\\u0026\:not\(\:last-child\)\]\:mb-4 {
     &:is(\u0026:not(:last-child)) {
       margin-bottom: calc(var(--spacing) * 4);
@@ -8375,6 +8445,28 @@
   .\[\&\:not\(\:last-child\)\]\:mb-4 {
     &:not(:last-child) {
       margin-bottom: calc(var(--spacing) * 4);
+    }
+  }
+  .\[\&\:where\(\:hover\)\:not\(\:disabled\)\:not\(\[aria-disabled\=true\]\)\]\:border-\[color\:var\(--tw-button-hover-bg\)\] {
+    &:where(:hover):not(:disabled):not([aria-disabled=true]) {
+      border-color: var(--tw-button-hover-bg);
+    }
+  }
+  .\[\&\:where\(\:hover\)\:not\(\:disabled\)\:not\(\[aria-disabled\=true\]\)\]\:bg-\[color\:var\(--tw-button-hover-bg\)\] {
+    &:where(:hover):not(:disabled):not([aria-disabled=true]) {
+      background-color: var(--tw-button-hover-bg);
+    }
+  }
+  .\[\&\:where\(\:hover\)\:not\(\:disabled\)\:not\(\[aria-disabled\=true\]\)\]\:text-white {
+    &:where(:hover):not(:disabled):not([aria-disabled=true]) {
+      color: var(--color-white);
+    }
+  }
+  .supports-\[color\:contrast-color\(white\)\]\:\[\&\:where\(\:hover\)\:not\(\:disabled\)\:not\(\[aria-disabled\=true\]\)\]\:text-\[color\:contrast-color\(var\(--tw-button-hover-bg\)\)\] {
+    @supports (color:contrast-color(white)) {
+      &:where(:hover):not(:disabled):not([aria-disabled=true]) {
+        color: contrast-color(var(--tw-button-hover-bg));
+      }
     }
   }
 }
@@ -9764,11 +9856,11 @@ body:before {
 .b-dropdown.b-dropdown-group > .b-button + .b-button.b-dropdown-toggle > .b-dropdown-toggle-arrow {
   margin-left: 0;
 }
-.b-button-group:not(.b-button-group-vertical) > .b-dropdown:first-child > .b-dropdown-toggle {
+.b-button-group:not(.b-button-group-vertical) > .b-dropdown:not(:last-child) > .b-dropdown-toggle {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.b-button-group:not(.b-button-group-vertical) > .b-dropdown:last-child > .b-dropdown-toggle {
+.b-button-group:not(.b-button-group-vertical) > .b-dropdown:not(:first-child) > .b-dropdown-toggle {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }

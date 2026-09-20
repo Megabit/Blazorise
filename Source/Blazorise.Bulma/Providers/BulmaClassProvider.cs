@@ -529,7 +529,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Button( bool outline ) => "button";
 
-    public override string ButtonColor( Color color, bool outline ) => outline
+    public override string ButtonColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "is-custom is-outlined" : "is-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"is-{ToColor( color )} is-outlined" : $"is-{ToColor( color )} is-outlined"
         : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
@@ -614,7 +616,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
 
-    public override string DropdownToggleColor( Color color, bool outline ) => outline
+    public override string DropdownToggleColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "is-custom is-outlined" : "is-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"is-{ToColor( color )} is-outlined" : $"is-outlined"
         : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 

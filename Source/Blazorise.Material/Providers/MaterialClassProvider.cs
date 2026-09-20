@@ -560,7 +560,9 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Button( bool outline ) => "mui-button";
 
-    public override string ButtonColor( Color color, bool outline ) => outline
+    public override string ButtonColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "mui-button-outline-custom" : "mui-button-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline"
         : color.IsNotNullOrDefault() ? $"{Button( outline )}-{ToColor( color )}" : null;
 
@@ -645,7 +647,9 @@ public class MaterialClassProvider : ClassProvider
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "mui-dropdown-item mui-dropdown-toggle" : "mui-button mui-dropdown-toggle";
 
-    public override string DropdownToggleColor( Color color, bool outline ) => outline
+    public override string DropdownToggleColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "mui-button-outline-custom" : "mui-button-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"mui-button-outline-{ToColor( color )}" : $"mui-button-outline"
         : color.IsNotNullOrDefault() ? $"mui-button-{ToColor( color )}" : null;
 

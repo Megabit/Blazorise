@@ -344,6 +344,51 @@ body:before {
   margin-bottom: 0;
 }
 
+.button.is-custom {
+  --bulma-button-color: hsl(221, 14%, 100%);
+  --bulma-button-background-color: var(--bulma-button-custom-color);
+  color: var(--bulma-button-color);
+  background-color: var(--bulma-button-background-color);
+  border-color: var(--bulma-button-background-color);
+}
+@supports (color: contrast-color(white)) {
+  .button.is-custom {
+    --bulma-button-color: contrast-color(var(--bulma-button-background-color));
+  }
+}
+.button.is-custom:not(:disabled):not(.is-disabled):hover, .button.is-custom:not(:disabled):not(.is-disabled).is-hovered {
+  --bulma-button-background-color: color-mix(in srgb, var(--bulma-button-custom-color) 90%, black);
+}
+.button.is-custom:not(:disabled):not(.is-disabled):active, .button.is-custom:not(:disabled):not(.is-disabled).is-active, .button.is-custom:not(:disabled):not(.is-disabled)[aria-expanded=true] {
+  --bulma-button-background-color: color-mix(in srgb, var(--bulma-button-custom-color) 80%, black);
+}
+.button.is-custom:not(:disabled):not(.is-disabled):focus, .button.is-custom:not(:disabled):not(.is-disabled).is-focused {
+  box-shadow: 0 0 0 0.125em color-mix(in srgb, var(--bulma-button-custom-color) 25%, transparent);
+}
+.button.is-custom.is-loading::after {
+  border-color: transparent transparent var(--bulma-button-color) var(--bulma-button-color) !important;
+}
+.button.is-custom.is-outlined {
+  --bulma-button-color: var(--bulma-button-custom-color);
+  color: var(--bulma-button-color);
+  background-color: transparent;
+  border-color: var(--bulma-button-custom-color);
+}
+.button.is-custom.is-outlined:not(:disabled):not(.is-disabled):hover, .button.is-custom.is-outlined:not(:disabled):not(.is-disabled).is-hovered, .button.is-custom.is-outlined:not(:disabled):not(.is-disabled):focus, .button.is-custom.is-outlined:not(:disabled):not(.is-disabled).is-focused, .button.is-custom.is-outlined:not(:disabled):not(.is-disabled):active, .button.is-custom.is-outlined:not(:disabled):not(.is-disabled).is-active, .button.is-custom.is-outlined:not(:disabled):not(.is-disabled)[aria-expanded=true] {
+  --bulma-button-color: hsl(221, 14%, 100%);
+  color: var(--bulma-button-color);
+  background-color: var(--bulma-button-background-color);
+  border-color: var(--bulma-button-background-color);
+}
+@supports (color: contrast-color(white)) {
+  .button.is-custom.is-outlined:not(:disabled):not(.is-disabled):hover, .button.is-custom.is-outlined:not(:disabled):not(.is-disabled).is-hovered, .button.is-custom.is-outlined:not(:disabled):not(.is-disabled):focus, .button.is-custom.is-outlined:not(:disabled):not(.is-disabled).is-focused, .button.is-custom.is-outlined:not(:disabled):not(.is-disabled):active, .button.is-custom.is-outlined:not(:disabled):not(.is-disabled).is-active, .button.is-custom.is-outlined:not(:disabled):not(.is-disabled)[aria-expanded=true] {
+    --bulma-button-color: contrast-color(var(--bulma-button-background-color));
+  }
+}
+.button.is-custom[disabled], .button.is-custom.is-disabled, fieldset[disabled] .button.is-custom {
+  box-shadow: none;
+}
+
 .card {
   overflow: initial;
 }

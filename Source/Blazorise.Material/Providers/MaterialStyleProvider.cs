@@ -2,6 +2,12 @@ namespace Blazorise.Material.Providers;
 
 public class MaterialStyleProvider : StyleProvider
 {
+    #region Button
+
+    public override string ButtonColor( Color color ) => ColorStyle( color, "--mui-btn-border-color" );
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 1055;

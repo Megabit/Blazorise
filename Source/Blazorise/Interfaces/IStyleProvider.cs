@@ -28,6 +28,18 @@ public interface IStyleProvider
 
     #endregion
 
+    #region Button
+
+    string ButtonColor( Color color ) => null;
+
+    #endregion
+
+    #region DropdownToggle
+
+    string DropdownToggleColor( Color color ) => ButtonColor( color );
+
+    #endregion
+
     #region Progress
 
     string ProgressColor( Color color ) => null;

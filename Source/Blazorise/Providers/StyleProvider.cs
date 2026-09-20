@@ -38,6 +38,18 @@ public abstract class StyleProvider : IStyleProvider
 
     #endregion
 
+    #region Button
+
+    public virtual string ButtonColor( Color color ) => null;
+
+    #endregion
+
+    #region DropdownToggle
+
+    public virtual string DropdownToggleColor( Color color ) => ButtonColor( color );
+
+    #endregion
+
     #region Progress
 
     public virtual string ProgressColor( Color color ) => null;

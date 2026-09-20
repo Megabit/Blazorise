@@ -2298,6 +2298,9 @@ public class AntDesignClassProvider : ClassProvider
 
     private string ToButtonColorClass( Color color, bool outline )
     {
+        if ( color?.IsCssValue == true )
+            return outline ? "ant-btn-outline-custom ant-btn-variant-outlined" : "ant-btn-custom ant-btn-variant-solid";
+
         var colorName = color.IsNotNullOrDefault()
             ? ToColor( color )
             : null;

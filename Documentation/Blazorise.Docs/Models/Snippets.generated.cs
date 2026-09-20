@@ -928,6 +928,13 @@ namespace Blazorise.Docs.Models
 <Button Color=""Color.Dark"">Dark</Button>
 <Button>None</Button>";
 
+        public const string CustomColorsButtonExample = @"<Div Flex=""Flex.Wrap.AlignItems.Center"" Gap=""Gap.Is2"">
+    <Button Color=""@(""#DBB5E6"")"">Lavender</Button>
+    <Button Color=""@(new Color(""#312E81""))"">Indigo</Button>
+    <Button Color=""@(""rgb(14, 165, 233)"")"" Outline>Sky outline</Button>
+    <Button Color=""@(new Color(CssColor.Variable(""--accent"", ""#34D399"")))"">Accent</Button>
+</Div>";
+
         public const string DisabledButtonExample = @"<Button Color=""Color.Primary"" Disabled>Primary</Button>
 <Button Color=""Color.Secondary"" Disabled>Secondary</Button>";
 
@@ -2077,6 +2084,31 @@ namespace Blazorise.Docs.Models
         return Task.CompletedTask;
     }
 }";
+
+        public const string CustomColorsDropdownExample = @"<Div Flex=""Flex.Wrap.AlignItems.Center"" Gap=""Gap.Is2"">
+    <Dropdown>
+        <DropdownToggle Color=""@(""#DBB5E6"")"">Lavender</DropdownToggle>
+        <DropdownMenu>
+            <DropdownItem>Edit</DropdownItem>
+            <DropdownItem>Duplicate</DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
+    <Dropdown>
+        <DropdownToggle Color=""@(""rgb(14, 165, 233)"")"" Outline>Sky outline</DropdownToggle>
+        <DropdownMenu>
+            <DropdownItem>Edit</DropdownItem>
+            <DropdownItem>Duplicate</DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
+    <Dropdown>
+        <Button Color=""@(new Color(""#312E81""))"">Save</Button>
+        <DropdownToggle Color=""@(new Color(""#312E81""))"" Split />
+        <DropdownMenu>
+            <DropdownItem>Save as draft</DropdownItem>
+            <DropdownItem>Save a copy</DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
+</Div>";
 
         public const string DropdownCheckboxExample = @"<Dropdown>
     <DropdownToggle Color=""Color.Primary"">

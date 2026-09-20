@@ -539,7 +539,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Button( bool outline ) => "fui-Button";
 
-    public override string ButtonColor( Color color, bool outline ) => outline
+    public override string ButtonColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "fui-ButtonOutline-custom" : "fui-Button-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"{Button( outline )}Outline-{ToColor( color )}" : $"{Button( outline )}Outline"
         : color.IsNotNullOrDefault() ? $"{Button( outline )}-{ToColor( color )}" : null;
 
@@ -628,7 +630,9 @@ public class FluentUI2ClassProvider : ClassProvider
         ? "fui-MenuItem"
         : "fui-Button fui-MenuButton";
 
-    public override string DropdownToggleColor( Color color, bool outline ) => outline
+    public override string DropdownToggleColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "fui-ButtonOutline-custom" : "fui-Button-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"fui-ButtonOutline-{ToColor( color )}" : $"fui-ButtonOutline"
         : color.IsNotNullOrDefault() ? $"fui-Button-{ToColor( color )}" : null;
 

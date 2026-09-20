@@ -540,7 +540,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Button( bool outline ) => "btn";
 
-    public override string ButtonColor( Color color, bool outline ) => outline
+    public override string ButtonColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "btn-outline-custom" : "btn-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline"
         : color.IsNotNullOrDefault() ? $"{Button( outline )}-{ToColor( color )}" : null;
 
@@ -625,7 +627,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
 
-    public override string DropdownToggleColor( Color color, bool outline ) => outline
+    public override string DropdownToggleColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "btn-outline-custom" : "btn-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
         : color.IsNotNullOrDefault() ? $"btn-{ToColor( color )}" : null;
 

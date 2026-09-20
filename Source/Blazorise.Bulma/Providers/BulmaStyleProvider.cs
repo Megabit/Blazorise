@@ -5,6 +5,12 @@ namespace Blazorise.Bulma.Providers;
 
 public class BulmaStyleProvider : StyleProvider
 {
+    #region Button
+
+    public override string ButtonColor( Color color ) => ColorStyle( color, "--bulma-button-custom-color" );
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 40;

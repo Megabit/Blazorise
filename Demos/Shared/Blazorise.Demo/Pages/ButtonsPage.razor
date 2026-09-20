@@ -255,6 +255,31 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Custom colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use custom CSS colors for filled and outlined buttons, including active, loading, and disabled states.</CardText>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is2">
+                    <Button Color="@("#DBB5E6")">Lavender</Button>
+                    <Button Color="@(new Color("#312E81"))">Indigo</Button>
+                    <Button Color="@("rgb(14, 165, 233)")" Outline>Sky outline</Button>
+                    <Button Color="@(new Color(CssColor.Variable("--accent", "#34D399")))">Accent</Button>
+                    <Button Color="@(new Color("#F97316"))" Active>Active</Button>
+                    <Button Color="@(new Color("#0F766E"))" Loading>Loading</Button>
+                    <Button Color="@(new Color("#64748B"))" Disabled>Disabled</Button>
+                    <Button Color="@(new Color("#BE123C"))" Outline Disabled>Disabled outline</Button>
+                    <Button Color="@(new Color("#FDE68A"))" TextColor="TextColor.Dark">Explicit text color</Button>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 @code {
     private bool isLoading;
 

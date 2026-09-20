@@ -1133,11 +1133,11 @@ body:before {
   margin-left: 0;
 }
 
-.b-button-group:not(.b-button-group-vertical) > .b-dropdown:first-child > .b-dropdown-toggle {
+.b-button-group:not(.b-button-group-vertical) > .b-dropdown:not(:last-child) > .b-dropdown-toggle {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.b-button-group:not(.b-button-group-vertical) > .b-dropdown:last-child > .b-dropdown-toggle {
+.b-button-group:not(.b-button-group-vertical) > .b-dropdown:not(:first-child) > .b-dropdown-toggle {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }

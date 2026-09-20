@@ -229,6 +229,49 @@ body:before {
   border-radius: 0.4rem;
 }
 
+.btn.btn-custom, .btn.btn-outline-custom {
+  --bs-btn-color: #fff;
+  --bs-btn-hover-bg: color-mix(in srgb, var(--bs-btn-bg) 85%, black);
+  --bs-btn-active-bg: color-mix(in srgb, var(--bs-btn-bg) 80%, black);
+  color: var(--bs-btn-color);
+  background-color: var(--bs-btn-bg);
+  border-color: var(--bs-btn-bg);
+}
+@supports (color: contrast-color(white)) {
+  .btn.btn-custom, .btn.btn-outline-custom {
+    --bs-btn-color: contrast-color(var(--bs-btn-bg));
+  }
+}
+.btn.btn-custom:not(:disabled):not(.disabled):hover, .btn.btn-outline-custom:not(:disabled):not(.disabled):hover {
+  color: var(--bs-btn-color);
+  background-color: var(--bs-btn-hover-bg);
+  border-color: var(--bs-btn-hover-bg);
+}
+@supports (color: contrast-color(white)) {
+  .btn.btn-custom:not(:disabled):not(.disabled):hover, .btn.btn-outline-custom:not(:disabled):not(.disabled):hover {
+    color: contrast-color(var(--bs-btn-hover-bg));
+  }
+}
+.btn.btn-custom:not(:disabled):not(.disabled):active, .btn.btn-custom:not(:disabled):not(.disabled).active, .btn.btn-custom:not(:disabled):not(.disabled)[aria-expanded=true], .btn.btn-outline-custom:not(:disabled):not(.disabled):active, .btn.btn-outline-custom:not(:disabled):not(.disabled).active, .btn.btn-outline-custom:not(:disabled):not(.disabled)[aria-expanded=true] {
+  color: var(--bs-btn-color);
+  background-color: var(--bs-btn-active-bg);
+  border-color: var(--bs-btn-active-bg);
+}
+@supports (color: contrast-color(white)) {
+  .btn.btn-custom:not(:disabled):not(.disabled):active, .btn.btn-custom:not(:disabled):not(.disabled).active, .btn.btn-custom:not(:disabled):not(.disabled)[aria-expanded=true], .btn.btn-outline-custom:not(:disabled):not(.disabled):active, .btn.btn-outline-custom:not(:disabled):not(.disabled).active, .btn.btn-outline-custom:not(:disabled):not(.disabled)[aria-expanded=true] {
+    color: contrast-color(var(--bs-btn-active-bg));
+  }
+}
+.btn.btn-custom:not(:disabled):not(.disabled):focus, .btn.btn-custom:not(:disabled):not(.disabled).focus, .btn.btn-outline-custom:not(:disabled):not(.disabled):focus, .btn.btn-outline-custom:not(:disabled):not(.disabled).focus {
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--bs-btn-bg) 50%, transparent);
+}
+.btn.btn-outline-custom {
+  --bs-btn-hover-bg: var(--bs-btn-bg);
+  --bs-btn-active-bg: var(--bs-btn-bg);
+  color: var(--bs-btn-bg);
+  background-color: transparent;
+}
+
 .context-menu {
   display: contents;
 }

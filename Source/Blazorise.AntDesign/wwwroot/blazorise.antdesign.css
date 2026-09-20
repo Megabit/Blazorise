@@ -3431,6 +3431,64 @@ template {
   box-shadow: none !important;
 }
 
+.ant-btn-custom.ant-btn-variant-solid {
+  --ant-btn-color-base: var(--ant-color-primary);
+  --ant-btn-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-color-light: color-mix(in srgb, var(--ant-color-primary) 15%, white);
+  --ant-btn-color-light-hover: color-mix(in srgb, var(--ant-color-primary) 10%, white);
+  --ant-btn-color-light-active: color-mix(in srgb, var(--ant-color-primary) 20%, white);
+  --ant-btn-shadow: 0 2px 0 color-mix(in srgb, var(--ant-color-primary) 12%, transparent);
+  --ant-btn-solid-bg-color: var(--ant-color-primary);
+  --ant-btn-solid-bg-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-solid-bg-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-border-color: var(--ant-color-primary);
+  --ant-btn-border-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-border-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-border-color-disabled: var(--ant-color-border);
+  --ant-btn-text-color: var(--ant-color-text-light-solid);
+  --ant-btn-text-color-hover: var(--ant-color-text-light-solid);
+  --ant-btn-text-color-active: var(--ant-color-text-light-solid);
+  --ant-btn-text-color-disabled: var(--ant-color-text-disabled);
+  --ant-btn-bg-color: var(--ant-color-primary);
+  --ant-btn-bg-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-bg-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-bg-color-disabled: var(--ant-color-bg-container-disabled);
+  box-shadow: var(--ant-btn-shadow);
+}
+@supports (color: contrast-color(white)) {
+  .ant-btn-custom.ant-btn-variant-solid {
+    --ant-btn-text-color: contrast-color(var(--ant-btn-bg-color));
+    --ant-btn-text-color-hover: contrast-color(var(--ant-btn-bg-color-hover));
+    --ant-btn-text-color-active: contrast-color(var(--ant-btn-bg-color-active));
+  }
+}
+.ant-btn-outline-custom.ant-btn-variant-outlined {
+  --ant-btn-color-base: var(--ant-color-primary);
+  --ant-btn-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-color-light: color-mix(in srgb, var(--ant-color-primary) 15%, white);
+  --ant-btn-color-light-hover: color-mix(in srgb, var(--ant-color-primary) 10%, white);
+  --ant-btn-color-light-active: color-mix(in srgb, var(--ant-color-primary) 20%, white);
+  --ant-btn-shadow: none;
+  --ant-btn-border-color: var(--ant-color-primary);
+  --ant-btn-border-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-border-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-border-color-disabled: var(--ant-color-border);
+  --ant-btn-text-color: var(--ant-color-primary);
+  --ant-btn-text-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-text-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-text-color-disabled: var(--ant-color-text-disabled);
+  --ant-btn-bg-color: transparent;
+  --ant-btn-bg-color-hover: transparent;
+  --ant-btn-bg-color-active: transparent;
+  --ant-btn-bg-color-disabled: transparent;
+  box-shadow: none;
+}
+.ant-btn-custom, .ant-btn-outline-custom {
+  --ant-color-primary-border: color-mix(in srgb, var(--ant-color-primary) 50%, transparent);
+}
+
 .ant-card {
   border-radius: var(--ant-border-radius-lg);
 }

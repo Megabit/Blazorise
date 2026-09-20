@@ -1,0 +1,26 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is2">
+    <Dropdown>
+        <DropdownToggle Color="@("#DBB5E6")">Lavender</DropdownToggle>
+        <DropdownMenu>
+            <DropdownItem>Edit</DropdownItem>
+            <DropdownItem>Duplicate</DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
+    <Dropdown>
+        <DropdownToggle Color="@("rgb(14, 165, 233)")" Outline>Sky outline</DropdownToggle>
+        <DropdownMenu>
+            <DropdownItem>Edit</DropdownItem>
+            <DropdownItem>Duplicate</DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
+    <Dropdown>
+        <Button Color="@(new Color("#312E81"))">Save</Button>
+        <DropdownToggle Color="@(new Color("#312E81"))" Split />
+        <DropdownMenu>
+            <DropdownItem>Save as draft</DropdownItem>
+            <DropdownItem>Save a copy</DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
+</Div>

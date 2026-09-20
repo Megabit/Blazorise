@@ -279,3 +279,28 @@
         transform: rotate(360deg);
     }
 }
+
+.mui-button {
+    &.mui-button-custom {
+        --mui-btn-bg: var(--mui-btn-border-color);
+        --mui-btn-color: var(--mui-on-primary);
+
+        @supports (color: contrast-color(white)) {
+            --mui-btn-color: contrast-color(var(--mui-btn-bg));
+        }
+    }
+
+    &.mui-button-outline-custom {
+        --mui-btn-bg: transparent;
+        --mui-btn-color: var(--mui-btn-border-color);
+        --mui-btn-hover-bg: color-mix(in srgb, var(--mui-btn-border-color) 8%, transparent);
+    }
+
+    &.mui-button-custom,
+    &.mui-button-outline-custom {
+        &:focus-visible {
+            outline: 2px solid var(--mui-btn-border-color);
+            outline-offset: 2px;
+        }
+    }
+}

@@ -2927,6 +2927,25 @@ body {
     transform: rotate(360deg);
   }
 }
+.mui-button.mui-button-custom {
+  --mui-btn-bg: var(--mui-btn-border-color);
+  --mui-btn-color: var(--mui-on-primary);
+}
+@supports (color: contrast-color(white)) {
+  .mui-button.mui-button-custom {
+    --mui-btn-color: contrast-color(var(--mui-btn-bg));
+  }
+}
+.mui-button.mui-button-outline-custom {
+  --mui-btn-bg: transparent;
+  --mui-btn-color: var(--mui-btn-border-color);
+  --mui-btn-hover-bg: color-mix(in srgb, var(--mui-btn-border-color) 8%, transparent);
+}
+.mui-button.mui-button-custom:focus-visible, .mui-button.mui-button-outline-custom:focus-visible {
+  outline: 2px solid var(--mui-btn-border-color);
+  outline-offset: 2px;
+}
+
 .mui-button-group, .mui-button-group-vertical {
   position: relative;
   display: inline-flex;

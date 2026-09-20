@@ -5,6 +5,12 @@ namespace Blazorise.Tailwind.Providers;
 
 public class TailwindStyleProvider : StyleProvider
 {
+    #region Button
+
+    public override string ButtonColor( Color color ) => ColorStyle( color, "--tw-button-bg" );
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 50;

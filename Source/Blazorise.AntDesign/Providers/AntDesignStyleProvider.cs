@@ -5,6 +5,12 @@ namespace Blazorise.AntDesign.Providers;
 
 public class AntDesignStyleProvider : StyleProvider
 {
+    #region Button
+
+    public override string ButtonColor( Color color ) => ColorStyle( color, "--ant-color-primary" );
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 1000;

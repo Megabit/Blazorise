@@ -58,3 +58,55 @@
         @extend .btn-xl;
     }
 }
+
+.btn {
+    &.btn-custom,
+    &.btn-outline-custom {
+        --bs-btn-color: #{$yiq-text-light};
+        --bs-btn-hover-bg: color-mix(in srgb, var(--bs-btn-bg) 85%, black);
+        --bs-btn-active-bg: color-mix(in srgb, var(--bs-btn-bg) 80%, black);
+        color: var(--bs-btn-color);
+        background-color: var(--bs-btn-bg);
+        border-color: var(--bs-btn-bg);
+
+        @supports (color: contrast-color(white)) {
+            --bs-btn-color: contrast-color(var(--bs-btn-bg));
+        }
+
+        &:not(:disabled):not(.disabled) {
+            &:hover {
+                color: var(--bs-btn-color);
+                background-color: var(--bs-btn-hover-bg);
+                border-color: var(--bs-btn-hover-bg);
+
+                @supports (color: contrast-color(white)) {
+                    color: contrast-color(var(--bs-btn-hover-bg));
+                }
+            }
+
+            &:active,
+            &.active,
+            &[aria-expanded="true"] {
+                color: var(--bs-btn-color);
+                background-color: var(--bs-btn-active-bg);
+                border-color: var(--bs-btn-active-bg);
+
+                @supports (color: contrast-color(white)) {
+                    color: contrast-color(var(--bs-btn-active-bg));
+                }
+            }
+
+            &:focus,
+            &.focus {
+                box-shadow: 0 0 0 $btn-focus-width color-mix(in srgb, var(--bs-btn-bg) 50%, transparent);
+            }
+        }
+    }
+
+    &.btn-outline-custom {
+        --bs-btn-hover-bg: var(--bs-btn-bg);
+        --bs-btn-active-bg: var(--bs-btn-bg);
+        color: var(--bs-btn-bg);
+        background-color: transparent;
+    }
+}

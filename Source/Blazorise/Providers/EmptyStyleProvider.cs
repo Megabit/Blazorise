@@ -31,6 +31,18 @@ class EmptyStyleProvider : IStyleProvider
 
     #endregion
 
+    #region Button
+
+    public string ButtonColor( Color color ) => null;
+
+    #endregion
+
+    #region DropdownToggle
+
+    public string DropdownToggleColor( Color color ) => ButtonColor( color );
+
+    #endregion
+
     #region Progress
 
     public string ProgressColor( Color color ) => null;

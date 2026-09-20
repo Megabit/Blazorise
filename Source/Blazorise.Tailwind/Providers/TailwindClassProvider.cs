@@ -743,6 +743,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ButtonColor( Color color, bool outline )
     {
+        if ( color?.IsCssValue == true )
+            return BuildCustomButtonColorClasses( outline );
+
         var name = color?.Name;
 
         if ( outline )
@@ -775,6 +778,30 @@ public class TailwindClassProvider : ClassProvider
             "link" => "b-button-link text-primary-600 dark:text-primary-500 hover:underline",
             _ => null,
         };
+    }
+
+    private static string BuildCustomButtonColorClasses( bool outline )
+    {
+        const string interactionClasses =
+            "border-[color:var(--tw-button-bg)] ring-[color:color-mix(in_srgb,var(--tw-button-bg)_50%,transparent)] "
+            + "[&:is(:disabled,[aria-disabled=true])]:ring-0 "
+            + "[&:where(:hover):not(:disabled):not([aria-disabled=true])]:bg-[color:var(--tw-button-hover-bg)] "
+            + "[&:where(:hover):not(:disabled):not([aria-disabled=true])]:border-[color:var(--tw-button-hover-bg)] "
+            + "[&:where(:hover):not(:disabled):not([aria-disabled=true])]:text-white "
+            + "supports-[color:contrast-color(white)]:[&:where(:hover):not(:disabled):not([aria-disabled=true])]:text-[color:contrast-color(var(--tw-button-hover-bg))] "
+            + "[&:is(:active,.active,[aria-expanded=true]):not(:disabled):not([aria-disabled=true])]:bg-[color:var(--tw-button-active-bg)] "
+            + "[&:is(:active,.active,[aria-expanded=true]):not(:disabled):not([aria-disabled=true])]:border-[color:var(--tw-button-active-bg)] "
+            + "[&:is(:active,.active,[aria-expanded=true]):not(:disabled):not([aria-disabled=true])]:text-white "
+            + "supports-[color:contrast-color(white)]:[&:is(:active,.active,[aria-expanded=true]):not(:disabled):not([aria-disabled=true])]:text-[color:contrast-color(var(--tw-button-active-bg))]";
+
+        return outline
+            ? "border border-solid bg-transparent text-[color:var(--tw-button-bg)] "
+                + "[--tw-button-hover-bg:var(--tw-button-bg)] [--tw-button-active-bg:var(--tw-button-bg)] "
+                + interactionClasses
+            : "bg-[color:var(--tw-button-bg)] text-white supports-[color:contrast-color(white)]:text-[color:contrast-color(var(--tw-button-bg))] "
+                + "[--tw-button-hover-bg:color-mix(in_srgb,var(--tw-button-bg)_85%,black)] "
+                + "[--tw-button-active-bg:color-mix(in_srgb,var(--tw-button-bg)_80%,black)] "
+                + interactionClasses;
     }
 
     public override string ButtonSize( Size size, bool outline )
@@ -869,19 +896,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownMenuEnd( bool endAligned ) => endAligned ? "b-dropdown-menu-right" : null;
 
-    public override string DropdownToggle( bool isDropdownSubmenu, bool outline )
-    {
-        var sb = new StringBuilder( isDropdownSubmenu
-            ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            : "b-button b-dropdown-toggle focus:outline-hidden font-medium text-sm text-center inline-flex items-center" );
-
-        if ( outline )
-        {
-            sb.Append( " focus:ring-4" );
-        }
-
-        return sb.ToString();
-    }
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu
+        ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        : "b-button b-dropdown-toggle focus:outline-hidden font-medium text-sm text-center inline-flex items-center";
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu
         ? "b-dropdown-toggle-submenu"
@@ -889,6 +906,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownToggleColor( Color color, bool outline )
     {
+        if ( color?.IsCssValue == true )
+            return BuildCustomButtonColorClasses( outline );
+
         var name = color?.Name;
 
         if ( outline )

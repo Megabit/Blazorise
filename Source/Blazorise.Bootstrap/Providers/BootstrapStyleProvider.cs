@@ -5,6 +5,12 @@ namespace Blazorise.Bootstrap.Providers;
 
 public class BootstrapStyleProvider : StyleProvider
 {
+    #region Button
+
+    public override string ButtonColor( Color color ) => ColorStyle( color, "--bs-btn-bg" );
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 1050;
