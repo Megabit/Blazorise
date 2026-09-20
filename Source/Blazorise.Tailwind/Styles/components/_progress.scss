@@ -13,20 +13,9 @@
     }
 }
 
-.progress-bar {
-    &-custom {
-        background-color: var(--tw-progress-bar-bg);
-        color: var(--color-white);
-
-        @supports (color: contrast-color(red)) {
-            color: contrast-color(var(--tw-progress-bar-bg));
-        }
-    }
-
-    &-indeterminate {
-        animation: progress 1s infinite linear;
-        transform-origin: 0% 50%;
-    }
+.progress-bar-indeterminate {
+    animation: progress 1s infinite linear;
+    transform-origin: 0% 50%;
 }
 
 @keyframes progress {

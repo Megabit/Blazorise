@@ -1940,7 +1940,7 @@ public class TailwindClassProvider : ClassProvider
     public override string ProgressBarColor( Color color )
     {
         if ( color?.IsCssValue == true )
-            return "progress-bar-custom";
+            return "bg-[color:var(--tw-progress-bar-bg)] text-white supports-[color:contrast-color(white)]:text-[color:contrast-color(var(--tw-progress-bar-bg))]";
 
         if ( color.IsNullOrDefault() )
             return null;

@@ -1995,6 +1995,9 @@
   .bg-\[color\:var\(--tw-button-bg\)\] {
     background-color: var(--tw-button-bg);
   }
+  .bg-\[color\:var\(--tw-progress-bar-bg\)\] {
+    background-color: var(--tw-progress-bar-bg);
+  }
   .bg-blue-100 {
     background-color: var(--color-blue-100);
   }
@@ -3982,6 +3985,11 @@
   .supports-\[color\:contrast-color\(white\)\]\:text-\[color\:contrast-color\(var\(--tw-button-bg\)\)\] {
     @supports (color:contrast-color(white)) {
       color: contrast-color(var(--tw-button-bg));
+    }
+  }
+  .supports-\[color\:contrast-color\(white\)\]\:text-\[color\:contrast-color\(var\(--tw-progress-bar-bg\)\)\] {
+    @supports (color:contrast-color(white)) {
+      color: contrast-color(var(--tw-progress-bar-bg));
     }
   }
   .\32 xl\:col-auto {
@@ -10750,15 +10758,6 @@ body:before {
 }
 .bg-striped-animated {
   animation: 1s linear infinite progress-bar-stripes;
-}
-.progress-bar-custom {
-  background-color: var(--tw-progress-bar-bg);
-  color: var(--color-white);
-}
-@supports (color: contrast-color(red)) {
-  .progress-bar-custom {
-    color: contrast-color(var(--tw-progress-bar-bg));
-  }
 }
 .progress-bar-indeterminate {
   animation: progress 1s infinite linear;
