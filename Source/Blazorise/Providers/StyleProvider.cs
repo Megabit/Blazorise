@@ -34,7 +34,7 @@ public abstract class StyleProvider : IStyleProvider
     #region Color
 
     protected static string ColorStyle( Color color, string property )
-        => color?.IsCssValue == true ? $"{property}:{color.Name}" : null;
+        => color?.IsCssValue == true ? $"{property}: {color.Name}" : null;
 
     #endregion
 
