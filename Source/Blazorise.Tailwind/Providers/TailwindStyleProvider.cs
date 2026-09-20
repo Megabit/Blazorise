@@ -5,6 +5,18 @@ namespace Blazorise.Tailwind.Providers;
 
 public class TailwindStyleProvider : StyleProvider
 {
+    #region Badge
+
+    public override string BadgeColor( Color color ) => ColorStyle( color, "--tw-badge-bg" );
+
+    #endregion
+
+    #region Alert
+
+    public override string AlertColor( Color color ) => ColorStyle( color, "--tw-alert-bg" );
+
+    #endregion
+
     #region Button
 
     public override string ButtonColor( Color color ) => ColorStyle( color, "--tw-button-bg" );

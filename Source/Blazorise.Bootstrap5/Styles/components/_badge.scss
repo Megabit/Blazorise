@@ -31,3 +31,67 @@
         }
     }
 }
+
+.badge {
+    &.badge-custom,
+    &.badge-custom-subtle {
+        background-color: var(--bs-badge-bg);
+        border-color: var(--bs-badge-bg);
+        --bs-badge-color: #{$white};
+        color: var(--bs-badge-color);
+
+        @supports (color: contrast-color(white)) {
+            --bs-badge-color: contrast-color(var(--bs-badge-bg));
+        }
+
+        &[href] {
+            &:hover,
+            &:focus {
+                background-color: color-mix(in srgb, var(--bs-badge-bg) 85%, black);
+                border-color: color-mix(in srgb, var(--bs-badge-bg) 85%, black);
+                --bs-badge-color: #{$white};
+
+                @supports (color: contrast-color(white)) {
+                    --bs-badge-color: contrast-color(color-mix(in srgb, var(--bs-badge-bg) 85%, black));
+                }
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--bs-badge-bg);
+                outline-offset: 2px;
+            }
+        }
+
+        .badge-close {
+            color: inherit;
+
+            &:hover,
+            &:focus {
+                color: inherit;
+            }
+        }
+    }
+
+    &.badge-custom-subtle {
+        background-color: color-mix(in srgb, var(--bs-badge-bg) 12%, var(--bs-body-bg));
+        border-color: color-mix(in srgb, var(--bs-badge-bg) 30%, var(--bs-body-bg));
+        --bs-badge-color: color-mix(in srgb, var(--bs-badge-bg) 40%, var(--bs-body-color));
+
+        @supports (color: contrast-color(white)) {
+            --bs-badge-color: color-mix(in srgb, var(--bs-badge-bg) 30%, contrast-color(color-mix(in srgb, var(--bs-badge-bg) 12%, var(--bs-body-bg))));
+        }
+
+        &[href] {
+            &:hover,
+            &:focus {
+                background-color: color-mix(in srgb, var(--bs-badge-bg) 25%, var(--bs-body-bg));
+                border-color: color-mix(in srgb, var(--bs-badge-bg) 40%, var(--bs-body-bg));
+                --bs-badge-color: color-mix(in srgb, var(--bs-badge-bg) 40%, var(--bs-body-color));
+
+                @supports (color: contrast-color(white)) {
+                    --bs-badge-color: color-mix(in srgb, var(--bs-badge-bg) 30%, contrast-color(color-mix(in srgb, var(--bs-badge-bg) 25%, var(--bs-body-bg))));
+                }
+            }
+        }
+    }
+}

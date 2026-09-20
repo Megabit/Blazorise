@@ -5,6 +5,18 @@ namespace Blazorise.FluentUI2.Providers;
 
 public class FluentUI2StyleProvider : StyleProvider
 {
+    #region Badge
+
+    public override string BadgeColor( Color color ) => ColorStyle( color, "--colorBadgeBackground" );
+
+    #endregion
+
+    #region Alert
+
+    public override string AlertColor( Color color ) => ColorStyle( color, "--colorMessageBarBackground" );
+
+    #endregion
+
     #region Button
 
     public override string ButtonColor( Color color ) => ColorStyle( color, "--colorBrandBackground" );

@@ -52,6 +52,14 @@ public partial class Alert : BaseComponent
     }
 
     /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.AlertColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         HandleVisibilityState( Visible );
@@ -191,7 +199,7 @@ public partial class Alert : BaseComponent
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
     /// <summary>
-    /// Specifies the alert color.
+    /// Specifies the contextual or explicit CSS color of the alert.
     /// </summary>
     [Parameter]
     public Color Color
@@ -202,6 +210,7 @@ public partial class Alert : BaseComponent
             state = state with { Color = value };
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

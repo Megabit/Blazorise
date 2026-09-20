@@ -179,6 +179,19 @@ namespace Blazorise.Docs.Models
     bool visible = true;
 }";
 
+        public const string CustomColorsAlertExample = @"<Alert Color=""@(""#0F766E"")"" Visible>
+    <AlertMessage>Export ready.</AlertMessage>
+    <AlertDescription>Your report is ready to download.</AlertDescription>
+</Alert>
+<Alert Color=""@CssColor.Variable(""--accent"", ""#7C3AED"")"" Visible>
+    <AlertMessage>Draft saved.</AlertMessage>
+    <AlertDescription>You can continue editing whenever you are ready.</AlertDescription>
+</Alert>
+<Alert Color=""@(new Color(CssColor.Rgb(234, 88, 12)))"" Visible>
+    <AlertMessage>Review needed.</AlertMessage>
+    <AlertDescription>Check the selected files before continuing.</AlertDescription>
+</Alert>";
+
         public const string BadgeColorsExample = @"<Badge Color=""Color.Primary"">Primary</Badge>
 <Badge Color=""Color.Secondary"">Secondary</Badge>
 <Badge Color=""Color.Success"">Success</Badge>
@@ -200,6 +213,15 @@ namespace Blazorise.Docs.Models
         public const string BasicBadgeExample = @"<Badge Color=""Color.Primary"">Hello</Badge>";
 
         public const string CloseBadgeExample = @"<Badge Color=""Color.Primary"" CloseClicked=""@(()=>Console.WriteLine(""closed""))"">Primary</Badge>";
+
+        public const string CustomColorsBadgeExample = @"<Div Flex=""Flex.Wrap.AlignItems.Center"" Gap=""Gap.Is2"">
+    <Badge Color=""@(""#DBB5E6"")"">Lavender</Badge>
+    <Badge Color=""@(new Color(""#312E81""))"" Pill>Indigo pill</Badge>
+    <Badge Color=""@(""rgb(15, 118, 110)"")"" Subtle>Teal subtle</Badge>
+    <Badge Color=""@CssColor.Variable(""--accent"", ""#34D399"")"" Subtle>Accent subtle</Badge>
+    <Badge Color=""@(""#0284C7"")"">Sky</Badge>
+    <Badge Color=""@(""#FDE68A"")"">Amber</Badge>
+</Div>";
 
         public const string IconBadgeExample = @"<Badge Color=""Color.Success"">
     <Tooltip Text=""Confirmed"">

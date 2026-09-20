@@ -1132,7 +1132,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Alert() => "alert";
 
-    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"{Alert()}-{ToColor( color )}" : null;
+    public override string AlertColor( Color color ) => color?.IsCssValue == true
+        ? "alert-custom"
+        : color.IsNotNullOrDefault() ? $"{Alert()}-{ToColor( color )}" : null;
 
     public override string AlertDismisable( bool dismissable ) => dismissable ? "alert-dismissible" : null;
 
@@ -1456,14 +1458,16 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string Badge() => "badge";
 
     public override string BadgeColor( Color color, bool subtle )
-        => color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true
+            ? subtle ? "badge-custom-subtle" : "badge-custom"
+            : color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     public override string BadgePill( bool pill ) => pill ? "rounded-pill" : null;
 
     public override string BadgeClose() => "badge-close";
 
     public override string BadgeCloseColor( Color color, bool subtle )
-        => color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true ? null : color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     #endregion
 

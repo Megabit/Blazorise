@@ -1,0 +1,33 @@
+.alert.alert-custom {
+    background-color: color-mix(in srgb, var(--bs-alert-bg) 15%, var(--bs-body-bg));
+    --bs-alert-border-color: color-mix(in srgb, var(--bs-alert-bg) 35%, var(--bs-body-bg));
+    --bs-alert-color: color-mix(in srgb, var(--bs-alert-bg) 40%, var(--bs-body-color));
+
+    @supports (color: contrast-color(white)) {
+        --bs-alert-color: color-mix(in srgb, var(--bs-alert-bg) 30%, contrast-color(color-mix(in srgb, var(--bs-alert-bg) 15%, var(--bs-body-bg))));
+    }
+
+    .alert-link {
+        color: inherit;
+    }
+
+    .btn-close {
+        color: inherit;
+        background-image: none;
+        filter: none;
+
+        &:hover,
+        &:focus {
+            color: inherit;
+        }
+
+        &::before {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-color: currentColor;
+            mask: var(--bs-btn-close-bg) center / 1em auto no-repeat;
+        }
+    }
+}

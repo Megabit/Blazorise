@@ -1142,6 +1142,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string AlertColor( Color color )
     {
+        if ( color?.IsCssValue == true )
+            return "ant-alert-custom";
+
         if ( color.IsNullOrDefault() )
             return null;
 
@@ -1490,6 +1493,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BadgeColor( Color color, bool subtle )
     {
+        if ( color?.IsCssValue == true )
+            return $"ant-tag-custom {ToBadgeVariantClass( subtle )}";
+
         if ( color.IsNullOrDefault() )
             return null;
 

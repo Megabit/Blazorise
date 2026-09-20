@@ -5,6 +5,18 @@ namespace Blazorise.Bulma.Providers;
 
 public class BulmaStyleProvider : StyleProvider
 {
+    #region Badge
+
+    public override string BadgeColor( Color color ) => ColorStyle( color, "--bulma-tag-background-color" );
+
+    #endregion
+
+    #region Alert
+
+    public override string AlertColor( Color color ) => ColorStyle( color, "--bulma-notification-background-color" );
+
+    #endregion
+
     #region Button
 
     public override string ButtonColor( Color color ) => ColorStyle( color, "--bulma-button-custom-color" );

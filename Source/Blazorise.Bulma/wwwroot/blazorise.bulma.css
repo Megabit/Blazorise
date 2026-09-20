@@ -132,6 +132,83 @@ body:before {
   color: inherit;
 }
 
+.tag.is-custom, .tag.is-custom-subtle {
+  background-color: var(--bulma-tag-background-color);
+  border-color: var(--bulma-tag-background-color);
+  color: hsl(221, 14%, 100%);
+}
+@supports (color: contrast-color(white)) {
+  .tag.is-custom, .tag.is-custom-subtle {
+    color: contrast-color(var(--bulma-tag-background-color));
+  }
+}
+.tag.is-custom[href]:hover, .tag.is-custom[href]:focus, .tag.is-custom-subtle[href]:hover, .tag.is-custom-subtle[href]:focus {
+  background-color: color-mix(in srgb, var(--bulma-tag-background-color) 85%, black);
+  border-color: color-mix(in srgb, var(--bulma-tag-background-color) 85%, black);
+  color: hsl(221, 14%, 100%);
+}
+@supports (color: contrast-color(white)) {
+  .tag.is-custom[href]:hover, .tag.is-custom[href]:focus, .tag.is-custom-subtle[href]:hover, .tag.is-custom-subtle[href]:focus {
+    color: contrast-color(color-mix(in srgb, var(--bulma-tag-background-color) 85%, black));
+  }
+}
+.tag.is-custom[href]:focus-visible, .tag.is-custom-subtle[href]:focus-visible {
+  outline: 2px solid var(--bulma-tag-background-color);
+  outline-offset: 2px;
+}
+.tag.is-custom .delete, .tag.is-custom-subtle .delete {
+  color: inherit;
+}
+.tag.is-custom .delete:hover, .tag.is-custom .delete:focus, .tag.is-custom-subtle .delete:hover, .tag.is-custom-subtle .delete:focus {
+  color: inherit;
+}
+.tag.is-custom .delete::before, .tag.is-custom .delete::after, .tag.is-custom-subtle .delete::before, .tag.is-custom-subtle .delete::after {
+  background-color: currentColor;
+}
+.tag.is-custom-subtle {
+  background-color: color-mix(in srgb, var(--bulma-tag-background-color) 12%, var(--bulma-scheme-main));
+  border-color: color-mix(in srgb, var(--bulma-tag-background-color) 30%, var(--bulma-scheme-main));
+  color: color-mix(in srgb, var(--bulma-tag-background-color) 40%, var(--bulma-text));
+}
+@supports (color: contrast-color(white)) {
+  .tag.is-custom-subtle {
+    color: color-mix(in srgb, var(--bulma-tag-background-color) 30%, contrast-color(color-mix(in srgb, var(--bulma-tag-background-color) 12%, var(--bulma-scheme-main))));
+  }
+}
+.tag.is-custom-subtle[href]:hover, .tag.is-custom-subtle[href]:focus {
+  background-color: color-mix(in srgb, var(--bulma-tag-background-color) 25%, var(--bulma-scheme-main));
+  border-color: color-mix(in srgb, var(--bulma-tag-background-color) 40%, var(--bulma-scheme-main));
+  color: color-mix(in srgb, var(--bulma-tag-background-color) 40%, var(--bulma-text));
+}
+@supports (color: contrast-color(white)) {
+  .tag.is-custom-subtle[href]:hover, .tag.is-custom-subtle[href]:focus {
+    color: color-mix(in srgb, var(--bulma-tag-background-color) 30%, contrast-color(color-mix(in srgb, var(--bulma-tag-background-color) 25%, var(--bulma-scheme-main))));
+  }
+}
+
+.notification.is-custom {
+  background-color: color-mix(in srgb, var(--bulma-notification-background-color) 15%, var(--bulma-scheme-main));
+  border-color: color-mix(in srgb, var(--bulma-notification-background-color) 35%, var(--bulma-scheme-main));
+  color: color-mix(in srgb, var(--bulma-notification-background-color) 40%, var(--bulma-text));
+}
+@supports (color: contrast-color(white)) {
+  .notification.is-custom {
+    color: color-mix(in srgb, var(--bulma-notification-background-color) 30%, contrast-color(color-mix(in srgb, var(--bulma-notification-background-color) 15%, var(--bulma-scheme-main))));
+  }
+}
+.notification.is-custom .alert-link {
+  color: inherit;
+}
+.notification.is-custom .delete {
+  color: inherit;
+}
+.notification.is-custom .delete:hover, .notification.is-custom .delete:focus {
+  color: inherit;
+}
+.notification.is-custom .delete::before, .notification.is-custom .delete::after {
+  background-color: currentColor;
+}
+
 .blockquote {
   background-color: var(--bulma-content-blockquote-background-color, var(--bulma-background));
   border-inline-start: var(--bulma-content-blockquote-border-left, 5px solid var(--bulma-border));

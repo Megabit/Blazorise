@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
@@ -9,6 +11,17 @@ namespace Blazorise.Tailwind.Components;
 public partial class CloseButton
 {
     #region Methods
+
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.TryGetValue( nameof( ParentAlertState ), out AlertState alertState )
+             && alertState?.Color != ParentAlertState?.Color )
+        {
+            DirtyClasses();
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
 
     protected override void BuildClasses( ClassBuilder builder )
     {
@@ -67,6 +80,8 @@ public partial class CloseButton
     #endregion
 
     #region Properties
+
+    [CascadingParameter] protected AlertState ParentAlertState { get; set; }
 
     string SvgSize => ParentBadge is not null
         ? "w-3.5 h-3.5"

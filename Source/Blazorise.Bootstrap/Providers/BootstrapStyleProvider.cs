@@ -5,6 +5,18 @@ namespace Blazorise.Bootstrap.Providers;
 
 public class BootstrapStyleProvider : StyleProvider
 {
+    #region Badge
+
+    public override string BadgeColor( Color color ) => ColorStyle( color, "--bs-badge-bg" );
+
+    #endregion
+
+    #region Alert
+
+    public override string AlertColor( Color color ) => ColorStyle( color, "--bs-alert-bg" );
+
+    #endregion
+
     #region Button
 
     public override string ButtonColor( Color color ) => ColorStyle( color, "--bs-btn-bg" );

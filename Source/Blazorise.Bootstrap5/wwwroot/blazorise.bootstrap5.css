@@ -103,6 +103,88 @@ body:before {
   border-color: var(--bs-dark-border-subtle, #adb5bd);
 }
 
+.badge.badge-custom, .badge.badge-custom-subtle {
+  background-color: var(--bs-badge-bg);
+  border-color: var(--bs-badge-bg);
+  --bs-badge-color: #fff;
+  color: var(--bs-badge-color);
+}
+@supports (color: contrast-color(white)) {
+  .badge.badge-custom, .badge.badge-custom-subtle {
+    --bs-badge-color: contrast-color(var(--bs-badge-bg));
+  }
+}
+.badge.badge-custom[href]:hover, .badge.badge-custom[href]:focus, .badge.badge-custom-subtle[href]:hover, .badge.badge-custom-subtle[href]:focus {
+  background-color: color-mix(in srgb, var(--bs-badge-bg) 85%, black);
+  border-color: color-mix(in srgb, var(--bs-badge-bg) 85%, black);
+  --bs-badge-color: #fff;
+}
+@supports (color: contrast-color(white)) {
+  .badge.badge-custom[href]:hover, .badge.badge-custom[href]:focus, .badge.badge-custom-subtle[href]:hover, .badge.badge-custom-subtle[href]:focus {
+    --bs-badge-color: contrast-color(color-mix(in srgb, var(--bs-badge-bg) 85%, black));
+  }
+}
+.badge.badge-custom[href]:focus-visible, .badge.badge-custom-subtle[href]:focus-visible {
+  outline: 2px solid var(--bs-badge-bg);
+  outline-offset: 2px;
+}
+.badge.badge-custom .badge-close, .badge.badge-custom-subtle .badge-close {
+  color: inherit;
+}
+.badge.badge-custom .badge-close:hover, .badge.badge-custom .badge-close:focus, .badge.badge-custom-subtle .badge-close:hover, .badge.badge-custom-subtle .badge-close:focus {
+  color: inherit;
+}
+.badge.badge-custom-subtle {
+  background-color: color-mix(in srgb, var(--bs-badge-bg) 12%, var(--bs-body-bg));
+  border-color: color-mix(in srgb, var(--bs-badge-bg) 30%, var(--bs-body-bg));
+  --bs-badge-color: color-mix(in srgb, var(--bs-badge-bg) 40%, var(--bs-body-color));
+}
+@supports (color: contrast-color(white)) {
+  .badge.badge-custom-subtle {
+    --bs-badge-color: color-mix(in srgb, var(--bs-badge-bg) 30%, contrast-color(color-mix(in srgb, var(--bs-badge-bg) 12%, var(--bs-body-bg))));
+  }
+}
+.badge.badge-custom-subtle[href]:hover, .badge.badge-custom-subtle[href]:focus {
+  background-color: color-mix(in srgb, var(--bs-badge-bg) 25%, var(--bs-body-bg));
+  border-color: color-mix(in srgb, var(--bs-badge-bg) 40%, var(--bs-body-bg));
+  --bs-badge-color: color-mix(in srgb, var(--bs-badge-bg) 40%, var(--bs-body-color));
+}
+@supports (color: contrast-color(white)) {
+  .badge.badge-custom-subtle[href]:hover, .badge.badge-custom-subtle[href]:focus {
+    --bs-badge-color: color-mix(in srgb, var(--bs-badge-bg) 30%, contrast-color(color-mix(in srgb, var(--bs-badge-bg) 25%, var(--bs-body-bg))));
+  }
+}
+
+.alert.alert-custom {
+  background-color: color-mix(in srgb, var(--bs-alert-bg) 15%, var(--bs-body-bg));
+  --bs-alert-border-color: color-mix(in srgb, var(--bs-alert-bg) 35%, var(--bs-body-bg));
+  --bs-alert-color: color-mix(in srgb, var(--bs-alert-bg) 40%, var(--bs-body-color));
+}
+@supports (color: contrast-color(white)) {
+  .alert.alert-custom {
+    --bs-alert-color: color-mix(in srgb, var(--bs-alert-bg) 30%, contrast-color(color-mix(in srgb, var(--bs-alert-bg) 15%, var(--bs-body-bg))));
+  }
+}
+.alert.alert-custom .alert-link {
+  color: inherit;
+}
+.alert.alert-custom .btn-close {
+  color: inherit;
+  background-image: none;
+  filter: none;
+}
+.alert.alert-custom .btn-close:hover, .alert.alert-custom .btn-close:focus {
+  color: inherit;
+}
+.alert.alert-custom .btn-close::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: currentColor;
+  mask: var(--bs-btn-close-bg) center/1em auto no-repeat;
+}
+
 @media (min-width: 576px) {
   .navbar-initial.navbar-expand-sm {
     display: flex !important;

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-20T11:28:56.6147439Z",
+  "generatedUtc": "2026-09-20T12:25:11.0028844Z",
   "pages": [
     {
       "route": "/docs",
@@ -179,6 +179,14 @@
           "title": "Basic"
         },
         {
+          "code": "CustomColorsAlertExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Alerts/Examples/CustomColorsAlertExample.razor",
+          "content": "<Alert Color=\"@(\"#0F766E\")\" Visible>\r\n    <AlertMessage>Export ready.</AlertMessage>\r\n    <AlertDescription>Your report is ready to download.</AlertDescription>\r\n</Alert>\r\n<Alert Color=\"@CssColor.Variable(\"--accent\", \"#7C3AED\")\" Visible>\r\n    <AlertMessage>Draft saved.</AlertMessage>\r\n    <AlertDescription>You can continue editing whenever you are ready.</AlertDescription>\r\n</Alert>\r\n<Alert Color=\"@(new Color(CssColor.Rgb(234, 88, 12)))\" Visible>\r\n    <AlertMessage>Review needed.</AlertMessage>\r\n    <AlertDescription>Check the selected files before continuing.</AlertDescription>\r\n</Alert>",
+          "title": "Custom colors",
+          "description": "Use a custom CSS color to style the alert background, border, and text."
+        },
+        {
           "code": "CloseAlertExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Alerts/Examples/CloseAlertExample.razor",
@@ -253,6 +261,14 @@
           "content": "<Badge Color=\"Color.Primary\" Subtle>Primary</Badge>\r\n<Badge Color=\"Color.Secondary\" Subtle>Secondary</Badge>\r\n<Badge Color=\"Color.Success\" Subtle>Success</Badge>\r\n<Badge Color=\"Color.Danger\" Subtle>Danger</Badge>\r\n<Badge Color=\"Color.Warning\" Subtle>Warning</Badge>\r\n<Badge Color=\"Color.Info\" Subtle>Info</Badge>\r\n<Badge Color=\"Color.Light\" Subtle>Light</Badge>\r\n<Badge Color=\"Color.Dark\" Subtle>Dark</Badge>",
           "title": "Subtle Colors",
           "description": "In addition to the standard color themes, badges also support subtle color variants . Enable them by setting the Subtle parameter to true for a softer, more modern appearance that works well in light or minimalistic interfaces."
+        },
+        {
+          "code": "CustomColorsBadgeExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Badges/Examples/CustomColorsBadgeExample.razor",
+          "content": "<Div Flex=\"Flex.Wrap.AlignItems.Center\" Gap=\"Gap.Is2\">\r\n    <Badge Color=\"@(\"#DBB5E6\")\">Lavender</Badge>\r\n    <Badge Color=\"@(new Color(\"#312E81\"))\" Pill>Indigo pill</Badge>\r\n    <Badge Color=\"@(\"rgb(15, 118, 110)\")\" Subtle>Teal subtle</Badge>\r\n    <Badge Color=\"@CssColor.Variable(\"--accent\", \"#34D399\")\" Subtle>Accent subtle</Badge>\r\n    <Badge Color=\"@(\"#0284C7\")\">Sky</Badge>\r\n    <Badge Color=\"@(\"#FDE68A\")\">Amber</Badge>\r\n</Div>",
+          "title": "Custom colors",
+          "description": "Use custom CSS colors for solid and subtle badges."
         },
         {
           "code": "PillBadgeExample",

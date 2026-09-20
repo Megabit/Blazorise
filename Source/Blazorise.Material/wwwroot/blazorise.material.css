@@ -844,6 +844,27 @@ body {
   background-color: color-mix(in srgb, currentColor 14%, transparent);
 }
 
+.mui-alert.mui-alert-custom {
+  background-color: color-mix(in srgb, var(--mui-alert-bg) 15%, var(--mui-surface-container-low));
+  border-color: color-mix(in srgb, var(--mui-alert-bg) 35%, var(--mui-surface-container-low));
+  color: color-mix(in srgb, var(--mui-alert-bg) 40%, var(--mui-on-surface));
+}
+@supports (color: contrast-color(white)) {
+  .mui-alert.mui-alert-custom {
+    color: color-mix(in srgb, var(--mui-alert-bg) 30%, contrast-color(color-mix(in srgb, var(--mui-alert-bg) 15%, var(--mui-surface-container-low))));
+  }
+}
+.mui-alert.mui-alert-custom .alert-link,
+.mui-alert.mui-alert-custom .mui-alert-link {
+  color: inherit;
+}
+.mui-alert.mui-alert-custom .mui-button-close {
+  color: inherit;
+}
+.mui-alert.mui-alert-custom .mui-button-close:hover, .mui-alert.mui-alert-custom .mui-button-close:focus {
+  color: inherit;
+}
+
 .mui-chip {
   --mui-chip-padding: 0.75rem;
   --mui-chip-size: 2rem;
@@ -1231,6 +1252,57 @@ body {
 }
 .mui-chip-close-dark-subtle:hover {
   color: var(--mui-dark-hover);
+}
+
+.mui-chip.mui-chip-custom, .mui-chip.mui-chip-custom-subtle {
+  background-color: var(--mui-chip-bg);
+  border-color: var(--mui-chip-bg);
+  color: var(--mui-on-primary);
+}
+@supports (color: contrast-color(white)) {
+  .mui-chip.mui-chip-custom, .mui-chip.mui-chip-custom-subtle {
+    color: contrast-color(var(--mui-chip-bg));
+  }
+}
+.mui-chip.mui-chip-custom[href]:hover, .mui-chip.mui-chip-custom[href]:focus, .mui-chip.mui-chip-custom-subtle[href]:hover, .mui-chip.mui-chip-custom-subtle[href]:focus {
+  background-color: color-mix(in srgb, var(--mui-chip-bg) 85%, black);
+  border-color: color-mix(in srgb, var(--mui-chip-bg) 85%, black);
+  color: var(--mui-on-primary);
+}
+@supports (color: contrast-color(white)) {
+  .mui-chip.mui-chip-custom[href]:hover, .mui-chip.mui-chip-custom[href]:focus, .mui-chip.mui-chip-custom-subtle[href]:hover, .mui-chip.mui-chip-custom-subtle[href]:focus {
+    color: contrast-color(color-mix(in srgb, var(--mui-chip-bg) 85%, black));
+  }
+}
+.mui-chip.mui-chip-custom[href]:focus-visible, .mui-chip.mui-chip-custom-subtle[href]:focus-visible {
+  outline: 2px solid var(--mui-chip-bg);
+  outline-offset: 2px;
+}
+.mui-chip.mui-chip-custom .mui-chip-close, .mui-chip.mui-chip-custom-subtle .mui-chip-close {
+  color: inherit;
+}
+.mui-chip.mui-chip-custom .mui-chip-close:hover, .mui-chip.mui-chip-custom .mui-chip-close:focus, .mui-chip.mui-chip-custom-subtle .mui-chip-close:hover, .mui-chip.mui-chip-custom-subtle .mui-chip-close:focus {
+  color: inherit;
+}
+.mui-chip.mui-chip-custom-subtle {
+  background-color: color-mix(in srgb, var(--mui-chip-bg) 12%, var(--mui-surface-container-low));
+  border-color: color-mix(in srgb, var(--mui-chip-bg) 30%, var(--mui-surface-container-low));
+  color: color-mix(in srgb, var(--mui-chip-bg) 40%, var(--mui-on-surface));
+}
+@supports (color: contrast-color(white)) {
+  .mui-chip.mui-chip-custom-subtle {
+    color: color-mix(in srgb, var(--mui-chip-bg) 30%, contrast-color(color-mix(in srgb, var(--mui-chip-bg) 12%, var(--mui-surface-container-low))));
+  }
+}
+.mui-chip.mui-chip-custom-subtle[href]:hover, .mui-chip.mui-chip-custom-subtle[href]:focus {
+  background-color: color-mix(in srgb, var(--mui-chip-bg) 25%, var(--mui-surface-container-low));
+  border-color: color-mix(in srgb, var(--mui-chip-bg) 40%, var(--mui-surface-container-low));
+  color: color-mix(in srgb, var(--mui-chip-bg) 40%, var(--mui-on-surface));
+}
+@supports (color: contrast-color(white)) {
+  .mui-chip.mui-chip-custom-subtle[href]:hover, .mui-chip.mui-chip-custom-subtle[href]:focus {
+    color: color-mix(in srgb, var(--mui-chip-bg) 30%, contrast-color(color-mix(in srgb, var(--mui-chip-bg) 25%, var(--mui-surface-container-low))));
+  }
 }
 
 .mui-bar-dropdown-toggle-icon-container {

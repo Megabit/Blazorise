@@ -2,6 +2,18 @@ namespace Blazorise.Material.Providers;
 
 public class MaterialStyleProvider : StyleProvider
 {
+    #region Badge
+
+    public override string BadgeColor( Color color ) => ColorStyle( color, "--mui-chip-bg" );
+
+    #endregion
+
+    #region Alert
+
+    public override string AlertColor( Color color ) => ColorStyle( color, "--mui-alert-bg" );
+
+    #endregion
+
     #region Button
 
     public override string ButtonColor( Color color ) => ColorStyle( color, "--mui-btn-border-color" );

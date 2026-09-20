@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-18T15:46:15.7896261Z",
+  "generatedUtc": "2026-09-20T12:25:10.4856143Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -2749,7 +2749,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "null",
-          "summary": "Specifies the alert color.",
+          "summary": "Specifies the contextual or explicit CSS color of the alert.",
           "isBlazoriseEnum": false
         },
         {
@@ -5997,7 +5997,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Specifies the contextual <strong>Color</strong> applied to the badge's background and text.",
+          "summary": "Specifies the contextual or explicit CSS color applied to the badge's background and text.",
           "isBlazoriseEnum": false
         },
         {

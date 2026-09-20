@@ -848,7 +848,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region CloseButton
 
-    public override string CloseButton() => "text-sm inline-flex";
+    public override string CloseButton() => "tw-close-button text-sm inline-flex";
 
     #endregion
 
@@ -1668,6 +1668,18 @@ public class TailwindClassProvider : ClassProvider
 
     public override string AlertColor( Color color )
     {
+        if ( color?.IsCssValue == true )
+            return "[--tw-alert-fill:color-mix(in_srgb,var(--tw-alert-bg)_15%,var(--color-white))] "
+                + "dark:[--tw-alert-fill:color-mix(in_srgb,var(--tw-alert-bg)_20%,var(--color-gray-950))] "
+                + "bg-[color:var(--tw-alert-fill)] text-[color:color-mix(in_srgb,var(--tw-alert-bg)_40%,var(--color-gray-900))] "
+                + "dark:text-[color:color-mix(in_srgb,var(--tw-alert-bg)_40%,var(--color-gray-100))] "
+                + "supports-[color:contrast-color(white)]:text-[color:color-mix(in_srgb,var(--tw-alert-bg)_30%,contrast-color(var(--tw-alert-fill)))] "
+                + "dark:supports-[color:contrast-color(white)]:text-[color:color-mix(in_srgb,var(--tw-alert-bg)_30%,contrast-color(var(--tw-alert-fill)))] "
+                + "border border-[color:color-mix(in_srgb,var(--tw-alert-bg)_35%,var(--tw-alert-fill))] "
+                + "[&_.alert-link]:text-inherit [&_.tw-close-button]:text-inherit [&_.tw-close-button:hover]:text-inherit "
+                + "[&_.tw-close-button]:bg-transparent [&_.tw-close-button:hover]:bg-current/10 "
+                + "[&_.tw-close-button:focus]:ring-current/30";
+
         if ( color.IsNullOrDefault() )
             return null;
 
@@ -2162,6 +2174,26 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BadgeColor( Color color, bool subtle )
     {
+        if ( color?.IsCssValue == true )
+        {
+            const string sharedClasses = "bg-[color:var(--tw-badge-fill)] [&[href]:focus-visible]:outline-2 [&[href]:focus-visible]:outline-current [&[href]:focus-visible]:outline-offset-2 ";
+
+            return subtle
+                ? sharedClasses
+                    + "[--tw-badge-fill:color-mix(in_srgb,var(--tw-badge-bg)_12%,var(--color-white))] "
+                    + "dark:[--tw-badge-fill:color-mix(in_srgb,var(--tw-badge-bg)_20%,var(--color-gray-950))] "
+                    + "text-[color:color-mix(in_srgb,var(--tw-badge-bg)_40%,var(--color-gray-900))] "
+                    + "dark:text-[color:color-mix(in_srgb,var(--tw-badge-bg)_40%,var(--color-gray-100))] "
+                    + "supports-[color:contrast-color(white)]:text-[color:color-mix(in_srgb,var(--tw-badge-bg)_30%,contrast-color(var(--tw-badge-fill)))] "
+                    + "dark:supports-[color:contrast-color(white)]:text-[color:color-mix(in_srgb,var(--tw-badge-bg)_30%,contrast-color(var(--tw-badge-fill)))] "
+                    + "border border-[color:color-mix(in_srgb,var(--tw-badge-bg)_30%,var(--tw-badge-fill))] "
+                    + "[&[href]:hover]:[--tw-badge-fill:color-mix(in_srgb,var(--tw-badge-bg)_25%,var(--color-white))] "
+                    + "dark:[&[href]:hover]:[--tw-badge-fill:color-mix(in_srgb,var(--tw-badge-bg)_30%,var(--color-gray-950))]"
+                : sharedClasses
+                    + "[--tw-badge-fill:var(--tw-badge-bg)] text-white supports-[color:contrast-color(white)]:text-[color:contrast-color(var(--tw-badge-fill))] "
+                    + "[&[href]:hover]:[--tw-badge-fill:color-mix(in_srgb,var(--tw-badge-bg)_85%,black)]";
+        }
+
         if ( color.IsNullOrDefault() )
             return null;
 
@@ -2204,7 +2236,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BadgeClose() => null;
 
-    public override string BadgeCloseColor( Color color, bool subtle ) => BadgeColor( color, subtle );
+    public override string BadgeCloseColor( Color color, bool subtle ) => color?.IsCssValue == true
+        ? "text-inherit bg-transparent hover:bg-current/10 focus-visible:outline-2 focus-visible:outline-current"
+        : BadgeColor( color, subtle );
 
     #endregion
 

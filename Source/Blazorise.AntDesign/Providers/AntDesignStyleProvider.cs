@@ -5,6 +5,18 @@ namespace Blazorise.AntDesign.Providers;
 
 public class AntDesignStyleProvider : StyleProvider
 {
+    #region Badge
+
+    public override string BadgeColor( Color color ) => ColorStyle( color, "--ant-tag-default-bg" );
+
+    #endregion
+
+    #region Alert
+
+    public override string AlertColor( Color color ) => ColorStyle( color, "--ant-alert-bg" );
+
+    #endregion
+
     #region Button
 
     public override string ButtonColor( Color color ) => ColorStyle( color, "--ant-color-primary" );

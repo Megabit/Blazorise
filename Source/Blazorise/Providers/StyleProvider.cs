@@ -38,6 +38,18 @@ public abstract class StyleProvider : IStyleProvider
 
     #endregion
 
+    #region Badge
+
+    public virtual string BadgeColor( Color color ) => null;
+
+    #endregion
+
+    #region Alert
+
+    public virtual string AlertColor( Color color ) => null;
+
+    #endregion
+
     #region Button
 
     public virtual string ButtonColor( Color color ) => null;

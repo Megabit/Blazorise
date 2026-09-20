@@ -1177,7 +1177,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Alert() => "fui-MessageBar";
 
-    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-MessageBar-{ToColor( color )}" : null;
+    public override string AlertColor( Color color ) => color?.IsCssValue == true
+        ? "fui-MessageBar-custom"
+        : color.IsNotNullOrDefault() ? $"fui-MessageBar-{ToColor( color )}" : null;
 
     public override string AlertDismisable( bool dismissable ) => dismissable ? "fui-MessageBar-closable" : null;
 
@@ -1496,14 +1498,16 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string Badge() => "fui-Badge";
 
     public override string BadgeColor( Color color, bool subtle )
-        => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true
+            ? subtle ? "fui-Badge-custom-subtle" : "fui-Badge-custom"
+            : color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     public override string BadgePill( bool pill ) => pill ? $"{Badge()}-pill" : null;
 
     public override string BadgeClose() => "fui-Badge__close";
 
     public override string BadgeCloseColor( Color color, bool subtle )
-        => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true ? null : color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     #endregion
 

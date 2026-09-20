@@ -31,6 +31,18 @@ class EmptyStyleProvider : IStyleProvider
 
     #endregion
 
+    #region Badge
+
+    public string BadgeColor( Color color ) => null;
+
+    #endregion
+
+    #region Alert
+
+    public string AlertColor( Color color ) => null;
+
+    #endregion
+
     #region Button
 
     public string ButtonColor( Color color ) => null;

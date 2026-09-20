@@ -103,6 +103,78 @@ body:before {
   border-color: #adb5bd;
 }
 
+.badge.badge-custom, .badge.badge-custom-subtle {
+  background-color: var(--bs-badge-bg);
+  border-color: var(--bs-badge-bg);
+  color: #fff;
+}
+@supports (color: contrast-color(white)) {
+  .badge.badge-custom, .badge.badge-custom-subtle {
+    color: contrast-color(var(--bs-badge-bg));
+  }
+}
+.badge.badge-custom[href]:hover, .badge.badge-custom[href]:focus, .badge.badge-custom-subtle[href]:hover, .badge.badge-custom-subtle[href]:focus {
+  background-color: color-mix(in srgb, var(--bs-badge-bg) 85%, black);
+  border-color: color-mix(in srgb, var(--bs-badge-bg) 85%, black);
+  color: #fff;
+}
+@supports (color: contrast-color(white)) {
+  .badge.badge-custom[href]:hover, .badge.badge-custom[href]:focus, .badge.badge-custom-subtle[href]:hover, .badge.badge-custom-subtle[href]:focus {
+    color: contrast-color(color-mix(in srgb, var(--bs-badge-bg) 85%, black));
+  }
+}
+.badge.badge-custom[href]:focus-visible, .badge.badge-custom-subtle[href]:focus-visible {
+  outline: 2px solid var(--bs-badge-bg);
+  outline-offset: 2px;
+}
+.badge.badge-custom .badge-close, .badge.badge-custom-subtle .badge-close {
+  color: inherit;
+}
+.badge.badge-custom .badge-close:hover, .badge.badge-custom .badge-close:focus, .badge.badge-custom-subtle .badge-close:hover, .badge.badge-custom-subtle .badge-close:focus {
+  color: inherit;
+}
+.badge.badge-custom-subtle {
+  background-color: color-mix(in srgb, var(--bs-badge-bg) 12%, #fff);
+  border-color: color-mix(in srgb, var(--bs-badge-bg) 30%, #fff);
+  color: color-mix(in srgb, var(--bs-badge-bg) 40%, #212529);
+}
+@supports (color: contrast-color(white)) {
+  .badge.badge-custom-subtle {
+    color: color-mix(in srgb, var(--bs-badge-bg) 30%, contrast-color(color-mix(in srgb, var(--bs-badge-bg) 12%, #fff)));
+  }
+}
+.badge.badge-custom-subtle[href]:hover, .badge.badge-custom-subtle[href]:focus {
+  background-color: color-mix(in srgb, var(--bs-badge-bg) 25%, #fff);
+  border-color: color-mix(in srgb, var(--bs-badge-bg) 40%, #fff);
+  color: color-mix(in srgb, var(--bs-badge-bg) 40%, #212529);
+}
+@supports (color: contrast-color(white)) {
+  .badge.badge-custom-subtle[href]:hover, .badge.badge-custom-subtle[href]:focus {
+    color: color-mix(in srgb, var(--bs-badge-bg) 30%, contrast-color(color-mix(in srgb, var(--bs-badge-bg) 25%, #fff)));
+  }
+}
+
+.alert.alert-custom {
+  background-color: color-mix(in srgb, var(--bs-alert-bg) 15%, #fff);
+  border-color: color-mix(in srgb, var(--bs-alert-bg) 35%, #fff);
+  color: color-mix(in srgb, var(--bs-alert-bg) 40%, #212529);
+}
+@supports (color: contrast-color(white)) {
+  .alert.alert-custom {
+    color: color-mix(in srgb, var(--bs-alert-bg) 30%, contrast-color(color-mix(in srgb, var(--bs-alert-bg) 15%, #fff)));
+  }
+}
+.alert.alert-custom .alert-link {
+  color: inherit;
+}
+.alert.alert-custom .close {
+  color: inherit;
+  text-shadow: none;
+}
+.alert.alert-custom .close:hover, .alert.alert-custom .close:focus {
+  color: inherit;
+}
+
 @media (min-width: 576px) {
   .b-bar-initial.navbar-expand-sm {
     display: flex !important;

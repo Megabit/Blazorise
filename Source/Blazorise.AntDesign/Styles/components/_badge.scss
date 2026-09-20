@@ -51,3 +51,66 @@
         }
     }
 }
+
+.ant-tag {
+    &.ant-tag-custom.ant-tag-solid,
+    &.ant-tag-custom.ant-tag-outlined {
+        background-color: var(--ant-tag-default-bg);
+        border-color: var(--ant-tag-default-bg);
+        color: var(--ant-color-text-light-solid);
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--ant-tag-default-bg));
+        }
+
+        &[href] {
+            &:hover,
+            &:focus {
+                background-color: color-mix(in srgb, var(--ant-tag-default-bg) 85%, black);
+                border-color: color-mix(in srgb, var(--ant-tag-default-bg) 85%, black);
+                color: var(--ant-color-text-light-solid);
+
+                @supports (color: contrast-color(white)) {
+                    color: contrast-color(color-mix(in srgb, var(--ant-tag-default-bg) 85%, black));
+                }
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--ant-tag-default-bg);
+                outline-offset: 2px;
+            }
+        }
+
+        .ant-tag-close-icon {
+            color: inherit;
+
+            &:hover,
+            &:focus {
+                color: inherit;
+            }
+        }
+    }
+
+    &.ant-tag-custom.ant-tag-outlined {
+        background-color: color-mix(in srgb, var(--ant-tag-default-bg) 12%, var(--ant-color-bg-container));
+        border-color: color-mix(in srgb, var(--ant-tag-default-bg) 30%, var(--ant-color-bg-container));
+        color: color-mix(in srgb, var(--ant-tag-default-bg) 40%, var(--ant-color-text));
+
+        @supports (color: contrast-color(white)) {
+            color: color-mix(in srgb, var(--ant-tag-default-bg) 30%, contrast-color(color-mix(in srgb, var(--ant-tag-default-bg) 12%, var(--ant-color-bg-container))));
+        }
+
+        &[href] {
+            &:hover,
+            &:focus {
+                background-color: color-mix(in srgb, var(--ant-tag-default-bg) 25%, var(--ant-color-bg-container));
+                border-color: color-mix(in srgb, var(--ant-tag-default-bg) 40%, var(--ant-color-bg-container));
+                color: color-mix(in srgb, var(--ant-tag-default-bg) 40%, var(--ant-color-text));
+
+                @supports (color: contrast-color(white)) {
+                    color: color-mix(in srgb, var(--ant-tag-default-bg) 30%, contrast-color(color-mix(in srgb, var(--ant-tag-default-bg) 25%, var(--ant-color-bg-container))));
+                }
+            }
+        }
+    }
+}

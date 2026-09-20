@@ -1129,7 +1129,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Alert() => "notification";
 
-    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string AlertColor( Color color ) => color?.IsCssValue == true
+        ? "is-custom"
+        : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string AlertDismisable( bool dismissable ) => null;
 
@@ -1460,14 +1462,16 @@ public class BulmaClassProvider : ClassProvider
     public override string Badge() => "tag";
 
     public override string BadgeColor( Color color, bool subtle )
-        => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true
+            ? subtle ? "is-custom-subtle" : "is-custom"
+            : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     public override string BadgePill( bool pill ) => null;
 
     public override string BadgeClose() => "delete is-small";
 
     public override string BadgeCloseColor( Color color, bool subtle )
-            => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true ? null : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     #endregion
 

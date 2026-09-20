@@ -28,6 +28,18 @@ public interface IStyleProvider
 
     #endregion
 
+    #region Badge
+
+    string BadgeColor( Color color ) => null;
+
+    #endregion
+
+    #region Alert
+
+    string AlertColor( Color color ) => null;
+
+    #endregion
+
     #region Button
 
     string ButtonColor( Color color ) => null;

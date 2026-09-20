@@ -1158,7 +1158,9 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Alert() => "mui-alert";
 
-    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"{Alert()}-{ToColor( color )}" : null;
+    public override string AlertColor( Color color ) => color?.IsCssValue == true
+        ? "mui-alert-custom"
+        : color.IsNotNullOrDefault() ? $"{Alert()}-{ToColor( color )}" : null;
 
     public override string AlertDismisable( bool dismissable ) => dismissable ? "mui-alert-closable" : null;
 
@@ -1491,14 +1493,16 @@ public class MaterialClassProvider : ClassProvider
     public override string Badge() => "mui-chip";
 
     public override string BadgeColor( Color color, bool subtle )
-        => color.IsNotNullOrDefault() ? $"mui-chip-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true
+            ? subtle ? "mui-chip-custom-subtle" : "mui-chip-custom"
+            : color.IsNotNullOrDefault() ? $"mui-chip-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     public override string BadgePill( bool pill ) => pill ? "mui-chip-rounded" : null;
 
     public override string BadgeClose() => "mui-chip-close";
 
     public override string BadgeCloseColor( Color color, bool subtle )
-        => color.IsNotNullOrDefault() ? $"mui-chip-close-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true ? null : color.IsNotNullOrDefault() ? $"mui-chip-close-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     #endregion
 

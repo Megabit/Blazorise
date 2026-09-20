@@ -1372,6 +1372,27 @@ html[data-theme=dark] .surface {
   color: var(--colorBrandForegroundLink);
 }
 
+.fui-MessageBar.fui-MessageBar-custom {
+  background-color: color-mix(in srgb, var(--colorMessageBarBackground) 15%, var(--colorNeutralBackground1));
+  border-color: color-mix(in srgb, var(--colorMessageBarBackground) 35%, var(--colorNeutralBackground1));
+  color: color-mix(in srgb, var(--colorMessageBarBackground) 40%, var(--colorNeutralForeground1));
+}
+@supports (color: contrast-color(white)) {
+  .fui-MessageBar.fui-MessageBar-custom {
+    color: color-mix(in srgb, var(--colorMessageBarBackground) 30%, contrast-color(color-mix(in srgb, var(--colorMessageBarBackground) 15%, var(--colorNeutralBackground1))));
+  }
+}
+.fui-MessageBar.fui-MessageBar-custom .alert-link,
+.fui-MessageBar.fui-MessageBar-custom .fui-MessageBar__icon {
+  color: inherit;
+}
+.fui-MessageBar.fui-MessageBar-custom .fui-CloseButton {
+  color: inherit;
+}
+.fui-MessageBar.fui-MessageBar-custom .fui-CloseButton:hover, .fui-MessageBar.fui-MessageBar-custom .fui-CloseButton:focus {
+  color: inherit;
+}
+
 .fui-Badge {
   display: inline-flex;
   box-sizing: border-box;
@@ -1480,6 +1501,57 @@ html[data-theme=dark] .surface {
   color: var(--colorBrandForegroundOnLight);
   background-color: var(--colorTransparentBackground);
   border-color: var(--colorBrandStroke1);
+}
+
+.fui-Badge.fui-Badge-custom, .fui-Badge.fui-Badge-custom-subtle {
+  background-color: var(--colorBadgeBackground);
+  border-color: var(--colorBadgeBackground);
+  color: var(--colorNeutralForegroundOnBrand);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Badge.fui-Badge-custom, .fui-Badge.fui-Badge-custom-subtle {
+    color: contrast-color(var(--colorBadgeBackground));
+  }
+}
+.fui-Badge.fui-Badge-custom[href]:hover, .fui-Badge.fui-Badge-custom[href]:focus, .fui-Badge.fui-Badge-custom-subtle[href]:hover, .fui-Badge.fui-Badge-custom-subtle[href]:focus {
+  background-color: color-mix(in srgb, var(--colorBadgeBackground) 85%, black);
+  border-color: color-mix(in srgb, var(--colorBadgeBackground) 85%, black);
+  color: var(--colorNeutralForegroundOnBrand);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Badge.fui-Badge-custom[href]:hover, .fui-Badge.fui-Badge-custom[href]:focus, .fui-Badge.fui-Badge-custom-subtle[href]:hover, .fui-Badge.fui-Badge-custom-subtle[href]:focus {
+    color: contrast-color(color-mix(in srgb, var(--colorBadgeBackground) 85%, black));
+  }
+}
+.fui-Badge.fui-Badge-custom[href]:focus-visible, .fui-Badge.fui-Badge-custom-subtle[href]:focus-visible {
+  outline: 2px solid var(--colorBadgeBackground);
+  outline-offset: 2px;
+}
+.fui-Badge.fui-Badge-custom .fui-Badge__close, .fui-Badge.fui-Badge-custom-subtle .fui-Badge__close {
+  color: inherit;
+}
+.fui-Badge.fui-Badge-custom .fui-Badge__close:hover, .fui-Badge.fui-Badge-custom .fui-Badge__close:focus, .fui-Badge.fui-Badge-custom-subtle .fui-Badge__close:hover, .fui-Badge.fui-Badge-custom-subtle .fui-Badge__close:focus {
+  color: inherit;
+}
+.fui-Badge.fui-Badge-custom-subtle {
+  background-color: color-mix(in srgb, var(--colorBadgeBackground) 12%, var(--colorNeutralBackground1));
+  border-color: color-mix(in srgb, var(--colorBadgeBackground) 30%, var(--colorNeutralBackground1));
+  color: color-mix(in srgb, var(--colorBadgeBackground) 40%, var(--colorNeutralForeground1));
+}
+@supports (color: contrast-color(white)) {
+  .fui-Badge.fui-Badge-custom-subtle {
+    color: color-mix(in srgb, var(--colorBadgeBackground) 30%, contrast-color(color-mix(in srgb, var(--colorBadgeBackground) 12%, var(--colorNeutralBackground1))));
+  }
+}
+.fui-Badge.fui-Badge-custom-subtle[href]:hover, .fui-Badge.fui-Badge-custom-subtle[href]:focus {
+  background-color: color-mix(in srgb, var(--colorBadgeBackground) 25%, var(--colorNeutralBackground1));
+  border-color: color-mix(in srgb, var(--colorBadgeBackground) 40%, var(--colorNeutralBackground1));
+  color: color-mix(in srgb, var(--colorBadgeBackground) 40%, var(--colorNeutralForeground1));
+}
+@supports (color: contrast-color(white)) {
+  .fui-Badge.fui-Badge-custom-subtle[href]:hover, .fui-Badge.fui-Badge-custom-subtle[href]:focus {
+    color: color-mix(in srgb, var(--colorBadgeBackground) 30%, contrast-color(color-mix(in srgb, var(--colorBadgeBackground) 25%, var(--colorNeutralBackground1))));
+  }
 }
 
 @media (min-width: 600px) {
