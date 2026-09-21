@@ -38,6 +38,24 @@ public abstract class StyleProvider : IStyleProvider
 
     #endregion
 
+    #region Component colors
+
+    public virtual string ListGroupItemColor( Color color ) => null;
+
+    public virtual string TableRowColor( Color color ) => null;
+
+    public virtual string TableRowCellColor( Color color ) => null;
+
+    public virtual string SwitchColor( Color color ) => null;
+
+    public virtual string RatingItemColor( Color color ) => null;
+
+    public virtual string StepItemColor( Color color ) => null;
+
+    public virtual string PageProgressIndicatorColor( Color color ) => null;
+
+    #endregion
+
     #region Badge
 
     public virtual string BadgeColor( Color color ) => null;

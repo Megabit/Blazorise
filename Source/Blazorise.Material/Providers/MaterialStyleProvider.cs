@@ -2,6 +2,24 @@ namespace Blazorise.Material.Providers;
 
 public class MaterialStyleProvider : StyleProvider
 {
+    #region Component colors
+
+    public override string ListGroupItemColor( Color color ) => ColorStyle( color, "--mui-list-item-bg" );
+
+    public override string TableRowColor( Color color ) => ColorStyle( color, "--mui-table-row-bg" );
+
+    public override string TableRowCellColor( Color color ) => ColorStyle( color, "--mui-table-cell-bg" );
+
+    public override string SwitchColor( Color color ) => ColorStyle( color, "--mui-switch-bg" );
+
+    public override string RatingItemColor( Color color ) => ColorStyle( color, "--mui-rating-color" );
+
+    public override string StepItemColor( Color color ) => ColorStyle( color, "--mui-step-accent" );
+
+    public override string PageProgressIndicatorColor( Color color ) => ColorStyle( color, "--mui-page-progress-bg" );
+
+    #endregion
+
     #region Badge
 
     public override string BadgeColor( Color color ) => ColorStyle( color, "--mui-chip-bg" );

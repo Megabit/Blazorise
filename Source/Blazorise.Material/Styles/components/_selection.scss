@@ -551,3 +551,32 @@
         }
     }
 }
+
+.mui-switch.mui-switch-custom > .mui-switch-label {
+    > input:checked + span::after {
+        background-color: var(--mui-switch-bg);
+    }
+
+    > input:checked + span::before,
+    &.icon > input:checked + span > i {
+        color: var(--mui-switch-bg);
+        background-color: var(--mui-on-primary);
+
+        @supports (color: contrast-color(white)) {
+            background-color: contrast-color(var(--mui-switch-bg));
+        }
+    }
+
+    > input:focus-visible + span::after {
+        outline-color: var(--mui-switch-bg);
+    }
+
+    > input:not(:disabled):is(:focus, :hover) + span::before {
+        box-shadow: 0 0 0 .5rem color-mix(in srgb, var(--mui-switch-bg) 15%, transparent);
+    }
+}
+
+.mui-radio > input:focus-visible + label.mui-button-custom {
+    outline: 2px solid var(--mui-btn-border-color);
+    outline-offset: 2px;
+}

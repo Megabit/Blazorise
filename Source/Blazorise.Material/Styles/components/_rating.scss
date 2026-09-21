@@ -76,3 +76,7 @@
         --mui-rating-hover-color: color-mix(in srgb, var(--mui-primary) 82%, var(--mui-surface));
     }
 }
+
+.mui-rating .mui-rating-item.mui-rating-item-custom {
+    --mui-rating-hover-color: color-mix(in srgb, var(--mui-rating-color) 82%, var(--mui-surface));
+}

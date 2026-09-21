@@ -305,3 +305,7 @@
         margin-right: 0;
     }
 }
+
+.ant-page-progress .ant-page-progress-indicator.ant-page-progress-indicator-custom {
+    background-color: var(--ant-page-progress-bg);
+}

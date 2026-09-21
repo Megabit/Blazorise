@@ -264,7 +264,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Switch() => "fui-Switch__input";
 
-    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
+    public override string SwitchColor( Color color ) => color?.IsCssValue == true ? "fui-Switch__input-custom" : color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => size != Size.Default ? $"fui-Switch__input-{ToSize( size )}" : null;
 
@@ -346,7 +346,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string RatingItem() => "fui-RatingItem";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-RatingItem-{ToColor( color )}" : null;
+    public override string RatingItemColor( Color color ) => color?.IsCssValue == true ? "fui-RatingItem-custom" : color.IsNotNullOrDefault() ? $"fui-RatingItem-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => selected ? "fui-RatingItem-selected" : null;
 
@@ -788,7 +788,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "fui-Step-completed" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
+    public override string StepItemColor( Color color ) => color?.IsCssValue == true ? "fui-Step-custom" : color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "fui-Step__circle";
 
@@ -902,7 +902,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled( bool disabled ) => disabled ? "fui-ListGroupItem-disabled" : null;
 
-    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color.IsNotNullOrDefault() ? $"{ListGroupItem()}-{base.ToColor( color )}" : null;
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color?.IsCssValue == true ? "fui-ListGroupItem-custom" : color.IsNotNullOrDefault() ? $"{ListGroupItem()}-{base.ToColor( color )}" : null;
 
     #endregion
 
@@ -1383,7 +1383,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string PageProgressIndicator() => "fui-PageProgress__indicator";
 
-    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-PageProgress__indicator--{ToColor( color )}" : null;
+    public override string PageProgressIndicatorColor( Color color ) => color?.IsCssValue == true ? "fui-PageProgress__indicator--custom" : color.IsNotNullOrDefault() ? $"fui-PageProgress__indicator--{ToColor( color )}" : null;
 
     public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "fui-PageProgress__indicator--indeterminate" : null;
 
@@ -1441,7 +1441,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => "fui-TableRow";
 
-    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TableRow-{ToColor( color )}" : null;
+    public override string TableRowColor( Color color ) => color?.IsCssValue == true ? "fui-TableRow-custom" : color.IsNotNullOrDefault() ? $"fui-TableRow-{ToColor( color )}" : null;
 
     public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "fui-TableRow-selectable" : null;
 
@@ -1461,7 +1461,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableRowCell() => "fui-TableCell";
 
-    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TableCell-{ToColor( color )}" : null;
+    public override string TableRowCellColor( Color color ) => color?.IsCssValue == true ? "fui-TableCell-custom" : color.IsNotNullOrDefault() ? $"fui-TableCell-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {

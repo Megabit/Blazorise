@@ -80,7 +80,7 @@ public partial class Radio<TValue>
         builder.Append( ClassProvider.Button( false ) );
         builder.Append( ClassProvider.ButtonColor( ButtonColor, false ) );
         builder.Append( ClassProvider.ButtonActive( false, IsActive ) );
-        builder.Append( ClassProvider.ButtonDisabled( false, Disabled ) );
+        builder.Append( ClassProvider.ButtonDisabled( false, IsDisabled ) );
     }
 
     private void BuildWrapperStyles( StyleBuilder builder )

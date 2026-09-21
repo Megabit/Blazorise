@@ -3,7 +3,7 @@
 <Control Role="@ControlRole.Switch" Inline="@Inline">
     <Label Type="LabelType.Switch" For="@ElementId" Style="@Style" Cursor="@Cursor">
         <input @ref="@ElementRef" id="@ElementId" type="checkbox" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
-        <div class="@BackgroundClassNames"></div>
+        <div class="@BackgroundClassNames" style="@StyleProvider.SwitchColor( Color )"></div>
         <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">@ChildContent</span>
     </Label>
     @Feedback
@@ -13,6 +13,11 @@
     {
         get
         {
+            if ( Color?.IsCssValue == true )
+            {
+                return $"{SwitchSize( ThemeSize )} bg-gray-200 dark:bg-gray-700 rounded-full peer-focus-visible:ring-4 peer-focus-visible:ring-[color-mix(in_srgb,var(--tw-switch-bg)_40%,transparent)] peer-checked:bg-[var(--tw-switch-bg)] peer-disabled:opacity-50 peer-disabled:cursor-not-allowed peer-checked:after:translate-x-full after:content-[''] after:absolute after:bg-white after:border-gray-300 after:border after:rounded-full after:transition-all peer-checked:after:border-transparent supports-[color:contrast-color(red)]:peer-checked:after:bg-[contrast-color(var(--tw-switch-bg))]";
+            }
+
             var colorName = Color?.Name;
 
             if ( string.IsNullOrEmpty( colorName ) )

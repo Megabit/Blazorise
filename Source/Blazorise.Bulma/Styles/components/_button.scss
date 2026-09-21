@@ -281,3 +281,7 @@
         box-shadow: none;
     }
 }
+
+label.button.is-custom:has(input:focus-visible) {
+    box-shadow: 0 0 0 .125em color-mix(in srgb, var(--bulma-button-custom-color) 25%, transparent);
+}

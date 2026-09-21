@@ -7,3 +7,48 @@ li.list-group-item-action {
         overflow-y: scroll;
     }
 }
+
+.list-group .list-group-item.list-group-item-custom {
+    background-image: none;
+    background-color: color-mix(in srgb, var(--bs-list-group-bg) 15%, var(--bs-body-bg));
+    border-color: color-mix(in srgb, var(--bs-list-group-bg) 35%, var(--bs-body-bg));
+    color: color-mix(in srgb, var(--bs-list-group-bg) 40%, var(--bs-body-color));
+
+    @supports (color: contrast-color(white)) {
+        color: color-mix(in srgb, var(--bs-list-group-bg) 30%, contrast-color(color-mix(in srgb, var(--bs-list-group-bg) 15%, var(--bs-body-bg))));
+    }
+
+    &.list-group-item-action:not(.disabled):not(:disabled):not(.active) {
+        &:hover,
+        &:focus {
+            background-color: color-mix(in srgb, var(--bs-list-group-bg) 25%, var(--bs-body-bg));
+
+            @supports (color: contrast-color(white)) {
+                color: color-mix(in srgb, var(--bs-list-group-bg) 30%, contrast-color(color-mix(in srgb, var(--bs-list-group-bg) 25%, var(--bs-body-bg))));
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--bs-list-group-bg);
+            outline-offset: -2px;
+        }
+    }
+
+    &.active,
+    &.active:hover,
+    &.active:focus {
+        background-color: var(--bs-list-group-bg);
+        border-color: var(--bs-list-group-bg);
+        color: white;
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--bs-list-group-bg));
+        }
+    }
+
+    &.disabled,
+    &:disabled {
+        opacity: .5;
+        pointer-events: none;
+    }
+}

@@ -264,7 +264,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Switch() => "form-check-input";
 
-    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
+    public override string SwitchColor( Color color ) => color?.IsCssValue == true ? "form-check-input-custom" : color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => size != Size.Default ? $"form-check-input-{ToSize( size )}" : null;
 
@@ -346,7 +346,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string RatingItem() => "rating-item";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"rating-item-{ToColor( color )}" : null;
+    public override string RatingItemColor( Color color ) => color?.IsCssValue == true ? "rating-item-custom" : color.IsNotNullOrDefault() ? $"rating-item-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => null;
 
@@ -779,7 +779,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "step-completed" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
+    public override string StepItemColor( Color color ) => color?.IsCssValue == true ? "step-custom" : color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "step-circle";
 
@@ -893,7 +893,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
-    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"{ListGroupItem()}-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color?.IsCssValue == true ? "list-group-item-custom" : $"{ListGroupItem()}-{ToColor( color )}";
 
     #endregion
 
@@ -1343,7 +1343,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string PageProgressIndicator() => "b-page-progress-indicator";
 
-    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
+    public override string PageProgressIndicatorColor( Color color ) => color?.IsCssValue == true ? "page-progress-indicator-custom" : color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
 
     public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "b-page-progress-indicator-indeterminate" : null;
 
@@ -1401,7 +1401,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => null;
 
-    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
+    public override string TableRowColor( Color color ) => color?.IsCssValue == true ? "table-custom" : color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
 
     public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "table-row-selectable" : null;
 
@@ -1421,7 +1421,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TableRowCell() => null;
 
-    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
+    public override string TableRowCellColor( Color color ) => color?.IsCssValue == true ? "table-custom" : color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {

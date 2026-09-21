@@ -31,6 +31,24 @@ class EmptyStyleProvider : IStyleProvider
 
     #endregion
 
+    #region Component colors
+
+    public string ListGroupItemColor( Color color ) => null;
+
+    public string TableRowColor( Color color ) => null;
+
+    public string TableRowCellColor( Color color ) => null;
+
+    public string SwitchColor( Color color ) => null;
+
+    public string RatingItemColor( Color color ) => null;
+
+    public string StepItemColor( Color color ) => null;
+
+    public string PageProgressIndicatorColor( Color color ) => null;
+
+    #endregion
+
     #region Badge
 
     public string BadgeColor( Color color ) => null;

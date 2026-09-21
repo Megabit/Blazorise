@@ -253,7 +253,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Switch() => "switch";
 
-    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string SwitchColor( Color color ) => color?.IsCssValue == true ? "is-custom" : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
@@ -335,7 +335,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string RatingItem() => "rating-item";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string RatingItemColor( Color color ) => color?.IsCssValue == true ? "is-custom" : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => null;
 
@@ -765,7 +765,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "is-completed" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string StepItemColor( Color color ) => color?.IsCssValue == true ? "is-custom" : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "step-marker";
 
@@ -879,7 +879,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
-    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"is-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color?.IsCssValue == true ? "is-custom" : $"is-{ToColor( color )}";
 
     #endregion
 
@@ -1347,7 +1347,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string PageProgressIndicator() => "b-page-progress-indicator";
 
-    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
+    public override string PageProgressIndicatorColor( Color color ) => color?.IsCssValue == true ? "is-custom" : color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
 
     public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "b-page-progress-indicator-indeterminate" : null;
 
@@ -1405,7 +1405,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => null;
 
-    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"has-background-{ToColor( color )}" : null;
+    public override string TableRowColor( Color color ) => color?.IsCssValue == true ? "is-custom" : color.IsNotNullOrDefault() ? $"has-background-{ToColor( color )}" : null;
 
     public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "table-row-selectable" : null;
 
@@ -1425,7 +1425,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableRowCell() => null;
 
-    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"has-background-{ToColor( color )}" : null;
+    public override string TableRowCellColor( Color color ) => color?.IsCssValue == true ? "is-custom" : color.IsNotNullOrDefault() ? $"has-background-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {

@@ -1275,3 +1275,5 @@ html {
     --ant-gold-hover: #ffc53d;
     --ant-gold-active: #d48806;
 }
+
+$table-contextual-cell-selectors: ".ant-table-primary, .ant-table-secondary, .ant-table-success, .ant-table-danger, .ant-table-warning, .ant-table-info, .ant-table-light, .ant-table-dark, .ant-table-link";

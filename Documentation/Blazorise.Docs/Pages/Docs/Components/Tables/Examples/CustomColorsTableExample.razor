@@ -1,0 +1,24 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Table Hoverable Striped>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>Project</TableHeaderCell>
+            <TableHeaderCell>Status</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow Color="@("#BAE6FD")">
+            <TableRowCell>Website</TableRowCell>
+            <TableRowCell>In progress</TableRowCell>
+        </TableRow>
+        <TableRow Color="@(new Color("#164E63"))">
+            <TableRowCell>Mobile app</TableRowCell>
+            <TableRowCell Color="@("#FDBA74")">Review needed</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Documentation</TableRowCell>
+            <TableRowCell Color="@CssColor.Variable("--table-ready-color", "#A7F3D0")">Ready</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>

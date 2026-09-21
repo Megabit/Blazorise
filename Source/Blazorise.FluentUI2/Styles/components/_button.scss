@@ -341,3 +341,8 @@
         }
     }
 }
+
+label.fui-Button.fui-Button-custom:has(input:focus-visible) {
+    outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+    outline-offset: var(--strokeWidthThick);
+}

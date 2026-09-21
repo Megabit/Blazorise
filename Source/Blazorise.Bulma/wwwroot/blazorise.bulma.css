@@ -466,6 +466,10 @@ body:before {
   box-shadow: none;
 }
 
+label.button.is-custom:has(input:focus-visible) {
+  box-shadow: 0 0 0 0.125em color-mix(in srgb, var(--bulma-button-custom-color) 25%, transparent);
+}
+
 .card {
   overflow: initial;
 }
@@ -4202,6 +4206,44 @@ li.list-group-item-action {
   cursor: pointer;
 }
 
+.list-group .list-group-item.is-custom {
+  background-image: none;
+  background-color: color-mix(in srgb, var(--bulma-list-group-item-background-color) 15%, var(--bulma-scheme-main));
+  border-color: color-mix(in srgb, var(--bulma-list-group-item-background-color) 35%, var(--bulma-scheme-main));
+  color: color-mix(in srgb, var(--bulma-list-group-item-background-color) 40%, var(--bulma-text));
+}
+@supports (color: contrast-color(white)) {
+  .list-group .list-group-item.is-custom {
+    color: color-mix(in srgb, var(--bulma-list-group-item-background-color) 30%, contrast-color(color-mix(in srgb, var(--bulma-list-group-item-background-color) 15%, var(--bulma-scheme-main))));
+  }
+}
+.list-group .list-group-item.is-custom.list-group-item-action:not(.disabled):not(:disabled):not(.is-active):hover, .list-group .list-group-item.is-custom.list-group-item-action:not(.disabled):not(:disabled):not(.is-active):focus {
+  background-color: color-mix(in srgb, var(--bulma-list-group-item-background-color) 25%, var(--bulma-scheme-main));
+}
+@supports (color: contrast-color(white)) {
+  .list-group .list-group-item.is-custom.list-group-item-action:not(.disabled):not(:disabled):not(.is-active):hover, .list-group .list-group-item.is-custom.list-group-item-action:not(.disabled):not(:disabled):not(.is-active):focus {
+    color: color-mix(in srgb, var(--bulma-list-group-item-background-color) 30%, contrast-color(color-mix(in srgb, var(--bulma-list-group-item-background-color) 25%, var(--bulma-scheme-main))));
+  }
+}
+.list-group .list-group-item.is-custom.list-group-item-action:not(.disabled):not(:disabled):not(.is-active):focus-visible {
+  outline: 2px solid var(--bulma-list-group-item-background-color);
+  outline-offset: -2px;
+}
+.list-group .list-group-item.is-custom.is-active, .list-group .list-group-item.is-custom.is-active:hover, .list-group .list-group-item.is-custom.is-active:focus {
+  background-color: var(--bulma-list-group-item-background-color);
+  border-color: var(--bulma-list-group-item-background-color);
+  color: white;
+}
+@supports (color: contrast-color(white)) {
+  .list-group .list-group-item.is-custom.is-active, .list-group .list-group-item.is-custom.is-active:hover, .list-group .list-group-item.is-custom.is-active:focus {
+    color: contrast-color(var(--bulma-list-group-item-background-color));
+  }
+}
+.list-group .list-group-item.is-custom.disabled, .list-group .list-group-item.is-custom:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 @media (min-width: 576px) {
   .modal-sm {
     width: 300px;
@@ -4696,6 +4738,10 @@ li.list-group-item-action {
   color: hsl(221, 14%, 100%);
 }
 
+.b-page-progress .b-page-progress-indicator.is-custom {
+  background-color: var(--bulma-page-progress-background-color);
+}
+
 .rating:not(.rating-disabled):not(.rating-readonly):hover .rating-item {
   cursor: pointer;
 }
@@ -4731,6 +4777,10 @@ li.list-group-item-action {
 }
 .rating .rating-item.is-hover {
   opacity: 0.7;
+}
+
+.rating .rating-item.is-custom {
+  color: var(--bulma-rating-color);
 }
 
 .skeleton-lines {
@@ -5129,6 +5179,24 @@ li.list-group-item-action {
   display: block;
 }
 
+.steps .step-item.is-custom .step-marker {
+  color: var(--bulma-step-color);
+  border-color: var(--bulma-step-color);
+}
+.steps .step-item.is-custom.is-active .step-marker, .steps .step-item.is-custom.is-completed .step-marker {
+  background-color: var(--bulma-step-color);
+  border-color: var(--bulma-step-color);
+  color: white;
+}
+@supports (color: contrast-color(white)) {
+  .steps .step-item.is-custom.is-active .step-marker, .steps .step-item.is-custom.is-completed .step-marker {
+    color: contrast-color(var(--bulma-step-color));
+  }
+}
+.steps .step-item.is-custom.is-active::before, .steps .step-item.is-custom.is-completed::before {
+  background: var(--bulma-step-color);
+}
+
 .switch[type=checkbox] {
   outline: 0;
   user-select: none;
@@ -5456,6 +5524,23 @@ li.list-group-item-action {
   background-color: rgba(66.3, 88.315, 255, 0.5);
 }
 
+.switch[type=checkbox].is-custom:checked + label::before {
+  background-color: var(--bulma-switch-background-color);
+  border-color: var(--bulma-switch-background-color);
+}
+.switch[type=checkbox].is-custom:focus-visible + label::before {
+  outline: 2px solid var(--bulma-switch-background-color);
+  outline-offset: 2px;
+}
+.switch[type=checkbox].is-custom:disabled:checked + label::before {
+  background-color: color-mix(in srgb, var(--bulma-switch-background-color) 50%, transparent);
+}
+@supports (color: contrast-color(white)) {
+  .switch[type=checkbox].is-custom:checked + label::after {
+    background-color: contrast-color(var(--bulma-switch-background-color));
+  }
+}
+
 table.is-borderless td, table.is-borderless th, table.is-borderless tr {
   border: 0 !important;
 }
@@ -5581,6 +5666,43 @@ td:focus {
     border-bottom: 1px solid;
   }
 }
+.table > :is(tbody, thead, tfoot) > tr.is-custom > :is(th, td):not(.has-background-primary, .has-background-secondary, .has-background-success, .has-background-danger, .has-background-warning, .has-background-info, .has-background-light, .has-background-dark, .has-background-link) {
+  background-color: var(--bulma-table-cell-background-color);
+  color: var(--bulma-text);
+  border-color: color-mix(in srgb, var(--bulma-table-cell-background-color) 70%, black);
+}
+@supports (color: contrast-color(white)) {
+  .table > :is(tbody, thead, tfoot) > tr.is-custom > :is(th, td):not(.has-background-primary, .has-background-secondary, .has-background-success, .has-background-danger, .has-background-warning, .has-background-info, .has-background-light, .has-background-dark, .has-background-link) {
+    color: contrast-color(var(--bulma-table-cell-background-color));
+  }
+}
+.table.is-striped > tbody > tr.is-custom:nth-of-type(odd) > :is(th, td):not(.has-background-primary, .has-background-secondary, .has-background-success, .has-background-danger, .has-background-warning, .has-background-info, .has-background-light, .has-background-dark, .has-background-link) {
+  background-color: color-mix(in srgb, var(--bulma-table-cell-background-color) 90%, black);
+}
+@supports (color: contrast-color(white)) {
+  .table.is-striped > tbody > tr.is-custom:nth-of-type(odd) > :is(th, td):not(.has-background-primary, .has-background-secondary, .has-background-success, .has-background-danger, .has-background-warning, .has-background-info, .has-background-light, .has-background-dark, .has-background-link) {
+    color: contrast-color(color-mix(in srgb, var(--bulma-table-cell-background-color) 90%, black));
+  }
+}
+.table.is-hoverable > tbody > tr.is-custom:hover > :is(th, td):not(.has-background-primary, .has-background-secondary, .has-background-success, .has-background-danger, .has-background-warning, .has-background-info, .has-background-light, .has-background-dark, .has-background-link) {
+  background-color: color-mix(in srgb, var(--bulma-table-cell-background-color) 85%, black);
+}
+@supports (color: contrast-color(white)) {
+  .table.is-hoverable > tbody > tr.is-custom:hover > :is(th, td):not(.has-background-primary, .has-background-secondary, .has-background-success, .has-background-danger, .has-background-warning, .has-background-info, .has-background-light, .has-background-dark, .has-background-link) {
+    color: contrast-color(color-mix(in srgb, var(--bulma-table-cell-background-color) 85%, black));
+  }
+}
+.table > :is(tbody, thead, tfoot) > tr > td.is-custom {
+  background-color: var(--bulma-table-cell-background-color);
+  color: var(--bulma-text);
+  border-color: color-mix(in srgb, var(--bulma-table-cell-background-color) 70%, black);
+}
+@supports (color: contrast-color(white)) {
+  .table > :is(tbody, thead, tfoot) > tr > td.is-custom {
+    color: contrast-color(var(--bulma-table-cell-background-color));
+  }
+}
+
 .tab-pane {
   display: none;
 }

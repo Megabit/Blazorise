@@ -5,6 +5,24 @@ namespace Blazorise.Bulma.Providers;
 
 public class BulmaStyleProvider : StyleProvider
 {
+    #region Component colors
+
+    public override string ListGroupItemColor( Color color ) => ColorStyle( color, "--bulma-list-group-item-background-color" );
+
+    public override string TableRowColor( Color color ) => ColorStyle( color, "--bulma-table-cell-background-color" );
+
+    public override string TableRowCellColor( Color color ) => ColorStyle( color, "--bulma-table-cell-background-color" );
+
+    public override string SwitchColor( Color color ) => ColorStyle( color, "--bulma-switch-background-color" );
+
+    public override string RatingItemColor( Color color ) => ColorStyle( color, "--bulma-rating-color" );
+
+    public override string StepItemColor( Color color ) => ColorStyle( color, "--bulma-step-color" );
+
+    public override string PageProgressIndicatorColor( Color color ) => ColorStyle( color, "--bulma-page-progress-background-color" );
+
+    #endregion
+
     #region Badge
 
     public override string BadgeColor( Color color ) => ColorStyle( color, "--bulma-tag-background-color" );

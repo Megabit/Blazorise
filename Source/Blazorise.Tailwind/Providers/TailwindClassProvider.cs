@@ -336,7 +336,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Switch() => "sr-only peer";
 
-    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
+    public override string SwitchColor( Color color ) => color?.IsCssValue == true ? null : color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => null;
 
@@ -525,7 +525,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string RatingItem() => "w-5 h-5";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}-400" : null;
+    public override string RatingItemColor( Color color ) => color?.IsCssValue == true ? "text-[color:var(--tw-rating-color)]" : color.IsNotNullOrDefault() ? $"text-{ToColor( color )}-400" : null;
 
     public override string RatingItemSelected( bool selected ) => null;
 
@@ -1111,12 +1111,26 @@ public class TailwindClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "b-step-completed" : null;
 
-    public override string StepItemColor( Color color ) => null;
+    public override string StepItemColor( Color color ) => color?.IsCssValue == true
+        ? "[&.b-step-completed_.b-step-item-head-icon]:bg-[color:var(--tw-step-bg)] "
+            + "[&.b-step-completed_.b-step-item-head-icon]:text-white "
+            + "supports-[color:contrast-color(white)]:[&.b-step-completed_.b-step-item-head-icon]:text-[color:contrast-color(var(--tw-step-bg))] "
+            + "[&.b-step-completed_.b-step-item-head]:before:!bg-[color:var(--tw-step-bg)] "
+            + "[&.b-step-completed_.b-step-item-head]:after:!bg-[color:var(--tw-step-bg)]"
+        : null;
 
     public override string StepItemMarker() => "b-step-item-head-icon my-6 mr-2 flex justify-center items-center rounded-full w-7 h-7 text-sm border-2";
 
     public override string StepItemMarkerColor( Color color, bool active )
     {
+        if ( color?.IsCssValue == true )
+        {
+            const string sharedClasses = "border-[color:var(--tw-step-bg)] ";
+
+            return active
+                ? sharedClasses + "bg-[color:var(--tw-step-bg)] text-white supports-[color:contrast-color(white)]:text-[color:contrast-color(var(--tw-step-bg))] shadow-md shadow-[color:color-mix(in_srgb,var(--tw-step-bg)_30%,transparent)]"
+                : sharedClasses + "text-[color:var(--tw-step-bg)]";
+        }
         var name = color?.Name;
 
         if ( active )
@@ -1285,6 +1299,31 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ListGroupItemColor( Color color, bool selectable, bool active )
     {
+        if ( color?.IsCssValue == true )
+        {
+            StringBuilder builder = new( "!bg-[color:var(--tw-list-group-fill)] border-[color:color-mix(in_srgb,var(--tw-list-group-bg)_35%,var(--tw-list-group-fill))] [&.b-listgroup-item-disabled]:opacity-50 [&.b-listgroup-item-disabled]:pointer-events-none " );
+
+            if ( active )
+            {
+                builder.Append( "[--tw-list-group-fill:var(--tw-list-group-bg)] text-white supports-[color:contrast-color(white)]:text-[color:contrast-color(var(--tw-list-group-fill))]" );
+            }
+            else
+            {
+                builder.Append( "[--tw-list-group-fill:color-mix(in_srgb,var(--tw-list-group-bg)_15%,var(--color-white))] dark:[--tw-list-group-fill:color-mix(in_srgb,var(--tw-list-group-bg)_20%,var(--color-gray-900))] " );
+                builder.Append( "text-[color:color-mix(in_srgb,var(--tw-list-group-bg)_40%,var(--color-gray-900))] dark:text-[color:color-mix(in_srgb,var(--tw-list-group-bg)_40%,var(--color-gray-100))] " );
+                builder.Append( "supports-[color:contrast-color(white)]:text-[color:color-mix(in_srgb,var(--tw-list-group-bg)_30%,contrast-color(var(--tw-list-group-fill)))] dark:supports-[color:contrast-color(white)]:text-[color:color-mix(in_srgb,var(--tw-list-group-bg)_30%,contrast-color(var(--tw-list-group-fill)))]" );
+
+                if ( selectable )
+                {
+                    builder.Append( " [&:hover:not(.b-listgroup-item-disabled)]:[--tw-list-group-fill:color-mix(in_srgb,var(--tw-list-group-bg)_25%,var(--color-white))] dark:[&:hover:not(.b-listgroup-item-disabled)]:[--tw-list-group-fill:color-mix(in_srgb,var(--tw-list-group-bg)_30%,var(--color-gray-900))]" );
+                }
+            }
+
+            if ( selectable )
+                builder.Append( " focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[color:var(--tw-list-group-bg)]" );
+
+            return builder.ToString();
+        }
         var sb = new StringBuilder();
 
         var name = color?.Name;
@@ -1987,7 +2026,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string PageProgressIndicator() => "b-page-progress-indicator";
 
-    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
+    public override string PageProgressIndicatorColor( Color color ) => color?.IsCssValue == true ? "!bg-[color:var(--tw-page-progress-bg)]" : color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
 
     public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "b-page-progress-indicator-indeterminate" : null;
 
@@ -2096,6 +2135,16 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowColor( Color color )
     {
+        if ( color?.IsCssValue == true )
+        {
+            return "[--tw-table-fill:var(--tw-table-bg)] !bg-[color:var(--tw-table-fill)] text-white "
+                + "supports-[color:contrast-color(white)]:text-[color:contrast-color(var(--tw-table-fill))] "
+                + "[.b-table-striped_&:nth-of-type(odd)]:[--tw-table-fill:color-mix(in_srgb,var(--tw-table-bg)_90%,black)] "
+                + "[.b-table-hoverable_&:hover]:[--tw-table-fill:color-mix(in_srgb,var(--tw-table-bg)_85%,black)] "
+                + "[&>td:not(.tw-table-cell-colored)]:bg-[color:var(--tw-table-fill)] "
+                + "[&>td:not(.tw-table-cell-colored)]:text-inherit "
+                + "[&>th]:!bg-[color:var(--tw-table-fill)] [&>th]:!text-inherit";
+        }
         if ( color.IsNullOrDefault() )
             return null;
 
@@ -2134,7 +2183,11 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowCell() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4";
 
-    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
+    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault()
+        ? color.IsCssValue
+            ? "tw-table-cell-colored !bg-[color:var(--tw-table-bg)] !text-white supports-[color:contrast-color(white)]:!text-[color:contrast-color(var(--tw-table-bg))]"
+            : $"tw-table-cell-colored {TableRowColor( color )}"
+        : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {

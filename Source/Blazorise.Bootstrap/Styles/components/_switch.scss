@@ -89,3 +89,25 @@
         @include switch($size);
     }
 }
+
+.custom-switch .custom-control-input.custom-control-input-custom {
+    &:checked ~ .custom-control-label::before {
+        background-color: var(--bs-switch-bg);
+        border-color: var(--bs-switch-bg);
+    }
+
+    &:focus ~ .custom-control-label::before {
+        border-color: var(--bs-switch-bg);
+        box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--bs-switch-bg) 25%, transparent);
+    }
+
+    &:disabled:checked ~ .custom-control-label::before {
+        background-color: color-mix(in srgb, var(--bs-switch-bg) 50%, transparent);
+    }
+
+    @supports (color: contrast-color(white)) {
+        &:checked ~ .custom-control-label::after {
+            background-color: contrast-color(var(--bs-switch-bg));
+        }
+    }
+}

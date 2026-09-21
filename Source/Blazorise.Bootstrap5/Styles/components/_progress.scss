@@ -68,3 +68,7 @@
         width: 10%;
     }
 }
+
+.b-page-progress .b-page-progress-indicator.page-progress-indicator-custom {
+    background-color: var(--bs-page-progress-bg);
+}

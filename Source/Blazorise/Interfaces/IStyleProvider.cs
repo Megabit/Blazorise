@@ -28,6 +28,24 @@ public interface IStyleProvider
 
     #endregion
 
+    #region Component colors
+
+    string ListGroupItemColor( Color color ) => null;
+
+    string TableRowColor( Color color ) => null;
+
+    string TableRowCellColor( Color color ) => null;
+
+    string SwitchColor( Color color ) => null;
+
+    string RatingItemColor( Color color ) => null;
+
+    string StepItemColor( Color color ) => null;
+
+    string PageProgressIndicatorColor( Color color ) => null;
+
+    #endregion
+
     #region Badge
 
     string BadgeColor( Color color ) => null;

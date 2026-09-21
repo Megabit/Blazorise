@@ -15,6 +15,8 @@ public partial class RatingItem : BaseComponent
 {
     #region Members
 
+    private Color color = Color.Warning;
+
     #endregion
 
     #region Methods
@@ -31,6 +33,14 @@ public partial class RatingItem : BaseComponent
         builder.Append( ClassProvider.RatingItemHovered( hovered ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.RatingItemColor( Color ) );
+
+        base.BuildStyles( builder );
     }
 
     /// <summary>
@@ -130,7 +140,21 @@ public partial class RatingItem : BaseComponent
     /// <summary>
     /// Specifies the item color.
     /// </summary>
-    [Parameter] public Color Color { get; set; } = Color.Warning;
+    [Parameter]
+    public Color Color
+    {
+        get => color;
+        set
+        {
+            if ( color == value )
+                return;
+
+            color = value;
+
+            DirtyClasses();
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Specifies the item intent.

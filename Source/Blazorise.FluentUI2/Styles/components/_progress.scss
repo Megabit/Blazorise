@@ -153,3 +153,7 @@
         margin-left: 100%;
     }
 }
+
+.fui-PageProgress .fui-PageProgress__indicator.fui-PageProgress__indicator--custom {
+    background-color: var(--colorPageProgressBackground);
+}

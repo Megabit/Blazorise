@@ -5,6 +5,24 @@ namespace Blazorise.Bootstrap.Providers;
 
 public class BootstrapStyleProvider : StyleProvider
 {
+    #region Component colors
+
+    public override string ListGroupItemColor( Color color ) => ColorStyle( color, "--bs-list-group-bg" );
+
+    public override string TableRowColor( Color color ) => ColorStyle( color, "--bs-table-bg" );
+
+    public override string TableRowCellColor( Color color ) => ColorStyle( color, "--bs-table-bg" );
+
+    public override string SwitchColor( Color color ) => ColorStyle( color, "--bs-switch-bg" );
+
+    public override string RatingItemColor( Color color ) => ColorStyle( color, "--bs-rating-color" );
+
+    public override string StepItemColor( Color color ) => ColorStyle( color, "--bs-step-color" );
+
+    public override string PageProgressIndicatorColor( Color color ) => ColorStyle( color, "--bs-page-progress-bg" );
+
+    #endregion
+
     #region Badge
 
     public override string BadgeColor( Color color ) => ColorStyle( color, "--bs-badge-bg" );

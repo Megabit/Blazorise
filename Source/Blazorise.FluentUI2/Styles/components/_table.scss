@@ -410,3 +410,47 @@ td:focus {
         }
     }
 }
+
+.fui-Table {
+    > :is(tbody, thead, tfoot) > tr.fui-TableRow-custom {
+        > :is(th, td):not(#{$table-contextual-cell-selectors}) {
+            background-color: var(--colorTableCellBackground);
+            color: var(--colorNeutralForeground1);
+            border-color: color-mix(in srgb, var(--colorTableCellBackground) 70%, black);
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(var(--colorTableCellBackground));
+            }
+        }
+    }
+
+    &.fui-Table-striped > tbody > tr.fui-TableRow-custom:nth-of-type(odd) {
+        > :is(th, td):not(#{$table-contextual-cell-selectors}) {
+            background-color: color-mix(in srgb, var(--colorTableCellBackground) 90%, black);
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(color-mix(in srgb, var(--colorTableCellBackground) 90%, black));
+            }
+        }
+    }
+
+    &.fui-Table-hoverable > tbody > tr.fui-TableRow-custom:hover {
+        > :is(th, td):not(#{$table-contextual-cell-selectors}) {
+            background-color: color-mix(in srgb, var(--colorTableCellBackground) 85%, black);
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(color-mix(in srgb, var(--colorTableCellBackground) 85%, black));
+            }
+        }
+    }
+
+    > :is(tbody, thead, tfoot) > tr > td.fui-TableCell-custom {
+        background-color: var(--colorTableCellBackground);
+        color: var(--colorNeutralForeground1);
+        border-color: color-mix(in srgb, var(--colorTableCellBackground) 70%, black);
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--colorTableCellBackground));
+        }
+    }
+}

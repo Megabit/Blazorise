@@ -279,7 +279,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Switch() => "mui-switch";
 
-    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-switch-{ToColor( color )}" : null;
+    public override string SwitchColor( Color color ) => color?.IsCssValue == true ? "mui-switch-custom" : color.IsNotNullOrDefault() ? $"mui-switch-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => size != Size.Default ? $"mui-switch-{ToSize( size )}" : null;
 
@@ -361,7 +361,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string RatingItem() => "mui-rating-item";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-rating-item-{ToColor( color )}" : null;
+    public override string RatingItemColor( Color color ) => color?.IsCssValue == true ? "mui-rating-item-custom" : color.IsNotNullOrDefault() ? $"mui-rating-item-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => selected ? "mui-rating-item-selected" : null;
 
@@ -808,11 +808,11 @@ public class MaterialClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "mui-step-item-completed" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
+    public override string StepItemColor( Color color ) => color?.IsCssValue == true ? "mui-step-item-custom" : color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "mui-step-marker";
 
-    public override string StepItemMarkerColor( Color color, bool active ) => color.IsNotNullOrDefault() ? $"mui-step-marker-{ToColor( color )}" : null;
+    public override string StepItemMarkerColor( Color color, bool active ) => color?.IsCssValue == true ? null : color.IsNotNullOrDefault() ? $"mui-step-marker-{ToColor( color )}" : null;
 
     public override string StepItemDescription() => "mui-step-description";
 
@@ -923,7 +923,7 @@ public class MaterialClassProvider : ClassProvider
     public override string ListGroupItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
     public override string ListGroupItemColor( Color color, bool selectable, bool active )
-        => color.IsNotNullOrDefault() ? $"{ListGroupItem()}-{ToColor( color )}" : null;
+        => color?.IsCssValue == true ? "mui-list-item-custom" : color.IsNotNullOrDefault() ? $"{ListGroupItem()}-{ToColor( color )}" : null;
 
     #endregion
 
@@ -1378,7 +1378,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string PageProgressIndicator() => "mui-page-progress-indicator";
 
-    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-page-progress-indicator-{ToColor( color )}" : null;
+    public override string PageProgressIndicatorColor( Color color ) => color?.IsCssValue == true ? "mui-page-progress-indicator-custom" : color.IsNotNullOrDefault() ? $"mui-page-progress-indicator-{ToColor( color )}" : null;
 
     public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "mui-page-progress-indicator-indeterminate" : null;
 
@@ -1436,7 +1436,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => "mui-table-row";
 
-    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-table-row-{ToColor( color )}" : null;
+    public override string TableRowColor( Color color ) => color?.IsCssValue == true ? "mui-table-row-custom" : color.IsNotNullOrDefault() ? $"mui-table-row-{ToColor( color )}" : null;
 
     public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "mui-table-row-selectable" : null;
 
@@ -1456,7 +1456,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string TableRowCell() => "mui-table-row-cell";
 
-    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-table-cell-{ToColor( color )}" : null;
+    public override string TableRowCellColor( Color color ) => color?.IsCssValue == true ? "mui-table-cell-custom" : color.IsNotNullOrDefault() ? $"mui-table-cell-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {

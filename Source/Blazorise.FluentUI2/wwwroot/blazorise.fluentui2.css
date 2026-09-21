@@ -4496,6 +4496,11 @@ button {
   color: var(--colorNeutralForegroundDisabled);
 }
 
+label.fui-Button.fui-Button-custom:has(input:focus-visible) {
+  outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+  outline-offset: var(--strokeWidthThick);
+}
+
 .fui-Card {
   --fui-Card--size: 12px;
   --fui-Card--border-radius: var(--borderRadiusMedium);
@@ -10542,6 +10547,44 @@ input::file-selector-button {
   border-bottom-width: 0;
 }
 
+.fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom {
+  background-image: none;
+  background-color: color-mix(in srgb, var(--colorListGroupItemBackground) 15%, var(--colorNeutralBackground1));
+  border-color: color-mix(in srgb, var(--colorListGroupItemBackground) 35%, var(--colorNeutralBackground1));
+  color: color-mix(in srgb, var(--colorListGroupItemBackground) 40%, var(--colorNeutralForeground1));
+}
+@supports (color: contrast-color(white)) {
+  .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom {
+    color: color-mix(in srgb, var(--colorListGroupItemBackground) 30%, contrast-color(color-mix(in srgb, var(--colorListGroupItemBackground) 15%, var(--colorNeutralBackground1))));
+  }
+}
+.fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-action:not(.fui-ListGroupItem-disabled):not(:disabled):not(.fui-ListGroupItem-active):hover, .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-action:not(.fui-ListGroupItem-disabled):not(:disabled):not(.fui-ListGroupItem-active):focus {
+  background-color: color-mix(in srgb, var(--colorListGroupItemBackground) 25%, var(--colorNeutralBackground1));
+}
+@supports (color: contrast-color(white)) {
+  .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-action:not(.fui-ListGroupItem-disabled):not(:disabled):not(.fui-ListGroupItem-active):hover, .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-action:not(.fui-ListGroupItem-disabled):not(:disabled):not(.fui-ListGroupItem-active):focus {
+    color: color-mix(in srgb, var(--colorListGroupItemBackground) 30%, contrast-color(color-mix(in srgb, var(--colorListGroupItemBackground) 25%, var(--colorNeutralBackground1))));
+  }
+}
+.fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-action:not(.fui-ListGroupItem-disabled):not(:disabled):not(.fui-ListGroupItem-active):focus-visible {
+  outline: 2px solid var(--colorListGroupItemBackground);
+  outline-offset: -2px;
+}
+.fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-active, .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-active:hover, .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-active:focus {
+  background-color: var(--colorListGroupItemBackground);
+  border-color: var(--colorListGroupItemBackground);
+  color: white;
+}
+@supports (color: contrast-color(white)) {
+  .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-active, .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-active:hover, .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-active:focus {
+    color: contrast-color(var(--colorListGroupItemBackground));
+  }
+}
+.fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-disabled, .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .fui-Media {
   display: flex;
   align-items: flex-start;
@@ -11476,6 +11519,10 @@ input::file-selector-button {
     margin-left: 100%;
   }
 }
+.fui-PageProgress .fui-PageProgress__indicator.fui-PageProgress__indicator--custom {
+  background-color: var(--colorPageProgressBackground);
+}
+
 .fui-RadioGroup {
   align-items: flex-start;
   flex-direction: column;
@@ -11740,6 +11787,14 @@ input::file-selector-button {
 }
 .fui-Rating .fui-RatingItem .fui-RatingItem__unselectedOutlineIcon {
   color: var(--colorNeutralForeground3);
+}
+
+.fui-Rating .fui-RatingItem.fui-RatingItem-custom {
+  color: var(--colorRatingForeground);
+}
+.fui-Rating .fui-RatingItem.fui-RatingItem-custom .fui-RatingItem__selectedIcon,
+.fui-Rating .fui-RatingItem.fui-RatingItem-custom .fui-RatingItem__unselectedOutlineIcon {
+  color: inherit;
 }
 
 .fui-Resizer {
@@ -12435,6 +12490,24 @@ input::file-selector-button {
   display: block;
 }
 
+.fui-Steps .fui-Step.fui-Step-custom .fui-Step__circle > svg {
+  fill: var(--colorStepBackground);
+}
+.fui-Steps .fui-Step.fui-Step-custom .fui-Step__circle-number {
+  color: var(--colorStepBackground);
+}
+.fui-Steps .fui-Step.fui-Step-custom.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-custom.fui-Step-completed .fui-Step__circle-number {
+  color: var(--colorNeutralForegroundInverted);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Steps .fui-Step.fui-Step-custom.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-custom.fui-Step-completed .fui-Step__circle-number {
+    color: contrast-color(var(--colorStepBackground));
+  }
+}
+.fui-Steps .fui-Step.fui-Step-custom.fui-Step-completed:not(:last-child)::after {
+  background-color: var(--colorStepBackground);
+}
+
 .fui-Switch {
   align-items: flex-start;
   box-sizing: border-box;
@@ -12627,6 +12700,26 @@ input::file-selector-button {
 .fui-Switch__input.fui-Switch__input-xl ~ .fui-Switch__indicator ~ .fui-Switch__label {
   padding-bottom: var(--spacingVerticalM);
   padding-top: var(--spacingVerticalM);
+}
+
+.fui-Switch__input.fui-Switch__input-custom:checked ~ .fui-Switch__indicator {
+  background-color: var(--colorSwitchBackground);
+  color: var(--colorNeutralForegroundInverted);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Switch__input.fui-Switch__input-custom:checked ~ .fui-Switch__indicator {
+    color: contrast-color(var(--colorSwitchBackground));
+  }
+}
+.fui-Switch__input.fui-Switch__input-custom:enabled:checked:hover ~ .fui-Switch__indicator {
+  background-color: color-mix(in srgb, var(--colorSwitchBackground) 85%, black);
+}
+.fui-Switch__input.fui-Switch__input-custom:focus-visible ~ .fui-Switch__indicator {
+  outline: 2px solid var(--colorSwitchBackground);
+  outline-offset: 2px;
+}
+.fui-Switch__input.fui-Switch__input-custom:disabled:checked ~ .fui-Switch__indicator {
+  opacity: 0.5;
 }
 
 .fui-Table {
@@ -12988,6 +13081,43 @@ td:focus {
     border-bottom: 1px solid;
   }
 }
+.fui-Table > :is(tbody, thead, tfoot) > tr.fui-TableRow-custom > :is(th, td):not(.fui-TableCell-primary, .fui-TableCell-secondary, .fui-TableCell-success, .fui-TableCell-danger, .fui-TableCell-warning, .fui-TableCell-info, .fui-TableCell-light, .fui-TableCell-dark, .fui-TableCell-link) {
+  background-color: var(--colorTableCellBackground);
+  color: var(--colorNeutralForeground1);
+  border-color: color-mix(in srgb, var(--colorTableCellBackground) 70%, black);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Table > :is(tbody, thead, tfoot) > tr.fui-TableRow-custom > :is(th, td):not(.fui-TableCell-primary, .fui-TableCell-secondary, .fui-TableCell-success, .fui-TableCell-danger, .fui-TableCell-warning, .fui-TableCell-info, .fui-TableCell-light, .fui-TableCell-dark, .fui-TableCell-link) {
+    color: contrast-color(var(--colorTableCellBackground));
+  }
+}
+.fui-Table.fui-Table-striped > tbody > tr.fui-TableRow-custom:nth-of-type(odd) > :is(th, td):not(.fui-TableCell-primary, .fui-TableCell-secondary, .fui-TableCell-success, .fui-TableCell-danger, .fui-TableCell-warning, .fui-TableCell-info, .fui-TableCell-light, .fui-TableCell-dark, .fui-TableCell-link) {
+  background-color: color-mix(in srgb, var(--colorTableCellBackground) 90%, black);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Table.fui-Table-striped > tbody > tr.fui-TableRow-custom:nth-of-type(odd) > :is(th, td):not(.fui-TableCell-primary, .fui-TableCell-secondary, .fui-TableCell-success, .fui-TableCell-danger, .fui-TableCell-warning, .fui-TableCell-info, .fui-TableCell-light, .fui-TableCell-dark, .fui-TableCell-link) {
+    color: contrast-color(color-mix(in srgb, var(--colorTableCellBackground) 90%, black));
+  }
+}
+.fui-Table.fui-Table-hoverable > tbody > tr.fui-TableRow-custom:hover > :is(th, td):not(.fui-TableCell-primary, .fui-TableCell-secondary, .fui-TableCell-success, .fui-TableCell-danger, .fui-TableCell-warning, .fui-TableCell-info, .fui-TableCell-light, .fui-TableCell-dark, .fui-TableCell-link) {
+  background-color: color-mix(in srgb, var(--colorTableCellBackground) 85%, black);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Table.fui-Table-hoverable > tbody > tr.fui-TableRow-custom:hover > :is(th, td):not(.fui-TableCell-primary, .fui-TableCell-secondary, .fui-TableCell-success, .fui-TableCell-danger, .fui-TableCell-warning, .fui-TableCell-info, .fui-TableCell-light, .fui-TableCell-dark, .fui-TableCell-link) {
+    color: contrast-color(color-mix(in srgb, var(--colorTableCellBackground) 85%, black));
+  }
+}
+.fui-Table > :is(tbody, thead, tfoot) > tr > td.fui-TableCell-custom {
+  background-color: var(--colorTableCellBackground);
+  color: var(--colorNeutralForeground1);
+  border-color: color-mix(in srgb, var(--colorTableCellBackground) 70%, black);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Table > :is(tbody, thead, tfoot) > tr > td.fui-TableCell-custom {
+    color: contrast-color(var(--colorTableCellBackground));
+  }
+}
+
 .fui-TabList {
   align-items: stretch;
   position: relative;

@@ -50,8 +50,6 @@ else
         base.DirtyStyles();
     }
 
-    // Ant design doesn't have appearance for custom radio button colors.
-    // So for now I will skip support for it until I find a good way.
     private void BuildWrapperClasses( ClassBuilder builder )
     {
         string baseClasses = AsButton == true
@@ -67,6 +65,9 @@ else
 
     private void BuildWrapperStyles( StyleBuilder builder )
     {
+        if ( AsButton )
+            builder.Append( StyleProvider.ButtonColor( ButtonColor ) );
+
         AppendWrapperUtilities( builder );
         builder.Append( Styles?.Wrapper );
     }
@@ -94,6 +95,6 @@ else
 
     string RadioColorClass
         => AsButton
-            ? $"ant-segmented-item-{ClassProvider.ToColor( ButtonColor )}"
+            ? ButtonColor?.IsCssValue == true ? "ant-segmented-item-custom" : $"ant-segmented-item-{ClassProvider.ToColor( ButtonColor )}"
             : null;
 }

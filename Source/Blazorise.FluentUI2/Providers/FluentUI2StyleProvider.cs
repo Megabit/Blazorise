@@ -5,6 +5,24 @@ namespace Blazorise.FluentUI2.Providers;
 
 public class FluentUI2StyleProvider : StyleProvider
 {
+    #region Component colors
+
+    public override string ListGroupItemColor( Color color ) => ColorStyle( color, "--colorListGroupItemBackground" );
+
+    public override string TableRowColor( Color color ) => ColorStyle( color, "--colorTableCellBackground" );
+
+    public override string TableRowCellColor( Color color ) => ColorStyle( color, "--colorTableCellBackground" );
+
+    public override string SwitchColor( Color color ) => ColorStyle( color, "--colorSwitchBackground" );
+
+    public override string RatingItemColor( Color color ) => ColorStyle( color, "--colorRatingForeground" );
+
+    public override string StepItemColor( Color color ) => ColorStyle( color, "--colorStepBackground" );
+
+    public override string PageProgressIndicatorColor( Color color ) => ColorStyle( color, "--colorPageProgressBackground" );
+
+    #endregion
+
     #region Badge
 
     public override string BadgeColor( Color color ) => ColorStyle( color, "--colorBadgeBackground" );

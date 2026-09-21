@@ -5,7 +5,7 @@
     @if ( AsButton )
     {
         <input @ref="@ElementRef" id="@ElementId" type="radio" disabled="@IsDisabled" readonly="@ReadOnly" checked="@IsActive" value="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
-        <label class="@LabelButtonClassNames" for="@ElementId">
+        <label class="@LabelButtonClassNames" style="@StyleProvider.ButtonColor( ButtonColor )" for="@ElementId">
             @ChildContent
         </label>
     }

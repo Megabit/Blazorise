@@ -159,3 +159,48 @@
         --mui-list-item-active-color: #{map-get($tones, "on-base")};
     }
 }
+
+.mui-list .mui-list-item.mui-list-item-custom {
+    background-image: none;
+    background-color: color-mix(in srgb, var(--mui-list-item-bg) 15%, var(--mui-surface-container-lowest));
+    border-color: color-mix(in srgb, var(--mui-list-item-bg) 35%, var(--mui-surface-container-lowest));
+    color: color-mix(in srgb, var(--mui-list-item-bg) 40%, var(--mui-on-surface));
+
+    @supports (color: contrast-color(white)) {
+        color: color-mix(in srgb, var(--mui-list-item-bg) 30%, contrast-color(color-mix(in srgb, var(--mui-list-item-bg) 15%, var(--mui-surface-container-lowest))));
+    }
+
+    &.mui-list-item-action:not(.disabled):not(:disabled):not(.active) {
+        &:hover,
+        &:focus {
+            background-color: color-mix(in srgb, var(--mui-list-item-bg) 25%, var(--mui-surface-container-lowest));
+
+            @supports (color: contrast-color(white)) {
+                color: color-mix(in srgb, var(--mui-list-item-bg) 30%, contrast-color(color-mix(in srgb, var(--mui-list-item-bg) 25%, var(--mui-surface-container-lowest))));
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--mui-list-item-bg);
+            outline-offset: -2px;
+        }
+    }
+
+    &.active,
+    &.active:hover,
+    &.active:focus {
+        background-color: var(--mui-list-item-bg);
+        border-color: var(--mui-list-item-bg);
+        color: white;
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--mui-list-item-bg));
+        }
+    }
+
+    &.disabled,
+    &:disabled {
+        opacity: .5;
+        pointer-events: none;
+    }
+}

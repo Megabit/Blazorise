@@ -344,3 +344,7 @@
         transform: translateX(250%);
     }
 }
+
+.mui-page-progress .mui-page-progress-indicator.mui-page-progress-indicator-custom {
+    background-color: var(--mui-page-progress-bg);
+}

@@ -110,3 +110,7 @@
         background-color: transparent;
     }
 }
+
+label.btn.btn-custom:has(input:focus-visible) {
+    box-shadow: 0 0 0 $btn-focus-width color-mix(in srgb, var(--bs-btn-bg) 50%, transparent);
+}

@@ -3343,6 +3343,14 @@ namespace Blazorise.Docs.Models
     <ListGroupItem Disabled>A disabled item</ListGroupItem>
 </ListGroup>";
 
+        public const string CustomColorsListGroupExample = @"<ListGroup Mode=""ListGroupMode.Selectable"" SelectedItem=""indigo"">
+    <ListGroupItem Name=""lavender"" Color=""@(""#DBB5E6"")"">Lavender</ListGroupItem>
+    <ListGroupItem Name=""indigo"" Color=""@(new Color(""#312E81""))"">Indigo</ListGroupItem>
+    <ListGroupItem Name=""teal"" Color=""@(""rgb(15, 118, 110)"")"">Teal</ListGroupItem>
+    <ListGroupItem Name=""accent"" Color=""@CssColor.Variable(""--accent"", ""#34D399"")"">Accent</ListGroupItem>
+    <ListGroupItem Name=""disabled"" Color=""@(""#FDE68A"")"" Disabled>Disabled</ListGroupItem>
+</ListGroup>";
+
         public const string ListGroupBadgesExample = @"<ListGroup Flush>
     <ListGroupItem Flex=""Flex.JustifyContent.Between.AlignItems.Center"">
         A list item
@@ -4380,6 +4388,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string BasicProgressExample = @"<Progress Value=""25"" />";
 
+        public const string CustomColorsPageProgressExample = @"<PageProgress Color=""@(""#7C3AED"")"" Value=""65"" Visible Position=""Position.Relative"" Overflow=""Overflow.Hidden"" Margin=""Margin.Is3.FromBottom"" />
+<PageProgress Color=""@CssColor.Variable(""--accent"", ""#0F766E"")"" Visible Position=""Position.Relative"" Overflow=""Overflow.Hidden"" />";
+
         public const string CustomColorsProgressExample = @"<Progress Color=""@(new Color(""#DBB5E6""))"" Value=""65"" Margin=""Margin.Is3.FromBottom"" />
 
 <Progress>
@@ -4965,6 +4976,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Radio Value=""@(""blue"")"">Blue</Radio>
 </RadioGroup>";
 
+        public const string CustomColorsRadioExample = @"<RadioGroup TValue=""string"" Name=""custom-colors"" Buttons Color=""@(""#DBB5E6"")"" Value=""@(""lavender"")"">
+    <Radio Value=""@(""lavender"")"">Lavender</Radio>
+    <Radio Value=""@(""indigo"")"" Color=""@(new Color(""#312E81""))"">Indigo</Radio>
+    <Radio Value=""@(""accent"")"" Color=""@CssColor.Variable(""--accent"", ""#34D399"")"">Accent</Radio>
+    <Radio Value=""@(""disabled"")"" Color=""@(""#FDE68A"")"" Disabled>Disabled</Radio>
+</RadioGroup>";
+
         public const string RadioGroupButtonColorsExample = @"<RadioGroup TValue=""string"" Name=""side"" Buttons>
     <Radio Value=""@(""left"")"" Color=""Color.Danger"">Left</Radio>
     <Radio Value=""@(""middle"")"" Color=""Color.Warning"">Middle</Radio>
@@ -5018,6 +5036,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string BasicRatingExample = @"<Rating Color=""Color.Primary"" />";
+
+        public const string CustomColorsRatingExample = @"<Div Flex=""Flex.Column"" Gap=""Gap.Is3"">
+    <Rating Color=""@(""#7C3AED"")"" SelectedValue=""3"" />
+    <Rating Color=""@(new Color(CssColor.Rgb(15, 118, 110)))"" SelectedValue=""4"" ReadOnly />
+    <Rating Color=""@CssColor.Variable(""--accent"", ""#EA580C"")"" SelectedValue=""2"" Disabled />
+</Div>";
 
         public const string RatingWithBindExample = @"<Rating Color=""Color.Primary"" @bind-SelectedValue=""@SelectedValue"" MaxValue=""10"" />
 
@@ -5541,6 +5565,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string CustomColorsStepExample = @"<Steps SelectedStep=""review"">
+    <Step Name=""details"" Color=""@(""#0F766E"")"" Completed>Details</Step>
+    <Step Name=""review"" Color=""@(new Color(""#DBB5E6""))"">Review</Step>
+    <Step Name=""publish"" Color=""@CssColor.Variable(""--accent"", ""#7C3AED"")"">Publish</Step>
+</Steps>";
+
         public const string StepLazyLoadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyLoad"" SelectedStep=""step1"">
     <Items>
         <Step Name=""step1"">Step 1</Step>
@@ -5628,6 +5658,14 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string BasicSwitchExample = @"<Switch TValue=""bool"">Remember me</Switch>";
+
+        public const string CustomColorsSwitchExample = @"<Div Flex=""Flex.Wrap"" Gap=""Gap.Is3"">
+    <Switch TValue=""bool"" Color=""@(""#DBB5E6"")"" Value=""true"">Lavender</Switch>
+    <Switch TValue=""bool"" Color=""@(new Color(""#312E81""))"" Value=""true"">Indigo</Switch>
+    <Switch TValue=""bool"" Color=""@CssColor.Variable(""--accent"", ""#34D399"")"" Value=""true"">Accent</Switch>
+    <Switch TValue=""bool"" Color=""@(""rgb(15, 118, 110)"")"">Unchecked</Switch>
+    <Switch TValue=""bool"" Color=""@(""#FDE68A"")"" Value=""true"" Disabled>Disabled</Switch>
+</Div>";
 
         public const string SwitchAsyncSettingBestPracticeExample = @"<Fields>
     <Field>
@@ -5779,6 +5817,29 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             <TableRowCell>Larry</TableRowCell>
             <TableRowCell>the Bird</TableRowCell>
             <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
+        public const string CustomColorsTableExample = @"<Table Hoverable Striped>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>Project</TableHeaderCell>
+            <TableHeaderCell>Status</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow Color=""@(""#DBB5E6"")"">
+            <TableRowCell>Website</TableRowCell>
+            <TableRowCell>In progress</TableRowCell>
+        </TableRow>
+        <TableRow Color=""@(new Color(""#312E81""))"">
+            <TableRowCell>Mobile app</TableRowCell>
+            <TableRowCell Color=""@(""#FDE68A"")"">Review needed</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Documentation</TableRowCell>
+            <TableRowCell Color=""@CssColor.Variable(""--accent"", ""#34D399"")"">Ready</TableRowCell>
         </TableRow>
     </TableBody>
 </Table>";

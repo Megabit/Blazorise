@@ -265,7 +265,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Switch() => "ant-switch";
 
-    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
+    public override string SwitchColor( Color color ) => color?.IsCssValue == true ? "ant-switch-custom" : color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => size != Size.Default ? $"{Switch()}-{ToSize( size )}" : null;
 
@@ -347,7 +347,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string RatingItem() => "ant-rate-star";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-rate-star-{ToColor( color )}" : null;
+    public override string RatingItemColor( Color color ) => color?.IsCssValue == true ? "ant-rate-star-custom" : color.IsNotNullOrDefault() ? $"ant-rate-star-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => selected ? "ant-rate-star-full" : null;
 
@@ -779,7 +779,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "ant-steps-item-finish" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-steps-item-{ToColor( color )}" : null;
+    public override string StepItemColor( Color color ) => color?.IsCssValue == true ? "ant-steps-item-custom" : color.IsNotNullOrDefault() ? $"ant-steps-item-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "ant-steps-item-icon";
 
@@ -893,7 +893,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled( bool disabled ) => disabled ? "ant-list-group-item-disabled" : null;
 
-    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color == Color.Default ? null : $"ant-list-group-item-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color?.IsCssValue == true ? "ant-list-group-item-custom" : color == Color.Default ? null : $"ant-list-group-item-{ToColor( color )}";
 
     #endregion
 
@@ -1377,7 +1377,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string PageProgressIndicator() => "ant-page-progress-indicator";
 
-    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-page-progress-indicator-{ToColor( color )}" : null;
+    public override string PageProgressIndicatorColor( Color color ) => color?.IsCssValue == true ? "ant-page-progress-indicator-custom" : color.IsNotNullOrDefault() ? $"ant-page-progress-indicator-{ToColor( color )}" : null;
 
     public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "ant-page-progress-indicator-indeterminate" : null;
 
@@ -1435,7 +1435,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => "ant-table-row";
 
-    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-table-{ToColor( color )}" : null;
+    public override string TableRowColor( Color color ) => color?.IsCssValue == true ? "ant-table-custom" : color.IsNotNullOrDefault() ? $"ant-table-{ToColor( color )}" : null;
 
     public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "ant-table-row-selectable" : null;
 
@@ -1455,7 +1455,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableRowCell() => "ant-table-cell";
 
-    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-table-{ToColor( color )}" : null;
+    public override string TableRowCellColor( Color color ) => color?.IsCssValue == true ? "ant-table-custom" : color.IsNotNullOrDefault() ? $"ant-table-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {

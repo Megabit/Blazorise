@@ -169,3 +169,7 @@ $progress-indeterminate-duration: 1.5s !default;
         }
     }
 }
+
+.b-page-progress .b-page-progress-indicator.is-custom {
+    background-color: var(--bulma-page-progress-background-color);
+}

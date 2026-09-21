@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-20T12:25:11.0028844Z",
+  "generatedUtc": "2026-09-20T17:42:58.1562412Z",
   "pages": [
     {
       "route": "/docs",
@@ -2498,6 +2498,14 @@
           "content": "<ListGroup Flush>\r\n    <ListGroupItem>\r\n        <Div Flex=\"Flex.JustifyContent.Between\" Width=\"Width.Is100\">\r\n            <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is1.FromBottom\">List group item heading</Heading>\r\n            <Small>3 days ago</Small>\r\n        </Div>\r\n        <Paragraph Margin=\"Margin.Is1.FromBottom\">Some placeholder content in a paragraph.</Paragraph>\r\n        <Small>And some small print.</Small>\r\n    </ListGroupItem>\r\n    <ListGroupItem>\r\n        <Div Flex=\"Flex.JustifyContent.Between\" Width=\"Width.Is100\">\r\n            <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is1.FromBottom\">List group item heading</Heading>\r\n            <Small TextColor=\"TextColor.Muted\">3 days ago</Small>\r\n        </Div>\r\n        <Paragraph Margin=\"Margin.Is1.FromBottom\">Some placeholder content in a paragraph.</Paragraph>\r\n        <Small TextColor=\"TextColor.Muted\">And some muted small print.</Small>\r\n    </ListGroupItem>\r\n    <ListGroupItem>\r\n        <Div Flex=\"Flex.JustifyContent.Between\" Width=\"Width.Is100\">\r\n            <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is1.FromBottom\">List group item heading</Heading>\r\n            <Small TextColor=\"TextColor.Muted\">3 days ago</Small>\r\n        </Div>\r\n        <Paragraph Margin=\"Margin.Is1.FromBottom\">Some placeholder content in a paragraph.</Paragraph>\r\n        <Small TextColor=\"TextColor.Muted\">And some muted small print.</Small>\r\n    </ListGroupItem>\r\n</ListGroup>",
           "title": "Custom content",
           "description": "Add nearly any HTML within, even for linked list groups like the one below, with the help of flexbox utilities."
+        },
+        {
+          "code": "CustomColorsListGroupExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/ListGroups/Examples/CustomColorsListGroupExample.razor",
+          "content": "<ListGroup Mode=\"ListGroupMode.Selectable\" SelectedItem=\"indigo\">\r\n    <ListGroupItem Name=\"lavender\" Color=\"@(\"#DBB5E6\")\">Lavender</ListGroupItem>\r\n    <ListGroupItem Name=\"indigo\" Color=\"@(new Color(\"#312E81\"))\">Indigo</ListGroupItem>\r\n    <ListGroupItem Name=\"teal\" Color=\"@(\"rgb(15, 118, 110)\")\">Teal</ListGroupItem>\r\n    <ListGroupItem Name=\"accent\" Color=\"@CssColor.Variable(\"--accent\", \"#34D399\")\">Accent</ListGroupItem>\r\n    <ListGroupItem Name=\"disabled\" Color=\"@(\"#FDE68A\")\" Disabled>Disabled</ListGroupItem>\r\n</ListGroup>",
+          "title": "Custom colors",
+          "description": "Use custom CSS colors for list items, including selected and disabled states."
         }
       ]
     },
@@ -3191,6 +3199,14 @@
           "content": "<PageProgress Visible />",
           "title": "Indeterminate",
           "description": "To make an indeterminate progress bar, simply remove Value or make it a null ."
+        },
+        {
+          "code": "CustomColorsPageProgressExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Progresses/Examples/CustomColorsPageProgressExample.razor",
+          "content": "<PageProgress Color=\"@(\"#7C3AED\")\" Value=\"65\" Visible Position=\"Position.Relative\" Overflow=\"Overflow.Hidden\" Margin=\"Margin.Is3.FromBottom\" />\r\n<PageProgress Color=\"@CssColor.Variable(\"--accent\", \"#0F766E\")\" Visible Position=\"Position.Relative\" Overflow=\"Overflow.Hidden\" />",
+          "title": "Custom page progress colors",
+          "description": "Use custom CSS colors for determinate and indeterminate page progress."
         }
       ]
     },
@@ -3301,6 +3317,14 @@
           "content": "<RadioGroup TValue=\"string\" Name=\"side\" Buttons>\r\n    <Radio Value=\"@(\"left\")\" Color=\"Color.Danger\">Left</Radio>\r\n    <Radio Value=\"@(\"middle\")\" Color=\"Color.Warning\">Middle</Radio>\r\n    <Radio Value=\"@(\"right\")\" Color=\"Color.Success\">Right</Radio>\r\n</RadioGroup>",
           "title": "Button colors",
           "description": "Changing the color of the radio buttons is as simple as setting the Color attribute on a Radio component."
+        },
+        {
+          "code": "CustomColorsRadioExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Radios/Examples/CustomColorsRadioExample.razor",
+          "content": "<RadioGroup TValue=\"string\" Name=\"custom-colors\" Buttons Color=\"@(\"#DBB5E6\")\" Value=\"@(\"lavender\")\">\r\n    <Radio Value=\"@(\"lavender\")\">Lavender</Radio>\r\n    <Radio Value=\"@(\"indigo\")\" Color=\"@(new Color(\"#312E81\"))\">Indigo</Radio>\r\n    <Radio Value=\"@(\"accent\")\" Color=\"@CssColor.Variable(\"--accent\", \"#34D399\")\">Accent</Radio>\r\n    <Radio Value=\"@(\"disabled\")\" Color=\"@(\"#FDE68A\")\" Disabled>Disabled</Radio>\r\n</RadioGroup>",
+          "title": "Custom colors",
+          "description": "Set a custom color on a radio button group or override individual buttons."
         },
         {
           "code": "RadioGroupWithBindExample",
@@ -3425,6 +3449,14 @@
           "content": "<Rating Color=\"Color.Primary\" @bind-SelectedValue=\"@SelectedValue\" MaxValue=\"10\" GetTooltip=\"@GetTooltip\" />\r\n\r\n@code {\r\n    int SelectedValue = 7;\r\n\r\n    RatingTooltip GetTooltip( int value )\r\n    {\r\n        if ( value <= 2 )\r\n            return new RatingTooltip( \"Very bad\" );\r\n        else if ( value <= 4 )\r\n            return new RatingTooltip( \"Bad\", TooltipPlacement.Bottom );\r\n        else if ( value <= 6 )\r\n            return new RatingTooltip( \"Fair\" );\r\n        else if ( value <= 8 )\r\n            return new RatingTooltip( \"Good\", TooltipPlacement.Top, false, false );\r\n        else if ( value <= 10 )\r\n            return new RatingTooltip( \"Very good\" );\r\n\r\n        return null;\r\n    }\r\n}",
           "title": "Show Tooltips",
           "description": "By defining the GetTooltip callback you can show the extra information to the user. Along with the tooltip Text , it is also possible to control tooltip arrow visibility, multiline mode, and placement."
+        },
+        {
+          "code": "CustomColorsRatingExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Ratings/Examples/CustomColorsRatingExample.razor",
+          "content": "<Div Flex=\"Flex.Column\" Gap=\"Gap.Is3\">\r\n    <Rating Color=\"@(\"#7C3AED\")\" SelectedValue=\"3\" />\r\n    <Rating Color=\"@(new Color(CssColor.Rgb(15, 118, 110)))\" SelectedValue=\"4\" ReadOnly />\r\n    <Rating Color=\"@CssColor.Variable(\"--accent\", \"#EA580C\")\" SelectedValue=\"2\" Disabled />\r\n</Div>",
+          "title": "Custom colors",
+          "description": "Use custom CSS colors for rating icons in interactive, read-only, and disabled ratings."
         }
       ]
     },
@@ -3745,6 +3777,14 @@
           "content": "<Steps RenderMode=\"StepsRenderMode.LazyReload\" SelectedStep=\"step1\">\r\n    <Items>\r\n        <Step Name=\"step1\">Step 1</Step>\r\n        <Step Name=\"step2\">Step 2</Step>\r\n    </Items>\r\n    <Content>\r\n        <StepPanel Name=\"step1\">\r\n            This Steps component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time. \r\n            Try typing some text in the provided Text components and changing between tabs, the tab will always be refreshed as the tab content is always lazy loaded, \r\n            therefore re-calculated.\r\n            <TextInput></TextInput>\r\n        </StepPanel>\r\n        <StepPanel Name=\"step2\">\r\n            <TextInput></TextInput>\r\n        </StepPanel>\r\n    </Content>\r\n</Steps>",
           "title": "Lazy Reload",
           "description": "You are able to set the Steps component to lazy load your steps everytime."
+        },
+        {
+          "code": "CustomColorsStepExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Steps/Examples/CustomColorsStepExample.razor",
+          "content": "<Steps SelectedStep=\"review\">\r\n    <Step Name=\"details\" Color=\"@(\"#0F766E\")\" Completed>Details</Step>\r\n    <Step Name=\"review\" Color=\"@(new Color(\"#DBB5E6\"))\">Review</Step>\r\n    <Step Name=\"publish\" Color=\"@CssColor.Variable(\"--accent\", \"#7C3AED\")\">Publish</Step>\r\n</Steps>",
+          "title": "Custom colors",
+          "description": "Give each step a custom color for its marker and active or completed state."
         }
       ]
     },
@@ -3799,6 +3839,14 @@
           "sourcePath": "Pages/Docs/Components/Switches/Examples/SwitchWithEventExample.razor",
           "content": "<Switch TValue=\"bool\" Value=\"@rememberMe\" ValueChanged=\"@OnRememberMeChanged\">Remember Me</Switch>\r\n\r\n@code{\r\n    bool rememberMe;\r\n\r\n    Task OnRememberMeChanged( bool value )\r\n    {\r\n        rememberMe = value;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
           "title": "Manual event binding"
+        },
+        {
+          "code": "CustomColorsSwitchExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Switches/Examples/CustomColorsSwitchExample.razor",
+          "content": "<Div Flex=\"Flex.Wrap\" Gap=\"Gap.Is3\">\r\n    <Switch TValue=\"bool\" Color=\"@(\"#DBB5E6\")\" Value=\"true\">Lavender</Switch>\r\n    <Switch TValue=\"bool\" Color=\"@(new Color(\"#312E81\"))\" Value=\"true\">Indigo</Switch>\r\n    <Switch TValue=\"bool\" Color=\"@CssColor.Variable(\"--accent\", \"#34D399\")\" Value=\"true\">Accent</Switch>\r\n    <Switch TValue=\"bool\" Color=\"@(\"rgb(15, 118, 110)\")\">Unchecked</Switch>\r\n    <Switch TValue=\"bool\" Color=\"@(\"#FDE68A\")\" Value=\"true\" Disabled>Disabled</Switch>\r\n</Div>",
+          "title": "Custom colors",
+          "description": "Use custom CSS colors for switch tracks with contrasting thumbs."
         },
         {
           "code": "SwitchAsyncSettingBestPracticeExample",
@@ -3992,6 +4040,14 @@
           "content": "<Table>\r\n    <TableCaption Side=\"TableCaptionSide.Top\">\r\n        A table with a caption, for better accessibility.\r\n    </TableCaption>\r\n    <TableHeader>\r\n        <TableRow>\r\n            <TableHeaderCell>#</TableHeaderCell>\r\n            <TableHeaderCell>First Name</TableHeaderCell>\r\n            <TableHeaderCell>Last Name</TableHeaderCell>\r\n            <TableHeaderCell>Username</TableHeaderCell>\r\n        </TableRow>\r\n    </TableHeader>\r\n    <TableBody>\r\n        <TableRow>\r\n            <TableRowHeader>1</TableRowHeader>\r\n            <TableRowCell>Mark</TableRowCell>\r\n            <TableRowCell>Otto</TableRowCell>\r\n            <TableRowCell>@@mdo</TableRowCell>\r\n        </TableRow>\r\n        <TableRow>\r\n            <TableRowHeader>2</TableRowHeader>\r\n            <TableRowCell>Jacob</TableRowCell>\r\n            <TableRowCell>Thornton</TableRowCell>\r\n            <TableRowCell>@@fat</TableRowCell>\r\n        </TableRow>\r\n        <TableRow>\r\n            <TableRowHeader>3</TableRowHeader>\r\n            <TableRowCell>Larry</TableRowCell>\r\n            <TableRowCell>the Bird</TableRowCell>\r\n            <TableRowCell>@@twitter</TableRowCell>\r\n        </TableRow>\r\n    </TableBody>\r\n</Table>",
           "title": "Caption",
           "description": "The TableCaption component is used to provide a caption or title for the table. It is typically placed at the top of the table and can be styled to match the overall design of the table. The TableCaption component is a child of the Table component and should be placed before the TableHeader and TableBody components."
+        },
+        {
+          "code": "CustomColorsTableExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Tables/Examples/CustomColorsTableExample.razor",
+          "content": "<Table Hoverable Striped>\r\n    <TableHeader>\r\n        <TableRow>\r\n            <TableHeaderCell>Project</TableHeaderCell>\r\n            <TableHeaderCell>Status</TableHeaderCell>\r\n        </TableRow>\r\n    </TableHeader>\r\n    <TableBody>\r\n        <TableRow Color=\"@(\"#DBB5E6\")\">\r\n            <TableRowCell>Website</TableRowCell>\r\n            <TableRowCell>In progress</TableRowCell>\r\n        </TableRow>\r\n        <TableRow Color=\"@(new Color(\"#312E81\"))\">\r\n            <TableRowCell>Mobile app</TableRowCell>\r\n            <TableRowCell Color=\"@(\"#FDE68A\")\">Review needed</TableRowCell>\r\n        </TableRow>\r\n        <TableRow>\r\n            <TableRowCell>Documentation</TableRowCell>\r\n            <TableRowCell Color=\"@CssColor.Variable(\"--accent\", \"#34D399\")\">Ready</TableRowCell>\r\n        </TableRow>\r\n    </TableBody>\r\n</Table>",
+          "title": "Custom colors",
+          "description": "Set a custom color on a whole row or override individual cells."
         }
       ]
     },

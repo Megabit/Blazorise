@@ -6545,6 +6545,44 @@ a:is(.mui-link-disabled, .link-disabled)[aria-disabled=true] {
   --mui-list-item-active-color: var(--mui-on-dark);
 }
 
+.mui-list .mui-list-item.mui-list-item-custom {
+  background-image: none;
+  background-color: color-mix(in srgb, var(--mui-list-item-bg) 15%, var(--mui-surface-container-lowest));
+  border-color: color-mix(in srgb, var(--mui-list-item-bg) 35%, var(--mui-surface-container-lowest));
+  color: color-mix(in srgb, var(--mui-list-item-bg) 40%, var(--mui-on-surface));
+}
+@supports (color: contrast-color(white)) {
+  .mui-list .mui-list-item.mui-list-item-custom {
+    color: color-mix(in srgb, var(--mui-list-item-bg) 30%, contrast-color(color-mix(in srgb, var(--mui-list-item-bg) 15%, var(--mui-surface-container-lowest))));
+  }
+}
+.mui-list .mui-list-item.mui-list-item-custom.mui-list-item-action:not(.disabled):not(:disabled):not(.active):hover, .mui-list .mui-list-item.mui-list-item-custom.mui-list-item-action:not(.disabled):not(:disabled):not(.active):focus {
+  background-color: color-mix(in srgb, var(--mui-list-item-bg) 25%, var(--mui-surface-container-lowest));
+}
+@supports (color: contrast-color(white)) {
+  .mui-list .mui-list-item.mui-list-item-custom.mui-list-item-action:not(.disabled):not(:disabled):not(.active):hover, .mui-list .mui-list-item.mui-list-item-custom.mui-list-item-action:not(.disabled):not(:disabled):not(.active):focus {
+    color: color-mix(in srgb, var(--mui-list-item-bg) 30%, contrast-color(color-mix(in srgb, var(--mui-list-item-bg) 25%, var(--mui-surface-container-lowest))));
+  }
+}
+.mui-list .mui-list-item.mui-list-item-custom.mui-list-item-action:not(.disabled):not(:disabled):not(.active):focus-visible {
+  outline: 2px solid var(--mui-list-item-bg);
+  outline-offset: -2px;
+}
+.mui-list .mui-list-item.mui-list-item-custom.active, .mui-list .mui-list-item.mui-list-item-custom.active:hover, .mui-list .mui-list-item.mui-list-item-custom.active:focus {
+  background-color: var(--mui-list-item-bg);
+  border-color: var(--mui-list-item-bg);
+  color: white;
+}
+@supports (color: contrast-color(white)) {
+  .mui-list .mui-list-item.mui-list-item-custom.active, .mui-list .mui-list-item.mui-list-item-custom.active:hover, .mui-list .mui-list-item.mui-list-item-custom.active:focus {
+    color: contrast-color(var(--mui-list-item-bg));
+  }
+}
+.mui-list .mui-list-item.mui-list-item-custom.disabled, .mui-list .mui-list-item.mui-list-item-custom:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .mui-offcanvas {
   --mui-offcanvas-inline-size: min(22rem, 100vw);
   --mui-offcanvas-block-size: min(24rem, 100dvh);
@@ -7500,6 +7538,10 @@ body.modal-open {
     transform: translateX(250%);
   }
 }
+.mui-page-progress .mui-page-progress-indicator.mui-page-progress-indicator-custom {
+  background-color: var(--mui-page-progress-bg);
+}
+
 .mui-rating {
   --mui-rating-size: 1.625rem;
   --mui-rating-gap: 0.25rem;
@@ -7599,6 +7641,10 @@ body.modal-open {
 .mui-rating-item-link {
   --mui-rating-color: var(--mui-primary);
   --mui-rating-hover-color: color-mix(in srgb, var(--mui-primary) 82%, var(--mui-surface));
+}
+
+.mui-rating .mui-rating-item.mui-rating-item-custom {
+  --mui-rating-hover-color: color-mix(in srgb, var(--mui-rating-color) 82%, var(--mui-surface));
 }
 
 .mui-check,
@@ -8540,6 +8586,30 @@ body.modal-open {
   transform: translate(-1.75rem, -50%) scale(-1.2);
 }
 
+.mui-switch.mui-switch-custom > .mui-switch-label > input:checked + span::after {
+  background-color: var(--mui-switch-bg);
+}
+.mui-switch.mui-switch-custom > .mui-switch-label > input:checked + span::before, .mui-switch.mui-switch-custom > .mui-switch-label.icon > input:checked + span > i {
+  color: var(--mui-switch-bg);
+  background-color: var(--mui-on-primary);
+}
+@supports (color: contrast-color(white)) {
+  .mui-switch.mui-switch-custom > .mui-switch-label > input:checked + span::before, .mui-switch.mui-switch-custom > .mui-switch-label.icon > input:checked + span > i {
+    background-color: contrast-color(var(--mui-switch-bg));
+  }
+}
+.mui-switch.mui-switch-custom > .mui-switch-label > input:focus-visible + span::after {
+  outline-color: var(--mui-switch-bg);
+}
+.mui-switch.mui-switch-custom > .mui-switch-label > input:not(:disabled):is(:focus, :hover) + span::before {
+  box-shadow: 0 0 0 0.5rem color-mix(in srgb, var(--mui-switch-bg) 15%, transparent);
+}
+
+.mui-radio > input:focus-visible + label.mui-button-custom {
+  outline: 2px solid var(--mui-btn-border-color);
+  outline-offset: 2px;
+}
+
 .mui-skeleton {
   --mui-skeleton-radius: 0.5rem;
   --mui-skeleton-base: color-mix(in srgb, var(--mui-on-surface) 8%, var(--mui-surface-container-high));
@@ -9240,6 +9310,24 @@ body.modal-open {
     opacity: 1;
   }
 }
+.mui-steps > .mui-step-item.mui-step-item-custom {
+  --mui-step-on-accent: var(--mui-on-primary);
+  --mui-step-container: color-mix(in srgb, var(--mui-step-accent) 15%, var(--mui-surface-container-lowest));
+  --mui-step-on-container: var(--mui-on-surface);
+}
+.mui-steps > .mui-step-item.mui-step-item-custom.mui-step-item-active, .mui-steps > .mui-step-item.mui-step-item-custom.mui-step-item-completed {
+  color: color-mix(in srgb, var(--mui-step-accent) 40%, var(--mui-on-surface));
+}
+.mui-steps > .mui-step-item.mui-step-item-custom > .mui-step-marker {
+  border-color: var(--mui-step-accent);
+}
+@supports (color: contrast-color(white)) {
+  .mui-steps > .mui-step-item.mui-step-item-custom {
+    --mui-step-on-accent: contrast-color(var(--mui-step-accent));
+    --mui-step-on-container: contrast-color(var(--mui-step-container));
+  }
+}
+
 .mui-table {
   --mui-table-cell-padding-x: 1rem;
   --mui-table-cell-padding-y: 0.75rem;
@@ -9638,6 +9726,30 @@ body.modal-open {
     border-block-end: var(--mui-table-border-width) solid var(--mui-table-border-color);
   }
 }
+.mui-table > :is(.mui-table-header, .mui-table-body, .mui-table-footer, thead, tbody, tfoot) > .mui-table-row.mui-table-row-custom {
+  --mui-table-cell-bg: var(--mui-table-row-bg);
+  --mui-table-cell-color: var(--mui-on-surface);
+  --mui-table-row-striped-bg: color-mix(in srgb, var(--mui-table-row-bg) 90%, black);
+  --mui-table-row-hover-bg: color-mix(in srgb, var(--mui-table-row-bg) 85%, black);
+  --mui-table-row-selected-bg: color-mix(in srgb, var(--mui-table-row-bg) 80%, black);
+}
+@supports (color: contrast-color(white)) {
+  .mui-table > :is(.mui-table-header, .mui-table-body, .mui-table-footer, thead, tbody, tfoot) > .mui-table-row.mui-table-row-custom {
+    --mui-table-cell-color: contrast-color(var(--mui-table-cell-bg));
+  }
+}
+.mui-table > :is(.mui-table-header, .mui-table-body, .mui-table-footer, thead, tbody, tfoot) > .mui-table-row.mui-table-row-custom.mui-table-row-selected {
+  --mui-table-cell-bg: var(--mui-table-row-selected-bg);
+}
+.mui-table > :is(.mui-table-header, .mui-table-body, .mui-table-footer, thead, tbody, tfoot) > .mui-table-row > .mui-table-row-cell.mui-table-cell-custom {
+  --mui-table-cell-color: var(--mui-on-surface);
+}
+@supports (color: contrast-color(white)) {
+  .mui-table > :is(.mui-table-header, .mui-table-body, .mui-table-footer, thead, tbody, tfoot) > .mui-table-row > .mui-table-row-cell.mui-table-cell-custom {
+    --mui-table-cell-color: contrast-color(var(--mui-table-cell-bg));
+  }
+}
+
 .mui-tabs {
   --mui-tabs-gap: 0;
   --mui-tabs-item-min-height: 3rem;

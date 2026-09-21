@@ -357,3 +357,29 @@
         border-block-end: var(--mui-table-border-width) solid var(--mui-table-border-color);
     }
 }
+
+.mui-table > :is(.mui-table-header, .mui-table-body, .mui-table-footer, thead, tbody, tfoot) > .mui-table-row {
+    &.mui-table-row-custom {
+        --mui-table-cell-bg: var(--mui-table-row-bg);
+        --mui-table-cell-color: var(--mui-on-surface);
+        --mui-table-row-striped-bg: color-mix(in srgb, var(--mui-table-row-bg) 90%, black);
+        --mui-table-row-hover-bg: color-mix(in srgb, var(--mui-table-row-bg) 85%, black);
+        --mui-table-row-selected-bg: color-mix(in srgb, var(--mui-table-row-bg) 80%, black);
+
+        @supports (color: contrast-color(white)) {
+            --mui-table-cell-color: contrast-color(var(--mui-table-cell-bg));
+        }
+
+        &.mui-table-row-selected {
+            --mui-table-cell-bg: var(--mui-table-row-selected-bg);
+        }
+    }
+
+    > .mui-table-row-cell.mui-table-cell-custom {
+        --mui-table-cell-color: var(--mui-on-surface);
+
+        @supports (color: contrast-color(white)) {
+            --mui-table-cell-color: contrast-color(var(--mui-table-cell-bg));
+        }
+    }
+}

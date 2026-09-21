@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-20T12:25:10.4856143Z",
+  "generatedUtc": "2026-09-20T16:31:29.6351212Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -95110,7 +95110,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Warning",
-          "summary": "Not work now",
+          "summary": "Specifies the contextual or custom CSS color of the rating icons.",
           "isBlazoriseEnum": false
         },
         {
@@ -95207,7 +95207,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Not work now",
+          "summary": "Specifies the intent of the rating icons.",
           "isBlazoriseEnum": false
         },
         {

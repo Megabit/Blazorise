@@ -160,6 +160,7 @@ public partial class Radio<TValue> : BaseRadioComponent<TValue, RadioClasses, Ra
             color = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

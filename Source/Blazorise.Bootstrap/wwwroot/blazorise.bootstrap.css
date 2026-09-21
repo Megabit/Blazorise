@@ -344,6 +344,10 @@ body:before {
   background-color: transparent;
 }
 
+label.btn.btn-custom:has(input:focus-visible) {
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--bs-btn-bg) 50%, transparent);
+}
+
 .context-menu {
   display: contents;
 }
@@ -2643,6 +2647,44 @@ li.list-group-item-action {
   overflow-y: scroll;
 }
 
+.list-group .list-group-item.list-group-item-custom {
+  background-image: none;
+  background-color: color-mix(in srgb, var(--bs-list-group-bg) 15%, #fff);
+  border-color: color-mix(in srgb, var(--bs-list-group-bg) 35%, #fff);
+  color: color-mix(in srgb, var(--bs-list-group-bg) 40%, #212529);
+}
+@supports (color: contrast-color(white)) {
+  .list-group .list-group-item.list-group-item-custom {
+    color: color-mix(in srgb, var(--bs-list-group-bg) 30%, contrast-color(color-mix(in srgb, var(--bs-list-group-bg) 15%, #fff)));
+  }
+}
+.list-group .list-group-item.list-group-item-custom.list-group-item-action:not(.disabled):not(:disabled):not(.active):hover, .list-group .list-group-item.list-group-item-custom.list-group-item-action:not(.disabled):not(:disabled):not(.active):focus {
+  background-color: color-mix(in srgb, var(--bs-list-group-bg) 25%, #fff);
+}
+@supports (color: contrast-color(white)) {
+  .list-group .list-group-item.list-group-item-custom.list-group-item-action:not(.disabled):not(:disabled):not(.active):hover, .list-group .list-group-item.list-group-item-custom.list-group-item-action:not(.disabled):not(:disabled):not(.active):focus {
+    color: color-mix(in srgb, var(--bs-list-group-bg) 30%, contrast-color(color-mix(in srgb, var(--bs-list-group-bg) 25%, #fff)));
+  }
+}
+.list-group .list-group-item.list-group-item-custom.list-group-item-action:not(.disabled):not(:disabled):not(.active):focus-visible {
+  outline: 2px solid var(--bs-list-group-bg);
+  outline-offset: -2px;
+}
+.list-group .list-group-item.list-group-item-custom.active, .list-group .list-group-item.list-group-item-custom.active:hover, .list-group .list-group-item.list-group-item-custom.active:focus {
+  background-color: var(--bs-list-group-bg);
+  border-color: var(--bs-list-group-bg);
+  color: white;
+}
+@supports (color: contrast-color(white)) {
+  .list-group .list-group-item.list-group-item-custom.active, .list-group .list-group-item.list-group-item-custom.active:hover, .list-group .list-group-item.list-group-item-custom.active:focus {
+    color: contrast-color(var(--bs-list-group-bg));
+  }
+}
+.list-group .list-group-item.list-group-item-custom.disabled, .list-group .list-group-item.list-group-item-custom:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .modal .modal-fullscreen {
   width: 100vw;
   max-width: none;
@@ -3503,6 +3545,10 @@ li.list-group-item-action {
     width: 10%;
   }
 }
+.b-page-progress .b-page-progress-indicator.page-progress-indicator-custom {
+  background-color: var(--bs-page-progress-bg);
+}
+
 .rating:not(.rating-disabled):not(.rating-readonly):hover .rating-item {
   cursor: pointer;
 }
@@ -3538,6 +3584,10 @@ li.list-group-item-action {
 }
 .rating .rating-item.rating-item-hover {
   opacity: 0.7;
+}
+
+.rating .rating-item.rating-item-custom {
+  color: var(--bs-rating-color);
 }
 
 .steps {
@@ -3882,6 +3932,27 @@ li.list-group-item-action {
   display: block;
 }
 
+.steps .step.step-custom.step-active .step-text, .steps .step.step-custom.step-completed .step-text {
+  color: color-mix(in srgb, var(--bs-step-color) 40%, #212529);
+}
+.steps .step.step-custom .step-circle {
+  color: var(--bs-step-color);
+  border-color: var(--bs-step-color);
+}
+.steps .step.step-custom.step-active .step-circle, .steps .step.step-custom.step-completed .step-circle {
+  background-color: var(--bs-step-color);
+  border-color: var(--bs-step-color);
+  color: white;
+}
+@supports (color: contrast-color(white)) {
+  .steps .step.step-custom.step-active .step-circle, .steps .step.step-custom.step-completed .step-circle {
+    color: contrast-color(var(--bs-step-color));
+  }
+}
+.steps .step.step-custom.step-active .step-circle::before, .steps .step.step-custom.step-completed .step-circle::before {
+  color: var(--bs-step-color);
+}
+
 .custom-switch .custom-control-input.custom-control-input-primary:checked ~ .custom-control-label::before {
   background-color: #007bff;
   border-color: #007bff;
@@ -4081,6 +4152,23 @@ li.list-group-item-action {
   transform: translateX(calc(4rem - 2.5rem / 2));
 }
 
+.custom-switch .custom-control-input.custom-control-input-custom:checked ~ .custom-control-label::before {
+  background-color: var(--bs-switch-bg);
+  border-color: var(--bs-switch-bg);
+}
+.custom-switch .custom-control-input.custom-control-input-custom:focus ~ .custom-control-label::before {
+  border-color: var(--bs-switch-bg);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--bs-switch-bg) 25%, transparent);
+}
+.custom-switch .custom-control-input.custom-control-input-custom:disabled:checked ~ .custom-control-label::before {
+  background-color: color-mix(in srgb, var(--bs-switch-bg) 50%, transparent);
+}
+@supports (color: contrast-color(white)) {
+  .custom-switch .custom-control-input.custom-control-input-custom:checked ~ .custom-control-label::after {
+    background-color: contrast-color(var(--bs-switch-bg));
+  }
+}
+
 table.table tbody tr:not(.table-group).selected {
   background-color: var(--primary);
 }
@@ -4206,6 +4294,43 @@ td:focus {
     border-bottom: 1px solid;
   }
 }
+.table > :is(tbody, thead, tfoot) > tr.table-custom > :is(th, td):not(.table-primary, .table-secondary, .table-success, .table-danger, .table-warning, .table-info, .table-light, .table-dark, .table-link) {
+  background-color: var(--bs-table-bg);
+  color: #212529;
+  border-color: color-mix(in srgb, var(--bs-table-bg) 70%, black);
+}
+@supports (color: contrast-color(white)) {
+  .table > :is(tbody, thead, tfoot) > tr.table-custom > :is(th, td):not(.table-primary, .table-secondary, .table-success, .table-danger, .table-warning, .table-info, .table-light, .table-dark, .table-link) {
+    color: contrast-color(var(--bs-table-bg));
+  }
+}
+.table.table-striped > tbody > tr.table-custom:nth-of-type(odd) > :is(th, td):not(.table-primary, .table-secondary, .table-success, .table-danger, .table-warning, .table-info, .table-light, .table-dark, .table-link) {
+  background-color: color-mix(in srgb, var(--bs-table-bg) 90%, black);
+}
+@supports (color: contrast-color(white)) {
+  .table.table-striped > tbody > tr.table-custom:nth-of-type(odd) > :is(th, td):not(.table-primary, .table-secondary, .table-success, .table-danger, .table-warning, .table-info, .table-light, .table-dark, .table-link) {
+    color: contrast-color(color-mix(in srgb, var(--bs-table-bg) 90%, black));
+  }
+}
+.table.table-hover > tbody > tr.table-custom:hover > :is(th, td):not(.table-primary, .table-secondary, .table-success, .table-danger, .table-warning, .table-info, .table-light, .table-dark, .table-link) {
+  background-color: color-mix(in srgb, var(--bs-table-bg) 85%, black);
+}
+@supports (color: contrast-color(white)) {
+  .table.table-hover > tbody > tr.table-custom:hover > :is(th, td):not(.table-primary, .table-secondary, .table-success, .table-danger, .table-warning, .table-info, .table-light, .table-dark, .table-link) {
+    color: contrast-color(color-mix(in srgb, var(--bs-table-bg) 85%, black));
+  }
+}
+.table > :is(tbody, thead, tfoot) > tr > td.table-custom {
+  background-color: var(--bs-table-bg);
+  color: #212529;
+  border-color: color-mix(in srgb, var(--bs-table-bg) 70%, black);
+}
+@supports (color: contrast-color(white)) {
+  .table > :is(tbody, thead, tfoot) > tr > td.table-custom {
+    color: contrast-color(var(--bs-table-bg));
+  }
+}
+
 .toast-container {
   z-index: 1060;
 }

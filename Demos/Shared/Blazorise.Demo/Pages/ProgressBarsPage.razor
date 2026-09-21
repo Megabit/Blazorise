@@ -124,6 +124,23 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Custom page progress colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use custom CSS colors for determinate and indeterminate page progress.</CardText>
+            </CardBody>
+            <CardBody>
+                <PageProgress Color="@("#7C3AED")" Value="65" Visible Position="Position.Relative" Overflow="Overflow.Hidden" Margin="Margin.Is3.FromBottom" />
+                <PageProgress Color="@CssColor.Variable("--accent", "#0F766E")" Visible Position="Position.Relative" Overflow="Overflow.Hidden" />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
 @code{
     PageProgress pageProgress;
     Color pageProgressColor = Color.Default;

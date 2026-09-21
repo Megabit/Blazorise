@@ -52,6 +52,12 @@
         height: $height;
         margin-left: -2.5em;
 
+        @supports (color: contrast-color(white)) {
+            &.form-check-input-custom {
+                background-size: calc(#{$height} - 2 * var(--bs-border-width, 1px)) 100%;
+            }
+        }
+
         + .form-check-label {
             line-height: $line-height;
             vertical-align: middle;
@@ -69,5 +75,25 @@
 .form-check.form-switch {
     @each $size in ('xs', 'sm', 'md', 'lg', 'xl') {
         @include switch($size);
+    }
+}
+
+.form-check.form-switch .form-check-input.form-check-input-custom {
+    @supports (color: contrast-color(white)) {
+        background-size: calc(1em - 2 * var(--bs-border-width, 1px)) 100%;
+    }
+
+    &:checked {
+        background-color: var(--bs-switch-bg);
+        border-color: var(--bs-switch-bg);
+
+        @supports (color: contrast-color(white)) {
+            background-image: radial-gradient(circle closest-side, contrast-color(var(--bs-switch-bg)) 0 75%, transparent 80%);
+        }
+    }
+
+    &:focus {
+        border-color: var(--bs-switch-bg);
+        box-shadow: 0 0 0 .25rem color-mix(in srgb, var(--bs-switch-bg) 25%, transparent);
     }
 }
