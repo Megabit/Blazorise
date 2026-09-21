@@ -1,7 +1,7 @@
 <Container>
     <Div Class="b-utility-grid">
         <Div Class="b-utility-copy">
-            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold" Margin="Margin.Is0.FromTop">
                 Ship consistent UI without scattering custom CSS
             </Heading>
             <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted">
@@ -22,15 +22,15 @@
                 }
             </Row>
         </Div>
-        <Div Class="b-utility-example">
-            <Div Class="b-utility-example__header">
+        <Div Class="b-utility-example" Flex="Flex.Column">
+            <Div Class="b-utility-example__header" Flex="Flex.JustifyContent.Between.Wrap" Gap="Gap.Is2" Padding="Padding.Is3.OnY">
                 <Strong>From Razor to UI</Strong>
                 <Span>Blazorise utilities</Span>
             </Div>
             <Div Class="b-utility-example__code">
                 @((MarkupString)UtilityExampleMarkup)
             </Div>
-            <Div Class="b-utility-example__preview">
+            <Div Class="b-utility-example__preview" Margin="Margin.IsAuto.FromTop">
                 <Paragraph Class="b-visual-eyebrow">LIVE RESULT</Paragraph>
                 <Card Border="Border.Rounded" Shadow="Shadow.Small">
                     <CardBody Padding="Padding.Is4">

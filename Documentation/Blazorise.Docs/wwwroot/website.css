@@ -166,14 +166,13 @@
 .b-visual-utility .card { overflow: hidden; }
 .b-utility-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; align-items: stretch; }
 .b-utility-copy { min-width: 0; }
-.b-utility-copy h2 { margin-top: 0; }
-.b-utility-example { order: -1; min-width: 0; display: flex; flex-direction: column; border: 1px solid var(--b-visual-line); border-radius: .75rem; overflow: hidden; background: var(--b-visual-panel); color: var(--bs-body-color); }
-.b-utility-example__header { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--b-visual-line); font-size: .875rem; }
+.b-utility-example { order: -1; min-width: 0; border: 1px solid var(--b-visual-line); border-radius: .75rem; overflow: hidden; background: var(--b-visual-panel); color: var(--bs-body-color); }
+.b-utility-example__header { padding-inline: 1.25rem; border-bottom: 1px solid var(--b-visual-line); font-size: .875rem; }
 .b-utility-example__header span { color: var(--bs-secondary-color); }
 .b-utility-example__code { padding: 1.25rem; }
 .b-utility-example__code .blazorise-codeblock, .b-utility-example__code pre { height: auto; max-height: none; margin: 0; padding: 0; overflow: visible; background: transparent; }
 .b-utility-example__code pre { font-size: .875rem; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
-.b-utility-example__preview { margin-top: auto; padding: 1.25rem; border-top: 1px solid var(--b-visual-line); background: var(--b-visual-paper); }
+.b-utility-example__preview { padding: 1.25rem; border-top: 1px solid var(--b-visual-line); background: var(--b-visual-paper); }
 .b-utility-example__preview .b-visual-eyebrow { margin-bottom: .75rem; color: var(--b-visual-muted); }
 .b-utility-example__preview .card { font-size: 1rem; }
 @media (max-width: 991.98px) {
@@ -206,9 +205,9 @@
     text-decoration: none;
 }
 .b-community-connect__icon { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: .75rem; background: #fff; border: 1px solid #dedbe3; }
-.b-community-connect__link h3 { align-self: center; margin: 0; font-size: 1.25rem; }
-.b-community-connect__link p { grid-column: 1 / -1; margin: 0; color: var(--b-visual-muted); font-size: 1rem; line-height: 1.6; }
-.b-community-connect__action { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: .75rem; font-size: 1rem; font-weight: 600; }
+.b-community-connect__link h3 { align-self: center; font-size: 1.25rem; }
+.b-community-connect__link p { grid-column: 1 / -1; color: var(--b-visual-muted); font-size: 1rem; line-height: 1.6; }
+.b-community-connect__action { grid-column: 1 / -1; gap: .75rem; font-size: 1rem; }
 .b-community-connect__action > span { font-size: 1.25rem; }
 .b-visual .b-community-connect__link:is(:hover, :focus-visible) { border-top-color: var(--b-visual-violet); }
 .b-community-connect__link:is(:hover, :focus-visible) .b-community-connect__action { text-decoration: underline; text-underline-offset: .22em; }
@@ -222,10 +221,10 @@
 .b-newsletter-signup__intro > p:last-child { max-width: 36ch; margin: 1.25rem 0 0; color: var(--b-visual-muted); }
 .b-newsletter-signup__form { min-width: 0; }
 .b-newsletter-signup__entry { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 1rem; }
-.b-newsletter-signup__entry .form-label { display: block; margin-bottom: .5rem; font-size: 1rem; line-height: 1.5rem; font-weight: 600; }
+.b-newsletter-signup__entry .form-label { font-size: 1rem; line-height: 1.5rem; }
 .b-newsletter-signup__entry .form-control { min-height: 3.25rem; font-size: 1rem; }
-.b-newsletter-signup__submit { display: inline-flex; align-items: center; justify-content: center; gap: 1rem; min-height: 3.25rem; margin-top: 2rem; padding-inline: 1.25rem; }
-.b-newsletter-signup__consent { margin-top: 1.5rem; color: var(--b-visual-muted); font-size: 1rem; line-height: 1.6; }
+.b-newsletter-signup__submit { min-height: 3.25rem; margin-top: 2rem; padding-inline: 1.25rem; }
+.b-newsletter-signup__consent { color: var(--b-visual-muted); font-size: 1rem; line-height: 1.6; }
 .b-newsletter-signup__consent a { color: inherit; }
 .b-newsletter-signup__form .invalid-feedback { font-size: 1rem; }
 [data-bs-theme="dark"] .b-community-connect__intro h2 span,
@@ -659,7 +658,7 @@
 .b-contact-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.8fr); gap: clamp(2rem, 5vw, 4rem); align-items: start; }
 .b-contact-guide { padding-top: .5rem; }
 .b-contact-guide h2 { margin-block: 1rem; }
-.b-contact-related { display: flex; flex-direction: column; align-items: start; gap: .75rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--b-visual-line); font-size: 1rem; }
+.b-contact-related { flex-direction: column; gap: .75rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--b-visual-line); font-size: 1rem; }
 .b-contact-form { min-width: 0; font-size: 1rem; }
 .b-contact-form > .card { border-top: 3px solid var(--b-visual-violet); }
 .b-contact-form .card-header { background: transparent; border-color: var(--b-visual-line); }
@@ -721,7 +720,7 @@
 .b-page-intro h1 span, .b-feature-intro h1 span, .b-contact-page .b-contact-guide h1 span { color: #8022b8; }
 .b-page-intro .b-visual-eyebrow, .b-feature-intro .b-visual-eyebrow, .b-contact-page .b-contact-guide > .b-visual-eyebrow { color: #7722b4; margin-bottom: 1.25rem; }
 .b-page-intro__description { color: var(--b-visual-muted); margin: 1.5rem 0 0; font-size: 1.05rem; line-height: 1.75; max-width: 43rem; }
-.b-page-intro__actions { display: flex; flex-wrap: wrap; gap: .85rem; margin-top: 1.75rem; }
+.b-page-intro__actions { gap: .85rem; margin-top: 1.75rem; }
 .b-page-intro .b-visual-button--outline, .b-feature-intro .b-visual-button--outline { color: var(--b-visual-ink) !important; border-color: var(--b-visual-muted); }
 .b-page-intro .b-visual-button--outline:hover, .b-feature-intro .b-visual-button--outline:hover { background: var(--b-marketing-tint); }
 .b-page-intro--centered { text-align: center; }

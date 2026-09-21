@@ -27,7 +27,7 @@
                 <Div Class="b-newsletter-signup__entry">
                     <Validation Validator="ValidationRule.IsEmail">
                         <Field Margin="Margin.Is0">
-                            <FieldLabel For="home-newsletter-email">Email address</FieldLabel>
+                            <FieldLabel For="home-newsletter-email" Display="Display.Block" Margin="Margin.Is2.FromBottom" TextWeight="TextWeight.SemiBold">Email address</FieldLabel>
                             <TextInput ElementId="home-newsletter-email" Role="TextRole.Email" Placeholder="you@example.com" @bind-Value="@email" autocomplete="email">
                                 <Feedback>
                                     <ValidationError TextColor="TextColor.Danger">Enter a valid email address.</ValidationError>
@@ -35,9 +35,9 @@
                             </TextInput>
                         </Field>
                     </Validation>
-                    <Button Color="Color.Primary" Clicked="@OnSubscribeClicked" Class="b-newsletter-signup__submit">Subscribe <Span aria-hidden="true">&#8594;</Span></Button>
+                    <Button Color="Color.Primary" Clicked="@OnSubscribeClicked" Class="b-newsletter-signup__submit" Flex="Flex.InlineFlex.AlignItems.Center.JustifyContent.Center" Gap="Gap.Is3">Subscribe <Span aria-hidden="true">&#8594;</Span></Button>
                 </Div>
-                <Div Class="b-newsletter-signup__consent">
+                <Div Class="b-newsletter-signup__consent" Margin="Margin.Is4.FromTop">
                     <Validation Validator="ValidationRule.IsChecked">
                         <Field Margin="Margin.Is2.FromBottom">
                             <Check @bind-Value="@termsAgreed">
