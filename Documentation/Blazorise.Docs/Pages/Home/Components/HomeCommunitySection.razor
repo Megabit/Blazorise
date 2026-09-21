@@ -1,21 +1,21 @@
 <Container Padding="Padding.Is5.OnY">
     <Div Class="b-community-connect">
-        <Div Class="b-community-connect__intro">
+        <Div Class="b-community-connect-intro">
             <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
                 Good things happen<br /><Span>when we build together.</Span>
             </Heading>
             <Paragraph>Join the Blazorise community. Share what you are building, get help from other developers, and help shape what comes next.</Paragraph>
         </Div>
-        <Div Class="b-community-connect__links">
+        <Div Class="b-community-connect-links">
             @foreach ( CommunityLink item in CommunityLinks )
             {
-                <Anchor @key="@item.Title" To="@item.Url" Title="@item.LinkTitle" Target="Target.Blank" Class="b-community-connect__link">
-                    <Span Class="b-community-connect__icon">
+                <Anchor @key="@item.Title" To="@item.Url" Title="@item.LinkTitle" Target="Target.Blank" Class="b-community-connect-link">
+                    <Span Class="b-community-connect-icon">
                         <Image Source="@item.Icon" Text="" Width="Width.Px( 28 )" Height="Height.Px( 28 )" aria-hidden="true" />
                     </Span>
                     <Heading Size="HeadingSize.Is3" Margin="Margin.Is0">@item.Title</Heading>
                     <Paragraph Margin="Margin.Is0">@item.Description</Paragraph>
-                    <Span Class="b-community-connect__action" Flex="Flex.JustifyContent.Between.AlignItems.Center" TextWeight="TextWeight.SemiBold">@item.Action <Span aria-hidden="true">&#8599;</Span></Span>
+                    <Span Class="b-community-connect-action" Flex="Flex.JustifyContent.Between.AlignItems.Center" TextWeight="TextWeight.SemiBold">@item.Action <Span aria-hidden="true">&#8599;</Span></Span>
                 </Anchor>
             }
         </Div>

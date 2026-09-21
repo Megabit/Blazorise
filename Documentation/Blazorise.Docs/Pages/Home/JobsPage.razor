@@ -8,8 +8,8 @@
         <Title>Your skills.<br /><Span>Your next chapter.</Span></Title>
         <Description>Find your next Blazor or .NET role. Explore community-posted opportunities, from remote positions to teams hiring near you.</Description>
         <Actions>
-            <Anchor To="/jobs#open-roles" Class="b-visual-button b-visual-button--primary">Browse open roles <Span aria-hidden="true">&#8595;</Span></Anchor>
-            <Anchor To="/jobs/submit" Class="b-visual-button b-visual-button--outline">Submit a job for free</Anchor>
+            <Anchor To="/jobs#open-roles" Class="b-visual-button b-visual-button-primary">Browse open roles <Span aria-hidden="true">&#8595;</Span></Anchor>
+            <Anchor To="/jobs/submit" Class="b-visual-button b-visual-button-outline">Submit a job for free</Anchor>
         </Actions>
     </MarketingPageHeader>
 
@@ -20,14 +20,14 @@
                 string resultsSummary = BuildResultsSummary( filteredJobs );
             }
 
-            <Div Class="b-jobs-board__intro">
+            <Div Class="b-jobs-board-intro">
                 <Div>
                     <Paragraph Class="b-visual-eyebrow">BUILD YOUR NEXT CHAPTER</Paragraph>
                     <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">Open roles</Heading>
                 </Div>
                 <Paragraph TextColor="TextColor.Muted">Search by role, company, technology, or location. Find the opportunity that fits how you want to work.</Paragraph>
             </Div>
-            <Div Class="b-jobs-board__grid">
+            <Div Class="b-jobs-board-grid">
 
                 <Card Class="b-jobs-filters" Shadow="Shadow.Small" Border="Border.Rounded">
                     <CardBody Padding="Padding.Is4">
@@ -75,7 +75,7 @@
                 </Card>
 
                 <Div Class="b-jobs-results">
-                    <Row Class="b-jobs-results__toolbar" Flex="Flex.AlignItems.Center" Margin="Margin.Is3.FromBottom">
+                    <Row Class="b-jobs-results-toolbar" Flex="Flex.AlignItems.Center" Margin="Margin.Is3.FromBottom">
                         <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop">
                             <Span TextColor="TextColor.Muted" aria-live="polite">@resultsSummary</Span>
                         </Column>

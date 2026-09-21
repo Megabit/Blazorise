@@ -2,7 +2,7 @@
 
 <Card Class="b-job-card" role="article" aria-label="@Job.Title" Shadow="Shadow.Small" Border="Border.Rounded">
     <CardBody Padding="Padding.Is4">
-        <Row Class="b-job-card__row" Flex="Flex.AlignItems.Center">
+        <Row Class="b-job-card-row" Flex="Flex.AlignItems.Center">
             <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop">
                 <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is2.FromBottom">@Job.Company</Paragraph>
                 <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading4" TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@Job.Title</Heading>
@@ -41,7 +41,7 @@
                 }
                 <Span TextColor="TextColor.Muted" TextSize="TextSize.Small">@UpdatedText</Span>
             </Column>
-            <Column Class="b-job-card__actions" ColumnSize="ColumnSize.Is12.Is4.OnDesktop">
+            <Column Class="b-job-card-actions" ColumnSize="ColumnSize.Is12.Is4.OnDesktop">
                 <Div Flex="Flex.Column" Gap="Gap.Is2" Padding="Padding.Is3.OnY">
                     <Div Flex="Flex.Wrap.JustifyContent.End" Gap="Gap.Is2">
                         <Button Color="Color.Secondary" Outline Clicked="@(() => DetailsRequested.InvokeAsync( Job ))">View details</Button>

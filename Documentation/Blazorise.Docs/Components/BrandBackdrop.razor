@@ -1,4 +1,4 @@
-<Div Class="@($"b-brand-backdrop b-brand-backdrop--{Variant.ToString().ToLowerInvariant()}")"
+<Div Class="@($"b-brand-backdrop b-brand-backdrop-{Variant.ToString().ToLowerInvariant()}")"
      data-density="@Density.ToString().ToLowerInvariant()" data-tone="@( Dark ? "dark" : "light" )"
      data-animated="@( Animated ? "true" : "false" )" Style="@PaletteStyle" aria-hidden="true">
     @if ( Variant == BrandBackdropVariant.RoundedSteps )
@@ -232,7 +232,7 @@
     else if ( Variant == BrandBackdropVariant.GeometricStack )
     {
         <svg viewBox="0 0 600 600" fill="none" focusable="false">
-            <g class="b-brand-backdrop__geometry">
+            <g class="b-brand-backdrop-geometry">
                 <path d="M60 380 300 240 540 380 300 520Z" fill="var(--b-art-accent)" />
                 <path d="M60 380 300 520 300 552 60 412Z" fill="var(--b-art-primary)" />
                 <path d="M300 520 540 380 540 412 300 552Z" fill="var(--b-art-secondary)" />

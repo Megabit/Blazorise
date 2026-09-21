@@ -1,14 +1,14 @@
-<header class="@( Centered ? "b-page-intro b-page-intro--centered" : "b-page-intro" )">
+<header class="@( Centered ? "b-page-intro b-page-intro-centered" : "b-page-intro" )">
     <Div Class="b-visual-container">
-        <Div Class="b-page-intro__content">
-            <Div Class="b-page-intro__heading">
+        <Div Class="b-page-intro-content">
+            <Div Class="b-page-intro-heading">
                 <Heading Size="HeadingSize.Is1">@Title</Heading>
             </Div>
-            <Div Class="b-page-intro__detail">
-                <Paragraph Class="b-page-intro__description">@Description</Paragraph>
+            <Div Class="b-page-intro-detail">
+                <Paragraph Class="b-page-intro-description">@Description</Paragraph>
                 @if ( Actions is not null )
                 {
-                    <Div Class="b-page-intro__actions" Flex="Flex.Wrap">@Actions</Div>
+                    <Div Class="b-page-intro-actions" Flex="Flex.Wrap">@Actions</Div>
                 }
             </Div>
         </Div>

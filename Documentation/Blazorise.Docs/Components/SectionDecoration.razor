@@ -2,10 +2,10 @@
      data-blend="@Blend.ToString().ToLowerInvariant()" aria-hidden="true">
     @foreach ( SectionDecorationSide side in Sides )
     {
-        <Div @key="side" Class="@($"b-section-decoration b-section-decoration--{side.ToString().ToLowerInvariant()}")"
+        <Div @key="side" Class="@($"b-section-decoration b-section-decoration-{side.ToString().ToLowerInvariant()}")"
              data-size="@Size.ToString().ToLowerInvariant()" data-placement="@Placement.ToString().ToLowerInvariant()"
              data-fade="@( FadeTowardContent ? "true" : "false" )" Style="@DecorationStyle">
-            <Div Class="b-section-decoration__art">
+            <Div Class="b-section-decoration-art">
                 <BrandBackdrop Variant="@Variant" Density="@Density" Dark="@Dark" Animated="@Animated"
                                Primary="@Primary" Secondary="@Secondary" Accent="@Accent" />
             </Div>
