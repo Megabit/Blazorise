@@ -4,6 +4,8 @@
 @inject IBlogProvider BlogProvider
 @inject NavigationManager NavigationManager
 
+<article class="b-visual-container b-blog-article">
+<Anchor To="/blog" Class="b-blog-back">← All articles</Anchor>
 @if ( pageModel is null )
 {
     <Div Margin="Margin.Is4.OnY">
@@ -18,6 +20,8 @@ else
 {
     @pageModel.Content
 }
+
+</article>
 
 @code {
     [Parameter] public string Permalink { get; set; } = string.Empty;

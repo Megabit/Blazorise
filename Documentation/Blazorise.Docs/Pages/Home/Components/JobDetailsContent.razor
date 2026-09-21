@@ -1,0 +1,75 @@
+<Paragraph TextColor="TextColor.Muted" TextWeight="TextWeight.SemiBold">
+    @Job.Company
+</Paragraph>
+
+<Fields>
+    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is4.OnDesktop">
+        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Location</FieldLabel>
+        <FieldBody>
+            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@LocationText</Paragraph>
+        </FieldBody>
+    </Field>
+    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is2.OnDesktop">
+        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Remote</FieldLabel>
+        <FieldBody>
+            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@GetRemoteText( Job )</Paragraph>
+        </FieldBody>
+    </Field>
+    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Employment</FieldLabel>
+        <FieldBody>
+            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@GetEmploymentText( Job )</Paragraph>
+        </FieldBody>
+    </Field>
+    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Seniority</FieldLabel>
+        <FieldBody>
+            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@GetSeniorityText( Job )</Paragraph>
+        </FieldBody>
+    </Field>
+    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Salary</FieldLabel>
+        <FieldBody>
+            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@GetSalaryText( Job )</Paragraph>
+        </FieldBody>
+    </Field>
+    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Posted</FieldLabel>
+        <FieldBody>
+            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@FormatDate( Job.CreatedAt )</Paragraph>
+        </FieldBody>
+    </Field>
+    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Updated</FieldLabel>
+        <FieldBody>
+            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@FormatDate( Job.UpdatedAt )</Paragraph>
+        </FieldBody>
+    </Field>
+    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+        <FieldLabel TextWeight="TextWeight.Light" TextColor="TextColor.Muted">Expires</FieldLabel>
+        <FieldBody>
+            <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@FormatDate( Job.ExpiryDate )</Paragraph>
+        </FieldBody>
+    </Field>
+</Fields>
+
+@if ( Job.Tags is not null && Job.Tags.Count > 0 )
+{
+    <Div Flex="Flex.Wrap" Gap="Gap.Is1">
+        @foreach ( string tag in Job.Tags )
+        {
+            if ( string.IsNullOrWhiteSpace( tag ) )
+                continue;
+
+            <Badge Color="Color.Info" Subtle Pill>@tag</Badge>
+        }
+    </Div>
+}
+
+<Divider Margin="Margin.Is4.OnY" />
+
+<Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading5">
+    Role description
+</Heading>
+
+@DescriptionMarkup

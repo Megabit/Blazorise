@@ -2,30 +2,21 @@
 
 <Seo Canonical="/commercial" Title="Blazorise Commercial | Licensing, Support & Services" Description="Compare Blazorise commercial licensing and product support, explore optional expert services, and find purchasing options for your team." />
 
-<PageHeader>
-    <Title>
-        Blazorise <Span Class="gradient-commercial">Commercial</Span>
-    </Title>
-    <Subtitle>
-        Build with confidence. Get help from the people behind Blazorise.
-    </Subtitle>
-    <Description>
-        Choose commercial licensing and product support for your team, with optional hands-on expertise for integration, training, and custom development. Build on a Blazor framework battle-tested since 2018 and actively maintained for what comes next.
-    </Description>
+<Div Class="b-visual b-marketing b-commercial-page">
+<MarketingPageHeader Dark="true" Variant="BrandBackdropVariant.GeometricStack">
+    <Title>Build with<br /><Span>confidence.</Span></Title>
+    <Description>Get help from the people behind Blazorise. Choose commercial licensing and product support, with optional hands-on expertise for integration, training, and custom development. Battle-tested since 2018 and actively maintained for what comes next.</Description>
     <Actions>
-        <Button Type="ButtonType.Link" To="pricing" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">
-            <Icon Name="IconName.Key" />
-            View pricing
-        </Button>
-        <Button Type="ButtonType.Link" To="book-a-demo" Color="Color.Secondary" Size="Size.Large" Padding="Padding.Is4.OnX" Outline>
-            <Icon Name="IconName.PlayCircle" />
-            Book a demo
-        </Button>
+        <Anchor To="pricing" Class="b-visual-button b-visual-button-primary">View pricing <Span aria-hidden="true">↗</Span></Anchor>
+        <Anchor To="book-a-demo" Class="b-visual-button b-visual-button-outline">Book a demo</Anchor>
     </Actions>
-</PageHeader>
+</MarketingPageHeader>
 
-<CommercialLicensingSection />
+<section class="b-visual-section b-commercial-licensing">
+    <CommercialLicensingSection />
+</section>
 
+<section class="b-visual-section b-visual-trust">
 <Container Padding="Padding.Is5.OnY">
     <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
         <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
@@ -37,11 +28,20 @@
     </Div>
     <HomeClientLogos />
 </Container>
+</section>
 
-<CommercialServicesSection />
+<section class="b-visual-section b-marketing-dark b-commercial-services b-visual-landscape">
+    <Div Class="b-visual-landscape-art" aria-hidden="true">
+        <BrandBackdrop Variant="BrandBackdropVariant.LayeredPeaks" Dark Density="BrandBackdropDensity.Low" Primary="#542278" Secondary="#923760" Accent="#795393" />
+    </Div>
+    <CommercialServicesSection />
+</section>
 
-<CommercialBuyingSection />
+<section class="b-visual-section b-marketing-buying">
+    <CommercialBuyingSection />
+</section>
 
+<section class="b-visual-section b-marketing-contact">
 <Container Padding="Padding.Is5.OnY">
     <Card Border="Border.Rounded" Shadow="Shadow.Small">
         <CardBody Padding="Padding.Is4.Is5.OnDesktop">
@@ -68,3 +68,5 @@
         </CardBody>
     </Card>
 </Container>
+</section>
+</Div>

@@ -1,0 +1,76 @@
+@inherits BasePage
+
+<Container>
+    <Row Flex="Flex.AlignItems.Center">
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom.OnMobile">
+            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                Built by a focused product team in Croatia
+            </Heading>
+            <Lead TextColor="TextColor.Muted">
+                Megabit d.o.o. develops and maintains Blazorise, the component library behind the documentation, demos, commercial plans, and support services.
+            </Lead>
+            <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted">
+                Blazorise is designed for teams that want productive Blazor development without being locked into one CSS framework. It renders provider-specific markup while keeping the component model familiar across Bootstrap, Tailwind, Fluent 2, Bulma, Material, Ant Design, and more.
+            </Paragraph>
+            <Div Flex="Flex.Column.Row.OnTablet" Gap="Gap.Is3" Margin="Margin.Is4.FromTop">
+                <Button Type="ButtonType.Link" To="features" Color="Color.Primary">
+                    Explore Features
+                </Button>
+                <Button Type="ButtonType.Link" To="commercial" Color="Color.Light">
+                    Commercial Options
+                </Button>
+            </Div>
+        </Column>
+
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+            <Card Border="Border.Rounded" Shadow="Shadow.Small">
+                <CardBody>
+                    <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Bold" Margin="Margin.Is3.FromBottom">
+                        Company Details
+                    </Heading>
+                    <Table Responsive Borderless>
+                        <TableBody>
+                            @foreach ( CompanyFact item in CompanyFacts )
+                            {
+                                <TableRow @key="@item.Label">
+                                    <TableRowHeader TextAlignment="TextAlignment.Start">@item.Label</TableRowHeader>
+                                    <TableRowCell TextAlignment="TextAlignment.End">@item.Value</TableRowCell>
+                                </TableRow>
+                            }
+                            <TableRow>
+                                <TableRowHeader TextAlignment="TextAlignment.Start">Website</TableRowHeader>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Anchor To="https://megabitsoft.com/" Target="Target.Blank">megabitsoft.com</Anchor>
+                                </TableRowCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableRowHeader TextAlignment="TextAlignment.Start">Contact</TableRowHeader>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Anchor To="@($"mailto:{MailToLink}")">@MailToAddress</Anchor>
+                                </TableRowCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </CardBody>
+            </Card>
+        </Column>
+    </Row>
+</Container>
+
+@code {
+    private static readonly CompanyFact[] CompanyFacts =
+    [
+        new( "Company", "Megabit d.o.o." ),
+        new( "Headquarters", "Hrvojeva 11, 21204 Dugopolje, Croatia" ),
+        new( "OIB", "11987636635" ),
+        new( "VAT", "HR11987636635" ),
+        new( "MBS", "2687593" ),
+        new( "Commercial Court", "Split, Tt-10/2258-2" ),
+        new( "Activities", "6201 Computer programming" ),
+        new( "Key Person", "Mladen Macanović, board member" ),
+        new( "Year Founded", "2010" ),
+        new( "Size", "Small" )
+    ];
+
+    private sealed record CompanyFact( string Label, string Value );
+}

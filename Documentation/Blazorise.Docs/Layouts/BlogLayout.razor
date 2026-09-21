@@ -1,8 +1,8 @@
-﻿@inherits BaseDocsLayout
+@inherits BaseDocsLayout
 
 <Layout Class="b-blog b-site">
     <LayoutHeader>
-        <Bar Class="b-top-bar" @bind-Visible="@topBarVisible" Breakpoint="Breakpoint.Desktop" Background="@ThemeService.BarBackground" ThemeContrast="@ThemeService.BarThemeContrast">
+        <Bar Class="b-top-bar" @bind-Visible="@topBarVisible" Breakpoint="Breakpoint.Widescreen" Background="@ThemeService.BarBackground" ThemeContrast="@ThemeService.BarThemeContrast">
             <Container>
                 <BarBrand>
                     <BarItem>
@@ -24,10 +24,8 @@
             </Container>
         </Bar>
     </LayoutHeader>
-    <LayoutContent Class="b-blog-content">
-        <Container>
-            @Body
-        </Container>
+    <LayoutContent Class="b-blog-content b-visual b-marketing">
+        @Body
     </LayoutContent>
     <LayoutFooter Padding="Padding.Is4.FromTop.Is5.FromTop.OnDesktop" Margin="Margin.Is5.OnY.OnDesktop" Border="Border.OnTop">
         <Footer />
