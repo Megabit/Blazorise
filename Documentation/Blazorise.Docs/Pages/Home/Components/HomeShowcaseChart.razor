@@ -24,17 +24,9 @@
 
     private readonly SvgChartOptions options = new()
     {
-        Width = 520,
-        Height = 320,
+        Width = 640,
+        Height = 260,
         Responsive = true,
-        // Category charts otherwise include half a category of space at each end.
-        Zoom = new()
-        {
-            Enabled = true,
-            Wheel = false,
-            Pan = false,
-            Viewport = new() { XMin = 0, XMax = 5 },
-        },
         Font = new() { Family = "Inter, sans-serif", Size = 12 },
         YAxis = new() { GridLines = new() { Color = "var(--bs-body-color)", Opacity = 0.12 } },
     };

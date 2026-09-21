@@ -1,13 +1,13 @@
-<Div Class="b-visual-showcase">
-    <Div Class="b-site-demo">
-        <Row Gutter="Gutter.Is4">
-            <Column ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
-                <HomeShowcaseSignIn />
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop" Margin="Margin.Is4.FromBottom">
-                <HomeShowcaseChart />
-            </Column>
-        </Row>
+<Div Class="b-visual-showcase b-site-demo">
+    <Row Gutter="Gutter.Is4">
+        <Column ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
+            <HomeShowcaseSignIn />
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop" Margin="Margin.Is4.FromBottom">
+            <HomeShowcaseChart />
+        </Column>
+    </Row>
+    <Div Class="b-visual-showcase-footer">
         <details class="b-visual-showcase-more">
             <summary>More live examples</summary>
             <Row Gutter="Gutter.Is4">
@@ -33,11 +33,8 @@
                 </Column>
             </Row>
         </details>
-    </Div>
-
-    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is3.FromTop" Padding="Padding.Is3.FromBottom">
-        <Button Type="ButtonType.Link" To="/docs" Color="Color.Primary" Outline>
+        <Anchor To="/docs" Class="b-visual-showcase-link" TextWeight="TextWeight.SemiBold">
             Explore all components <Icon Name="IconName.ArrowRight" Margin="Margin.Is2.FromStart" />
-        </Button>
+        </Anchor>
     </Div>
 </Div>
