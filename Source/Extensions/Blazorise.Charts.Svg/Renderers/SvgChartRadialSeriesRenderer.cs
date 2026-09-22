@@ -89,7 +89,7 @@ internal sealed class SvgChartRadialSeriesContent : SvgChartSeriesContentBase
         var plot = chart.PlotArea;
         var centerX = plot.Left + plot.Width / 2;
         var centerY = plot.Top + plot.Height / 2;
-        var radius = Math.Max( 1, Math.Min( plot.Width, plot.Height ) * 0.42 );
+        var radius = Math.Max( 1, Math.Min( plot.Width, plot.Height ) * ( series.Type == SvgChartType.PolarArea ? 0.42 : 0.5 ) );
         var total = series.Type == SvgChartType.PolarArea ? visibleValues.Count : visibleValues.Sum( x => x.Value.Value );
         var max = visibleValues.Count > 0 ? visibleValues.Max( x => x.Value.Value ) : 0;
         var startAngle = -Math.PI / 2;

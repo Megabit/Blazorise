@@ -57,10 +57,11 @@ internal static class SvgChartTextRenderer
         options ??= new();
 
         var padding = options.PlotAreaPadding;
-        var topPadding = padding?.Top ?? 24d;
-        var endPadding = ResolveEndPadding( padding?.End );
-        var bottomPadding = ResolveBottomPadding( options, model, padding?.Bottom );
-        var startPadding = ResolveStartPadding( options, model, padding?.Start );
+        bool isRadialChart = model is not null && SvgChartGeometry.IsRadialChart( model.Type );
+        double topPadding = padding?.Top ?? ( isRadialChart ? 8d : 24d );
+        double endPadding = isRadialChart ? padding?.End ?? 8d : ResolveEndPadding( padding?.End );
+        double bottomPadding = isRadialChart ? padding?.Bottom ?? 8d : ResolveBottomPadding( options, model, padding?.Bottom );
+        double startPadding = isRadialChart ? padding?.Start ?? 8d : ResolveStartPadding( options, model, padding?.Start );
         var axisTitleSize = ResolveAxisTitleReservedSize( options );
         var hasCartesianAxes = model is not null && !SvgChartGeometry.IsRadialChart( model );
         var isBarChart = hasCartesianAxes && SvgChartGeometry.IsBarChart( model );

@@ -114,22 +114,22 @@ public class SvgChartTooltip : SvgChartComponentBase
     [Parameter] public RenderFragment<SvgChartTooltipContext> Template { get; set; }
 
     /// <summary>
-    /// Defines the tooltip width in SVG viewport units.
+    /// Defines the tooltip width in SVG viewport units at the unscaled chart size. The rendered width is unaffected by chart scaling.
     /// </summary>
     [Parameter] public double Width { get; set; } = 180;
 
     /// <summary>
-    /// Defines the tooltip height in SVG viewport units.
+    /// Defines the tooltip height in SVG viewport units at the unscaled chart size. The rendered height is unaffected by chart scaling.
     /// </summary>
     [Parameter] public double Height { get; set; } = 56;
 
     /// <summary>
-    /// Defines the horizontal tooltip offset from the point anchor.
+    /// Defines the horizontal tooltip offset from the point anchor in SVG viewport units at the unscaled chart size. The rendered offset is unaffected by chart scaling.
     /// </summary>
     [Parameter] public double OffsetX { get; set; } = 8;
 
     /// <summary>
-    /// Defines the vertical tooltip offset from the point anchor.
+    /// Defines the vertical tooltip offset from the point anchor in SVG viewport units at the unscaled chart size. The rendered offset is unaffected by chart scaling.
     /// </summary>
     [Parameter] public double OffsetY { get; set; } = 8;
 
