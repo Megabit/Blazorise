@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
+using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -145,6 +146,11 @@ public partial class _SchedulerSlotItem<TItem>
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Provides localized text for scheduler commands.
+    /// </summary>
+    [Inject] protected ITextLocalizer<Scheduler<TItem>> Localizer { get; set; }
 
     /// <summary>
     /// Gets a string that represents whether the slot is draggable.

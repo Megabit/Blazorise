@@ -291,6 +291,37 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Registers or refreshes the scheduler command configuration.
+    /// </summary>
+    /// <param name="commands">The command configuration component.</param>
+    /// <param name="parametersChanged">Whether the command parameters changed.</param>
+    internal Task NotifySchedulerCommands( SchedulerCommands<TItem> commands, bool parametersChanged )
+    {
+        bool commandsChanged = !ReferenceEquals( Commands, commands ) || parametersChanged;
+        Commands = commands;
+
+        return commandsChanged && !Disposed && !AsyncDisposed
+            ? RefreshState()
+            : Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Removes the command configuration and restores the default commands.
+    /// </summary>
+    /// <param name="commands">The command configuration component to remove.</param>
+    internal Task RemoveSchedulerCommands( SchedulerCommands<TItem> commands )
+    {
+        if ( !ReferenceEquals( Commands, commands ) )
+            return Task.CompletedTask;
+
+        Commands = null;
+
+        return !Disposed && !AsyncDisposed
+            ? RefreshState()
+            : Task.CompletedTask;
+    }
+
+    /// <summary>
     /// Notifies the scheduler component of the existence of the day view component.
     /// </summary>
     /// <param name="schedulerDayView">Instance of the scheduler day view component.</param>
@@ -2208,6 +2239,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Returns a RenderFragment based on the current view mode of the scheduler.
     /// </summary>
     internal protected RenderFragment<SchedulerItemContext<TItem>> ItemTemplate => GetItemTemplate();
+
+    /// <summary>
+    /// Gets the command configuration supplied by the scheduler's child content.
+    /// </summary>
+    internal SchedulerCommands<TItem> Commands { get; private set; }
 
     /// <summary>
     /// Returns a RenderFragment for all-day items based on the current view mode of the scheduler.
