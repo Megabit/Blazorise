@@ -2613,6 +2613,50 @@ hr.divider.divider-text::before {
   padding-left: 0;
 }
 
+.form-control-primary {
+  --bs-input-border-color: var(--bs-primary, #0d6efd);
+}
+
+.form-control-secondary {
+  --bs-input-border-color: var(--bs-secondary, #6c757d);
+}
+
+.form-control-success {
+  --bs-input-border-color: var(--bs-success, #198754);
+}
+
+.form-control-info {
+  --bs-input-border-color: var(--bs-info, #0dcaf0);
+}
+
+.form-control-warning {
+  --bs-input-border-color: var(--bs-warning, #ffc107);
+}
+
+.form-control-danger {
+  --bs-input-border-color: var(--bs-danger, #dc3545);
+}
+
+.form-control-light {
+  --bs-input-border-color: var(--bs-light, #f8f9fa);
+}
+
+.form-control-dark {
+  --bs-input-border-color: var(--bs-dark, #212529);
+}
+
+.form-control-link {
+  --bs-input-border-color: var(--bs-link, #3273dc);
+}
+
+.form-control.form-control-colored:not(:disabled):not(.is-valid, .is-warning, .is-invalid):not(.was-validated .form-control) {
+  border-color: var(--bs-input-border-color);
+}
+.form-control.form-control-colored:not(:disabled):not(.is-valid, .is-warning, .is-invalid):not(.was-validated .form-control):focus {
+  border-color: var(--bs-input-border-color);
+  box-shadow: 0 0 0 var(--bs-focus-ring-width, 0.25rem) color-mix(in srgb, var(--bs-input-border-color), transparent 75%);
+}
+
 .form-control-xs {
   height: calc(1.5em + 0.3rem + calc(var(--bs-border-width) * 2));
   padding: 0.15rem 0.5rem;

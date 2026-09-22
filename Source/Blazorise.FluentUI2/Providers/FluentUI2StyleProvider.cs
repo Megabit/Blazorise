@@ -7,6 +7,24 @@ public class FluentUI2StyleProvider : StyleProvider
 {
     #region Component colors
 
+    public override string TextInputColor( Color color ) => ColorStyle( color, "--colorInputBorder" );
+
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
+
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
+
+    public override string DateInputColor( Color color ) => TextInputColor( color );
+
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
+
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
+
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
+
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
+
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
+
     public override string ListGroupItemColor( Color color ) => ColorStyle( color, "--colorListGroupItemBackground" );
 
     public override string TableRowColor( Color color ) => ColorStyle( color, "--colorTableCellBackground" );

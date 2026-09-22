@@ -38,6 +38,11 @@ public partial class TimePicker<TValue>
     {
         builder.Append( "fui-Input" );
 
+        if ( !Plaintext && !IsDisabled && ( ParentValidation?.Status ?? ValidationStatus.None ) == ValidationStatus.None )
+        {
+            builder.Append( ClassProvider.TimePickerColor( Color ) );
+        }
+
         if ( Plaintext )
         {
             builder.Append( "fui-Input-plaintext" );
@@ -72,12 +77,19 @@ public partial class TimePicker<TValue>
     private void BuildAddonClasses( ClassBuilder builder )
     {
         builder.Append( "fui-Input__content" );
+
+        if ( !Plaintext && !IsDisabled && ( ParentValidation?.Status ?? ValidationStatus.None ) == ValidationStatus.None )
+        {
+            builder.Append( ClassProvider.TimePickerColor( Color ) );
+        }
+
         builder.Append( Classes?.Wrapper );
         AppendWrapperUtilities( builder );
     }
 
     private void BuildWrapperStyles( StyleBuilder builder )
     {
+        builder.Append( StyleProvider.TimePickerColor( Color ) );
         AppendWrapperUtilities( builder );
     }
 

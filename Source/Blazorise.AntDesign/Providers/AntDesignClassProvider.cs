@@ -15,7 +15,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TextInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "ant-input-colored" : color.IsNotNullOrDefault() ? $"ant-input-colored ant-input-color-{ToColor( color )}" : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -26,6 +26,8 @@ public class AntDesignClassProvider : ClassProvider
     public override string MemoInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input ant-input-outlined";
 
     public override string MemoInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
 
     public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-input" ) : null;
 
@@ -49,7 +51,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string NumericInputSize( Size size ) => size != Size.Default ? $"ant-input-number-{ToSize( size )}" : null;
 
-    public override string NumericInputColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
 
     public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-input-number" ) : null;
 
@@ -61,7 +63,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DateInputSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
-    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string DateInputColor( Color color ) => TextInputColor( color );
 
     public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
@@ -73,7 +75,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TimeInputSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
-    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
 
     public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
@@ -93,7 +95,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
@@ -153,7 +155,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
@@ -192,7 +194,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"ant-input-number-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-input-number" ) : null;
 
@@ -200,11 +202,11 @@ public class AntDesignClassProvider : ClassProvider
 
     #region InputMask
 
-    public override string InputMask( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string InputMask( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input ant-input-outlined";
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 

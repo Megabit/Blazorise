@@ -1024,6 +1024,7 @@ public abstract class ThemeGenerator : IThemeGenerator
         GenerateButtonVariantStyles( sb, theme, variant, theme.ButtonOptions );
         GenerateButtonOutlineVariantStyles( sb, theme, variant, theme.ButtonOptions );
         GenerateBadgeVariantStyles( sb, theme, variant, color );
+        GenerateInputVariantStyles( sb, theme, variant, color );
         GenerateSwitchVariantStyles( sb, theme, variant, color, theme.SwitchOptions );
         GenerateStepsVariantStyles( sb, theme, variant, color, theme.StepsOptions );
         GenerateProgressVariantStyles( sb, theme, variant, color, theme.ProgressOptions );
@@ -1068,7 +1069,6 @@ public abstract class ThemeGenerator : IThemeGenerator
     protected virtual void GenerateTypographyVariantStyles( StringBuilder sb, Theme theme, string variant, string color )
     {
         GenerateParagraphVariantStyles( sb, theme, variant, color );
-        GenerateInputVariantStyles( sb, theme, variant, color );
     }
 
     /// <summary>

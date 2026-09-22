@@ -8866,6 +8866,16 @@
       margin-bottom: calc(var(--spacing) * 4);
     }
   }
+  .\[\&\:not\(\:disabled\,\.border-none\,\.b-is-valid\,\.b-is-warning\,\.b-is-invalid\)\]\:border-\[color\:var\(--tw-input-color\)\] {
+    &:not(:disabled,.border-none,.b-is-valid,.b-is-warning,.b-is-invalid) {
+      border-color: var(--tw-input-color);
+    }
+  }
+  .\[\&\:not\(\:disabled\,\.border-none\,\.b-is-valid\,\.b-is-warning\,\.b-is-invalid\)\:focus\]\:ring-\[color\:var\(--tw-input-color\)\] {
+    &:not(:disabled,.border-none,.b-is-valid,.b-is-warning,.b-is-invalid):focus {
+      --tw-ring-color: var(--tw-input-color);
+    }
+  }
   .\[\&\:not\(\:last-child\)\]\:mb-4 {
     &:not(:last-child) {
       margin-bottom: calc(var(--spacing) * 4);

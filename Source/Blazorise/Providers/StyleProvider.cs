@@ -40,6 +40,24 @@ public abstract class StyleProvider : IStyleProvider
 
     #region Component colors
 
+    public virtual string TextInputColor( Color color ) => null;
+
+    public virtual string MemoInputColor( Color color ) => null;
+
+    public virtual string NumericInputColor( Color color ) => null;
+
+    public virtual string DateInputColor( Color color ) => null;
+
+    public virtual string TimeInputColor( Color color ) => null;
+
+    public virtual string DatePickerColor( Color color ) => null;
+
+    public virtual string TimePickerColor( Color color ) => null;
+
+    public virtual string NumericPickerColor( Color color ) => null;
+
+    public virtual string InputMaskColor( Color color ) => null;
+
     public virtual string ListGroupItemColor( Color color ) => null;
 
     public virtual string TableRowColor( Color color ) => null;

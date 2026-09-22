@@ -24,6 +24,8 @@ public interface IClassProvider
 
     string MemoInputSize( Size size );
 
+    string MemoInputColor( Color color ) => null;
+
     string MemoInputValidation( ValidationStatus validationStatus );
 
     #endregion

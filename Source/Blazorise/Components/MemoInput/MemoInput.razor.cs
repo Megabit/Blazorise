@@ -143,10 +143,19 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.MemoInput( Plaintext ) );
+        builder.Append( ClassProvider.MemoInputColor( Color ) );
         builder.Append( ClassProvider.MemoInputSize( ThemeSize ) );
         builder.Append( ClassProvider.MemoInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.MemoInputColor( Color ) );
+
+        base.BuildStyles( builder );
     }
 
     /// <inheritdoc/>

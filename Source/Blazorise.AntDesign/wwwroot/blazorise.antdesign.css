@@ -5969,8 +5969,97 @@ template {
   color: var(--ant-form-label-required-mark-color);
 }
 
+.ant-input-color-primary {
+  --ant-input-custom-color: var(--ant-color-primary);
+}
+
+.ant-input-color-secondary {
+  --ant-input-custom-color: var(--ant-color-text-secondary);
+}
+
+.ant-input-color-success {
+  --ant-input-custom-color: var(--ant-color-success);
+}
+
+.ant-input-color-info {
+  --ant-input-custom-color: var(--ant-color-info);
+}
+
+.ant-input-color-warning {
+  --ant-input-custom-color: var(--ant-color-warning);
+}
+
+.ant-input-color-danger {
+  --ant-input-custom-color: var(--ant-color-error);
+}
+
+.ant-input-color-light {
+  --ant-input-custom-color: var(--ant-color-border);
+}
+
+.ant-input-color-dark {
+  --ant-input-custom-color: var(--ant-color-text);
+}
+
+.ant-input-color-link {
+  --ant-input-custom-color: var(--ant-color-link);
+}
+
+.ant-input.ant-input-colored:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error) {
+  --ant-input-active-border-color: var(--ant-input-custom-color);
+  --ant-input-active-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, var(--ant-input-active-border-color), transparent 80%);
+  border-color: var(--ant-input-active-border-color);
+}
+.ant-input.ant-input-colored:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):hover {
+  border-color: var(--ant-input-active-border-color);
+}
+.ant-input.ant-input-colored:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus, .ant-input.ant-input-colored:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus-within, .ant-input.ant-input-colored:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error).ant-input-focused {
+  border-color: var(--ant-input-active-border-color);
+  box-shadow: var(--ant-input-active-shadow);
+  outline: 0;
+}
+
+.ant-input-number.ant-input-colored:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error) {
+  --ant-input-active-border-color: var(--ant-input-custom-color);
+  --ant-input-active-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, var(--ant-input-active-border-color), transparent 80%);
+  border-color: var(--ant-input-active-border-color);
+}
+.ant-input-number.ant-input-colored:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):hover {
+  border-color: var(--ant-input-active-border-color);
+}
+.ant-input-number.ant-input-colored:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus, .ant-input-number.ant-input-colored:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus-within, .ant-input-number.ant-input-colored:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error).ant-input-number-focused {
+  border-color: var(--ant-input-active-border-color);
+  box-shadow: var(--ant-input-active-shadow);
+  outline: 0;
+}
+
+.ant-picker.ant-input-colored:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error) {
+  --ant-input-active-border-color: var(--ant-input-custom-color);
+  --ant-input-active-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, var(--ant-input-active-border-color), transparent 80%);
+  border-color: var(--ant-input-active-border-color);
+}
+.ant-picker.ant-input-colored:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):hover {
+  border-color: var(--ant-input-active-border-color);
+}
+.ant-picker.ant-input-colored:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus, .ant-picker.ant-input-colored:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus-within, .ant-picker.ant-input-colored:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error).ant-picker-focused {
+  border-color: var(--ant-input-active-border-color);
+  box-shadow: var(--ant-input-active-shadow);
+  outline: 0;
+}
+
 .ant-input {
   height: var(--ant-control-height);
+}
+.ant-input-colored > .ant-input-number-input {
+  color: inherit;
+}
+.ant-input-colored > .ant-input-number-input-wrap,
+.ant-input-colored > .ant-picker-input {
+  color: inherit;
+}
+.ant-input-colored > .ant-input-number-input-wrap > input,
+.ant-input-colored > .ant-picker-input > input {
+  color: inherit;
 }
 .ant-input-xs {
   padding: 0 7px;

@@ -7,6 +7,26 @@ public class TailwindStyleProvider : StyleProvider
 {
     #region Component colors
 
+    public override string TextInputColor( Color color ) => color?.IsCssValue == true
+        ? ColorStyle( color, "--tw-input-color" )
+        : color?.Name?.Length > 0 ? $"--tw-input-color: var(--color-{color.Name}-500, var(--btw-color-{color.Name}-500))" : null;
+
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
+
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
+
+    public override string DateInputColor( Color color ) => TextInputColor( color );
+
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
+
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
+
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
+
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
+
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
+
     public override string ListGroupItemColor( Color color ) => ColorStyle( color, "--tw-list-group-bg" );
 
     public override string TableRowColor( Color color ) => ColorStyle( color, "--tw-table-bg" );

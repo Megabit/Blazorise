@@ -47,6 +47,14 @@ public partial class TextInput : BaseBufferedTextInput<string, TextInputClasses,
     }
 
     /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.TextInputColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
+    /// <inheritdoc/>
     protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
     {
         return Task.FromResult( new ParseValue<string>( true, value, null ) );

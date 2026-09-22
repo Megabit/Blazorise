@@ -556,7 +556,15 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
             .Append( $"background-color: {options.SliderColor};" )
             .AppendLine( "}" );
     }
-    protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor ) { }
+
+    protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
+    {
+        sb.Append( $".fui-Input-colored.fui-Input-color-{variant}" )
+            .Append( "{" )
+            .Append( $"--colorInputBorder: {inColor};" )
+            .AppendLine( "}" );
+    }
+
     protected override void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor ) { }
     protected override void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions options ) { }
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions ) { }

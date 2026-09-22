@@ -1041,13 +1041,9 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
     {
-        var color = ToHex( ParseColor( inColor ) );
-
-        sb
-            .Append( $".ant-input.ant-form-text-{variant}," )
-            .Append( $".ant-form-text.ant-form-text-{variant}" )
+        sb.Append( $".ant-input-colored.ant-input-color-{variant}" )
             .Append( "{" )
-            .Append( $"color: {color};" )
+            .Append( $"--ant-input-custom-color: {inColor};" )
             .AppendLine( "}" );
     }
 

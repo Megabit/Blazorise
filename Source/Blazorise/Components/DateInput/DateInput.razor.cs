@@ -36,6 +36,14 @@ public partial class DateInput<TValue> : BaseTextInput<TValue, DateInputClasses,
     }
 
     /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.DateInputColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
+    /// <inheritdoc/>
     protected override Task OnChangeHandler( ChangeEventArgs e )
     {
         return CurrentValueHandler( e?.Value?.ToString() );

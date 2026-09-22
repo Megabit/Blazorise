@@ -1,3 +1,21 @@
+@each $name in $theme-variants {
+    .mui-input-color-#{$name} {
+        --mui-input-border-color: var(--mui-#{$name});
+    }
+}
+
+.mui-input-color-link {
+    --mui-input-border-color: var(--mui-primary);
+}
+
+.mui-input.mui-input-colored:not(:disabled):not(.is-valid, .is-warning, .is-invalid) {
+    border-color: var(--mui-input-border-color);
+
+    &:focus {
+        border-color: var(--mui-input-border-color);
+    }
+}
+
 .mui-input,
 .mui-input-plaintext,
 .mui-select {

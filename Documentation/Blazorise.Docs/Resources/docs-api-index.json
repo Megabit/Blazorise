@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-20T16:31:29.6351212Z",
+  "generatedUtc": "2026-09-22T14:25:59.9742894Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -38810,7 +38810,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Sets the input border and focus color.",
           "isBlazoriseEnum": false
         },
         {
@@ -38891,7 +38891,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Sets the input border and focus intent.",
           "isBlazoriseEnum": false
         },
         {
@@ -39410,7 +39410,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Sets the input border and focus color.",
           "isBlazoriseEnum": false
         },
         {
@@ -39574,7 +39574,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Sets the input border and focus intent.",
           "isBlazoriseEnum": false
         },
         {
@@ -59564,7 +59564,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Sets the input border and focus color.",
           "isBlazoriseEnum": false
         },
         {
@@ -59678,7 +59678,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Sets the input border and focus intent.",
           "isBlazoriseEnum": false
         },
         {
@@ -60231,7 +60231,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Sets the input border and focus color.",
           "isBlazoriseEnum": false
         },
         {
@@ -60353,7 +60353,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Sets the input border and focus intent.",
           "isBlazoriseEnum": false
         },
         {
@@ -71250,7 +71250,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Sets the input border and focus color.",
           "isBlazoriseEnum": false
         },
         {
@@ -71348,7 +71348,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Sets the input border and focus intent.",
           "isBlazoriseEnum": false
         },
         {
@@ -75348,7 +75348,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Sets the input border and focus color.",
           "isBlazoriseEnum": false
         },
         {
@@ -75454,7 +75454,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Sets the input border and focus intent.",
           "isBlazoriseEnum": false
         },
         {
@@ -76000,7 +76000,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Sets the input border and focus color.",
           "isBlazoriseEnum": false
         },
         {
@@ -76162,7 +76162,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Sets the input border and focus intent.",
           "isBlazoriseEnum": false
         },
         {
@@ -81788,7 +81788,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Sets the input border and focus color.",
           "isBlazoriseEnum": false
         },
         {
@@ -81893,7 +81893,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Sets the input border and focus intent.",
           "isBlazoriseEnum": false
         },
         {
@@ -131521,7 +131521,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Sets the input border and focus color.",
           "isBlazoriseEnum": false
         },
         {
@@ -131635,7 +131635,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Sets the input border and focus intent.",
           "isBlazoriseEnum": false
         },
         {
@@ -137586,7 +137586,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Sets the input border and focus color.",
           "isBlazoriseEnum": false
         },
         {
@@ -137659,7 +137659,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Sets the input border and focus intent.",
           "isBlazoriseEnum": false
         },
         {
@@ -138179,7 +138179,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Sets the input border and focus color.",
           "isBlazoriseEnum": false
         },
         {
@@ -138300,7 +138300,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Sets the input border and focus intent.",
           "isBlazoriseEnum": false
         },
         {

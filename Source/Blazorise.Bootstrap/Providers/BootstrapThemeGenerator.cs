@@ -328,6 +328,13 @@ public class BootstrapThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
+        if ( !string.IsNullOrEmpty( theme.ButtonOptions?.BoxShadowSize ) )
+        {
+            sb.Append( ".form-control-colored" ).Append( "{" )
+                .Append( $"--bs-focus-ring-width: {theme.ButtonOptions.BoxShadowSize};" )
+                .AppendLine( "}" );
+        }
+
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             var borderRadius = GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) );
@@ -1122,13 +1129,9 @@ public class BootstrapThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
     {
-        var color = ToHex( ParseColor( inColor ) );
-
-        sb
-            .Append( $".form-control.text-{variant}," )
-            .Append( $".form-control-plaintext.text-{variant}" )
+        sb.Append( $".form-control-colored.form-control-{variant}" )
             .Append( "{" )
-            .Append( $"color: {color};" )
+            .Append( $"--bs-input-border-color: {inColor};" )
             .AppendLine( "}" );
     }
 

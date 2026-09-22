@@ -519,6 +519,60 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Custom input colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>Set custom border and focus colors while keeping the text color independent.</Paragraph>
+                <Field>
+                    <FieldLabel>Text</FieldLabel>
+                    <TextInput Value="Indigo border" Color="@("#312E81")" />
+                </Field>
+                <Field>
+                    <FieldLabel>Memo</FieldLabel>
+                    <MemoInput Rows="3" Value="Teal border and focus" Color="@(new Color( CssColor.Rgb( 15, 118, 110 ) ))" />
+                </Field>
+                <Field>
+                    <FieldLabel>Masked input</FieldLabel>
+                    <InputMask Mask="99-9999999" Value="12-3456789" Color="@CssColor.Variable( "--input-accent", "#7C3AED" )" />
+                </Field>
+                <Field>
+                    <FieldLabel>Explicit text color</FieldLabel>
+                    <TextInput Value="Independent text color" Color="@("#7C3AED")" TextColor="@(new TextColor( "#0F766E" ))" />
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Custom numeric, date, and time colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>Apply custom colors to native numeric, date, and time inputs.</Paragraph>
+                <Field>
+                    <FieldLabel>Number</FieldLabel>
+                    <NumericInput TValue="int" Value="42" Color="@("#312E81")" />
+                </Field>
+                <Field>
+                    <FieldLabel>Date</FieldLabel>
+                    <DateInput TValue="DateOnly" Value="@(new DateOnly( 2026, 6, 15 ))" Color="@(new Color( "#0F766E" ))" />
+                </Field>
+                <Field>
+                    <FieldLabel>Time</FieldLabel>
+                    <TimeInput TValue="TimeOnly" Value="@(new TimeOnly( 9, 30 ))" Color="@CssColor.Variable( "--input-accent", "#7C3AED" )" />
+                </Field>
+                <Field>
+                    <FieldLabel>Disabled</FieldLabel>
+                    <NumericInput TValue="int" Value="65" Color="@("#0F766E")" Disabled />
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 @code {
     int[] numbers = { 1, 3, 4 };
 

@@ -30,7 +30,9 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string TextInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault()
+        ? "[&:not(:disabled,.border-none,.b-is-valid,.b-is-warning,.b-is-invalid)]:border-[color:var(--tw-input-color)] [&:not(:disabled,.border-none,.b-is-valid,.b-is-warning,.b-is-invalid):focus]:ring-[color:var(--tw-input-color)]"
+        : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -55,6 +57,8 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
+
     public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
@@ -77,7 +81,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string NumericInputSize( Size size ) => TextInputSize( size );
 
-    public override string NumericInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
 
     public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -89,7 +93,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DateInputSize( Size size ) => TextInputSize( size );
 
-    public override string DateInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => TextInputColor( color );
 
     public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -101,7 +105,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TimeInputSize( Size size ) => TextInputSize( size );
 
-    public override string TimeInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
 
     public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -132,7 +136,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => TextInputSize( size );
 
-    public override string DatePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -192,7 +196,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => TextInputSize( size );
 
-    public override string TimePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -242,7 +246,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => TextInputSize( size );
 
-    public override string NumericPickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -254,7 +258,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => TextInputSize( size );
 
-    public override string InputMaskColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 

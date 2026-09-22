@@ -3132,6 +3132,56 @@ label.button.is-custom:has(input:focus-visible) {
   height: 1rem;
 }
 
+.is-color-primary {
+  --bulma-input-custom-color: var(--bulma-primary, hsl(171, 100%, 41%));
+}
+
+.is-color-secondary {
+  --bulma-input-custom-color: var(--bulma-secondary, hsl(221, 14%, 48%));
+}
+
+.is-color-success {
+  --bulma-input-custom-color: var(--bulma-success, hsl(153, 53%, 53%));
+}
+
+.is-color-info {
+  --bulma-input-custom-color: var(--bulma-info, hsl(198, 100%, 70%));
+}
+
+.is-color-warning {
+  --bulma-input-custom-color: var(--bulma-warning, hsl(42, 100%, 53%));
+}
+
+.is-color-danger {
+  --bulma-input-custom-color: var(--bulma-danger, hsl(348, 100%, 70%));
+}
+
+.is-color-light {
+  --bulma-input-custom-color: var(--bulma-light, hsl(221, 14%, 96%));
+}
+
+.is-color-dark {
+  --bulma-input-custom-color: var(--bulma-dark, hsl(221, 14%, 21%));
+}
+
+.is-color-link {
+  --bulma-input-custom-color: var(--bulma-link, hsl(233, 100%, 63%));
+}
+
+.input.is-colored:not(.is-static):not(:disabled):not(.is-success, .is-warning, .is-danger),
+.textarea.is-colored:not(.is-static):not(:disabled):not(.is-success, .is-warning, .is-danger) {
+  --bulma-input-border-color: var(--bulma-input-custom-color);
+  --bulma-input-focus-shadow-color: color-mix(in srgb, var(--bulma-input-custom-color), transparent 75%);
+  border-color: var(--bulma-input-border-color);
+}
+.input.is-colored:not(.is-static):not(:disabled):not(.is-success, .is-warning, .is-danger):focus, .input.is-colored:not(.is-static):not(:disabled):not(.is-success, .is-warning, .is-danger).is-focused, .input.is-colored:not(.is-static):not(:disabled):not(.is-success, .is-warning, .is-danger):active, .input.is-colored:not(.is-static):not(:disabled):not(.is-success, .is-warning, .is-danger).is-active,
+.textarea.is-colored:not(.is-static):not(:disabled):not(.is-success, .is-warning, .is-danger):focus,
+.textarea.is-colored:not(.is-static):not(:disabled):not(.is-success, .is-warning, .is-danger).is-focused,
+.textarea.is-colored:not(.is-static):not(:disabled):not(.is-success, .is-warning, .is-danger):active,
+.textarea.is-colored:not(.is-static):not(:disabled):not(.is-success, .is-warning, .is-danger).is-active {
+  box-shadow: var(--bulma-input-focus-shadow-size, 0 0 0 0.125em) var(--bulma-input-focus-shadow-color);
+}
+
 label.radio.button {
   display: flex;
 }

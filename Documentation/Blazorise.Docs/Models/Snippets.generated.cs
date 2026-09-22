@@ -1590,6 +1590,21 @@ namespace Blazorise.Docs.Models
 
         public const string DateInputBasicExample = @"<DateInput TValue=""DateTime?"" />";
 
+        public const string DateInputCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <DateInput TValue=""DateOnly"" Value=""@(new DateOnly( 2026, 6, 15 ))"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <DateInput TValue=""DateOnly"" Value=""@(new DateOnly( 2026, 6, 15 ))"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <DateInput TValue=""DateOnly"" Value=""@(new DateOnly( 2026, 6, 15 ))"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
+
         public const string DateInputDateTimeExample = @"<DateInput TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" />";
 
         public const string DateInputShowPickerExample = @"<Field>
@@ -1621,6 +1636,21 @@ namespace Blazorise.Docs.Models
         selectedDate = date;
     }
 }";
+
+        public const string DatePickerCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <DatePicker TValue=""DateOnly"" Value=""@(new DateOnly( 2026, 6, 15 ))"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <DatePicker TValue=""DateOnly"" Value=""@(new DateOnly( 2026, 6, 15 ))"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <DatePicker TValue=""DateOnly"" Value=""@(new DateOnly( 2026, 6, 15 ))"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
 
         public const string DatePickerDefaultTimesExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" DefaultHour=""9"" DefaultMinute=""15"" />";
 
@@ -3130,6 +3160,21 @@ namespace Blazorise.Docs.Models
 
         public const string BasicInputMaskExample = @"<InputMask Mask=""99-9999999"" />";
 
+        public const string InputMaskCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <InputMask Mask=""99-9999999"" Value=""12-3456789"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <InputMask Mask=""99-9999999"" Value=""12-3456789"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <InputMask Mask=""99-9999999"" Value=""12-3456789"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
+
         public const string InputMaskPlaceholderExample = @"<InputMask Mask=""99-9999999"" MaskPlaceholder=""X"" Placeholder=""Please enter a valid ID"" />";
 
         public const string BasicJumbotronExample = @"<Jumbotron Background=""Background.Light"" Margin=""Margin.Is4.FromBottom"">
@@ -3446,6 +3491,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string MemoInputBasicExample = @"<MemoInput Rows=""5"" />";
 
+        public const string MemoInputCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <MemoInput Rows=""3"" Value=""Indigo border and focus"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <MemoInput Rows=""3"" Value=""Teal border and focus"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <MemoInput Rows=""3"" Value=""Explicit text color"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
+
         public const string MemoInputTabExample = @"<MemoInput Rows=""5"" ReplaceTab TabSize=""4"" />";
 
         public const string MemoInputTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
@@ -3699,6 +3759,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     decimal? value = 123;
 }";
 
+        public const string NumericInputCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <NumericInput TValue=""int"" Value=""42"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <NumericInput TValue=""int"" Value=""65"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <NumericInput TValue=""int"" Value=""80"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
+
         public const string NumericInputGenericExample = @"<NumericInput TValue=""decimal?"" @bind-Value=""@value"" />
 @code {
     decimal? value = 123;
@@ -3707,6 +3782,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string NumericPickerBasicExample = @"<NumericPicker Value=""123"" />";
 
         public const string NumericPickerCurrencyExample = @"<NumericPicker TValue=""decimal?"" CurrencySymbol=""$"" Value=""456"" />";
+
+        public const string NumericPickerCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <NumericPicker TValue=""decimal"" Value=""42.5m"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <NumericPicker TValue=""decimal"" Value=""65.5m"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <NumericPicker TValue=""decimal"" Value=""80.5m"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
 
         public const string NumericPickerGenericExample = @"<NumericPicker TValue=""decimal?"" />";
 
@@ -5829,17 +5919,17 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         </TableRow>
     </TableHeader>
     <TableBody>
-        <TableRow Color=""@(""#DBB5E6"")"">
+        <TableRow Color=""@(""#BAE6FD"")"">
             <TableRowCell>Website</TableRowCell>
             <TableRowCell>In progress</TableRowCell>
         </TableRow>
-        <TableRow Color=""@(new Color(""#312E81""))"">
+        <TableRow Color=""@(new Color(""#164E63""))"">
             <TableRowCell>Mobile app</TableRowCell>
-            <TableRowCell Color=""@(""#FDE68A"")"">Review needed</TableRowCell>
+            <TableRowCell Color=""@(""#FDBA74"")"">Review needed</TableRowCell>
         </TableRow>
         <TableRow>
             <TableRowCell>Documentation</TableRowCell>
-            <TableRowCell Color=""@CssColor.Variable(""--accent"", ""#34D399"")"">Ready</TableRowCell>
+            <TableRowCell Color=""@CssColor.Variable(""--table-ready-color"", ""#A7F3D0"")"">Ready</TableRowCell>
         </TableRow>
     </TableBody>
 </Table>";
@@ -6319,6 +6409,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TextInputBasicExample = @"<TextInput />";
 
+        public const string TextInputCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <TextInput Value=""Indigo border"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <TextInput Value=""Teal border"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <TextInput Value=""Explicit text color"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
+
         public const string TextInputDisabledExample = @"<TextInput Disabled />";
 
         public const string TextInputMaskExample = @"<Fields>
@@ -6500,6 +6605,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TimeInputBasicExample = @"<TimeInput TValue=""TimeSpan?"" />";
 
+        public const string TimeInputCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <TimeInput TValue=""TimeOnly"" Value=""@(new TimeOnly( 9, 30 ))"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <TimeInput TValue=""TimeOnly"" Value=""@(new TimeOnly( 9, 30 ))"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <TimeInput TValue=""TimeOnly"" Value=""@(new TimeOnly( 9, 30 ))"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
+
         public const string TimeInputShowPickerExample = @"<Field>
     <Button Color=""Color.Primary"" Clicked=""@(() => timeInputRef.ShowPicker())"">
         Show Picker
@@ -6537,6 +6657,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 @code {
     TimeSpan? value;
 }";
+
+        public const string TimePickerCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <TimePicker TValue=""TimeOnly"" Value=""@(new TimeOnly( 9, 30 ))"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <TimePicker TValue=""TimeOnly"" Value=""@(new TimeOnly( 9, 30 ))"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <TimePicker TValue=""TimeOnly"" Value=""@(new TimeOnly( 9, 30 ))"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
 
         public const string TimePickerDefaultTimesExample = @"<TimePicker TValue=""TimeSpan?"" DefaultHour=""9"" DefaultMinute=""15"" />";
 

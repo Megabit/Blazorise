@@ -33,6 +33,24 @@ class EmptyStyleProvider : IStyleProvider
 
     #region Component colors
 
+    public string TextInputColor( Color color ) => null;
+
+    public string MemoInputColor( Color color ) => null;
+
+    public string NumericInputColor( Color color ) => null;
+
+    public string DateInputColor( Color color ) => null;
+
+    public string TimeInputColor( Color color ) => null;
+
+    public string DatePickerColor( Color color ) => null;
+
+    public string TimePickerColor( Color color ) => null;
+
+    public string NumericPickerColor( Color color ) => null;
+
+    public string InputMaskColor( Color color ) => null;
+
     public string ListGroupItemColor( Color color ) => null;
 
     public string TableRowColor( Color color ) => null;

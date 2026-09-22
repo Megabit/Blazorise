@@ -119,7 +119,7 @@ public abstract class BaseTextInput<TValue, TClasses, TStyles> : BaseOnScreenKey
     [Parameter] public bool Plaintext { get; set; }
 
     /// <summary>
-    /// Sets the input text color.
+    /// Sets the input border and focus color.
     /// </summary>
     [Parameter]
     public Color Color
@@ -133,11 +133,12 @@ public abstract class BaseTextInput<TValue, TClasses, TStyles> : BaseOnScreenKey
             color = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 
     /// <summary>
-    /// Sets the input text intent.
+    /// Sets the input border and focus intent.
     /// </summary>
     [Parameter]
     public Intent Intent

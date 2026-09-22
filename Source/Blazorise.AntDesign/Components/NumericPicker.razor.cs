@@ -80,6 +80,7 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
 
     private void BuildNumericWrapperStyles( StyleBuilder builder )
     {
+        builder.Append( StyleProvider.NumericPickerColor( Color ) );
         AppendWrapperUtilities( builder );
     }
 

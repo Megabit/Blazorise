@@ -9667,6 +9667,60 @@ input::file-selector-button {
   height: auto;
 }
 
+.fui-Input-color-primary {
+  --colorInputBorder: var(--colorBrandForeground1);
+}
+
+.fui-Input-color-secondary {
+  --colorInputBorder: var(--colorNeutralForeground3);
+}
+
+.fui-Input-color-success {
+  --colorInputBorder: var(--colorStatusSuccessForeground3);
+}
+
+.fui-Input-color-danger {
+  --colorInputBorder: var(--colorPaletteRedForeground3);
+}
+
+.fui-Input-color-warning {
+  --colorInputBorder: var(--colorStatusWarningBackground3);
+}
+
+.fui-Input-color-info {
+  --colorInputBorder: var(--colorNeutralForeground3);
+}
+
+.fui-Input-color-light {
+  --colorInputBorder: var(--colorNeutralForeground4);
+}
+
+.fui-Input-color-dark {
+  --colorInputBorder: var(--colorNeutralForeground1);
+}
+
+.fui-Input-color-link {
+  --colorInputBorder: var(--colorBrandForegroundLink);
+}
+
+:is(.fui-Input, .fui-Textarea, .fui-SpinButton).fui-Input-colored:not(:has(> :disabled)) {
+  --colorNeutralStroke1: var(--colorInputBorder);
+  --colorNeutralStroke1Hover: var(--colorInputBorder);
+  --colorNeutralStroke1Pressed: var(--colorInputBorder);
+  --colorNeutralStrokeAccessible: var(--colorInputBorder);
+  --colorNeutralStrokeAccessibleHover: var(--colorInputBorder);
+  --colorNeutralStrokeAccessiblePressed: var(--colorInputBorder);
+  --colorCompoundBrandStroke: var(--colorInputBorder);
+  --colorCompoundBrandStrokePressed: var(--colorInputBorder);
+}
+
+:is(.fui-Input__content, .fui-Input .fui-SpinButton).fui-Input-colored:not(:has(> :disabled)) {
+  border-bottom: var(--strokeWidthThin) solid var(--colorInputBorder);
+}
+:is(.fui-Input__content, .fui-Input .fui-SpinButton).fui-Input-colored:not(:has(> :disabled)):focus-within {
+  box-shadow: inset 0 -1px var(--colorInputBorder);
+}
+
 .fui-Input,
 .fui-Textarea {
   align-items: center;

@@ -1806,6 +1806,50 @@ label.btn.btn-custom:has(input:focus-visible) {
   padding-left: 0;
 }
 
+.form-control-primary {
+  --bs-input-border-color: #007bff;
+}
+
+.form-control-secondary {
+  --bs-input-border-color: #6c757d;
+}
+
+.form-control-success {
+  --bs-input-border-color: #28a745;
+}
+
+.form-control-info {
+  --bs-input-border-color: #17a2b8;
+}
+
+.form-control-warning {
+  --bs-input-border-color: #ffc107;
+}
+
+.form-control-danger {
+  --bs-input-border-color: #dc3545;
+}
+
+.form-control-light {
+  --bs-input-border-color: #f8f9fa;
+}
+
+.form-control-dark {
+  --bs-input-border-color: #343a40;
+}
+
+.form-control-link {
+  --bs-input-border-color: #3273dc;
+}
+
+.form-control.form-control-colored:not(:disabled):not(.is-valid, .is-warning, .is-invalid):not(.was-validated .form-control) {
+  border-color: var(--bs-input-border-color);
+}
+.form-control.form-control-colored:not(:disabled):not(.is-valid, .is-warning, .is-invalid):not(.was-validated .form-control):focus {
+  border-color: var(--bs-input-border-color);
+  box-shadow: 0 0 0 var(--bs-focus-ring-width, 0.2rem) color-mix(in srgb, var(--bs-input-border-color), transparent 75%);
+}
+
 .form-control-xs {
   height: calc(1.5em + 0.3rem + 2px);
   padding: 0.15rem 0.5rem;

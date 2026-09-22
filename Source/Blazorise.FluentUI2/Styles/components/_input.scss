@@ -1,3 +1,28 @@
+@each $name, $color in $foreground-theme-colors {
+    .fui-Input-color-#{$name} {
+        --colorInputBorder: #{$color};
+    }
+}
+
+:is(.fui-Input, .fui-Textarea, .fui-SpinButton).fui-Input-colored:not(:has(> :disabled)) {
+    --colorNeutralStroke1: var(--colorInputBorder);
+    --colorNeutralStroke1Hover: var(--colorInputBorder);
+    --colorNeutralStroke1Pressed: var(--colorInputBorder);
+    --colorNeutralStrokeAccessible: var(--colorInputBorder);
+    --colorNeutralStrokeAccessibleHover: var(--colorInputBorder);
+    --colorNeutralStrokeAccessiblePressed: var(--colorInputBorder);
+    --colorCompoundBrandStroke: var(--colorInputBorder);
+    --colorCompoundBrandStrokePressed: var(--colorInputBorder);
+}
+
+:is(.fui-Input__content, .fui-Input .fui-SpinButton).fui-Input-colored:not(:has(> :disabled)) {
+    border-bottom: var(--strokeWidthThin) solid var(--colorInputBorder);
+
+    &:focus-within {
+        box-shadow: inset 0 -1px var(--colorInputBorder);
+    }
+}
+
 .fui-Input,
 .fui-Textarea {
     align-items: center;

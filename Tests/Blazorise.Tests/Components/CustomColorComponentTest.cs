@@ -1,5 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
@@ -10,6 +13,127 @@ public class CustomColorComponentTest : BunitContext
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider();
         JSInterop.AddBlazoriseButton().AddBlazoriseClosable().AddBlazoriseDropdown();
+        JSInterop.AddBlazoriseTextInput().AddBlazoriseMemoInput().AddBlazoriseNumericInput();
+        JSInterop.AddBlazoriseDatePicker().AddBlazoriseTimePicker().AddBlazoriseInputMask();
+    }
+
+    [Theory]
+    [InlineData( typeof( TextInput ), "input" )]
+    [InlineData( typeof( MemoInput ), "textarea" )]
+    [InlineData( typeof( NumericInput<int> ), "input" )]
+    [InlineData( typeof( NumericPicker<decimal> ), "input" )]
+    [InlineData( typeof( DateInput<DateOnly?> ), "input" )]
+    [InlineData( typeof( DatePicker<DateOnly?> ), "input" )]
+    [InlineData( typeof( TimeInput<TimeOnly?> ), "input" )]
+    [InlineData( typeof( TimePicker<TimeOnly?> ), "input" )]
+    [InlineData( typeof( InputMask ), "input" )]
+    public void Input_ChangingColorReplacesPreviousClassesAndStyles( Type componentType, string selector )
+    {
+        IRenderedComponent<DynamicComponent> component = Render<DynamicComponent>( parameters => parameters
+            .Add( parameter => parameter.Type, componentType )
+            .Add( parameter => parameter.Parameters, new Dictionary<string, object> { ["Color"] = Color.Success } ) );
+
+        Assert.Contains( "form-control-success", component.Find( selector ).ClassList );
+        Assert.DoesNotContain( "text-success", component.Find( selector ).ClassList );
+
+        component.Render( parameters => parameters
+            .Add( parameter => parameter.Parameters, new Dictionary<string, object> { ["Color"] = new Color( "#312E81" ) } ) );
+
+        Assert.DoesNotContain( "form-control-success", component.Find( selector ).ClassList );
+        Assert.Contains( "form-control-colored", component.Find( selector ).ClassList );
+        Assert.DoesNotContain( "#312E81", component.Find( selector ).ClassName );
+        Assert.Contains( "--bs-input-border-color: #312E81", component.Find( selector ).GetAttribute( "style" ) );
+
+        component.Render( parameters => parameters
+            .Add( parameter => parameter.Parameters, new Dictionary<string, object> { ["Color"] = new Color( "var(--input-accent, #0F766E)" ) } ) );
+
+        Assert.Contains( "--bs-input-border-color: var(--input-accent, #0F766E)", component.Find( selector ).GetAttribute( "style" ) );
+        Assert.DoesNotContain( "#312E81", component.Find( selector ).GetAttribute( "style" ) );
+
+        component.Render( parameters => parameters
+            .Add( parameter => parameter.Parameters, new Dictionary<string, object> { ["Color"] = Color.Danger } ) );
+
+        Assert.Contains( "form-control-danger", component.Find( selector ).ClassList );
+        Assert.DoesNotContain( "text-danger", component.Find( selector ).ClassList );
+        Assert.DoesNotContain( "--bs-input-border-color", component.Find( selector ).GetAttribute( "style" ) ?? string.Empty );
+
+        component.Render( parameters => parameters
+            .Add( parameter => parameter.Parameters, new Dictionary<string, object> { ["Color"] = Color.Default } ) );
+
+        Assert.DoesNotContain( "form-control-danger", component.Find( selector ).ClassList );
+        Assert.DoesNotContain( "form-control-colored", component.Find( selector ).ClassList );
+        Assert.DoesNotContain( "--bs-input-border-color", component.Find( selector ).GetAttribute( "style" ) ?? string.Empty );
+    }
+
+    [Fact]
+    public void TextInput_ExplicitTextColorCanBeChangedAndRemoved()
+    {
+        IRenderedComponent<TextInput> component = Render<TextInput>( parameters => parameters
+            .Add( parameter => parameter.Value, "Example" )
+            .Add( parameter => parameter.Color, new Color( "#312E81" ) )
+            .Add( parameter => parameter.TextColor, new TextColor( "#0F766E" ) ) );
+
+        Assert.Contains( "color:#0F766E !important", component.Find( "input" ).GetAttribute( "style" ) );
+
+        component.Render( parameters => parameters.Add( parameter => parameter.TextColor, TextColor.Dark ) );
+
+        Assert.Contains( "text-dark", component.Find( "input" ).ClassList );
+        Assert.DoesNotContain( "color:#0F766E", component.Find( "input" ).GetAttribute( "style" ) );
+
+        component.Render( parameters => parameters.Add( parameter => parameter.TextColor, TextColor.Default ) );
+
+        Assert.DoesNotContain( "text-dark", component.Find( "input" ).ClassList );
+        Assert.Contains( "--bs-input-border-color: #312E81", component.Find( "input" ).GetAttribute( "style" ) );
+        Assert.DoesNotContain( "color:#0F766E", component.Find( "input" ).GetAttribute( "style" ) );
+        Assert.Equal( "Example", component.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
+    public async Task TextInput_IntentFollowsThemeColorIndependentlyOfTextColor()
+    {
+        Theme theme = new()
+        {
+            ColorOptions = new() { Primary = "#312E81" },
+            TextColorOptions = new() { Primary = "#0F766E" },
+        };
+        IRenderedComponent<ThemeProvider> component = Render<ThemeProvider>( parameters => parameters
+            .Add( parameter => parameter.Theme, theme )
+            .AddChildContent<TextInput>( input => input
+                .Add( parameter => parameter.Color, Color.Primary )
+                .Add( parameter => parameter.TextColor, TextColor.Primary ) ) );
+
+        Assert.Contains( "form-control-primary", component.Find( "input" ).ClassList );
+        Assert.Contains( "text-primary", component.Find( "input" ).ClassList );
+        Assert.Contains( ".form-control-colored.form-control-primary{--bs-input-border-color: #312E81;}", component.Find( "#b-theme-styles" ).TextContent );
+        Assert.DoesNotContain( "--bs-input-border-color: #0F766E", component.Find( "#b-theme-styles" ).TextContent );
+
+        await component.InvokeAsync( () =>
+        {
+            theme.ColorOptions.Primary = "#7C3AED";
+            theme.ThemeHasChanged();
+        } );
+
+        component.WaitForAssertion( () => Assert.Contains(
+            ".form-control-colored.form-control-primary{--bs-input-border-color: #7C3AED;}",
+            component.Find( "#b-theme-styles" ).TextContent ) );
+
+        component.Render( parameters => parameters
+            .AddChildContent<TextInput>( input => input
+                .Add( parameter => parameter.Color, new Color( "#DBB5E6" ) )
+                .Add( parameter => parameter.TextColor, TextColor.Primary ) ) );
+
+        Assert.DoesNotContain( "form-control-primary", component.Find( "input" ).ClassList );
+        Assert.Contains( "--bs-input-border-color: #DBB5E6", component.Find( "input" ).GetAttribute( "style" ) );
+        Assert.Contains( "text-primary", component.Find( "input" ).ClassList );
+
+        await component.InvokeAsync( () =>
+        {
+            theme.Enabled = false;
+            theme.ThemeHasChanged();
+        } );
+
+        component.WaitForAssertion( () => Assert.Empty( component.FindAll( "#b-theme-styles" ) ) );
+        Assert.Contains( "--bs-input-border-color: #DBB5E6", component.Find( "input" ).GetAttribute( "style" ) );
     }
 
     [Theory]

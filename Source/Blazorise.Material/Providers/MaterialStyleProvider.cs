@@ -4,6 +4,24 @@ public class MaterialStyleProvider : StyleProvider
 {
     #region Component colors
 
+    public override string TextInputColor( Color color ) => ColorStyle( color, "--mui-input-border-color" );
+
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
+
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
+
+    public override string DateInputColor( Color color ) => TextInputColor( color );
+
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
+
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
+
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
+
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
+
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
+
     public override string ListGroupItemColor( Color color ) => ColorStyle( color, "--mui-list-item-bg" );
 
     public override string TableRowColor( Color color ) => ColorStyle( color, "--mui-table-row-bg" );
