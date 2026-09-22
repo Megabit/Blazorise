@@ -18,6 +18,7 @@ public class NumericPickerComponentTest : BunitContext
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
         module.SetupVoid( "updateValue", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
     }
 
     [Fact]
@@ -36,6 +37,33 @@ public class NumericPickerComponentTest : BunitContext
         {
             var invocation = this.JSInterop.VerifyInvoke( "updateValue" );
             Assert.Equal( 99m, Assert.IsType<decimal>( invocation.Arguments[2] ) );
+        }, TestExtensions.WaitTime );
+    }
+
+    [Theory]
+    [InlineData( false )]
+    [InlineData( true )]
+    public void EnableStep_Should_InitializeAndUpdateJsOptions( bool enableStep )
+    {
+        var comp = Render<NumericPicker<decimal>>( parameters => parameters
+            .Add( x => x.EnableStep, enableStep )
+            .Add( x => x.ShowStepButtons, false ) );
+
+        comp.WaitForAssertion( () =>
+        {
+            var invocation = JSInterop.VerifyInvoke( "initialize" );
+            NumericPickerJSOptions options = Assert.IsType<NumericPickerJSOptions>( invocation.Arguments[3] );
+            Assert.Equal( enableStep, options.EnableStep );
+        }, TestExtensions.WaitTime );
+
+        comp.Render( parameters => parameters.Add( x => x.EnableStep, !enableStep ) );
+
+        comp.WaitForAssertion( () =>
+        {
+            var invocation = JSInterop.VerifyInvoke( "updateOptions" );
+            NumericPickerUpdateJSOptions options = Assert.IsType<NumericPickerUpdateJSOptions>( invocation.Arguments[2] );
+            Assert.True( options.EnableStep.Changed );
+            Assert.Equal( !enableStep, options.EnableStep.Value );
         }, TestExtensions.WaitTime );
     }
 }
