@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-02T06:54:55.8072177Z",
+  "generatedUtc": "2026-09-22T08:42:16.0619125Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -101744,6 +101744,63 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the field name mapped by this scheduler column.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.Scheduler.SchedulerCommands<>",
+      "typeName": "SchedulerCommands",
+      "summary": "$\"\"\"\r\n       Configures command visibility and templates for scheduler items and editing dialogs.     This component does not render any markup.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "CancelCommandAllowed",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Controls the visibility of the cancel command in editing dialogs. Defaults to true.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "CancelCommandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<SchedulerCommandContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Customizes the cancel command in editing dialogs.     Rendered only when <strong>CancelCommandAllowed</strong> is true.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DeleteCommandAllowed",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Controls the visibility of delete commands on items and in editing dialogs. Defaults to true.     This setting does not prevent programmatic deletion.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DeleteCommandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<SchedulerDeleteCommandContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Customizes the delete command on items and in editing dialogs.     Rendered only when <strong>DeleteCommandAllowed</strong> is true.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SaveCommandAllowed",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Controls the visibility of the save command in editing dialogs. Defaults to true.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SaveCommandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<SchedulerCommandContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Customizes the save command in editing dialogs.     Rendered only when <strong>SaveCommandAllowed</strong> is true.",
           "isBlazoriseEnum": false
         }
       ],

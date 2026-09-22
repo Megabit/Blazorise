@@ -192,18 +192,69 @@
         </ModalBody>
         <ModalFooter Flex="FlexJustifyContentBetweenAlignItemsCenter">
             <Div>
-                <Button Color="Color.Danger" Outline Clicked="@Delete">
-                    <Icon Name="IconName.Delete" Margin="MarginIs2FromEnd" />
-                    @Localizer.Localize( Scheduler.Localizers?.DeleteOccurrenceLocalizer, LocalizationConstants.DeleteOccurrence )
-                </Button>
+                @if ( EditItem is not null && Scheduler.Commands?.DeleteCommandAllowed != false )
+                {
+                    string deleteText = Localizer.Localize( Scheduler.Localizers?.DeleteOccurrenceLocalizer, LocalizationConstants.DeleteOccurrence );
+
+                    @if ( Scheduler.Commands?.DeleteCommandTemplate is not null )
+                    {
+                        @Scheduler.Commands.DeleteCommandTemplate( new SchedulerDeleteCommandContext<TItem>
+                        {
+                            Item = EditItem,
+                            Clicked = EventCallback.Factory.Create( this, Delete ),
+                            LocalizationString = deleteText,
+                        } )
+                    }
+                    else
+                    {
+                        <Button Color="Color.Danger" Outline Clicked="@Delete">
+                            <Icon Name="IconName.Delete" Margin="MarginIs2FromEnd" />
+                            @deleteText
+                        </Button>
+                    }
+                }
             </Div>
             <Div>
-                <Button Color="Color.Secondary" Clicked="@Cancel">
-                    @Localizer.Localize( Scheduler.Localizers?.CancelLocalizer, LocalizationConstants.Cancel )
-                </Button>
-                <Button Color="Color.Primary" Clicked="@Submit">
-                    @Localizer.Localize( Scheduler.Localizers?.SaveLocalizer, LocalizationConstants.Save )
-                </Button>
+                @if ( EditItem is not null && Scheduler.Commands?.CancelCommandAllowed != false )
+                {
+                    string cancelText = Localizer.Localize( Scheduler.Localizers?.CancelLocalizer, LocalizationConstants.Cancel );
+
+                    @if ( Scheduler.Commands?.CancelCommandTemplate is not null )
+                    {
+                        @Scheduler.Commands.CancelCommandTemplate( new SchedulerCommandContext<TItem>
+                        {
+                            Item = EditItem,
+                            Clicked = EventCallback.Factory.Create( this, Cancel ),
+                            LocalizationString = cancelText,
+                        } )
+                    }
+                    else
+                    {
+                        <Button Color="Color.Secondary" Clicked="@Cancel">
+                            @cancelText
+                        </Button>
+                    }
+                }
+                @if ( EditItem is not null && Scheduler.Commands?.SaveCommandAllowed != false )
+                {
+                    string saveText = Localizer.Localize( Scheduler.Localizers?.SaveLocalizer, LocalizationConstants.Save );
+
+                    @if ( Scheduler.Commands?.SaveCommandTemplate is not null )
+                    {
+                        @Scheduler.Commands.SaveCommandTemplate( new SchedulerCommandContext<TItem>
+                        {
+                            Item = EditItem,
+                            Clicked = EventCallback.Factory.Create( this, Submit ),
+                            LocalizationString = saveText,
+                        } )
+                    }
+                    else
+                    {
+                        <Button Color="Color.Primary" Clicked="@Submit">
+                            @saveText
+                        </Button>
+                    }
+                }
             </Div>
         </ModalFooter>
     </ModalContent>

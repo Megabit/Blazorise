@@ -1,7 +1,7 @@
 ﻿namespace Blazorise.Scheduler;
 
 /// <summary>
-/// Represents styling options for a scheduler item, including custom class names, styles, background color, and text color.
+/// Represents styling options for a scheduler item, including custom class names, styles, background color, and text formatting.
 /// </summary>
 public class SchedulerItemStyling
 {
@@ -26,7 +26,33 @@ public class SchedulerItemStyling
     public TextColor TextColor { get; set; }
 
     /// <summary>
+    /// Gets or sets the text alignment for the scheduler item.
+    /// </summary>
+    public TextAlignment TextAlignment { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text transformation for the scheduler item.
+    /// </summary>
+    public TextTransform TextTransform { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text decoration for the scheduler item.
+    /// </summary>
+    public TextDecoration TextDecoration { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text weight for the scheduler item.
+    /// </summary>
+    public TextWeight TextWeight { get; set; }
+
+    /// <summary>
     /// Gets or sets the custom text size for the scheduler item.
     /// </summary>
     public IFluentTextSize TextSize { get; set; }
+
+    /// <summary>
+    /// Gets or sets how item text behaves when it exceeds the available space.
+    /// When null, preserves the view's default text overflow behavior.
+    /// </summary>
+    public TextOverflow? TextOverflow { get; set; }
 }
