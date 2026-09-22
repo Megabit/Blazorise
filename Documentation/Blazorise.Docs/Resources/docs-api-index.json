@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-22T08:42:16.0619125Z",
+  "generatedUtc": "2026-09-22T11:30:30.1115735Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -118975,7 +118975,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "56",
-          "summary": "Defines the tooltip height in SVG viewport units.",
+          "summary": "Defines the tooltip height in SVG viewport units at the unscaled chart size. The rendered height is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         },
         {
@@ -118999,7 +118999,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "8",
-          "summary": "Defines the horizontal tooltip offset from the point anchor.",
+          "summary": "Defines the horizontal tooltip offset from the point anchor in SVG viewport units at the unscaled chart size. The rendered offset is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         },
         {
@@ -119007,7 +119007,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "8",
-          "summary": "Defines the vertical tooltip offset from the point anchor.",
+          "summary": "Defines the vertical tooltip offset from the point anchor in SVG viewport units at the unscaled chart size. The rendered offset is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         },
         {
@@ -119023,7 +119023,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "180",
-          "summary": "Defines the tooltip width in SVG viewport units.",
+          "summary": "Defines the tooltip width in SVG viewport units at the unscaled chart size. The rendered width is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         }
       ],
@@ -119057,7 +119057,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "56",
-          "summary": "Defines the tooltip height in SVG viewport units.",
+          "summary": "Defines the tooltip height in SVG viewport units at the unscaled chart size. The rendered height is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         },
         {
@@ -119081,7 +119081,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "8",
-          "summary": "Defines the horizontal tooltip offset from the point anchor.",
+          "summary": "Defines the horizontal tooltip offset from the point anchor in SVG viewport units at the unscaled chart size. The rendered offset is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         },
         {
@@ -119089,7 +119089,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "8",
-          "summary": "Defines the vertical tooltip offset from the point anchor.",
+          "summary": "Defines the vertical tooltip offset from the point anchor in SVG viewport units at the unscaled chart size. The rendered offset is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         },
         {
@@ -119105,7 +119105,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "180",
-          "summary": "Defines the tooltip width in SVG viewport units.",
+          "summary": "Defines the tooltip width in SVG viewport units at the unscaled chart size. The rendered width is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         }
       ],

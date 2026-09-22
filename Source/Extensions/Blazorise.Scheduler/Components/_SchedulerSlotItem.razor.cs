@@ -155,7 +155,7 @@ public partial class _SchedulerSlotItem<TItem>
     /// <summary>
     /// Gets a string that represents whether the slot is draggable.
     /// </summary>
-    private string DraggableAttribute => Scheduler?.Editable == true && Scheduler?.UseInternalEditing == true && Scheduler?.Draggable == true ? "true" : "false";
+    private string DraggableAttribute => Scheduler?.Editable == true && Scheduler?.Draggable == true ? "true" : "false";
 
     /// <summary>
     /// Provides access to the parent <see cref="Scheduler{TItem}"/> component.

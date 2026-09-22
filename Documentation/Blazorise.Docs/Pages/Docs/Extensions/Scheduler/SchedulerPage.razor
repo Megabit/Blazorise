@@ -154,7 +154,9 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Draggable">
-        To be able to drag and drop items, set the <Code>Draggable</Code> parameter to <Code>true</Code>. This will allow you to move items around the calendar.
+        To be able to drag and drop items, set both <Code>Editable</Code> and <Code>Draggable</Code> to <Code>true</Code>. This will allow you to move items around the calendar.
+        With <Code>UseInternalEditing="false"</Code>, handle <Code>ItemUpdated</Code> to apply the proposed <Code>NewItem</Code> values to your data or reload it after saving. Otherwise, the item remains at its original position.
+        Use <Code>DropAllowed</Code> or cancel <Code>ItemUpdating</Code> to reject a move.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="SchedulerDraggableExample" Outlined FullWidth>
         <SchedulerDraggableExample />
