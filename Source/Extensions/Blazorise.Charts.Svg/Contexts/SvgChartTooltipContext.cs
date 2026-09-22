@@ -62,22 +62,22 @@ public sealed class SvgChartTooltipContext
     public string Text { get; init; }
 
     /// <summary>
-    /// Gets the tooltip X coordinate in SVG viewport units.
+    /// Gets the tooltip X coordinate for the unscaled SVG viewport. The HTML overlay adjusts its position to the displayed chart size.
     /// </summary>
     public double X { get; init; }
 
     /// <summary>
-    /// Gets the tooltip Y coordinate in SVG viewport units.
+    /// Gets the tooltip Y coordinate for the unscaled SVG viewport. The HTML overlay adjusts its position to the displayed chart size.
     /// </summary>
     public double Y { get; init; }
 
     /// <summary>
-    /// Gets the tooltip width in SVG viewport units.
+    /// Gets the tooltip width in SVG viewport units at the unscaled chart size. The rendered width is unaffected by chart scaling.
     /// </summary>
     public double Width { get; init; }
 
     /// <summary>
-    /// Gets the tooltip height in SVG viewport units.
+    /// Gets the tooltip height in SVG viewport units at the unscaled chart size. The rendered height is unaffected by chart scaling.
     /// </summary>
     public double Height { get; init; }
 

@@ -208,6 +208,11 @@ public class SvgChart<TItem> : SvgChartBase
         builder.AddAttribute( sequence++, "style", StyleNames );
         builder.AddElementReferenceCapture( sequence++, elementRef => ElementRef = elementRef );
 
+        builder.OpenElement( sequence++, "div" );
+        builder.AddAttribute( sequence++, "style", options.Responsive
+            ? "position:relative;"
+            : $"position:relative;width:{Format( options.Width )}px;" );
+
         builder.OpenElement( sequence++, "svg" );
         builder.AddAttribute( sequence++, "xmlns", "http://www.w3.org/2000/svg" );
         builder.AddAttribute( sequence++, "class", zoom?.Enabled == true && zoom.Pan ? "svg-chart-surface svg-chart-pannable" : "svg-chart-surface" );
@@ -277,9 +282,10 @@ public class SvgChart<TItem> : SvgChartBase
             SvgChartLegendRenderer.Render( builder, ref sequence, model, options, legend.Position, options.Height - 30, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
 
         RenderPlugins( builder, ref sequence, pluginContext, SvgChartRenderLayer.InteractionOverlay );
-        RenderActiveTooltip( builder, ref sequence, model );
         RenderPlugins( builder, ref sequence, pluginContext, SvgChartRenderLayer.Tooltip );
 
+        builder.CloseElement();
+        RenderActiveTooltip( builder, ref sequence, model );
         builder.CloseElement();
         builder.CloseElement();
 
@@ -632,16 +638,16 @@ public class SvgChart<TItem> : SvgChartBase
         if ( context is null || tooltip is null || !tooltip.Enabled )
             return;
 
-        builder.OpenElement( sequence++, "foreignObject" );
-        builder.AddAttribute( sequence++, "class", "svg-chart-tooltip" );
-        builder.AddAttribute( sequence++, "x", Format( context.X ) );
-        builder.AddAttribute( sequence++, "y", Format( context.Y ) );
-        builder.AddAttribute( sequence++, "width", Format( context.Width ) );
-        builder.AddAttribute( sequence++, "height", Format( context.Height ) );
-        builder.AddAttribute( sequence++, "style", "pointer-events:none;overflow:visible;" );
+        double anchorX = ( context.Bounds.X + context.Bounds.Width / 2 ) / model.Options.Width * 100;
+        double anchorY = context.Bounds.Y / model.Options.Height * 100;
+        string left = $"clamp(0px, calc({Format( anchorX )}% + {Format( tooltip.OffsetX )}px), calc(100% - {Format( context.Width )}px))";
+        string top = $"clamp(0px, calc({Format( anchorY )}% - {Format( context.Height + tooltip.OffsetY )}px), calc(100% - {Format( context.Height )}px))";
 
         builder.OpenElement( sequence++, "div" );
-        builder.AddAttribute( sequence++, "xmlns", "http://www.w3.org/1999/xhtml" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-tooltip" );
+        builder.AddAttribute( sequence++, "style", $"position:absolute;left:{left};top:{top};width:{Format( context.Width )}px;max-width:100%;height:{Format( context.Height )}px;pointer-events:none;z-index:1;" );
+
+        builder.OpenElement( sequence++, "div" );
         builder.AddAttribute( sequence++, "class", "svg-chart-tooltip-content" );
         builder.AddAttribute( sequence++, "style", ResolveTooltipStyle( model.Options, context ) );
 
