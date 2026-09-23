@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-22T14:26:00.5827367Z",
+  "generatedUtc": "2026-09-23T15:52:21.1340082Z",
   "pages": [
     {
       "route": "/docs",
@@ -1182,12 +1182,28 @@
           "title": "Basic example"
         },
         {
+          "code": "DateInputDateTimeExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Dates/Examples/DateInputDateTimeExample.razor",
+          "content": "<DateInput TValue=\"DateTime?\" InputMode=\"DateInputMode.DateTime\" />",
+          "title": "DateTime",
+          "description": "DateInput component also support entering a time part. To enable it just set InputMode parameter."
+        },
+        {
+          "code": "DateInputShowPickerExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Dates/Examples/DateInputShowPickerExample.razor",
+          "content": "<Field>\r\n    <Button Color=\"Color.Primary\" Clicked=\"@(() => dateInputRef.ShowPicker())\">\r\n        Show Picker\r\n    </Button>\r\n</Field>\r\n<Field>\r\n    <DateInput @ref=\"@dateInputRef\" TValue=\"DateTime\" />\r\n</Field>\r\n\r\n@code {\r\n    DateInput<DateTime> dateInputRef;\r\n}",
+          "title": "Show Picker",
+          "description": "If you want to show the default picker that comes with the date input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
+        },
+        {
           "code": "DateInputCustomColorsExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Dates/Examples/DateInputCustomColorsExample.razor",
           "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <DateInput TValue=\"DateOnly\" Value=\"@(new DateOnly( 2026, 6, 15 ))\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <DateInput TValue=\"DateOnly\" Value=\"@(new DateOnly( 2026, 6, 15 ))\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <DateInput TValue=\"DateOnly\" Value=\"@(new DateOnly( 2026, 6, 15 ))\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
           "title": "Custom colors",
-          "description": "Use Color to set the border and focus color. Set TextColor independently."
+          "description": "Use Color to set the color variant of the input. Set TextColor independently."
         },
         {
           "code": "DateInputWithBindExample",
@@ -1204,22 +1220,6 @@
           "content": "<DateInput TValue=\"DateTime?\" Value=\"@selectedDate\" ValueChanged=\"@OnDateChanged\" />\r\n\r\n@code{\r\n    DateTime? selectedDate;\r\n\r\n    void OnDateChanged( DateTime? date )\r\n    {\r\n        selectedDate = date;\r\n    }\r\n}",
           "title": "Manual event binding",
           "description": "When using the event ValueChanged , you also must define the Value value attribute."
-        },
-        {
-          "code": "DateInputDateTimeExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Dates/Examples/DateInputDateTimeExample.razor",
-          "content": "<DateInput TValue=\"DateTime?\" InputMode=\"DateInputMode.DateTime\" />",
-          "title": "DateTime",
-          "description": "DateInput component also support entering a time part. To enable it just set InputMode parameter."
-        },
-        {
-          "code": "DateInputShowPickerExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Dates/Examples/DateInputShowPickerExample.razor",
-          "content": "<Field>\r\n    <Button Color=\"Color.Primary\" Clicked=\"@(() => dateInputRef.ShowPicker())\">\r\n        Show Picker\r\n    </Button>\r\n</Field>\r\n<Field>\r\n    <DateInput @ref=\"@dateInputRef\" TValue=\"DateTime\" />\r\n</Field>\r\n\r\n@code {\r\n    DateInput<DateTime> dateInputRef;\r\n}",
-          "title": "Show Picker",
-          "description": "If you want to show the default picker that comes with the date input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
         }
       ]
     },
@@ -1237,12 +1237,28 @@
           "title": "Basic example"
         },
         {
+          "code": "DateInputDateTimeExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Dates/Examples/DateInputDateTimeExample.razor",
+          "content": "<DateInput TValue=\"DateTime?\" InputMode=\"DateInputMode.DateTime\" />",
+          "title": "DateTime",
+          "description": "DateInput component also support entering a time part. To enable it just set InputMode parameter."
+        },
+        {
+          "code": "DateInputShowPickerExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Dates/Examples/DateInputShowPickerExample.razor",
+          "content": "<Field>\r\n    <Button Color=\"Color.Primary\" Clicked=\"@(() => dateInputRef.ShowPicker())\">\r\n        Show Picker\r\n    </Button>\r\n</Field>\r\n<Field>\r\n    <DateInput @ref=\"@dateInputRef\" TValue=\"DateTime\" />\r\n</Field>\r\n\r\n@code {\r\n    DateInput<DateTime> dateInputRef;\r\n}",
+          "title": "Show Picker",
+          "description": "If you want to show the default picker that comes with the date input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
+        },
+        {
           "code": "DateInputCustomColorsExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Dates/Examples/DateInputCustomColorsExample.razor",
           "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <DateInput TValue=\"DateOnly\" Value=\"@(new DateOnly( 2026, 6, 15 ))\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <DateInput TValue=\"DateOnly\" Value=\"@(new DateOnly( 2026, 6, 15 ))\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <DateInput TValue=\"DateOnly\" Value=\"@(new DateOnly( 2026, 6, 15 ))\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
           "title": "Custom colors",
-          "description": "Use Color to set the border and focus color. Set TextColor independently."
+          "description": "Use Color to set the color variant of the input. Set TextColor independently."
         },
         {
           "code": "DateInputWithBindExample",
@@ -1259,22 +1275,6 @@
           "content": "<DateInput TValue=\"DateTime?\" Value=\"@selectedDate\" ValueChanged=\"@OnDateChanged\" />\r\n\r\n@code{\r\n    DateTime? selectedDate;\r\n\r\n    void OnDateChanged( DateTime? date )\r\n    {\r\n        selectedDate = date;\r\n    }\r\n}",
           "title": "Manual event binding",
           "description": "When using the event ValueChanged , you also must define the Value value attribute."
-        },
-        {
-          "code": "DateInputDateTimeExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Dates/Examples/DateInputDateTimeExample.razor",
-          "content": "<DateInput TValue=\"DateTime?\" InputMode=\"DateInputMode.DateTime\" />",
-          "title": "DateTime",
-          "description": "DateInput component also support entering a time part. To enable it just set InputMode parameter."
-        },
-        {
-          "code": "DateInputShowPickerExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Dates/Examples/DateInputShowPickerExample.razor",
-          "content": "<Field>\r\n    <Button Color=\"Color.Primary\" Clicked=\"@(() => dateInputRef.ShowPicker())\">\r\n        Show Picker\r\n    </Button>\r\n</Field>\r\n<Field>\r\n    <DateInput @ref=\"@dateInputRef\" TValue=\"DateTime\" />\r\n</Field>\r\n\r\n@code {\r\n    DateInput<DateTime> dateInputRef;\r\n}",
-          "title": "Show Picker",
-          "description": "If you want to show the default picker that comes with the date input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
         }
       ]
     },
@@ -1303,14 +1303,6 @@
           "sourcePath": "Pages/Docs/Components/Dates/Examples/BasicDatePickerExample.razor",
           "content": "<DatePicker TValue=\"DateTime?\" @bind-Value=\"@value\" />\r\n\r\n@code {\r\n    DateTime? value;\r\n}",
           "title": "Basic example"
-        },
-        {
-          "code": "DatePickerCustomColorsExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Dates/Examples/DatePickerCustomColorsExample.razor",
-          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <DatePicker TValue=\"DateOnly\" Value=\"@(new DateOnly( 2026, 6, 15 ))\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <DatePicker TValue=\"DateOnly\" Value=\"@(new DateOnly( 2026, 6, 15 ))\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <DatePicker TValue=\"DateOnly\" Value=\"@(new DateOnly( 2026, 6, 15 ))\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
-          "title": "Custom colors",
-          "description": "Use Color to set the border and focus color. Set TextColor independently."
         },
         {
           "code": "DatePickerWithIconExample",
@@ -1423,6 +1415,14 @@
           "content": "<DatePicker TValue=\"DateTime?\" InputMode=\"DateInputMode.DateTime\" DefaultHour=\"9\" DefaultMinute=\"15\" />",
           "title": "Default time",
           "description": "By default the time elements are set to 12:00 . To change it use the DefaultHour and DefaultMinute parameters."
+        },
+        {
+          "code": "DatePickerCustomColorsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Dates/Examples/DatePickerCustomColorsExample.razor",
+          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <DatePicker TValue=\"DateOnly\" Value=\"@(new DateOnly( 2026, 6, 15 ))\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <DatePicker TValue=\"DateOnly\" Value=\"@(new DateOnly( 2026, 6, 15 ))\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <DatePicker TValue=\"DateOnly\" Value=\"@(new DateOnly( 2026, 6, 15 ))\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
+          "title": "Custom colors",
+          "description": "Use Color to set the color variant of the input. Set TextColor independently."
         },
         {
           "code": "DatePickerFormatBestPracticeExample",
@@ -2280,14 +2280,6 @@
           "description": "To start you only need to define the Mask parameter."
         },
         {
-          "code": "InputMaskCustomColorsExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/InputMasks/Examples/InputMaskCustomColorsExample.razor",
-          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <InputMask Mask=\"99-9999999\" Value=\"12-3456789\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <InputMask Mask=\"99-9999999\" Value=\"12-3456789\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <InputMask Mask=\"99-9999999\" Value=\"12-3456789\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
-          "title": "Custom colors",
-          "description": "Use Color to set the border and focus color. Set TextColor independently."
-        },
-        {
           "code": "AliasInputMaskExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/InputMasks/Examples/AliasInputMaskExample.razor",
@@ -2302,6 +2294,14 @@
           "content": "<InputMask Mask=\"99-9999999\" MaskPlaceholder=\"X\" Placeholder=\"Please enter a valid ID\" />",
           "title": "With Placeholder",
           "description": "You can control the placeholder that will be used for the mask. The Placeholder will be used when the mask is not defined. And the MaskPlaceholder will be used when the mask is defined for extra information to the user about the valid input format."
+        },
+        {
+          "code": "InputMaskCustomColorsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/InputMasks/Examples/InputMaskCustomColorsExample.razor",
+          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <InputMask Mask=\"99-9999999\" Value=\"12-3456789\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <InputMask Mask=\"99-9999999\" Value=\"12-3456789\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <InputMask Mask=\"99-9999999\" Value=\"12-3456789\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
+          "title": "Custom colors",
+          "description": "Use Color to set the color variant of the input. Set TextColor independently."
         }
       ]
     },
@@ -2572,14 +2572,6 @@
           "title": "Basic"
         },
         {
-          "code": "MemoInputCustomColorsExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Memos/Examples/MemoInputCustomColorsExample.razor",
-          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <MemoInput Rows=\"3\" Value=\"Indigo border and focus\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <MemoInput Rows=\"3\" Value=\"Teal border and focus\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <MemoInput Rows=\"3\" Value=\"Explicit text color\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
-          "title": "Custom colors",
-          "description": "Use Color to set the border and focus color. Set TextColor independently."
-        },
-        {
           "code": "MemoInputTabExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Memos/Examples/MemoInputTabExample.razor",
@@ -2594,6 +2586,14 @@
           "content": "<MemoInput Value=\"@loremipsum\" AutoSize />\r\n\r\n@code {\r\n    string loremipsum = @\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel semper libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.\r\n\r\nProin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultrices mi libero quis ante. Curabitur scelerisque metus et libero convallis consequat. Pellentesque feugiat pulvinar nisl sed pellentesque.\";\r\n}",
           "title": "Auto size",
           "description": "Unless set to a fixed height, MemoInput adjusts its height automatically based on its content. The default and minimum height is two rows of text."
+        },
+        {
+          "code": "MemoInputCustomColorsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Memos/Examples/MemoInputCustomColorsExample.razor",
+          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <MemoInput Rows=\"3\" Value=\"Indigo variant\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <MemoInput Rows=\"3\" Value=\"Teal variant\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <MemoInput Rows=\"3\" Value=\"Explicit text color\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
+          "title": "Custom colors",
+          "description": "Use Color to set the color variant of the input. Set TextColor independently."
         },
         {
           "code": "MemoInputWithBindExample",
@@ -2643,14 +2643,6 @@
           "title": "Basic"
         },
         {
-          "code": "MemoInputCustomColorsExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Memos/Examples/MemoInputCustomColorsExample.razor",
-          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <MemoInput Rows=\"3\" Value=\"Indigo border and focus\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <MemoInput Rows=\"3\" Value=\"Teal border and focus\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <MemoInput Rows=\"3\" Value=\"Explicit text color\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
-          "title": "Custom colors",
-          "description": "Use Color to set the border and focus color. Set TextColor independently."
-        },
-        {
           "code": "MemoInputTabExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Memos/Examples/MemoInputTabExample.razor",
@@ -2665,6 +2657,14 @@
           "content": "<MemoInput Value=\"@loremipsum\" AutoSize />\r\n\r\n@code {\r\n    string loremipsum = @\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel semper libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.\r\n\r\nProin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultrices mi libero quis ante. Curabitur scelerisque metus et libero convallis consequat. Pellentesque feugiat pulvinar nisl sed pellentesque.\";\r\n}",
           "title": "Auto size",
           "description": "Unless set to a fixed height, MemoInput adjusts its height automatically based on its content. The default and minimum height is two rows of text."
+        },
+        {
+          "code": "MemoInputCustomColorsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Memos/Examples/MemoInputCustomColorsExample.razor",
+          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <MemoInput Rows=\"3\" Value=\"Indigo variant\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <MemoInput Rows=\"3\" Value=\"Teal variant\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <MemoInput Rows=\"3\" Value=\"Explicit text color\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
+          "title": "Custom colors",
+          "description": "Use Color to set the color variant of the input. Set TextColor independently."
         },
         {
           "code": "MemoInputWithBindExample",
@@ -2800,20 +2800,20 @@
           "title": "Basic"
         },
         {
-          "code": "NumericInputCustomColorsExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericInputCustomColorsExample.razor",
-          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <NumericInput TValue=\"int\" Value=\"42\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <NumericInput TValue=\"int\" Value=\"65\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <NumericInput TValue=\"int\" Value=\"80\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
-          "title": "Custom colors",
-          "description": "Use Color to set the border and focus color. Set TextColor independently."
-        },
-        {
           "code": "NumericInputGenericExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericInputGenericExample.razor",
           "content": "<NumericInput TValue=\"decimal?\" @bind-Value=\"@value\" />\r\n@code {\r\n    decimal? value = 123;\r\n}",
           "title": "Generic type",
           "description": "Since NumericInput is a generic component you will have to specify the exact data type for the value. Most of the time it will be recognized automatically when you set the Value attribute, but if not you will just use the TValue attribute and define the type manually eg."
+        },
+        {
+          "code": "NumericInputCustomColorsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericInputCustomColorsExample.razor",
+          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <NumericInput TValue=\"int\" Value=\"42\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <NumericInput TValue=\"int\" Value=\"65\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <NumericInput TValue=\"int\" Value=\"80\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
+          "title": "Custom colors",
+          "description": "Use Color to set the color variant of the input. Set TextColor independently."
         }
       ]
     },
@@ -2831,20 +2831,20 @@
           "title": "Basic"
         },
         {
-          "code": "NumericInputCustomColorsExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericInputCustomColorsExample.razor",
-          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <NumericInput TValue=\"int\" Value=\"42\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <NumericInput TValue=\"int\" Value=\"65\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <NumericInput TValue=\"int\" Value=\"80\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
-          "title": "Custom colors",
-          "description": "Use Color to set the border and focus color. Set TextColor independently."
-        },
-        {
           "code": "NumericInputGenericExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericInputGenericExample.razor",
           "content": "<NumericInput TValue=\"decimal?\" @bind-Value=\"@value\" />\r\n@code {\r\n    decimal? value = 123;\r\n}",
           "title": "Generic type",
           "description": "Since NumericInput is a generic component you will have to specify the exact data type for the value. Most of the time it will be recognized automatically when you set the Value attribute, but if not you will just use the TValue attribute and define the type manually eg."
+        },
+        {
+          "code": "NumericInputCustomColorsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericInputCustomColorsExample.razor",
+          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <NumericInput TValue=\"int\" Value=\"42\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <NumericInput TValue=\"int\" Value=\"65\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <NumericInput TValue=\"int\" Value=\"80\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
+          "title": "Custom colors",
+          "description": "Use Color to set the color variant of the input. Set TextColor independently."
         }
       ]
     },
@@ -2875,20 +2875,20 @@
           "title": "Basic"
         },
         {
-          "code": "NumericPickerCustomColorsExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericPickerCustomColorsExample.razor",
-          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <NumericPicker TValue=\"decimal\" Value=\"42.5m\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <NumericPicker TValue=\"decimal\" Value=\"65.5m\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <NumericPicker TValue=\"decimal\" Value=\"80.5m\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
-          "title": "Custom colors",
-          "description": "Use Color to set the border and focus color. Set TextColor independently."
-        },
-        {
           "code": "NumericPickerStylingExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericPickerStylingExample.razor",
           "content": "<NumericPicker TValue=\"int\"\r\n               @bind-Value=\"value\"\r\n               Min=\"0\"\r\n               Max=\"20\"\r\n               Styles='@(new NumericPickerStyles\r\n               {\r\n                   Self = \"border: 2px solid #0b7285;\",\r\n                   Wrapper = \"padding: 0.25rem; background: #f1f3f5; border-radius: 0.5rem;\",\r\n                   Buttons = \"background: #e7f5ff;\",\r\n                   ButtonUp = \"background: #0b7285; color: #ffffff;\",\r\n                   ButtonDown = \"background: #0b7285; color: #ffffff;\"\r\n               })' />\r\n\r\n@code {\r\n    private int value = 5;\r\n}",
           "title": "Styling buttons",
           "description": "Use Classes or Styles to customize the step buttons and wrapper elements. For advanced styling of the wrapper and step buttons, see the Styling guide."
+        },
+        {
+          "code": "NumericPickerCustomColorsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericPickerCustomColorsExample.razor",
+          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <NumericPicker TValue=\"decimal\" Value=\"42.5m\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <NumericPicker TValue=\"decimal\" Value=\"65.5m\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <NumericPicker TValue=\"decimal\" Value=\"80.5m\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
+          "title": "Custom colors",
+          "description": "Use Color to set the color variant of the input. Set TextColor independently."
         },
         {
           "code": "NumericPickerGenericExample",
@@ -4191,14 +4191,6 @@
           "title": "Basic"
         },
         {
-          "code": "TextInputCustomColorsExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Texts/Examples/TextInputCustomColorsExample.razor",
-          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <TextInput Value=\"Indigo border\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <TextInput Value=\"Teal border\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <TextInput Value=\"Explicit text color\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
-          "title": "Custom colors",
-          "description": "Use Color to set the border and focus color. Set TextColor independently."
-        },
-        {
           "code": "TextInputPlaceholderExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Texts/Examples/TextInputPlaceholderExample.razor",
@@ -4260,6 +4252,22 @@
           "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.Is6.OnDesktop.Is12.OnMobile\">\r\n        <FieldLabel>\r\n            Email\r\n        </FieldLabel>\r\n        <FieldBody>\r\n            <TextInput Role=\"TextRole.Email\" />\r\n        </FieldBody>\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.Is6.OnDesktop.Is12.OnMobile\">\r\n        <FieldLabel>\r\n            Password\r\n        </FieldLabel>\r\n        <FieldBody>\r\n            <TextInput Role=\"TextRole.Password\" autocomplete=\"new-password\" />\r\n        </FieldBody>\r\n    </Field>\r\n</Fields>",
           "title": "Roles",
           "description": "Use Role to define type of text value."
+        },
+        {
+          "code": "TextInputIntentColorsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Texts/Examples/TextInputIntentColorsExample.razor",
+          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Primary</FieldLabel>\r\n        <TextInput Value=\"Primary variant\" Intent=\"Intent.Primary\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Success (Color)</FieldLabel>\r\n        <TextInput Value=\"Success variant\" Color=\"Color.Success\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Success (Intent)</FieldLabel>\r\n        <TextInput Value=\"Success variant\" Intent=\"Intent.Success\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Warning</FieldLabel>\r\n        <TextInput Value=\"Warning variant\" Intent=\"Intent.Warning\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Danger</FieldLabel>\r\n        <TextInput Value=\"Danger variant\" Intent=\"Intent.Danger\" />\r\n    </Field>\r\n</Fields>",
+          "title": "Intent colors",
+          "description": "Use Color or Intent to define the intent of the input. Color.Success and Intent.Success produce the same appearance. These parameters do not set the validation state."
+        },
+        {
+          "code": "TextInputCustomColorsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Texts/Examples/TextInputCustomColorsExample.razor",
+          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <TextInput Value=\"Indigo variant\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <TextInput Value=\"Teal variant\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <TextInput Value=\"Explicit text color\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
+          "title": "Custom colors",
+          "description": "Use Color to set the color variant of the input. Set TextColor independently."
         },
         {
           "code": "TextInputWithBindExample",
@@ -4309,14 +4317,6 @@
           "title": "Basic"
         },
         {
-          "code": "TextInputCustomColorsExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Texts/Examples/TextInputCustomColorsExample.razor",
-          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <TextInput Value=\"Indigo border\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <TextInput Value=\"Teal border\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <TextInput Value=\"Explicit text color\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
-          "title": "Custom colors",
-          "description": "Use Color to set the border and focus color. Set TextColor independently."
-        },
-        {
           "code": "TextInputPlaceholderExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Texts/Examples/TextInputPlaceholderExample.razor",
@@ -4378,6 +4378,22 @@
           "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.Is6.OnDesktop.Is12.OnMobile\">\r\n        <FieldLabel>\r\n            Email\r\n        </FieldLabel>\r\n        <FieldBody>\r\n            <TextInput Role=\"TextRole.Email\" />\r\n        </FieldBody>\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.Is6.OnDesktop.Is12.OnMobile\">\r\n        <FieldLabel>\r\n            Password\r\n        </FieldLabel>\r\n        <FieldBody>\r\n            <TextInput Role=\"TextRole.Password\" autocomplete=\"new-password\" />\r\n        </FieldBody>\r\n    </Field>\r\n</Fields>",
           "title": "Roles",
           "description": "Use Role to define type of text value."
+        },
+        {
+          "code": "TextInputIntentColorsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Texts/Examples/TextInputIntentColorsExample.razor",
+          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Primary</FieldLabel>\r\n        <TextInput Value=\"Primary variant\" Intent=\"Intent.Primary\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Success (Color)</FieldLabel>\r\n        <TextInput Value=\"Success variant\" Color=\"Color.Success\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Success (Intent)</FieldLabel>\r\n        <TextInput Value=\"Success variant\" Intent=\"Intent.Success\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Warning</FieldLabel>\r\n        <TextInput Value=\"Warning variant\" Intent=\"Intent.Warning\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Danger</FieldLabel>\r\n        <TextInput Value=\"Danger variant\" Intent=\"Intent.Danger\" />\r\n    </Field>\r\n</Fields>",
+          "title": "Intent colors",
+          "description": "Use Color or Intent to define the intent of the input. Color.Success and Intent.Success produce the same appearance. These parameters do not set the validation state."
+        },
+        {
+          "code": "TextInputCustomColorsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Texts/Examples/TextInputCustomColorsExample.razor",
+          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <TextInput Value=\"Indigo variant\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <TextInput Value=\"Teal variant\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <TextInput Value=\"Explicit text color\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
+          "title": "Custom colors",
+          "description": "Use Color to set the color variant of the input. Set TextColor independently."
         },
         {
           "code": "TextInputWithBindExample",
@@ -4441,12 +4457,20 @@
           "description": "A native time field example with type=\"time\" ."
         },
         {
+          "code": "TimeInputShowPickerExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Times/Examples/TimeInputShowPickerExample.razor",
+          "content": "<Field>\r\n    <Button Color=\"Color.Primary\" Clicked=\"@(() => timeInputRef.ShowPicker())\">\r\n        Show Picker\r\n    </Button>\r\n</Field>\r\n<Field>\r\n    <TimeInput @ref=\"@timeInputRef\" TValue=\"DateTime\" />\r\n</Field>\r\n\r\n@code {\r\n    TimeInput<DateTime> timeInputRef;\r\n}",
+          "title": "Show Picker",
+          "description": "If you want to show the default picker that comes with the time input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
+        },
+        {
           "code": "TimeInputCustomColorsExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Times/Examples/TimeInputCustomColorsExample.razor",
           "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <TimeInput TValue=\"TimeOnly\" Value=\"@(new TimeOnly( 9, 30 ))\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <TimeInput TValue=\"TimeOnly\" Value=\"@(new TimeOnly( 9, 30 ))\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <TimeInput TValue=\"TimeOnly\" Value=\"@(new TimeOnly( 9, 30 ))\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
           "title": "Custom colors",
-          "description": "Use Color to set the border and focus color. Set TextColor independently."
+          "description": "Use Color to set the color variant of the input. Set TextColor independently."
         },
         {
           "code": "TimeInputWithBindExample",
@@ -4463,14 +4487,6 @@
           "content": "<TimeInput TValue=\"TimeSpan?\" Value=\"@selectedTime\" ValueChanged=\"@OnValueChanged\" />\r\n\r\n@code{\r\n    TimeSpan? selectedTime;\r\n\r\n    Task OnValueChanged(TimeSpan? Time)\r\n    {\r\n        selectedTime = Time;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
           "title": "Manual event binding",
           "description": "When using the event ValueChanged , you also must define the Value value attribute."
-        },
-        {
-          "code": "TimeInputShowPickerExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Times/Examples/TimeInputShowPickerExample.razor",
-          "content": "<Field>\r\n    <Button Color=\"Color.Primary\" Clicked=\"@(() => timeInputRef.ShowPicker())\">\r\n        Show Picker\r\n    </Button>\r\n</Field>\r\n<Field>\r\n    <TimeInput @ref=\"@timeInputRef\" TValue=\"DateTime\" />\r\n</Field>\r\n\r\n@code {\r\n    TimeInput<DateTime> timeInputRef;\r\n}",
-          "title": "Show Picker",
-          "description": "If you want to show the default picker that comes with the time input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
         }
       ]
     },
@@ -4489,12 +4505,20 @@
           "description": "A native time field example with type=\"time\" ."
         },
         {
+          "code": "TimeInputShowPickerExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Times/Examples/TimeInputShowPickerExample.razor",
+          "content": "<Field>\r\n    <Button Color=\"Color.Primary\" Clicked=\"@(() => timeInputRef.ShowPicker())\">\r\n        Show Picker\r\n    </Button>\r\n</Field>\r\n<Field>\r\n    <TimeInput @ref=\"@timeInputRef\" TValue=\"DateTime\" />\r\n</Field>\r\n\r\n@code {\r\n    TimeInput<DateTime> timeInputRef;\r\n}",
+          "title": "Show Picker",
+          "description": "If you want to show the default picker that comes with the time input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
+        },
+        {
           "code": "TimeInputCustomColorsExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Times/Examples/TimeInputCustomColorsExample.razor",
           "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <TimeInput TValue=\"TimeOnly\" Value=\"@(new TimeOnly( 9, 30 ))\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <TimeInput TValue=\"TimeOnly\" Value=\"@(new TimeOnly( 9, 30 ))\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <TimeInput TValue=\"TimeOnly\" Value=\"@(new TimeOnly( 9, 30 ))\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
           "title": "Custom colors",
-          "description": "Use Color to set the border and focus color. Set TextColor independently."
+          "description": "Use Color to set the color variant of the input. Set TextColor independently."
         },
         {
           "code": "TimeInputWithBindExample",
@@ -4511,14 +4535,6 @@
           "content": "<TimeInput TValue=\"TimeSpan?\" Value=\"@selectedTime\" ValueChanged=\"@OnValueChanged\" />\r\n\r\n@code{\r\n    TimeSpan? selectedTime;\r\n\r\n    Task OnValueChanged(TimeSpan? Time)\r\n    {\r\n        selectedTime = Time;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
           "title": "Manual event binding",
           "description": "When using the event ValueChanged , you also must define the Value value attribute."
-        },
-        {
-          "code": "TimeInputShowPickerExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Times/Examples/TimeInputShowPickerExample.razor",
-          "content": "<Field>\r\n    <Button Color=\"Color.Primary\" Clicked=\"@(() => timeInputRef.ShowPicker())\">\r\n        Show Picker\r\n    </Button>\r\n</Field>\r\n<Field>\r\n    <TimeInput @ref=\"@timeInputRef\" TValue=\"DateTime\" />\r\n</Field>\r\n\r\n@code {\r\n    TimeInput<DateTime> timeInputRef;\r\n}",
-          "title": "Show Picker",
-          "description": "If you want to show the default picker that comes with the time input element you can make it by using the ShowPicker() function. Note: Keep in mind that not all browser will support the ShowPicker() function."
         }
       ]
     },
@@ -4548,14 +4564,6 @@
           "content": "<TimePicker TValue=\"TimeSpan?\" @bind-Value=\"@value\" />\r\n\r\n@code {\r\n    TimeSpan? value;\r\n}",
           "title": "Basic example",
           "description": "In the following example, the Blazorise TimePicker is easily set up and bound to a value by setting the @@bind- directive."
-        },
-        {
-          "code": "TimePickerCustomColorsExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Components/Times/Examples/TimePickerCustomColorsExample.razor",
-          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <TimePicker TValue=\"TimeOnly\" Value=\"@(new TimeOnly( 9, 30 ))\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <TimePicker TValue=\"TimeOnly\" Value=\"@(new TimeOnly( 9, 30 ))\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <TimePicker TValue=\"TimeOnly\" Value=\"@(new TimeOnly( 9, 30 ))\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
-          "title": "Custom colors",
-          "description": "Use Color to set the border and focus color. Set TextColor independently."
         },
         {
           "code": "TimePickerWithDateTimeExample",
@@ -4612,6 +4620,14 @@
           "content": "<TimePicker TValue=\"TimeSpan?\" @bind-Value=\"@value\" Seconds />\r\n\r\n@code {\r\n    TimeSpan? value;\r\n}",
           "title": "Enable Seconds",
           "description": "By default, the time picker does not include seconds in the selection. This simplifies the input for use cases where precision to the second is not required. If you want to enable seconds in the time picker, you should assign the value true to the Seconds parameter."
+        },
+        {
+          "code": "TimePickerCustomColorsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Times/Examples/TimePickerCustomColorsExample.razor",
+          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Indigo</FieldLabel>\r\n        <TimePicker TValue=\"TimeOnly\" Value=\"@(new TimeOnly( 9, 30 ))\" Color=\"@(\"#312E81\")\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Teal</FieldLabel>\r\n        <TimePicker TValue=\"TimeOnly\" Value=\"@(new TimeOnly( 9, 30 ))\" Color=\"@(new Color( CssColor.Rgb( 15, 118, 110 ) ))\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.IsFull.OnMobile.Is4.OnTablet\">\r\n        <FieldLabel>Explicit text color</FieldLabel>\r\n        <TimePicker TValue=\"TimeOnly\" Value=\"@(new TimeOnly( 9, 30 ))\" Color=\"@CssColor.Variable( \"--input-accent\", \"#7C3AED\" )\" TextColor=\"@(new TextColor( \"#0F766E\" ))\" />\r\n    </Field>\r\n</Fields>",
+          "title": "Custom colors",
+          "description": "Use Color to set the color variant of the input. Set TextColor independently."
         }
       ]
     },

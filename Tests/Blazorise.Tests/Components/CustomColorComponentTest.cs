@@ -34,6 +34,7 @@ public class CustomColorComponentTest : BunitContext
             .Add( parameter => parameter.Parameters, new Dictionary<string, object> { ["Color"] = Color.Success } ) );
 
         Assert.Contains( "form-control-success", component.Find( selector ).ClassList );
+        Assert.DoesNotContain( "form-control-colored", component.Find( selector ).ClassList );
         Assert.DoesNotContain( "text-success", component.Find( selector ).ClassList );
 
         component.Render( parameters => parameters
@@ -54,6 +55,7 @@ public class CustomColorComponentTest : BunitContext
             .Add( parameter => parameter.Parameters, new Dictionary<string, object> { ["Color"] = Color.Danger } ) );
 
         Assert.Contains( "form-control-danger", component.Find( selector ).ClassList );
+        Assert.DoesNotContain( "form-control-colored", component.Find( selector ).ClassList );
         Assert.DoesNotContain( "text-danger", component.Find( selector ).ClassList );
         Assert.DoesNotContain( "--bs-input-border-color", component.Find( selector ).GetAttribute( "style" ) ?? string.Empty );
 
@@ -103,8 +105,9 @@ public class CustomColorComponentTest : BunitContext
                 .Add( parameter => parameter.TextColor, TextColor.Primary ) ) );
 
         Assert.Contains( "form-control-primary", component.Find( "input" ).ClassList );
+        Assert.DoesNotContain( "form-control-colored", component.Find( "input" ).ClassList );
         Assert.Contains( "text-primary", component.Find( "input" ).ClassList );
-        Assert.Contains( ".form-control-colored.form-control-primary{--bs-input-border-color: #312E81;}", component.Find( "#b-theme-styles" ).TextContent );
+        Assert.Contains( ".form-control-primary{--bs-input-border-color: #312E81;}", component.Find( "#b-theme-styles" ).TextContent );
         Assert.DoesNotContain( "--bs-input-border-color: #0F766E", component.Find( "#b-theme-styles" ).TextContent );
 
         await component.InvokeAsync( () =>
@@ -114,7 +117,7 @@ public class CustomColorComponentTest : BunitContext
         } );
 
         component.WaitForAssertion( () => Assert.Contains(
-            ".form-control-colored.form-control-primary{--bs-input-border-color: #7C3AED;}",
+            ".form-control-primary{--bs-input-border-color: #7C3AED;}",
             component.Find( "#b-theme-styles" ).TextContent ) );
 
         component.Render( parameters => parameters

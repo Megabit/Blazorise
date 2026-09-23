@@ -3494,11 +3494,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string MemoInputCustomColorsExample = @"<Fields>
     <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
         <FieldLabel>Indigo</FieldLabel>
-        <MemoInput Rows=""3"" Value=""Indigo border and focus"" Color=""@(""#312E81"")"" />
+        <MemoInput Rows=""3"" Value=""Indigo variant"" Color=""@(""#312E81"")"" />
     </Field>
     <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
         <FieldLabel>Teal</FieldLabel>
-        <MemoInput Rows=""3"" Value=""Teal border and focus"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+        <MemoInput Rows=""3"" Value=""Teal variant"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
     </Field>
     <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
         <FieldLabel>Explicit text color</FieldLabel>
@@ -6412,11 +6412,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string TextInputCustomColorsExample = @"<Fields>
     <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
         <FieldLabel>Indigo</FieldLabel>
-        <TextInput Value=""Indigo border"" Color=""@(""#312E81"")"" />
+        <TextInput Value=""Indigo variant"" Color=""@(""#312E81"")"" />
     </Field>
     <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
         <FieldLabel>Teal</FieldLabel>
-        <TextInput Value=""Teal border"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+        <TextInput Value=""Teal variant"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
     </Field>
     <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
         <FieldLabel>Explicit text color</FieldLabel>
@@ -6425,6 +6425,29 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 </Fields>";
 
         public const string TextInputDisabledExample = @"<TextInput Disabled />";
+
+        public const string TextInputIntentColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Primary</FieldLabel>
+        <TextInput Value=""Primary variant"" Intent=""Intent.Primary"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Success (Color)</FieldLabel>
+        <TextInput Value=""Success variant"" Color=""Color.Success"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Success (Intent)</FieldLabel>
+        <TextInput Value=""Success variant"" Intent=""Intent.Success"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Warning</FieldLabel>
+        <TextInput Value=""Warning variant"" Intent=""Intent.Warning"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Danger</FieldLabel>
+        <TextInput Value=""Danger variant"" Intent=""Intent.Danger"" />
+    </Field>
+</Fields>";
 
         public const string TextInputMaskExample = @"<Fields>
     <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
