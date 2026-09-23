@@ -46,7 +46,9 @@ public partial class SpinKit : BaseComponent
         }
         else if ( Color is not null && Color != Blazorise.Color.Default )
         {
-            builder.Append( $"--sk-color: var(--b-spinkit-color-{Color.Name});" );
+            builder.Append( Color.IsCssValue
+                ? $"--sk-color: {Color.Name};"
+                : $"--sk-color: var(--b-spinkit-color-{Color.Name});" );
         }
 
         if ( Size != Blazorise.Size.Default )
@@ -160,7 +162,7 @@ public partial class SpinKit : BaseComponent
     }
 
     /// <summary>
-    /// Specifies the spinner color variant.
+    /// Defines the intent of the spinner.
     /// </summary>
     [Parameter]
     public Color Color

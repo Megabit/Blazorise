@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-23T19:38:21.3498565Z",
+  "generatedUtc": "2026-09-23T19:51:36.7481054Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -4639,7 +4639,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "\"#000000\"",
-          "summary": "Specifies the spinner color in a HEX format.",
+          "summary": "Defines the intent of the spinner.",
           "isBlazoriseEnum": false
         },
         {
@@ -66250,7 +66250,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "\"#000000\"",
-          "summary": "Specifies the spinner color in a HEX format.",
+          "summary": "Defines the intent of the spinner.",
           "isBlazoriseEnum": false
         },
         {
@@ -110517,7 +110517,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Default",
-          "summary": "Specifies the spinner color variant.",
+          "summary": "Defines the intent of the spinner.",
           "isBlazoriseEnum": false
         },
         {

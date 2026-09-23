@@ -26317,6 +26317,21 @@ dotnet add package Blazorise.Icons.Material";
     @Body
 </LoadingIndicator>";
 
+        public const string LoadingIndicatorCustomColorsExample = @"<Row>
+    <Column ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"" Margin=""Margin.Is3.FromBottom"">
+        <Paragraph>Success</Paragraph>
+        <LoadingIndicator Visible Height=""Height.Px(100)"" SpinnerColor=""Color.Success"" />
+    </Column>
+    <Column ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"" Margin=""Margin.Is3.FromBottom"">
+        <Paragraph>Lavender</Paragraph>
+        <LoadingIndicator Visible Height=""Height.Px(100)"" SpinnerColor=""@(""#DBB5E6"")"" />
+    </Column>
+    <Column ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"" Margin=""Margin.Is3.FromBottom"">
+        <Paragraph>Accent</Paragraph>
+        <LoadingIndicator Visible Height=""Height.Px(100)"" SpinnerColor=""@CssColor.Variable( ""--spinner-accent"", ""#0F766E"" )"" />
+    </Column>
+</Row>";
+
         public const string LoadingIndicatorImportsExample = @"@using Blazorise.LoadingIndicator";
 
         public const string LoadingIndicatorNugetInstallExample = @"dotnet add package Blazorise.LoadingIndicator";
@@ -30874,6 +30889,21 @@ builder.Services
 }";
 
         public const string SpinKitColorExample = @"<SpinKit Type=""SpinKitType.Plane"" Color=""Color.Success"" />";
+
+        public const string SpinKitCustomColorsExample = @"<Row>
+    <Column ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"" Margin=""Margin.Is3.FromBottom"">
+        <Paragraph>Primary</Paragraph>
+        <SpinKit Type=""SpinKitType.Chase"" Color=""Color.Primary"" />
+    </Column>
+    <Column ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"" Margin=""Margin.Is3.FromBottom"">
+        <Paragraph>Lavender</Paragraph>
+        <SpinKit Type=""SpinKitType.Chase"" Color=""@(""#DBB5E6"")"" />
+    </Column>
+    <Column ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"" Margin=""Margin.Is3.FromBottom"">
+        <Paragraph>Accent</Paragraph>
+        <SpinKit Type=""SpinKitType.Chase"" Color=""@CssColor.Variable( ""--spinner-accent"", ""#0F766E"" )"" />
+    </Column>
+</Row>";
 
         public const string SpinKitExample = @"<SpinKit Type=""SpinKitType.Plane"" />";
 

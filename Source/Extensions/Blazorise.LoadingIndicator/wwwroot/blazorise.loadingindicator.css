@@ -1,4 +1,16 @@
-﻿@keyframes b-loading-indicator-overlay-fadein {
+﻿:root {
+  --b-loading-indicator-color-primary: #2196f3;
+  --b-loading-indicator-color-secondary: #757575;
+  --b-loading-indicator-color-success: #4caf50;
+  --b-loading-indicator-color-info: #00bcd4;
+  --b-loading-indicator-color-warning: #ffeb3b;
+  --b-loading-indicator-color-danger: #f44336;
+  --b-loading-indicator-color-light: #f5f5f5;
+  --b-loading-indicator-color-dark: #424242;
+  --b-loading-indicator-color-link: #2196f3;
+}
+
+@keyframes b-loading-indicator-overlay-fadein {
   0% {
     opacity: 0;
   }

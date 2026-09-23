@@ -687,7 +687,9 @@ public abstract class ThemeGenerator : IThemeGenerator
     {
         if ( spinKitOptions?.Color is not null && spinKitOptions.Color != Color.Default )
         {
-            Variables[ThemeVariables.SpinKitColor] = $"var(--b-spinkit-color-{spinKitOptions.Color.Name})";
+            Variables[ThemeVariables.SpinKitColor] = spinKitOptions.Color.IsCssValue
+                ? spinKitOptions.Color.Name
+                : $"var(--b-spinkit-color-{spinKitOptions.Color.Name})";
         }
 
         if ( !string.IsNullOrEmpty( spinKitOptions?.Size ) )
