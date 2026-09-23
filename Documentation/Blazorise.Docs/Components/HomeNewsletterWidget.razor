@@ -1,71 +1,65 @@
-﻿@using Blazorise.Docs.Services
+@using Blazorise.Docs.Services
 @using Microsoft.Extensions.Configuration
 @using Microsoft.Extensions.DependencyInjection
 @using Microsoft.Extensions.Logging
 @using System.Text.Json
-<Card Border="Border.Rounded" Background="Background.Primary.Subtle" TextColor="TextColor.Primary.Emphasis" Shadow="Shadow.Small">
-    <CardBody Padding="Padding.Is5">
-        <Row>
-            <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen">
-                @if ( ShowHeading )
-                {
-                    <Heading Size="HeadingSize.Is3">Subscribe to the Newsletter</Heading>
-                }
-                <Paragraph Margin="Margin.Is0.FromBottom">
-                    Get information about happenings in Blazorise like new releases, free sources, posts, and more.
-                </Paragraph>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen">
-                <Validations @ref="@validationsRef" Mode="ValidationMode.Manual" ValidateOnLoad>
-                    @if ( emailSent )
-                    {
-                        <Alert Color="Color.Success" Visible>
-                            <AlertDescription>
-                                Thank you for subscribing.
-                            </AlertDescription>
-                        </Alert>
-                    }
-                    else
-                    {
-                        <Row Margin="Margin.Is3.FromBottom">
-                            <Column ColumnSize="ColumnSize.Is12.Is9.OnDesktop">
-                                <Validation Validator="ValidationRule.IsEmail">
-                                    <Field>
-                                        <TextInput Role="TextRole.Email" Placeholder="Email Address" @bind-Value="@email" aria-label="Subscription email">
-                                            <Feedback>
-                                                <ValidationError Style="font-size: .85rem;" TextColor="TextColor.Danger">Please complete this required field.</ValidationError>
-                                            </Feedback>
-                                        </TextInput>
-                                    </Field>
-                                </Validation>
-                            </Column>
-                            <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop">
-                                <Button Color="Color.Primary" Clicked="@OnSubscribeClicked" Width="Width.Is100">Subscribe</Button>
-                            </Column>
-                        </Row>
-                        <Validation Validator="ValidationRule.IsChecked">
-                            <Field Margin="Margin.Is1.FromBottom">
-                                <Check @bind-Value="@termsAgreed">
-                                    <ChildContent>
-                                        I agree to the <Anchor To="terms">Terms &amp; Conditions</Anchor> and <Anchor To="privacy">Privacy Policy</Anchor>.
-                                    </ChildContent>
-                                    <Feedback>
-                                        <ValidationError Style="font-size: .85rem;" TextColor="TextColor.Danger">You must agree to our terms and privacy policy.</ValidationError>
-                                    </Feedback>
-                                </Check>
-                            </Field>
-                        </Validation>
-                        <Field Margin="Margin.Is0.FromBottom">
-                            <Check TValue="bool" @bind-Value="@marketingAgreed">
-                                I would like to receive marketing materials like product deals &amp; special offers.
+<Div Class="b-newsletter-signup">
+    <Div Class="b-newsletter-signup-intro">
+        <Paragraph Class="b-newsletter-signup-eyebrow">THE BLAZORISE NEWSLETTER</Paragraph>
+        @if ( ShowHeading )
+        {
+            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">Stay in the loop.</Heading>
+        }
+        <Paragraph>New releases, practical guides, and fresh ideas for your next Blazor app. Delivered to your inbox.</Paragraph>
+    </Div>
+    <Div Class="b-newsletter-signup-form">
+        <Validations @ref="@validationsRef" Mode="ValidationMode.Manual" ValidateOnLoad>
+            @if ( emailSent )
+            {
+                <Alert Color="Color.Success" Visible aria-live="polite">
+                    <AlertDescription>
+                        Thank you for subscribing.
+                    </AlertDescription>
+                </Alert>
+            }
+            else
+            {
+                <Div Class="b-newsletter-signup-entry">
+                    <Validation Validator="ValidationRule.IsEmail">
+                        <Field Margin="Margin.Is0">
+                            <FieldLabel For="home-newsletter-email" Display="Display.Block" Margin="Margin.Is2.FromBottom" TextWeight="TextWeight.SemiBold">Email address</FieldLabel>
+                            <TextInput ElementId="home-newsletter-email" Role="TextRole.Email" Placeholder="you@example.com" @bind-Value="@email" autocomplete="email">
+                                <Feedback>
+                                    <ValidationError TextColor="TextColor.Danger">Enter a valid email address.</ValidationError>
+                                </Feedback>
+                            </TextInput>
+                        </Field>
+                    </Validation>
+                    <Button Color="Color.Primary" Clicked="@OnSubscribeClicked" Class="b-newsletter-signup-submit" Flex="Flex.InlineFlex.AlignItems.Center.JustifyContent.Center" Gap="Gap.Is3">Subscribe <Span aria-hidden="true">&#8594;</Span></Button>
+                </Div>
+                <Div Class="b-newsletter-signup-consent" Margin="Margin.Is4.FromTop">
+                    <Validation Validator="ValidationRule.IsChecked">
+                        <Field Margin="Margin.Is2.FromBottom">
+                            <Check @bind-Value="@termsAgreed">
+                                <ChildContent>
+                                    I agree to the <Anchor To="terms">Terms &amp; Conditions</Anchor> and <Anchor To="privacy">Privacy Policy</Anchor>.
+                                </ChildContent>
+                                <Feedback>
+                                    <ValidationError TextColor="TextColor.Danger">You must agree to our terms and privacy policy.</ValidationError>
+                                </Feedback>
                             </Check>
                         </Field>
-                    }
-                </Validations>
-            </Column>
-        </Row>
-    </CardBody>
-</Card>
+                    </Validation>
+                    <Field Margin="Margin.Is0.FromBottom">
+                        <Check TValue="bool" @bind-Value="@marketingAgreed">
+                            I would like to receive marketing materials like product deals &amp; special offers.
+                        </Check>
+                    </Field>
+                </Div>
+            }
+        </Validations>
+    </Div>
+</Div>
 
 @code {
     Validations validationsRef;

@@ -2,176 +2,31 @@
 
 <Seo Canonical="/features" Title="Blazorise Features" Description="Build production-ready Blazor applications with a complete UI component system, responsive utilities, design-system theming, validation, localization, and source-available flexibility." />
 
-<PageHeader>
-    <Title>
-        Build polished Blazor apps without rebuilding the UI stack
-    </Title>
-    <Subtitle>
-        Components, utilities, theming, and commercial support in one source-available foundation.
-    </Subtitle>
-    <Description>
-        Blazorise gives product teams a complete UI layer for complex business applications: accessible components, responsive layouts, validation, localization, charts, data grids, and provider flexibility across the CSS frameworks your team already knows.
-    </Description>
-    <Actions>
-        <Button Type="ButtonType.Link" To="docs" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">
-            <Icon Name="IconName.Book" />
-            Explore Docs
-        </Button>
-        <Button Type="ButtonType.Link" To="commercial" Color="Color.Secondary" Size="Size.Large" Padding="Padding.Is4.OnX">
-            <Icon Name="IconName.Key" />
-            Commercial Options
-        </Button>
-    </Actions>
-</PageHeader>
+<Div Class="b-visual b-marketing b-expanded-page b-features-page b-decorated-page">
+    <FeatureProductIntro />
 
-<Container Padding="Padding.Is5.OnY">
-    <Row>
-        @foreach ( var item in FeatureStats )
-        {
-            <Column @key="@item.Label" ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is3.FromBottom">
-                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
-                    <CardBody>
-                        <Paragraph TextSize="TextSize.Heading2" TextWeight="TextWeight.Bold" Margin="Margin.Is0.FromBottom">@item.Value</Paragraph>
-                        <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is1.FromBottom">@item.Label</Paragraph>
-                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
-                    </CardBody>
-                </Card>
-            </Column>
-        }
-    </Row>
-</Container>
+    <section class="b-visual-section b-editorial-facts">
+        <FeatureFactsSection />
+    </section>
 
-<Container Padding="Padding.Is5.OnY">
-    <Row Flex="Flex.AlignItems.Center">
-        <Column ColumnSize="ColumnSize.Is12.Is5.OnDesktop" Margin="Margin.Is4.FromBottom.OnMobile">
-            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
-                A UI platform for product-grade Blazor applications
-            </Heading>
-            <Lead TextColor="TextColor.Muted">
-                Blazorise is built for teams that need more than isolated controls. It gives you consistent primitives for layout, forms, data, styling, and production workflows.
-            </Lead>
-            <Div Flex="Flex.Column.Row.OnTablet" Gap="Gap.Is3" Margin="Margin.Is4.FromTop">
-                <Button Type="ButtonType.Link" To="docs/components" Color="Color.Primary">
-                    Browse Components
-                </Button>
-                <Button Type="ButtonType.Link" To="docs/helpers/utilities" Color="Color.Light">
-                    View Utilities
-                </Button>
-            </Div>
-        </Column>
-        <Column ColumnSize="ColumnSize.Is12.Is7.OnDesktop">
-            <Image Source="img/features/frameworks-1.png" Text="Blazorise CSS framework support" Shadow="Shadow.Small" Border="Border.Rounded" Fluid Loading />
-        </Column>
-    </Row>
-</Container>
+    <section class="b-visual-section b-decorated-section">
+        <SectionDecoration Variant="BrandBackdropVariant.Circuit" Placement="SectionDecorationPlacement.Bottom" Size="SectionDecorationSize.Large" Opacity="0.5" />
+        <FeaturePlatformSection />
+    </section>
 
-<Container Padding="Padding.Is5.OnY">
-    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
-        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
-            Everything a serious Blazor UI needs
-        </Heading>
-        <Lead TextColor="TextColor.Muted">
-            Core capabilities stay consistent across providers, so teams can standardize how applications are built and maintained.
-        </Lead>
-    </Div>
+    <section class="b-visual-section b-marketing-tint">
+        <FeatureCapabilitiesSection />
+    </section>
 
-    <Row>
-        @foreach ( var item in FeatureCards )
-        {
-            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
-                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
-                    <CardBody>
-                        <Icon Name="@item.Icon" IconSize="IconSize.x2" TextColor="TextColor.Primary" Margin="Margin.Is3.FromBottom" />
-                        <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
-                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
-                    </CardBody>
-                </Card>
-            </Column>
-        }
-    </Row>
-</Container>
+    <section class="b-visual-section b-decorated-section">
+        <SectionDecoration Variant="BrandBackdropVariant.EdgeArcs" Side="SectionDecorationSide.Left" Placement="SectionDecorationPlacement.Top" Opacity="0.6" />
+        <FeatureUtilitiesSection />
+    </section>
 
-<Container Padding="Padding.Is5.OnY">
-    <Row Flex="Flex.AlignItems.Center">
-        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom.OnMobile">
-            <Image Source="img/features/code-utils-1.png" Text="Blazorise fluent utilities" Shadow="Shadow.Small" Border="Border.Rounded" Fluid Loading />
-        </Column>
-        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
-            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
-                Keep markup expressive without losing control
-            </Heading>
-            <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted">
-                Use Blazorise utilities for responsive layout, spacing, display, sizing, borders, shadows, typography, and flex behavior directly from Razor. You get predictable UI composition without scattering one-off CSS across the application.
-            </Paragraph>
-            <Row Margin="Margin.Is4.FromTop">
-                @foreach ( var item in UtilityHighlights )
-                {
-                    <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet" Margin="Margin.Is3.FromBottom">
-                        <Div Flex="Flex.AlignItems.Start" Gap="Gap.Is3">
-                            <Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is1.FromTop" />
-                            <Div>
-                                <Strong>@item.Title</Strong>
-                                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is0.FromBottom">@item.Description</Paragraph>
-                            </Div>
-                        </Div>
-                    </Column>
-                }
-            </Row>
-        </Column>
-    </Row>
-</Container>
-
-<Container Padding="Padding.Is5.OnY">
-    <Card Border="Border.Rounded" Shadow="Shadow.Small">
-        <CardBody Padding="Padding.Is5">
-            <Row Flex="Flex.AlignItems.Center">
-                <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop">
-                    <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
-                        Source available, commercially supported
-                    </Heading>
-                    <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Large" Margin="Margin.Is0.FromBottom">
-                        Start with the Community License, inspect the source, and move to commercial support when your team needs private assistance, licensing coverage, and delivery confidence.
-                    </Paragraph>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is12.Is4.OnDesktop" TextAlignment="TextAlignment.End" Margin="Margin.Is4.FromTop.OnMobile">
-                    <Button Type="ButtonType.Link" To="pricing" Color="Color.Primary" Size="Size.Large">
-                        Compare Plans
-                    </Button>
-                </Column>
-            </Row>
-        </CardBody>
-    </Card>
-</Container>
-
-@code {
-    private static readonly FeatureStat[] FeatureStats =
-    [
-        new( "7+", "CSS providers", "Bootstrap, Bulma, Material, AntDesign, Fluent UI, Tailwind, and more." ),
-        new( "100+", "UI components", "A broad component set for forms, grids, charts, layout, navigation, and feedback." ),
-        new( "1 API", "Consistent model", "Fluent utilities and consistent APIs keep teams moving without one-off UI plumbing." )
-    ];
-
-    private static readonly FeatureCard[] FeatureCards =
-    [
-        new( "fa-layer-group", "Provider flexibility", "Choose the CSS framework that fits your product and keep the same Blazorise component model." ),
-        new( "fa-table", "Data-heavy workflows", "Build tables, grids, lists, filters, validation, and editing flows for operational applications." ),
-        new( "fa-mobile-alt", "Responsive layouts", "Compose desktop and mobile experiences with framework-backed layout and utility primitives." ),
-        new( "fa-palette", "Theme control", "Align colors, spacing, and visual treatment with your product or customer design system." ),
-        new( "fa-check-circle", "Validation and forms", "Use built-in validation patterns across common input types and complex forms." ),
-        new( "fa-globe", "Localization", "Ship translated UI with Blazorise localization support and provider-independent components." )
-    ];
-
-    private static readonly UtilityHighlight[] UtilityHighlights =
-    [
-        new( "Responsive by default", "Control layout behavior through breakpoints and fluent utility parameters." ),
-        new( "Readable Razor", "Keep common styling decisions close to the component markup." ),
-        new( "Less custom CSS", "Use shared utility APIs instead of inventing local classes for routine layout work." ),
-        new( "Consistent UI rules", "Apply the same spacing, display, and sizing language across your app." )
-    ];
-
-    private sealed record FeatureStat( string Value, string Label, string Description );
-
-    private sealed record FeatureCard( string Icon, string Title, string Description );
-
-    private sealed record UtilityHighlight( string Title, string Description );
-}
+    <section class="b-visual-section b-feature-support">
+        <Div Class="b-feature-support-art" aria-hidden="true">
+            <BrandBackdrop Variant="BrandBackdropVariant.PetalFan" Dark />
+        </Div>
+        <FeatureLicenseSection />
+    </section>
+</Div>

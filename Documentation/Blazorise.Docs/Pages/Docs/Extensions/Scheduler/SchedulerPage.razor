@@ -71,6 +71,10 @@
     </UnorderedList>
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    Set <Code>DefaultItemDuration="@@TimeSpan.FromMinutes( 60 )"</Code> on <Code>Scheduler</Code> to give new appointments a one-hour duration when clicking a timed slot, independently of the slot size. When omitted, zero, or negative, the clicked slot's duration is used. Explicit range selections and all-day appointments keep their existing behavior.
+</DocsPageParagraph>
+
 <Heading Size="HeadingSize.Is3">
     Customizing the Editor
 </Heading>
@@ -144,8 +148,19 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Commands" New>
+        Use <Code>SchedulerCommands</Code> to customize the Save, Delete, and Cancel controls for your application's workflow. Command templates let you change their appearance or hide actions that do not apply to an appointment. This example hides Save and Delete for read-only appointments.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SchedulerCommandsExample" Outlined FullWidth>
+        <SchedulerCommandsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Draggable">
-        To be able to drag and drop items, set the <Code>Draggable</Code> parameter to <Code>true</Code>. This will allow you to move items around the calendar.
+        To be able to drag and drop items, set both <Code>Editable</Code> and <Code>Draggable</Code> to <Code>true</Code>. This will allow you to move items around the calendar.
+        With <Code>UseInternalEditing="false"</Code>, handle <Code>ItemUpdated</Code> to apply the proposed <Code>NewItem</Code> values to your data or reload it after saving. Otherwise, the item remains at its original position.
+        Use <Code>DropAllowed</Code> or cancel <Code>ItemUpdating</Code> to reject a move.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="SchedulerDraggableExample" Outlined FullWidth>
         <SchedulerDraggableExample />

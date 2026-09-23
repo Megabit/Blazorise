@@ -102,6 +102,11 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
     protected ComponentParameterInfo<bool> paramModifyValueOnWheel;
 
     /// <summary>
+    /// Captured EnableStep parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool?> paramEnableStep;
+
+    /// <summary>
     /// Captured WheelOn parameter snapshot.
     /// </summary>
     protected ComponentParameterInfo<NumericWheelOn> paramWheelOn;
@@ -163,6 +168,7 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
         parameters.TryGetParameter( AllowDecimalPadding, out paramAllowDecimalPadding );
         parameters.TryGetParameter( AlwaysAllowDecimalSeparator, out paramAlwaysAllowDecimalSeparator );
         parameters.TryGetParameter( ModifyValueOnWheel, out paramModifyValueOnWheel );
+        parameters.TryGetParameter( EnableStep, out paramEnableStep );
         parameters.TryGetParameter( WheelOn, out paramWheelOn );
     }
 
@@ -195,6 +201,7 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
             var alwaysAllowDecimalSeparatorChanged = paramAlwaysAllowDecimalSeparator.Defined && paramAlwaysAllowDecimalSeparator.Changed;
 
             var modifyValueOnWheelChanged = paramModifyValueOnWheel.Defined && paramModifyValueOnWheel.Changed;
+            var enableStepChanged = paramEnableStep.Defined && paramEnableStep.Changed;
             var wheelOnChanged = paramWheelOn.Defined && paramWheelOn.Changed;
 
             if ( decimalsChanged || decimalSeparatorChanged || alternativeDecimalSeparatorChanged
@@ -204,7 +211,7 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
                 || minChanged || maxChanged
                 || selectAllOnFocusChanged
                 || allowDecimalPaddingChanged || alwaysAllowDecimalSeparatorChanged
-                || modifyValueOnWheelChanged )
+                || modifyValueOnWheelChanged || enableStepChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new NumericPickerUpdateJSOptions
                 {
@@ -223,6 +230,7 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
                     MinMaxLimitsOverride = new JSOptionChange<object>( minMaxLimitsOverrideChanged, paramMinMaxLimitsOverride.Value ),
                     SelectAllOnFocus = new JSOptionChange<bool>( selectAllOnFocusChanged, paramSelectAllOnFocus.Value ),
                     ModifyValueOnWheel = new JSOptionChange<bool>( modifyValueOnWheelChanged, paramModifyValueOnWheel.Value ),
+                    EnableStep = new JSOptionChange<bool>( enableStepChanged, IsEnableStep ),
                     WheelOn = new JSOptionChange<object>( wheelOnChanged, paramWheelOn.Value.ToNumericWheelOn() ),
                 } ) );
 
@@ -265,6 +273,7 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
             TypeMin = minFromType,
             TypeMax = maxFromType,
             Step = Step,
+            EnableStep = IsEnableStep,
             SelectAllOnFocus = SelectAllOnFocus,
             ModifyValueOnWheel = ModifyValueOnWheel,
             WheelOn = WheelOn.ToNumericWheelOn(),

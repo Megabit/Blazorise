@@ -1,4 +1,4 @@
-﻿<Div>
+<Div>
     <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
         <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold" Margin="Margin.Is3.FromBottom">
             Choose your plan
@@ -8,7 +8,7 @@
         </Lead>
     </Div>
 
-    <Card Border="Border.Rounded" Margin="Margin.Is5.FromBottom">
+    <Card Class="b-pricing-controls" Border="Border.Rounded" Margin="Margin.Is5.FromBottom">
         <CardBody Padding="Padding.Is4">
             <Div Flex="Flex.Column.Row.OnDesktop.JustifyContent.Center.AlignItems.Center" Gap="Gap.Is4">
                 <Div Flex="Flex.Column.AlignItems.Center" Gap="Gap.Is2">
@@ -26,7 +26,7 @@
         </CardBody>
     </Card>
 
-    <Row Margin="Margin.Is3.FromBottom" Gutter="Gutter.Is3">
+    <Row Class="b-pricing-plan-grid" Margin="Margin.Is3.FromBottom" Gutter="Gutter.Is3">
         <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is3.OnWidescreen" Margin="Margin.Is4.FromBottom">
             <PricingCard PlanName="Community" PlanDescription="Core components for individual developers." PlanPrice="0" ShowPlan TextAccentColor="TextColor.Default">
                 <ButtonContent>
@@ -97,7 +97,8 @@
             </PricingCard>
         </Column>
 
-        <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is3.OnWidescreen" Margin="Margin.Is4.FromBottom">
+        <Column Class="b-background-glow-host" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is3.OnWidescreen" Margin="Margin.Is4.FromBottom">
+            <BackgroundGlow Variant="BackgroundGlowVariant.Halo" Spread="clamp(32px, 4vw, 56px)" Intensity="0.28" DarkIntensity="0.20" />
             <PricingCard PlanName="Enterprise" PlanDescription="More tools and priority support for your team." Quantity="@Quantity" PlanPrice="@EnterprisePrices[Plan].Price" PlanUnit="@EnterprisePrices[Plan].Unit" ShowPlan ShowHigherPlan="@(Plan == "annually")" CurrencySymbol="@EnterprisePrices[Plan].CurrencySymbol" CurrencyCode="@EnterprisePrices[Plan].CurrencyCode" ShowDiscount TextAccentColor="TextColor.Primary">
                 <ButtonContent>
                     <PurchaseButton Color="Color.Primary" ProductId="@EnterprisePrices[Plan].ProductId" Quantity="@Quantity" ProductName="Blazorise Enterprise">

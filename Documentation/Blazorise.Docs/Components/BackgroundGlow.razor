@@ -1,0 +1,16 @@
+<Div Class="b-background-glow" data-variant="@Variant.ToString().ToLowerInvariant()" Style="@GlowStyle" aria-hidden="true" />
+
+@code {
+    [Parameter] public BackgroundGlowVariant Variant { get; set; } = BackgroundGlowVariant.Radial;
+    [Parameter] public string Primary { get; set; } = "var(--b-visual-violet, #9317e1)";
+    [Parameter] public string Secondary { get; set; } = "var(--b-visual-pink, #e03d76)";
+    [Parameter] public string Width { get; set; } = "100%";
+    [Parameter] public string Height { get; set; } = "100%";
+    [Parameter] public string Spread { get; set; } = "clamp(48px, 8vw, 120px)";
+    [Parameter] public string HorizontalPosition { get; set; } = "50%";
+    [Parameter] public string VerticalPosition { get; set; } = "50%";
+    [Parameter] public double Intensity { get; set; } = 0.32;
+    [Parameter] public double DarkIntensity { get; set; } = 0.18;
+
+    private string GlowStyle => FormattableString.Invariant( $"--b-glow-primary:{Primary};--b-glow-secondary:{Secondary};--b-glow-width:{Width};--b-glow-height:{Height};--b-glow-spread:{Spread};--b-glow-x:{HorizontalPosition};--b-glow-y:{VerticalPosition};--b-glow-intensity:{Math.Clamp( Intensity, 0, 1 )};--b-glow-dark-intensity:{Math.Clamp( DarkIntensity, 0, 1 )}" );
+}

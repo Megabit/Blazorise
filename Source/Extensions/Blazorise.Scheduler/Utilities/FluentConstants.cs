@@ -1,4 +1,4 @@
-﻿namespace Blazorise.Scheduler.Utilities;
+namespace Blazorise.Scheduler.Utilities;
 
 /// <summary>
 /// Contains a collection of constants for various UI properties such as flex, sizing, column, spacing, gap, typography,
@@ -7,6 +7,9 @@
 /// </summary>
 internal static class FluentConstants
 {
+    // Display
+    internal static readonly IFluentDisplay DisplayInlineBlock = Display.InlineBlock;
+
     // Flex
     internal static readonly IFluentFlex FlexAlignItemsCenter = Flex.AlignItems.Center;
     internal static readonly IFluentFlex FlexColumn = Flex.Column;

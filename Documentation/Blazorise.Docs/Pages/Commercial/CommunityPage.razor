@@ -1,23 +1,20 @@
-﻿@page "/community"
+@page "/community"
 
 <Seo Canonical="/community" Title="Blazorise Community Edition" Description="Try our fully-featured, extensible, free Blazor Components library for building the .NET web applications." />
 
-<PageHeader>
-    <Title>
-        Blazorise Community
-    </Title>
-    <Description>
-        A fully-featured, extensible, free Blazor Components library for building the .NET web applications.
-    </Description>
-</PageHeader>
-
-<Container Padding="Padding.Is4.OnX.Is5.OnY">
-    <Heading Size="HeadingSize.Is2" Padding="Padding.Is2.FromBottom" Border="Border.OnBottom">
-        Usage
-    </Heading>
-    <Row RowColumns="RowColumns.Are1.Are3.OnWidescreen" Padding="Padding.Is5.OnY">
-        <Column Class="feature">
-            <Heading Size="HeadingSize.Is2">For individuals</Heading>
+<Div Class="b-visual b-marketing b-expanded-page b-community-page">
+    <MarketingPageHeader Variant="BrandBackdropVariant.CircleScatter" Counterpoint="BrandBackdropVariant.CircleScatter">
+        <Title>Start exploring.<br /><Span>Keep creating.</Span></Title>
+        <Description>Explore Blazorise for your personal and educational projects. Find the right license for how you build and use your applications.</Description>
+        <Actions>
+            <Anchor To="docs/start" Class="b-visual-button b-visual-button-primary">Get started</Anchor>
+            <Anchor To="license" Class="b-visual-button b-visual-button-outline">Read the license</Anchor>
+        </Actions>
+    </MarketingPageHeader>
+    <section class="b-visual-section">
+        <Container>
+            <Div Class="b-community-usage">
+                <article><Heading Size="HeadingSize.Is2">For individuals</Heading>
             <Paragraph>
                 The Community License is offered free of charge to all individuals. This includes anyone using Blazorise for personal projects, or educational purposes. This license is perfect for developers who are just getting started with Blazorise or those who are using it on small-scale projects. It grants access to all basic features of the software, but may lack certain advanced capabilities available in the Commercial License.
             </Paragraph>
@@ -26,26 +23,28 @@
             </Paragraph>
             <Paragraph>
                 Applications registered with a Community ProductToken always display a semi-transparent <Strong>Community License</Strong> button in the bottom-right corner. Select it to open the full license banner; closing the full banner returns to the compact button. See the <Anchor To="docs/usage/licensing/register-product-token#protecting-your-producttoken" Title="Protecting your ProductToken">ProductToken security guidance</Anchor> before configuring an application.
-            </Paragraph>
-        </Column>
-        <Column Class="feature">
-            <Heading Size="HeadingSize.Is2">For organizations</Heading>
+            </Paragraph></article>
+                <article><Heading Size="HeadingSize.Is2">For organizations</Heading>
             <Paragraph>
                 The Commercial License is required for all corporations, non-profit organizations, governmental entities, and any other commercial entities. This license is mandatory regardless of the entity's scale or nature. It includes start-ups, small and medium businesses, large enterprises, and government agencies among others. This license is also required if the software is used for any commercial purpose, including but not limited to, generating revenue or serving organizational needs. The Commercial License provides access to the full suite of features, advanced support, and future updates of Blazorise.
             </Paragraph>
             <Paragraph>
                 Commercial entities are obligated to procure this license not just for legal compliance, but also to ensure continuous support and upgrades, helping their systems remain robust and secure. The fees collected from the Commercial License help support the ongoing development and maintenance of the Blazorise project, ensuring its sustainability and advancement.
-            </Paragraph>
-        </Column>
-        <Column Class="feature">
-            <Paragraph>
-                Please note that the exact details and terms of these licenses, including any restrictions or allowances, should be reviewed in the official documentation or license agreements provided by the Blazorise team. The details provided here are a general overview and may not fully cover all terms and conditions outlined in the actual license agreements.
-            </Paragraph>
-            <Paragraph>
-                For more information, see the
-                <br />
-                <Anchor To="license" Title="Licence">Blazorise licence</Anchor>
-            </Paragraph>
-        </Column>
-    </Row>
-</Container>
+            </Paragraph></article>
+            </Div>
+            <Div Class="b-background-glow-host">
+                <BackgroundGlow Variant="BackgroundGlowVariant.Diagonal" Width="90%" Spread="clamp(40px, 6vw, 80px)" Intensity="0.22" DarkIntensity="0.16" />
+                <Div Class="b-community-license-note">
+                    <Paragraph>
+                        Please note that the exact details and terms of these licenses, including any restrictions or allowances, should be reviewed in the official documentation or license agreements provided by the Blazorise team. The details provided here are a general overview and may not fully cover all terms and conditions outlined in the actual license agreements.
+                    </Paragraph>
+                    <Paragraph>
+                        For more information, see the
+                        <br />
+                        <Anchor To="license" Title="Licence">Blazorise licence</Anchor>
+                    </Paragraph>
+                </Div>
+            </Div>
+        </Container>
+    </section>
+</Div>

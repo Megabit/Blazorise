@@ -1,49 +1,40 @@
-<Container Padding="Padding.Is5.OnY">
-    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
-        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
-            See what you can build with Blazorise
-        </Heading>
-        <Lead TextColor="TextColor.Muted">
-            Real components, working together. Explore this interactive dashboard with sample data.
-        </Lead>
-    </Div>
-
-    <Div Class="b-site-demo">
-        <Row Gutter="Gutter.Is4">
-            <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop.Is3.OnFullHD" Margin="Margin.Is4.FromBottom">
-                <HomeShowcaseSignIn />
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom">
-                <HomeShowcaseChart />
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.Is3.OnFullHD" Margin="Margin.Is4.FromBottom">
-                <HomeShowcaseNavigation />
-            </Column>
-        </Row>
-        <Row Gutter="Gutter.Is4">
-            <Column ColumnSize="ColumnSize.Is12.Is8.OnFullHD" Margin="Margin.Is4.FromBottom">
-                <HomeShowcaseContacts />
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.Is4.OnFullHD" Margin="Margin.Is4.FromBottom">
-                <HomeShowcaseCompany />
-            </Column>
-        </Row>
-        <Row Gutter="Gutter.Is4">
-            <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop.Is4.OnFullHD" Margin="Margin.Is4.FromBottom">
-                <HomeShowcaseUpload />
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop.Is4.OnFullHD" Margin="Margin.Is4.FromBottom">
-                <HomeShowcaseConversation />
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.Is4.OnFullHD" Margin="Margin.Is4.FromBottom">
-                <HomeShowcaseStatistics />
-            </Column>
-        </Row>
-    </Div>
-
-    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is3.FromTop">
-        <Button Type="ButtonType.Link" To="/docs" Color="Color.Primary" Outline>
+<Div Class="b-visual-showcase b-site-demo">
+    <Row Gutter="Gutter.Is4">
+        <Column ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
+            <HomeShowcaseSignIn />
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop" Margin="Margin.Is4.FromBottom">
+            <HomeShowcaseChart />
+        </Column>
+    </Row>
+    <Div Class="b-visual-showcase-footer">
+        <details class="b-visual-showcase-more">
+            <summary>More live examples</summary>
+            <Row Gutter="Gutter.Is4">
+                <Column ColumnSize="ColumnSize.Is12.Is8.OnFullHD" Margin="Margin.Is4.FromBottom">
+                    <HomeShowcaseContacts />
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is4.OnFullHD" Margin="Margin.Is4.FromBottom">
+                    <HomeShowcaseCompany />
+                </Column>
+            </Row>
+            <Row Gutter="Gutter.Is4">
+                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom">
+                    <HomeShowcaseNavigation />
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom">
+                    <HomeShowcaseUpload />
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom">
+                    <HomeShowcaseConversation />
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom">
+                    <HomeShowcaseStatistics />
+                </Column>
+            </Row>
+        </details>
+        <Anchor To="/docs" Class="b-visual-showcase-link" TextWeight="TextWeight.SemiBold">
             Explore all components <Icon Name="IconName.ArrowRight" Margin="Margin.Is2.FromStart" />
-        </Button>
+        </Anchor>
     </Div>
-</Container>
+</Div>

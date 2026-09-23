@@ -1,0 +1,46 @@
+<Div Class="b-section-decoration-layer" data-clip="@( ClipToSection ? "true" : "false" )"
+     data-blend="@Blend.ToString().ToLowerInvariant()" aria-hidden="true">
+    @foreach ( SectionDecorationSide side in Sides )
+    {
+        <Div @key="side" Class="@($"b-section-decoration b-section-decoration-{side.ToString().ToLowerInvariant()}")"
+             data-size="@Size.ToString().ToLowerInvariant()" data-placement="@Placement.ToString().ToLowerInvariant()"
+             data-fade="@( FadeTowardContent ? "true" : "false" )" Style="@DecorationStyle">
+            <Div Class="b-section-decoration-art">
+                <BrandBackdrop Variant="@Variant" Density="@Density" Dark="@Dark" Animated="@Animated"
+                               Primary="@Primary" Secondary="@Secondary" Accent="@Accent" />
+            </Div>
+        </Div>
+    }
+</Div>
+
+@code {
+    private static readonly SectionDecorationSide[] LeftSide = [SectionDecorationSide.Left];
+    private static readonly SectionDecorationSide[] RightSide = [SectionDecorationSide.Right];
+    private static readonly SectionDecorationSide[] BothSides = [SectionDecorationSide.Left, SectionDecorationSide.Right];
+
+    [Parameter] public BrandBackdropVariant Variant { get; set; } = BrandBackdropVariant.Blob;
+    [Parameter] public SectionDecorationSide Side { get; set; } = SectionDecorationSide.Right;
+    [Parameter] public SectionDecorationPlacement Placement { get; set; } = SectionDecorationPlacement.Center;
+    [Parameter] public SectionDecorationSize Size { get; set; } = SectionDecorationSize.Medium;
+    [Parameter] public bool ClipToSection { get; set; }
+    [Parameter] public SectionDecorationBlend Blend { get; set; } = SectionDecorationBlend.Normal;
+    [Parameter] public string VerticalOffset { get; set; } = "0px";
+    [Parameter] public int Rotation { get; set; }
+    [Parameter] public double Opacity { get; set; } = 0.8;
+    [Parameter] public bool FadeTowardContent { get; set; } = true;
+    [Parameter] public BrandBackdropDensity Density { get; set; } = BrandBackdropDensity.Low;
+    [Parameter] public bool Dark { get; set; }
+    [Parameter] public bool Animated { get; set; }
+    [Parameter] public string Primary { get; set; } = "var(--b-visual-violet, #9317e1)";
+    [Parameter] public string Secondary { get; set; } = "var(--b-visual-pink, #e03d76)";
+    [Parameter] public string Accent { get; set; } = "var(--b-visual-lilac, #bb61f6)";
+
+    private SectionDecorationSide[] Sides => Side switch
+    {
+        SectionDecorationSide.Left => LeftSide,
+        SectionDecorationSide.Both => BothSides,
+        _ => RightSide,
+    };
+
+    private string DecorationStyle => FormattableString.Invariant( $"--b-decoration-offset:{VerticalOffset};--b-decoration-rotation:{Rotation}deg;--b-decoration-opacity:{Math.Clamp( Opacity, 0, 1 )}" );
+}

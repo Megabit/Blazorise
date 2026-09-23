@@ -1,0 +1,82 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Scheduler</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Appointment</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>appointments</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">Date</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedDate</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">SelectedView</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">SchedulerView</span><span class="enumValue">.Week</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">Editable</span>
+           <span class="htmlAttributeName">ItemStyling</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnItemStyling</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerCommands</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DeleteCommandTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">command</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="atSign">&#64;</span>if ( !command.Item.IsReadOnly )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Danger</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>command.Clicked</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>command.LocalizationString</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Delete</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+            }
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DeleteCommandTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SaveCommandTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">command</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="atSign">&#64;</span>if ( !command.Item.IsReadOnly )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>command.Clicked</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="atSign">&#64;</span>command.LocalizationString
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+            }
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SaveCommandTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CancelCommandTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">command</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Secondary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>command.Clicked</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="atSign">&#64;</span>command.LocalizationString
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CancelCommandTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SchedulerCommands</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerToolbar</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerViews</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerWeekView</span> <span class="htmlAttributeName">StartTime</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(new TimeOnly( 8, 0 ))</span><span class="quot">&quot;</span> <span class="htmlAttributeName">EndTime</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(new TimeOnly( 17, 0 ))</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SchedulerViews</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Scheduler</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    <span class="keyword">private</span> List&lt;Appointment&gt; appointments = <span class="keyword">new</span>()
+    {
+        <span class="keyword">new</span> Appointment
+        {
+            Id = <span class="string">&quot;1&quot;</span>,
+            Title = <span class="string">&quot;Project planning and discussion of the next release milestones&quot;</span>,
+            Start = DateTime.Today.AddHours( <span class="number">9</span> ),
+            End = DateTime.Today.AddHours( <span class="number">11</span> ),
+        },
+        <span class="keyword">new</span> Appointment
+        {
+            Id = <span class="string">&quot;2&quot;</span>,
+            Title = <span class="string">&quot;Company meeting managed by another user&quot;</span>,
+            Start = DateTime.Today.AddHours( <span class="number">13</span> ),
+            End = DateTime.Today.AddHours( <span class="number">15</span> ),
+            IsReadOnly = <span class="keyword">true</span>,
+        },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">void</span> OnItemStyling( Appointment item, SchedulerItemStyling styling )
+    {
+        styling.TextOverflow = TextOverflow.Wrap;
+        styling.TextWeight = item.IsReadOnly ? TextWeight.Normal : TextWeight.SemiBold;
+        styling.Background = item.IsReadOnly ? Background.Secondary : Background.Info;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">class</span> Appointment
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Title { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> DateTime Start { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> DateTime End { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">bool</span> IsReadOnly { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

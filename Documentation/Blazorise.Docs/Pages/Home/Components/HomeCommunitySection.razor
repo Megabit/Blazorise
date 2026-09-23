@@ -1,39 +1,34 @@
 <Container Padding="Padding.Is5.OnY">
-    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
-        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
-            Join the Blazorise community
-        </Heading>
-        <Lead TextColor="TextColor.Muted">
-            Follow product updates, discuss implementation details, report issues, and help shape the roadmap.
-        </Lead>
+    <Div Class="b-community-connect">
+        <Div Class="b-community-connect-intro">
+            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                Good things happen<br /><Span>when we build together.</Span>
+            </Heading>
+            <Paragraph>Join the Blazorise community. Share what you are building, get help from other developers, and help shape what comes next.</Paragraph>
+        </Div>
+        <Div Class="b-community-connect-links">
+            @foreach ( CommunityLink item in CommunityLinks )
+            {
+                <Anchor @key="@item.Title" To="@item.Url" Title="@item.LinkTitle" Target="Target.Blank" Class="b-community-connect-link">
+                    <Span Class="b-community-connect-icon">
+                        <Image Source="@item.Icon" Text="" Width="Width.Px( 28 )" Height="Height.Px( 28 )" aria-hidden="true" />
+                    </Span>
+                    <Heading Size="HeadingSize.Is3" Margin="Margin.Is0">@item.Title</Heading>
+                    <Paragraph Margin="Margin.Is0">@item.Description</Paragraph>
+                    <Span Class="b-community-connect-action" Flex="Flex.JustifyContent.Between.AlignItems.Center" TextWeight="TextWeight.SemiBold">@item.Action <Span aria-hidden="true">&#8599;</Span></Span>
+                </Anchor>
+            }
+        </Div>
     </Div>
-
-    <Row>
-        @foreach ( CommunityLink item in CommunityLinks )
-        {
-            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is3.OnDesktop" Margin="Margin.Is4.FromBottom" TextAlignment="TextAlignment.Center">
-                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
-                    <CardBody>
-                        <Image Source="@item.Icon" Text="@item.Title" Width="Width.Px( 40 )" Height="Height.Px( 40 )" Margin="Margin.Is3.FromBottom" />
-                        <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
-                        <Paragraph TextColor="TextColor.Muted">@item.Description</Paragraph>
-                        <Anchor To="@item.Url" Title="@item.LinkTitle" Target="Target.Blank">
-                            @item.Action
-                        </Anchor>
-                    </CardBody>
-                </Card>
-            </Column>
-        }
-    </Row>
 </Container>
 
 @code {
     private static readonly CommunityLink[] CommunityLinks =
     [
-        new( "X", "img/logos/icons8-twitter-x.svg", "Follow release news, product updates, and notes from the Blazorise team.", "Follow us", "https://x.com/Blazorise", "Link to Blazorise on X" ),
-        new( "Discord", "img/logos/icons8-discord.svg", "Chat with other developers and maintainers when you are working through implementation details.", "Join Discord", "https://discord.gg/cVmq8xBSnG", "Link to Blazorise Discord" ),
-        new( "Reddit", "img/logos/icons8-reddit.svg", "Join discussions, release threads, and community conversations around Blazorise.", "Subscribe", "https://www.reddit.com/r/Blazorise/", "Link to Blazorise Reddit" ),
-        new( "GitHub", "img/logos/icons8-github.svg", "Open issues, inspect the source, and contribute improvements to the project.", "Contribute", "https://github.com/Megabit/Blazorise", "Link to Blazorise GitHub" )
+        new( "X", "img/logos/icons8-twitter-x.svg", "Release news and updates from the team.", "Follow along", "https://x.com/Blazorise", "Link to Blazorise on X" ),
+        new( "Discord", "img/logos/icons8-discord.svg", "Talk through ideas with fellow developers.", "Join the conversation", "https://discord.gg/cVmq8xBSnG", "Link to Blazorise Discord" ),
+        new( "Reddit", "img/logos/icons8-reddit.svg", "Share projects, questions, and discoveries.", "Explore the community", "https://www.reddit.com/r/Blazorise/", "Link to Blazorise Reddit" ),
+        new( "GitHub", "img/logos/icons8-github.svg", "Explore the code and help make it better.", "Contribute", "https://github.com/Megabit/Blazorise", "Link to Blazorise GitHub" )
     ];
 
     private sealed record CommunityLink( string Title, string Icon, string Description, string Action, string Url, string LinkTitle );

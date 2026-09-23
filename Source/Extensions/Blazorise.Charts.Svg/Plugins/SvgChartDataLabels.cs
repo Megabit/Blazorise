@@ -387,7 +387,7 @@ public class SvgChartDataLabels : SvgChartPluginBase
 
         var centerX = context.PlotArea.Left + context.PlotArea.Width / 2;
         var centerY = context.PlotArea.Top + context.PlotArea.Height / 2;
-        var radius = Math.Max( 1, Math.Min( context.PlotArea.Width, context.PlotArea.Height ) * 0.42 );
+        var radius = Math.Max( 1, Math.Min( context.PlotArea.Width, context.PlotArea.Height ) * ( series.Type == SvgChartType.PolarArea ? 0.42 : 0.5 ) );
         var total = series.Type == SvgChartType.PolarArea ? values.Count : values.Sum( x => x.Value );
         var startAngle = -Math.PI / 2;
         var max = values.Max( x => x.Value );

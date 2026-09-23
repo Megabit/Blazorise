@@ -1,4 +1,4 @@
-﻿@typeparam TItem
+@typeparam TItem
 @{
     var viewItems = Scheduler.GetViewItemsOnDate( Items, Date, StartTime, EndTime );
     var allDayItems = GetAllDayItemsOnDate().ToList();
@@ -19,16 +19,17 @@
             {
                 var title = Scheduler.GetItemTitle( viewItem.Item );
                 var startTime = Scheduler.GetItemStartTime( viewItem.Item );
+                var itemStyling = GetItemStyling( viewItem.Item );
 
-                <Div @key="@viewItem.Key" Flex="FlexInlineFlexAlignItemsCenter" Width="WidthIs100" @onclick:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
+                <Div @key="@viewItem.Key" Class="@itemStyling.Class" Style="@GetItemStyle( itemStyling.Style )" TextColor="@itemStyling.TextColor" TextAlignment="@itemStyling.TextAlignment" TextTransform="@itemStyling.TextTransform" TextDecoration="@itemStyling.TextDecoration" TextWeight="@itemStyling.TextWeight" TextSize="@itemStyling.TextSize" Flex="FlexInlineFlexAlignItemsCenter" Width="WidthIs100" @onclick:stopPropagation draggable="@DraggableAttribute" @ondragstart="@(( e ) => OnItemDragStart( e, viewItem ))">
                     @if ( itemTemplate is not null )
                     {
                         @itemTemplate( new SchedulerItemContext<TItem>( viewItem.Item, viewItem.IsRecurring ) )
                     }
                     else
                     {
-                        <Span Style="@GetItemStyle( viewItem )" @onclick="@(() => OnItemClicked( viewItem ))" TextOverflow="TextOverflow.Truncate">
-                            <Span><Icon Name="IconName.Circle" TextColor="TextColor.Info" TextSize="TextSizeSmall" /></Span>
+                        <Span @onclick="@(() => OnItemClicked( viewItem ))" TextOverflow="@(itemStyling.TextOverflow ?? TextOverflow.Truncate)">
+                            <Span Display="DisplayInlineBlock" Width="Width.Px( 10 )" Height="Height.Px( 10 )" Border="Border.RoundedCircle" Background="@itemStyling.Background" />
                             <Span Margin="MarginIs1FromStart" TextWeight="TextWeight.SemiBold">@startTime.ToString( "HH:mm" )</Span>
                             <Span Margin="MarginIs1FromStart">@title</Span>
                         </Span>
@@ -39,6 +40,11 @@
     </Div>
 }
 @code {
+    private static readonly SchedulerItemStyling DefaultItemStyling = new()
+    {
+        Background = Background.Info,
+    };
+
     private bool mouseHovering;
 
     private bool draggingOver;
@@ -104,9 +110,24 @@
         return Scheduler.DropMonthItem( Date, Section );
     }
 
-    string GetItemStyle( SchedulerItemViewInfo<TItem> viewItem )
+    string GetItemStyle( string customStyle )
     {
-        return "cursor: pointer;";
+        return $"cursor: pointer;{customStyle}";
+    }
+
+    private SchedulerItemStyling GetItemStyling( TItem item )
+    {
+        if ( Scheduler?.ItemStyling is null )
+            return DefaultItemStyling;
+
+        SchedulerItemStyling itemStyling = new()
+        {
+            Background = Background.Info,
+        };
+
+        Scheduler.ItemStyling( item, itemStyling );
+
+        return itemStyling;
     }
 
     IEnumerable<SchedulerAllDayItemInfo<TItem>> GetAllDayItemsOnDate()
@@ -160,7 +181,7 @@
     /// <summary>
     /// Returns a string indicating whether the Scheduler is draggable. It returns 'true' if draggable, otherwise 'false'.
     /// </summary>
-    private string DraggableAttribute => Scheduler?.Draggable == true ? "true" : "false";
+    private string DraggableAttribute => Scheduler?.Editable == true && Scheduler?.Draggable == true ? "true" : "false";
 
     bool IsCurrentMonth => Date.Month == SelectedDate.Month;
     bool IsWeekend => Date.DayOfWeek == DayOfWeek.Saturday || Date.DayOfWeek == DayOfWeek.Sunday;

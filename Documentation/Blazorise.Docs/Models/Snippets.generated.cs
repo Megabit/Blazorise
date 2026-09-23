@@ -30124,6 +30124,84 @@ builder.Services
     };
 }";
 
+        public const string SchedulerCommandsExample = @"<Scheduler TItem=""Appointment""
+           Data=""@appointments""
+           Date=""@selectedDate""
+           SelectedView=""SchedulerView.Week""
+           Editable
+           ItemStyling=""@OnItemStyling"">
+    <SchedulerCommands>
+        <DeleteCommandTemplate Context=""command"">
+            @if ( !command.Item.IsReadOnly )
+            {
+                <Button Color=""Color.Danger"" Size=""Size.Small"" Clicked=""@command.Clicked"" Title=""@command.LocalizationString"">
+                    <Icon Name=""IconName.Delete"" />
+                </Button>
+            }
+        </DeleteCommandTemplate>
+        <SaveCommandTemplate Context=""command"">
+            @if ( !command.Item.IsReadOnly )
+            {
+                <Button Color=""Color.Primary"" Clicked=""@command.Clicked"">
+                    @command.LocalizationString
+                </Button>
+            }
+        </SaveCommandTemplate>
+        <CancelCommandTemplate Context=""command"">
+            <Button Color=""Color.Secondary"" Clicked=""@command.Clicked"">
+                @command.LocalizationString
+            </Button>
+        </CancelCommandTemplate>
+    </SchedulerCommands>
+    <SchedulerToolbar />
+    <SchedulerViews>
+        <SchedulerWeekView StartTime=""@(new TimeOnly( 8, 0 ))"" EndTime=""@(new TimeOnly( 17, 0 ))"" />
+    </SchedulerViews>
+</Scheduler>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<Appointment> appointments = new()
+    {
+        new Appointment
+        {
+            Id = ""1"",
+            Title = ""Project planning and discussion of the next release milestones"",
+            Start = DateTime.Today.AddHours( 9 ),
+            End = DateTime.Today.AddHours( 11 ),
+        },
+        new Appointment
+        {
+            Id = ""2"",
+            Title = ""Company meeting managed by another user"",
+            Start = DateTime.Today.AddHours( 13 ),
+            End = DateTime.Today.AddHours( 15 ),
+            IsReadOnly = true,
+        },
+    };
+
+    private void OnItemStyling( Appointment item, SchedulerItemStyling styling )
+    {
+        styling.TextOverflow = TextOverflow.Wrap;
+        styling.TextWeight = item.IsReadOnly ? TextWeight.Normal : TextWeight.SemiBold;
+        styling.Background = item.IsReadOnly ? Background.Secondary : Background.Info;
+    }
+
+    public class Appointment
+    {
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public bool IsReadOnly { get; set; }
+    }
+}";
+
         public const string SchedulerDraggableExample = @"<Scheduler TItem=""Appointment"" @bind-Date=""@selectedDate""
            Data=""@Appointments""
            @bind-SelectedView=""@selectedView""

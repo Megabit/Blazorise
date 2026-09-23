@@ -1,0 +1,283 @@
+<Div Class="@($"b-brand-backdrop b-brand-backdrop-{Variant.ToString().ToLowerInvariant()}")"
+     data-density="@Density.ToString().ToLowerInvariant()" data-tone="@( Dark ? "dark" : "light" )"
+     data-animated="@( Animated ? "true" : "false" )" Style="@PaletteStyle" aria-hidden="true">
+    @if ( Variant == BrandBackdropVariant.RoundedSteps )
+    {
+        <svg viewBox="0 0 600 700" fill="none" focusable="false">
+            <path d="M660-60H420Q380-60 380-20V75Q380 105 350 105H300Q260 105 260 145V220Q260 250 230 250H170Q130 250 130 290V360Q130 400 170 400H225Q255 400 255 430V500Q255 540 295 540H380Q410 540 410 570V635Q410 675 450 675H660Z" fill="var(--b-art-accent)" />
+            <path d="M660-60H500Q460-60 460-20V120Q460 150 430 150H385Q345 150 345 190V268Q345 298 315 298H260Q220 298 220 338V366Q220 406 260 406H320Q350 406 350 436V503Q350 543 390 543H473Q503 543 503 573V660H660Z" fill="var(--b-art-primary)" />
+            <path d="M660-60H560V193Q560 223 530 223H473Q433 223 433 263V355Q433 385 403 385H361Q321 385 321 425V459Q321 499 361 499H497Q537 499 537 539V660H660Z" fill="var(--b-art-secondary)" />
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.CircleScatter )
+    {
+        <svg viewBox="0 0 600 700" fill="none" focusable="false">
+            <circle cx="494" cy="79" r="139" fill="var(--b-art-primary)" />
+            <circle cx="314" cy="297" r="94" fill="var(--b-art-secondary)" />
+            <circle cx="548" cy="461" r="151" fill="var(--b-art-accent)" />
+            <circle cx="227" cy="547" r="46" fill="var(--b-art-primary)" />
+            <circle cx="113" cy="166" r="24" fill="var(--b-art-accent)" />
+            @if ( Density != BrandBackdropDensity.Low )
+            {
+                <circle cx="168" cy="390" r="16" fill="var(--b-art-secondary)" />
+                <circle cx="397" cy="652" r="28" stroke="var(--b-art-primary)" stroke-width="9" />
+            }
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.OrbitRoutes )
+    {
+        <svg viewBox="0 0 600 700" fill="none" focusable="false">
+            <g stroke="var(--b-art-primary)" stroke-width="3">
+                <ellipse cx="426" cy="321" rx="253" ry="243" />
+                <ellipse cx="426" cy="321" rx="253" ry="99" transform="rotate(-30 426 321)" />
+                <ellipse cx="426" cy="321" rx="111" ry="243" transform="rotate(28 426 321)" />
+                <path d="M173 321H679M222 180Q426 262 630 180M222 462Q426 380 630 462" />
+            </g>
+            <g fill="var(--b-art-secondary)">
+                <circle cx="204" cy="211" r="18" /><circle cx="445" cy="78" r="15" /><circle cx="268" cy="464" r="23" />
+            </g>
+            <circle cx="559" cy="327" r="36" fill="var(--b-art-accent)" />
+            @if ( Density != BrandBackdropDensity.Low )
+            {
+                <path d="M83 554Q163 254 559 327" stroke="var(--b-art-secondary)" stroke-width="3" stroke-dasharray="8 12" />
+            }
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.FlowingPaths )
+    {
+        <svg viewBox="0 0 600 700" fill="none" focusable="false">
+            <path d="M620-60C480-20 310 30 330 140S530 240 430 330S210 360 230 480S470 580 620 740" stroke="var(--b-art-primary)" stroke-width="14" stroke-linecap="round" />
+            <path d="M540-70C360 10 230 40 260 180S460 280 350 360S130 400 160 520S410 640 530 740" stroke="var(--b-art-accent)" stroke-width="5" stroke-linecap="round" />
+            <circle cx="430" cy="330" r="28" fill="var(--b-art-secondary)" />
+            <circle cx="430" cy="330" r="42" stroke="var(--b-art-accent)" stroke-width="3" />
+            @if ( Density != BrandBackdropDensity.Low )
+            {
+                <circle cx="330" cy="140" r="21" fill="var(--b-art-accent)" />
+                <circle cx="230" cy="480" r="23" fill="var(--b-art-primary)" />
+                <circle cx="230" cy="480" r="9" fill="var(--b-art-accent)" />
+            }
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.RibbonBands )
+    {
+        <svg viewBox="0 0 600 700" fill="none" focusable="false">
+            <path d="M492-110C281-20 291 104 440 164C643 246 555 367 411 389C246 414 313 530 465 553C584 571 672 550 780 585" stroke="var(--b-art-primary)" stroke-width="155" />
+            <path d="M643-28C408 54 444 179 552 233C695 305 587 435 426 447C342 453 398 491 497 494C603 497 699 486 780 513" stroke="var(--b-art-secondary)" stroke-width="86" />
+            <path d="M400-93C147 104 402 229 382 318C365 394 212 360 221 463C229 562 426 650 702 630" stroke="var(--b-art-accent)" stroke-width="26" />
+            @if ( Density == BrandBackdropDensity.High )
+            {
+                <path d="M325-80C90 150 320 220 296 324" stroke="var(--b-art-secondary)" stroke-width="3" />
+            }
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.EdgePeaks )
+    {
+        <svg viewBox="0 0 600 700" preserveAspectRatio="none" fill="none" focusable="false">
+            <path d="M640 0 290 85 395 176 205 306 337 413 295 475 462 585 640 686Z" fill="var(--b-art-accent)" />
+            <path d="M640 40 378 100 482 199 302 325 426 421 394 484 527 566 640 617Z" fill="var(--b-art-primary)" />
+            <path d="M640 80 479 109 567 214 408 342 518 430 486 490 640 575Z" fill="var(--b-art-secondary)" />
+            @if ( Density == BrandBackdropDensity.High )
+            {
+                <path d="M321-40 244 83 346 170 154 303 287 415 242 478 437 613 640 723" stroke="var(--b-art-primary)" stroke-width="3" />
+            }
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.EdgeSteps )
+    {
+        <svg viewBox="0 0 600 700" preserveAspectRatio="none" fill="none" focusable="false">
+            <path d="M640-40H310V76H204V170H276V264H136V366H234V459H356V548H461V625H640Z" fill="var(--b-art-accent)" />
+            <path d="M640-40H420V117H315V210H386V307H248V410H346V495H463V579H640Z" fill="var(--b-art-primary)" />
+            <path d="M640-40H530V157H425V251H497V351H358V452H462V537H640Z" fill="var(--b-art-secondary)" />
+            @if ( Density != BrandBackdropDensity.Low )
+            {
+                <path d="M100 164H135V199H100ZM55 367H80V392H55ZM257 536H283V562H257Z" fill="var(--b-art-primary)" />
+            }
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.EdgeArcs )
+    {
+        <svg viewBox="0 0 600 700" fill="none" focusable="false">
+            <path d="M760-100C78 10 97 552 760 623" stroke="var(--b-art-accent)" stroke-width="48" />
+            <path d="M790-8C236 64 250 465 790 511" stroke="var(--b-art-primary)" stroke-width="110" />
+            <path d="M780 102C398 144 395 357 780 401" stroke="var(--b-art-secondary)" stroke-width="62" />
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.PetalFan )
+    {
+        <svg viewBox="0 0 700 440" fill="none" focusable="false">
+            <path d="M112 520C18 361 51 232 137 241C237 252 276 342 359 481Z" fill="var(--b-art-secondary)" fill-opacity=".7" />
+            <path d="M237 505C73 256 206 89 297 159C387 227 364 358 415 496Z" fill="var(--b-art-primary)" fill-opacity=".85" />
+            <path d="M339 505C222 241 346 9 459 81C568 151 448 323 474 489Z" fill="var(--b-art-accent)" fill-opacity=".8" />
+            <path d="M446 502C394 283 555 122 630 215C702 304 577 395 568 501Z" fill="var(--b-art-secondary)" fill-opacity=".75" />
+            @if ( Density != BrandBackdropDensity.Low )
+            {
+                <path d="M281 492C216 344 384 238 459 302C536 369 447 421 430 509Z" fill="var(--b-art-accent)" fill-opacity=".6" />
+            }
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.Blob )
+    {
+        <svg viewBox="0 0 600 600" fill="none" focusable="false">
+            <path d="M468 83C547 117 560 211 513 276C472 333 527 403 460 467C398 526 319 482 261 511C173 555 73 487 83 398C92 317 41 270 94 195C142 126 219 152 275 97C327 45 399 53 468 83Z" fill="var(--b-art-primary)" />
+            <path d="M455 135C514 186 476 268 432 300C379 339 410 416 345 441C276 469 247 395 188 366C133 338 123 270 167 230C211 189 264 207 304 160C345 113 411 97 455 135Z" fill="var(--b-art-secondary)" />
+            <path d="M462 71C568 151 529 267 479 315C432 361 481 446 389 484C304 519 236 458 162 470" stroke="var(--b-art-accent)" stroke-width="2" />
+            @if ( Density != BrandBackdropDensity.Low )
+            {
+                <path d="M241 75C173 60 89 105 75 171M501 391C535 450 500 512 440 533" stroke="var(--b-art-accent)" stroke-width="2" />
+            }
+            @if ( Density == BrandBackdropDensity.High )
+            {
+                <circle cx="101" cy="95" r="13" fill="var(--b-art-accent)" />
+                <circle cx="522" cy="497" r="8" fill="var(--b-art-secondary)" />
+            }
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.LayeredWaves )
+    {
+        <svg viewBox="0 0 900 600" preserveAspectRatio="none" fill="none" focusable="false">
+            <path d="M0 240C125 310 192 100 350 175S564 350 690 218S823 142 900 190V600H0Z" fill="var(--b-art-accent)" />
+            <path d="M0 327C163 418 201 224 377 294S615 377 729 294S843 270 900 310V600H0Z" fill="var(--b-art-primary)" />
+            <path d="M0 457C174 365 267 480 410 418S647 375 744 434S862 476 900 431V600H0Z" fill="var(--b-art-secondary)" />
+            @if ( Density != BrandBackdropDensity.Low )
+            {
+                <path d="M0 512C166 441 249 554 419 504S655 499 762 516S858 492 900 510V600H0Z" fill="var(--b-art-primary)" fill-opacity=".65" />
+            }
+            @if ( Density == BrandBackdropDensity.High )
+            {
+                <path d="M0 566C125 534 245 598 389 560S642 536 750 566S850 579 900 560V600H0Z" fill="var(--b-art-accent)" />
+            }
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.LayeredPeaks )
+    {
+        <svg viewBox="0 0 900 600" preserveAspectRatio="none" fill="none" focusable="false">
+            <path d="M0 310 137 213 247 256 435 93 583 220 729 171 900 279V600H0Z" fill="var(--b-art-accent)" />
+            <path d="M0 370 151 306 285 348 463 222 637 348 755 292 900 364V600H0Z" fill="var(--b-art-primary)" />
+            <path d="M0 473 182 391 328 463 477 350 650 471 762 406 900 448V600H0Z" fill="var(--b-art-secondary)" />
+            @if ( Density != BrandBackdropDensity.Low )
+            {
+                <path d="M0 543 128 498 300 534 451 471 620 533 751 488 900 549V600H0Z" fill="var(--b-art-primary)" fill-opacity=".65" />
+            }
+            @if ( Density == BrandBackdropDensity.High )
+            {
+                <path d="M0 581 170 541 324 575 491 531 671 576 800 549 900 574V600H0Z" fill="var(--b-art-accent)" />
+            }
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.StackedSteps )
+    {
+        <svg viewBox="0 0 900 600" preserveAspectRatio="none" fill="none" focusable="false">
+            <path d="M0 320H100V245H210V288H315V173H425V112H540V222H650V175H770V253H900V600H0Z" fill="var(--b-art-accent)" />
+            <path d="M0 402H155V335H270V382H375V282H490V243H595V326H715V297H820V376H900V600H0Z" fill="var(--b-art-primary)" />
+            <path d="M0 507H90V444H230V478H350V406H460V389H570V459H690V422H805V479H900V600H0Z" fill="var(--b-art-secondary)" />
+            @if ( Density != BrandBackdropDensity.Low )
+            {
+                <path d="M0 554H180V509H310V543H450V487H565V529H720V505H840V554H900V600H0Z" fill="var(--b-art-primary)" fill-opacity=".65" />
+            }
+            @if ( Density == BrandBackdropDensity.High )
+            {
+                <path d="M0 583H130V563H270V580H390V549H530V573H650V558H780V578H900V600H0Z" fill="var(--b-art-accent)" />
+            }
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.BlobScene )
+    {
+        <svg viewBox="0 0 900 600" preserveAspectRatio="xMaxYMax slice" fill="none" focusable="false">
+            <path d="M0 150C91 210 102 309 224 318C339 327 409 273 453 353C495 430 438 500 563 600H0Z" fill="var(--b-art-primary)" />
+            <path d="M488 0C570 86 534 173 637 225C721 267 721 401 810 448C841 464 872 461 900 458V0Z" fill="var(--b-art-secondary)" />
+            @if ( Density != BrandBackdropDensity.Low )
+            {
+                <path d="M0 208C83 270 111 359 229 362C330 365 358 328 397 387C442 455 403 532 482 600H0Z" fill="var(--b-art-accent)" />
+            }
+            @if ( Density == BrandBackdropDensity.High )
+            {
+                <path d="M542 0C623 99 586 156 678 204C769 251 771 368 849 391C869 397 885 397 900 395" stroke="var(--b-art-accent)" stroke-width="3" />
+            }
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.StackedWaves )
+    {
+        <svg viewBox="0 0 900 600" preserveAspectRatio="none" fill="none" focusable="false">
+            <path d="M0 0H900V600H0Z" fill="var(--b-art-accent)" />
+            <path d="M0 92C116 39 173 188 286 137S421 47 531 154S722 183 900 77V600H0Z" fill="var(--b-art-primary)" fill-opacity=".45" />
+            <path d="M0 238C119 148 161 293 295 260S423 127 547 286S743 292 900 193V600H0Z" fill="var(--b-art-primary)" />
+            <path d="M0 385C111 280 210 403 333 365S467 285 586 405S756 408 900 334V600H0Z" fill="var(--b-art-secondary)" fill-opacity=".65" />
+            @if ( Density != BrandBackdropDensity.Low )
+            {
+                <path d="M0 482C117 405 212 527 365 487S505 422 627 512S795 494 900 447V600H0Z" fill="var(--b-art-secondary)" />
+            }
+            @if ( Density == BrandBackdropDensity.High )
+            {
+                <path d="M0 558C150 519 245 591 392 556S566 531 693 569S841 553 900 538V600H0Z" fill="var(--b-art-ink)" fill-opacity=".12" />
+            }
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.StackedPeaks )
+    {
+        <svg viewBox="0 0 900 600" preserveAspectRatio="none" fill="none" focusable="false">
+            <path d="M0 0H900V600H0Z" fill="var(--b-art-accent)" />
+            <path d="M0 128 123 67 237 142 368 84 496 166 624 53 749 128 900 79V600H0Z" fill="var(--b-art-primary)" fill-opacity=".45" />
+            <path d="M0 263 137 211 263 283 402 172 537 304 654 219 786 272 900 226V600H0Z" fill="var(--b-art-primary)" />
+            <path d="M0 418 142 328 278 394 419 297 552 427 683 350 794 414 900 369V600H0Z" fill="var(--b-art-secondary)" fill-opacity=".65" />
+            @if ( Density != BrandBackdropDensity.Low )
+            {
+                <path d="M0 528 165 448 305 491 447 413 571 530 716 459 820 511 900 482V600H0Z" fill="var(--b-art-secondary)" />
+            }
+            @if ( Density == BrandBackdropDensity.High )
+            {
+                <path d="M0 583 173 546 314 574 464 521 596 584 729 546 840 573 900 556V600H0Z" fill="var(--b-art-ink)" fill-opacity=".12" />
+            }
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.GeometricStack )
+    {
+        <svg viewBox="0 0 600 600" fill="none" focusable="false">
+            <g class="b-brand-backdrop-geometry">
+                <path d="M60 380 300 240 540 380 300 520Z" fill="var(--b-art-accent)" />
+                <path d="M60 380 300 520 300 552 60 412Z" fill="var(--b-art-primary)" />
+                <path d="M300 520 540 380 540 412 300 552Z" fill="var(--b-art-secondary)" />
+                <path d="M60 280 300 140 540 280 300 420Z" fill="var(--b-art-secondary)" />
+                <path d="M60 280 300 420 300 452 60 312Z" fill="var(--b-art-primary)" />
+                <path d="M300 420 540 280 540 312 300 452Z" fill="var(--b-art-accent)" />
+                <path d="M60 180 300 40 540 180 300 320Z" fill="var(--b-art-primary)" />
+                <path d="M60 180 300 320 300 352 60 212Z" fill="var(--b-art-secondary)" />
+                <path d="M300 320 540 180 540 212 300 352Z" fill="var(--b-art-accent)" />
+                <path d="m180 180 120-70 120 70-120 70Z M120 145l240 140 M240 75l240 140" stroke="var(--b-art-ink)" stroke-opacity=".45" />
+            </g>
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.Circuit )
+    {
+        <svg viewBox="0 0 600 600" fill="none" focusable="false">
+            <g stroke="var(--b-art-primary)" stroke-width="2">
+                <path d="M0 80h160l100 100h340 M0 240h100l160 160h340 M80 600V420l160-160V0 M400 600V440l100-100V0 M0 520h160l140-140h300" />
+                <circle cx="160" cy="80" r="7" /><circle cx="260" cy="400" r="7" /><circle cx="400" cy="440" r="7" /><circle cx="240" cy="260" r="7" />
+            </g>
+        </svg>
+    }
+    else if ( Variant == BrandBackdropVariant.CodeBurst )
+    {
+        <svg viewBox="0 0 600 600" fill="none" focusable="false">
+            <g stroke="var(--b-art-primary)" stroke-width="3">
+                @for ( int index = 0; index < RayCount; index++ )
+                {
+                    <path @key="index" d="M300 70v100" transform="@($"rotate({index * 360 / RayCount} 300 300)")" />
+                }
+            </g>
+            <path d="m240 240-65 60 65 60m120-120 65 60-65 60m-35-145-50 170" stroke="var(--b-art-secondary)" stroke-width="12" />
+        </svg>
+    }
+</Div>
+
+@code {
+    [Parameter] public BrandBackdropVariant Variant { get; set; } = BrandBackdropVariant.PixelGrid;
+    [Parameter] public BrandBackdropDensity Density { get; set; } = BrandBackdropDensity.Medium;
+    [Parameter] public bool Dark { get; set; }
+    [Parameter] public bool Animated { get; set; }
+    [Parameter] public string Primary { get; set; } = "var(--b-visual-violet, #9317e1)";
+    [Parameter] public string Secondary { get; set; } = "var(--b-visual-pink, #e03d76)";
+    [Parameter] public string Accent { get; set; } = "var(--b-visual-lilac, #bb61f6)";
+
+    private int RayCount => Density switch { BrandBackdropDensity.Low => 12, BrandBackdropDensity.High => 32, _ => 20 };
+    private string PaletteStyle => $"--b-art-primary:{Primary};--b-art-secondary:{Secondary};--b-art-accent:{Accent}";
+}

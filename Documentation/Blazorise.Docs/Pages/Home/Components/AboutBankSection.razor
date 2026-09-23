@@ -1,0 +1,42 @@
+<Container>
+    <Card Border="Border.Rounded" Shadow="Shadow.Small">
+        <CardBody Padding="Padding.Is5">
+            <Row>
+                <Column ColumnSize="ColumnSize.Is12.Is5.OnDesktop" Margin="Margin.Is4.FromBottom.OnMobile">
+                    <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                        Bank Details
+                    </Heading>
+                    <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
+                        Official payment information for Megabit d.o.o.
+                    </Paragraph>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is7.OnDesktop">
+                    <Table Responsive Borderless>
+                        <TableBody>
+                            @foreach ( CompanyFact item in BankFacts )
+                            {
+                                <TableRow @key="@item.Label">
+                                    <TableRowHeader TextAlignment="TextAlignment.Start">@item.Label</TableRowHeader>
+                                    <TableRowCell TextAlignment="TextAlignment.End">@item.Value</TableRowCell>
+                                </TableRow>
+                            }
+                        </TableBody>
+                    </Table>
+                </Column>
+            </Row>
+        </CardBody>
+    </Card>
+</Container>
+
+@code {
+    private static readonly CompanyFact[] BankFacts =
+    [
+        new( "Bank", "Podravska banka d.d." ),
+        new( "Headquarters", "Opatička 3, 48000 Koprivnica, Croatia" ),
+        new( "OIB", "97326283154" ),
+        new( "IBAN", "HR8023860021110095639" ),
+        new( "Swift", "PDKCHR2X" )
+    ];
+
+    private sealed record CompanyFact( string Label, string Value );
+}

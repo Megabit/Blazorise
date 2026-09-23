@@ -1,0 +1,27 @@
+<Container>
+    <Row>
+        @foreach ( AboutStat item in AboutStats )
+        {
+            <Column @key="@item.Label" ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is3.FromBottom">
+                <Card Class="b-editorial-fact" Height="Height.Is100">
+                    <CardBody>
+                        <Paragraph TextSize="TextSize.Heading2" TextWeight="TextWeight.Bold" Margin="Margin.Is0.FromBottom">@item.Value</Paragraph>
+                        <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is1.FromBottom">@item.Label</Paragraph>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Container>
+
+@code {
+    private static readonly AboutStat[] AboutStats =
+    [
+        new( "2010", "Founded", "Megabit has been building software products and services for more than a decade." ),
+        new( "100+", "UI components", "Blazorise covers common application UI, complex data workflows, and provider utilities." ),
+        new( "7+", "CSS providers", "Use Bootstrap, Tailwind, Fluent 2, Bulma, Material, Ant Design, and more." )
+    ];
+
+    private sealed record AboutStat( string Value, string Label, string Description );
+}

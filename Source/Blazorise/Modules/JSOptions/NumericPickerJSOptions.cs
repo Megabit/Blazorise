@@ -106,6 +106,11 @@ public class NumericPickerJSOptions
     public decimal? Step { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether keyboard stepping is enabled.
+    /// </summary>
+    public bool EnableStep { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether all text should be selected when the input gains focus.
     /// </summary>
     public bool SelectAllOnFocus { get; set; }
@@ -200,6 +205,11 @@ public class NumericPickerUpdateJSOptions
     /// Gets or sets the option for updating the mouse wheel modification behavior.
     /// </summary>
     public JSOptionChange<bool> ModifyValueOnWheel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the option for updating keyboard stepping.
+    /// </summary>
+    public JSOptionChange<bool> EnableStep { get; set; }
 
     /// <summary>
     /// Gets or sets the option for updating the element(s) on which the wheel modification applies.

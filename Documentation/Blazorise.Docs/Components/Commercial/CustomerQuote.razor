@@ -1,22 +1,19 @@
-﻿<Container Padding="Padding.Is5.OnY">
-    <Row Border="Border.Rounded" Shadow="Shadow.Small" Overflow="Overflow.Hidden" Flex="Flex.Row.OnDesktop" Margin="Margin.Is4.FromBottom" Position="Position.Relative">
-        <Column ColumnSize="ColumnSize.IsAuto" Display="Display.None.Block.OnWidescreen" Border="Border.Is1.OnEnd">
-            <Image Source="@LogoUrl" Text="@LogoText" Width="Width.Px( 200 )" Height="Height.Px( 250 )"></Image>
-        </Column>
-        <Column Padding="Padding.Is4" Flex="Flex.Column">
-            <Paragraph Class="customer-quote" Margin="Margin.IsAuto.FromBottom">
-                <q>@Quote</q>
-            </Paragraph>
-            <Anchor To="@PartnerUrl" Title="Image to partner web">Partner web</Anchor>
-        </Column>
-    </Row>
-</Container>
+<article class="b-customer-story">
+    <Div Class="b-customer-story-identity">
+        <Div Class="b-customer-story-logo">
+            <Image Source="@LogoUrl" Text="@LogoText" Loading />
+        </Div>
+        <Heading Size="HeadingSize.Is2">@LogoText</Heading>
+        <Anchor To="@PartnerUrl">Visit @LogoText <Span aria-hidden="true">&#8599;</Span></Anchor>
+    </Div>
+    <Blockquote Class="b-customer-story-quote">
+        <Paragraph>@Quote</Paragraph>
+    </Blockquote>
+</article>
+
 @code {
     [Parameter] public string LogoUrl { get; set; }
-
     [Parameter] public string LogoText { get; set; }
-
     [Parameter] public string Quote { get; set; }
-
     [Parameter] public string PartnerUrl { get; set; }
 }

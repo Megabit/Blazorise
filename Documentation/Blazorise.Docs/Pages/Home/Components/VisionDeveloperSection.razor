@@ -1,0 +1,40 @@
+<Container>
+    <Row Flex="Flex.AlignItems.Center">
+        <Column ColumnSize="ColumnSize.Is12.Is5.OnDesktop" Margin="Margin.Is4.FromBottom.OnMobile">
+            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                From a developer's point of view
+            </Heading>
+            <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted">
+                The library should make everyday UI work calmer and more predictable. Teams should be able to compose components, customize them deeply, and learn from examples without fighting the framework.
+            </Paragraph>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is7.OnDesktop">
+            <Row>
+                @foreach ( DeveloperGoal item in DeveloperGoals )
+                {
+                    <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet" Margin="Margin.Is3.FromBottom">
+                        <Div Flex="Flex.AlignItems.Start" Gap="Gap.Is3">
+                            <Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is1.FromTop" />
+                            <Div>
+                                <Strong>@item.Title</Strong>
+                                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is0.FromBottom">@item.Description</Paragraph>
+                            </Div>
+                        </Div>
+                    </Column>
+                }
+            </Row>
+        </Column>
+    </Row>
+</Container>
+
+@code {
+    private static readonly DeveloperGoal[] DeveloperGoals =
+    [
+        new( "Fully encapsulated components", "Components should own their behavior while remaining easy to compose and extend." ),
+        new( "Themeable and customizable", "Teams should be able to adapt Blazorise to their product identity instead of adapting their identity to Blazorise." ),
+        new( "Accessible and compatible", "Application UI should work across browsers, devices, input modes, and user needs." ),
+        new( "Community-centered", "The project should promote useful feedback, practical examples, and shared learning." )
+    ];
+
+    private sealed record DeveloperGoal( string Title, string Description );
+}
