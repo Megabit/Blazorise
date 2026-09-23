@@ -4,7 +4,7 @@
 {
     @if ( AsButton )
     {
-        <Label Type="LabelType.Radio" For="@ElementId" Style="@($"{StyleProvider.ButtonColor( ButtonColor )};{Style}")" Cursor="@Cursor" Class="@LabelButtonClassName">
+        <Label Type="LabelType.Radio" For="@ElementId" Style="@LabelButtonStyleNames" Cursor="@Cursor" Class="@LabelButtonClassNames">
             <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
             @ChildContent
         </Label>
@@ -44,8 +44,4 @@ else
         <Label Type="LabelType.Check" For="@ElementId" Style="@Style" Cursor="@Cursor">@ChildContent</Label>
         @Feedback
     }
-}
-@code {
-    string LabelButtonClassName
-        => $"{ClassProvider.Button( false )} {ClassProvider.ButtonColor( ButtonColor, false )} {ClassProvider.ButtonActive( false, IsActive )} {ClassProvider.ButtonDisabled( false, IsDisabled )}";
 }

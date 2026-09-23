@@ -14,6 +14,7 @@ public partial class Radio<TValue>
         LabelButonClassBuilder = new ClassBuilder( BuildLabelButonClasses, builder => builder.Append( Classes?.LabelButton ) );
         AddonClassBuilder = new ClassBuilder( BuildAddonClasses );
         WrapperStyleBuilder = new StyleBuilder( BuildWrapperStyles, builder => builder.Append( Styles?.Wrapper ) );
+        LabelButtonStyleBuilder = new StyleBuilder( BuildLabelButtonStyles, builder => builder.Append( Styles?.LabelButton ) );
     }
 
     #endregion
@@ -39,6 +40,7 @@ public partial class Radio<TValue>
     protected internal override void DirtyStyles()
     {
         WrapperStyleBuilder.Dirty();
+        LabelButtonStyleBuilder.Dirty();
 
         base.DirtyStyles();
     }
@@ -88,6 +90,11 @@ public partial class Radio<TValue>
         AppendWrapperUtilities( builder );
     }
 
+    private void BuildLabelButtonStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.ButtonColor( ButtonColor ) );
+    }
+
     #endregion
 
     #region Properties
@@ -100,6 +107,8 @@ public partial class Radio<TValue>
 
     protected StyleBuilder WrapperStyleBuilder { get; private set; }
 
+    protected StyleBuilder LabelButtonStyleBuilder { get; private set; }
+
     protected string InputClassNames => InputClassBuilder.Class;
 
     protected string LabelButonClassNames => LabelButonClassBuilder.Class;
@@ -107,6 +116,8 @@ public partial class Radio<TValue>
     protected string AddonClassNames => AddonClassBuilder.Class;
 
     protected string WrapperStyleNames => WrapperStyleBuilder.Styles;
+
+    protected string LabelButtonStyleNames => LabelButtonStyleBuilder.Styles;
 
     #endregion
 }

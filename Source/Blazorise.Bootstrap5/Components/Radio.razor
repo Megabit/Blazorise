@@ -1,10 +1,9 @@
-@using Blazorise.Extensions
 @typeparam TValue
 @inherits Blazorise.Radio<TValue>
 @if ( AsButton )
 {
     <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@IsActive" value="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
-    <label class="@LabelButtonClassNames" style="@StyleProvider.ButtonColor( ButtonColor )" for="@ElementId">
+    <label class="@LabelButtonClassNames" style="@LabelButtonStyleNames" for="@ElementId">
         @ChildContent
     </label>
     @Feedback
@@ -16,8 +15,4 @@ else
         <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor">@ChildContent</Label>
         @Feedback
     </Control>
-}
-@code {
-    string LabelButtonClassNames
-        => $"{ClassProvider.Button( false )} {ClassProvider.ButtonColor( ButtonColor, false )}{( IsActive ? " active" : null )}{( IsDisabled ? " disabled" : null )}";
 }

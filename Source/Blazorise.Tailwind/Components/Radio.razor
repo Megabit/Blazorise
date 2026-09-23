@@ -1,9 +1,8 @@
-@using System.Text;
 @typeparam TValue
 @inherits Blazorise.Radio<TValue>
 @if ( AsButton )
 {
-    <label for="@ElementId" aria-disabled="@(IsDisabled ? "true" : "false")" class="@ButtonLabelClassNames" style="@StyleProvider.ButtonColor( ButtonColor )">
+    <label for="@ElementId" aria-disabled="@(IsDisabled ? "true" : "false")" class="@ButtonLabelClassNames" style="@ButtonLabelStyleNames">
         @ChildContent
         <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@ButtonInputStyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@IsActive" value="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
     </label>
@@ -16,50 +15,6 @@ else
     </Control>
 }
 @code {
-    string ButtonLabelClassNames
-    {
-        get
-        {
-            var sb = new StringBuilder( "relative focus:ring-4 font-medium focus:outline-none" );
-
-            sb.Append( ' ' ).Append( ClassProvider.ButtonSize( ThemeSize, false ) );
-
-            if ( ParentRadioGroup?.Orientation == Orientation.Horizontal )
-                sb.Append( " rounded-none first:rounded-l-lg last:rounded-r-lg" );
-            else
-                sb.Append( " rounded-none first:rounded-t-lg last:rounded-b-lg w-full" );
-
-            if ( ButtonColor?.IsCssValue == true )
-            {
-                sb.Append( ' ' ).Append( ClassProvider.ButtonColor( ButtonColor, false ) );
-                sb.Append( ' ' ).Append( ClassProvider.ButtonActive( false, IsActive ) );
-                sb.Append( " has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-[color-mix(in_srgb,var(--tw-button-bg)_40%,transparent)]" );
-            }
-            else if ( IsActive )
-                sb.Append( " text-white bg-secondary-700 hover:bg-secondary-800 focus:ring-secondary-300 dark:bg-secondary-600 dark:hover:bg-secondary-700 dark:focus:ring-secondary-800" );
-            else
-                sb.Append( " text-white bg-secondary-500 hover:bg-secondary-600 focus:ring-secondary-100 dark:bg-secondary-400 dark:hover:bg-secondary-500 dark:focus:ring-secondary-600" );
-
-            if ( IsDisabled )
-                sb.Append( " cursor-not-allowed opacity-60" );
-
-            return sb.ToString();
-        }
-    }
-
-    string ButtonInputStyleNames
-    {
-        get
-        {
-            var sb = new StringBuilder( "clip: rect(0,0,0,0);" );
-
-            if ( StyleNames is not null )
-                sb.Append( StyleNames );
-
-            return sb.ToString();
-        }
-    }
-
     protected RenderFragment RadioFragment => __builder =>
     {
         <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@IsActive" value="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />

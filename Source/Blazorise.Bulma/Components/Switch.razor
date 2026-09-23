@@ -4,7 +4,7 @@
 {
     <div class="field">
         <input @ref="@ElementRef" id="@ElementId" type="checkbox" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
-        <Label Type="LabelType.Switch" For="@ElementId" Style="@($"{StyleProvider.SwitchColor( Color )};{Style}")" Cursor="@Cursor">
+        <Label Type="LabelType.Switch" For="@ElementId" Style="@LabelStyleNames" Cursor="@Cursor">
             @ChildContent
         </Label>
         @Feedback
@@ -13,7 +13,7 @@
 else
 {
     <input @ref="@ElementRef" id="@ElementId" type="checkbox" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
-    <Label Type="LabelType.Switch" For="@ElementId" Style="@($"{StyleProvider.SwitchColor( Color )};{Style}")" Cursor="@Cursor">
+    <Label Type="LabelType.Switch" For="@ElementId" Style="@LabelStyleNames" Cursor="@Cursor">
         @ChildContent
     </Label>
     @Feedback

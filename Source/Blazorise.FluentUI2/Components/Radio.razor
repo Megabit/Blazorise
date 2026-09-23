@@ -1,9 +1,8 @@
-@using System.Text
 @typeparam TValue
 @inherits Blazorise.Radio<TValue>
 @if ( AsButton )
 {
-    <label class="@LabelButonClassNames" style="@($"{StyleProvider.ButtonColor( ButtonColor )};{Styles?.LabelButton}")" for="@ElementId">
+    <label class="@LabelButonClassNames" style="@LabelButtonStyleNames" for="@ElementId">
         <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@IsActive" value="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
         @ChildContent
     </label>
