@@ -1041,7 +1041,7 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
     {
-        sb.Append( $".ant-input-colored.ant-input-color-{variant}" )
+        sb.Append( $".ant-input-color-{variant}" )
             .Append( "{" )
             .Append( $"--ant-input-custom-color: {inColor};" )
             .AppendLine( "}" );

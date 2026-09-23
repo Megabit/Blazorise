@@ -15,7 +15,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TextInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "ant-input-colored" : color.IsNotNullOrDefault() ? $"ant-input-colored ant-input-color-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "ant-input-colored" : color.IsNotNullOrDefault() ? $"ant-input-color-{ToColor( color )}" : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 

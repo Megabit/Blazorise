@@ -1990,6 +1990,9 @@
   .\!bg-light-50 {
     background-color: var(--color-light-50) !important;
   }
+  .\!bg-light-100 {
+    background-color: var(--color-light-100) !important;
+  }
   .\!bg-primary-100 {
     background-color: var(--color-primary-100) !important;
   }

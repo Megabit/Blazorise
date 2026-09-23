@@ -15,7 +15,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TextInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "is-colored" : color.IsNotNullOrDefault() ? $"is-colored is-color-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "is-colored" : color.IsNotNullOrDefault() ? $"is-color-{ToColor( color )}" : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 

@@ -9703,7 +9703,7 @@ input::file-selector-button {
   --colorInputBorder: var(--colorBrandForegroundLink);
 }
 
-:is(.fui-Input, .fui-Textarea, .fui-SpinButton).fui-Input-colored:not(:has(> :disabled)) {
+.fui-Input-color-primary:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-secondary:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-success:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-danger:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-warning:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-info:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-light:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-dark:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-link:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-colored:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)) {
   --colorNeutralStroke1: var(--colorInputBorder);
   --colorNeutralStroke1Hover: var(--colorInputBorder);
   --colorNeutralStroke1Pressed: var(--colorInputBorder);
@@ -9713,11 +9713,10 @@ input::file-selector-button {
   --colorCompoundBrandStroke: var(--colorInputBorder);
   --colorCompoundBrandStrokePressed: var(--colorInputBorder);
 }
-
-:is(.fui-Input__content, .fui-Input .fui-SpinButton).fui-Input-colored:not(:has(> :disabled)) {
+.fui-Input-color-primary:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-secondary:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-success:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-danger:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-warning:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-info:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-light:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-dark:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-link:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-colored:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)) {
   border-bottom: var(--strokeWidthThin) solid var(--colorInputBorder);
 }
-:is(.fui-Input__content, .fui-Input .fui-SpinButton).fui-Input-colored:not(:has(> :disabled)):focus-within {
+.fui-Input-color-primary:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-secondary:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-success:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-danger:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-warning:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-info:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-light:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-dark:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-link:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-colored:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within {
   box-shadow: inset 0 -1px var(--colorInputBorder);
 }
 

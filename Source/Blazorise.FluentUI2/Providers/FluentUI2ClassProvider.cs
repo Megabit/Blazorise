@@ -15,7 +15,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TextInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "fui-Input-colored" : color.IsNotNullOrDefault() ? $"fui-Input-colored fui-Input-color-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "fui-Input-colored" : color.IsNotNullOrDefault() ? $"fui-Input-color-{ToColor( color )}" : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 

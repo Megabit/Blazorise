@@ -1035,7 +1035,7 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
     {
-        sb.Append( $".is-colored.is-color-{variant}" )
+        sb.Append( $".is-color-{variant}" )
             .Append( "{" )
             .Append( $"--bulma-input-custom-color: {inColor};" )
             .AppendLine( "}" );

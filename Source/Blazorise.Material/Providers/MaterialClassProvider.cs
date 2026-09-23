@@ -13,7 +13,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string TextInputSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
-    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "mui-input-colored" : color.IsNotNullOrDefault() ? $"mui-input-colored mui-input-color-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "mui-input-colored" : color.IsNotNullOrDefault() ? $"mui-input-color-{ToColor( color )}" : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 

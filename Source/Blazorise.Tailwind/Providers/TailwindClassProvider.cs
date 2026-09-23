@@ -2162,7 +2162,7 @@ public class TailwindClassProvider : ClassProvider
             "danger" => "!text-danger-700 !bg-danger-100 !dark:bg-danger-200 !dark:text-danger-800",
             "warning" => "!text-warning-700 !bg-warning-100 !dark:bg-warning-200 !dark:text-warning-800",
             "info" => "!text-info-700 !bg-info-100 !dark:bg-info-200 !dark:text-info-800",
-            "light" => "!text-light-500 bg-light-100 !dark:bg-light-100 !dark:text-light-600",
+            "light" => "!text-light-500 !bg-light-100 !dark:bg-light-100 !dark:text-light-600",
             "dark" => "!text-dark-100 !bg-dark-800 !dark:bg-dark-300 !dark:text-dark-700",
             "link" => "!text-primary-600 !dark:text-primary-500 !hover:underline",
             _ => name,
@@ -2190,7 +2190,7 @@ public class TailwindClassProvider : ClassProvider
     public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault()
         ? color.IsCssValue
             ? "tw-table-cell-colored !bg-[color:var(--tw-table-bg)] !text-white supports-[color:contrast-color(white)]:!text-[color:contrast-color(var(--tw-table-bg))]"
-            : $"tw-table-cell-colored {TableRowColor( color )}"
+            : TableRowColor( color )
         : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )

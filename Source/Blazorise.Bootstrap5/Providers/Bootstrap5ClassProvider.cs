@@ -15,7 +15,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TextInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "form-control-colored" : color.IsNotNullOrDefault() ? $"form-control-colored form-control-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "form-control-colored" : color.IsNotNullOrDefault() ? $"form-control-{ToColor( color )}" : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 

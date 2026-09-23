@@ -386,7 +386,7 @@ public class MaterialThemeGenerator : ThemeGenerator
     {
         string colorVariant = variant == "danger" ? "error" : variant;
 
-        sb.Append( $".mui-input-colored.mui-input-color-{colorVariant}" )
+        sb.Append( $".mui-input-color-{colorVariant}" )
             .Append( "{" )
             .Append( $"--mui-input-border-color: {inColor};" )
             .AppendLine( "}" );

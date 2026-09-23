@@ -5638,10 +5638,10 @@ fieldset.mui-row > legend.mui-field-label-horizontal {
   --mui-input-border-color: var(--mui-primary);
 }
 
-.mui-input.mui-input-colored:not(:disabled):not(.is-valid, .is-warning, .is-invalid) {
+.mui-input.mui-input-color-primary:not(:disabled):not(.is-valid, .is-warning, .is-invalid), .mui-input.mui-input-color-secondary:not(:disabled):not(.is-valid, .is-warning, .is-invalid), .mui-input.mui-input-color-tertiary:not(:disabled):not(.is-valid, .is-warning, .is-invalid), .mui-input.mui-input-color-error:not(:disabled):not(.is-valid, .is-warning, .is-invalid), .mui-input.mui-input-color-success:not(:disabled):not(.is-valid, .is-warning, .is-invalid), .mui-input.mui-input-color-warning:not(:disabled):not(.is-valid, .is-warning, .is-invalid), .mui-input.mui-input-color-info:not(:disabled):not(.is-valid, .is-warning, .is-invalid), .mui-input.mui-input-color-light:not(:disabled):not(.is-valid, .is-warning, .is-invalid), .mui-input.mui-input-color-dark:not(:disabled):not(.is-valid, .is-warning, .is-invalid), .mui-input.mui-input-color-link:not(:disabled):not(.is-valid, .is-warning, .is-invalid), .mui-input.mui-input-colored:not(:disabled):not(.is-valid, .is-warning, .is-invalid) {
   border-color: var(--mui-input-border-color);
 }
-.mui-input.mui-input-colored:not(:disabled):not(.is-valid, .is-warning, .is-invalid):focus {
+.mui-input.mui-input-color-primary:not(:disabled):not(.is-valid, .is-warning, .is-invalid):focus, .mui-input.mui-input-color-secondary:not(:disabled):not(.is-valid, .is-warning, .is-invalid):focus, .mui-input.mui-input-color-tertiary:not(:disabled):not(.is-valid, .is-warning, .is-invalid):focus, .mui-input.mui-input-color-error:not(:disabled):not(.is-valid, .is-warning, .is-invalid):focus, .mui-input.mui-input-color-success:not(:disabled):not(.is-valid, .is-warning, .is-invalid):focus, .mui-input.mui-input-color-warning:not(:disabled):not(.is-valid, .is-warning, .is-invalid):focus, .mui-input.mui-input-color-info:not(:disabled):not(.is-valid, .is-warning, .is-invalid):focus, .mui-input.mui-input-color-light:not(:disabled):not(.is-valid, .is-warning, .is-invalid):focus, .mui-input.mui-input-color-dark:not(:disabled):not(.is-valid, .is-warning, .is-invalid):focus, .mui-input.mui-input-color-link:not(:disabled):not(.is-valid, .is-warning, .is-invalid):focus, .mui-input.mui-input-colored:not(:disabled):not(.is-valid, .is-warning, .is-invalid):focus {
   border-color: var(--mui-input-border-color);
 }
 

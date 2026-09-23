@@ -559,7 +559,7 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
     {
-        sb.Append( $".fui-Input-colored.fui-Input-color-{variant}" )
+        sb.Append( $".fui-Input-color-{variant}" )
             .Append( "{" )
             .Append( $"--colorInputBorder: {inColor};" )
             .AppendLine( "}" );

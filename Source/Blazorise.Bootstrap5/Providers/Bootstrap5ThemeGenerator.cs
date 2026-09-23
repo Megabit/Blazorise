@@ -431,7 +431,7 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
     {
         if ( !string.IsNullOrEmpty( theme.ButtonOptions?.BoxShadowSize ) )
         {
-            sb.Append( ".form-control-colored" ).Append( "{" )
+            sb.Append( ".form-control" ).Append( "{" )
                 .Append( $"--bs-focus-ring-width: {theme.ButtonOptions.BoxShadowSize};" )
                 .AppendLine( "}" );
         }
@@ -1175,7 +1175,7 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
     {
-        sb.Append( $".form-control-colored.form-control-{variant}" )
+        sb.Append( $".form-control-{variant}" )
             .Append( "{" )
             .Append( $"--bs-input-border-color: {inColor};" )
             .AppendLine( "}" );
