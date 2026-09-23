@@ -4504,17 +4504,26 @@ template {
   color: var(--ant-color-text-tertiary);
   font-size: var(--ant-font-size-sm);
 }
-.ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-input {
-  box-sizing: border-box;
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-control {
+  position: relative;
+  display: flex;
+  min-width: 0;
   flex: 1 1 var(--ant-picker-time-column-width);
   width: var(--ant-picker-time-column-width);
+  height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
+}
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-input {
+  box-sizing: border-box;
+  width: 100%;
   min-width: 0;
   height: calc(var(--ant-picker-time-cell-height) + var(--ant-padding-xs));
   margin: 0;
   padding: 0;
+  padding-inline-end: calc(var(--ant-input-number-handle-width) + var(--ant-padding-xxs));
   border: 0;
   border-radius: var(--ant-border-radius-sm);
   outline: 0;
+  appearance: textfield;
   background: transparent;
   color: var(--ant-color-text);
   font-family: inherit;
@@ -4524,8 +4533,61 @@ template {
   text-align: center;
   transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
 }
+.ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-input::-webkit-inner-spin-button, .ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
 .ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-input:hover, .ant-picker-dropdown.ant-picker-panel-container .ant-picker-time-input:focus {
   background: var(--ant-picker-cell-hover-bg);
+}
+
+.ant-picker-time-buttons {
+  box-sizing: border-box;
+  position: absolute;
+  inset-block: var(--ant-line-width);
+  inset-inline-end: var(--ant-line-width);
+  display: flex;
+  flex-direction: column;
+  width: var(--ant-input-number-handle-width);
+  overflow: hidden;
+  border: var(--ant-line-width) var(--ant-line-type) var(--ant-input-number-handle-border-color);
+  border-radius: var(--ant-border-radius-sm);
+  background: var(--ant-input-number-handle-bg);
+}
+.ant-picker-time-button {
+  display: inline-flex;
+  flex: 1 1 50%;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ant-color-text-tertiary);
+  font: inherit;
+  font-size: var(--ant-font-size-sm);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+}
+.ant-picker-time-button + .ant-picker-time-button {
+  border-block-start: var(--ant-line-width) var(--ant-line-type) var(--ant-input-number-handle-border-color);
+}
+.ant-picker-time-button:hover:not(:disabled) {
+  background: var(--ant-input-number-handle-active-bg);
+  color: var(--ant-input-number-handle-hover-color);
+}
+.ant-picker-time-button:active:not(:disabled) {
+  background: var(--ant-color-primary-bg);
+}
+.ant-picker-time-button:focus-visible {
+  outline: 0.125rem solid var(--ant-input-number-active-border-color);
+  outline-offset: -0.125rem;
+}
+.ant-picker-time-button:disabled {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
 }
 
 .ant-time-picker-container {
@@ -4590,6 +4652,7 @@ template {
   line-height: 1;
 }
 .ant-time-picker-column {
+  min-width: 0;
   display: flex;
   flex: 0 0 var(--ant-picker-time-column-width);
   align-items: center;
@@ -4610,10 +4673,11 @@ template {
   height: 100%;
   margin: 0;
   padding: 0;
+  padding-inline-end: calc(var(--ant-input-number-handle-width) + var(--ant-padding-xxs));
   border: 0;
   border-radius: inherit;
   outline: 0;
-  appearance: auto;
+  appearance: textfield;
   color: var(--ant-color-text);
   background: transparent;
   font-family: inherit;
@@ -4623,9 +4687,8 @@ template {
   text-align: center;
 }
 .ant-time-picker-input::-webkit-inner-spin-button, .ant-time-picker-input::-webkit-outer-spin-button {
-  height: auto;
-  opacity: 1;
-  cursor: pointer;
+  margin: 0;
+  appearance: none;
 }
 .ant-time-picker-input:disabled {
   color: var(--ant-color-text-disabled);
@@ -4667,6 +4730,55 @@ template {
   background: var(--ant-picker-cell-hover-bg);
 }
 .ant-time-picker-meridiem:disabled {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.ant-time-picker-buttons {
+  box-sizing: border-box;
+  position: absolute;
+  inset-block: var(--ant-line-width);
+  inset-inline-end: var(--ant-line-width);
+  display: flex;
+  flex-direction: column;
+  width: var(--ant-input-number-handle-width);
+  overflow: hidden;
+  border: var(--ant-line-width) var(--ant-line-type) var(--ant-input-number-handle-border-color);
+  border-radius: var(--ant-border-radius-sm);
+  background: var(--ant-input-number-handle-bg);
+}
+.ant-time-picker-button {
+  display: inline-flex;
+  flex: 1 1 50%;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ant-color-text-tertiary);
+  font: inherit;
+  font-size: var(--ant-font-size-sm);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+}
+.ant-time-picker-button + .ant-time-picker-button {
+  border-block-start: var(--ant-line-width) var(--ant-line-type) var(--ant-input-number-handle-border-color);
+}
+.ant-time-picker-button:hover:not(:disabled) {
+  background: var(--ant-input-number-handle-active-bg);
+  color: var(--ant-input-number-handle-hover-color);
+}
+.ant-time-picker-button:active:not(:disabled) {
+  background: var(--ant-color-primary-bg);
+}
+.ant-time-picker-button:focus-visible {
+  outline: 0.125rem solid var(--ant-input-number-active-border-color);
+  outline-offset: -0.125rem;
+}
+.ant-time-picker-button:disabled {
   color: var(--ant-color-text-disabled);
   cursor: not-allowed;
 }

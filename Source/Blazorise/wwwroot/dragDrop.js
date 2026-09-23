@@ -1,4 +1,4 @@
-import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=2.3.1.0";
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=2.3.2.0";
 
 const reorderZones = new Map();
 let dragSource = null;

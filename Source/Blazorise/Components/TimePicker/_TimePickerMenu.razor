@@ -1,6 +1,7 @@
 @namespace Blazorise
 @typeparam TValue
 @using System
+@using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components.Web
 @implements IDisposable
 
@@ -40,6 +41,7 @@
                        @onkeydown="@((KeyboardEventArgs eventArgs) => Parent.OnControlKeyDownAsync( TimePickerPart.Hour, eventArgs ))"
                        @onkeydown:stopPropagation
                        @onchange="@Parent.ChangeHourAsync" />
+                @TimeButtons( TimePickerPart.Hour, Menu.HourText )
             </div>
 
             <span class="@Menu.SeparatorClassNames" aria-hidden="true">:</span>
@@ -59,6 +61,7 @@
                        @onkeydown="@((KeyboardEventArgs eventArgs) => Parent.OnControlKeyDownAsync( TimePickerPart.Minute, eventArgs ))"
                        @onkeydown:stopPropagation
                        @onchange="@Parent.ChangeMinuteAsync" />
+                @TimeButtons( TimePickerPart.Minute, Menu.MinuteText )
             </div>
 
             @if ( Parent.Seconds )
@@ -80,6 +83,7 @@
                            @onkeydown="@((KeyboardEventArgs eventArgs) => Parent.OnControlKeyDownAsync( TimePickerPart.Second, eventArgs ))"
                            @onkeydown:stopPropagation
                            @onchange="@Parent.ChangeSecondAsync" />
+                    @TimeButtons( TimePickerPart.Second, Menu.SecondText )
                 </div>
             }
 
@@ -109,6 +113,28 @@
     public TimePicker<TValue> Parent { get; set; }
 
     internal TimePickerMenuContext<TValue> Menu => Parent.MenuContext;
+
+    private RenderFragment TimeButtons( TimePickerPart part, string label ) => __builder =>
+    {
+        <Div Class="@Menu.TimeButtonsClassNames">
+            @foreach ( int direction in new[] { 1, -1 } )
+            {
+                <button @key="direction"
+                        type="button"
+                        class="@Menu.TimeButtonClassNames"
+                        aria-label="@($"{( direction > 0 ? "Increment" : "Decrement" )} {label}")"
+                        tabindex="@Menu.ControlTabIndex"
+                        disabled="@Parent.MenuInteractionDisabled"
+                        @onmousedown:preventDefault
+                        @onfocus="@(() => Parent.FocusPart( part ))"
+                        @onkeydown="@((KeyboardEventArgs eventArgs) => eventArgs.Key == "Escape" ? Parent.OnControlKeyDownAsync( part, eventArgs ) : Task.CompletedTask)"
+                        @onkeydown:stopPropagation
+                        @onclick="@(() => Parent.AdjustPartAsync( part, direction ))">
+                    <Icon Name="@(direction > 0 ? IconName.AngleUp : IconName.AngleDown)" aria-hidden="true" />
+                </button>
+            }
+        </Div>
+    };
 
     protected override void OnInitialized()
     {

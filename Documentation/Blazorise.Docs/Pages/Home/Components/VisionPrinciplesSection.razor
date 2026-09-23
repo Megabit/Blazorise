@@ -1,0 +1,39 @@
+<Container>
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            What we are building toward
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Blazorise should provide the low-level and high-level tools needed to build rich user interfaces with Blazor.
+        </Lead>
+    </Div>
+
+    <Row>
+        @foreach ( VisionPrinciple item in VisionPrinciples )
+        {
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody>
+                        <Icon Name="@item.Icon" IconSize="IconSize.x2" TextColor="@item.TextColor" Margin="Margin.Is3.FromBottom" />
+                        <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Container>
+
+@code {
+    private static readonly VisionPrinciple[] VisionPrinciples =
+    [
+        new( IconName.LayerGroup, TextColor.Primary, "Composable components", "Deliver encapsulated components that can be combined into complex product workflows." ),
+        new( IconName.Palette, TextColor.Secondary, "Deep customization", "Make themes, providers, utilities, and component parameters flexible enough to match real brands." ),
+        new( IconName.Globe, TextColor.Info, "Provider independence", "Let teams choose the visual foundation that fits their project without changing how they think about UI." ),
+        new( IconName.Shield, TextColor.Success, "Accessible by default", "Keep accessibility and cross-browser behavior part of the foundation, not an afterthought." ),
+        new( IconName.Code, TextColor.Primary, "Developer joy", "Keep APIs understandable, discoverable, and productive for both new and experienced Blazor developers." ),
+        new( IconName.Users, TextColor.Info, "Community learning", "Build an environment where customers, contributors, and maintainers learn from one another." )
+    ];
+
+    private sealed record VisionPrinciple( IconName Icon, TextColor TextColor, string Title, string Description );
+}

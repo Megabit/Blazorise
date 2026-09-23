@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-17T21:23:47.8261242Z",
+  "generatedUtc": "2026-09-24T06:52:19.9281965Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -101544,6 +101544,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "DefaultItemDuration",
+          "type": "TimeSpan?",
+          "typeName": "TimeSpan?",
+          "defaultValue": "null",
+          "summary": "Specifies the duration of new items created by clicking a timed slot. When null, zero, or negative, the clicked slot's duration is used.     Explicit range selections and all-day items are unaffected.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "DeletedOccurrencesField",
           "type": "string",
           "typeName": "string",
@@ -102195,6 +102203,63 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the field name mapped by this scheduler column.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.Scheduler.SchedulerCommands<>",
+      "typeName": "SchedulerCommands",
+      "summary": "$\"\"\"\r\n       Configures command visibility and templates for scheduler items and editing dialogs.     This component does not render any markup.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "CancelCommandAllowed",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Controls the visibility of the cancel command in editing dialogs. Defaults to true.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "CancelCommandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<SchedulerCommandContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Customizes the cancel command in editing dialogs.     Rendered only when <strong>CancelCommandAllowed</strong> is true.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DeleteCommandAllowed",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Controls the visibility of delete commands on items and in editing dialogs. Defaults to true.     This setting does not prevent programmatic deletion.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DeleteCommandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<SchedulerDeleteCommandContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Customizes the delete command on items and in editing dialogs.     Rendered only when <strong>DeleteCommandAllowed</strong> is true.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SaveCommandAllowed",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Controls the visibility of the save command in editing dialogs. Defaults to true.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SaveCommandTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<SchedulerCommandContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Customizes the save command in editing dialogs.     Rendered only when <strong>SaveCommandAllowed</strong> is true.",
           "isBlazoriseEnum": false
         }
       ],
@@ -116809,6 +116874,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Font",
+          "type": "global::Blazorise.Charts.Svg.SvgChartFontOptions",
+          "typeName": "SvgChartFontOptions",
+          "defaultValue": "null",
+          "summary": "Defines font options for the axis labels. Unspecified values are inherited from the chart font options.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "MaxRotation",
           "type": "double",
           "typeName": "double",
@@ -119577,7 +119650,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "56",
-          "summary": "Defines the tooltip height in SVG viewport units.",
+          "summary": "Defines the tooltip height in SVG viewport units at the unscaled chart size. The rendered height is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         },
         {
@@ -119601,7 +119674,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "8",
-          "summary": "Defines the horizontal tooltip offset from the point anchor.",
+          "summary": "Defines the horizontal tooltip offset from the point anchor in SVG viewport units at the unscaled chart size. The rendered offset is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         },
         {
@@ -119609,7 +119682,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "8",
-          "summary": "Defines the vertical tooltip offset from the point anchor.",
+          "summary": "Defines the vertical tooltip offset from the point anchor in SVG viewport units at the unscaled chart size. The rendered offset is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         },
         {
@@ -119625,7 +119698,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "180",
-          "summary": "Defines the tooltip width in SVG viewport units.",
+          "summary": "Defines the tooltip width in SVG viewport units at the unscaled chart size. The rendered width is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         }
       ],
@@ -119659,7 +119732,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "56",
-          "summary": "Defines the tooltip height in SVG viewport units.",
+          "summary": "Defines the tooltip height in SVG viewport units at the unscaled chart size. The rendered height is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         },
         {
@@ -119683,7 +119756,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "8",
-          "summary": "Defines the horizontal tooltip offset from the point anchor.",
+          "summary": "Defines the horizontal tooltip offset from the point anchor in SVG viewport units at the unscaled chart size. The rendered offset is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         },
         {
@@ -119691,7 +119764,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "8",
-          "summary": "Defines the vertical tooltip offset from the point anchor.",
+          "summary": "Defines the vertical tooltip offset from the point anchor in SVG viewport units at the unscaled chart size. The rendered offset is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         },
         {
@@ -119707,7 +119780,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "180",
-          "summary": "Defines the tooltip width in SVG viewport units.",
+          "summary": "Defines the tooltip width in SVG viewport units at the unscaled chart size. The rendered width is unaffected by chart scaling.",
           "isBlazoriseEnum": false
         }
       ],

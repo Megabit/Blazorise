@@ -2,10 +2,6 @@
     color-scheme: dark;
 
     body {
-        margin: 0;
-        font-family: var(--fontFamilyBase);
-        font-weight: var(--fontWeightRegular);
-        line-height: var(--lineHeightBase400);
         background-color: var(--colorNeutralBackground1);
         color: var(--colorNeutralForeground1);
         -webkit-font-smoothing: antialiased;
@@ -34,7 +30,6 @@
     h5,
     h6 {
         color: var(--colorNeutralForeground1);
-        margin: 0 0 var(--spacingVerticalM);
     }
 
     .text-subtle {
@@ -42,9 +37,8 @@
     }
 
     hr {
-        border: 0;
-        height: 1px;
-        background: var(--colorNeutralStroke1);
+        border-top-color: var(--colorNeutralStroke1);
+        opacity: 1;
     }
 
     :where(a, button, input, textarea, [tabindex]):focus-visible {
@@ -60,11 +54,6 @@
 
     scrollbar-color: var(--colorScrollbarOverlay) var(--colorNeutralBackground2); // Firefox
 
-    & *::-webkit-scrollbar {
-        width: 12px;
-        height: 12px;
-    }
-
     & *::-webkit-scrollbar-track {
         background: var(--colorNeutralBackground2);
     }
@@ -78,7 +67,7 @@
     .surface {
         background: var(--colorNeutralBackground2);
         color: var(--colorNeutralForeground1);
-        border: 1px solid var(--colorNeutralStroke1);
+        outline: 1px solid var(--colorNeutralStroke1);
         border-radius: var(--borderRadiusLarge);
         box-shadow: var(--shadow4);
     }

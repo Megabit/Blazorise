@@ -1,0 +1,101 @@
+<Container Padding="Padding.Is5.OnY">
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">Frequently asked questions</Heading>
+        <Lead TextColor="TextColor.Muted">Answers about courses, individual licenses, and institutional access.</Lead>
+    </Div>
+    <Row>
+        <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop" Margin="Margin.IsAuto.OnX">
+            <Accordion>
+                <AccordionItem @bind-Visible="IsLicenseIncludedVisible">
+                    <AccordionHeader>
+                        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading4" TextWeight="TextWeight.Normal">
+                            <AccordionToggle>What is included with an individual educational license?</AccordionToggle>
+                        </Heading>
+                    </AccordionHeader>
+                    <AccordionBody>
+                        Approved students and teachers receive a free Blazorise Professional or Enterprise license for non-commercial learning, teaching, coursework, and academic research.
+                    </AccordionBody>
+                </AccordionItem>
+                <AccordionItem @bind-Visible="IsCommercialUseVisible">
+                    <AccordionHeader>
+                        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading4" TextWeight="TextWeight.Normal">
+                            <AccordionToggle>Can I use the license for commercial work?</AccordionToggle>
+                        </Heading>
+                    </AccordionHeader>
+                    <AccordionBody>
+                        No. Educational Licenses are for non-commercial educational activity only. They cannot be shared, transferred, resold, or used to provide paid commercial services.
+                    </AccordionBody>
+                </AccordionItem>
+                <AccordionItem @bind-Visible="IsVerificationVisible">
+                    <AccordionHeader>
+                        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading4" TextWeight="TextWeight.Normal">
+                            <AccordionToggle>Do individual applicants need a university email?</AccordionToggle>
+                        </Heading>
+                    </AccordionHeader>
+                    <AccordionBody>
+                        Yes. Every individual student or teacher application requires a verified university email address. Depending on your role and verification method, you may also provide an ISIC or ITIC card number, official academic documents, or GitHub Student Developer Pack authorization.
+                    </AccordionBody>
+                </AccordionItem>
+                <AccordionItem @bind-Visible="IsRenewalVisible">
+                    <AccordionHeader>
+                        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading4" TextWeight="TextWeight.Normal">
+                            <AccordionToggle>How long does an individual license last?</AccordionToggle>
+                        </Heading>
+                    </AccordionHeader>
+                    <AccordionBody>
+                        An individual educational license is valid for one year. You can apply to renew it while you remain eligible, and you will be asked to verify your educational status again.
+                    </AccordionBody>
+                </AccordionItem>
+                <AccordionItem @bind-Visible="IsReviewVisible">
+                    <AccordionHeader>
+                        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading4" TextWeight="TextWeight.Normal">
+                            <AccordionToggle>How long does individual license approval take?</AccordionToggle>
+                        </Heading>
+                    </AccordionHeader>
+                    <AccordionBody>
+                        Email and GitHub Student Developer Pack verification may be handled quickly. Applications using card numbers or official documents require manual review and can take longer. We will email you if a reviewer needs more information.
+                    </AccordionBody>
+                </AccordionItem>
+                <AccordionItem @bind-Visible="IsCourseAccessVisible">
+                    <AccordionHeader>
+                        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading4" TextWeight="TextWeight.Normal">
+                            <AccordionToggle>Can I explore courses without an educational license?</AccordionToggle>
+                        </Heading>
+                    </AccordionHeader>
+                    <AccordionBody>
+                        Yes. Anyone can browse the course catalog and preview learning outcomes, prerequisites, modules, lesson titles, difficulty, and estimated duration without signing in. Starting a course, completing exercises and assessments, and tracking progress require signing in with an account that has course access. Students assigned a Classroom License receive access to the guided course platform.
+                    </AccordionBody>
+                </AccordionItem>
+                <AccordionItem @bind-Visible="IsClassroomLicenseVisible">
+                    <AccordionHeader>
+                        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading4" TextWeight="TextWeight.Normal">
+                            <AccordionToggle>Should I apply for a teacher license or a Classroom License?</AccordionToggle>
+                        </Heading>
+                    </AccordionHeader>
+                    <AccordionBody>
+                        Choose an individual teacher license for your own teaching preparation, demonstrations, and academic work. Choose a Classroom License if you represent an institution and need educational licenses for a group of students. After approval, your institution's administrators can invite students, assign seats, and manage classroom access centrally. A teacher's individual license does not provide licenses for their students.
+                    </AccordionBody>
+                </AccordionItem>
+            </Accordion>
+            <Paragraph TextAlignment="TextAlignment.Center" TextColor="TextColor.Muted" Margin="Margin.Is4.FromTop">
+                Review the complete <Anchor To="terms">Terms of Service</Anchor> before applying.
+            </Paragraph>
+        </Column>
+    </Row>
+</Container>
+
+@code {
+    private bool IsLicenseIncludedVisible { get; set; } = true;
+
+    private bool IsCommercialUseVisible { get; set; }
+
+    private bool IsVerificationVisible { get; set; }
+
+    private bool IsRenewalVisible { get; set; }
+
+    private bool IsReviewVisible { get; set; }
+
+    private bool IsCourseAccessVisible { get; set; }
+
+    private bool IsClassroomLicenseVisible { get; set; }
+}

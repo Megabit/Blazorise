@@ -1,0 +1,47 @@
+<Card Height="Height.Is100" Border="Border.Rounded" Shadow="Shadow.Small">
+    <CardBody Padding="Padding.Is4" Display="Display.Flex" Flex="Flex.Column">
+        <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Margin="Margin.Is3.FromBottom">
+            <Icon Name="IconName.LayerGroup" TextColor="TextColor.Primary" />
+            <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading5" Margin="Margin.Is0">Workspace</Heading>
+        </Div>
+        <ListGroup Flush Mode="ListGroupMode.Selectable" @bind-SelectedItem="@selectedSection">
+            @foreach ( NavigationItem item in sections )
+            {
+                <ListGroupItem @key="item.Name" Name="@item.Name" Flex="Flex.AlignItems.Center.JustifyContent.Between" Padding="Padding.Is3.OnY.Is2.OnX">
+                    <Span><Icon Name="@item.Icon" FixedWidth Margin="Margin.Is2.FromEnd" />@item.Name</Span>
+                    @if ( item.Count is not null )
+                    {
+                        <Badge Color="Color.Primary" Pill>@item.Count</Badge>
+                    }
+                </ListGroupItem>
+            }
+        </ListGroup>
+        <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" Height="Height.Rem().Min( 4.5 )" Margin="Margin.IsAuto.FromTop.Is0.FromBottom" Padding="Padding.Is3.FromTop" aria-live="polite">
+            @SectionDescription
+        </Paragraph>
+    </CardBody>
+</Card>
+
+@code {
+    private string selectedSection = "Overview";
+
+    private string SectionDescription => selectedSection switch
+    {
+        "Calendar" => "Your next project review is on Thursday.",
+        "Inbox" => "You have 4 unread project updates.",
+        "Team" => "8 teammates are part of this workspace.",
+        "Settings" => "Manage your workspace preferences.",
+        _ => "A snapshot of your team's activity.",
+    };
+
+    private readonly NavigationItem[] sections =
+    [
+        new( "Overview", IconName.ChartLine ),
+        new( "Calendar", IconName.Calendar ),
+        new( "Inbox", IconName.Inbox, "4" ),
+        new( "Team", IconName.Users, "8" ),
+        new( "Settings", IconName.Settings ),
+    ];
+
+    private sealed record NavigationItem( string Name, IconName Icon, string Count = null );
+}

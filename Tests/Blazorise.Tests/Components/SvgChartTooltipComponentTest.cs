@@ -32,6 +32,8 @@ public class SvgChartTooltipComponentTest : BunitContext
         {
             Assert.Contains( "First: 10", component.Markup );
             Assert.Contains( "Second: 20", component.Markup );
+            Assert.Equal( "div", component.Find( ".svg-chart-tooltip" ).LocalName );
+            Assert.Empty( component.FindAll( "svg .svg-chart-tooltip" ) );
         } );
     }
 

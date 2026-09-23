@@ -1,27 +1,57 @@
-﻿@page "/pricing"
+@page "/pricing"
 
-<Seo Canonical="/pricing" Title="Blazorise Pricing & Plans" Description="Per-developer licenses with monthly or annual billing. 80+ production-ready Blazor components, premium support, and long-term maintenance. Choose Community, Professional, Enterprise, or Enterprise Plus." />
+<Seo Canonical="/pricing" Title="Blazorise Pricing & Plans" Description="Compare Community, Professional, Enterprise, and Enterprise Plus. Choose monthly or annual per-developer licensing, product support, and purchasing options for your team." />
 
-<PageHeader>
-    <Title>
-        Blazorise <Span Class="gradient-commercial">Plans</Span>
-    </Title>
-    <Subtitle>
-        Build on a solid foundation that scales from side project to enterprise.
-    </Subtitle>
-    <Description>
-        <Paragraph>
-            Per-developer plans with monthly or annual billing, premium support, source-code access on commercial plans, and procurement options for teams that need a quote or purchase order.
-        </Paragraph>
-    </Description>
-</PageHeader>
+<Div Class="b-visual b-marketing b-pricing-page">
+<Div Class="b-pricing-intro">
+<Div Class="b-pricing-intro-art" aria-hidden="true">
+    <svg viewBox="0 0 600 700" preserveAspectRatio="none" focusable="false">
+        <path d="M640-40C458-20 300 58 300 170C300 284 175 300 220 414C264 524 502 512 640 662Z" fill="var(--b-visual-violet)" />
+    </svg>
+</Div>
+<Div Class="b-pricing-intro-counterpoint" aria-hidden="true">
+    <svg viewBox="0 0 600 700" preserveAspectRatio="none" focusable="false">
+        <path d="M640 0C480 32 412 64 387 147C355 259 188 245 219 365C241 460 497 471 640 650Z" fill="var(--b-visual-pink)" />
+    </svg>
+</Div>
+<MarketingPageIntro Centered>
+    <Title>The right tools. <Span>Room to grow.</Span></Title>
+    <Description>Start with Community or choose a commercial plan for your team. Compare components, support, and expert services, with monthly or annual billing and flexible purchasing options.</Description>
+</MarketingPageIntro>
+</Div>
 
-<Container TextAlignment="TextAlignment.Center">
+<section class="b-visual-section b-pricing-plans">
+<Container ElementId="choose-plan" Padding="Padding.Is5.OnY">
     <Pricing @bind-Quantity="@quantity" @bind-Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
-
-    <PricingAssurance />
-
-    <PlansComparer Quantity="@quantity" Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
-
-    <Faq />
 </Container>
+</section>
+
+<section class="b-visual-section b-marketing-tint b-pricing-compare">
+<Container ElementId="compare-plans" Padding="Padding.Is5.OnY">
+    <PlansComparer Quantity="@quantity" Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
+</Container>
+</section>
+
+<section class="b-visual-section b-marketing-buying">
+<Container ElementId="purchasing" Padding="Padding.Is5.OnY">
+    <PricingAssurance />
+</Container>
+</section>
+
+<section class="b-visual-section b-marketing-faq">
+<Container ElementId="licensing-faq" Padding="Padding.Is5.OnY">
+    <Row>
+        <Column ColumnSize="ColumnSize.Is12.Is10.OnDesktop" Margin="Margin.IsAuto.OnX">
+            <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+                <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">Questions about licensing?</Heading>
+                <Lead TextColor="TextColor.Muted">Find answers about plans, renewals, and using Blazorise in your applications.</Lead>
+            </Div>
+            <Faq ShowHeader="false" />
+            <Paragraph TextAlignment="TextAlignment.Center" TextColor="TextColor.Muted" Margin="Margin.Is4.FromTop">
+                Need help choosing? <Anchor To="contact">Contact sales</Anchor> or <Anchor To="book-a-demo">book a demo</Anchor> with our team.
+            </Paragraph>
+        </Column>
+    </Row>
+</Container>
+</section>
+</Div>

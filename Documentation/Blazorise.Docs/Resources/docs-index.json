@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-17T21:23:48.4319165Z",
+  "generatedUtc": "2026-09-24T06:52:23.6582986Z",
   "pages": [
     {
       "route": "/docs",
@@ -34,7 +34,7 @@
           "code": "AnalyzerPackageReferenceExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AnalyzerPackageReferenceExample.snippet",
-          "content": "<PackageReference Include=\"Blazorise.Analyzers\" Version=\"2.3.1\" PrivateAssets=\"all\" />",
+          "content": "<PackageReference Include=\"Blazorise.Analyzers\" Version=\"2.3.2\" PrivateAssets=\"all\" />",
           "title": "Project file reference",
           "description": "If you prefer editing the project file directly, add the package reference in the target .csproj ."
         },
@@ -6952,7 +6952,7 @@
           "code": "AntDesignIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/AntDesignIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.3.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.3.2.0\" rel=\"stylesheet\" />",
           "title": "AntDesign Icons CSS",
           "description": "Note: If you use AntDesign icons, define blazorise.icons.antdesign.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
@@ -6960,7 +6960,7 @@
           "code": "BootstrapIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/BootstrapIconsCSSExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.3.1.0\">",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.3.2.0\">",
           "title": "Bootstrap Icons CSS",
           "description": "Note: If you use Bootstrap icons, define bootstrap-icons.min.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -6968,7 +6968,7 @@
           "code": "FluentIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.3.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.3.2.0\" rel=\"stylesheet\" />",
           "title": "Fluent Icons CSS",
           "description": "Fluent icons use the CSS font by default and render at a default size of 20px. For this mode, define FluentSystemIcons-Resizable.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
@@ -6992,7 +6992,7 @@
           "code": "FontAwesomeCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FontAwesomeCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.3.1.0\" rel=\"stylesheet\">",
+          "content": "<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.3.2.0\" rel=\"stylesheet\">",
           "title": "Font Awesome CSS",
           "description": "Include CSS link into your index.html or _Layout.cshtml / _Host.cshtml file, depending if you're using a Blazor WebAssembly or Blazor Server side project."
         },
@@ -7000,7 +7000,7 @@
           "code": "MaterialCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/MaterialCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.3.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.3.2.0\" rel=\"stylesheet\" />",
           "title": "Material Icons CSS",
           "description": "Note: If you use Material icons, define blazorise.icons.material.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -7008,7 +7008,7 @@
           "code": "LucideIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/LucideIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.3.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.3.2.0\" rel=\"stylesheet\" />",
           "title": "Lucide Icons CSS",
           "description": "Note: If you use Lucide icons, define blazorise.icons.lucide.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
@@ -8271,7 +8271,7 @@
           "code": "ReportingResourcesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingResourcesExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Reporting/blazorise.reporting.css?v=2.3.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Reporting/blazorise.reporting.css?v=2.3.2.0\" rel=\"stylesheet\" />",
           "title": "Static files",
           "description": "Add the reporting stylesheet inside the head section of your host page."
         },
@@ -8526,7 +8526,7 @@
           "code": "ReportingResourcesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Reporting/Examples/ReportingResourcesExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Reporting/blazorise.reporting.css?v=2.3.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Reporting/blazorise.reporting.css?v=2.3.2.0\" rel=\"stylesheet\" />",
           "title": "Static files",
           "description": "Add the reporting stylesheet inside the head section of your host page."
         },
@@ -8896,12 +8896,20 @@
           "description": "The Editable parameter allows you to enable or disable editing of the scheduler items. When set to true , the scheduler will allow users to edit the items directly in the UI."
         },
         {
+          "code": "SchedulerCommandsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Scheduler/Examples/SchedulerCommandsExample.razor",
+          "content": "<Scheduler TItem=\"Appointment\"\r\n           Data=\"@appointments\"\r\n           Date=\"@selectedDate\"\r\n           SelectedView=\"SchedulerView.Week\"\r\n           Editable\r\n           ItemStyling=\"@OnItemStyling\">\r\n    <SchedulerCommands>\r\n        <DeleteCommandTemplate Context=\"command\">\r\n            @if ( !command.Item.IsReadOnly )\r\n            {\r\n                <Button Color=\"Color.Danger\" Size=\"Size.Small\" Clicked=\"@command.Clicked\" Title=\"@command.LocalizationString\">\r\n                    <Icon Name=\"IconName.Delete\" />\r\n                </Button>\r\n            }\r\n        </DeleteCommandTemplate>\r\n        <SaveCommandTemplate Context=\"command\">\r\n            @if ( !command.Item.IsReadOnly )\r\n            {\r\n                <Button Color=\"Color.Primary\" Clicked=\"@command.Clicked\">\r\n                    @command.LocalizationString\r\n                </Button>\r\n            }\r\n        </SaveCommandTemplate>\r\n        <CancelCommandTemplate Context=\"command\">\r\n            <Button Color=\"Color.Secondary\" Clicked=\"@command.Clicked\">\r\n                @command.LocalizationString\r\n            </Button>\r\n        </CancelCommandTemplate>\r\n    </SchedulerCommands>\r\n    <SchedulerToolbar />\r\n    <SchedulerViews>\r\n        <SchedulerWeekView StartTime=\"@(new TimeOnly( 8, 0 ))\" EndTime=\"@(new TimeOnly( 17, 0 ))\" />\r\n    </SchedulerViews>\r\n</Scheduler>\r\n\r\n@code {\r\n    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );\r\n\r\n    private List<Appointment> appointments = new()\r\n    {\r\n        new Appointment\r\n        {\r\n            Id = \"1\",\r\n            Title = \"Project planning and discussion of the next release milestones\",\r\n            Start = DateTime.Today.AddHours( 9 ),\r\n            End = DateTime.Today.AddHours( 11 ),\r\n        },\r\n        new Appointment\r\n        {\r\n            Id = \"2\",\r\n            Title = \"Company meeting managed by another user\",\r\n            Start = DateTime.Today.AddHours( 13 ),\r\n            End = DateTime.Today.AddHours( 15 ),\r\n            IsReadOnly = true,\r\n        },\r\n    };\r\n\r\n    private void OnItemStyling( Appointment item, SchedulerItemStyling styling )\r\n    {\r\n        styling.TextOverflow = TextOverflow.Wrap;\r\n        styling.TextWeight = item.IsReadOnly ? TextWeight.Normal : TextWeight.SemiBold;\r\n        styling.Background = item.IsReadOnly ? Background.Secondary : Background.Info;\r\n    }\r\n\r\n    public class Appointment\r\n    {\r\n        public string Id { get; set; }\r\n\r\n        public string Title { get; set; }\r\n\r\n        public DateTime Start { get; set; }\r\n\r\n        public DateTime End { get; set; }\r\n\r\n        public bool IsReadOnly { get; set; }\r\n    }\r\n}",
+          "title": "Custom Commands",
+          "description": "Use SchedulerCommands to customize the Save, Delete, and Cancel controls for your application's workflow. Command templates let you change their appearance or hide actions that do not apply to an appointment. This example hides Save and Delete for read-only appointments."
+        },
+        {
           "code": "SchedulerDraggableExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Scheduler/Examples/SchedulerDraggableExample.razor",
           "content": "<Scheduler TItem=\"Appointment\" @bind-Date=\"@selectedDate\"\r\n           Data=\"@Appointments\"\r\n           @bind-SelectedView=\"@selectedView\"\r\n           Editable\r\n           Draggable>\r\n    <SchedulerToolbar />\r\n    <SchedulerViews>\r\n        <SchedulerWeekView StartTime=\"@startTime\" EndTime=\"@endTime\" WorkDayStart=\"@workDayStart\" WorkDayEnd=\"@workDayEnd\" />\r\n    </SchedulerViews>\r\n</Scheduler>\r\n@code {\r\n    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );\r\n    private SchedulerView selectedView = SchedulerView.Week;\r\n    private static DateTime today10AM = DateTime.Today.AddHours( 10 );\r\n    private TimeOnly startTime = new TimeOnly( 7, 0 );\r\n    private TimeOnly endTime = new TimeOnly( 17, 0 );\r\n    private TimeOnly workDayStart = new TimeOnly( 8, 0 );\r\n    private TimeOnly workDayEnd = new TimeOnly( 16, 0 );\r\n\r\n    public class Appointment\r\n    {\r\n        public Appointment()\r\n        {\r\n        }\r\n\r\n        public Appointment( string title, string description, DateTime start, DateTime end, bool allDay = false )\r\n        {\r\n            Id = Guid.NewGuid().ToString();\r\n            Title = title;\r\n            Description = description;\r\n            Start = start;\r\n            End = end;\r\n            AllDay = allDay;\r\n        }\r\n\r\n        public string Id { get; set; }\r\n\r\n        public string Title { get; set; }\r\n\r\n        public string Description { get; set; }\r\n\r\n        public DateTime Start { get; set; }\r\n\r\n        public DateTime End { get; set; }\r\n\r\n        public bool AllDay { get; set; }\r\n\r\n        public string RecurrenceRule { get; set; }\r\n    }\r\n\r\n    List<Appointment> Appointments = new List<Appointment>\r\n    {\r\n        new Appointment( \"Meeting with the CEO\", \"Regarding the new margeting strategy\", today10AM, today10AM.AddHours(1) ),\r\n        new Appointment( \"Some other meeting\", \"Regarding the new margeting strategy\", today10AM, today10AM.AddHours(1) ),\r\n        new Appointment( \"Lunch with the team\", \"Discussing the new project\", today10AM.AddDays(-10).AddHours(2), today10AM.AddDays(-10).AddHours(3))\r\n        {\r\n            RecurrenceRule = \"FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3\"\r\n        },\r\n    };\r\n}",
           "title": "Draggable",
-          "description": "To be able to drag and drop items, set the Draggable parameter to true . This will allow you to move items around the calendar."
+          "description": "To be able to drag and drop items, set both Editable and Draggable to true . This will allow you to move items around the calendar. With UseInternalEditing=\"false\" , handle ItemUpdated to apply the proposed NewItem values to your data or reload it after saving. Otherwise, the item remains at its original position. Use DropAllowed or cancel ItemUpdating to reject a move."
         },
         {
           "code": "SchedulerSelectableExample",
@@ -9561,7 +9569,7 @@
           "code": "SvgTimeAxisChartExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgTimeAxisChartExample.razor",
-          "content": "<SvgLineChart TItem=\"LatencySample\"\r\n              Items=\"@samples\"\r\n              Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Service latency\")' Subtitle='@(\"Irregular samples spaced by elapsed time\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled InteractionMode=\"SvgChartInteractionMode.Index\" Width=\"220\" />\r\n    <SvgChartTimeAxis TimeValue=\"@( item => item.Timestamp )\" Scale=\"SvgChartTimeScale.Continuous\" Unit=\"SvgChartTimeUnit.Minute\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgLineSeries Name=\"API\" Value=\"@( item => item.Api )\" Color=\"Color.Primary\" StrokeWidth=\"3\" MarkerRadius=\"4\" />\r\n    <SvgLineSeries Name=\"Queue\" Value=\"@( item => item.Queue )\" Color=\"Color.Warning\" StrokeWidth=\"3\" MarkerRadius=\"4\" />\r\n</SvgLineChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n        XAxis = new() { TickCount = 5, GridLines = new() { Visible = true } },\r\n    };\r\n\r\n    private readonly List<LatencySample> samples =\r\n    [\r\n        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 0, 0 ), Api = 44, Queue = 29 },\r\n        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 4, 0 ), Api = 52, Queue = 33 },\r\n        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 17, 0 ), Api = 47, Queue = 35 },\r\n        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 28, 0 ), Api = 61, Queue = 40 },\r\n        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 49, 0 ), Api = 56, Queue = 38 },\r\n        new() { Timestamp = new DateTime( 2026, 5, 23, 10, 6, 0 ), Api = 68, Queue = 45 },\r\n        new() { Timestamp = new DateTime( 2026, 5, 23, 10, 30, 0 ), Api = 63, Queue = 42 },\r\n    ];\r\n\r\n    private sealed class LatencySample\r\n    {\r\n        public DateTime Timestamp { get; set; }\r\n\r\n        public double Api { get; set; }\r\n\r\n        public double Queue { get; set; }\r\n    }\r\n}",
+          "content": "<SvgLineChart TItem=\"LatencySample\"\r\n              Items=\"@samples\"\r\n              Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Service latency\")' Subtitle='@(\"Explicit bounds remove outer time margins\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled InteractionMode=\"SvgChartInteractionMode.Index\" Width=\"220\" />\r\n    <SvgChartTimeAxis TimeValue=\"@( item => item.Timestamp )\"\r\n                      Scale=\"SvgChartTimeScale.Continuous\"\r\n                      Unit=\"SvgChartTimeUnit.Minute\"\r\n                      TimeZone=\"@TimeZoneInfo.Utc\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgLineSeries Name=\"API\" Value=\"@( item => item.Api )\" Color=\"Color.Primary\" StrokeWidth=\"3\" MarkerRadius=\"4\" />\r\n    <SvgLineSeries Name=\"Queue\" Value=\"@( item => item.Queue )\" Color=\"Color.Warning\" StrokeWidth=\"3\" MarkerRadius=\"4\" />\r\n</SvgLineChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n        XAxis = new()\r\n        {\r\n            Min = new DateTimeOffset( 2026, 5, 23, 9, 0, 0, TimeSpan.Zero ).ToUnixTimeMilliseconds(),\r\n            Max = new DateTimeOffset( 2026, 5, 23, 10, 30, 0, TimeSpan.Zero ).ToUnixTimeMilliseconds(),\r\n            TickCount = 5,\r\n            GridLines = new() { Visible = true },\r\n        },\r\n    };\r\n\r\n    private readonly List<LatencySample> samples =\r\n    [\r\n        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 0, 0 ), Api = 44, Queue = 29 },\r\n        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 4, 0 ), Api = 52, Queue = 33 },\r\n        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 17, 0 ), Api = 47, Queue = 35 },\r\n        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 28, 0 ), Api = 61, Queue = 40 },\r\n        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 49, 0 ), Api = 56, Queue = 38 },\r\n        new() { Timestamp = new DateTime( 2026, 5, 23, 10, 6, 0 ), Api = 68, Queue = 45 },\r\n        new() { Timestamp = new DateTime( 2026, 5, 23, 10, 30, 0 ), Api = 63, Queue = 42 },\r\n    ];\r\n\r\n    private sealed class LatencySample\r\n    {\r\n        public DateTime Timestamp { get; set; }\r\n\r\n        public double Api { get; set; }\r\n\r\n        public double Queue { get; set; }\r\n    }\r\n}",
           "title": "Time axis",
           "description": "Use continuous time scaling when sample spacing should match the actual timestamp distance."
         },
@@ -10930,49 +10938,49 @@
           "code": "CommonScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CommonScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise/breakpoint.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/button.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/closable.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/colorPicker.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/datePicker.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dragDrop.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dropdown.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/fileInput.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/filePicker.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/floatingUi.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/inputMask.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/io.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/memoInput.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/modal.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/numericPicker.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/observer.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/rangeSlider.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/table.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/textInput.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/theme.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/timePicker.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/tooltip.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/utilities.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise/breakpoint.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/button.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/closable.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/colorPicker.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/datePicker.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dragDrop.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dropdown.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/fileInput.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/filePicker.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/floatingUi.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/inputMask.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/io.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/memoInput.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/modal.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/numericPicker.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/observer.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/rangeSlider.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/table.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/textInput.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/theme.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/timePicker.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/tooltip.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/utilities.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "AntDesignScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AntDesignScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.AntDesign/bar.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/modal.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/segmented.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/tooltip.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/wave.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.AntDesign/bar.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/modal.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/segmented.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/tooltip.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/wave.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "BootstrapScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/BootstrapScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bootstrap/modal.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap/tooltip.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bootstrap/modal.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap/tooltip.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "Bootstrap5ScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/Bootstrap5ScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bootstrap5/modal.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap5/tooltip.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bootstrap5/modal.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap5/tooltip.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "BulmaScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/BulmaScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bulma/modal.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bulma/tooltip.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bulma/modal.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bulma/tooltip.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "FluentUI2ScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/FluentUI2ScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.FluentUI2/modal.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.FluentUI2/tooltip.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.FluentUI2/modal.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.FluentUI2/tooltip.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "TailwindScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/TailwindScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Tailwind/modal.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Tailwind/tooltip.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Tailwind/modal.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Tailwind/tooltip.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "MaterialScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/MaterialScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.3.1.0\"></script>\r\n<script src=\"_content/Blazorise.Material/modal.js?v=2.3.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Material/tooltip.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.3.2.0\"></script>\r\n<script src=\"_content/Blazorise.Material/modal.js?v=2.3.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Material/tooltip.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "AnimateScriptsExample",
@@ -10984,97 +10992,97 @@
           "code": "CaptchaReCaptchaScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CaptchaReCaptchaScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts/charts.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts/charts.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsAnnotationScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsAnnotationScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsDataLabelsScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsDataLabelsScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsStreamingScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsStreamingScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsTrendlineScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsTrendlineScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsZoomScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsZoomScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "CropperScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CropperScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Cropper/blazorise.cropper.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Cropper/blazorise.cropper.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "DatagridScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/DatagridScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.DataGrid/datagrid.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.DataGrid/datagrid.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "GanttScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/GanttScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Gantt/gantt.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Gantt/gantt.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "LottieAnimationScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/LottieAnimationScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "MarkdownScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/MarkdownScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Markdown/markdown.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Markdown/markdown.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "PdfViewerScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/PdfViewerScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.PdfViewer/pdfviewer.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.PdfViewer/pdfviewer.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "QRCodeScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/QRCodeScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "RichTextEditScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/RichTextEditScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.RichTextEdit/richtextedit.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.RichTextEdit/richtextedit.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "SchedulerScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/SchedulerScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Scheduler/scheduler.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Scheduler/scheduler.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "SignaturePadScriptsExample",
@@ -11086,13 +11094,13 @@
           "code": "SplitterScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/SplitterScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Splitter/blazorise.splitter.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Splitter/blazorise.splitter.js?v=2.3.2.0\" type=\"module\"></script>"
         },
         {
           "code": "VideoScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/VideoScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Video/video.js?v=2.3.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Video/video.js?v=2.3.2.0\" type=\"module\"></script>"
         }
       ]
     },
@@ -11652,7 +11660,7 @@
           "code": "Bootstrap5GuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideSourceFilesExample.snippet",
-          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.3.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.3.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -11881,7 +11889,7 @@
           "code": "AntDesignGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/AntDesign/Examples/AntDesignGuideSourceFilesExample.snippet",
-          "content": "<link href=\"_content/Blazorise.AntDesign/antd.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.3.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.AntDesign/antd.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.3.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -11924,7 +11932,7 @@
           "code": "BootstrapGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap/Examples/BootstrapGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css\" integrity=\"sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.3.1.0\" rel=\"stylesheet\" />",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css\" integrity=\"sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.3.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -11967,7 +11975,7 @@
           "code": "Bootstrap5GuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideSourceFilesExample.snippet",
-          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.3.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.3.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -12010,7 +12018,7 @@
           "code": "BulmaGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bulma/Examples/BulmaGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\" />\r\n<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bulma/blazorise.bulma.css?v=2.3.1.0\" rel=\"stylesheet\" />",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\" />\r\n<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bulma/blazorise.bulma.css?v=2.3.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -12053,14 +12061,14 @@
           "code": "FluentUI2GuideSourceFiles1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideSourceFiles1Example.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.3.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.3.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
           "code": "FluentUI2GuideSvgSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideSvgSourceFilesExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/blazorise.icons.fluentui.css\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.3.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/blazorise.icons.fluentui.css\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.3.2.0\" rel=\"stylesheet\" />",
           "title": "Optional: SVG icons",
           "description": "Fluent icons use the CSS font by default. To render inline SVG icons instead, replace the Fluent font stylesheet shown above with the SVG stylesheet. Keep the remaining Fluent 2 stylesheets unchanged."
         },
@@ -12142,7 +12150,7 @@
           "code": "MaterialGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideSourceFilesExample.snippet",
-          "content": "<!-- In <head> -->\r\n<!-- Required when using Blazorise.Icons.Material -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.3.1.0\"></script>",
+          "content": "<!-- In <head> -->\r\n<!-- Required when using Blazorise.Icons.Material -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.3.2.0\"></script>",
           "description": "Add the styles inside the head section, and place blazorise.material.js near the end of body before the Blazor script:"
         },
         {
@@ -12192,7 +12200,7 @@
           "code": "TailwindGuideSourceFiles3Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Tailwind/Examples/TailwindGuideSourceFiles3Example.snippet",
-          "content": "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap\" rel=\"stylesheet\">\r\n<link href=\"https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.3.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap\" rel=\"stylesheet\">\r\n<link href=\"https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.3.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.3.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {

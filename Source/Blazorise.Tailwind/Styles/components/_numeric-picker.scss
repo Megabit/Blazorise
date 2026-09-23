@@ -1,0 +1,110 @@
+.tw-numeric {
+    position: relative;
+    display: inline-flex;
+    align-self: flex-start;
+    width: 100%;
+    min-width: 0;
+
+    > input {
+        min-width: 0;
+    }
+
+    &:has(> .tw-numeric-buttons) > input {
+        padding-inline-end: calc(var(--spacing, .25rem) * 9);
+    }
+
+    &-buttons {
+        position: absolute;
+        inset-block: 1px;
+        inset-inline-end: 1px;
+        display: flex;
+        flex-direction: column;
+        width: calc(var(--spacing, .25rem) * 6);
+        overflow: hidden;
+        border-inline-start: 1px solid var(--color-gray-300, var(--btw-color-gray-300));
+        border-start-end-radius: calc(var(--radius-lg, .5rem) - 1px);
+        border-end-end-radius: calc(var(--radius-lg, .5rem) - 1px);
+        background: var(--color-gray-50, var(--btw-color-gray-50));
+    }
+
+    &-button {
+        display: inline-flex;
+        flex: 1 1 50%;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        min-height: 0;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--color-gray-500, var(--btw-color-gray-500));
+        font: inherit;
+        font-size: .75rem;
+        line-height: 1;
+        cursor: pointer;
+        transition: background-color .15s ease, color .15s ease;
+
+        > i,
+        > span,
+        > svg {
+            width: 1em;
+            height: 1em;
+            font-size: inherit;
+        }
+
+        + .tw-numeric-button {
+            border-block-start: 1px solid var(--color-gray-200, var(--btw-color-gray-200));
+        }
+
+        &:hover:not(:disabled) {
+            background: var(--color-primary-50, var(--btw-color-primary-50));
+            color: var(--color-primary-600, var(--btw-color-primary-600));
+        }
+
+        &:active:not(:disabled) {
+            background: var(--color-primary-100, var(--btw-color-primary-100));
+        }
+
+        &:focus-visible {
+            outline: .125rem solid var(--color-primary-500, var(--btw-color-primary-500));
+            outline-offset: -.125rem;
+        }
+
+        &:disabled {
+            color: var(--color-gray-400, var(--btw-color-gray-400));
+            cursor: not-allowed;
+        }
+    }
+}
+
+.dark .tw-numeric {
+    &-buttons {
+        border-color: var(--color-gray-600, var(--btw-color-gray-600));
+        background: var(--color-gray-800, var(--btw-color-gray-800));
+    }
+
+    &-button {
+        color: var(--color-gray-400, var(--btw-color-gray-400));
+
+        + .tw-numeric-button {
+            border-color: var(--color-gray-600, var(--btw-color-gray-600));
+        }
+
+        &:hover:not(:disabled) {
+            background: var(--color-gray-700, var(--btw-color-gray-700));
+            color: var(--color-primary-400, var(--btw-color-primary-400));
+        }
+
+        &:active:not(:disabled) {
+            background: var(--color-primary-900, var(--btw-color-primary-900));
+        }
+
+        &:focus-visible {
+            outline-color: var(--color-primary-400, var(--btw-color-primary-400));
+        }
+
+        &:disabled {
+            color: var(--color-gray-600, var(--btw-color-gray-600));
+        }
+    }
+}

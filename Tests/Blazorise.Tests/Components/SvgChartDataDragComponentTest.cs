@@ -52,6 +52,74 @@ public class SvgChartDataDragComponentTest : BunitContext
         } );
     }
 
+    [Theory]
+    [InlineData( SvgChartType.Column )]
+    [InlineData( SvgChartType.Bar )]
+    [InlineData( SvgChartType.Line )]
+    [InlineData( SvgChartType.Area )]
+    [InlineData( SvgChartType.Pie )]
+    [InlineData( SvgChartType.Doughnut )]
+    [InlineData( SvgChartType.PolarArea )]
+    [InlineData( SvgChartType.Radar )]
+    [InlineData( SvgChartType.Scatter )]
+    [InlineData( SvgChartType.Bubble )]
+    public void RetainedGeometry_UpdatesDragOptionsWithoutChangingData( SvgChartType type )
+    {
+        var data = new SvgChartData<double?>
+        {
+            Labels = ["A", "B", "C"],
+            Series =
+            [
+                new()
+                {
+                    Name = "Samples",
+                    Values = [20, 40, 60],
+                    XValues = [1, 2, 3],
+                    YValues = [20, 40, 60],
+                },
+            ],
+        };
+        var options = new SvgChartOptions
+        {
+            DataDrag = new() { Mode = SvgChartDataDragMode.XY },
+        };
+        var component = Render<SvgChart<object>>( parameters => parameters
+            .Add( chart => chart.Type, type )
+            .Add( chart => chart.Data, data )
+            .Add( chart => chart.Options, options ) );
+
+        Assert.Equal( 3, component.FindAll( ".svg-chart-point" ).Count );
+        Assert.Empty( component.FindAll( "[data-svg-chart-draggable='true']" ) );
+
+        options.DataDrag.Enabled = true;
+        component.Render( parameters => parameters.Add( chart => chart.Options, options ) );
+
+        component.WaitForAssertion( () => Assert.Equal( 3, component.FindAll( ".svg-chart-point[data-svg-chart-draggable='true']" ).Count ) );
+
+        options.DataDrag.CanDrag = point => point.PointIndex == 1;
+        options.DataDrag.HitRadius = 24;
+        component.Render( parameters => parameters.Add( chart => chart.Options, options ) );
+
+        component.WaitForAssertion( () =>
+        {
+            var marker = Assert.Single( component.FindAll( ".svg-chart-point[data-svg-chart-draggable='true']" ) );
+            var hitTarget = Assert.Single( component.FindAll( ".svg-chart-data-drag-hit-target" ) );
+
+            Assert.Equal( "1", marker.GetAttribute( "data-svg-chart-point-index" ) );
+            Assert.Equal( "24", hitTarget.GetAttribute( "r" ) );
+        } );
+
+        options.DataDrag.Enabled = false;
+        component.Render( parameters => parameters.Add( chart => chart.Options, options ) );
+
+        component.WaitForAssertion( () =>
+        {
+            Assert.Equal( 3, component.FindAll( ".svg-chart-point" ).Count );
+            Assert.Empty( component.FindAll( "[data-svg-chart-draggable='true']" ) );
+            Assert.Empty( component.FindAll( ".svg-chart-data-drag-hit-target" ) );
+        } );
+    }
+
     [Fact]
     public void CanDrag_FiltersIndividualPoints()
     {

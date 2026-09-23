@@ -1,4 +1,4 @@
-﻿@using Blazorise.Docs.Services
+@using Blazorise.Docs.Services
 @implements IDisposable
 <BarItem>
     <BarLink To="pricing">Pricing</BarLink>
@@ -10,8 +10,9 @@
     <BarLink To="account">Account</BarLink>
 </BarItem>
 <BarItem>
-    <BarLink To="https://github.com/Megabit/Blazorise" Title="GitHub" Target="Target.Blank" aria-label="Star Blazorise on GitHub">
-        <Icon Name="@("fab fa-github")" IconSize="IconSize.Large" />
+    <BarLink To="https://github.com/Megabit/Blazorise" Title="GitHub: 3.5k stars" Target="Target.Blank" Flex="Flex.AlignItems.Baseline" Gap="Gap.Is2" aria-label="Star Blazorise on GitHub, 3.5 thousand stars">
+        <Icon Name="@("fab fa-github")" IconSize="IconSize.Large" Flex="Flex.AlignSelf.Center" aria-hidden="true" />
+        <Span TextSize="TextSize.Small" TextWeight="TextWeight.SemiBold">3.5k</Span>
     </BarLink>
 </BarItem>
 <BarItem>

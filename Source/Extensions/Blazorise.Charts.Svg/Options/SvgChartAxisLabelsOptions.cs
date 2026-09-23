@@ -52,5 +52,10 @@ public class SvgChartAxisLabelsOptions
     /// </summary>
     public double? MaxWidth { get; set; }
 
+    /// <summary>
+    /// Defines font options for the axis labels. Unspecified values are inherited from the chart font options.
+    /// </summary>
+    public SvgChartFontOptions Font { get; set; }
+
     #endregion
 }

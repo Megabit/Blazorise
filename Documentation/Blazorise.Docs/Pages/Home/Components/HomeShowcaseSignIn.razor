@@ -1,0 +1,33 @@
+<Card Height="Height.Is100" Border="Border.Rounded" Shadow="Shadow.Small">
+    <CardBody Padding="Padding.Is4" Display="Display.Flex" Flex="Flex.Column">
+        <Div Flex="Flex.AlignItems.Center.JustifyContent.Between" Margin="Margin.Is3.FromBottom">
+            <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading5" Margin="Margin.Is0">Welcome back</Heading>
+            <Icon Name="IconName.Lock" TextColor="TextColor.Primary" />
+        </Div>
+        <Field>
+            <FieldLabel TextSize="TextSize.Small">Email</FieldLabel>
+            <TextInput Value="alex@example.com" Role="TextRole.Email" ReadOnly autocomplete="off" />
+        </Field>
+        <Field>
+            <FieldLabel TextSize="TextSize.Small">Password</FieldLabel>
+            <TextInput Value="sample-password" Role="TextRole.Password" ReadOnly autocomplete="off" />
+        </Field>
+        <Check TValue="bool" @bind-Value="@rememberMe" TextSize="TextSize.Small" Margin="Margin.Is3.FromBottom">Remember me</Check>
+        <Button Color="Color.Primary" Block Clicked="@ToggleSignIn">
+            @( signedIn ? "Reset demo" : "Try sign-in" )
+        </Button>
+        <Paragraph TextSize="TextSize.Small" TextColor="TextColor.Muted" Margin="Margin.Is3.FromTop.Is0.FromBottom" aria-live="polite">
+            @( signedIn ? "You're signed in to the demo. No account was created." : "Demo credentials only. No real sign-in." )
+        </Paragraph>
+    </CardBody>
+</Card>
+
+@code {
+    private bool rememberMe = true;
+    private bool signedIn;
+
+    private void ToggleSignIn()
+    {
+        signedIn = !signedIn;
+    }
+}

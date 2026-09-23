@@ -28,9 +28,10 @@ public class SvgLineSeriesComponentTest : BunitContext
 
         component.WaitForAssertion( () =>
         {
-            var paths = component.FindAll( ".svg-chart-lines > path" );
+            var paths = component.FindAll( ".svg-chart-lines > .svg-chart-line-series > path" );
             var outlinePath = component.Find( ".svg-chart-line-outline" );
 
+            Assert.Single( component.FindAll( ".svg-chart-lines > .svg-chart-line-series" ) );
             Assert.Equal( 2, paths.Count );
             Assert.Equal( "svg-chart-line-outline", paths[0].ClassName );
             Assert.Equal( "svg-chart-line", paths[1].ClassName );

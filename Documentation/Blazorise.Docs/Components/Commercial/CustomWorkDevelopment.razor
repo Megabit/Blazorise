@@ -1,0 +1,134 @@
+<Container ElementId="development" Padding="Padding.Is5.OnY">
+    <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold" Margin="Margin.Is3.FromBottom">
+        Development and delivery
+    </Heading>
+
+    <Lead TextColor="TextColor.Muted">
+        Choose Feature Sponsorship for generalizable product work intended for Blazorise, or Custom Development for larger company-specific implementation and integration work.
+    </Lead>
+
+    <Heading ElementId="feature-sponsorship" Size="HeadingSize.Is3" Margin="Margin.Is4.FromTop.Is3.FromBottom">
+        Feature Sponsorship (fixed price)
+    </Heading>
+
+    <Paragraph>
+        Fixed-price delivery for features that are <Strong>generally useful</Strong> and can typically be merged upstream into Blazorise. You get <Strong>prioritized scheduling</Strong>, <Strong>early access</Strong>, and <Strong>influence on scope</Strong>. Sponsored work is <Strong>not exclusive by default</Strong>.
+    </Paragraph>
+
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Deliverable:</Strong> working implementation delivered as a PR/branch, including tests and documentation; upstream merge and release follow the normal Blazorise review/release process.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Scope control:</Strong> acceptance criteria in the proposal; anything outside is handled via change request.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Upstream default:</Strong> implementation is designed and generalized for broader use (multi-provider, a11y, docs).
+            </Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+
+    <Heading Size="HeadingSize.Is4" Margin="Margin.Is4.FromTop.Is2.FromBottom">
+        Pricing guidance
+    </Heading>
+
+    <Paragraph>
+        Sponsorship pricing is typically <Strong>~2x-3x internal dev cost</Strong> to cover product design, generalization, documentation, testing, review, and long-term maintenance. We quote a fixed price after a short discovery call.
+    </Paragraph>
+
+    <Table Responsive Bordered Striped>
+        <TableHeader>
+            <TableRow>
+                <TableHeaderCell TextAlignment="TextAlignment.Start">Tier</TableHeaderCell>
+                <TableHeaderCell TextAlignment="TextAlignment.Start">Typical scope</TableHeaderCell>
+                <TableHeaderCell TextAlignment="TextAlignment.Center">Typical timeline</TableHeaderCell>
+                <TableHeaderCell TextAlignment="TextAlignment.End">Example range (EUR)</TableHeaderCell>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            <TableRow>
+                <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Small</Strong></TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.Start">Single enhancement or focused feature (e.g., new option, provider parity, small DataGrid feature)</TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.Center">1-3 weeks</TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.End">3.500-7.500</TableRowCell>
+            </TableRow>
+            <TableRow>
+                <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Medium</Strong></TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.Start">New component or multi-part enhancement with docs/tests/a11y across providers</TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.Center">3-8 weeks</TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.End">8.000-18.000</TableRowCell>
+            </TableRow>
+            <TableRow>
+                <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Large</Strong></TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.Start">Complex component, larger refactor, or feature set touching multiple subsystems</TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.Center">2-4 months</TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.End">18.000-45.000</TableRowCell>
+            </TableRow>
+        </TableBody>
+    </Table>
+
+    <Paragraph TextAlignment="TextAlignment.Center" TextColor="TextColor.Muted">
+        Ranges are guidance for procurement. Final pricing depends on acceptance criteria, dependencies, and required provider support.
+    </Paragraph>
+
+    <Div Margin="Margin.Is4.FromTop">
+        <Button Type="ButtonType.Link" To="custom-work/quote" Color="Color.Primary" Outline>Discuss a sponsored feature</Button>
+    </Div>
+
+    <Heading ElementId="custom-development" Size="HeadingSize.Is3" Margin="Margin.Is5.FromTop.Is3.FromBottom">
+        Custom Development (Time &amp; Materials)
+    </Heading>
+
+    <Paragraph>
+        Hourly or prepaid blocks for <Strong>company-specific</Strong> work (integrations, bespoke components, theming, internal tooling, migration help) that may not be suitable for upstream. Best when scope is evolving or tightly coupled to your environment.
+    </Paragraph>
+
+    <Table Responsive Bordered Striped>
+        <TableHeader>
+            <TableRow>
+                <TableHeaderCell TextAlignment="TextAlignment.Start">Rate card</TableHeaderCell>
+                <TableHeaderCell TextAlignment="TextAlignment.Center">EUR / hour</TableHeaderCell>
+                <TableHeaderCell TextAlignment="TextAlignment.Start">Notes</TableHeaderCell>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            <TableRow>
+                <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Professional customers</Strong></TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.Center">95</TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.Start">Remote, scheduled, billed in 15-minute increments</TableRowCell>
+            </TableRow>
+            <TableRow>
+                <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Enterprise customers</Strong></TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.Center">115-120</TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.Start">Includes tighter coordination and priority staffing where possible</TableRowCell>
+            </TableRow>
+        </TableBody>
+    </Table>
+
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Minimum engagement:</Strong> 16-24 hours to start (enough for onboarding, environment setup, and a first deliverable).
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Prepaid blocks (examples):</Strong> 20h (Professional: 1.900 EUR; Enterprise: 2.300-2.400 EUR) and 40h (Professional: 3.800 EUR; Enterprise: 4.600-4.800 EUR).
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Upstreaming:</Strong> optional; when requested, we'll quote the extra work needed for generalization, docs, and tests.
+            </Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+
+    <Div Margin="Margin.Is4.FromTop">
+        <Button Type="ButtonType.Link" To="custom-work/quote" Color="Color.Primary" Outline>Discuss custom development</Button>
+    </Div>
+</Container>

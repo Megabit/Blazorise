@@ -1,6 +1,6 @@
-import { getRequiredElement, fromExponential, firstNonNull } from "./utilities.js?v=2.3.1.0";
+import { getRequiredElement, fromExponential, firstNonNull } from "./utilities.js?v=2.3.2.0";
 
-import './vendors/autoNumeric.js?v=2.3.1.0';
+import './vendors/autoNumeric.js?v=2.3.2.0';
 
 let _instances = [];
 
@@ -24,6 +24,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         modifyValueOnWheel: firstNonNull(options.modifyValueOnWheel, AutoNumeric.options.modifyValueOnWheel.doNothing),
         wheelOn: firstNonNull(options.wheelOn, AutoNumeric.options.wheelOn.focus),
         wheelStep: firstNonNull(options.step, 1),
+        modifyValueOnUpDownArrow: firstNonNull(options.enableStep, AutoNumeric.options.modifyValueOnUpDownArrow.modifyValue),
         upDownStep: firstNonNull(options.step, 1),
         minimumValue: firstNonNull(fromExponential(firstNonNull(options.min, options.typeMin)), AutoNumeric.options.minimumValue.tenTrillions),
         maximumValue: firstNonNull(fromExponential(firstNonNull(options.max, options.typeMax)), AutoNumeric.options.maximumValue.tenTrillions),
@@ -132,6 +133,10 @@ export function updateOptions(element, elementId, options) {
 
         if (options.wheelOn.changed) {
             newOptions.wheelOn = firstNonNull(options.wheelOn.value, AutoNumeric.options.wheelOn.focus);
+        }
+
+        if (options.enableStep.changed) {
+            newOptions.modifyValueOnUpDownArrow = options.enableStep.value;
         }
 
         instance.update(newOptions);

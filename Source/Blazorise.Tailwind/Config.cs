@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using Blazorise.Modules;
@@ -85,6 +85,7 @@ public static class Config
         { typeof( Blazorise.Field ), typeof( Components.Field ) },
         { typeof( Blazorise.Modal ), typeof( Components.Modal ) },
         { typeof( Blazorise.ModalContent ), typeof( Components.ModalContent ) },
+        { typeof( Blazorise.NumericPicker<> ), typeof( Components.NumericPicker<> ) },
         { typeof( Blazorise.Offcanvas ), typeof( Components.Offcanvas ) },
         { typeof( Blazorise.Progress ), typeof( Components.Progress ) },
         { typeof( Blazorise.ProgressBar ), typeof( Components.ProgressBar ) },

@@ -52,6 +52,16 @@ internal sealed class TimePickerMenuContext<TValue>
     #region Properties
 
     /// <summary>
+    /// Gets the provider classes for the time step buttons container.
+    /// </summary>
+    public string TimeButtonsClassNames => parent.PickerClassProvider.TimePickerButtons();
+
+    /// <summary>
+    /// Gets the provider classes for a time step button.
+    /// </summary>
+    public string TimeButtonClassNames => parent.PickerClassProvider.TimePickerButton();
+
+    /// <summary>
     /// Gets the provider classes for the time picker menu.
     /// </summary>
     public string ClassNames => parent.PickerClassProvider.TimePickerMenu( parent.Inline, parent.StaticPicker );

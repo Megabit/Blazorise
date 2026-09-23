@@ -60,6 +60,10 @@ public class SvgChart<TItem> : SvgChartBase
 
     private readonly HashSet<string> hiddenDataPoints = [];
 
+    private readonly Dictionary<(int SeriesIndex, string SeriesName, int PointIndex), SvgChartPointInteraction> pointInteractions = [];
+
+    private readonly HashSet<(int SeriesIndex, SvgChartType Type, string Name)> materializedSeries = [];
+
     private readonly Dictionary<(int SeriesIndex, int PointIndex), SvgChartDataPointOverride> dataPointOverrides = [];
 
     private SvgChartData<double?> internalChartData;
@@ -213,6 +217,21 @@ public class SvgChart<TItem> : SvgChartBase
     protected override void BuildRenderTree( RenderTreeBuilder builder )
     {
         var sequence = 0;
+
+        builder.OpenComponent<CascadingValue<SvgChartBase>>( sequence++ );
+        builder.AddAttribute( sequence++, "Value", this );
+        builder.AddAttribute( sequence++, "IsFixed", true );
+        builder.AddAttribute( sequence++, "ChildContent", ChildContent );
+        builder.CloseComponent();
+
+        builder.OpenComponent<SvgChartContent>( sequence++ );
+        builder.AddAttribute( sequence++, nameof( SvgChartContent.ChildContent ), (RenderFragment)BuildChartContent );
+        builder.CloseComponent();
+    }
+
+    private void BuildChartContent( RenderTreeBuilder builder )
+    {
+        var sequence = 0;
         var model = BuildModel();
         var options = ResolveOptions();
         var legend = ResolveLegend( options );
@@ -231,18 +250,24 @@ public class SvgChart<TItem> : SvgChartBase
         if ( ResolveStreaming().Enabled )
             dataDrag.Enabled = false;
 
-        var seriesRendererContext = new SvgChartSeriesRendererContext( pluginContext, chartAnimation, previousAnimationPointBounds, currentAnimationPointBounds, previousAnimationPathValues, currentAnimationPathValues, model.Tooltip?.Enabled == true && !model.Tooltip.Intersect, dataDrag, ( value, index ) => FormatCategory( model, value, index ) );
+        var seriesRendererContext = new SvgChartSeriesRendererContext(
+            pluginContext,
+            chartAnimation,
+            previousAnimationPointBounds,
+            currentAnimationPointBounds,
+            previousAnimationPathValues,
+            currentAnimationPathValues,
+            pointInteractions,
+            materializedSeries,
+            model.Tooltip?.Enabled == true && !model.Tooltip.Intersect,
+            dataDrag,
+            ResolveCategoryFormatterKey( model ),
+            ( value, index ) => FormatCategory( model, value, index ) );
         var zoom = model.Zoom;
 
         UpdateSurfaceClasses( zoom?.Enabled == true && zoom.Pan, dataDrag.Enabled );
 
         runStreamingAnimationAfterRender = streamingAnimation.Enabled;
-
-        builder.OpenComponent<CascadingValue<SvgChartBase>>( sequence++ );
-        builder.AddAttribute( sequence++, "Value", this );
-        builder.AddAttribute( sequence++, "IsFixed", true );
-        builder.AddAttribute( sequence++, "ChildContent", ChildContent );
-        builder.CloseComponent();
 
         builder.OpenElement( sequence++, "div" );
         builder.AddMultipleAttributes( sequence++, Attributes );
@@ -250,6 +275,11 @@ public class SvgChart<TItem> : SvgChartBase
         builder.AddAttribute( sequence++, "class", ClassNames );
         builder.AddAttribute( sequence++, "style", StyleNames );
         builder.AddElementReferenceCapture( sequence++, elementRef => ElementRef = elementRef );
+
+        builder.OpenElement( sequence++, "div" );
+        builder.AddAttribute( sequence++, "style", options.Responsive
+            ? "position:relative;"
+            : $"position:relative;width:{Format( options.Width )}px;" );
 
         builder.OpenElement( sequence++, "svg" );
         builder.AddAttribute( sequence++, "xmlns", "http://www.w3.org/2000/svg" );
@@ -320,9 +350,10 @@ public class SvgChart<TItem> : SvgChartBase
             SvgChartLegendRenderer.Render( builder, ref sequence, model, options, legend.Position, options.Height - 30, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
 
         RenderPlugins( builder, ref sequence, pluginContext, SvgChartRenderLayer.InteractionOverlay );
-        RenderActiveTooltip( builder, ref sequence, model );
         RenderPlugins( builder, ref sequence, pluginContext, SvgChartRenderLayer.Tooltip );
 
+        builder.CloseElement();
+        RenderActiveTooltip( builder, ref sequence, model );
         builder.CloseElement();
         builder.CloseElement();
 
@@ -686,7 +717,7 @@ public class SvgChart<TItem> : SvgChartBase
     {
         var renderers = ResolveSeriesRenderers();
         var rendererItems = context.Chart.Series
-            .Where( x => !x.Hidden && filter( x ) )
+            .Where( filter )
             .Select( series => new { Series = series, Renderer = ResolveSeriesRenderer( renderers, series ) } )
             .Where( x => x.Renderer is not null )
             .Select( x => new { x.Series, x.Renderer, Order = x.Renderer.GetRenderOrder( x.Series ) } )
@@ -727,16 +758,16 @@ public class SvgChart<TItem> : SvgChartBase
         if ( context is null || tooltip is null || !tooltip.Enabled )
             return;
 
-        builder.OpenElement( sequence++, "foreignObject" );
-        builder.AddAttribute( sequence++, "class", "svg-chart-tooltip" );
-        builder.AddAttribute( sequence++, "x", Format( context.X ) );
-        builder.AddAttribute( sequence++, "y", Format( context.Y ) );
-        builder.AddAttribute( sequence++, "width", Format( context.Width ) );
-        builder.AddAttribute( sequence++, "height", Format( context.Height ) );
-        builder.AddAttribute( sequence++, "style", "pointer-events:none;overflow:visible;" );
+        var anchorX = ( context.Bounds.X + context.Bounds.Width / 2 ) / model.Options.Width * 100;
+        var anchorY = context.Bounds.Y / model.Options.Height * 100;
+        var left = $"clamp(0px, calc({Format( anchorX )}% + {Format( tooltip.OffsetX )}px), calc(100% - {Format( context.Width )}px))";
+        var top = $"clamp(0px, calc({Format( anchorY )}% - {Format( context.Height + tooltip.OffsetY )}px), calc(100% - {Format( context.Height )}px))";
 
         builder.OpenElement( sequence++, "div" );
-        builder.AddAttribute( sequence++, "xmlns", "http://www.w3.org/1999/xhtml" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-tooltip" );
+        builder.AddAttribute( sequence++, "style", $"position:absolute;left:{left};top:{top};width:{Format( context.Width )}px;max-width:100%;height:{Format( context.Height )}px;pointer-events:none;z-index:1;" );
+
+        builder.OpenElement( sequence++, "div" );
         builder.AddAttribute( sequence++, "class", "svg-chart-tooltip-content" );
         builder.AddAttribute( sequence++, "style", ResolveTooltipStyle( model.Options, context ) );
 
@@ -1485,6 +1516,29 @@ public class SvgChart<TItem> : SvgChartBase
             CategoryAxis = true,
             AxisId = model.CategoryAxis?.Id
         } ) ?? SvgChartRenderHelpers.FormatDataLabelValue( value );
+    }
+
+    private object ResolveCategoryFormatterKey( SvgChartRenderModel model )
+    {
+        var timeAxes = categoryAxisComponents.OfType<SvgChartTimeAxis<TItem>>();
+        var axisId = model.CategoryAxis?.Id;
+        var timeAxis = !string.IsNullOrWhiteSpace( axisId )
+            ? timeAxes.LastOrDefault( x => string.Equals( x.Id, axisId, StringComparison.Ordinal ) )
+            : null;
+        timeAxis ??= timeAxes.LastOrDefault();
+
+        if ( timeAxis is null )
+        {
+            return null;
+        }
+
+        return (
+            timeAxis.Scale,
+            timeAxis.Unit,
+            timeAxis.Format,
+            timeAxis.Culture,
+            CultureInfo.CurrentCulture.Name,
+            timeAxis.TimeZone ?? TimeZoneInfo.Local);
     }
 
     private static string ResolvePointColor( SvgChartRenderSeries series, int pointIndex )
@@ -2254,7 +2308,7 @@ public class SvgChart<TItem> : SvgChartBase
     {
         var centerX = plot.Left + plot.Width / 2;
         var centerY = plot.Top + plot.Height / 2;
-        var radius = Math.Max( 1, Math.Min( plot.Width, plot.Height ) * 0.42 );
+        var radius = Math.Max( 1, Math.Min( plot.Width, plot.Height ) * ( seriesType is SvgChartType.Pie or SvgChartType.Doughnut ? 0.5 : 0.42 ) );
         var resolvedMaximum = Math.Max( maximumValue, 1 );
         var renderedRadius = seriesType switch
         {
@@ -2961,6 +3015,8 @@ public class SvgChart<TItem> : SvgChartBase
 
         hiddenSeries.Clear();
         hiddenDataPoints.Clear();
+        pointInteractions.Clear();
+        materializedSeries.Clear();
         dataPointOverrides.Clear();
         dataDragState = null;
         ClearTooltip();

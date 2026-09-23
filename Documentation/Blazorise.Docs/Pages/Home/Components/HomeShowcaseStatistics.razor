@@ -1,0 +1,72 @@
+@using System.Collections.Generic
+
+<Card Height="Height.Is100" Border="Border.Rounded" Shadow="Shadow.Small">
+    <CardBody Padding="Padding.Is4" Display="Display.Flex" Flex="Flex.Column">
+        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading5" Margin="Margin.Is3.FromBottom">Business snapshot</Heading>
+        <Tabs @bind-SelectedTab="@period" RenderMode="TabsRenderMode.LazyReload">
+            <Items>
+                <Tab Name="week">Weekly</Tab>
+                <Tab Name="month">Monthly</Tab>
+                <Tab Name="year">Yearly</Tab>
+            </Items>
+            <Content>
+                @foreach ( string name in periods )
+                {
+                    <TabPanel @key="name" Name="@name">
+                        @foreach ( Metric metric in GetMetrics( name ) )
+                        {
+                            <Div @key="metric.Label" Flex="Flex.AlignItems.Center" Gap="Gap.Is3" Padding="Padding.Is3.OnY">
+                                <Badge Color="@metric.Color" Subtle Pill Padding="Padding.Is3">
+                                    <Icon Name="@metric.Icon" IconSize="IconSize.Large" />
+                                </Badge>
+                                <Div>
+                                    <Span TextColor="TextColor.Muted" TextSize="TextSize.Small">@metric.Label</Span>
+                                    <Paragraph TextSize="TextSize.Large" TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@metric.Value</Paragraph>
+                                    <Span TextColor="TextColor.Success" TextSize="TextSize.Small"><Icon Name="IconName.ArrowUp" /> @metric.Change</Span>
+                                </Div>
+                            </Div>
+                        }
+                    </TabPanel>
+                }
+            </Content>
+        </Tabs>
+        <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" Margin="Margin.IsAuto.FromTop.Is0.FromBottom" Padding="Padding.Is3.FromTop">
+            <Icon Name="IconName.ChartLine" Margin="Margin.Is1.FromEnd" /> Compared with the previous @( period ).
+        </Paragraph>
+    </CardBody>
+</Card>
+
+@code {
+    private string period = "week";
+    private readonly string[] periods = ["week", "month", "year"];
+
+    private IReadOnlyList<Metric> GetMetrics( string name ) => name switch
+    {
+        "month" => monthly,
+        "year" => yearly,
+        _ => weekly,
+    };
+
+    private readonly Metric[] weekly =
+    [
+        new( "Orders", "248", "12.4%", IconName.ShoppingCart, Color.Primary ),
+        new( "Revenue", "€18,640", "8.2%", IconName.ChartLine, Color.Success ),
+        new( "Visitors", "6,820", "16.8%", IconName.Users, Color.Info ),
+    ];
+
+    private readonly Metric[] monthly =
+    [
+        new( "Orders", "1,024", "18.6%", IconName.ShoppingCart, Color.Primary ),
+        new( "Revenue", "€76,420", "14.3%", IconName.ChartLine, Color.Success ),
+        new( "Visitors", "28,450", "22.1%", IconName.Users, Color.Info ),
+    ];
+
+    private readonly Metric[] yearly =
+    [
+        new( "Orders", "12,480", "24.2%", IconName.ShoppingCart, Color.Primary ),
+        new( "Revenue", "€924,680", "19.5%", IconName.ChartLine, Color.Success ),
+        new( "Visitors", "342,600", "28.4%", IconName.Users, Color.Info ),
+    ];
+
+    private sealed record Metric( string Label, string Value, string Change, IconName Icon, Color Color );
+}

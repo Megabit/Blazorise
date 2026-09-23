@@ -428,13 +428,26 @@
             padding-block: var(--spacingVerticalXS);
         }
 
-        .fui-DatePicker__timeInput {
-            box-sizing: border-box;
+        .fui-DatePicker__timeControl {
+            position: relative;
+            display: flex;
+            min-width: 0;
             flex: 1 1 0;
             width: 40%;
             height: 2.5rem;
+
+            &:first-child .fui-DatePicker__timeInput {
+                font-weight: var(--fontWeightSemibold);
+            }
+        }
+
+        .fui-DatePicker__timeInput {
+            box-sizing: border-box;
+            width: 100%;
+            height: 2.5rem;
             margin: 0;
             padding: 0;
+            padding-inline-end: calc(var(--spacingHorizontalXXL) + var(--spacingHorizontalXXS));
             border: 0;
             border-radius: 0;
             outline: 0;
@@ -446,10 +459,6 @@
             font-weight: var(--fontWeightRegular);
             line-height: 2.5rem;
             text-align: center;
-
-            &:first-child {
-                font-weight: var(--fontWeightSemibold);
-            }
 
             &:hover:not(:disabled),
             &:focus {
@@ -473,5 +482,90 @@
 .fui-Input {
     &__input.fui-Input__input--colorPicker {
         height: 20px;
+    }
+}
+
+.fui-DatePicker {
+    &__timeButtons {
+        box-sizing: border-box;
+        position: absolute;
+        inset-block-start: 50%;
+        inset-inline-end: var(--strokeWidthThin);
+        display: flex;
+        flex-direction: column;
+        width: var(--spacingHorizontalXXL);
+        overflow: hidden;
+        border: 0;
+        border-radius: var(--borderRadiusMedium);
+        background: transparent;
+        transform: translateY(-50%);
+    }
+
+    &__timeButton {
+        display: inline-flex;
+        flex: 0 0 16px;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        min-height: 0;
+        height: 16px;
+        padding: 0 5px;
+        border: 0;
+        background: transparent;
+        color: var(--colorNeutralForeground3);
+        font: inherit;
+        font-size: var(--fontSizeBase200);
+        line-height: 1;
+        cursor: pointer;
+        transition: background-color var(--durationUltraFast) var(--curveEasyEase), color var(--durationUltraFast) var(--curveEasyEase);
+
+        > i,
+        > span,
+        > svg {
+            display: none;
+        }
+
+        &::before {
+            content: "";
+            width: 16px;
+            height: 16px;
+            background: currentColor;
+            // Use the same chevron path as the Fluent NumericPicker.
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.15 10.35c.2.2.5.2.7 0L8 6.21l4.15 4.14a.5.5 0 0 0 .7-.7l-4.5-4.5a.5.5 0 0 0-.7 0l-4.5 4.5a.5.5 0 0 0 0 .7Z'/%3E%3C/svg%3E") center / contain no-repeat;
+        }
+
+        &:first-child {
+            padding-block: 4px 1px;
+            border-start-end-radius: var(--borderRadiusMedium);
+        }
+
+        &:last-child {
+            padding-block: 1px 4px;
+            border-end-end-radius: var(--borderRadiusMedium);
+
+            &::before {
+                transform: rotate(180deg);
+            }
+        }
+
+        &:hover:not(:disabled) {
+            background: var(--colorSubtleBackgroundHover);
+            color: var(--colorNeutralForeground3Hover);
+        }
+
+        &:active:not(:disabled) {
+            background: var(--colorSubtleBackgroundPressed);
+            color: var(--colorNeutralForeground3Pressed);
+        }
+
+        &:focus-visible {
+            outline: .125rem solid var(--colorCompoundBrandStroke);
+            outline-offset: -.125rem;
+        }
+
+        &:disabled {
+            color: var(--colorNeutralForegroundDisabled);
+            cursor: not-allowed;
+        }
     }
 }

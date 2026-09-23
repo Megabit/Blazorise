@@ -382,9 +382,13 @@ internal sealed class SvgChartModelBuilder<TItem>
 
     private static List<string> ResolvePointColors( IReadOnlyList<Color> colors, IReadOnlyList<Color> selectedColors, int count, Color seriesColor, int seriesIndex, bool usePalettePerPoint )
     {
-        var result = new List<string>();
-        var seriesFallback = SvgChartRenderHelpers.ResolveColor( seriesColor, seriesIndex );
         var palettePerPoint = usePalettePerPoint && SvgChartRenderHelpers.IsDefaultColor( seriesColor );
+
+        if ( !palettePerPoint && ( colors?.Count ?? 0 ) == 0 && ( selectedColors?.Count ?? 0 ) == 0 )
+            return [];
+
+        var seriesFallback = SvgChartRenderHelpers.ResolveColor( seriesColor, seriesIndex );
+        var result = new List<string>( count );
 
         for ( var i = 0; i < count; i++ )
         {
@@ -535,12 +539,18 @@ internal sealed class SvgChartModelBuilder<TItem>
             return null;
 
         var timeZone = ResolveTimeZone( timeAxis.TimeZone );
-        var values = visibleSeries
-            .SelectMany( x => x.XValues )
-            .Concat( labels.Select( value => ToUnixMilliseconds( value, timeZone ) ) )
-            .Where( x => x.HasValue )
-            .Select( x => x.Value )
+        List<double> values = visibleSeries
+            .SelectMany( GetPlottedXValues )
             .ToList();
+
+        if ( values.Count == 0 )
+        {
+            values = labels
+                .Select( value => ToUnixMilliseconds( value, timeZone ) )
+                .Where( x => x.HasValue )
+                .Select( x => x.Value )
+                .ToList();
+        }
 
         if ( values.Count == 0 )
             return null;

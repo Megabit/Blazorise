@@ -1,24 +1,19 @@
-<Container Padding="Padding.Is5.OnY">
-    <Card Border="Border.Rounded" Shadow="Shadow.Small">
-        <CardBody Padding="Padding.Is5">
-            <Row Flex="Flex.AlignItems.Center">
-                <Column ColumnSize="ColumnSize.Is12.Is7.OnDesktop">
-                    <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
-                        Need license coverage, priority support, or implementation help?
-                    </Heading>
-                    <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
-                        Commercial plans help teams keep UI delivery predictable with direct maintainer support, onboarding, and expert services.
-                    </Paragraph>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is12.Is5.OnDesktop" TextAlignment="TextAlignment.End" Margin="Margin.Is4.FromTop.OnMobile">
-                    <Button Type="ButtonType.Link" To="commercial" Color="Color.Primary" Size="Size.Large" Margin="Margin.Is2.FromEnd">
-                        Commercial Options
-                    </Button>
-                    <Button Type="ButtonType.Link" To="pricing" Color="Color.Light" Size="Size.Large">
-                        View Pricing
-                    </Button>
-                </Column>
-            </Row>
-        </CardBody>
-    </Card>
-</Container>
+<Div Class="b-background-glow-host">
+    <BackgroundGlow Variant="BackgroundGlowVariant.Band" Width="min(100%, 88rem)" Spread="clamp(64px, 10vw, 160px)" Intensity="0.32" DarkIntensity="0.20" />
+    <section class="b-visual-promo b-visual-landscape" aria-labelledby="home-commercial-title">
+        <Div Class="b-visual-landscape-art" aria-hidden="true">
+            <BrandBackdrop Variant="BrandBackdropVariant.LayeredWaves" Dark Primary="#652493" Secondary="#e03d76" Accent="#853bb2" />
+        </Div>
+        <Div Class="b-visual-container b-visual-promo-content">
+            <Div>
+                <Paragraph Class="b-visual-eyebrow">YOUR PRODUCT. OUR COMMITMENT.</Paragraph>
+                <Heading Size="HeadingSize.Is2" ElementId="home-commercial-title">Build with confidence.<br />Grow with support.</Heading>
+                <Paragraph>Choose the right plan for your team, with commercial support from the people behind Blazorise. Need a hand with implementation? We can help with that, too.</Paragraph>
+            </Div>
+            <Div Flex="Flex.Column" Gap="Gap.Is3">
+                <Anchor To="pricing" Class="b-visual-button b-visual-button-light">Find your plan <Span aria-hidden="true">&#8599;</Span></Anchor>
+                <Anchor To="commercial" Class="b-visual-promo-link">Explore commercial services &#8594;</Anchor>
+            </Div>
+        </Div>
+    </section>
+</Div>

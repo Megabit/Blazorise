@@ -81,7 +81,11 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
             if ( !string.IsNullOrWhiteSpace( dropdownToggleClassNames )
                  && !string.IsNullOrWhiteSpace( dropdownMenuClassNames ) )
             {
-                JSModule.Initialize( ElementRef, ElementId, targetElementId: null, menuElementId: null,
+                ElementReference elementRef = string.IsNullOrEmpty( ElementRef.Id )
+                    ? ParentBarItem?.ElementRef ?? ElementRef
+                    : ElementRef;
+
+                JSModule.Initialize( elementRef, ElementId, targetElementId: null, menuElementId: null,
                     options: new()
                     {
                         Direction = GetFloatingDirection().ToString( "g" ),

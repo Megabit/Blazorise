@@ -1,6 +1,7 @@
 @namespace Blazorise
 @typeparam TValue
 @using System
+@using System.Threading.Tasks
 @using Microsoft.AspNetCore.Components.Web
 @implements IDisposable
 
@@ -249,29 +250,35 @@
         @if ( Parent.InputMode == DateInputMode.DateTime )
         {
             <div class="@Calendar.TimeClassNames" role="group" aria-label="@Calendar.TimeText">
-                <input type="number"
-                       class="@Calendar.TimeInputClassNames"
-                       min="@(Parent.TimeAs24hr ? 0 : 1)"
-                       max="@(Parent.TimeAs24hr ? 23 : 12)"
-                       value="@Calendar.DisplayHourText"
-                       aria-label="@Calendar.HourText"
-                       tabindex="@Calendar.ControlTabIndex"
-                       disabled="@Parent.CalendarInteractionDisabled"
-                       @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
-                       @onkeydown:stopPropagation
-                       @onchange="@Parent.ChangeHourAsync" />
+                <Div Class="@Calendar.TimeControlClassNames">
+                    <input type="number"
+                           class="@Calendar.TimeInputClassNames"
+                           min="@(Parent.TimeAs24hr ? 0 : 1)"
+                           max="@(Parent.TimeAs24hr ? 23 : 12)"
+                           value="@Calendar.DisplayHourText"
+                           aria-label="@Calendar.HourText"
+                           tabindex="@Calendar.ControlTabIndex"
+                           disabled="@Parent.CalendarInteractionDisabled"
+                           @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                           @onkeydown:stopPropagation
+                           @onchange="@Parent.ChangeHourAsync" />
+                    @TimeButtons( true )
+                </Div>
                 <span aria-hidden="true">:</span>
-                <input type="number"
-                       class="@Calendar.TimeInputClassNames"
-                       min="0"
-                       max="59"
-                       value="@Calendar.CurrentMinuteText"
-                       aria-label="@Calendar.MinuteText"
-                       tabindex="@Calendar.ControlTabIndex"
-                       disabled="@Parent.CalendarInteractionDisabled"
-                       @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
-                       @onkeydown:stopPropagation
-                       @onchange="@Parent.ChangeMinuteAsync" />
+                <Div Class="@Calendar.TimeControlClassNames">
+                    <input type="number"
+                           class="@Calendar.TimeInputClassNames"
+                           min="0"
+                           max="59"
+                           value="@Calendar.CurrentMinuteText"
+                           aria-label="@Calendar.MinuteText"
+                           tabindex="@Calendar.ControlTabIndex"
+                           disabled="@Parent.CalendarInteractionDisabled"
+                           @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                           @onkeydown:stopPropagation
+                           @onchange="@Parent.ChangeMinuteAsync" />
+                    @TimeButtons( false )
+                </Div>
                 @if ( !Parent.TimeAs24hr )
                 {
                     <button type="button"
@@ -328,6 +335,32 @@
     public DatePicker<TValue> Parent { get; set; }
 
     internal DatePickerCalendarContext<TValue> Calendar => Parent.CalendarContext;
+
+    private RenderFragment TimeButtons( bool hour ) => __builder =>
+    {
+        <Div Class="@Calendar.TimeButtonsClassNames">
+            @foreach ( int direction in new[] { 1, -1 } )
+            {
+                <button @key="direction"
+                        type="button"
+                        class="@Calendar.TimeButtonClassNames"
+                        aria-label="@($"{( direction > 0 ? "Increment" : "Decrement" )} {( hour ? Calendar.HourText : Calendar.MinuteText )}")"
+                        tabindex="@Calendar.ControlTabIndex"
+                        disabled="@Parent.CalendarInteractionDisabled"
+                        @onmousedown:preventDefault
+                        @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
+                        @onkeydown:stopPropagation
+                        @onclick="@(() => ChangeTimeAsync( hour, direction ))">
+                    <Icon Name="@(direction > 0 ? IconName.AngleUp : IconName.AngleDown)" aria-hidden="true" />
+                </button>
+            }
+        </Div>
+    };
+
+    private Task ChangeTimeAsync( bool hour, int direction )
+        => hour
+            ? Parent.ChangeHourAsync( new ChangeEventArgs { Value = Calendar.DisplayHour + direction } )
+            : Parent.ChangeMinuteAsync( new ChangeEventArgs { Value = Calendar.CurrentMinute + direction } );
 
     protected override void OnInitialized()
     {

@@ -291,6 +291,37 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Registers or refreshes the scheduler command configuration.
+    /// </summary>
+    /// <param name="commands">The command configuration component.</param>
+    /// <param name="parametersChanged">Whether the command parameters changed.</param>
+    internal Task NotifySchedulerCommands( SchedulerCommands<TItem> commands, bool parametersChanged )
+    {
+        bool commandsChanged = !ReferenceEquals( Commands, commands ) || parametersChanged;
+        Commands = commands;
+
+        return commandsChanged && !Disposed && !AsyncDisposed
+            ? RefreshState()
+            : Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Removes the command configuration and restores the default commands.
+    /// </summary>
+    /// <param name="commands">The command configuration component to remove.</param>
+    internal Task RemoveSchedulerCommands( SchedulerCommands<TItem> commands )
+    {
+        if ( !ReferenceEquals( Commands, commands ) )
+            return Task.CompletedTask;
+
+        Commands = null;
+
+        return !Disposed && !AsyncDisposed
+            ? RefreshState()
+            : Task.CompletedTask;
+    }
+
+    /// <summary>
     /// Notifies the scheduler component of the existence of the day view component.
     /// </summary>
     /// <param name="schedulerDayView">Instance of the scheduler day view component.</param>
@@ -884,7 +915,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         editItem = CreateNewItem();
         editState = SchedulerEditState.New;
-        SetItemDates( editItem, start, end );
+        SetItemDates( editItem, start, DefaultItemDuration is TimeSpan duration && duration > TimeSpan.Zero ? start.Add( duration ) : end );
 
         await New( editItem );
 
@@ -2210,6 +2241,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     internal protected RenderFragment<SchedulerItemContext<TItem>> ItemTemplate => GetItemTemplate();
 
     /// <summary>
+    /// Gets the command configuration supplied by the scheduler's child content.
+    /// </summary>
+    internal SchedulerCommands<TItem> Commands { get; private set; }
+
+    /// <summary>
     /// Returns a RenderFragment for all-day items based on the current view mode of the scheduler.
     /// </summary>
     internal protected RenderFragment<SchedulerAllDayItemContext<TItem>> AllDayItemTemplate => GetAllDayItemTemplate();
@@ -2343,6 +2379,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Indicates whether internal editing is enabled. Defaults to true.
     /// </summary>
     [Parameter] public bool UseInternalEditing { get; set; } = true;
+
+    /// <summary>
+    /// Specifies the duration of new items created by clicking a timed slot. When null, zero, or negative, the clicked slot's duration is used.
+    /// Explicit range selections and all-day items are unaffected.
+    /// </summary>
+    [Parameter] public TimeSpan? DefaultItemDuration { get; set; }
 
     /// <summary>
     /// Defines a function that creates a new item of type TItem. It allows for custom item creation logic.

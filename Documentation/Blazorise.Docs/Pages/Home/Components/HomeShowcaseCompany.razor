@@ -1,0 +1,58 @@
+<Card Height="Height.Is100" Border="Border.Rounded" Shadow="Shadow.Small">
+    <CardBody Padding="Padding.Is4" Display="Display.Flex" Flex="Flex.Column">
+        <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading5" Margin="Margin.Is3.FromBottom">Company details</Heading>
+        <Field>
+            <FieldLabel TextSize="TextSize.Small">Company name</FieldLabel>
+            <TextInput @bind-Value="@companyName" MaxLength="80" />
+        </Field>
+        <Row Gutter="Gutter.Is3">
+            <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
+                <Field>
+                    <FieldLabel TextSize="TextSize.Small">Industry</FieldLabel>
+                    <Select TValue="Industry" @bind-Value="@industry">
+                        <SelectItem Value="Industry.Software">Software</SelectItem>
+                        <SelectItem Value="Industry.Education">Education</SelectItem>
+                        <SelectItem Value="Industry.Finance">Finance</SelectItem>
+                    </Select>
+                </Field>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
+                <Field>
+                    <FieldLabel TextSize="TextSize.Small">Team size</FieldLabel>
+                    <NumericPicker TValue="int" @bind-Value="@teamSize" Min="1" Max="100" />
+                </Field>
+            </Column>
+        </Row>
+        <Field>
+            <FieldLabel TextSize="TextSize.Small">Interested in</FieldLabel>
+            <RadioGroup TValue="string" Name="showcase-service" @bind-Value="@service">
+                <Radio Value='@("Components")'>Components</Radio>
+                <Radio Value='@("Consulting")'>Consulting</Radio>
+            </RadioGroup>
+        </Field>
+        <Field>
+            <FieldLabel TextSize="TextSize.Small">Project start</FieldLabel>
+            <DatePicker TValue="DateTime?" @bind-Value="@startDate" DisplayFormat="MMM d, yyyy" />
+        </Field>
+        <Div Flex="Flex.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is2" Margin="Margin.IsAuto.FromTop">
+            <Button Color="Color.Primary" Outline Disabled="@string.IsNullOrWhiteSpace( companyName )" Clicked="@Preview">Preview</Button>
+            <Span TextColor="TextColor.Muted" TextSize="TextSize.Small" aria-live="polite">@feedback</Span>
+        </Div>
+    </CardBody>
+</Card>
+
+@code {
+    private string companyName = "Northwind Studio";
+    private Industry industry = Industry.Software;
+    private int teamSize = 8;
+    private string service = "Components";
+    private DateTime? startDate = new DateTime( 2026, 10, 1 );
+    private string feedback = "Sample data only";
+
+    private void Preview()
+    {
+        feedback = $"{teamSize} seats · {service}. Nothing submitted.";
+    }
+
+    private enum Industry { Software, Education, Finance }
+}

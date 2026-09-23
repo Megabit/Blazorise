@@ -1,0 +1,173 @@
+@using System.Collections.Generic
+
+<Card Height="Height.Is100" Border="Border.Rounded" Shadow="Shadow.Small">
+    <CardBody Padding="Padding.Is4" Display="Display.Flex" Flex="Flex.Column">
+        @{
+            IReadOnlyList<Contact> filtered = FilteredContacts;
+            int pageCount = Math.Max( 1, ( filtered.Count + PageSize - 1 ) / PageSize );
+            int currentPage = Math.Min( page, pageCount );
+            IReadOnlyList<Contact> visible = GetPage( filtered, currentPage );
+        }
+        <Div Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is2" Margin="Margin.Is3.FromBottom" role="group" aria-label="Contact tools">
+            <Div Width="Width.Px( 190 )">
+                <Addons>
+                    <Addon AddonType="AddonType.Start">
+                        <AddonLabel><Icon Name="IconName.Search" /></AddonLabel>
+                    </Addon>
+                    <Addon AddonType="AddonType.Body">
+                        <TextInput Value="@search" ValueChanged="@SearchChanged" Placeholder="Search…" aria-label="Search sample contacts" />
+                    </Addon>
+                </Addons>
+            </Div>
+            <Dropdown>
+                <DropdownToggle Color="Color.Secondary" Outline>@( string.IsNullOrEmpty( role ) ? "Role" : role )</DropdownToggle>
+                <DropdownMenu>
+                    <DropdownItem Active="@string.IsNullOrEmpty( role )" Clicked="@( () => RoleChanged( string.Empty ) )">All roles</DropdownItem>
+                    @foreach ( string item in roles )
+                    {
+                        <DropdownItem @key="item" Active="@( role == item )" Clicked="@( () => RoleChanged( item ) )">@item</DropdownItem>
+                    }
+                </DropdownMenu>
+            </Dropdown>
+            <Dropdown>
+                <DropdownToggle Color="Color.Secondary" Outline>@( string.IsNullOrEmpty( status ) ? "Status" : status )</DropdownToggle>
+                <DropdownMenu>
+                    <DropdownItem Active="@string.IsNullOrEmpty( status )" Clicked="@( () => StatusChanged( string.Empty ) )">All statuses</DropdownItem>
+                    @foreach ( string item in statuses )
+                    {
+                        <DropdownItem @key="item" Active="@( status == item )" Clicked="@( () => StatusChanged( item ) )">@item</DropdownItem>
+                    }
+                </DropdownMenu>
+            </Dropdown>
+            <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Margin="Margin.IsAuto.FromStart">
+                <Dropdown>
+                    <DropdownToggle Color="Color.Secondary" Outline ShowToggleIcon="false" aria-label="Contact table settings">
+                        <Icon Name="IconName.Settings" />
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem Clicked="@( () => showLocation = !showLocation )">@( showLocation ? "Hide location" : "Show location" )</DropdownItem>
+                        <DropdownItem Clicked="@ResetFilters">Reset filters</DropdownItem>
+                        <DropdownItem Clicked="@( () => selected.Clear() )" Disabled="@( selected.Count == 0 )">Clear selection</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Button Color="Color.Primary" Clicked="@OpenNewContact">
+                    <Icon Name="IconName.Plus" Margin="Margin.Is1.FromEnd" /> New contact
+                </Button>
+            </Div>
+        </Div>
+        <Table Responsive Hoverable aria-label="Sample contacts">
+            <TableHeader>
+                <TableRow>
+                    <TableHeaderCell>
+                        <Check TValue="bool" Value="@( visible.Count > 0 && AreAllSelected( visible ) )"
+                               Indeterminate="@AreSomeSelected( visible )"
+                               ValueChanged="@( value => SelectPage( visible, value ) )"
+                               Disabled="@( visible.Count == 0 )" aria-label="Select visible contacts" />
+                    </TableHeaderCell>
+                    <TableHeaderCell aria-sort="@( descending ? "descending" : "ascending" )">
+                        <Button Color="Color.Link" Size="Size.Small" Padding="Padding.Is0" Clicked="@ToggleSort">
+                            Name <Icon Name="@( descending ? IconName.SortDown : IconName.SortUp )" />
+                        </Button>
+                    </TableHeaderCell>
+                    @if ( showLocation )
+                    {
+                        <TableHeaderCell>Location</TableHeaderCell>
+                    }
+                    <TableHeaderCell>Status</TableHeaderCell>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                @if ( visible.Count == 0 )
+                {
+                    <TableRow>
+                        <TableRowCell ColumnSpan="@( showLocation ? 4 : 3 )" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
+                            No contacts match your filters.
+                        </TableRowCell>
+                    </TableRow>
+                }
+                @foreach ( Contact contact in visible )
+                {
+                    <TableRow @key="contact.Id">
+                        <TableRowCell VerticalAlignment="VerticalAlignment.Middle">
+                            <Check TValue="bool" Value="@selected.Contains( contact.Id )"
+                                   ValueChanged="@( value => SelectContact( contact.Id, value ) )"
+                                   aria-label="@($"Select {contact.Name}")" />
+                        </TableRowCell>
+                        <TableRowCell Padding="Padding.Is3.OnY">
+                            <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2" TextOverflow="TextOverflow.NoWrap">
+                                <Badge Color="@contact.Color" Subtle Pill Padding="Padding.Is2">@contact.Initials</Badge>
+                                <Strong TextSize="TextSize.Small">@contact.Name</Strong>
+                            </Div>
+                        </TableRowCell>
+                        @if ( showLocation )
+                        {
+                            <TableRowCell VerticalAlignment="VerticalAlignment.Middle" TextSize="TextSize.Small" TextOverflow="TextOverflow.NoWrap">@contact.Location</TableRowCell>
+                        }
+                        <TableRowCell VerticalAlignment="VerticalAlignment.Middle">
+                            <Badge Color="@contact.Color" Subtle Pill>@contact.Status</Badge>
+                        </TableRowCell>
+                    </TableRow>
+                }
+            </TableBody>
+        </Table>
+        <Div Flex="Flex.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is2" Margin="Margin.IsAuto.FromTop" Padding="Padding.Is3.FromTop">
+            <Span TextColor="TextColor.Muted" TextSize="TextSize.Small" aria-live="polite">@filtered.Count contacts · @selected.Count selected</Span>
+            <Buttons Size="Size.Small">
+                <Button Color="Color.Primary" Outline Disabled="@( currentPage <= 1 )" Clicked="@( () => page = currentPage - 1 )" aria-label="Previous contacts page">
+                    <Icon Name="IconName.ChevronLeft" />
+                </Button>
+                <Button Color="Color.Primary" Outline Disabled="@( currentPage >= pageCount )" Clicked="@( () => page = currentPage + 1 )" aria-label="Next contacts page">
+                    <Icon Name="IconName.ChevronRight" />
+                </Button>
+            </Buttons>
+        </Div>
+    </CardBody>
+</Card>
+
+<Modal @bind-Visible="@newContactVisible" Centered>
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>New contact</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Paragraph TextSize="TextSize.Small" TextColor="TextColor.Muted">Use sample details. Contacts are only kept in this demo session.</Paragraph>
+            <Field>
+                <FieldLabel>Name</FieldLabel>
+                <TextInput @bind-Value="@newName" MaxLength="60" />
+            </Field>
+            <Field>
+                <FieldLabel>Location</FieldLabel>
+                <TextInput @bind-Value="@newLocation" MaxLength="60" Placeholder="City, country" />
+            </Field>
+            <Row>
+                <Column ColumnSize="ColumnSize.Is6">
+                    <Field>
+                        <FieldLabel>Role</FieldLabel>
+                        <Select TValue="string" @bind-Value="@newRole">
+                            @foreach ( string item in roles )
+                            {
+                                <SelectItem @key="item" Value="@item">@item</SelectItem>
+                            }
+                        </Select>
+                    </Field>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is6">
+                    <Field>
+                        <FieldLabel>Status</FieldLabel>
+                        <Select TValue="string" @bind-Value="@newStatus">
+                            @foreach ( string item in statuses )
+                            {
+                                <SelectItem @key="item" Value="@item">@item</SelectItem>
+                            }
+                        </Select>
+                    </Field>
+                </Column>
+            </Row>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Outline Clicked="@( () => newContactVisible = false )">Cancel</Button>
+            <Button Color="Color.Primary" Disabled="@( string.IsNullOrWhiteSpace( newName ) || string.IsNullOrWhiteSpace( newLocation ) )" Clicked="@AddContact">Add contact</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>

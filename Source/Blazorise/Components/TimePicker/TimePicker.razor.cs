@@ -790,6 +790,16 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         NotifyMenuStateChanged();
     }
 
+    internal Task AdjustPartAsync( TimePickerPart part, int direction )
+    {
+        if ( MenuInteractionDisabled )
+            return Task.CompletedTask;
+
+        FocusPart( part );
+
+        return AdjustFocusedPartAsync( direction );
+    }
+
     private async Task AdjustFocusedPartAsync( int direction )
     {
         switch ( focusedPart )

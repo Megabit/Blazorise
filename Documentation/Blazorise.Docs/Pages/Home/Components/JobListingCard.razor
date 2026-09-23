@@ -1,0 +1,68 @@
+@using Blazorise.Docs.Models
+
+<Card Class="b-job-card" role="article" aria-label="@Job.Title" Shadow="Shadow.Small" Border="Border.Rounded">
+    <CardBody Padding="Padding.Is4">
+        <Row Class="b-job-card-row" Flex="Flex.AlignItems.Center">
+            <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop">
+                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is2.FromBottom">@Job.Company</Paragraph>
+                <Heading Size="HeadingSize.Is3" TextSize="TextSize.Heading4" TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@Job.Title</Heading>
+                <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is2.FromBottom">
+                    <Span TextColor="TextColor.Muted">@LocationText</Span>
+                    @if ( Job.Remote )
+                    {
+                        <Badge Color="Color.Primary" Subtle Pill>Remote</Badge>
+                    }
+                    @if ( !string.IsNullOrWhiteSpace( Job.EmploymentType ) )
+                    {
+                        <Badge Color="Color.Success" Subtle Pill>@Job.EmploymentType</Badge>
+                    }
+                    @if ( !string.IsNullOrWhiteSpace( Job.Seniority ) )
+                    {
+                        <Badge Color="Color.Dark" Subtle Pill>@Job.Seniority</Badge>
+                    }
+                </Div>
+                @if ( !string.IsNullOrWhiteSpace( Job.SalaryRange ) )
+                {
+                    <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is2.FromBottom">
+                        Salary: @Job.SalaryRange
+                    </Paragraph>
+                }
+                @if ( Job.Tags is not null && Job.Tags.Count > 0 )
+                {
+                    <Div Flex="Flex.Wrap" Gap="Gap.Is1" Margin="Margin.Is2.FromBottom">
+                        @foreach ( string tag in Job.Tags )
+                        {
+                            if ( string.IsNullOrWhiteSpace( tag ) )
+                                continue;
+
+                            <Badge Color="Color.Info" Subtle Pill>@tag</Badge>
+                        }
+                    </Div>
+                }
+                <Span TextColor="TextColor.Muted" TextSize="TextSize.Small">@UpdatedText</Span>
+            </Column>
+            <Column Class="b-job-card-actions" ColumnSize="ColumnSize.Is12.Is4.OnDesktop">
+                <Div Flex="Flex.Column" Gap="Gap.Is2" Padding="Padding.Is3.OnY">
+                    <Div Flex="Flex.Wrap.JustifyContent.End" Gap="Gap.Is2">
+                        <Button Color="Color.Secondary" Outline Clicked="@(() => DetailsRequested.InvokeAsync( Job ))">View details</Button>
+                        @if ( !string.IsNullOrWhiteSpace( Job.ApplyUrl ) )
+                        {
+                            <Button Color="Color.Primary" Type="ButtonType.Link" To="@Job.ApplyUrl" Target="Target.Blank" rel="noopener noreferrer">Apply</Button>
+                        }
+                    </Div>
+                    @if ( !string.IsNullOrWhiteSpace( Job.ApplyUrl ) )
+                    {
+                        <Span TextColor="TextColor.Muted" TextSize="TextSize.Small" TextAlignment="TextAlignment.End">Apply opens an external site in a new tab.</Span>
+                    }
+                </Div>
+            </Column>
+        </Row>
+    </CardBody>
+</Card>
+
+@code {
+    [Parameter, EditorRequired] public JobPost Job { get; set; }
+    [Parameter] public string LocationText { get; set; }
+    [Parameter] public string UpdatedText { get; set; }
+    [Parameter] public EventCallback<JobPost> DetailsRequested { get; set; }
+}

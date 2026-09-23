@@ -132,6 +132,12 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DatePickerCalendarTimeInput() => "datepicker-time-input";
 
+    public override string DatePickerCalendarTimeControl() => "datepicker-time-control";
+
+    public override string DatePickerCalendarTimeButtons() => "datepicker-time-buttons";
+
+    public override string DatePickerCalendarTimeButton() => "datepicker-time-button";
+
     public override string DatePickerCalendarActions() => "datepicker-actions";
 
     public override string DatePickerCalendarButton() => "datepicker-button";
@@ -139,6 +145,10 @@ public class BootstrapClassProvider : ClassProvider
     #endregion
 
     #region TimePicker
+
+    public override string TimePickerButtons() => "timepicker-buttons";
+
+    public override string TimePickerButton() => "timepicker-button";
 
     public override string TimePicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 

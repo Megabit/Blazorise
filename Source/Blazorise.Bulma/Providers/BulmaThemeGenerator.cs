@@ -426,7 +426,7 @@ public class BulmaThemeGenerator : ThemeGenerator
     {
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
-            sb.Append( ".input" ).Append( "{" )
+            sb.Append( ".input, .datepicker-time-buttons, .timepicker-buttons" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
@@ -525,7 +525,7 @@ public class BulmaThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( theme.BodyOptions?.BackgroundColor ) )
         {
             sb
-                .Append( ".datepicker .datepicker-calendar.box, .timepicker .timepicker-menu.box" )
+                .Append( ".datepicker .datepicker-calendar.box, .timepicker .timepicker-menu.box, .datepicker-time-buttons, .timepicker-buttons" )
                 .Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BodyBackgroundColor )};" )
                 .AppendLine( "}" );
@@ -535,7 +535,7 @@ public class BulmaThemeGenerator : ThemeGenerator
         {
             sb
                 .Append( ".datepicker .datepicker-calendar.box, .datepicker .datepicker-day, .datepicker .datepicker-month," )
-                .Append( ".timepicker .timepicker-menu.box, .timepicker .timepicker-input.input," )
+                .Append( ".timepicker .timepicker-menu.box, .timepicker .timepicker-input.input, .datepicker-time-button:not(:disabled), .timepicker-button:not(:disabled)," )
                 .Append( ".timepicker .timepicker-separator.button, .timepicker .timepicker-meridiem.button," )
                 .Append( ".datepicker .datepicker-navigation.button:hover:not(:disabled)," )
                 .Append( ".datepicker .datepicker-navigation.button:focus-visible," )
@@ -551,7 +551,7 @@ public class BulmaThemeGenerator : ThemeGenerator
             sb
                 .Append( ".datepicker .datepicker-navigation.button, .datepicker .datepicker-weekday," )
                 .Append( ".datepicker .datepicker-week-number, .datepicker .datepicker-day.is-outside," )
-                .Append( ".timepicker .timepicker-input.input:disabled, .timepicker .timepicker-meridiem.button:disabled" )
+                .Append( ".timepicker .timepicker-input.input:disabled, .timepicker .timepicker-meridiem.button:disabled, .datepicker-time-button:disabled, .timepicker-button:disabled" )
                 .Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.TextColor( "muted" ) )};" )
                 .AppendLine( "}" );
@@ -564,6 +564,22 @@ public class BulmaThemeGenerator : ThemeGenerator
             string hoverBackground = ToHex( Lighten( primary, 90f ) );
             string rangeBackground = ToHex( Lighten( primary, 85f ) );
             string focusShadow = ToHex( Lighten( primary, 75f ) );
+
+            sb
+                .Append( ".datepicker-time-button:hover:not(:disabled), .timepicker-button:hover:not(:disabled)" ).Append( "{" )
+                .Append( $"background: {hoverBackground};" )
+                .Append( $"color: {primary};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( ".datepicker-time-button:active:not(:disabled), .timepicker-button:active:not(:disabled)" ).Append( "{" )
+                .Append( $"background: {rangeBackground};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( ".datepicker-time-button:focus-visible, .timepicker-button:focus-visible" ).Append( "{" )
+                .Append( $"outline-color: {primary};" )
+                .AppendLine( "}" );
 
             sb
                 .Append( ".datepicker .datepicker-day.is-selected, .datepicker .datepicker-day.is-range-start," )

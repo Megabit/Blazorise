@@ -1,0 +1,26 @@
+@page "/education"
+
+<Seo Canonical="/education"
+     Title="Blazorise Education | Courses, student and classroom licenses"
+     Description="Explore practical C#, Blazor, and Blazorise courses, free educational licenses for eligible students and teachers, and bulk classroom licenses for institutions." />
+
+<Div Class="b-visual b-marketing b-education-page b-decorated-page">
+    <EducationIntro Dark />
+    <section class="b-visual-section b-education-licenses">
+        <EducationLicensesSection />
+    </section>
+    <section class="b-visual-section b-marketing-tint b-education-steps b-decorated-section">
+        <SectionDecoration Variant="BrandBackdropVariant.RoundedSteps" Side="SectionDecorationSide.Left" Placement="SectionDecorationPlacement.Top" Size="SectionDecorationSize.Large" Opacity="0.65" />
+        <EducationApplicationStepsSection />
+    </section>
+    <section class="b-visual-section b-marketing-dark b-education-courses">
+        <EducationCoursesSection />
+    </section>
+    <section class="b-visual-section b-education-classroom b-decorated-section b-background-glow-host">
+        <BackgroundGlow Variant="BackgroundGlowVariant.Cloud" Width="min(100%, 72rem)" Spread="clamp(64px, 10vw, 144px)" Intensity="0.32" DarkIntensity="0.20" />
+        <EducationClassroomSection />
+    </section>
+    <section class="b-visual-section b-marketing-tint b-marketing-faq">
+        <EducationFaqSection />
+    </section>
+</Div>

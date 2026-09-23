@@ -1,41 +1,36 @@
 @page "/"
 
-<Seo Canonical="/" Title="Blazorise - Blazor Component Library" Description="Build on one of Blazor's longest-running UI frameworks. Actively maintained since 2018 and hardened in production, with 100+ components and support for Bootstrap, Tailwind, Bulma, AntDesign, Material, Fluent UI, and more." />
+<Seo Canonical="/" Title="Blazorise - Blazor Component Library" Description="Battle-tested since 2018 and actively maintained. Build with 100+ Blazor components, your choice of CSS framework, flexible theming, and commercial support." />
 
-<PageHeader>
-    <Title>
-        We handle the <Span Class="gradient-commercial">UI</Span>. You handle the product.
-    </Title>
-    <Subtitle>
-        Battle-tested <Span Class="gradient-commercial">since 2018</Span>. Actively maintained for what you ship next.
-    </Subtitle>
-    <Description>
-        One of Blazor's longest-running UI frameworks, Blazorise gives teams a production-hardened foundation for real product work: 100+ components, responsive layouts, validation, theming, commercial support, and the freedom to use the CSS frameworks they already know.
-    </Description>
-    <Actions>
-        <Button Type="ButtonType.Link" To="docs/start" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">
-            <Icon Name="IconName.Book" />
-            Get Started
-        </Button>
-        <Button Type="ButtonType.Link" To="blocks" Color="Color.Secondary" Size="Size.Large" Padding="Padding.Is4.OnX">
-            <Icon Name="IconName.PlayCircle" />
-            View Blocks
-        </Button>
-    </Actions>
-</PageHeader>
-
-<HomeStatsSection />
-<HomeTrustedBySection />
-<HomeProviderOverviewSection />
-<HomeProductHighlightsSection />
-<HomeComponentsShowcaseSection />
-<HomeFrameworksSection />
-<HomeUtilitySection />
-<HomePopularBuildingBlocksSection />
-<HomeExpandableTestimonialsSection />
-<HomeCommercialCalloutSection />
-<HomeCommunitySection />
-
-<Container Padding="Padding.Is5.OnY">
-    <HomeNewsletterWidget />
-</Container>
+<Div Class="b-visual b-decorated-page" ElementId="home-content">
+    <HomeHeroSection />
+    <section class="b-visual-section b-visual-trust" aria-label="Trusted by product teams">
+        <HomeTrustedBySection />
+    </section>
+    <section class="b-visual-section b-visual-building-blocks b-decorated-section" aria-label="Featured components">
+        <SectionDecoration Variant="BrandBackdropVariant.Blob" Side="SectionDecorationSide.Left" Placement="SectionDecorationPlacement.Bottom" Size="SectionDecorationSize.Large" Rotation="-20" Opacity="1" FadeTowardContent="false" />
+        <HomePopularBuildingBlocksSection />
+    </section>
+    <section class="b-visual-section b-visual-frameworks" aria-label="CSS frameworks and demos">
+        <HomeFrameworksSection />
+    </section>
+    <section class="b-visual-section b-visual-utility" aria-label="Razor utilities">
+        <HomeUtilitySection />
+    </section>
+    <section class="b-visual-section b-visual-testimonials" aria-label="Customer testimonials">
+        <HomeExpandableTestimonialsSection />
+    </section>
+    <HomeCommercialCalloutSection />
+    <section class="b-visual-section b-visual-resources b-decorated-section" aria-label="Resources and learning">
+        <SectionDecoration Variant="BrandBackdropVariant.PetalFan" Placement="SectionDecorationPlacement.Bottom" Rotation="-90" Opacity="0.65" />
+        <HomeResourcesSection />
+    </section>
+    <section class="b-visual-section b-visual-community" aria-label="Community">
+        <HomeCommunitySection />
+    </section>
+    <section class="b-visual-section b-visual-newsletter" aria-label="Newsletter">
+        <Container Padding="Padding.Is5.OnY">
+            <HomeNewsletterWidget />
+        </Container>
+    </section>
+</Div>

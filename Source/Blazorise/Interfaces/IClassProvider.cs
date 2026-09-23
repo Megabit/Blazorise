@@ -126,6 +126,12 @@ public interface IClassProvider
 
     string DatePickerCalendarTimeInput();
 
+    string DatePickerCalendarTimeControl();
+
+    string DatePickerCalendarTimeButtons();
+
+    string DatePickerCalendarTimeButton();
+
     string DatePickerCalendarActions();
 
     string DatePickerCalendarButton();
@@ -133,6 +139,10 @@ public interface IClassProvider
     #endregion
 
     #region TimePicker
+
+    string TimePickerButtons();
+
+    string TimePickerButton();
 
     string TimePicker( bool plaintext );
 

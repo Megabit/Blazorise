@@ -52,7 +52,7 @@ internal static class SvgChartAxesRenderer
                 builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Left - 10 ) );
                 builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
                 builder.AddAttribute( sequence++, "text-anchor", "end" );
-                SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
+                SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, primaryLabels.Font, opacity: 0.68 );
                 builder.AddContent( sequence++, FormatAxisLabel( FormatValueTick( primaryAxis, tick, i ), primaryLabels, model.Options ) );
                 builder.CloseElement();
             }
@@ -133,7 +133,7 @@ internal static class SvgChartAxesRenderer
             builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
             builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y ) );
             AddHorizontalAxisLabelPlacementAttributes( builder, ref sequence, x, y, labelPlacement, "middle" );
-            SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
+            SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, labels.Font, opacity: 0.72 );
             builder.AddContent( sequence++, FormatAxisLabel( FormatCategoryTick( model, label, labelIndex ), labels, model.Options ) );
             builder.CloseElement();
         }
@@ -174,7 +174,7 @@ internal static class SvgChartAxesRenderer
                 builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
                 builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( plot.Bottom + valueLabels.Offset ) );
                 builder.AddAttribute( sequence++, "text-anchor", "middle" );
-                SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
+                SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, valueLabels.Font, opacity: 0.68 );
                 builder.AddContent( sequence++, FormatAxisLabel( FormatValueTick( model.PrimaryValueAxis, tick, i ), valueLabels, model.Options ) );
                 builder.CloseElement();
             }
@@ -208,7 +208,7 @@ internal static class SvgChartAxesRenderer
                 builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Left - 10 ) );
                 builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
                 builder.AddAttribute( sequence++, "text-anchor", "end" );
-                SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
+                SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, categoryLabels.Font, opacity: 0.72 );
                 builder.AddContent( sequence++, FormatAxisLabel( FormatCategoryTick( model, model.Labels[i], labelIndex ), categoryLabels, model.Options, Math.Max( 1, plot.Left - 14 ) ) );
                 builder.CloseElement();
             }
@@ -331,7 +331,7 @@ internal static class SvgChartAxesRenderer
             builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( pointLabelPlacement.X ) );
             builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y ) );
             AddHorizontalAxisLabelPlacementAttributes( builder, ref sequence, pointLabelPlacement.X, y, axisLabelPlacement, pointLabelPlacement.TextAnchor );
-            SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
+            SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, labels.Font, opacity: 0.72 );
             builder.AddContent( sequence++, FormatAxisLabel( FormatCategoryTick( model, tick, i ), labels, model.Options ) );
             builder.CloseElement();
         }
@@ -359,7 +359,7 @@ internal static class SvgChartAxesRenderer
         if ( labels?.AutoSkip != true || labelCount <= 1 || plot.Width <= 0 )
             return (baseStep, 0, "middle");
 
-        var fontSize = model.Options?.Font?.Size ?? 11;
+        var fontSize = SvgChartTextRenderer.ResolveFontSize( model.Options, labels?.Font );
         var labelWidth = Enumerable.Range( 0, labelCount )
             .Select( labelFormatter )
             .DefaultIfEmpty( string.Empty )
@@ -388,7 +388,7 @@ internal static class SvgChartAxesRenderer
         if ( labels?.AutoSkip != true || labelCount <= 1 || plot.Height <= 0 )
             return baseStep;
 
-        var fontSize = model.Options?.Font?.Size ?? 11;
+        var fontSize = SvgChartTextRenderer.ResolveFontSize( model.Options, labels?.Font );
         var labelHeight = fontSize + Math.Max( 0, labels.AutoSkipPadding );
 
         return Math.Max( baseStep, ResolveCollisionLabelStep( labelCount, plot.Height, labelHeight ) );
@@ -467,7 +467,7 @@ internal static class SvgChartAxesRenderer
                     builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Right + 10 ) );
                     builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
                     builder.AddAttribute( sequence++, "text-anchor", "start" );
-                    SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
+                    SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, labels.Font, opacity: 0.68 );
                     builder.AddContent( sequence++, FormatAxisLabel( FormatValueTick( axis, tick, i ), labels, model.Options ) );
                     builder.CloseElement();
                 }
@@ -583,7 +583,7 @@ internal static class SvgChartAxesRenderer
         if ( string.IsNullOrEmpty( label ) || !maxWidth.HasValue )
             return label;
 
-        var fontSize = options?.Font?.Size ?? 11;
+        var fontSize = SvgChartTextRenderer.ResolveFontSize( options, labels?.Font );
 
         if ( SvgChartRenderHelpers.EstimateTextWidth( label, fontSize ) <= maxWidth.Value )
             return label;

@@ -131,6 +131,12 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DatePickerCalendarTimeInput() => "fui-DatePicker__timeInput";
 
+    public override string DatePickerCalendarTimeControl() => "fui-DatePicker__timeControl";
+
+    public override string DatePickerCalendarTimeButtons() => "fui-DatePicker__timeButtons";
+
+    public override string DatePickerCalendarTimeButton() => "fui-DatePicker__timeButton";
+
     public override string DatePickerCalendarActions() => "fui-DatePicker__actions";
 
     public override string DatePickerCalendarButton() => "fui-DatePicker__button";
@@ -138,6 +144,10 @@ public class FluentUI2ClassProvider : ClassProvider
     #endregion
 
     #region TimePicker
+
+    public override string TimePickerButtons() => "fui-TimePicker__buttons";
+
+    public override string TimePickerButton() => "fui-TimePicker__button";
 
     public override string TimePicker( bool plaintext ) => plaintext ? "fui-TimePicker fui-Input__input-plaintext" : "fui-TimePicker fui-Input__input";
 

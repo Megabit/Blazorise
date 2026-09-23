@@ -127,6 +127,12 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string DatePickerCalendarTimeInput();
 
+    public virtual string DatePickerCalendarTimeControl() => null;
+
+    public virtual string DatePickerCalendarTimeButtons() => null;
+
+    public virtual string DatePickerCalendarTimeButton() => null;
+
     public abstract string DatePickerCalendarActions();
 
     public abstract string DatePickerCalendarButton();
@@ -134,6 +140,10 @@ public abstract class ClassProvider : IClassProvider
     #endregion
 
     #region TimePicker
+
+    public virtual string TimePickerButtons() => null;
+
+    public virtual string TimePickerButton() => null;
 
     public abstract string TimePicker( bool plaintext );
 

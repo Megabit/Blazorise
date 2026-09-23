@@ -78,25 +78,48 @@
     }
 
     a:not(.dropdown-item):not(.page-link):not(.nav-link):not(.navbar-toggler):not([role=button]) {
-        color: var(--b-link-color);
+        color: var(--bs-alert-link-color, var(--b-link-color));
         border-bottom: 2px solid var(--b-theme-primary);
         text-decoration: none;
         transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 
         &:hover {
-            border-color: var(--b-theme-primary);
+            border-color: var(--bs-alert-link-color, var(--b-theme-primary));
             color: var(--b-theme-primary);
         }
     }
 }
 
 .b-docs {
+    .b-docs-sidebar {
+        border-inline-end: 1px solid var(--bs-border-color);
+
+        .navbar-brand {
+            font-weight: 600;
+            letter-spacing: -.025em;
+        }
+
+        .nav-link,
+        .dropdown-item {
+            font-size: .875rem;
+            letter-spacing: 0;
+        }
+
+        .nav-link {
+            font-weight: 500;
+        }
+
+        .dropdown-item.active {
+            font-weight: 600;
+        }
+    }
+
     .navbar[data-mode^=vertical].navbar-light {
         .navbar-collapse > .navbar-nav.nav-pills > .nav-item > .nav-link.active:hover,
         .navbar-collapse > .navbar-nav.nav-pills > .nav-item > .dropdown[data-visible] > .nav-link.active:hover,
         .dropdown[data-visible] > .dropdown-menu-container > .dropdown-menu .dropdown-item.active:hover {
             color: var(--b-theme-primary) !important;
-            background: #ede3fb !important;
+            background: #f5effe !important;
         }
     }
 }
@@ -148,8 +171,8 @@ body[data-bs-theme="dark"] {
             .navbar-collapse > .navbar-nav.nav-pills > .nav-item > .nav-link.active:hover,
             .navbar-collapse > .navbar-nav.nav-pills > .nav-item > .dropdown[data-visible] > .nav-link.active:hover,
             .dropdown[data-visible] > .dropdown-menu-container > .dropdown-menu .dropdown-item.active:hover {
-                color: var(--b-theme-primary) !important;
-                background: #38445a !important;
+                color: #c4b5fd !important;
+                background: #2b384b !important;
             }
         }
     }

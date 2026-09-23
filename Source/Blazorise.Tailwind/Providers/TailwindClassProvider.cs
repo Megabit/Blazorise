@@ -170,6 +170,12 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DatePickerCalendarTimeInput() => "tw-datepicker-time-input";
 
+    public override string DatePickerCalendarTimeControl() => "tw-datepicker-time-control";
+
+    public override string DatePickerCalendarTimeButtons() => "tw-datepicker-time-buttons";
+
+    public override string DatePickerCalendarTimeButton() => "tw-datepicker-time-button";
+
     public override string DatePickerCalendarActions() => "tw-datepicker-actions";
 
     public override string DatePickerCalendarButton() => "tw-datepicker-button";
@@ -177,6 +183,10 @@ public class TailwindClassProvider : ClassProvider
     #endregion
 
     #region TimePicker
+
+    public override string TimePickerButtons() => "tw-timepicker-buttons";
+
+    public override string TimePickerButton() => "tw-timepicker-button";
 
     public override string TimePicker( bool plaintext ) => TextInput( plaintext );
 

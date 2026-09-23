@@ -1,0 +1,39 @@
+<Container>
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            What guides the work
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Blazorise is shaped around practical product development, provider flexibility, and long-term maintainability.
+        </Lead>
+    </Div>
+
+    <Row>
+        @foreach ( AboutPrinciple item in AboutPrinciples )
+        {
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody>
+                        <Icon Name="@item.Icon" IconSize="IconSize.x2" TextColor="@item.TextColor" Margin="Margin.Is3.FromBottom" />
+                        <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Container>
+
+@code {
+    private static readonly AboutPrinciple[] AboutPrinciples =
+    [
+        new( IconName.Code, TextColor.Primary, "Productive Blazor", "Keep product teams focused on features instead of repeating low-level UI work." ),
+        new( IconName.LayerGroup, TextColor.Info, "Provider flexibility", "Support multiple CSS frameworks while preserving a consistent component model." ),
+        new( IconName.Palette, TextColor.Secondary, "Design-system fit", "Make it practical to align Blazor applications with product-specific visual standards." ),
+        new( IconName.Shield, TextColor.Success, "Source available", "Give teams visibility into the library they depend on and a path to commercial support." ),
+        new( IconName.Book, TextColor.Primary, "Practical docs", "Maintain examples, guidance, and API details that help teams build real features." ),
+        new( IconName.Users, TextColor.Info, "Community shaped", "Use feedback from customers and the wider Blazor community to guide roadmap priorities." )
+    ];
+
+    private sealed record AboutPrinciple( IconName Icon, TextColor TextColor, string Title, string Description );
+}

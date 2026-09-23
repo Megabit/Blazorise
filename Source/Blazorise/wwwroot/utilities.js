@@ -1,5 +1,5 @@
-import "./vendors/jsencrypt.js?v=2.3.1.0";
-import "./vendors/sha512.js?v=2.3.1.0";
+import "./vendors/jsencrypt.js?v=2.3.2.0";
+import "./vendors/sha512.js?v=2.3.2.0";
 
 // adds a classname to the specified element
 export function addClass(element, classname) {
@@ -440,7 +440,7 @@ function estimateNumberInputCaret(element, clientX) {
 }
 
 export function getRequiredElement(element, elementId) {
-    if (element)
+    if (element instanceof Element)
         return element;
 
     return document.getElementById(elementId);
