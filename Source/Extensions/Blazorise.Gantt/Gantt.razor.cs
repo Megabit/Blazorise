@@ -1597,10 +1597,13 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return propertyMapper.GetProgressPercentage( item );
     }
 
-    private string FormatDate( DateTime date )
+    private string FormatDate( DateTime date, BaseGanttColumn<TItem> column = null )
     {
         if ( date == DateTime.MinValue || date == DateTime.MaxValue )
             return string.Empty;
+
+        if ( column?.DisplayFormat is not null )
+            return column.FormatDisplayValue( date );
 
         return SelectedView == GanttView.Day
             ? date.ToString( "MMM dd, yyyy HH:mm", CultureInfo.InvariantCulture )
@@ -2484,7 +2487,10 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             return string.Empty;
 
         if ( column.IsStart || column.IsEnd )
-            return FormatDate( (DateTime)value );
+            return FormatDate( (DateTime)value, column.Column );
+
+        if ( column.Column?.DisplayFormat is not null )
+            return column.Column.FormatDisplayValue( value );
 
         if ( column.IsDuration )
         {
@@ -2499,9 +2505,6 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         if ( column.IsProgress )
         {
-            if ( column.Column?.DisplayFormat is not null )
-                return column.Column.FormatDisplayValue( value );
-
             if ( !ValueUtils.TryConvertToDouble( value, out var progressValue ) )
                 return Convert.ToString( value, CultureInfo.InvariantCulture ) ?? string.Empty;
 
@@ -3037,19 +3040,36 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             return TitleColumnWidth;
 
         if ( IsWbsField( column.Field ) )
-            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => GetWbsValue( wbsLookup, row.Key ) );
+            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row =>
+            {
+                string value = GetWbsValue( wbsLookup, row.Key );
+                return column.DisplayFormat is not null ? column.FormatDisplayValue( value ) : value;
+            } );
 
         if ( StringUtils.IsMatch( column.Field, StartField ) )
-            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => FormatDate( GetItemStart( row.Item ) ), column.CanSort() && Sortable );
+            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => FormatDate( GetItemStart( row.Item ), column ), column.CanSort() && Sortable );
 
         if ( StringUtils.IsMatch( column.Field, EndField ) )
-            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => FormatDate( GetItemEnd( row.Item ) ), column.CanSort() && Sortable );
+            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => FormatDate( GetItemEnd( row.Item ), column ), column.CanSort() && Sortable );
 
         if ( StringUtils.IsMatch( column.Field, DurationField ) )
-            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => FormatDuration( GetItemDuration( row.Item ) ), column.CanSort() && Sortable );
+            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row =>
+            {
+                int? value = GetItemDuration( row.Item );
+                return value is not null && column.DisplayFormat is not null ? column.FormatDisplayValue( value ) : FormatDuration( value );
+            }, column.CanSort() && Sortable );
 
         if ( StringUtils.IsMatch( column.Field, ProgressField ) )
-            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => FormatProgress( GetItemProgress( row.Item ) ), column.CanSort() && Sortable );
+            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row =>
+            {
+                if ( column.DisplayFormat is not null )
+                {
+                    object value = column.GetValue( row.Item );
+                    return value is not null ? column.FormatDisplayValue( value ) : string.Empty;
+                }
+
+                return FormatProgress( GetItemProgress( row.Item ) );
+            }, column.CanSort() && Sortable );
 
         return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row =>
         {
