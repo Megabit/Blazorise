@@ -915,7 +915,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         editItem = CreateNewItem();
         editState = SchedulerEditState.New;
-        SetItemDates( editItem, start, end );
+        SetItemDates( editItem, start, DefaultItemDuration is TimeSpan duration && duration > TimeSpan.Zero ? start.Add( duration ) : end );
 
         await New( editItem );
 
@@ -2379,6 +2379,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Indicates whether internal editing is enabled. Defaults to true.
     /// </summary>
     [Parameter] public bool UseInternalEditing { get; set; } = true;
+
+    /// <summary>
+    /// Specifies the duration of new items created by clicking a timed slot. When null, zero, or negative, the clicked slot's duration is used.
+    /// Explicit range selections and all-day items are unaffected.
+    /// </summary>
+    [Parameter] public TimeSpan? DefaultItemDuration { get; set; }
 
     /// <summary>
     /// Defines a function that creates a new item of type TItem. It allows for custom item creation logic.
