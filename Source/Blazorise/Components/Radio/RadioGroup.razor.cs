@@ -41,6 +41,24 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
     #region Methods
 
     /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        bool notifyRadios = Rendered && ( parameters.IsParameterChanged( Color )
+            || parameters.IsParameterChanged( Intent )
+            || parameters.IsParameterChanged( Buttons )
+            || parameters.IsParameterChanged( Orientation )
+            || parameters.IsParameterChanged( Disabled )
+            || parameters.IsParameterChanged( Value ) );
+
+        await base.SetParametersAsync( parameters );
+
+        if ( notifyRadios )
+        {
+            RadioCheckedChanged?.Invoke( this, new( Value ) );
+        }
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.RadioGroup( Buttons, Orientation ) );

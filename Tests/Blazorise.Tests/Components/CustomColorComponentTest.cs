@@ -838,6 +838,18 @@ public class CustomColorComponentTest : BunitContext
         Assert.Contains( "btn-custom", component.FindAll( "label.btn" )[1].ClassList );
         Assert.DoesNotContain( "#0F766E", component.Markup );
         Assert.All( component.FindAll( "input" ), input => Assert.True( input.HasAttribute( "disabled" ) ) );
+        Assert.All( component.FindAll( "label.btn" ), label => Assert.Contains( "disabled", label.ClassList ) );
+
+        component.Render( parameters => parameters
+            .Add( parameter => parameter.Intent, Intent.Warning )
+            .Add( parameter => parameter.Disabled, false )
+            .Add( parameter => parameter.Value, "second" ) );
+
+        Assert.Contains( "btn-warning", component.FindAll( "label.btn" )[0].ClassList );
+        Assert.DoesNotContain( "active", component.FindAll( "label.btn" )[0].ClassList );
+        Assert.Contains( "active", component.FindAll( "label.btn" )[1].ClassList );
+        Assert.Contains( "#312E81", component.FindAll( "label.btn" )[1].GetAttribute( "style" ) );
+        Assert.All( component.FindAll( "label.btn" ), label => Assert.DoesNotContain( "disabled", label.ClassList ) );
     }
 
     [Fact]
