@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-22T11:30:30.1115735Z",
+  "generatedUtc": "2026-09-23T08:09:32.8316018Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -101090,6 +101090,14 @@
           "typeName": "DateOnly",
           "defaultValue": "null",
           "summary": "Specifies the anchor date used by the selected view.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DefaultItemDuration",
+          "type": "TimeSpan?",
+          "typeName": "TimeSpan?",
+          "defaultValue": "null",
+          "summary": "Specifies the duration of new items created by clicking a timed slot. When null, zero, or negative, the clicked slot's duration is used.     Explicit range selections and all-day items are unaffected.",
           "isBlazoriseEnum": false
         },
         {
