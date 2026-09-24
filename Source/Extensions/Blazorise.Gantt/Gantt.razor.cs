@@ -2580,7 +2580,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( roots.Count == 0 )
             return new List<GanttTreeRow>();
 
-        var includeLookup = IsSearchMode
+        var includeLookup = IsSearchMode || CustomFilter is not null
             ? BuildSearchIncludeLookup( roots )
             : null;
 
@@ -3118,14 +3118,15 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return includeLookup;
     }
 
-    private bool EvaluateSearchMatch( GanttTreeNode node, Dictionary<string, bool> includeLookup )
+    private bool EvaluateSearchMatch( GanttTreeNode node, Dictionary<string, bool> includeLookup, bool hasMatchingAncestor = false )
     {
-        var includeSelf = MatchesSearch( node.Item );
+        var includeSelf = hasMatchingAncestor || MatchesSearch( node.Item );
+        var includeDescendants = SearchMode == GanttSearchMode.Subtree && includeSelf;
         var includeChild = false;
 
         foreach ( var child in node.Children )
         {
-            if ( EvaluateSearchMatch( child, includeLookup ) )
+            if ( EvaluateSearchMatch( child, includeLookup, includeDescendants ) )
             {
                 includeChild = true;
             }
@@ -3139,13 +3140,17 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private bool MatchesSearch( TItem item )
     {
-        if ( !IsSearchMode )
-            return true;
+        var term = searchText?.Trim() ?? string.Empty;
 
-        var term = searchText?.Trim();
+        if ( CustomFilter is not null )
+        {
+            return CustomFilter( item, term );
+        }
 
         if ( string.IsNullOrWhiteSpace( term ) )
+        {
             return true;
+        }
 
         return ( GetItemTitle( item )?.Contains( term, StringComparison.OrdinalIgnoreCase ) ?? false )
                || ( GetItemDescription( item )?.Contains( term, StringComparison.OrdinalIgnoreCase ) ?? false );
@@ -4833,6 +4838,19 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     /// Notifies when <see cref="SearchText"/> changes.
     /// </summary>
     [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
+
+    /// <summary>
+    /// Determines which related items are included in search results.
+    /// </summary>
+    [Parameter] public GanttSearchMode SearchMode { get; set; } = GanttSearchMode.Match;
+
+    /// <summary>
+    /// Gets or sets the custom item filter.
+    /// </summary>
+    /// <remarks>
+    /// Replaces title and description matching. Receives the item and trimmed search text, which may be empty.
+    /// </remarks>
+    [Parameter] public Func<TItem, string, bool> CustomFilter { get; set; }
 
     /// <summary>
     /// Specifies the currently selected tree row item.
