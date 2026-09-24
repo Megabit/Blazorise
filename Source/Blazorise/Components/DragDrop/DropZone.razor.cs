@@ -71,8 +71,10 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
             shouldRerender = true;
             DirtyClasses();
 
-            if ( reorderChanged && Rendered )
+            if ( reorderChanged )
+            {
                 ExecuteAfterRender( UpdateReorderOptions );
+            }
         }
 
         await base.SetParametersAsync( parameters );
