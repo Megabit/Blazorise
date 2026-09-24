@@ -394,6 +394,12 @@ public class MaterialThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
     {
+        string colorVariant = variant == "danger" ? "error" : variant;
+
+        sb.Append( $".mui-input-color-{colorVariant}" )
+            .Append( "{" )
+            .Append( $"--mui-input-border-color: {inColor};" )
+            .AppendLine( "}" );
     }
 
     protected override void GenerateListGroupItemStyles( StringBuilder sb, Theme theme, ThemeListGroupItemOptions options )

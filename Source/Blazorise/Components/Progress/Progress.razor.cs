@@ -78,12 +78,24 @@ public partial class Progress : BaseComponent<ProgressClasses, ProgressStyles>, 
     {
         builder.Append( ClassProvider.Progress() );
         builder.Append( ClassProvider.ProgressSize( ThemeSize ) );
-        builder.Append( ClassProvider.ProgressColor( Color ) );
+
+        if ( Color?.IsCssValue != true )
+            builder.Append( ClassProvider.ProgressColor( Color ) );
+
         builder.Append( ClassProvider.ProgressStriped( Striped ) );
         builder.Append( ClassProvider.ProgressAnimated( Animated ) );
         builder.Append( ClassProvider.ProgressIndeterminate( Indeterminate ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        if ( !HasProgressBar )
+            builder.Append( StyleProvider.ProgressColor( Color ) );
+
+        base.BuildStyles( builder );
     }
 
     /// <summary>
@@ -109,6 +121,11 @@ public partial class Progress : BaseComponent<ProgressClasses, ProgressStyles>, 
     /// <param name="builder">Styles builder used to append the styles.</param>
     private void BuildProgressBarStyles( StyleBuilder builder )
     {
+        builder.Append( StyleProvider.ProgressBarColor( Color ) );
+
+        if ( Color?.IsCssValue == true && TextColor.IsNotNullOrDefault() )
+            builder.Append( "color:inherit" );
+
         if ( Percentage is not null )
             builder.Append( StyleProvider.ProgressBarValue( Percentage ?? 0 ) );
 
@@ -206,7 +223,7 @@ public partial class Progress : BaseComponent<ProgressClasses, ProgressStyles>, 
     protected StyleBuilder ProgressBarStyleBuilder { get; private set; }
 
     /// <summary>
-    /// Specifies the progress bar color.
+    /// Specifies the contextual or explicit CSS color of the progress bar.
     /// </summary>
     [Parameter]
     public Color Color
@@ -217,6 +234,7 @@ public partial class Progress : BaseComponent<ProgressClasses, ProgressStyles>, 
             state = state with { Color = value };
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

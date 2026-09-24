@@ -154,3 +154,47 @@ td:focus {
         }
     }
 }
+
+.table {
+    > :is(tbody, thead, tfoot) > tr.table-custom {
+        > :is(th, td):not(#{$table-contextual-cell-selectors}) {
+            background-color: var(--bs-table-bg);
+            color: $body-color;
+            border-color: color-mix(in srgb, var(--bs-table-bg) 70%, black);
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(var(--bs-table-bg));
+            }
+        }
+    }
+
+    &.table-striped > tbody > tr.table-custom:nth-of-type(odd) {
+        > :is(th, td):not(#{$table-contextual-cell-selectors}) {
+            background-color: color-mix(in srgb, var(--bs-table-bg) 90%, black);
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(color-mix(in srgb, var(--bs-table-bg) 90%, black));
+            }
+        }
+    }
+
+    &.table-hover > tbody > tr.table-custom:hover {
+        > :is(th, td):not(#{$table-contextual-cell-selectors}) {
+            background-color: color-mix(in srgb, var(--bs-table-bg) 85%, black);
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(color-mix(in srgb, var(--bs-table-bg) 85%, black));
+            }
+        }
+    }
+
+    > :is(tbody, thead, tfoot) > tr > td.table-custom {
+        background-color: var(--bs-table-bg);
+        color: $body-color;
+        border-color: color-mix(in srgb, var(--bs-table-bg) 70%, black);
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--bs-table-bg));
+        }
+    }
+}

@@ -143,3 +143,28 @@
 @each $name, $sizes in $radio-sizes {
     @include radio-size($name, nth($sizes, 1), nth($sizes, 2), nth($sizes, 3), nth($sizes, 4));
 }
+
+.ant-segmented .ant-segmented-item.ant-segmented-item-custom {
+    .ant-segmented-item-label {
+        color: var(--ant-color-primary);
+        border-radius: inherit;
+    }
+
+    &.ant-segmented-item-selected .ant-segmented-item-label {
+        background-color: var(--ant-color-primary);
+        color: var(--ant-color-text-light-solid);
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--ant-color-primary));
+        }
+    }
+
+    &:has(:focus-visible) {
+        outline: 2px solid var(--ant-color-primary);
+        outline-offset: 2px;
+    }
+
+    &.ant-segmented-item-disabled {
+        opacity: .5;
+    }
+}

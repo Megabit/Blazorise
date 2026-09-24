@@ -107,3 +107,48 @@
 li.list-group-item-action {
     cursor: pointer;
 }
+
+.list-group .list-group-item.is-custom {
+    background-image: none;
+    background-color: color-mix(in srgb, var(--bulma-list-group-item-background-color) 15%, var(--bulma-scheme-main));
+    border-color: color-mix(in srgb, var(--bulma-list-group-item-background-color) 35%, var(--bulma-scheme-main));
+    color: color-mix(in srgb, var(--bulma-list-group-item-background-color) 40%, var(--bulma-text));
+
+    @supports (color: contrast-color(white)) {
+        color: color-mix(in srgb, var(--bulma-list-group-item-background-color) 30%, contrast-color(color-mix(in srgb, var(--bulma-list-group-item-background-color) 15%, var(--bulma-scheme-main))));
+    }
+
+    &.list-group-item-action:not(.disabled):not(:disabled):not(.is-active) {
+        &:hover,
+        &:focus {
+            background-color: color-mix(in srgb, var(--bulma-list-group-item-background-color) 25%, var(--bulma-scheme-main));
+
+            @supports (color: contrast-color(white)) {
+                color: color-mix(in srgb, var(--bulma-list-group-item-background-color) 30%, contrast-color(color-mix(in srgb, var(--bulma-list-group-item-background-color) 25%, var(--bulma-scheme-main))));
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--bulma-list-group-item-background-color);
+            outline-offset: -2px;
+        }
+    }
+
+    &.is-active,
+    &.is-active:hover,
+    &.is-active:focus {
+        background-color: var(--bulma-list-group-item-background-color);
+        border-color: var(--bulma-list-group-item-background-color);
+        color: white;
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--bulma-list-group-item-background-color));
+        }
+    }
+
+    &.disabled,
+    &:disabled {
+        opacity: .5;
+        pointer-events: none;
+    }
+}

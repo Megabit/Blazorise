@@ -166,7 +166,7 @@ public partial class Rating : BaseComponent
     [Parameter] public bool ReadOnly { get; set; }
 
     /// <summary>
-    /// Not work now
+    /// Specifies the contextual or custom CSS color of the rating icons.
     /// </summary>
     [Parameter]
     public Color Color
@@ -184,7 +184,7 @@ public partial class Rating : BaseComponent
     }
 
     /// <summary>
-    /// Not work now
+    /// Specifies the intent of the rating icons.
     /// </summary>
     [Parameter]
     public Intent Intent

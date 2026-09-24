@@ -67,7 +67,75 @@ class EmptyStyleProvider : IStyleProvider
 
     #endregion
 
+    #region Component colors
+
+    public string TextInputColor( Color color ) => null;
+
+    public string MemoInputColor( Color color ) => null;
+
+    public string NumericInputColor( Color color ) => null;
+
+    public string DateInputColor( Color color ) => null;
+
+    public string TimeInputColor( Color color ) => null;
+
+    public string DatePickerColor( Color color ) => null;
+
+    public string TimePickerColor( Color color ) => null;
+
+    public string NumericPickerColor( Color color ) => null;
+
+    public string InputMaskColor( Color color ) => null;
+
+    public string ListGroupItemColor( Color color ) => null;
+
+    public string TableRowColor( Color color ) => null;
+
+    public string TableRowCellColor( Color color ) => null;
+
+    public string SwitchColor( Color color ) => null;
+
+    public string RatingItemColor( Color color ) => null;
+
+    public string StepItemColor( Color color ) => null;
+
+    public string PageProgressIndicatorColor( Color color ) => null;
+
+    #endregion
+
+    #region Badge
+
+    public string BadgeColor( Color color ) => null;
+
+    #endregion
+
+    #region Alert
+
+    public string AlertColor( Color color ) => null;
+
+    #endregion
+
+    #region Button
+
+    public string ButtonColor( Color color ) => null;
+
+    #endregion
+
+    #region DropdownToggle
+
+    public string DropdownToggleColor( Color color ) => ButtonColor( color );
+
+    #endregion
+
+    #region Progress
+
+    public string ProgressColor( Color color ) => null;
+
+    #endregion
+
     #region ProgressBar
+
+    public string ProgressBarColor( Color color ) => null;
 
     public string ProgressBarValue( int value ) => null;
 

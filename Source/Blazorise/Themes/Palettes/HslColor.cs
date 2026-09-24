@@ -41,6 +41,46 @@ public struct HslColor
     public static readonly HslColor Empty = new HslColor( 0, 0, 0 );
 
     /// <summary>
+    /// Converts an RGB color to its hue, saturation, and luminosity.
+    /// </summary>
+    /// <param name="color">The color to convert. Alpha does not affect the result.</param>
+    /// <returns>The HSL representation, with hue rounded to whole degrees.</returns>
+    public static HslColor FromColor( System.Drawing.Color color )
+    {
+        double r = color.R / 255d;
+        double g = color.G / 255d;
+        double b = color.B / 255d;
+
+        double cmin = Math.Min( Math.Min( r, g ), b );
+        double cmax = Math.Max( Math.Max( r, g ), b );
+        double delta = cmax - cmin;
+        double h = 0d;
+        double s = 0d;
+        double l = 0d;
+
+        if ( delta == 0 )
+            h = 0;
+        else if ( cmax == r )
+            h = ( ( g - b ) / delta ) % 6;
+        else if ( cmax == g )
+            h = ( b - r ) / delta + 2;
+        else
+            h = ( r - g ) / delta + 4;
+
+        h = Math.Round( h * 60 );
+
+        if ( h < 0 )
+            h += 360;
+
+        l = ( cmax + cmin ) / 2;
+        s = delta == 0 ? 0 : delta / ( 1 - Math.Abs( 2 * l - 1 ) );
+        s = +( s * 100 );
+        l = +( l * 100 );
+
+        return new HslColor( h, s, l );
+    }
+
+    /// <summary>
     /// Converts an HslColor value to a Color.
     /// </summary>
     /// <returns>Converted color.</returns>

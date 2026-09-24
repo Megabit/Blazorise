@@ -31,6 +31,14 @@
     }
 
     .fui-ProgressBar__bar {
+        &.fui-ProgressBar__bar-custom {
+            color: var(--colorNeutralForegroundOnBrand);
+
+            @supports (color: contrast-color(red)) {
+                color: contrast-color(var(--colorCompoundBrandBackground));
+            }
+        }
+
         width: 50%;
         background-color: var(--colorCompoundBrandBackground);
         transition-timing-function: ease;
@@ -144,4 +152,8 @@
         margin-right: 0;
         margin-left: 100%;
     }
+}
+
+.fui-PageProgress .fui-PageProgress__indicator.fui-PageProgress__indicator--custom {
+    background-color: var(--colorPageProgressBackground);
 }

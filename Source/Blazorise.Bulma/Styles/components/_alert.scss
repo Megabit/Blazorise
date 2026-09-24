@@ -5,3 +5,31 @@
 .notification {
     @include visibility-transition(opacity var(--bulma-duration, #{$duration}) var(--bulma-easing, #{$easing}));
 }
+
+.notification.is-custom {
+    background-color: color-mix(in srgb, var(--bulma-notification-background-color) 15%, var(--bulma-scheme-main));
+    border-color: color-mix(in srgb, var(--bulma-notification-background-color) 35%, var(--bulma-scheme-main));
+    color: color-mix(in srgb, var(--bulma-notification-background-color) 40%, var(--bulma-text));
+
+    @supports (color: contrast-color(white)) {
+        color: color-mix(in srgb, var(--bulma-notification-background-color) 30%, contrast-color(color-mix(in srgb, var(--bulma-notification-background-color) 15%, var(--bulma-scheme-main))));
+    }
+
+    .alert-link {
+        color: inherit;
+    }
+
+    .delete {
+        color: inherit;
+
+        &:hover,
+        &:focus {
+            color: inherit;
+        }
+
+        &::before,
+        &::after {
+            background-color: currentColor;
+        }
+    }
+}

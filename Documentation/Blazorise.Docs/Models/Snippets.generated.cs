@@ -254,6 +254,19 @@ namespace Blazorise.Docs.Models
     bool visible = true;
 }";
 
+        public const string CustomColorsAlertExample = @"<Alert Color=""@(""#0F766E"")"" Visible>
+    <AlertMessage>Export ready.</AlertMessage>
+    <AlertDescription>Your report is ready to download.</AlertDescription>
+</Alert>
+<Alert Color=""@CssColor.Variable(""--accent"", ""#7C3AED"")"" Visible>
+    <AlertMessage>Draft saved.</AlertMessage>
+    <AlertDescription>You can continue editing whenever you are ready.</AlertDescription>
+</Alert>
+<Alert Color=""@(new Color(CssColor.Rgb(234, 88, 12)))"" Visible>
+    <AlertMessage>Review needed.</AlertMessage>
+    <AlertDescription>Check the selected files before continuing.</AlertDescription>
+</Alert>";
+
         public const string BadgeColorsExample = @"<Badge Color=""Color.Primary"">Primary</Badge>
 <Badge Color=""Color.Secondary"">Secondary</Badge>
 <Badge Color=""Color.Success"">Success</Badge>
@@ -275,6 +288,15 @@ namespace Blazorise.Docs.Models
         public const string BasicBadgeExample = @"<Badge Color=""Color.Primary"">Hello</Badge>";
 
         public const string CloseBadgeExample = @"<Badge Color=""Color.Primary"" CloseClicked=""@(()=>Console.WriteLine(""closed""))"">Primary</Badge>";
+
+        public const string CustomColorsBadgeExample = @"<Div Flex=""Flex.Wrap.AlignItems.Center"" Gap=""Gap.Is2"">
+    <Badge Color=""@(""#DBB5E6"")"">Lavender</Badge>
+    <Badge Color=""@(new Color(""#312E81""))"" Pill>Indigo pill</Badge>
+    <Badge Color=""@(""rgb(15, 118, 110)"")"" Subtle>Teal subtle</Badge>
+    <Badge Color=""@CssColor.Variable(""--accent"", ""#34D399"")"" Subtle>Accent subtle</Badge>
+    <Badge Color=""@(""#0284C7"")"">Sky</Badge>
+    <Badge Color=""@(""#FDE68A"")"">Amber</Badge>
+</Div>";
 
         public const string IconBadgeExample = @"<Badge Color=""Color.Success"">
     <Tooltip Text=""Confirmed"">
@@ -1003,6 +1025,13 @@ namespace Blazorise.Docs.Models
 <Button Color=""Color.Dark"">Dark</Button>
 <Button>None</Button>";
 
+        public const string CustomColorsButtonExample = @"<Div Flex=""Flex.Wrap.AlignItems.Center"" Gap=""Gap.Is2"">
+    <Button Color=""@(""#DBB5E6"")"">Lavender</Button>
+    <Button Color=""@(new Color(""#312E81""))"">Indigo</Button>
+    <Button Color=""@(""rgb(14, 165, 233)"")"" Outline>Sky outline</Button>
+    <Button Color=""@(new Color(CssColor.Variable(""--accent"", ""#34D399"")))"">Accent</Button>
+</Div>";
+
         public const string DisabledButtonExample = @"<Button Color=""Color.Primary"" Disabled>Primary</Button>
 <Button Color=""Color.Secondary"" Disabled>Secondary</Button>";
 
@@ -1707,6 +1736,21 @@ namespace Blazorise.Docs.Models
 
         public const string DateInputBasicExample = @"<DateInput TValue=""DateTime?"" />";
 
+        public const string DateInputCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <DateInput TValue=""DateOnly"" Value=""@(new DateOnly( 2026, 6, 15 ))"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <DateInput TValue=""DateOnly"" Value=""@(new DateOnly( 2026, 6, 15 ))"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <DateInput TValue=""DateOnly"" Value=""@(new DateOnly( 2026, 6, 15 ))"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
+
         public const string DateInputDateTimeExample = @"<DateInput TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" />";
 
         public const string DateInputShowPickerExample = @"<Field>
@@ -1738,6 +1782,21 @@ namespace Blazorise.Docs.Models
         selectedDate = date;
     }
 }";
+
+        public const string DatePickerCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <DatePicker TValue=""DateOnly"" Value=""@(new DateOnly( 2026, 6, 15 ))"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <DatePicker TValue=""DateOnly"" Value=""@(new DateOnly( 2026, 6, 15 ))"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <DatePicker TValue=""DateOnly"" Value=""@(new DateOnly( 2026, 6, 15 ))"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
 
         public const string DatePickerDefaultTimesExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" DefaultHour=""9"" DefaultMinute=""15"" />";
 
@@ -2340,6 +2399,31 @@ namespace Blazorise.Docs.Models
         return Task.CompletedTask;
     }
 }";
+
+        public const string CustomColorsDropdownExample = @"<Div Flex=""Flex.Wrap.AlignItems.Center"" Gap=""Gap.Is2"">
+    <Dropdown>
+        <DropdownToggle Color=""@(""#DBB5E6"")"">Lavender</DropdownToggle>
+        <DropdownMenu>
+            <DropdownItem>Edit</DropdownItem>
+            <DropdownItem>Duplicate</DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
+    <Dropdown>
+        <DropdownToggle Color=""@(""rgb(14, 165, 233)"")"" Outline>Sky outline</DropdownToggle>
+        <DropdownMenu>
+            <DropdownItem>Edit</DropdownItem>
+            <DropdownItem>Duplicate</DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
+    <Dropdown>
+        <Button Color=""@(new Color(""#312E81""))"">Save</Button>
+        <DropdownToggle Color=""@(new Color(""#312E81""))"" Split />
+        <DropdownMenu>
+            <DropdownItem>Save as draft</DropdownItem>
+            <DropdownItem>Save a copy</DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
+</Div>";
 
         public const string DropdownAnimationExample = @"<Field>
     <Switch @bind-Value=""animated"">Animate transitions</Switch>
@@ -3380,6 +3464,21 @@ namespace Blazorise.Docs.Models
 
         public const string BasicInputMaskExample = @"<InputMask Mask=""99-9999999"" />";
 
+        public const string InputMaskCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <InputMask Mask=""99-9999999"" Value=""12-3456789"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <InputMask Mask=""99-9999999"" Value=""12-3456789"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <InputMask Mask=""99-9999999"" Value=""12-3456789"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
+
         public const string InputMaskPlaceholderExample = @"<InputMask Mask=""99-9999999"" MaskPlaceholder=""X"" Placeholder=""Please enter a valid ID"" />";
 
         public const string BasicJumbotronExample = @"<Jumbotron Background=""Background.Light"" Margin=""Margin.Is4.FromBottom"">
@@ -3593,6 +3692,14 @@ namespace Blazorise.Docs.Models
     <ListGroupItem Disabled>A disabled item</ListGroupItem>
 </ListGroup>";
 
+        public const string CustomColorsListGroupExample = @"<ListGroup Mode=""ListGroupMode.Selectable"" SelectedItem=""indigo"">
+    <ListGroupItem Name=""lavender"" Color=""@(""#DBB5E6"")"">Lavender</ListGroupItem>
+    <ListGroupItem Name=""indigo"" Color=""@(new Color(""#312E81""))"">Indigo</ListGroupItem>
+    <ListGroupItem Name=""teal"" Color=""@(""rgb(15, 118, 110)"")"">Teal</ListGroupItem>
+    <ListGroupItem Name=""accent"" Color=""@CssColor.Variable(""--accent"", ""#34D399"")"">Accent</ListGroupItem>
+    <ListGroupItem Name=""disabled"" Color=""@(""#FDE68A"")"" Disabled>Disabled</ListGroupItem>
+</ListGroup>";
+
         public const string ListGroupBadgesExample = @"<ListGroup Flush>
     <ListGroupItem Flex=""Flex.JustifyContent.Between.AlignItems.Center"">
         A list item
@@ -3687,6 +3794,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string MemoInputBasicExample = @"<MemoInput Rows=""5"" />";
+
+        public const string MemoInputCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <MemoInput Rows=""3"" Value=""Indigo variant"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <MemoInput Rows=""3"" Value=""Teal variant"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <MemoInput Rows=""3"" Value=""Explicit text color"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
 
         public const string MemoInputTabExample = @"<MemoInput Rows=""5"" ReplaceTab TabSize=""4"" />";
 
@@ -3941,6 +4063,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     decimal? value = 123;
 }";
 
+        public const string NumericInputCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <NumericInput TValue=""int"" Value=""42"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <NumericInput TValue=""int"" Value=""65"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <NumericInput TValue=""int"" Value=""80"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
+
         public const string NumericInputGenericExample = @"<NumericInput TValue=""decimal?"" @bind-Value=""@value"" />
 @code {
     decimal? value = 123;
@@ -3949,6 +4086,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string NumericPickerBasicExample = @"<NumericPicker Value=""123"" />";
 
         public const string NumericPickerCurrencyExample = @"<NumericPicker TValue=""decimal?"" CurrencySymbol=""$"" Value=""456"" />";
+
+        public const string NumericPickerCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <NumericPicker TValue=""decimal"" Value=""42.5m"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <NumericPicker TValue=""decimal"" Value=""65.5m"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <NumericPicker TValue=""decimal"" Value=""80.5m"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
 
         public const string NumericPickerGenericExample = @"<NumericPicker TValue=""decimal?"" />";
 
@@ -4630,6 +4782,17 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string BasicProgressExample = @"<Progress Value=""25"" />";
 
+        public const string CustomColorsPageProgressExample = @"<PageProgress Color=""@(""#7C3AED"")"" Value=""65"" Visible Position=""Position.Relative"" Overflow=""Overflow.Hidden"" Margin=""Margin.Is3.FromBottom"" />
+<PageProgress Color=""@CssColor.Variable(""--accent"", ""#0F766E"")"" Visible Position=""Position.Relative"" Overflow=""Overflow.Hidden"" />";
+
+        public const string CustomColorsProgressExample = @"<Progress Color=""@(new Color(""#DBB5E6""))"" Value=""65"" Margin=""Margin.Is3.FromBottom"" />
+
+<Progress>
+    <ProgressBar Color=""Color.Success"" Value=""20"" />
+    <ProgressBar Color=""@(new Color(""#DBB5E6""))"" Value=""25"" />
+    <ProgressBar Color=""@(new Color(CssColor.Rgb(14, 165, 233)))"" Value=""20"" />
+</Progress>";
+
         public const string IndeterminatePageProgressExample = @"<PageProgress Visible />";
 
         public const string IndeterminateProgressExample = @"<Progress Indeterminate />";
@@ -5207,6 +5370,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Radio Value=""@(""blue"")"">Blue</Radio>
 </RadioGroup>";
 
+        public const string CustomColorsRadioExample = @"<RadioGroup TValue=""string"" Name=""custom-colors"" Buttons Color=""@(""#DBB5E6"")"" Value=""@(""lavender"")"">
+    <Radio Value=""@(""lavender"")"">Lavender</Radio>
+    <Radio Value=""@(""indigo"")"" Color=""@(new Color(""#312E81""))"">Indigo</Radio>
+    <Radio Value=""@(""accent"")"" Color=""@CssColor.Variable(""--accent"", ""#34D399"")"">Accent</Radio>
+    <Radio Value=""@(""disabled"")"" Color=""@(""#FDE68A"")"" Disabled>Disabled</Radio>
+</RadioGroup>";
+
         public const string RadioGroupButtonColorsExample = @"<RadioGroup TValue=""string"" Name=""side"" Buttons>
     <Radio Value=""@(""left"")"" Color=""Color.Danger"">Left</Radio>
     <Radio Value=""@(""middle"")"" Color=""Color.Warning"">Middle</Radio>
@@ -5260,6 +5430,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string BasicRatingExample = @"<Rating Color=""Color.Primary"" />";
+
+        public const string CustomColorsRatingExample = @"<Div Flex=""Flex.Column"" Gap=""Gap.Is3"">
+    <Rating Color=""@(""#7C3AED"")"" SelectedValue=""3"" />
+    <Rating Color=""@(new Color(CssColor.Rgb(15, 118, 110)))"" SelectedValue=""4"" ReadOnly />
+    <Rating Color=""@CssColor.Variable(""--accent"", ""#EA580C"")"" SelectedValue=""2"" Disabled />
+</Div>";
 
         public const string RatingWithBindExample = @"<Rating Color=""Color.Primary"" @bind-SelectedValue=""@SelectedValue"" MaxValue=""10"" />
 
@@ -5783,6 +5959,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string CustomColorsStepExample = @"<Steps SelectedStep=""review"">
+    <Step Name=""details"" Color=""@(""#0F766E"")"" Completed>Details</Step>
+    <Step Name=""review"" Color=""@(new Color(""#DBB5E6""))"">Review</Step>
+    <Step Name=""publish"" Color=""@CssColor.Variable(""--accent"", ""#7C3AED"")"">Publish</Step>
+</Steps>";
+
         public const string StepLazyLoadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyLoad"" SelectedStep=""step1"">
     <Items>
         <Step Name=""step1"">Step 1</Step>
@@ -5870,6 +6052,14 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string BasicSwitchExample = @"<Switch TValue=""bool"">Remember me</Switch>";
+
+        public const string CustomColorsSwitchExample = @"<Div Flex=""Flex.Wrap"" Gap=""Gap.Is3"">
+    <Switch TValue=""bool"" Color=""@(""#DBB5E6"")"" Value=""true"">Lavender</Switch>
+    <Switch TValue=""bool"" Color=""@(new Color(""#312E81""))"" Value=""true"">Indigo</Switch>
+    <Switch TValue=""bool"" Color=""@CssColor.Variable(""--accent"", ""#34D399"")"" Value=""true"">Accent</Switch>
+    <Switch TValue=""bool"" Color=""@(""rgb(15, 118, 110)"")"">Unchecked</Switch>
+    <Switch TValue=""bool"" Color=""@(""#FDE68A"")"" Value=""true"" Disabled>Disabled</Switch>
+</Div>";
 
         public const string SwitchAsyncSettingBestPracticeExample = @"<Fields>
     <Field>
@@ -6021,6 +6211,29 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             <TableRowCell>Larry</TableRowCell>
             <TableRowCell>the Bird</TableRowCell>
             <TableRowCell>@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
+        public const string CustomColorsTableExample = @"<Table Hoverable Striped>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>Project</TableHeaderCell>
+            <TableHeaderCell>Status</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow Color=""@(""#BAE6FD"")"">
+            <TableRowCell>Website</TableRowCell>
+            <TableRowCell>In progress</TableRowCell>
+        </TableRow>
+        <TableRow Color=""@(new Color(""#164E63""))"">
+            <TableRowCell>Mobile app</TableRowCell>
+            <TableRowCell Color=""@(""#FDBA74"")"">Review needed</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Documentation</TableRowCell>
+            <TableRowCell Color=""@CssColor.Variable(""--table-ready-color"", ""#A7F3D0"")"">Ready</TableRowCell>
         </TableRow>
     </TableBody>
 </Table>";
@@ -6500,7 +6713,45 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TextInputBasicExample = @"<TextInput />";
 
+        public const string TextInputCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <TextInput Value=""Indigo variant"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <TextInput Value=""Teal variant"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <TextInput Value=""Explicit text color"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
+
         public const string TextInputDisabledExample = @"<TextInput Disabled />";
+
+        public const string TextInputIntentColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Primary</FieldLabel>
+        <TextInput Value=""Primary variant"" Intent=""Intent.Primary"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Success (Color)</FieldLabel>
+        <TextInput Value=""Success variant"" Color=""Color.Success"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Success (Intent)</FieldLabel>
+        <TextInput Value=""Success variant"" Intent=""Intent.Success"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Warning</FieldLabel>
+        <TextInput Value=""Warning variant"" Intent=""Intent.Warning"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Danger</FieldLabel>
+        <TextInput Value=""Danger variant"" Intent=""Intent.Danger"" />
+    </Field>
+</Fields>";
 
         public const string TextInputMaskExample = @"<Fields>
     <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
@@ -6681,6 +6932,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TimeInputBasicExample = @"<TimeInput TValue=""TimeSpan?"" />";
 
+        public const string TimeInputCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <TimeInput TValue=""TimeOnly"" Value=""@(new TimeOnly( 9, 30 ))"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <TimeInput TValue=""TimeOnly"" Value=""@(new TimeOnly( 9, 30 ))"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <TimeInput TValue=""TimeOnly"" Value=""@(new TimeOnly( 9, 30 ))"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
+
         public const string TimeInputShowPickerExample = @"<Field>
     <Button Color=""Color.Primary"" Clicked=""@(() => timeInputRef.ShowPicker())"">
         Show Picker
@@ -6718,6 +6984,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 @code {
     TimeSpan? value;
 }";
+
+        public const string TimePickerCustomColorsExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Indigo</FieldLabel>
+        <TimePicker TValue=""TimeOnly"" Value=""@(new TimeOnly( 9, 30 ))"" Color=""@(""#312E81"")"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Teal</FieldLabel>
+        <TimePicker TValue=""TimeOnly"" Value=""@(new TimeOnly( 9, 30 ))"" Color=""@(new Color( CssColor.Rgb( 15, 118, 110 ) ))"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <TimePicker TValue=""TimeOnly"" Value=""@(new TimeOnly( 9, 30 ))"" Color=""@CssColor.Variable( ""--input-accent"", ""#7C3AED"" )"" TextColor=""@(new TextColor( ""#0F766E"" ))"" />
+    </Field>
+</Fields>";
 
         public const string TimePickerDefaultTimesExample = @"<TimePicker TValue=""TimeSpan?"" DefaultHour=""9"" DefaultMinute=""15"" />";
 
@@ -26391,6 +26672,21 @@ dotnet add package Blazorise.Icons.Material";
     @Body
 </LoadingIndicator>";
 
+        public const string LoadingIndicatorCustomColorsExample = @"<Row>
+    <Column ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"" Margin=""Margin.Is3.FromBottom"">
+        <Paragraph>Success</Paragraph>
+        <LoadingIndicator Visible Height=""Height.Px(100)"" SpinnerColor=""Color.Success"" />
+    </Column>
+    <Column ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"" Margin=""Margin.Is3.FromBottom"">
+        <Paragraph>Lavender</Paragraph>
+        <LoadingIndicator Visible Height=""Height.Px(100)"" SpinnerColor=""@(""#DBB5E6"")"" />
+    </Column>
+    <Column ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"" Margin=""Margin.Is3.FromBottom"">
+        <Paragraph>Accent</Paragraph>
+        <LoadingIndicator Visible Height=""Height.Px(100)"" SpinnerColor=""@CssColor.Variable( ""--spinner-accent"", ""#0F766E"" )"" />
+    </Column>
+</Row>";
+
         public const string LoadingIndicatorImportsExample = @"@using Blazorise.LoadingIndicator";
 
         public const string LoadingIndicatorNugetInstallExample = @"dotnet add package Blazorise.LoadingIndicator";
@@ -30948,6 +31244,21 @@ builder.Services
 }";
 
         public const string SpinKitColorExample = @"<SpinKit Type=""SpinKitType.Plane"" Color=""Color.Success"" />";
+
+        public const string SpinKitCustomColorsExample = @"<Row>
+    <Column ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"" Margin=""Margin.Is3.FromBottom"">
+        <Paragraph>Primary</Paragraph>
+        <SpinKit Type=""SpinKitType.Chase"" Color=""Color.Primary"" />
+    </Column>
+    <Column ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"" Margin=""Margin.Is3.FromBottom"">
+        <Paragraph>Lavender</Paragraph>
+        <SpinKit Type=""SpinKitType.Chase"" Color=""@(""#DBB5E6"")"" />
+    </Column>
+    <Column ColumnSize=""ColumnSize.IsFull.OnMobile.Is4.OnTablet"" Margin=""Margin.Is3.FromBottom"">
+        <Paragraph>Accent</Paragraph>
+        <SpinKit Type=""SpinKitType.Chase"" Color=""@CssColor.Variable( ""--spinner-accent"", ""#0F766E"" )"" />
+    </Column>
+</Row>";
 
         public const string SpinKitExample = @"<SpinKit Type=""SpinKitType.Plane"" />";
 

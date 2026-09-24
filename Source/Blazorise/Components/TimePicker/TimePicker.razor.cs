@@ -297,6 +297,14 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     }
 
     /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.TimePickerColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
+    /// <inheritdoc/>
     protected override Task OnChangeHandler( ChangeEventArgs eventArgs )
     {
         return ProcessInputTextAsync( eventArgs?.Value?.ToString(), formatParsedValue: true );

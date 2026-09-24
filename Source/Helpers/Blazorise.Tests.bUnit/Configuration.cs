@@ -2,6 +2,7 @@
 using Blazorise.Licensing;
 using Blazorise.Localization;
 using Blazorise.Modules;
+using Blazorise.Themes;
 using Blazorise.Utilities;
 using Blazorise.Utilities.Vendors;
 using Blazorise.Vendors;
@@ -26,6 +27,7 @@ public static class Configuration
         services.Replace( ServiceDescriptor.Transient<IComponentActivator, ComponentActivator>() );
         services.AddSingleton( new Mock<IComponentDisposer>().Object );
         services.AddSingleton<IIdGenerator>( new IdGenerator() );
+        services.AddSingleton<IThemeCache, ThemeCache>();
         services.AddSingleton<IEditContextValidator>( sp => new EditContextValidator( new ValidationMessageLocalizerAttributeFinder(), sp ) );
         services.AddSingleton<IValidationHandlerFactory, ValidationHandlerFactory>();
         services.AddSingleton<ValidatorValidationHandler>();

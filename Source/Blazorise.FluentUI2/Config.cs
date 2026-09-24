@@ -67,6 +67,7 @@ public static class Config
         { typeof( Blazorise.FieldHelp ), typeof( Components.FieldHelp ) },
         { typeof( Blazorise.FieldLabel ), typeof( Components.FieldLabel ) },
         { typeof( Blazorise.FileInput ), typeof( Components.FileInput ) },
+        { typeof( Blazorise.InputMask ), typeof( Components.InputMask ) },
         { typeof( Blazorise.MemoInput ), typeof( Components.MemoInput ) },
         { typeof( Blazorise.Modal ), typeof( Components.Modal ) },
         { typeof( Blazorise.ModalContent ), typeof( Components.ModalContent ) },

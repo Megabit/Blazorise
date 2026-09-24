@@ -56,6 +56,14 @@ public partial class ListGroupItem : BaseComponent
     }
 
     /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.ListGroupItemColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
+    /// <inheritdoc/>
     protected override void Dispose( bool disposing )
     {
         if ( disposing )
@@ -225,6 +233,7 @@ public partial class ListGroupItem : BaseComponent
             color = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

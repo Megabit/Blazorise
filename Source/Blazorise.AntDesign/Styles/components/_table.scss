@@ -315,3 +315,47 @@
         }
     }
 }
+
+.ant-table {
+    > .ant-table-container > .ant-table-content > table > :is(tbody, thead, tfoot) > tr.ant-table-row.ant-table-custom {
+        > :is(th, td):not(#{$table-contextual-cell-selectors}, .ant-table-custom) {
+            background-color: var(--ant-table-row-bg);
+            color: var(--ant-color-text);
+            border-color: color-mix(in srgb, var(--ant-table-row-bg) 70%, black);
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(var(--ant-table-row-bg));
+            }
+        }
+    }
+
+    &.ant-table-striped > .ant-table-container > .ant-table-content > table > tbody > tr.ant-table-row.ant-table-custom:nth-of-type(odd) {
+        > :is(th, td):not(#{$table-contextual-cell-selectors}, .ant-table-custom) {
+            background-color: color-mix(in srgb, var(--ant-table-row-bg) 90%, black);
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(color-mix(in srgb, var(--ant-table-row-bg) 90%, black));
+            }
+        }
+    }
+
+    &.ant-table-hover > .ant-table-container > .ant-table-content > table > tbody > tr.ant-table-row.ant-table-custom:hover {
+        > :is(th, td):not(#{$table-contextual-cell-selectors}, .ant-table-custom) {
+            background-color: color-mix(in srgb, var(--ant-table-row-bg) 85%, black);
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(color-mix(in srgb, var(--ant-table-row-bg) 85%, black));
+            }
+        }
+    }
+
+    > .ant-table-container > .ant-table-content > table > :is(tbody, thead, tfoot) > tr.ant-table-row > td.ant-table-cell.ant-table-custom {
+        background-color: var(--ant-table-row-bg);
+        color: var(--ant-color-text);
+        border-color: color-mix(in srgb, var(--ant-table-row-bg) 70%, black);
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--ant-table-row-bg));
+        }
+    }
+}

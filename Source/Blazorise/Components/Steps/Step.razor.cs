@@ -70,6 +70,14 @@ public partial class Step : BaseComponent<StepClasses, StepStyles>, IDisposable
         base.BuildClasses( builder );
     }
 
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.StepItemColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
     /// <summary>
     /// Builds the classnames for a marker element.
     /// </summary>
@@ -184,6 +192,7 @@ public partial class Step : BaseComponent<StepClasses, StepStyles>, IDisposable
             color = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

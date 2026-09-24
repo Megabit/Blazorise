@@ -1,3 +1,29 @@
+@each $name in $theme-variants {
+    .mui-input-color-#{$name} {
+        @extend %mui-input-color;
+        --mui-input-border-color: var(--mui-#{$name});
+    }
+}
+
+.mui-input-color-link {
+    @extend %mui-input-color;
+    --mui-input-border-color: var(--mui-primary);
+}
+
+.mui-input-colored {
+    @extend %mui-input-color;
+}
+
+%mui-input-color {
+    &.mui-input:not(:disabled):not(.is-valid, .is-warning, .is-invalid) {
+        border-color: var(--mui-input-border-color);
+
+        &:focus {
+            border-color: var(--mui-input-border-color);
+        }
+    }
+}
+
 .mui-input,
 .mui-input-plaintext,
 .mui-select {

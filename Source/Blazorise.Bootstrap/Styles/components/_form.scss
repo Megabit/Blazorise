@@ -54,6 +54,28 @@ textarea {
     }
 }
 
+@each $name, $color in $theme-colors {
+    .form-control-#{$name} {
+        @extend %form-control-color;
+        --bs-input-border-color: #{$color};
+    }
+}
+
+.form-control-colored {
+    @extend %form-control-color;
+}
+
+%form-control-color {
+    &.form-control:not(:disabled):not(.is-valid, .is-warning, .is-invalid):not(.was-validated .form-control) {
+        border-color: var(--bs-input-border-color);
+
+        &:focus {
+            border-color: var(--bs-input-border-color);
+            box-shadow: 0 0 0 var(--bs-focus-ring-width, #{$input-focus-width}) color-mix(in srgb, var(--bs-input-border-color), transparent 75%);
+        }
+    }
+}
+
 .form-control {
     &-xs {
         height: $input-height-xs;

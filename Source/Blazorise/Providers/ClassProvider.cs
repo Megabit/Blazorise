@@ -25,6 +25,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string MemoInputSize( Size size );
 
+    public virtual string MemoInputColor( Color color ) => TextInputColor( color );
+
     public abstract string MemoInputValidation( ValidationStatus validationStatus );
 
     #endregion

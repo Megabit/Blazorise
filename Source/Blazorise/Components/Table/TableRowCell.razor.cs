@@ -48,6 +48,8 @@ public partial class TableRowCell : BaseDraggableComponent, IDisposable
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
+        builder.Append( StyleProvider.TableRowCellColor( Color ) );
+
         if ( FixedPosition == TableColumnFixedPosition.Start )
         {
             if ( ParentTable.FixedColumnsPositionSync )
@@ -214,6 +216,7 @@ public partial class TableRowCell : BaseDraggableComponent, IDisposable
             color = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

@@ -165,3 +165,21 @@ td:focus {
         }
     }
 }
+
+.table .table-custom {
+    --bs-table-color: #{$body-color};
+    --bs-table-border-color: color-mix(in srgb, var(--bs-table-bg) 70%, black);
+    --bs-table-striped-bg: color-mix(in srgb, var(--bs-table-bg) 90%, black);
+    --bs-table-striped-color: var(--bs-table-color);
+    --bs-table-active-bg: color-mix(in srgb, var(--bs-table-bg) 80%, black);
+    --bs-table-active-color: var(--bs-table-color);
+    --bs-table-hover-bg: color-mix(in srgb, var(--bs-table-bg) 85%, black);
+    --bs-table-hover-color: var(--bs-table-color);
+
+    @supports (color: contrast-color(white)) {
+        --bs-table-color: contrast-color(var(--bs-table-bg));
+        --bs-table-striped-color: contrast-color(var(--bs-table-striped-bg));
+        --bs-table-active-color: contrast-color(var(--bs-table-active-bg));
+        --bs-table-hover-color: contrast-color(var(--bs-table-hover-bg));
+    }
+}

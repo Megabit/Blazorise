@@ -121,6 +121,28 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Custom colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use custom CSS colors for solid and subtle badges.</CardText>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is2">
+                    <Badge Color="@("#DBB5E6")">Lavender</Badge>
+                    <Badge Color="@(new Color("#312E81"))" Pill>Indigo pill</Badge>
+                    <Badge Color="@("rgb(15, 118, 110)")" Subtle>Teal subtle</Badge>
+                    <Badge Color="@CssColor.Variable("--accent", "#34D399")" Subtle>Accent subtle</Badge>
+                    <Badge Color="@("#0284C7")">Sky</Badge>
+                    <Badge Color="@("#FDE68A")">Amber</Badge>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 @code {
     [Inject] private INotificationService NotificationService { get; set; }
 }

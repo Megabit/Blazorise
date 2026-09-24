@@ -5,6 +5,54 @@ namespace Blazorise.FluentUI2.Providers;
 
 public class FluentUI2StyleProvider : StyleProvider
 {
+    #region Component colors
+
+    public override string TextInputColor( Color color ) => ColorStyle( color, "--colorInputBorder" );
+
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
+
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
+
+    public override string DateInputColor( Color color ) => TextInputColor( color );
+
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
+
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
+
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
+
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
+
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
+
+    public override string ListGroupItemColor( Color color ) => ColorStyle( color, "--colorListGroupItemBackground" );
+
+    public override string TableRowColor( Color color ) => ColorStyle( color, "--colorTableCellBackground" );
+
+    public override string TableRowCellColor( Color color ) => ColorStyle( color, "--colorTableCellBackground" );
+
+    public override string SwitchColor( Color color ) => ColorStyle( color, "--colorSwitchBackground" );
+
+    public override string RatingItemColor( Color color ) => ColorStyle( color, "--colorRatingForeground" );
+
+    public override string StepItemColor( Color color ) => ColorStyle( color, "--colorStepBackground" );
+
+    public override string PageProgressIndicatorColor( Color color ) => ColorStyle( color, "--colorPageProgressBackground" );
+
+    #endregion
+
+    #region Badge
+
+    public override string BadgeColor( Color color ) => ColorStyle( color, "--colorBadgeBackground" );
+
+    #endregion
+
+    #region Button
+
+    public override string ButtonColor( Color color ) => ColorStyle( color, "--colorBrandBackground" );
+
+    #endregion
+
     #region MemoInput
 
     public override string MemoInputAutoSize( int minimumRows ) => $"--fui-textarea-min-block-size: {minimumRows}lh";
@@ -33,6 +81,8 @@ public class FluentUI2StyleProvider : StyleProvider
     #endregion
 
     #region Alert
+
+    public override string AlertColor( Color color ) => ColorStyle( color, "--colorMessageBarBackground" );
 
     public override string AlertAnimationDuration( int? animationDuration )
         => animationDuration.HasValue ? $"--fui-alert-animation-duration: {animationDuration.Value}ms" : null;
@@ -79,6 +129,8 @@ public class FluentUI2StyleProvider : StyleProvider
     #endregion
 
     #region ProgressBar
+
+    public override string ProgressBarColor( Color color ) => ColorStyle( color, "--colorCompoundBrandBackground" );
 
     public override string ProgressBarValue( int value ) => $"width: {value}%";
 

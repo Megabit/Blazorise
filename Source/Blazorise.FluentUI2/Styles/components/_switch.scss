@@ -293,3 +293,27 @@
         }
     }
 }
+
+.fui-Switch__input.fui-Switch__input-custom {
+    &:checked ~ .fui-Switch__indicator {
+        background-color: var(--colorSwitchBackground);
+        color: var(--colorNeutralForegroundInverted);
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--colorSwitchBackground));
+        }
+    }
+
+    &:enabled:checked:hover ~ .fui-Switch__indicator {
+        background-color: color-mix(in srgb, var(--colorSwitchBackground) 85%, black);
+    }
+
+    &:focus-visible ~ .fui-Switch__indicator {
+        outline: 2px solid var(--colorSwitchBackground);
+        outline-offset: 2px;
+    }
+
+    &:disabled:checked ~ .fui-Switch__indicator {
+        opacity: .5;
+    }
+}

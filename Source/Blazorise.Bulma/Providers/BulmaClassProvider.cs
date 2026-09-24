@@ -15,7 +15,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TextInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "is-colored" : color.IsNotNullOrDefault() ? $"is-color-{ToColor( color )}" : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -26,6 +26,8 @@ public class BulmaClassProvider : ClassProvider
     public override string MemoInput( bool plaintext ) => plaintext ? "textarea is-static" : "textarea";
 
     public override string MemoInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
+
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
 
     public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -49,7 +51,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string NumericInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string NumericInputColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
 
     public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -61,7 +63,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DateInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => TextInputColor( color );
 
     public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -73,7 +75,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TimeInputSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
 
     public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -93,7 +95,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -153,7 +155,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -192,7 +194,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -204,7 +206,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -253,7 +255,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Switch() => "switch";
 
-    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string SwitchColor( Color color ) => color?.IsCssValue == true ? "is-custom" : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
@@ -335,7 +337,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string RatingItem() => "rating-item";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string RatingItemColor( Color color ) => color?.IsCssValue == true ? "is-custom" : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => null;
 
@@ -529,7 +531,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Button( bool outline ) => "button";
 
-    public override string ButtonColor( Color color, bool outline ) => outline
+    public override string ButtonColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "is-custom is-outlined" : "is-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"is-{ToColor( color )} is-outlined" : $"is-{ToColor( color )} is-outlined"
         : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
@@ -614,7 +618,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
 
-    public override string DropdownToggleColor( Color color, bool outline ) => outline
+    public override string DropdownToggleColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "is-custom is-outlined" : "is-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"is-{ToColor( color )} is-outlined" : $"is-outlined"
         : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
@@ -761,7 +767,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "is-completed" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string StepItemColor( Color color ) => color?.IsCssValue == true ? "is-custom" : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "step-marker";
 
@@ -875,7 +881,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
-    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"is-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color?.IsCssValue == true ? "is-custom" : $"is-{ToColor( color )}";
 
     #endregion
 
@@ -1125,7 +1131,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Alert() => "notification";
 
-    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string AlertColor( Color color ) => color?.IsCssValue == true
+        ? "is-custom"
+        : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string AlertDismisable( bool dismissable ) => null;
 
@@ -1323,7 +1331,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => $"is-{ToSize( size )}";
 
-    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
+    public override string ProgressBarColor( Color color ) => color?.IsCssValue == true
+        ? "is-custom"
+        : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string ProgressBarStriped( bool striped ) => striped ? "progress-striped" : null;
 
@@ -1339,7 +1349,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string PageProgressIndicator() => "b-page-progress-indicator";
 
-    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
+    public override string PageProgressIndicatorColor( Color color ) => color?.IsCssValue == true ? "is-custom" : color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
 
     public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "b-page-progress-indicator-indeterminate" : null;
 
@@ -1397,7 +1407,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => null;
 
-    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"has-background-{ToColor( color )}" : null;
+    public override string TableRowColor( Color color ) => color?.IsCssValue == true ? "is-custom" : color.IsNotNullOrDefault() ? $"has-background-{ToColor( color )}" : null;
 
     public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "table-row-selectable" : null;
 
@@ -1417,7 +1427,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableRowCell() => null;
 
-    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"has-background-{ToColor( color )}" : null;
+    public override string TableRowCellColor( Color color ) => color?.IsCssValue == true ? "is-custom" : color.IsNotNullOrDefault() ? $"has-background-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {
@@ -1454,14 +1464,16 @@ public class BulmaClassProvider : ClassProvider
     public override string Badge() => "tag";
 
     public override string BadgeColor( Color color, bool subtle )
-        => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true
+            ? subtle ? "is-custom-subtle" : "is-custom"
+            : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     public override string BadgePill( bool pill ) => null;
 
     public override string BadgeClose() => "delete is-small";
 
     public override string BadgeCloseColor( Color color, bool subtle )
-            => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true ? null : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     #endregion
 

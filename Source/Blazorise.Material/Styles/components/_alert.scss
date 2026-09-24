@@ -104,3 +104,27 @@
 .mui-alert {
     @include visibility-transition((opacity var(--mui-duration-normal), background-color var(--mui-duration-normal), color var(--mui-duration-normal), border-color var(--mui-duration-normal), box-shadow var(--mui-duration-normal)), (opacity, background-color, color, border-color, box-shadow, display));
 }
+
+.mui-alert.mui-alert-custom {
+    background-color: color-mix(in srgb, var(--mui-alert-bg) 15%, var(--mui-surface-container-low));
+    border-color: color-mix(in srgb, var(--mui-alert-bg) 35%, var(--mui-surface-container-low));
+    color: color-mix(in srgb, var(--mui-alert-bg) 40%, var(--mui-on-surface));
+
+    @supports (color: contrast-color(white)) {
+        color: color-mix(in srgb, var(--mui-alert-bg) 30%, contrast-color(color-mix(in srgb, var(--mui-alert-bg) 15%, var(--mui-surface-container-low))));
+    }
+
+    .alert-link,
+    .mui-alert-link {
+        color: inherit;
+    }
+
+    .mui-button-close {
+        color: inherit;
+
+        &:hover,
+        &:focus {
+            color: inherit;
+        }
+    }
+}

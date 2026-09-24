@@ -1,0 +1,16 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Fields>
+    <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is4.OnTablet">
+        <FieldLabel>Indigo</FieldLabel>
+        <TimePicker TValue="TimeOnly" Value="@(new TimeOnly( 9, 30 ))" Color="@("#312E81")" />
+    </Field>
+    <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is4.OnTablet">
+        <FieldLabel>Teal</FieldLabel>
+        <TimePicker TValue="TimeOnly" Value="@(new TimeOnly( 9, 30 ))" Color="@(new Color( CssColor.Rgb( 15, 118, 110 ) ))" />
+    </Field>
+    <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is4.OnTablet">
+        <FieldLabel>Explicit text color</FieldLabel>
+        <TimePicker TValue="TimeOnly" Value="@(new TimeOnly( 9, 30 ))" Color="@CssColor.Variable( "--input-accent", "#7C3AED" )" TextColor="@(new TextColor( "#0F766E" ))" />
+    </Field>
+</Fields>

@@ -42,6 +42,26 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Custom colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use custom CSS colors for rating icons in interactive, read-only, and disabled ratings.</CardText>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.Column" Gap="Gap.Is3">
+                    <Rating Color="@("#7C3AED")" SelectedValue="3" />
+                    <Rating Color="@(new Color(CssColor.Rgb(15, 118, 110)))" SelectedValue="4" ReadOnly />
+                    <Rating Color="@CssColor.Variable("--accent", "#EA580C")" SelectedValue="2" Disabled />
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
 @code {
     public int SelectedValue { get; set; } = 2;
     public int SelectedMaterialValue { get; set; } = 1;

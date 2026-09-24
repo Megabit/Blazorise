@@ -1,0 +1,8 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<RadioGroup TValue="string" Name="custom-colors" Buttons Color="@("#DBB5E6")" Value="@("lavender")">
+    <Radio Value="@("lavender")">Lavender</Radio>
+    <Radio Value="@("indigo")" Color="@(new Color("#312E81"))">Indigo</Radio>
+    <Radio Value="@("accent")" Color="@CssColor.Variable("--accent", "#34D399")">Accent</Radio>
+    <Radio Value="@("disabled")" Color="@("#FDE68A")" Disabled>Disabled</Radio>
+</RadioGroup>

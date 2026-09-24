@@ -24,6 +24,7 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
         ButtonsClassBuilder = new( BuildButtonsClasses, builder => builder.Append( Classes?.Buttons ) );
         ButtonUpClassBuilder = new( BuildButtonUpClasses, builder => builder.Append( Classes?.ButtonUp ) );
         ButtonDownClassBuilder = new( BuildButtonDownClasses, builder => builder.Append( Classes?.ButtonDown ) );
+        InputClassBuilder = new( BuildInputClasses );
     }
 
     #endregion
@@ -56,6 +57,7 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
         ButtonsClassBuilder.Dirty();
         ButtonUpClassBuilder.Dirty();
         ButtonDownClassBuilder.Dirty();
+        InputClassBuilder.Dirty();
 
         base.DirtyClasses();
     }
@@ -80,7 +82,14 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
 
     private void BuildNumericWrapperStyles( StyleBuilder builder )
     {
+        builder.Append( StyleProvider.NumericPickerColor( Color ) );
         AppendWrapperUtilities( builder );
+    }
+
+    private void BuildInputClasses( ClassBuilder builder )
+    {
+        builder.Append( "ant-input-number-input" );
+        builder.Append( ClassProvider.NumericPickerColor( Color ) );
     }
 
     private void BuildButtonsClasses( ClassBuilder builder )
@@ -114,6 +123,8 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
 
     protected ClassBuilder ButtonDownClassBuilder { get; private set; }
 
+    protected ClassBuilder InputClassBuilder { get; private set; }
+
     protected string NumericWrapperClassNames => NumericWrapperClassBuilder.Class;
 
     protected string NumericWrapperStyleNames => NumericWrapperStyleBuilder.Styles;
@@ -128,7 +139,7 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
         ? $"{ClassNames} {NumericWrapperClassNames} ant-input-number-mode-input ant-input-number-disabled{( ReadOnly ? " ant-input-number-readonly" : null )}"
         : $"{ClassNames} {NumericWrapperClassNames} ant-input-number-mode-input{( ReadOnly ? " ant-input-number-readonly" : null )}{( !IsShowStepButtons ? " ant-input-number-without-controls" : null )}";
 
-    protected string InputClassNames => string.Join( " ", "ant-input-number-input", ClassProvider.NumericPickerColor( Color ) ).Trim();
+    protected string InputClassNames => InputClassBuilder.Class;
 
     #endregion
 }

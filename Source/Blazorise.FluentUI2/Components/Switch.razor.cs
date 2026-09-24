@@ -13,6 +13,7 @@ public partial class Switch<TValue>
         InputClassBuilder = new ClassBuilder( BuildInputClasses, builder => builder.Append( Classes?.Wrapper ) );
         AddonClassBuilder = new ClassBuilder( BuildAddonClasses );
         WrapperStyleBuilder = new StyleBuilder( BuildWrapperStyles, builder => builder.Append( Styles?.Wrapper ) );
+        IndicatorStyleBuilder = new StyleBuilder( BuildIndicatorStyles );
     }
 
     #endregion
@@ -30,6 +31,7 @@ public partial class Switch<TValue>
     protected internal override void DirtyStyles()
     {
         WrapperStyleBuilder.Dirty();
+        IndicatorStyleBuilder.Dirty();
 
         base.DirtyStyles();
     }
@@ -76,6 +78,11 @@ public partial class Switch<TValue>
         AppendWrapperUtilities( builder );
     }
 
+    private void BuildIndicatorStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.SwitchColor( Color ) );
+    }
+
     #endregion
 
     #region Properties
@@ -86,11 +93,15 @@ public partial class Switch<TValue>
 
     protected StyleBuilder WrapperStyleBuilder { get; private set; }
 
+    protected StyleBuilder IndicatorStyleBuilder { get; private set; }
+
     protected string InputClassNames => InputClassBuilder.Class;
 
     protected string AddonClassNames => AddonClassBuilder.Class;
 
     protected string WrapperStyleNames => WrapperStyleBuilder.Styles;
+
+    protected string IndicatorStyleNames => IndicatorStyleBuilder.Styles;
 
     #endregion
 }

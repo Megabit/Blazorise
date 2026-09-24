@@ -225,6 +225,32 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>Custom picker colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>Set custom border and focus colors while keeping the text color independent.</Paragraph>
+                <Fields>
+                    <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is4.OnTablet">
+                        <FieldLabel>Date</FieldLabel>
+                        <DatePicker TValue="DateOnly" Value="@(new DateOnly( 2026, 6, 15 ))" Color="@("#312E81")" />
+                    </Field>
+                    <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is4.OnTablet">
+                        <FieldLabel>Time</FieldLabel>
+                        <TimePicker TValue="TimeOnly" Value="@(new TimeOnly( 9, 30 ))" Color="@(new Color( "#0F766E" ))" />
+                    </Field>
+                    <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is4.OnTablet">
+                        <FieldLabel>Number</FieldLabel>
+                        <NumericPicker TValue="decimal" Value="42.5m" Color="@CssColor.Variable( "--input-accent", "#7C3AED" )" />
+                    </Field>
+                </Fields>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 @code {
     DateOnly? d1;
     DateTime? dt1 = DateTime.Now;

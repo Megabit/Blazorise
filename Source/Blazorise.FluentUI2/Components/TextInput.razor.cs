@@ -38,6 +38,11 @@ public partial class TextInput
     {
         builder.Append( "fui-Input" );
 
+        if ( !Plaintext && !IsDisabled && ( ParentValidation?.Status ?? ValidationStatus.None ) == ValidationStatus.None )
+        {
+            builder.Append( ClassProvider.TextInputColor( Color ) );
+        }
+
         if ( Plaintext )
         {
             builder.Append( "fui-Input-plaintext" );
@@ -72,12 +77,19 @@ public partial class TextInput
     private void BuildAddonClasses( ClassBuilder builder )
     {
         builder.Append( "fui-Input__content" );
+
+        if ( !Plaintext && !IsDisabled && ( ParentValidation?.Status ?? ValidationStatus.None ) == ValidationStatus.None )
+        {
+            builder.Append( ClassProvider.TextInputColor( Color ) );
+        }
+
         builder.Append( Classes?.Wrapper );
         AppendWrapperUtilities( builder );
     }
 
     private void BuildWrapperStyles( StyleBuilder builder )
     {
+        builder.Append( StyleProvider.TextInputColor( Color ) );
         AppendWrapperUtilities( builder );
     }
 

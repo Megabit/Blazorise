@@ -1055,3 +1055,5 @@ $spacing-properties: (margin: fui-Margin, padding: fui-Padding) !default;
 $sizing-properties: (width: fui-Width, height: fui-Height) !default;
 $border-sides: (top: "top", right: "end", bottom: "bottom", left: "start") !default;
 $border-sizes: (0: var(--strokeWidthNone), 1: var(--strokeWidthThin), 2: var(--strokeWidthThick), 3: var(--strokeWidthThicker), 4: var(--strokeWidthThickest), 5: var(--strokeWidthMax)) !default;
+
+$table-contextual-cell-selectors: ".fui-TableCell-primary, .fui-TableCell-secondary, .fui-TableCell-success, .fui-TableCell-danger, .fui-TableCell-warning, .fui-TableCell-info, .fui-TableCell-light, .fui-TableCell-dark, .fui-TableCell-link";

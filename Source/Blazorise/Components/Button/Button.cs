@@ -64,6 +64,14 @@ public partial class Button : BaseComponent, IAsyncDisposable
     }
 
     /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.ButtonColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         // notify dropdown that the button is inside of it
@@ -408,6 +416,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
             color = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

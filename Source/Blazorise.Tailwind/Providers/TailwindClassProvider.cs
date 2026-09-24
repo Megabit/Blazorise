@@ -30,7 +30,9 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string TextInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault()
+        ? "[&:not(:disabled,.border-none,.b-is-valid,.b-is-warning,.b-is-invalid)]:border-[color:var(--tw-input-color)] [&:not(:disabled,.border-none,.b-is-valid,.b-is-warning,.b-is-invalid):focus]:ring-[color:var(--tw-input-color)]"
+        : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -55,6 +57,8 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
+
     public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
@@ -77,7 +81,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string NumericInputSize( Size size ) => TextInputSize( size );
 
-    public override string NumericInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
 
     public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -89,7 +93,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DateInputSize( Size size ) => TextInputSize( size );
 
-    public override string DateInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => TextInputColor( color );
 
     public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -101,7 +105,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TimeInputSize( Size size ) => TextInputSize( size );
 
-    public override string TimeInputColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
 
     public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -132,7 +136,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => TextInputSize( size );
 
-    public override string DatePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -192,7 +196,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => TextInputSize( size );
 
-    public override string TimePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -242,7 +246,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => TextInputSize( size );
 
-    public override string NumericPickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -254,7 +258,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => TextInputSize( size );
 
-    public override string InputMaskColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -336,7 +340,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Switch() => "sr-only peer";
 
-    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
+    public override string SwitchColor( Color color ) => color?.IsCssValue == true ? null : color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => null;
 
@@ -525,7 +529,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string RatingItem() => "w-5 h-5";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}-400" : null;
+    public override string RatingItemColor( Color color ) => color?.IsCssValue == true ? "text-[color:var(--tw-rating-color)]" : color.IsNotNullOrDefault() ? $"text-{ToColor( color )}-400" : null;
 
     public override string RatingItemSelected( bool selected ) => null;
 
@@ -749,6 +753,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ButtonColor( Color color, bool outline )
     {
+        if ( color?.IsCssValue == true )
+            return BuildCustomButtonColorClasses( outline );
+
         var name = color?.Name;
 
         if ( outline )
@@ -781,6 +788,30 @@ public class TailwindClassProvider : ClassProvider
             "link" => "b-button-link text-primary-600 dark:text-primary-500 hover:underline",
             _ => null,
         };
+    }
+
+    private static string BuildCustomButtonColorClasses( bool outline )
+    {
+        const string interactionClasses =
+            "border-[color:var(--tw-button-bg)] ring-[color:color-mix(in_srgb,var(--tw-button-bg)_50%,transparent)] "
+            + "[&:is(:disabled,[aria-disabled=true])]:ring-0 "
+            + "[&:where(:hover):not(:disabled):not([aria-disabled=true])]:bg-[color:var(--tw-button-hover-bg)] "
+            + "[&:where(:hover):not(:disabled):not([aria-disabled=true])]:border-[color:var(--tw-button-hover-bg)] "
+            + "[&:where(:hover):not(:disabled):not([aria-disabled=true])]:text-white "
+            + "supports-[color:contrast-color(white)]:[&:where(:hover):not(:disabled):not([aria-disabled=true])]:text-[color:contrast-color(var(--tw-button-hover-bg))] "
+            + "[&:is(:active,.active,[aria-expanded=true]):not(:disabled):not([aria-disabled=true])]:bg-[color:var(--tw-button-active-bg)] "
+            + "[&:is(:active,.active,[aria-expanded=true]):not(:disabled):not([aria-disabled=true])]:border-[color:var(--tw-button-active-bg)] "
+            + "[&:is(:active,.active,[aria-expanded=true]):not(:disabled):not([aria-disabled=true])]:text-white "
+            + "supports-[color:contrast-color(white)]:[&:is(:active,.active,[aria-expanded=true]):not(:disabled):not([aria-disabled=true])]:text-[color:contrast-color(var(--tw-button-active-bg))]";
+
+        return outline
+            ? "border border-solid bg-transparent text-[color:var(--tw-button-bg)] "
+                + "[--tw-button-hover-bg:var(--tw-button-bg)] [--tw-button-active-bg:var(--tw-button-bg)] "
+                + interactionClasses
+            : "bg-[color:var(--tw-button-bg)] text-white supports-[color:contrast-color(white)]:text-[color:contrast-color(var(--tw-button-bg))] "
+                + "[--tw-button-hover-bg:color-mix(in_srgb,var(--tw-button-bg)_85%,black)] "
+                + "[--tw-button-active-bg:color-mix(in_srgb,var(--tw-button-bg)_80%,black)] "
+                + interactionClasses;
     }
 
     public override string ButtonSize( Size size, bool outline )
@@ -827,7 +858,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region CloseButton
 
-    public override string CloseButton() => "text-sm inline-flex";
+    public override string CloseButton() => "tw-close-button text-sm inline-flex";
 
     #endregion
 
@@ -875,19 +906,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownMenuEnd( bool endAligned ) => endAligned ? "b-dropdown-menu-right" : null;
 
-    public override string DropdownToggle( bool isDropdownSubmenu, bool outline )
-    {
-        var sb = new StringBuilder( isDropdownSubmenu
-            ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            : "b-button b-dropdown-toggle focus:outline-hidden font-medium text-sm text-center inline-flex items-center" );
-
-        if ( outline )
-        {
-            sb.Append( " focus:ring-4" );
-        }
-
-        return sb.ToString();
-    }
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu
+        ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        : "b-button b-dropdown-toggle focus:outline-hidden font-medium text-sm text-center inline-flex items-center";
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu
         ? "b-dropdown-toggle-submenu"
@@ -895,6 +916,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownToggleColor( Color color, bool outline )
     {
+        if ( color?.IsCssValue == true )
+            return BuildCustomButtonColorClasses( outline );
+
         var name = color?.Name;
 
         if ( outline )
@@ -1097,12 +1121,26 @@ public class TailwindClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "b-step-completed" : null;
 
-    public override string StepItemColor( Color color ) => null;
+    public override string StepItemColor( Color color ) => color?.IsCssValue == true
+        ? "[&.b-step-completed_.b-step-item-head-icon]:bg-[color:var(--tw-step-bg)] "
+            + "[&.b-step-completed_.b-step-item-head-icon]:text-white "
+            + "supports-[color:contrast-color(white)]:[&.b-step-completed_.b-step-item-head-icon]:text-[color:contrast-color(var(--tw-step-bg))] "
+            + "[&.b-step-completed_.b-step-item-head]:before:!bg-[color:var(--tw-step-bg)] "
+            + "[&.b-step-completed_.b-step-item-head]:after:!bg-[color:var(--tw-step-bg)]"
+        : null;
 
     public override string StepItemMarker() => "b-step-item-head-icon my-6 mr-2 flex justify-center items-center rounded-full w-7 h-7 text-sm border-2";
 
     public override string StepItemMarkerColor( Color color, bool active )
     {
+        if ( color?.IsCssValue == true )
+        {
+            const string sharedClasses = "border-[color:var(--tw-step-bg)] ";
+
+            return active
+                ? sharedClasses + "bg-[color:var(--tw-step-bg)] text-white supports-[color:contrast-color(white)]:text-[color:contrast-color(var(--tw-step-bg))] shadow-md shadow-[color:color-mix(in_srgb,var(--tw-step-bg)_30%,transparent)]"
+                : sharedClasses + "text-[color:var(--tw-step-bg)]";
+        }
         var name = color?.Name;
 
         if ( active )
@@ -1271,6 +1309,31 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ListGroupItemColor( Color color, bool selectable, bool active )
     {
+        if ( color?.IsCssValue == true )
+        {
+            StringBuilder builder = new( "!bg-[color:var(--tw-list-group-fill)] border-[color:color-mix(in_srgb,var(--tw-list-group-bg)_35%,var(--tw-list-group-fill))] [&.b-listgroup-item-disabled]:opacity-50 [&.b-listgroup-item-disabled]:pointer-events-none " );
+
+            if ( active )
+            {
+                builder.Append( "[--tw-list-group-fill:var(--tw-list-group-bg)] text-white supports-[color:contrast-color(white)]:text-[color:contrast-color(var(--tw-list-group-fill))]" );
+            }
+            else
+            {
+                builder.Append( "[--tw-list-group-fill:color-mix(in_srgb,var(--tw-list-group-bg)_15%,var(--color-white))] dark:[--tw-list-group-fill:color-mix(in_srgb,var(--tw-list-group-bg)_20%,var(--color-gray-900))] " );
+                builder.Append( "text-[color:color-mix(in_srgb,var(--tw-list-group-bg)_40%,var(--color-gray-900))] dark:text-[color:color-mix(in_srgb,var(--tw-list-group-bg)_40%,var(--color-gray-100))] " );
+                builder.Append( "supports-[color:contrast-color(white)]:text-[color:color-mix(in_srgb,var(--tw-list-group-bg)_30%,contrast-color(var(--tw-list-group-fill)))] dark:supports-[color:contrast-color(white)]:text-[color:color-mix(in_srgb,var(--tw-list-group-bg)_30%,contrast-color(var(--tw-list-group-fill)))]" );
+
+                if ( selectable )
+                {
+                    builder.Append( " [&:hover:not(.b-listgroup-item-disabled)]:[--tw-list-group-fill:color-mix(in_srgb,var(--tw-list-group-bg)_25%,var(--color-white))] dark:[&:hover:not(.b-listgroup-item-disabled)]:[--tw-list-group-fill:color-mix(in_srgb,var(--tw-list-group-bg)_30%,var(--color-gray-900))]" );
+                }
+            }
+
+            if ( selectable )
+                builder.Append( " focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[color:var(--tw-list-group-bg)]" );
+
+            return builder.ToString();
+        }
         var sb = new StringBuilder();
 
         var name = color?.Name;
@@ -1654,6 +1717,18 @@ public class TailwindClassProvider : ClassProvider
 
     public override string AlertColor( Color color )
     {
+        if ( color?.IsCssValue == true )
+            return "[--tw-alert-fill:color-mix(in_srgb,var(--tw-alert-bg)_15%,var(--color-white))] "
+                + "dark:[--tw-alert-fill:color-mix(in_srgb,var(--tw-alert-bg)_20%,var(--color-gray-950))] "
+                + "bg-[color:var(--tw-alert-fill)] text-[color:color-mix(in_srgb,var(--tw-alert-bg)_40%,var(--color-gray-900))] "
+                + "dark:text-[color:color-mix(in_srgb,var(--tw-alert-bg)_40%,var(--color-gray-100))] "
+                + "supports-[color:contrast-color(white)]:text-[color:color-mix(in_srgb,var(--tw-alert-bg)_30%,contrast-color(var(--tw-alert-fill)))] "
+                + "dark:supports-[color:contrast-color(white)]:text-[color:color-mix(in_srgb,var(--tw-alert-bg)_30%,contrast-color(var(--tw-alert-fill)))] "
+                + "border border-[color:color-mix(in_srgb,var(--tw-alert-bg)_35%,var(--tw-alert-fill))] "
+                + "[&_.alert-link]:text-inherit [&_.tw-close-button]:text-inherit [&_.tw-close-button:hover]:text-inherit "
+                + "[&_.tw-close-button]:bg-transparent [&_.tw-close-button:hover]:bg-current/10 "
+                + "[&_.tw-close-button:focus]:ring-current/30";
+
         if ( color.IsNullOrDefault() )
             return null;
 
@@ -1925,6 +2000,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ProgressBarColor( Color color )
     {
+        if ( color?.IsCssValue == true )
+            return "bg-[color:var(--tw-progress-bar-bg)] text-white supports-[color:contrast-color(white)]:text-[color:contrast-color(var(--tw-progress-bar-bg))]";
+
         if ( color.IsNullOrDefault() )
             return null;
 
@@ -1958,7 +2036,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string PageProgressIndicator() => "b-page-progress-indicator";
 
-    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
+    public override string PageProgressIndicatorColor( Color color ) => color?.IsCssValue == true ? "!bg-[color:var(--tw-page-progress-bg)]" : color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
 
     public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "b-page-progress-indicator-indeterminate" : null;
 
@@ -2067,6 +2145,16 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowColor( Color color )
     {
+        if ( color?.IsCssValue == true )
+        {
+            return "[--tw-table-fill:var(--tw-table-bg)] !bg-[color:var(--tw-table-fill)] text-white "
+                + "supports-[color:contrast-color(white)]:text-[color:contrast-color(var(--tw-table-fill))] "
+                + "[.b-table-striped_&:nth-of-type(odd)]:[--tw-table-fill:color-mix(in_srgb,var(--tw-table-bg)_90%,black)] "
+                + "[.b-table-hoverable_&:hover]:[--tw-table-fill:color-mix(in_srgb,var(--tw-table-bg)_85%,black)] "
+                + "[&>td:not(.tw-table-cell-colored)]:bg-[color:var(--tw-table-fill)] "
+                + "[&>td:not(.tw-table-cell-colored)]:text-inherit "
+                + "[&>th]:!bg-[color:var(--tw-table-fill)] [&>th]:!text-inherit";
+        }
         if ( color.IsNullOrDefault() )
             return null;
 
@@ -2080,7 +2168,7 @@ public class TailwindClassProvider : ClassProvider
             "danger" => "!text-danger-700 !bg-danger-100 !dark:bg-danger-200 !dark:text-danger-800",
             "warning" => "!text-warning-700 !bg-warning-100 !dark:bg-warning-200 !dark:text-warning-800",
             "info" => "!text-info-700 !bg-info-100 !dark:bg-info-200 !dark:text-info-800",
-            "light" => "!text-light-500 bg-light-100 !dark:bg-light-100 !dark:text-light-600",
+            "light" => "!text-light-500 !bg-light-100 !dark:bg-light-100 !dark:text-light-600",
             "dark" => "!text-dark-100 !bg-dark-800 !dark:bg-dark-300 !dark:text-dark-700",
             "link" => "!text-primary-600 !dark:text-primary-500 !hover:underline",
             _ => name,
@@ -2105,7 +2193,11 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowCell() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4";
 
-    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
+    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault()
+        ? color.IsCssValue
+            ? "tw-table-cell-colored !bg-[color:var(--tw-table-bg)] !text-white supports-[color:contrast-color(white)]:!text-[color:contrast-color(var(--tw-table-bg))]"
+            : TableRowColor( color )
+        : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {
@@ -2145,6 +2237,26 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BadgeColor( Color color, bool subtle )
     {
+        if ( color?.IsCssValue == true )
+        {
+            const string sharedClasses = "bg-[color:var(--tw-badge-fill)] [&[href]:focus-visible]:outline-2 [&[href]:focus-visible]:outline-current [&[href]:focus-visible]:outline-offset-2 ";
+
+            return subtle
+                ? sharedClasses
+                    + "[--tw-badge-fill:color-mix(in_srgb,var(--tw-badge-bg)_12%,var(--color-white))] "
+                    + "dark:[--tw-badge-fill:color-mix(in_srgb,var(--tw-badge-bg)_20%,var(--color-gray-950))] "
+                    + "text-[color:color-mix(in_srgb,var(--tw-badge-bg)_40%,var(--color-gray-900))] "
+                    + "dark:text-[color:color-mix(in_srgb,var(--tw-badge-bg)_40%,var(--color-gray-100))] "
+                    + "supports-[color:contrast-color(white)]:text-[color:color-mix(in_srgb,var(--tw-badge-bg)_30%,contrast-color(var(--tw-badge-fill)))] "
+                    + "dark:supports-[color:contrast-color(white)]:text-[color:color-mix(in_srgb,var(--tw-badge-bg)_30%,contrast-color(var(--tw-badge-fill)))] "
+                    + "border border-[color:color-mix(in_srgb,var(--tw-badge-bg)_30%,var(--tw-badge-fill))] "
+                    + "[&[href]:hover]:[--tw-badge-fill:color-mix(in_srgb,var(--tw-badge-bg)_25%,var(--color-white))] "
+                    + "dark:[&[href]:hover]:[--tw-badge-fill:color-mix(in_srgb,var(--tw-badge-bg)_30%,var(--color-gray-950))]"
+                : sharedClasses
+                    + "[--tw-badge-fill:var(--tw-badge-bg)] text-white supports-[color:contrast-color(white)]:text-[color:contrast-color(var(--tw-badge-fill))] "
+                    + "[&[href]:hover]:[--tw-badge-fill:color-mix(in_srgb,var(--tw-badge-bg)_85%,black)]";
+        }
+
         if ( color.IsNullOrDefault() )
             return null;
 
@@ -2187,7 +2299,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BadgeClose() => null;
 
-    public override string BadgeCloseColor( Color color, bool subtle ) => BadgeColor( color, subtle );
+    public override string BadgeCloseColor( Color color, bool subtle ) => color?.IsCssValue == true
+        ? "text-inherit bg-transparent hover:bg-current/10 focus-visible:outline-2 focus-visible:outline-current"
+        : BadgeColor( color, subtle );
 
     #endregion
 

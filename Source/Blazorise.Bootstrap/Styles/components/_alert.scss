@@ -5,3 +5,27 @@
 .alert {
     @include visibility-transition($transition-fade);
 }
+
+.alert.alert-custom {
+    background-color: color-mix(in srgb, var(--bs-alert-bg) 15%, $body-bg);
+    border-color: color-mix(in srgb, var(--bs-alert-bg) 35%, $body-bg);
+    color: color-mix(in srgb, var(--bs-alert-bg) 40%, $body-color);
+
+    @supports (color: contrast-color(white)) {
+        color: color-mix(in srgb, var(--bs-alert-bg) 30%, contrast-color(color-mix(in srgb, var(--bs-alert-bg) 15%, $body-bg)));
+    }
+
+    .alert-link {
+        color: inherit;
+    }
+
+    .close {
+        color: inherit;
+        text-shadow: none;
+
+        &:hover,
+        &:focus {
+            color: inherit;
+        }
+    }
+}

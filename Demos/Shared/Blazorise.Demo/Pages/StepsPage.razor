@@ -68,7 +68,7 @@
 
 <Row>
     <Column ColumnSize="ColumnSize.IsFull">
-        <Card>
+        <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Navigation control</CardTitle>
             </CardHeader>
@@ -122,6 +122,26 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Custom colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Give each step a custom color for its marker and active or completed state.</CardText>
+            </CardBody>
+            <CardBody>
+                <Steps SelectedStep="review">
+                    <Step Name="details" Color="@("#0F766E")" Completed>Details</Step>
+                    <Step Name="review" Color="@(new Color("#DBB5E6"))">Review</Step>
+                    <Step Name="publish" Color="@CssColor.Variable("--accent", "#7C3AED")">Publish</Step>
+                </Steps>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
 @code {
     private Steps stepsRef;
     private string email;

@@ -60,3 +60,12 @@
         }
     }
 }
+
+.fui-Rating .fui-RatingItem.fui-RatingItem-custom {
+    color: var(--colorRatingForeground);
+
+    .fui-RatingItem__selectedIcon,
+    .fui-RatingItem__unselectedOutlineIcon {
+        color: inherit;
+    }
+}

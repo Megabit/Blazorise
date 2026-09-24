@@ -15,7 +15,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TextInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "fui-Input-colored" : color.IsNotNullOrDefault() ? $"fui-Input-color-{ToColor( color )}" : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
@@ -26,6 +26,8 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string MemoInput( bool plaintext ) => plaintext ? "fui-Textarea__input-plaintext" : "fui-Textarea__input";
 
     public override string MemoInputSize( Size size ) => size != Size.Default ? $"fui-Textarea__input-{ToSize( size )}" : null;
+
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
 
     public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Textarea__input-{ToValidationStatus( validationStatus )}" : null;
 
@@ -49,7 +51,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string NumericInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string NumericInputColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
 
     public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
@@ -61,7 +63,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DateInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => TextInputColor( color );
 
     public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
@@ -73,7 +75,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TimeInputSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
 
     public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
@@ -93,7 +95,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
@@ -153,7 +155,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
@@ -192,7 +194,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"fui-SpinButton__input-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-SpinButton-{ToValidationStatus( validationStatus )}" : null;
 
@@ -204,7 +206,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
@@ -264,7 +266,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Switch() => "fui-Switch__input";
 
-    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
+    public override string SwitchColor( Color color ) => color?.IsCssValue == true ? "fui-Switch__input-custom" : color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => size != Size.Default ? $"fui-Switch__input-{ToSize( size )}" : null;
 
@@ -346,7 +348,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string RatingItem() => "fui-RatingItem";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-RatingItem-{ToColor( color )}" : null;
+    public override string RatingItemColor( Color color ) => color?.IsCssValue == true ? "fui-RatingItem-custom" : color.IsNotNullOrDefault() ? $"fui-RatingItem-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => selected ? "fui-RatingItem-selected" : null;
 
@@ -539,7 +541,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Button( bool outline ) => "fui-Button";
 
-    public override string ButtonColor( Color color, bool outline ) => outline
+    public override string ButtonColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "fui-ButtonOutline-custom" : "fui-Button-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"{Button( outline )}Outline-{ToColor( color )}" : $"{Button( outline )}Outline"
         : color.IsNotNullOrDefault() ? $"{Button( outline )}-{ToColor( color )}" : null;
 
@@ -628,7 +632,9 @@ public class FluentUI2ClassProvider : ClassProvider
         ? "fui-MenuItem"
         : "fui-Button fui-MenuButton";
 
-    public override string DropdownToggleColor( Color color, bool outline ) => outline
+    public override string DropdownToggleColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "fui-ButtonOutline-custom" : "fui-Button-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"fui-ButtonOutline-{ToColor( color )}" : $"fui-ButtonOutline"
         : color.IsNotNullOrDefault() ? $"fui-Button-{ToColor( color )}" : null;
 
@@ -784,7 +790,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "fui-Step-completed" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
+    public override string StepItemColor( Color color ) => color?.IsCssValue == true ? "fui-Step-custom" : color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "fui-Step__circle";
 
@@ -898,7 +904,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled( bool disabled ) => disabled ? "fui-ListGroupItem-disabled" : null;
 
-    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color.IsNotNullOrDefault() ? $"{ListGroupItem()}-{base.ToColor( color )}" : null;
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color?.IsCssValue == true ? "fui-ListGroupItem-custom" : color.IsNotNullOrDefault() ? $"{ListGroupItem()}-{base.ToColor( color )}" : null;
 
     #endregion
 
@@ -1252,7 +1258,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Alert() => "fui-MessageBar";
 
-    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-MessageBar-{ToColor( color )}" : null;
+    public override string AlertColor( Color color ) => color?.IsCssValue == true
+        ? "fui-MessageBar-custom"
+        : color.IsNotNullOrDefault() ? $"fui-MessageBar-{ToColor( color )}" : null;
 
     public override string AlertDismisable( bool dismissable ) => dismissable ? "fui-MessageBar-closable" : null;
 
@@ -1438,7 +1446,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => size == Size.Default ? null : $"fui-ProgressBar__bar-{ToSize( size )}";
 
-    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-ProgressBar__bar-{ToColor( color )}" : null;
+    public override string ProgressBarColor( Color color ) => color?.IsCssValue == true
+        ? "fui-ProgressBar__bar-custom"
+        : color.IsNotNullOrDefault() ? $"fui-ProgressBar__bar-{ToColor( color )}" : null;
 
     public override string ProgressBarStriped( bool striped ) => striped ? "fui-ProgressBar__bar-striped" : null;
 
@@ -1454,7 +1464,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string PageProgressIndicator() => "fui-PageProgress__indicator";
 
-    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-PageProgress__indicator--{ToColor( color )}" : null;
+    public override string PageProgressIndicatorColor( Color color ) => color?.IsCssValue == true ? "fui-PageProgress__indicator--custom" : color.IsNotNullOrDefault() ? $"fui-PageProgress__indicator--{ToColor( color )}" : null;
 
     public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "fui-PageProgress__indicator--indeterminate" : null;
 
@@ -1512,7 +1522,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => "fui-TableRow";
 
-    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TableRow-{ToColor( color )}" : null;
+    public override string TableRowColor( Color color ) => color?.IsCssValue == true ? "fui-TableRow-custom" : color.IsNotNullOrDefault() ? $"fui-TableRow-{ToColor( color )}" : null;
 
     public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "fui-TableRow-selectable" : null;
 
@@ -1532,7 +1542,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableRowCell() => "fui-TableCell";
 
-    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TableCell-{ToColor( color )}" : null;
+    public override string TableRowCellColor( Color color ) => color?.IsCssValue == true ? "fui-TableCell-custom" : color.IsNotNullOrDefault() ? $"fui-TableCell-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {
@@ -1569,14 +1579,16 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string Badge() => "fui-Badge";
 
     public override string BadgeColor( Color color, bool subtle )
-        => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true
+            ? subtle ? "fui-Badge-custom-subtle" : "fui-Badge-custom"
+            : color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     public override string BadgePill( bool pill ) => pill ? $"{Badge()}-pill" : null;
 
     public override string BadgeClose() => "fui-Badge__close";
 
     public override string BadgeCloseColor( Color color, bool subtle )
-        => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true ? null : color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     #endregion
 

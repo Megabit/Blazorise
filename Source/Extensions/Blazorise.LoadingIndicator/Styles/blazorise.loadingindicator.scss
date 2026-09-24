@@ -1,3 +1,11 @@
+@import "variables";
+
+:root {
+    @each $name, $color in $loading-indicator-colors {
+        --b-loading-indicator-color-#{$name}: #{$color};
+    }
+}
+
 @keyframes b-loading-indicator-overlay-fadein {
     0% {
         opacity: 0;

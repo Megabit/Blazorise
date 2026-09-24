@@ -343,28 +343,6 @@ body:before {
   line-height: var(--text-base--line-height);
 }
 
-.b-input {
-  height: calc(var(--spacing) * 10);
-}
-.b-input-xs {
-  height: calc(var(--spacing) * 8);
-}
-.b-input-sm {
-  height: calc(var(--spacing) * 9);
-}
-.b-input-md {
-  height: calc(var(--spacing) * 12);
-}
-.b-input-lg {
-  height: calc(var(--spacing) * 13);
-}
-.b-input-xl {
-  height: calc(var(--spacing) * 14);
-}
-.b-input[multiple] {
-  height: auto;
-}
-
 .b-card-group > .b-card {
   flex: 1 0 0%;
 }
@@ -1301,11 +1279,11 @@ body:before {
   margin-left: 0;
 }
 
-.b-button-group:not(.b-button-group-vertical) > .b-dropdown:first-child > .b-dropdown-toggle {
+.b-button-group:not(.b-button-group-vertical) > .b-dropdown:not(:last-child) > .b-dropdown-toggle {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.b-button-group:not(.b-button-group-vertical) > .b-dropdown:last-child > .b-dropdown-toggle {
+.b-button-group:not(.b-button-group-vertical) > .b-dropdown:not(:first-child) > .b-dropdown-toggle {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }

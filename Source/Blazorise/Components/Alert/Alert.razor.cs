@@ -91,6 +91,7 @@ public partial class Alert : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
+        builder.Append( StyleProvider.AlertColor( Color ) );
         builder.Append( StyleProvider.AlertAnimationDuration( EffectiveAnimationDuration ) );
 
         base.BuildStyles( builder );
@@ -308,7 +309,7 @@ public partial class Alert : BaseComponent, IDisposable
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
     /// <summary>
-    /// Specifies the alert color.
+    /// Specifies the contextual or explicit CSS color of the alert.
     /// </summary>
     [Parameter]
     public Color Color
@@ -319,6 +320,7 @@ public partial class Alert : BaseComponent, IDisposable
             state = state with { Color = value };
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

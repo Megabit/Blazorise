@@ -61,3 +61,29 @@
 .ant-alert {
     @include visibility-transition(opacity var(--ant-motion-duration-slow) var(--ant-motion-ease-in-out));
 }
+
+.ant-alert.ant-alert-custom {
+    background-color: color-mix(in srgb, var(--ant-alert-bg) 15%, var(--ant-color-bg-container));
+    border-color: color-mix(in srgb, var(--ant-alert-bg) 35%, var(--ant-color-bg-container));
+    color: color-mix(in srgb, var(--ant-alert-bg) 40%, var(--ant-color-text));
+
+    @supports (color: contrast-color(white)) {
+        color: color-mix(in srgb, var(--ant-alert-bg) 30%, contrast-color(color-mix(in srgb, var(--ant-alert-bg) 15%, var(--ant-color-bg-container))));
+    }
+
+    .alert-link,
+    .ant-alert-title,
+    .ant-alert-description,
+    .ant-alert-icon {
+        color: inherit;
+    }
+
+    .ant-alert-close-icon {
+        color: inherit;
+
+        &:hover,
+        &:focus {
+            color: inherit;
+        }
+    }
+}

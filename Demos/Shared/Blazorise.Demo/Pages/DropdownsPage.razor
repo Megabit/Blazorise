@@ -223,6 +223,42 @@
             </CardBody>
         </Card>
     </Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Custom colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use custom CSS colors for dropdown toggles, outlined toggles, and matching split buttons.</CardText>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is2">
+                    <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration">
+                        <DropdownToggle Color="@("#DBB5E6")">Lavender</DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem>Edit</DropdownItem>
+                            <DropdownItem>Duplicate</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                    <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration">
+                        <DropdownToggle Color="@("rgb(14, 165, 233)")" Outline>Sky outline</DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem>Edit</DropdownItem>
+                            <DropdownItem>Duplicate</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                    <Dropdown Animated="@AppSettings.AnimationSettings.Animated" AnimationDuration="@AppSettings.AnimationSettings.AnimationDuration">
+                        <Button Color="@(new Color( "#0F766E" ))">Save</Button>
+                        <DropdownToggle Color="@(new Color( "#0F766E" ))" Split />
+                        <DropdownMenu>
+                            <DropdownItem>Save as draft</DropdownItem>
+                            <DropdownItem>Save a copy</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
 </Row>
 
 @code {

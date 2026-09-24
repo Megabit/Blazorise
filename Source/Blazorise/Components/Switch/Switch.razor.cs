@@ -55,6 +55,14 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue, SwitchClasses, 
         base.BuildClasses( builder );
     }
 
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.SwitchColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
     #endregion
 
     #region Properties
@@ -78,6 +86,7 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue, SwitchClasses, 
         {
             color = value;
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

@@ -179,6 +179,28 @@
     </Column>
 </Row>
 
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Custom colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use custom CSS colors for list items, including selected and disabled states.</CardText>
+            </CardBody>
+            <CardBody>
+                <ListGroup Mode="ListGroupMode.Selectable" SelectedItem="indigo">
+                    <ListGroupItem Name="lavender" Color="@("#DBB5E6")">Lavender</ListGroupItem>
+                    <ListGroupItem Name="indigo" Color="@(new Color("#312E81"))">Indigo</ListGroupItem>
+                    <ListGroupItem Name="teal" Color="@("rgb(15, 118, 110)")">Teal</ListGroupItem>
+                    <ListGroupItem Name="accent" Color="@CssColor.Variable("--accent", "#34D399")">Accent</ListGroupItem>
+                    <ListGroupItem Name="disabled" Color="@("#FDE68A")" Disabled>Disabled</ListGroupItem>
+                </ListGroup>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
 @code {
     private bool flush;
     private string selectedItem = "first";

@@ -102,3 +102,28 @@
         }
     }
 }
+
+.fui-Steps .fui-Step.fui-Step-custom {
+    .fui-Step__circle > svg {
+        fill: var(--colorStepBackground);
+    }
+
+    .fui-Step__circle-number {
+        color: var(--colorStepBackground);
+    }
+
+    &.fui-Step-active,
+    &.fui-Step-completed {
+        .fui-Step__circle-number {
+            color: var(--colorNeutralForegroundInverted);
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(var(--colorStepBackground));
+            }
+        }
+    }
+
+    &.fui-Step-completed:not(:last-child)::after {
+        background-color: var(--colorStepBackground);
+    }
+}

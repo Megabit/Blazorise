@@ -85,6 +85,14 @@ public partial class InputMask : BaseBufferedTextInput<string>, IAsyncDisposable
     }
 
     /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.InputMaskColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
+    /// <inheritdoc/>
     protected override Task OnChangeHandler( ChangeEventArgs e )
     {
         return CurrentValueHandler( e?.Value?.ToString() );

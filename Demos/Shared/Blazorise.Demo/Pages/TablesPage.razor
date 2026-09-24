@@ -691,6 +691,43 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Custom colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Set a custom color on a whole row or override individual cells.</CardText>
+            </CardBody>
+            <CardBody>
+                <Table Hoverable Striped>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderCell>Project</TableHeaderCell>
+                            <TableHeaderCell>Status</TableHeaderCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        <TableRow Color="@("#BAE6FD")">
+                            <TableRowCell>Website</TableRowCell>
+                            <TableRowCell>In progress</TableRowCell>
+                        </TableRow>
+                        <TableRow Color="@(new Color("#164E63"))">
+                            <TableRowCell>Mobile app</TableRowCell>
+                            <TableRowCell Color="@("#FDBA74")">Review needed</TableRowCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowCell>Documentation</TableRowCell>
+                            <TableRowCell Color="@CssColor.Variable("--table-ready-color", "#A7F3D0")">Ready</TableRowCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
 @code {
     class ProductInfo
     {

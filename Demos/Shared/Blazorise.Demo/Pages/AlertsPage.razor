@@ -151,6 +151,32 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Custom colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use a custom CSS color to style the alert background, border, and text.</CardText>
+            </CardBody>
+            <CardBody>
+                <Alert Color="@("#0F766E")" Visible>
+                    <AlertMessage>Export ready.</AlertMessage>
+                    <AlertDescription>Your report is ready to download.</AlertDescription>
+                </Alert>
+                <Alert Color="@CssColor.Variable("--accent", "#7C3AED")" Visible>
+                    <AlertMessage>Draft saved.</AlertMessage>
+                    <AlertDescription>You can continue editing whenever you are ready.</AlertDescription>
+                </Alert>
+                <Alert Color="@(new Color(CssColor.Rgb(234, 88, 12)))" Visible>
+                    <AlertMessage>Review needed.</AlertMessage>
+                    <AlertDescription>Check the selected files before continuing.</AlertDescription>
+                </Alert>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 @code {
     bool dismisableAlert1 = true;
     bool dismisableAlert2 = true;

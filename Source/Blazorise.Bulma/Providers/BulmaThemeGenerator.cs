@@ -1035,14 +1035,9 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
     {
-        if ( BulmaThemeColors.Contains( variant ) )
-            return;
-
-        var color = ToHex( ParseColor( inColor ) );
-
-        sb.Append( $".input.is-{variant}" )
+        sb.Append( $".is-color-{variant}" )
             .Append( "{" )
-            .Append( $"color: {color};" )
+            .Append( $"--bulma-input-custom-color: {inColor};" )
             .AppendLine( "}" );
     }
 
