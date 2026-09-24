@@ -87,7 +87,9 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Dropdown checkboxes">
-        Set Checkbox to true to render a checkbox by each dropdown item.
+        Set <Code>ShowCheckbox</Code> to true to render a checkbox by each dropdown item.
+        Use <Code>Indeterminate</Code> to show a partial selection, such as when some but not all options are selected.
+        Calculate this state from your selections and update it through <Code>CheckedChanged</Code>; it does not change <Code>Checked</Code> automatically.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="DropdownCheckboxExample" Outlined>
         <DropdownCheckboxExample />

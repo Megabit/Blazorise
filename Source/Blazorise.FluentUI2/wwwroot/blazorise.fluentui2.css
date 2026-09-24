@@ -5399,7 +5399,7 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
   display: inline;
   line-height: 0;
 }
-.fui-Menu .fui-MenuPopover .fui-MenuList .fui-MenuItem[aria-checked=true] .fui-MenuItem__checkmark {
+.fui-Menu .fui-MenuPopover .fui-MenuList .fui-MenuItem[aria-checked=true] .fui-MenuItem__checkmark, .fui-Menu .fui-MenuPopover .fui-MenuList .fui-MenuItem[aria-checked=mixed] .fui-MenuItem__checkmark {
   visibility: visible;
 }
 .fui-Menu .fui-MenuPopover .fui-MenuList .fui-MenuItem .fui-MenuItem__submenuIndicator {

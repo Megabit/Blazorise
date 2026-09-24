@@ -17,7 +17,7 @@
                      @onmousedown:stopPropagation
                      @onclick:preventDefault
                      @onclick:stopPropagation>
-                    <Check Cursor="Cursor.Pointer" TValue="bool" Value="@(@checked)" ValueChanged="@CheckedChangedHandler" ValueExpression="@checkedExpression" Disabled="@Disabled" ReadOnly>
+                    <Check Cursor="Cursor.Pointer" TValue="bool" Value="@(@checked)" ValueChanged="@CheckedChangedHandler" ValueExpression="@checkedExpression" Indeterminate="@Indeterminate" Disabled="@Disabled" ReadOnly>
                         <span id="@AriaLabelledBy">
                             @ChildContent
                         </span>

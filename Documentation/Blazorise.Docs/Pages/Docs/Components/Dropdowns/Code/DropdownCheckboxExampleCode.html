@@ -5,12 +5,30 @@
         Dropdown With Checkboxes
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DropdownToggle</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropdownMenu</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropdownItem</span> <span class="htmlAttributeName">ShowCheckbox</span><span class="htmlTagDelimiter">&gt;</span>Checkbox<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropdownItem</span> <span class="htmlAttributeName">ShowCheckbox</span> <span class="htmlAttributeName">Checked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>IsAllSelected</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Indeterminate</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>IsPartiallySelected</span><span class="quot">&quot;</span> <span class="htmlAttributeName">CheckedChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnSelectAllChangedHandler</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Select all<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropdownDivider</span> <span class="htmlTagDelimiter">/&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropdownItem</span> <span class="htmlAttributeName">ShowCheckbox</span><span class="htmlTagDelimiter">&gt;</span>Another Checkbox<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropdownItem</span> <span class="htmlAttributeName">ShowCheckbox</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Checked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">firstSelected</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>First option<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropdownItem</span> <span class="htmlAttributeName">ShowCheckbox</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Checked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">secondSelected</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Second option<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropdownItem</span> <span class="htmlAttributeName">ShowCheckbox</span> <span class="htmlAttributeName">Disabled</span><span class="htmlTagDelimiter">&gt;</span>Checkbox Disabled<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DropdownItem</span><span class="htmlTagDelimiter">&gt;</span>Action<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DropdownMenu</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Dropdown</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">bool</span> firstSelected = <span class="keyword">true</span>;
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> secondSelected;
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> IsAllSelected =&gt; firstSelected &amp;&amp; secondSelected;
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> IsPartiallySelected =&gt; firstSelected != secondSelected;
+
+    <span class="keyword">private</span> <span class="keyword">void</span> OnSelectAllChangedHandler( <span class="keyword">bool</span> isChecked )
+    {
+        firstSelected = isChecked;
+        secondSelected = isChecked;
+    }
+}
 </pre></div>
 </div>
