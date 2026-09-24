@@ -55,6 +55,108 @@ public class GanttComponentTest : BunitContext
         Assert.Equal( SortDirection.Descending, descendingSort.SortDirection );
     }
 
+    [Theory]
+    [InlineData( false )]
+    [InlineData( true )]
+    public async Task SearchMode_Should_PreserveMatchingSubtrees_AndAncestorPaths( bool hierarchicalData )
+    {
+        var items = new List<SearchTask>
+        {
+            new() { Id = "1", Title = "Project" },
+            new() { Id = "2", ParentId = "1", Title = "Planning" },
+            new() { Id = "3", ParentId = "2", Title = "Research" },
+            new() { Id = "4", ParentId = "1", Title = "Delivery" },
+            new() { Id = "5", Title = "Unrelated" },
+        };
+
+        foreach ( var item in items )
+        {
+            item.Start = DateTime.Today;
+            item.End = DateTime.Today.AddDays( 1 );
+        }
+
+        items[0].Items.AddRange( new[] { items[1], items[3] } );
+        items[1].Items.Add( items[2] );
+
+        var comp = Render<Gantt<SearchTask>>( parameters =>
+        {
+            parameters.Add( x => x.Data, hierarchicalData ? new[] { items[0], items[4] } : items );
+            parameters.Add( x => x.HierarchicalData, hierarchicalData );
+        } );
+
+        await comp.InvokeAsync( () => comp.Instance.CollapseAll() );
+
+        comp.Render( parameters => parameters.Add( x => x.SearchText, "planning" ) );
+
+        Assert.Collection( comp.FindAll( ".b-gantt-tree-row" ),
+            row => Assert.Contains( "Project", row.TextContent ),
+            row => Assert.Contains( "Planning", row.TextContent ) );
+
+        comp.Render( parameters => parameters.Add( x => x.SearchMode, GanttSearchMode.Subtree ) );
+
+        Assert.Collection( comp.FindAll( ".b-gantt-tree-row" ),
+            row => Assert.Contains( "Project", row.TextContent ),
+            row => Assert.Contains( "Planning", row.TextContent ),
+            row => Assert.Contains( "Research", row.TextContent ) );
+
+        comp.Render( parameters => parameters.Add( x => x.SearchText, "Project" ) );
+
+        Assert.Equal( 4, comp.FindAll( ".b-gantt-tree-row" ).Count );
+
+        comp.Render( parameters => parameters.Add( x => x.SearchText, "Research" ) );
+
+        Assert.Collection( comp.FindAll( ".b-gantt-tree-row" ),
+            row => Assert.Contains( "Project", row.TextContent ),
+            row => Assert.Contains( "Planning", row.TextContent ),
+            row => Assert.Contains( "Research", row.TextContent ) );
+
+        comp.Render( parameters => parameters.Add( x => x.SearchText, "Missing" ) );
+
+        Assert.Empty( comp.FindAll( ".b-gantt-tree-row" ) );
+
+        comp.Render( parameters => parameters.Add( x => x.SearchText, " " ) );
+
+        Assert.Collection( comp.FindAll( ".b-gantt-tree-row" ),
+            row => Assert.Contains( "Project", row.TextContent ),
+            row => Assert.Contains( "Unrelated", row.TextContent ) );
+    }
+
+    [Theory]
+    [InlineData( " 2 ", "2" )]
+    [InlineData( "", "" )]
+    [InlineData( " ", "" )]
+    [InlineData( null, "" )]
+    public void CustomFilter_Should_ReplaceDefaultMatching_AndReceiveTrimmedSearchText( string searchText, string expectedSearchText )
+    {
+        var comp = Render<Gantt<GanttComponent.TaskItem>>( parameters =>
+        {
+            parameters.Add( x => x.Data, GanttComponent.CreateTasks() );
+            parameters.Add( x => x.SearchText, searchText );
+            parameters.Add( x => x.CustomFilter, ( item, term ) =>
+            {
+                Assert.Equal( expectedSearchText, term );
+
+                return item.Id == "2";
+            } );
+        } );
+
+        Assert.Collection( comp.FindAll( ".b-gantt-tree-row" ),
+            row => Assert.Contains( "Project launch", row.TextContent ),
+            row => Assert.Contains( "Planning", row.TextContent ) );
+
+        comp.Render( parameters => parameters.Add( x => x.CustomFilter, ( item, term ) => item.Id == "1" ) );
+
+        Assert.Single( comp.FindAll( ".b-gantt-tree-row" ) );
+
+        comp.Render( parameters => parameters.Add( x => x.SearchMode, GanttSearchMode.Subtree ) );
+
+        Assert.Equal( 3, comp.FindAll( ".b-gantt-tree-row" ).Count );
+
+        comp.Render( parameters => parameters.Add( x => x.CustomFilter, ( item, term ) => false ) );
+
+        Assert.Empty( comp.FindAll( ".b-gantt-tree-row" ) );
+    }
+
     [Fact]
     public void UseInternalEditing_False_Should_Invoke_NewItemClicked()
     {
@@ -136,5 +238,10 @@ public class GanttComponentTest : BunitContext
 
         Assert.Equal( "2", capturedEventArgs.Item.Id );
         Assert.Equal( 3, data.Count );
+    }
+
+    public class SearchTask : GanttComponent.TaskItem
+    {
+        public List<SearchTask> Items { get; set; } = new();
     }
 }

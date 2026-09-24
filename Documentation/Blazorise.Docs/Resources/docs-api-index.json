@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-24T08:11:35.0880840Z",
+  "generatedUtc": "2026-09-24T08:40:49.2924973Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -54153,6 +54153,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "SearchMode",
+          "type": "global::Blazorise.Gantt.GanttSearchMode",
+          "typeName": "GanttSearchMode",
+          "defaultValue": "Match",
+          "summary": "Determines which related items are included in search results.",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "SearchText",
           "type": "string",
           "typeName": "string",
@@ -54400,6 +54408,15 @@
           "typeName": "Func<GanttCommandContext<TItem>, bool>",
           "defaultValue": "null",
           "summary": "Provides a callback that determines whether a command is allowed for a given item.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "CustomFilter",
+          "type": "Func<,,>",
+          "typeName": "Func<TItem, string, bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets the custom item filter.",
+          "remarks": "Replaces title and description matching. Receives the item and trimmed search text, which may be empty.",
           "isBlazoriseEnum": false
         },
         {
