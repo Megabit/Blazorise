@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-23T08:09:32.8316018Z",
+  "generatedUtc": "2026-09-23T19:51:36.7481054Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -2749,7 +2749,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "null",
-          "summary": "Specifies the alert color.",
+          "summary": "Specifies the contextual or explicit CSS color of the alert.",
           "isBlazoriseEnum": false
         },
         {
@@ -4639,7 +4639,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "\"#000000\"",
-          "summary": "Specifies the spinner color in a HEX format.",
+          "summary": "Defines the intent of the spinner.",
           "isBlazoriseEnum": false
         },
         {
@@ -5997,7 +5997,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Specifies the contextual <strong>Color</strong> applied to the badge's background and text.",
+          "summary": "Specifies the contextual or explicit CSS color applied to the badge's background and text.",
           "isBlazoriseEnum": false
         },
         {
@@ -38810,7 +38810,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -38891,7 +38891,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -39410,7 +39410,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -39574,7 +39574,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -59564,7 +59564,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -59678,7 +59678,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -60231,7 +60231,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -60353,7 +60353,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -66250,7 +66250,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "\"#000000\"",
-          "summary": "Specifies the spinner color in a HEX format.",
+          "summary": "Defines the intent of the spinner.",
           "isBlazoriseEnum": false
         },
         {
@@ -71250,7 +71250,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -71348,7 +71348,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -75348,7 +75348,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -75454,7 +75454,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -76000,7 +76000,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -76162,7 +76162,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -81788,7 +81788,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -81893,7 +81893,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -87046,7 +87046,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "null",
-          "summary": "Specifies the progress bar color.",
+          "summary": "Specifies the contextual or explicit CSS color of the progress bar.",
           "isBlazoriseEnum": false
         },
         {
@@ -87394,7 +87394,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Primary",
-          "summary": "Specifies the progress bar color.",
+          "summary": "Specifies the contextual or explicit CSS color of the progress bar.",
           "isBlazoriseEnum": false
         },
         {
@@ -95110,7 +95110,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Warning",
-          "summary": "Not work now",
+          "summary": "Specifies the contextual or custom CSS color of the rating icons.",
           "isBlazoriseEnum": false
         },
         {
@@ -95207,7 +95207,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Not work now",
+          "summary": "Specifies the intent of the rating icons.",
           "isBlazoriseEnum": false
         },
         {
@@ -110517,7 +110517,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Default",
-          "summary": "Specifies the spinner color variant.",
+          "summary": "Defines the intent of the spinner.",
           "isBlazoriseEnum": false
         },
         {
@@ -131586,7 +131586,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -131700,7 +131700,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -137651,7 +137651,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -137724,7 +137724,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -138244,7 +138244,7 @@
           "type": "global::Blazorise.Color",
           "typeName": "Color",
           "defaultValue": "Color.Default",
-          "summary": "Sets the input text color.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {
@@ -138365,7 +138365,7 @@
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
           "defaultValue": "null",
-          "summary": "Sets the input text intent.",
+          "summary": "Defines the intent of the input.",
           "isBlazoriseEnum": false
         },
         {

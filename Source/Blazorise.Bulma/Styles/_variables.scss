@@ -178,3 +178,5 @@ $flex-utilities: (
     align-self: ( auto: auto, flex-start: flex-start, flex-end: flex-end, center: center, baseline: baseline, stretch: stretch ),
     align-content: ( flex-start: flex-start, flex-end: flex-end, center: center, space-between: space-between, space-around: space-around, stretch: stretch )
 ) !default;
+
+$table-contextual-cell-selectors: ".has-background-primary, .has-background-secondary, .has-background-success, .has-background-danger, .has-background-warning, .has-background-info, .has-background-light, .has-background-dark, .has-background-link";

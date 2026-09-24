@@ -1372,6 +1372,27 @@ html[data-theme=dark] .surface {
   color: var(--colorBrandForegroundLink);
 }
 
+.fui-MessageBar.fui-MessageBar-custom {
+  background-color: color-mix(in srgb, var(--colorMessageBarBackground) 15%, var(--colorNeutralBackground1));
+  border-color: color-mix(in srgb, var(--colorMessageBarBackground) 35%, var(--colorNeutralBackground1));
+  color: color-mix(in srgb, var(--colorMessageBarBackground) 40%, var(--colorNeutralForeground1));
+}
+@supports (color: contrast-color(white)) {
+  .fui-MessageBar.fui-MessageBar-custom {
+    color: color-mix(in srgb, var(--colorMessageBarBackground) 30%, contrast-color(color-mix(in srgb, var(--colorMessageBarBackground) 15%, var(--colorNeutralBackground1))));
+  }
+}
+.fui-MessageBar.fui-MessageBar-custom .alert-link,
+.fui-MessageBar.fui-MessageBar-custom .fui-MessageBar__icon {
+  color: inherit;
+}
+.fui-MessageBar.fui-MessageBar-custom .fui-CloseButton {
+  color: inherit;
+}
+.fui-MessageBar.fui-MessageBar-custom .fui-CloseButton:hover, .fui-MessageBar.fui-MessageBar-custom .fui-CloseButton:focus {
+  color: inherit;
+}
+
 .fui-Badge {
   display: inline-flex;
   box-sizing: border-box;
@@ -1480,6 +1501,57 @@ html[data-theme=dark] .surface {
   color: var(--colorBrandForegroundOnLight);
   background-color: var(--colorTransparentBackground);
   border-color: var(--colorBrandStroke1);
+}
+
+.fui-Badge.fui-Badge-custom, .fui-Badge.fui-Badge-custom-subtle {
+  background-color: var(--colorBadgeBackground);
+  border-color: var(--colorBadgeBackground);
+  color: var(--colorNeutralForegroundOnBrand);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Badge.fui-Badge-custom, .fui-Badge.fui-Badge-custom-subtle {
+    color: contrast-color(var(--colorBadgeBackground));
+  }
+}
+.fui-Badge.fui-Badge-custom[href]:hover, .fui-Badge.fui-Badge-custom[href]:focus, .fui-Badge.fui-Badge-custom-subtle[href]:hover, .fui-Badge.fui-Badge-custom-subtle[href]:focus {
+  background-color: color-mix(in srgb, var(--colorBadgeBackground) 85%, black);
+  border-color: color-mix(in srgb, var(--colorBadgeBackground) 85%, black);
+  color: var(--colorNeutralForegroundOnBrand);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Badge.fui-Badge-custom[href]:hover, .fui-Badge.fui-Badge-custom[href]:focus, .fui-Badge.fui-Badge-custom-subtle[href]:hover, .fui-Badge.fui-Badge-custom-subtle[href]:focus {
+    color: contrast-color(color-mix(in srgb, var(--colorBadgeBackground) 85%, black));
+  }
+}
+.fui-Badge.fui-Badge-custom[href]:focus-visible, .fui-Badge.fui-Badge-custom-subtle[href]:focus-visible {
+  outline: 2px solid var(--colorBadgeBackground);
+  outline-offset: 2px;
+}
+.fui-Badge.fui-Badge-custom .fui-Badge__close, .fui-Badge.fui-Badge-custom-subtle .fui-Badge__close {
+  color: inherit;
+}
+.fui-Badge.fui-Badge-custom .fui-Badge__close:hover, .fui-Badge.fui-Badge-custom .fui-Badge__close:focus, .fui-Badge.fui-Badge-custom-subtle .fui-Badge__close:hover, .fui-Badge.fui-Badge-custom-subtle .fui-Badge__close:focus {
+  color: inherit;
+}
+.fui-Badge.fui-Badge-custom-subtle {
+  background-color: color-mix(in srgb, var(--colorBadgeBackground) 12%, var(--colorNeutralBackground1));
+  border-color: color-mix(in srgb, var(--colorBadgeBackground) 30%, var(--colorNeutralBackground1));
+  color: color-mix(in srgb, var(--colorBadgeBackground) 40%, var(--colorNeutralForeground1));
+}
+@supports (color: contrast-color(white)) {
+  .fui-Badge.fui-Badge-custom-subtle {
+    color: color-mix(in srgb, var(--colorBadgeBackground) 30%, contrast-color(color-mix(in srgb, var(--colorBadgeBackground) 12%, var(--colorNeutralBackground1))));
+  }
+}
+.fui-Badge.fui-Badge-custom-subtle[href]:hover, .fui-Badge.fui-Badge-custom-subtle[href]:focus {
+  background-color: color-mix(in srgb, var(--colorBadgeBackground) 25%, var(--colorNeutralBackground1));
+  border-color: color-mix(in srgb, var(--colorBadgeBackground) 40%, var(--colorNeutralBackground1));
+  color: color-mix(in srgb, var(--colorBadgeBackground) 40%, var(--colorNeutralForeground1));
+}
+@supports (color: contrast-color(white)) {
+  .fui-Badge.fui-Badge-custom-subtle[href]:hover, .fui-Badge.fui-Badge-custom-subtle[href]:focus {
+    color: color-mix(in srgb, var(--colorBadgeBackground) 30%, contrast-color(color-mix(in srgb, var(--colorBadgeBackground) 25%, var(--colorNeutralBackground1))));
+  }
 }
 
 @media (min-width: 600px) {
@@ -4348,6 +4420,87 @@ button {
     transform: rotate(360deg);
   }
 }
+.fui-Button.fui-Button-custom, .fui-Button.fui-ButtonOutline-custom {
+  --colorBrandBackgroundHover: color-mix(in srgb, var(--colorBrandBackground) 90%, black);
+  --colorBrandBackgroundPressed: color-mix(in srgb, var(--colorBrandBackground) 80%, black);
+}
+.fui-Button.fui-Button-custom:focus-visible, .fui-Button.fui-ButtonOutline-custom:focus-visible {
+  outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+  outline-offset: var(--strokeWidthThick);
+}
+.fui-Button.fui-Button-custom {
+  background-color: var(--colorBrandBackground);
+  color: var(--colorNeutralForegroundOnBrand);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-custom.fui-Button-disabled, .fui-Button.fui-Button-custom:disabled {
+  cursor: not-allowed;
+  border-bottom-color: var(--colorNeutralStrokeDisabled);
+  border-left-color: var(--colorNeutralStrokeDisabled);
+  border-right-color: var(--colorNeutralStrokeDisabled);
+  border-top-color: var(--colorNeutralStrokeDisabled);
+  background-color: var(--colorNeutralBackgroundDisabled);
+}
+.fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):hover {
+  background-color: var(--colorBrandBackgroundHover);
+  color: var(--colorNeutralForegroundOnBrand);
+}
+.fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):active, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):active, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+  background-color: var(--colorBrandBackgroundPressed);
+  color: var(--colorNeutralForegroundOnBrand);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Button.fui-Button-custom {
+    background-color: var(--colorBrandBackground);
+    color: contrast-color(var(--colorBrandBackground));
+    border-color: transparent;
+  }
+  .fui-Button.fui-Button-custom.fui-Button-disabled, .fui-Button.fui-Button-custom:disabled {
+    cursor: not-allowed;
+    border-bottom-color: var(--colorNeutralStrokeDisabled);
+    border-left-color: var(--colorNeutralStrokeDisabled);
+    border-right-color: var(--colorNeutralStrokeDisabled);
+    border-top-color: var(--colorNeutralStrokeDisabled);
+    background-color: var(--colorNeutralBackgroundDisabled);
+  }
+  .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):hover {
+    background-color: var(--colorBrandBackgroundHover);
+    color: contrast-color(var(--colorBrandBackgroundHover));
+  }
+  .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):active, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled):active, .fui-Button.fui-Button-custom:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+    background-color: var(--colorBrandBackgroundPressed);
+    color: contrast-color(var(--colorBrandBackgroundPressed));
+  }
+}
+.fui-Button.fui-ButtonOutline-custom {
+  color: var(--colorBrandBackground);
+  border-color: var(--colorBrandBackground);
+}
+.fui-Button.fui-ButtonOutline-custom.fui-Button-disabled, .fui-Button.fui-ButtonOutline-custom:disabled {
+  cursor: not-allowed;
+  border-bottom-color: var(--colorNeutralStrokeDisabled);
+  border-left-color: var(--colorNeutralStrokeDisabled);
+  border-right-color: var(--colorNeutralStrokeDisabled);
+  border-top-color: var(--colorNeutralStrokeDisabled);
+  background-color: var(--colorNeutralBackgroundDisabled);
+}
+.fui-Button.fui-ButtonOutline-custom:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button.fui-ButtonOutline-custom:not(:disabled):not(.fui-Button-disabled):hover {
+  border-color: var(--colorBrandBackgroundHover);
+  color: var(--colorBrandBackgroundHover);
+}
+.fui-Button.fui-ButtonOutline-custom:not(:disabled):not(.fui-Button-disabled):active, .fui-Button.fui-ButtonOutline-custom:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button.fui-ButtonOutline-custom:not(:disabled):not(.fui-Button-disabled):active, .fui-Button.fui-ButtonOutline-custom:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
+  border-color: var(--colorBrandBackgroundPressed);
+  color: var(--colorBrandBackgroundPressed);
+}
+.fui-Button.fui-Button-custom.fui-Button-disabled, .fui-Button.fui-Button-custom:disabled, .fui-Button.fui-ButtonOutline-custom.fui-Button-disabled, .fui-Button.fui-ButtonOutline-custom:disabled {
+  color: var(--colorNeutralForegroundDisabled);
+}
+
+label.fui-Button.fui-Button-custom:has(input:focus-visible) {
+  outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+  outline-offset: var(--strokeWidthThick);
+}
+
 .fui-Card {
   --fui-Card--size: 12px;
   --fui-Card--border-radius: var(--borderRadiusMedium);
@@ -9514,6 +9667,59 @@ input::file-selector-button {
   height: auto;
 }
 
+.fui-Input-color-primary {
+  --colorInputBorder: var(--colorBrandForeground1);
+}
+
+.fui-Input-color-secondary {
+  --colorInputBorder: var(--colorNeutralForeground3);
+}
+
+.fui-Input-color-success {
+  --colorInputBorder: var(--colorStatusSuccessForeground3);
+}
+
+.fui-Input-color-danger {
+  --colorInputBorder: var(--colorPaletteRedForeground3);
+}
+
+.fui-Input-color-warning {
+  --colorInputBorder: var(--colorStatusWarningBackground3);
+}
+
+.fui-Input-color-info {
+  --colorInputBorder: var(--colorNeutralForeground3);
+}
+
+.fui-Input-color-light {
+  --colorInputBorder: var(--colorNeutralForeground4);
+}
+
+.fui-Input-color-dark {
+  --colorInputBorder: var(--colorNeutralForeground1);
+}
+
+.fui-Input-color-link {
+  --colorInputBorder: var(--colorBrandForegroundLink);
+}
+
+.fui-Input-color-primary:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-secondary:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-success:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-danger:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-warning:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-info:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-light:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-dark:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-link:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)), .fui-Input-colored:is(.fui-Input, .fui-Textarea, .fui-SpinButton):not(:has(> :disabled)) {
+  --colorNeutralStroke1: var(--colorInputBorder);
+  --colorNeutralStroke1Hover: var(--colorInputBorder);
+  --colorNeutralStroke1Pressed: var(--colorInputBorder);
+  --colorNeutralStrokeAccessible: var(--colorInputBorder);
+  --colorNeutralStrokeAccessibleHover: var(--colorInputBorder);
+  --colorNeutralStrokeAccessiblePressed: var(--colorInputBorder);
+  --colorCompoundBrandStroke: var(--colorInputBorder);
+  --colorCompoundBrandStrokePressed: var(--colorInputBorder);
+}
+.fui-Input-color-primary:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-secondary:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-success:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-danger:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-warning:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-info:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-light:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-dark:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-color-link:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)), .fui-Input-colored:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)) {
+  border-bottom: var(--strokeWidthThin) solid var(--colorInputBorder);
+}
+.fui-Input-color-primary:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-secondary:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-success:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-danger:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-warning:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-info:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-light:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-dark:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-color-link:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within, .fui-Input-colored:is(.fui-Input__content, .fui-Input .fui-SpinButton):not(:has(> :disabled)):focus-within {
+  box-shadow: inset 0 -1px var(--colorInputBorder);
+}
+
 .fui-Input,
 .fui-Textarea {
   align-items: center;
@@ -10394,6 +10600,44 @@ input::file-selector-button {
   border-bottom-width: 0;
 }
 
+.fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom {
+  background-image: none;
+  background-color: color-mix(in srgb, var(--colorListGroupItemBackground) 15%, var(--colorNeutralBackground1));
+  border-color: color-mix(in srgb, var(--colorListGroupItemBackground) 35%, var(--colorNeutralBackground1));
+  color: color-mix(in srgb, var(--colorListGroupItemBackground) 40%, var(--colorNeutralForeground1));
+}
+@supports (color: contrast-color(white)) {
+  .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom {
+    color: color-mix(in srgb, var(--colorListGroupItemBackground) 30%, contrast-color(color-mix(in srgb, var(--colorListGroupItemBackground) 15%, var(--colorNeutralBackground1))));
+  }
+}
+.fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-action:not(.fui-ListGroupItem-disabled):not(:disabled):not(.fui-ListGroupItem-active):hover, .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-action:not(.fui-ListGroupItem-disabled):not(:disabled):not(.fui-ListGroupItem-active):focus {
+  background-color: color-mix(in srgb, var(--colorListGroupItemBackground) 25%, var(--colorNeutralBackground1));
+}
+@supports (color: contrast-color(white)) {
+  .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-action:not(.fui-ListGroupItem-disabled):not(:disabled):not(.fui-ListGroupItem-active):hover, .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-action:not(.fui-ListGroupItem-disabled):not(:disabled):not(.fui-ListGroupItem-active):focus {
+    color: color-mix(in srgb, var(--colorListGroupItemBackground) 30%, contrast-color(color-mix(in srgb, var(--colorListGroupItemBackground) 25%, var(--colorNeutralBackground1))));
+  }
+}
+.fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-action:not(.fui-ListGroupItem-disabled):not(:disabled):not(.fui-ListGroupItem-active):focus-visible {
+  outline: 2px solid var(--colorListGroupItemBackground);
+  outline-offset: -2px;
+}
+.fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-active, .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-active:hover, .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-active:focus {
+  background-color: var(--colorListGroupItemBackground);
+  border-color: var(--colorListGroupItemBackground);
+  color: white;
+}
+@supports (color: contrast-color(white)) {
+  .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-active, .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-active:hover, .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-active:focus {
+    color: contrast-color(var(--colorListGroupItemBackground));
+  }
+}
+.fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom.fui-ListGroupItem-disabled, .fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .fui-Media {
   display: flex;
   align-items: flex-start;
@@ -11214,6 +11458,14 @@ input::file-selector-button {
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
 }
+.fui-ProgressBar .fui-ProgressBar__bar.fui-ProgressBar__bar-custom {
+  color: var(--colorNeutralForegroundOnBrand);
+}
+@supports (color: contrast-color(red)) {
+  .fui-ProgressBar .fui-ProgressBar__bar.fui-ProgressBar__bar-custom {
+    color: contrast-color(var(--colorCompoundBrandBackground));
+  }
+}
 .fui-ProgressBar .fui-ProgressBar__bar-success {
   background-color: var(--colorPaletteGreenBackground3);
 }
@@ -11320,6 +11572,10 @@ input::file-selector-button {
     margin-left: 100%;
   }
 }
+.fui-PageProgress .fui-PageProgress__indicator.fui-PageProgress__indicator--custom {
+  background-color: var(--colorPageProgressBackground);
+}
+
 .fui-RadioGroup {
   align-items: flex-start;
   flex-direction: column;
@@ -11584,6 +11840,14 @@ input::file-selector-button {
 }
 .fui-Rating .fui-RatingItem .fui-RatingItem__unselectedOutlineIcon {
   color: var(--colorNeutralForeground3);
+}
+
+.fui-Rating .fui-RatingItem.fui-RatingItem-custom {
+  color: var(--colorRatingForeground);
+}
+.fui-Rating .fui-RatingItem.fui-RatingItem-custom .fui-RatingItem__selectedIcon,
+.fui-Rating .fui-RatingItem.fui-RatingItem-custom .fui-RatingItem__unselectedOutlineIcon {
+  color: inherit;
 }
 
 .fui-Resizer {
@@ -12279,6 +12543,24 @@ input::file-selector-button {
   display: block;
 }
 
+.fui-Steps .fui-Step.fui-Step-custom .fui-Step__circle > svg {
+  fill: var(--colorStepBackground);
+}
+.fui-Steps .fui-Step.fui-Step-custom .fui-Step__circle-number {
+  color: var(--colorStepBackground);
+}
+.fui-Steps .fui-Step.fui-Step-custom.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-custom.fui-Step-completed .fui-Step__circle-number {
+  color: var(--colorNeutralForegroundInverted);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Steps .fui-Step.fui-Step-custom.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-custom.fui-Step-completed .fui-Step__circle-number {
+    color: contrast-color(var(--colorStepBackground));
+  }
+}
+.fui-Steps .fui-Step.fui-Step-custom.fui-Step-completed:not(:last-child)::after {
+  background-color: var(--colorStepBackground);
+}
+
 .fui-Switch {
   align-items: flex-start;
   box-sizing: border-box;
@@ -12471,6 +12753,26 @@ input::file-selector-button {
 .fui-Switch__input.fui-Switch__input-xl ~ .fui-Switch__indicator ~ .fui-Switch__label {
   padding-bottom: var(--spacingVerticalM);
   padding-top: var(--spacingVerticalM);
+}
+
+.fui-Switch__input.fui-Switch__input-custom:checked ~ .fui-Switch__indicator {
+  background-color: var(--colorSwitchBackground);
+  color: var(--colorNeutralForegroundInverted);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Switch__input.fui-Switch__input-custom:checked ~ .fui-Switch__indicator {
+    color: contrast-color(var(--colorSwitchBackground));
+  }
+}
+.fui-Switch__input.fui-Switch__input-custom:enabled:checked:hover ~ .fui-Switch__indicator {
+  background-color: color-mix(in srgb, var(--colorSwitchBackground) 85%, black);
+}
+.fui-Switch__input.fui-Switch__input-custom:focus-visible ~ .fui-Switch__indicator {
+  outline: 2px solid var(--colorSwitchBackground);
+  outline-offset: 2px;
+}
+.fui-Switch__input.fui-Switch__input-custom:disabled:checked ~ .fui-Switch__indicator {
+  opacity: 0.5;
 }
 
 .fui-Table {
@@ -12832,6 +13134,43 @@ td:focus {
     border-bottom: 1px solid;
   }
 }
+.fui-Table > :is(tbody, thead, tfoot) > tr.fui-TableRow-custom > :is(th, td):not(.fui-TableCell-primary, .fui-TableCell-secondary, .fui-TableCell-success, .fui-TableCell-danger, .fui-TableCell-warning, .fui-TableCell-info, .fui-TableCell-light, .fui-TableCell-dark, .fui-TableCell-link) {
+  background-color: var(--colorTableCellBackground);
+  color: var(--colorNeutralForeground1);
+  border-color: color-mix(in srgb, var(--colorTableCellBackground) 70%, black);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Table > :is(tbody, thead, tfoot) > tr.fui-TableRow-custom > :is(th, td):not(.fui-TableCell-primary, .fui-TableCell-secondary, .fui-TableCell-success, .fui-TableCell-danger, .fui-TableCell-warning, .fui-TableCell-info, .fui-TableCell-light, .fui-TableCell-dark, .fui-TableCell-link) {
+    color: contrast-color(var(--colorTableCellBackground));
+  }
+}
+.fui-Table.fui-Table-striped > tbody > tr.fui-TableRow-custom:nth-of-type(odd) > :is(th, td):not(.fui-TableCell-primary, .fui-TableCell-secondary, .fui-TableCell-success, .fui-TableCell-danger, .fui-TableCell-warning, .fui-TableCell-info, .fui-TableCell-light, .fui-TableCell-dark, .fui-TableCell-link) {
+  background-color: color-mix(in srgb, var(--colorTableCellBackground) 90%, black);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Table.fui-Table-striped > tbody > tr.fui-TableRow-custom:nth-of-type(odd) > :is(th, td):not(.fui-TableCell-primary, .fui-TableCell-secondary, .fui-TableCell-success, .fui-TableCell-danger, .fui-TableCell-warning, .fui-TableCell-info, .fui-TableCell-light, .fui-TableCell-dark, .fui-TableCell-link) {
+    color: contrast-color(color-mix(in srgb, var(--colorTableCellBackground) 90%, black));
+  }
+}
+.fui-Table.fui-Table-hoverable > tbody > tr.fui-TableRow-custom:hover > :is(th, td):not(.fui-TableCell-primary, .fui-TableCell-secondary, .fui-TableCell-success, .fui-TableCell-danger, .fui-TableCell-warning, .fui-TableCell-info, .fui-TableCell-light, .fui-TableCell-dark, .fui-TableCell-link) {
+  background-color: color-mix(in srgb, var(--colorTableCellBackground) 85%, black);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Table.fui-Table-hoverable > tbody > tr.fui-TableRow-custom:hover > :is(th, td):not(.fui-TableCell-primary, .fui-TableCell-secondary, .fui-TableCell-success, .fui-TableCell-danger, .fui-TableCell-warning, .fui-TableCell-info, .fui-TableCell-light, .fui-TableCell-dark, .fui-TableCell-link) {
+    color: contrast-color(color-mix(in srgb, var(--colorTableCellBackground) 85%, black));
+  }
+}
+.fui-Table > :is(tbody, thead, tfoot) > tr > td.fui-TableCell-custom {
+  background-color: var(--colorTableCellBackground);
+  color: var(--colorNeutralForeground1);
+  border-color: color-mix(in srgb, var(--colorTableCellBackground) 70%, black);
+}
+@supports (color: contrast-color(white)) {
+  .fui-Table > :is(tbody, thead, tfoot) > tr > td.fui-TableCell-custom {
+    color: contrast-color(var(--colorTableCellBackground));
+  }
+}
+
 .fui-TabList {
   align-items: stretch;
   position: relative;

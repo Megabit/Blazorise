@@ -215,3 +215,73 @@
         margin-bottom: 0;
     }
 }
+
+.button.is-custom {
+    --bulma-button-color: #{$white};
+    --bulma-button-background-color: var(--bulma-button-custom-color);
+    color: var(--bulma-button-color);
+    background-color: var(--bulma-button-background-color);
+    border-color: var(--bulma-button-background-color);
+
+    @supports (color: contrast-color(white)) {
+        --bulma-button-color: contrast-color(var(--bulma-button-background-color));
+    }
+
+    &:not(:disabled):not(.is-disabled) {
+        &:hover,
+        &.is-hovered {
+            --bulma-button-background-color: color-mix(in srgb, var(--bulma-button-custom-color) 90%, black);
+        }
+
+        &:active,
+        &.is-active,
+        &[aria-expanded="true"] {
+            --bulma-button-background-color: color-mix(in srgb, var(--bulma-button-custom-color) 80%, black);
+        }
+
+        &:focus,
+        &.is-focused {
+            box-shadow: 0 0 0 0.125em color-mix(in srgb, var(--bulma-button-custom-color) 25%, transparent);
+        }
+    }
+
+    &.is-loading::after {
+        border-color: transparent transparent var(--bulma-button-color) var(--bulma-button-color) !important;
+    }
+
+    &.is-outlined {
+        --bulma-button-color: var(--bulma-button-custom-color);
+        color: var(--bulma-button-color);
+        background-color: transparent;
+        border-color: var(--bulma-button-custom-color);
+
+        &:not(:disabled):not(.is-disabled) {
+            &:hover,
+            &.is-hovered,
+            &:focus,
+            &.is-focused,
+            &:active,
+            &.is-active,
+            &[aria-expanded="true"] {
+                --bulma-button-color: #{$white};
+                color: var(--bulma-button-color);
+                background-color: var(--bulma-button-background-color);
+                border-color: var(--bulma-button-background-color);
+
+                @supports (color: contrast-color(white)) {
+                    --bulma-button-color: contrast-color(var(--bulma-button-background-color));
+                }
+            }
+        }
+    }
+
+    &[disabled],
+    &.is-disabled,
+    fieldset[disabled] & {
+        box-shadow: none;
+    }
+}
+
+label.button.is-custom:has(input:focus-visible) {
+    box-shadow: 0 0 0 .125em color-mix(in srgb, var(--bulma-button-custom-color) 25%, transparent);
+}

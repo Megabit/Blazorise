@@ -1,3 +1,49 @@
+@each $name, $color in $input-color-variants {
+    .ant-input-color-#{$name} {
+        @extend %ant-input-color;
+        --ant-input-custom-color: #{$color};
+    }
+}
+
+.ant-input-colored {
+    @extend %ant-input-color;
+}
+
+%ant-input-color {
+    @each $component in $input-color-components {
+        &.#{$component}:not(:disabled):not(.#{$component}-disabled):not(.#{$component}-status-success, .#{$component}-status-warning, .#{$component}-status-error) {
+            --ant-input-active-border-color: var(--ant-input-custom-color);
+            --ant-input-active-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, var(--ant-input-active-border-color), transparent 80%);
+            border-color: var(--ant-input-active-border-color);
+
+            &:hover {
+                border-color: var(--ant-input-active-border-color);
+            }
+
+            &:focus,
+            &:focus-within,
+            &.#{$component}-focused {
+                border-color: var(--ant-input-active-border-color);
+                box-shadow: var(--ant-input-active-shadow);
+                outline: 0;
+            }
+        }
+    }
+
+    > .ant-input-number-input {
+        color: inherit;
+    }
+
+    > .ant-input-number-input-wrap,
+    > .ant-picker-input {
+        color: inherit;
+
+        > input {
+            color: inherit;
+        }
+    }
+}
+
 .ant-input {
     height: var(--ant-control-height);
 

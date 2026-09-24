@@ -5,6 +5,60 @@ namespace Blazorise.Bulma.Providers;
 
 public class BulmaStyleProvider : StyleProvider
 {
+    #region Component colors
+
+    public override string TextInputColor( Color color ) => ColorStyle( color, "--bulma-input-custom-color" );
+
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
+
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
+
+    public override string DateInputColor( Color color ) => TextInputColor( color );
+
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
+
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
+
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
+
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
+
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
+
+    public override string ListGroupItemColor( Color color ) => ColorStyle( color, "--bulma-list-group-item-background-color" );
+
+    public override string TableRowColor( Color color ) => ColorStyle( color, "--bulma-table-cell-background-color" );
+
+    public override string TableRowCellColor( Color color ) => ColorStyle( color, "--bulma-table-cell-background-color" );
+
+    public override string SwitchColor( Color color ) => ColorStyle( color, "--bulma-switch-background-color" );
+
+    public override string RatingItemColor( Color color ) => ColorStyle( color, "--bulma-rating-color" );
+
+    public override string StepItemColor( Color color ) => ColorStyle( color, "--bulma-step-color" );
+
+    public override string PageProgressIndicatorColor( Color color ) => ColorStyle( color, "--bulma-page-progress-background-color" );
+
+    #endregion
+
+    #region Badge
+
+    public override string BadgeColor( Color color ) => ColorStyle( color, "--bulma-tag-background-color" );
+
+    #endregion
+
+    #region Alert
+
+    public override string AlertColor( Color color ) => ColorStyle( color, "--bulma-notification-background-color" );
+
+    #endregion
+
+    #region Button
+
+    public override string ButtonColor( Color color ) => ColorStyle( color, "--bulma-button-custom-color" );
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 40;
@@ -37,7 +91,15 @@ public class BulmaStyleProvider : StyleProvider
 
     #endregion
 
+    #region Progress
+
+    public override string ProgressColor( Color color ) => ColorStyle( color, "--bulma-progress-value-background-color" );
+
+    #endregion
+
     #region ProgressBar
+
+    public override string ProgressBarColor( Color color ) => ColorStyle( color, "--bulma-progress-value-background-color" );
 
     public override string ProgressBarValue( int value ) => $"width: {value}%";
 

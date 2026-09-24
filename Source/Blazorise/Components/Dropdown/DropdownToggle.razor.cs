@@ -19,6 +19,10 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
 {
     #region Members
 
+    private Color color = Color.Default;
+
+    private bool outline;
+
     private bool split;
 
     private bool disabled;
@@ -69,6 +73,14 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
         builder.Append( ClassProvider.DropdownToggleIcon( IsToggleIconVisible ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.DropdownToggleColor( Color ) );
+
+        base.BuildStyles( builder );
     }
 
     /// <summary>
@@ -308,7 +320,18 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     /// <summary>
     /// Specifies the dropdown color.
     /// </summary>
-    [Parameter] public Color Color { get; set; } = Color.Default;
+    [Parameter]
+    public Color Color
+    {
+        get => color;
+        set
+        {
+            color = value;
+
+            DirtyClasses();
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Specifies the dropdown intent.
@@ -328,7 +351,17 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     /// <summary>
     /// Button outline.
     /// </summary>
-    [Parameter] public bool Outline { get; set; }
+    [Parameter]
+    public bool Outline
+    {
+        get => outline;
+        set
+        {
+            outline = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Indicates that a toggle should act as a split button.

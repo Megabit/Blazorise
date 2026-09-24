@@ -1336,6 +1336,29 @@ template {
   color: var(--b-theme-link, var(--ant-color-link));
 }
 
+.ant-alert.ant-alert-custom {
+  background-color: color-mix(in srgb, var(--ant-alert-bg) 15%, var(--ant-color-bg-container));
+  border-color: color-mix(in srgb, var(--ant-alert-bg) 35%, var(--ant-color-bg-container));
+  color: color-mix(in srgb, var(--ant-alert-bg) 40%, var(--ant-color-text));
+}
+@supports (color: contrast-color(white)) {
+  .ant-alert.ant-alert-custom {
+    color: color-mix(in srgb, var(--ant-alert-bg) 30%, contrast-color(color-mix(in srgb, var(--ant-alert-bg) 15%, var(--ant-color-bg-container))));
+  }
+}
+.ant-alert.ant-alert-custom .alert-link,
+.ant-alert.ant-alert-custom .ant-alert-title,
+.ant-alert.ant-alert-custom .ant-alert-description,
+.ant-alert.ant-alert-custom .ant-alert-icon {
+  color: inherit;
+}
+.ant-alert.ant-alert-custom .ant-alert-close-icon {
+  color: inherit;
+}
+.ant-alert.ant-alert-custom .ant-alert-close-icon:hover, .ant-alert.ant-alert-custom .ant-alert-close-icon:focus {
+  color: inherit;
+}
+
 .ant-collapse .ant-collapse-panel {
   display: grid;
   grid-template-rows: 1fr;
@@ -1506,6 +1529,57 @@ template {
   color: var(--b-theme-text-danger-emphasis, var(--ant-color-error));
   background-color: var(--b-theme-background-danger-subtle, var(--ant-color-error-bg));
   border-color: var(--b-theme-border-danger-subtle, var(--ant-color-error-border));
+}
+
+.ant-tag.ant-tag-custom.ant-tag-solid, .ant-tag.ant-tag-custom.ant-tag-outlined {
+  background-color: var(--ant-tag-default-bg);
+  border-color: var(--ant-tag-default-bg);
+  color: var(--ant-color-text-light-solid);
+}
+@supports (color: contrast-color(white)) {
+  .ant-tag.ant-tag-custom.ant-tag-solid, .ant-tag.ant-tag-custom.ant-tag-outlined {
+    color: contrast-color(var(--ant-tag-default-bg));
+  }
+}
+.ant-tag.ant-tag-custom.ant-tag-solid[href]:hover, .ant-tag.ant-tag-custom.ant-tag-solid[href]:focus, .ant-tag.ant-tag-custom.ant-tag-outlined[href]:hover, .ant-tag.ant-tag-custom.ant-tag-outlined[href]:focus {
+  background-color: color-mix(in srgb, var(--ant-tag-default-bg) 85%, black);
+  border-color: color-mix(in srgb, var(--ant-tag-default-bg) 85%, black);
+  color: var(--ant-color-text-light-solid);
+}
+@supports (color: contrast-color(white)) {
+  .ant-tag.ant-tag-custom.ant-tag-solid[href]:hover, .ant-tag.ant-tag-custom.ant-tag-solid[href]:focus, .ant-tag.ant-tag-custom.ant-tag-outlined[href]:hover, .ant-tag.ant-tag-custom.ant-tag-outlined[href]:focus {
+    color: contrast-color(color-mix(in srgb, var(--ant-tag-default-bg) 85%, black));
+  }
+}
+.ant-tag.ant-tag-custom.ant-tag-solid[href]:focus-visible, .ant-tag.ant-tag-custom.ant-tag-outlined[href]:focus-visible {
+  outline: 2px solid var(--ant-tag-default-bg);
+  outline-offset: 2px;
+}
+.ant-tag.ant-tag-custom.ant-tag-solid .ant-tag-close-icon, .ant-tag.ant-tag-custom.ant-tag-outlined .ant-tag-close-icon {
+  color: inherit;
+}
+.ant-tag.ant-tag-custom.ant-tag-solid .ant-tag-close-icon:hover, .ant-tag.ant-tag-custom.ant-tag-solid .ant-tag-close-icon:focus, .ant-tag.ant-tag-custom.ant-tag-outlined .ant-tag-close-icon:hover, .ant-tag.ant-tag-custom.ant-tag-outlined .ant-tag-close-icon:focus {
+  color: inherit;
+}
+.ant-tag.ant-tag-custom.ant-tag-outlined {
+  background-color: color-mix(in srgb, var(--ant-tag-default-bg) 12%, var(--ant-color-bg-container));
+  border-color: color-mix(in srgb, var(--ant-tag-default-bg) 30%, var(--ant-color-bg-container));
+  color: color-mix(in srgb, var(--ant-tag-default-bg) 40%, var(--ant-color-text));
+}
+@supports (color: contrast-color(white)) {
+  .ant-tag.ant-tag-custom.ant-tag-outlined {
+    color: color-mix(in srgb, var(--ant-tag-default-bg) 30%, contrast-color(color-mix(in srgb, var(--ant-tag-default-bg) 12%, var(--ant-color-bg-container))));
+  }
+}
+.ant-tag.ant-tag-custom.ant-tag-outlined[href]:hover, .ant-tag.ant-tag-custom.ant-tag-outlined[href]:focus {
+  background-color: color-mix(in srgb, var(--ant-tag-default-bg) 25%, var(--ant-color-bg-container));
+  border-color: color-mix(in srgb, var(--ant-tag-default-bg) 40%, var(--ant-color-bg-container));
+  color: color-mix(in srgb, var(--ant-tag-default-bg) 40%, var(--ant-color-text));
+}
+@supports (color: contrast-color(white)) {
+  .ant-tag.ant-tag-custom.ant-tag-outlined[href]:hover, .ant-tag.ant-tag-custom.ant-tag-outlined[href]:focus {
+    color: color-mix(in srgb, var(--ant-tag-default-bg) 30%, contrast-color(color-mix(in srgb, var(--ant-tag-default-bg) 25%, var(--ant-color-bg-container))));
+  }
 }
 
 @media (min-width: 768px) {
@@ -3429,6 +3503,64 @@ template {
 .ant-btn[disabled],
 .ant-btn:disabled {
   box-shadow: none !important;
+}
+
+.ant-btn-custom.ant-btn-variant-solid {
+  --ant-btn-color-base: var(--ant-color-primary);
+  --ant-btn-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-color-light: color-mix(in srgb, var(--ant-color-primary) 15%, white);
+  --ant-btn-color-light-hover: color-mix(in srgb, var(--ant-color-primary) 10%, white);
+  --ant-btn-color-light-active: color-mix(in srgb, var(--ant-color-primary) 20%, white);
+  --ant-btn-shadow: 0 2px 0 color-mix(in srgb, var(--ant-color-primary) 12%, transparent);
+  --ant-btn-solid-bg-color: var(--ant-color-primary);
+  --ant-btn-solid-bg-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-solid-bg-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-border-color: var(--ant-color-primary);
+  --ant-btn-border-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-border-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-border-color-disabled: var(--ant-color-border);
+  --ant-btn-text-color: var(--ant-color-text-light-solid);
+  --ant-btn-text-color-hover: var(--ant-color-text-light-solid);
+  --ant-btn-text-color-active: var(--ant-color-text-light-solid);
+  --ant-btn-text-color-disabled: var(--ant-color-text-disabled);
+  --ant-btn-bg-color: var(--ant-color-primary);
+  --ant-btn-bg-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-bg-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-bg-color-disabled: var(--ant-color-bg-container-disabled);
+  box-shadow: var(--ant-btn-shadow);
+}
+@supports (color: contrast-color(white)) {
+  .ant-btn-custom.ant-btn-variant-solid {
+    --ant-btn-text-color: contrast-color(var(--ant-btn-bg-color));
+    --ant-btn-text-color-hover: contrast-color(var(--ant-btn-bg-color-hover));
+    --ant-btn-text-color-active: contrast-color(var(--ant-btn-bg-color-active));
+  }
+}
+.ant-btn-outline-custom.ant-btn-variant-outlined {
+  --ant-btn-color-base: var(--ant-color-primary);
+  --ant-btn-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-color-light: color-mix(in srgb, var(--ant-color-primary) 15%, white);
+  --ant-btn-color-light-hover: color-mix(in srgb, var(--ant-color-primary) 10%, white);
+  --ant-btn-color-light-active: color-mix(in srgb, var(--ant-color-primary) 20%, white);
+  --ant-btn-shadow: none;
+  --ant-btn-border-color: var(--ant-color-primary);
+  --ant-btn-border-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-border-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-border-color-disabled: var(--ant-color-border);
+  --ant-btn-text-color: var(--ant-color-primary);
+  --ant-btn-text-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-text-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-text-color-disabled: var(--ant-color-text-disabled);
+  --ant-btn-bg-color: transparent;
+  --ant-btn-bg-color-hover: transparent;
+  --ant-btn-bg-color-active: transparent;
+  --ant-btn-bg-color-disabled: transparent;
+  box-shadow: none;
+}
+.ant-btn-custom, .ant-btn-outline-custom {
+  --ant-color-primary-border: color-mix(in srgb, var(--ant-color-primary) 50%, transparent);
 }
 
 .ant-card {
@@ -5837,6 +5969,111 @@ template {
   color: var(--ant-form-label-required-mark-color);
 }
 
+.ant-input-color-primary {
+  --ant-input-custom-color: var(--ant-color-primary);
+}
+
+.ant-input-color-secondary {
+  --ant-input-custom-color: var(--ant-color-text-secondary);
+}
+
+.ant-input-color-success {
+  --ant-input-custom-color: var(--ant-color-success);
+}
+
+.ant-input-color-info {
+  --ant-input-custom-color: var(--ant-color-info);
+}
+
+.ant-input-color-warning {
+  --ant-input-custom-color: var(--ant-color-warning);
+}
+
+.ant-input-color-danger {
+  --ant-input-custom-color: var(--ant-color-error);
+}
+
+.ant-input-color-light {
+  --ant-input-custom-color: var(--ant-color-border);
+}
+
+.ant-input-color-dark {
+  --ant-input-custom-color: var(--ant-color-text);
+}
+
+.ant-input-color-link {
+  --ant-input-custom-color: var(--ant-color-link);
+}
+
+.ant-input.ant-input-color-primary:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error), .ant-input.ant-input-color-secondary:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error), .ant-input.ant-input-color-success:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error), .ant-input.ant-input-color-info:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error), .ant-input.ant-input-color-warning:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error), .ant-input.ant-input-color-danger:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error), .ant-input.ant-input-color-light:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error), .ant-input.ant-input-color-dark:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error), .ant-input.ant-input-color-link:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error), .ant-input.ant-input-colored:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error) {
+  --ant-input-active-border-color: var(--ant-input-custom-color);
+  --ant-input-active-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, var(--ant-input-active-border-color), transparent 80%);
+  border-color: var(--ant-input-active-border-color);
+}
+.ant-input.ant-input-color-primary:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):hover, .ant-input.ant-input-color-secondary:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):hover, .ant-input.ant-input-color-success:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):hover, .ant-input.ant-input-color-info:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):hover, .ant-input.ant-input-color-warning:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):hover, .ant-input.ant-input-color-danger:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):hover, .ant-input.ant-input-color-light:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):hover, .ant-input.ant-input-color-dark:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):hover, .ant-input.ant-input-color-link:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):hover, .ant-input.ant-input-colored:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):hover {
+  border-color: var(--ant-input-active-border-color);
+}
+.ant-input.ant-input-color-primary:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus, .ant-input.ant-input-color-secondary:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus, .ant-input.ant-input-color-success:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus, .ant-input.ant-input-color-info:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus, .ant-input.ant-input-color-warning:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus, .ant-input.ant-input-color-danger:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus, .ant-input.ant-input-color-light:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus, .ant-input.ant-input-color-dark:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus, .ant-input.ant-input-color-link:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus, .ant-input.ant-input-colored:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus, .ant-input.ant-input-color-primary:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus-within, .ant-input.ant-input-color-secondary:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus-within, .ant-input.ant-input-color-success:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus-within, .ant-input.ant-input-color-info:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus-within, .ant-input.ant-input-color-warning:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus-within, .ant-input.ant-input-color-danger:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus-within, .ant-input.ant-input-color-light:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus-within, .ant-input.ant-input-color-dark:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus-within, .ant-input.ant-input-color-link:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus-within, .ant-input.ant-input-colored:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error):focus-within, .ant-input.ant-input-color-primary:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error).ant-input-focused, .ant-input.ant-input-color-secondary:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error).ant-input-focused, .ant-input.ant-input-color-success:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error).ant-input-focused, .ant-input.ant-input-color-info:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error).ant-input-focused, .ant-input.ant-input-color-warning:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error).ant-input-focused, .ant-input.ant-input-color-danger:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error).ant-input-focused, .ant-input.ant-input-color-light:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error).ant-input-focused, .ant-input.ant-input-color-dark:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error).ant-input-focused, .ant-input.ant-input-color-link:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error).ant-input-focused, .ant-input.ant-input-colored:not(:disabled):not(.ant-input-disabled):not(.ant-input-status-success, .ant-input-status-warning, .ant-input-status-error).ant-input-focused {
+  border-color: var(--ant-input-active-border-color);
+  box-shadow: var(--ant-input-active-shadow);
+  outline: 0;
+}
+.ant-input-number.ant-input-color-primary:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error), .ant-input-number.ant-input-color-secondary:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error), .ant-input-number.ant-input-color-success:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error), .ant-input-number.ant-input-color-info:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error), .ant-input-number.ant-input-color-warning:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error), .ant-input-number.ant-input-color-danger:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error), .ant-input-number.ant-input-color-light:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error), .ant-input-number.ant-input-color-dark:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error), .ant-input-number.ant-input-color-link:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error), .ant-input-number.ant-input-colored:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error) {
+  --ant-input-active-border-color: var(--ant-input-custom-color);
+  --ant-input-active-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, var(--ant-input-active-border-color), transparent 80%);
+  border-color: var(--ant-input-active-border-color);
+}
+.ant-input-number.ant-input-color-primary:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):hover, .ant-input-number.ant-input-color-secondary:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):hover, .ant-input-number.ant-input-color-success:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):hover, .ant-input-number.ant-input-color-info:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):hover, .ant-input-number.ant-input-color-warning:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):hover, .ant-input-number.ant-input-color-danger:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):hover, .ant-input-number.ant-input-color-light:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):hover, .ant-input-number.ant-input-color-dark:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):hover, .ant-input-number.ant-input-color-link:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):hover, .ant-input-number.ant-input-colored:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):hover {
+  border-color: var(--ant-input-active-border-color);
+}
+.ant-input-number.ant-input-color-primary:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus, .ant-input-number.ant-input-color-secondary:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus, .ant-input-number.ant-input-color-success:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus, .ant-input-number.ant-input-color-info:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus, .ant-input-number.ant-input-color-warning:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus, .ant-input-number.ant-input-color-danger:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus, .ant-input-number.ant-input-color-light:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus, .ant-input-number.ant-input-color-dark:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus, .ant-input-number.ant-input-color-link:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus, .ant-input-number.ant-input-colored:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus, .ant-input-number.ant-input-color-primary:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus-within, .ant-input-number.ant-input-color-secondary:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus-within, .ant-input-number.ant-input-color-success:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus-within, .ant-input-number.ant-input-color-info:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus-within, .ant-input-number.ant-input-color-warning:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus-within, .ant-input-number.ant-input-color-danger:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus-within, .ant-input-number.ant-input-color-light:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus-within, .ant-input-number.ant-input-color-dark:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus-within, .ant-input-number.ant-input-color-link:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus-within, .ant-input-number.ant-input-colored:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error):focus-within, .ant-input-number.ant-input-color-primary:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error).ant-input-number-focused, .ant-input-number.ant-input-color-secondary:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error).ant-input-number-focused, .ant-input-number.ant-input-color-success:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error).ant-input-number-focused, .ant-input-number.ant-input-color-info:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error).ant-input-number-focused, .ant-input-number.ant-input-color-warning:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error).ant-input-number-focused, .ant-input-number.ant-input-color-danger:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error).ant-input-number-focused, .ant-input-number.ant-input-color-light:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error).ant-input-number-focused, .ant-input-number.ant-input-color-dark:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error).ant-input-number-focused, .ant-input-number.ant-input-color-link:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error).ant-input-number-focused, .ant-input-number.ant-input-colored:not(:disabled):not(.ant-input-number-disabled):not(.ant-input-number-status-success, .ant-input-number-status-warning, .ant-input-number-status-error).ant-input-number-focused {
+  border-color: var(--ant-input-active-border-color);
+  box-shadow: var(--ant-input-active-shadow);
+  outline: 0;
+}
+.ant-picker.ant-input-color-primary:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error), .ant-picker.ant-input-color-secondary:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error), .ant-picker.ant-input-color-success:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error), .ant-picker.ant-input-color-info:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error), .ant-picker.ant-input-color-warning:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error), .ant-picker.ant-input-color-danger:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error), .ant-picker.ant-input-color-light:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error), .ant-picker.ant-input-color-dark:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error), .ant-picker.ant-input-color-link:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error), .ant-picker.ant-input-colored:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error) {
+  --ant-input-active-border-color: var(--ant-input-custom-color);
+  --ant-input-active-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, var(--ant-input-active-border-color), transparent 80%);
+  border-color: var(--ant-input-active-border-color);
+}
+.ant-picker.ant-input-color-primary:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):hover, .ant-picker.ant-input-color-secondary:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):hover, .ant-picker.ant-input-color-success:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):hover, .ant-picker.ant-input-color-info:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):hover, .ant-picker.ant-input-color-warning:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):hover, .ant-picker.ant-input-color-danger:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):hover, .ant-picker.ant-input-color-light:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):hover, .ant-picker.ant-input-color-dark:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):hover, .ant-picker.ant-input-color-link:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):hover, .ant-picker.ant-input-colored:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):hover {
+  border-color: var(--ant-input-active-border-color);
+}
+.ant-picker.ant-input-color-primary:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus, .ant-picker.ant-input-color-secondary:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus, .ant-picker.ant-input-color-success:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus, .ant-picker.ant-input-color-info:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus, .ant-picker.ant-input-color-warning:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus, .ant-picker.ant-input-color-danger:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus, .ant-picker.ant-input-color-light:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus, .ant-picker.ant-input-color-dark:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus, .ant-picker.ant-input-color-link:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus, .ant-picker.ant-input-colored:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus, .ant-picker.ant-input-color-primary:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus-within, .ant-picker.ant-input-color-secondary:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus-within, .ant-picker.ant-input-color-success:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus-within, .ant-picker.ant-input-color-info:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus-within, .ant-picker.ant-input-color-warning:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus-within, .ant-picker.ant-input-color-danger:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus-within, .ant-picker.ant-input-color-light:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus-within, .ant-picker.ant-input-color-dark:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus-within, .ant-picker.ant-input-color-link:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus-within, .ant-picker.ant-input-colored:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error):focus-within, .ant-picker.ant-input-color-primary:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error).ant-picker-focused, .ant-picker.ant-input-color-secondary:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error).ant-picker-focused, .ant-picker.ant-input-color-success:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error).ant-picker-focused, .ant-picker.ant-input-color-info:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error).ant-picker-focused, .ant-picker.ant-input-color-warning:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error).ant-picker-focused, .ant-picker.ant-input-color-danger:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error).ant-picker-focused, .ant-picker.ant-input-color-light:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error).ant-picker-focused, .ant-picker.ant-input-color-dark:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error).ant-picker-focused, .ant-picker.ant-input-color-link:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error).ant-picker-focused, .ant-picker.ant-input-colored:not(:disabled):not(.ant-picker-disabled):not(.ant-picker-status-success, .ant-picker-status-warning, .ant-picker-status-error).ant-picker-focused {
+  border-color: var(--ant-input-active-border-color);
+  box-shadow: var(--ant-input-active-shadow);
+  outline: 0;
+}
+.ant-input-color-primary > .ant-input-number-input, .ant-input-color-secondary > .ant-input-number-input, .ant-input-color-success > .ant-input-number-input, .ant-input-color-info > .ant-input-number-input, .ant-input-color-warning > .ant-input-number-input, .ant-input-color-danger > .ant-input-number-input, .ant-input-color-light > .ant-input-number-input, .ant-input-color-dark > .ant-input-number-input, .ant-input-color-link > .ant-input-number-input, .ant-input-colored > .ant-input-number-input {
+  color: inherit;
+}
+.ant-input-color-primary > .ant-input-number-input-wrap, .ant-input-color-secondary > .ant-input-number-input-wrap, .ant-input-color-success > .ant-input-number-input-wrap, .ant-input-color-info > .ant-input-number-input-wrap, .ant-input-color-warning > .ant-input-number-input-wrap, .ant-input-color-danger > .ant-input-number-input-wrap, .ant-input-color-light > .ant-input-number-input-wrap, .ant-input-color-dark > .ant-input-number-input-wrap, .ant-input-color-link > .ant-input-number-input-wrap, .ant-input-colored > .ant-input-number-input-wrap,
+.ant-input-color-primary > .ant-picker-input,
+.ant-input-color-secondary > .ant-picker-input,
+.ant-input-color-success > .ant-picker-input,
+.ant-input-color-info > .ant-picker-input,
+.ant-input-color-warning > .ant-picker-input,
+.ant-input-color-danger > .ant-picker-input,
+.ant-input-color-light > .ant-picker-input,
+.ant-input-color-dark > .ant-picker-input,
+.ant-input-color-link > .ant-picker-input,
+.ant-input-colored > .ant-picker-input {
+  color: inherit;
+}
+.ant-input-color-primary > .ant-input-number-input-wrap > input, .ant-input-color-secondary > .ant-input-number-input-wrap > input, .ant-input-color-success > .ant-input-number-input-wrap > input, .ant-input-color-info > .ant-input-number-input-wrap > input, .ant-input-color-warning > .ant-input-number-input-wrap > input, .ant-input-color-danger > .ant-input-number-input-wrap > input, .ant-input-color-light > .ant-input-number-input-wrap > input, .ant-input-color-dark > .ant-input-number-input-wrap > input, .ant-input-color-link > .ant-input-number-input-wrap > input, .ant-input-colored > .ant-input-number-input-wrap > input,
+.ant-input-color-primary > .ant-picker-input > input,
+.ant-input-color-secondary > .ant-picker-input > input,
+.ant-input-color-success > .ant-picker-input > input,
+.ant-input-color-info > .ant-picker-input > input,
+.ant-input-color-warning > .ant-picker-input > input,
+.ant-input-color-danger > .ant-picker-input > input,
+.ant-input-color-light > .ant-picker-input > input,
+.ant-input-color-dark > .ant-picker-input > input,
+.ant-input-color-link > .ant-picker-input > input,
+.ant-input-colored > .ant-picker-input > input {
+  color: inherit;
+}
+
 .ant-input {
   height: var(--ant-control-height);
 }
@@ -7622,6 +7859,44 @@ a.ant-typography-disabled[aria-disabled=true] {
   border-color: var(--b-theme-background-link, var(--ant-color-link));
 }
 
+.ant-list-group .ant-list-group-item.ant-list-group-item-custom {
+  background-image: none;
+  background-color: color-mix(in srgb, var(--ant-list-item-bg) 15%, var(--ant-color-bg-container));
+  border-color: color-mix(in srgb, var(--ant-list-item-bg) 35%, var(--ant-color-bg-container));
+  color: color-mix(in srgb, var(--ant-list-item-bg) 40%, var(--ant-color-text));
+}
+@supports (color: contrast-color(white)) {
+  .ant-list-group .ant-list-group-item.ant-list-group-item-custom {
+    color: color-mix(in srgb, var(--ant-list-item-bg) 30%, contrast-color(color-mix(in srgb, var(--ant-list-item-bg) 15%, var(--ant-color-bg-container))));
+  }
+}
+.ant-list-group .ant-list-group-item.ant-list-group-item-custom.ant-list-group-item-selectable:not(.ant-list-group-item-disabled):not(:disabled):not(.ant-list-group-item-active):hover, .ant-list-group .ant-list-group-item.ant-list-group-item-custom.ant-list-group-item-selectable:not(.ant-list-group-item-disabled):not(:disabled):not(.ant-list-group-item-active):focus {
+  background-color: color-mix(in srgb, var(--ant-list-item-bg) 25%, var(--ant-color-bg-container));
+}
+@supports (color: contrast-color(white)) {
+  .ant-list-group .ant-list-group-item.ant-list-group-item-custom.ant-list-group-item-selectable:not(.ant-list-group-item-disabled):not(:disabled):not(.ant-list-group-item-active):hover, .ant-list-group .ant-list-group-item.ant-list-group-item-custom.ant-list-group-item-selectable:not(.ant-list-group-item-disabled):not(:disabled):not(.ant-list-group-item-active):focus {
+    color: color-mix(in srgb, var(--ant-list-item-bg) 30%, contrast-color(color-mix(in srgb, var(--ant-list-item-bg) 25%, var(--ant-color-bg-container))));
+  }
+}
+.ant-list-group .ant-list-group-item.ant-list-group-item-custom.ant-list-group-item-selectable:not(.ant-list-group-item-disabled):not(:disabled):not(.ant-list-group-item-active):focus-visible {
+  outline: 2px solid var(--ant-list-item-bg);
+  outline-offset: -2px;
+}
+.ant-list-group .ant-list-group-item.ant-list-group-item-custom.ant-list-group-item-active, .ant-list-group .ant-list-group-item.ant-list-group-item-custom.ant-list-group-item-active:hover, .ant-list-group .ant-list-group-item.ant-list-group-item-custom.ant-list-group-item-active:focus {
+  background-color: var(--ant-list-item-bg);
+  border-color: var(--ant-list-item-bg);
+  color: white;
+}
+@supports (color: contrast-color(white)) {
+  .ant-list-group .ant-list-group-item.ant-list-group-item-custom.ant-list-group-item-active, .ant-list-group .ant-list-group-item.ant-list-group-item-custom.ant-list-group-item-active:hover, .ant-list-group .ant-list-group-item.ant-list-group-item-custom.ant-list-group-item-active:focus {
+    color: contrast-color(var(--ant-list-item-bg));
+  }
+}
+.ant-list-group .ant-list-group-item.ant-list-group-item-custom.ant-list-group-item-disabled, .ant-list-group .ant-list-group-item.ant-list-group-item-custom:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .ant-modal {
   width: var(--ant-modal-md-width);
 }
@@ -8139,6 +8414,13 @@ a.ant-typography-disabled[aria-disabled=true] {
   border-radius: inherit;
   transition: all var(--ant-motion-duration-slow) var(--ant-motion-ease-in-out-circ);
 }
+.ant-progress .ant-progress-track.ant-progress-track-custom {
+  background-color: var(--ant-progress-default-color);
+  color: var(--ant-color-text);
+}
+.ant-progress .ant-progress-track.ant-progress-track-custom .ant-progress-indicator-inner {
+  color: inherit;
+}
 .ant-progress .ant-progress-indicator {
   color: var(--ant-color-text);
   line-height: 1;
@@ -8451,6 +8733,10 @@ a.ant-typography-disabled[aria-disabled=true] {
     margin-right: 0;
   }
 }
+.ant-page-progress .ant-page-progress-indicator.ant-page-progress-indicator-custom {
+  background-color: var(--ant-page-progress-bg);
+}
+
 .ant-radio-group.ant-radio-group-vertical .ant-radio-wrapper {
   display: block;
   height: calc(var(--ant-control-interactive-size) * 2);
@@ -8747,6 +9033,27 @@ a.ant-typography-disabled[aria-disabled=true] {
   line-height: calc(calc(var(--ant-control-height-lg) + var(--ant-padding-xs)) - var(--ant-line-width-bold) * 2);
 }
 
+.ant-segmented .ant-segmented-item.ant-segmented-item-custom .ant-segmented-item-label {
+  color: var(--ant-color-primary);
+  border-radius: inherit;
+}
+.ant-segmented .ant-segmented-item.ant-segmented-item-custom.ant-segmented-item-selected .ant-segmented-item-label {
+  background-color: var(--ant-color-primary);
+  color: var(--ant-color-text-light-solid);
+}
+@supports (color: contrast-color(white)) {
+  .ant-segmented .ant-segmented-item.ant-segmented-item-custom.ant-segmented-item-selected .ant-segmented-item-label {
+    color: contrast-color(var(--ant-color-primary));
+  }
+}
+.ant-segmented .ant-segmented-item.ant-segmented-item-custom:has(:focus-visible) {
+  outline: 2px solid var(--ant-color-primary);
+  outline-offset: 2px;
+}
+.ant-segmented .ant-segmented-item.ant-segmented-item-custom.ant-segmented-item-disabled {
+  opacity: 0.5;
+}
+
 .ant-rate {
   font-size: var(--ant-rate-star-size);
   line-height: 1;
@@ -8795,6 +9102,10 @@ a.ant-typography-disabled[aria-disabled=true] {
 }
 .ant-rate .ant-rate-star.ant-rate-star-focused {
   opacity: 0.7;
+}
+
+.ant-rate .ant-rate-star.ant-rate-star-custom {
+  color: var(--ant-rate-star-color);
 }
 
 .ant-slider .ant-slider-handle {
@@ -9494,6 +9805,26 @@ a.ant-typography-disabled[aria-disabled=true] {
   display: block;
 }
 
+.ant-steps .ant-steps-item.ant-steps-item-custom .ant-steps-item-icon {
+  color: var(--ant-steps-item-color);
+  border-color: var(--ant-steps-item-color);
+}
+.ant-steps .ant-steps-item.ant-steps-item-custom.ant-steps-item-process .ant-steps-item-icon, .ant-steps .ant-steps-item.ant-steps-item-custom.ant-steps-item-finish .ant-steps-item-icon {
+  background-color: var(--ant-steps-item-color);
+  color: var(--ant-color-text-light-solid);
+}
+@supports (color: contrast-color(white)) {
+  .ant-steps .ant-steps-item.ant-steps-item-custom.ant-steps-item-process .ant-steps-item-icon, .ant-steps .ant-steps-item.ant-steps-item-custom.ant-steps-item-finish .ant-steps-item-icon {
+    color: contrast-color(var(--ant-steps-item-color));
+  }
+}
+.ant-steps .ant-steps-item.ant-steps-item-custom.ant-steps-item-process .ant-steps-item-icon {
+  box-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, var(--ant-steps-item-color) 25%, transparent);
+}
+.ant-steps .ant-steps-item.ant-steps-item-custom .ant-steps-item-rail-process {
+  background-color: var(--ant-steps-item-color);
+}
+
 .ant-switch-wrapper {
   display: inline-flex;
   align-items: center;
@@ -9852,6 +10183,24 @@ a.ant-typography-disabled[aria-disabled=true] {
   border-radius: 1000px;
 }
 
+.ant-switch.ant-switch-custom.ant-switch-checked {
+  background-color: var(--ant-switch-bg);
+}
+.ant-switch.ant-switch-custom.ant-switch-checked:hover:not(:disabled), .ant-switch.ant-switch-custom.ant-switch-checked:active:not(:disabled) {
+  background-color: color-mix(in srgb, var(--ant-switch-bg) 82%, white);
+}
+.ant-switch.ant-switch-custom.ant-switch-checked:disabled {
+  background-color: color-mix(in srgb, var(--ant-switch-bg) 50%, transparent);
+}
+@supports (color: contrast-color(white)) {
+  .ant-switch.ant-switch-custom.ant-switch-checked .ant-switch-handle::before {
+    background-color: contrast-color(var(--ant-switch-bg));
+  }
+}
+.ant-switch.ant-switch-custom:focus-visible {
+  box-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, var(--ant-switch-bg) 25%, transparent);
+}
+
 .b-table.ant-table > .ant-table-container,
 .b-table.ant-table > .ant-table-container > .ant-table-content,
 .b-table.ant-table > .ant-table-container > .ant-table-content > table,
@@ -10199,6 +10548,43 @@ a.ant-typography-disabled[aria-disabled=true] {
     border-bottom: 1px solid;
   }
 }
+.ant-table > .ant-table-container > .ant-table-content > table > :is(tbody, thead, tfoot) > tr.ant-table-row.ant-table-custom > :is(th, td):not(.ant-table-primary, .ant-table-secondary, .ant-table-success, .ant-table-danger, .ant-table-warning, .ant-table-info, .ant-table-light, .ant-table-dark, .ant-table-link, .ant-table-custom) {
+  background-color: var(--ant-table-row-bg);
+  color: var(--ant-color-text);
+  border-color: color-mix(in srgb, var(--ant-table-row-bg) 70%, black);
+}
+@supports (color: contrast-color(white)) {
+  .ant-table > .ant-table-container > .ant-table-content > table > :is(tbody, thead, tfoot) > tr.ant-table-row.ant-table-custom > :is(th, td):not(.ant-table-primary, .ant-table-secondary, .ant-table-success, .ant-table-danger, .ant-table-warning, .ant-table-info, .ant-table-light, .ant-table-dark, .ant-table-link, .ant-table-custom) {
+    color: contrast-color(var(--ant-table-row-bg));
+  }
+}
+.ant-table.ant-table-striped > .ant-table-container > .ant-table-content > table > tbody > tr.ant-table-row.ant-table-custom:nth-of-type(odd) > :is(th, td):not(.ant-table-primary, .ant-table-secondary, .ant-table-success, .ant-table-danger, .ant-table-warning, .ant-table-info, .ant-table-light, .ant-table-dark, .ant-table-link, .ant-table-custom) {
+  background-color: color-mix(in srgb, var(--ant-table-row-bg) 90%, black);
+}
+@supports (color: contrast-color(white)) {
+  .ant-table.ant-table-striped > .ant-table-container > .ant-table-content > table > tbody > tr.ant-table-row.ant-table-custom:nth-of-type(odd) > :is(th, td):not(.ant-table-primary, .ant-table-secondary, .ant-table-success, .ant-table-danger, .ant-table-warning, .ant-table-info, .ant-table-light, .ant-table-dark, .ant-table-link, .ant-table-custom) {
+    color: contrast-color(color-mix(in srgb, var(--ant-table-row-bg) 90%, black));
+  }
+}
+.ant-table.ant-table-hover > .ant-table-container > .ant-table-content > table > tbody > tr.ant-table-row.ant-table-custom:hover > :is(th, td):not(.ant-table-primary, .ant-table-secondary, .ant-table-success, .ant-table-danger, .ant-table-warning, .ant-table-info, .ant-table-light, .ant-table-dark, .ant-table-link, .ant-table-custom) {
+  background-color: color-mix(in srgb, var(--ant-table-row-bg) 85%, black);
+}
+@supports (color: contrast-color(white)) {
+  .ant-table.ant-table-hover > .ant-table-container > .ant-table-content > table > tbody > tr.ant-table-row.ant-table-custom:hover > :is(th, td):not(.ant-table-primary, .ant-table-secondary, .ant-table-success, .ant-table-danger, .ant-table-warning, .ant-table-info, .ant-table-light, .ant-table-dark, .ant-table-link, .ant-table-custom) {
+    color: contrast-color(color-mix(in srgb, var(--ant-table-row-bg) 85%, black));
+  }
+}
+.ant-table > .ant-table-container > .ant-table-content > table > :is(tbody, thead, tfoot) > tr.ant-table-row > td.ant-table-cell.ant-table-custom {
+  background-color: var(--ant-table-row-bg);
+  color: var(--ant-color-text);
+  border-color: color-mix(in srgb, var(--ant-table-row-bg) 70%, black);
+}
+@supports (color: contrast-color(white)) {
+  .ant-table > .ant-table-container > .ant-table-content > table > :is(tbody, thead, tfoot) > tr.ant-table-row > td.ant-table-cell.ant-table-custom {
+    color: contrast-color(var(--ant-table-row-bg));
+  }
+}
+
 .ant-tabs .ant-tabs-nav {
   position: relative;
   margin: var(--ant-tabs-horizontal-margin);

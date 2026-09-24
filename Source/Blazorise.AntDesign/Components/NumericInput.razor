@@ -23,10 +23,3 @@ else
 }
 @ChildContent
 @Feedback
-@code {
-    string ContainerClassNames => IsDisabled
-        ? $"{ClassNames} ant-input-number-disabled"
-        : ClassNames;
-
-    string InputClassNames => string.Join( " ", "ant-input-number-input", ClassProvider.NumericInputColor( Color ) ).Trim();
-}

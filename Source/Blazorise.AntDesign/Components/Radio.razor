@@ -1,6 +1,5 @@
 @typeparam TValue
 @inherits Blazorise.Radio<TValue>
-@using Blazorise.Utilities
 @if ( AsButton )
 {
     <label @ref="@wrapperRef" class="@WrapperClassNames" style="@WrapperStyleNames">
@@ -23,77 +22,4 @@ else
             @Feedback
         </span>
     </label>
-}
-@code {
-    private ClassBuilder wrapperClassBuilder;
-    private StyleBuilder wrapperStyleBuilder;
-
-    protected override void OnInitialized()
-    {
-        wrapperClassBuilder = new( BuildWrapperClasses );
-        wrapperStyleBuilder = new( BuildWrapperStyles );
-
-        base.OnInitialized();
-    }
-
-    protected internal override void DirtyClasses()
-    {
-        wrapperClassBuilder?.Dirty();
-
-        base.DirtyClasses();
-    }
-
-    protected internal override void DirtyStyles()
-    {
-        wrapperStyleBuilder?.Dirty();
-
-        base.DirtyStyles();
-    }
-
-    // Ant design doesn't have appearance for custom radio button colors.
-    // So for now I will skip support for it until I find a good way.
-    private void BuildWrapperClasses( ClassBuilder builder )
-    {
-        string baseClasses = AsButton == true
-            ? $"ant-segmented-item{( IsActive ? " ant-segmented-item-selected" : "" )}{( IsDisabled ? " ant-segmented-item-disabled" : "" )}"
-            : $"ant-radio-wrapper{( IsActive ? " ant-radio-wrapper-checked" : "" )}{( IsDisabled ? " ant-radio-wrapper-disabled" : "" )}";
-
-        builder.Append( baseClasses );
-        builder.Append( RadioSizeClass );
-        builder.Append( RadioColorClass );
-        builder.Append( Classes?.Wrapper );
-        AppendWrapperUtilities( builder );
-    }
-
-    private void BuildWrapperStyles( StyleBuilder builder )
-    {
-        AppendWrapperUtilities( builder );
-        builder.Append( Styles?.Wrapper );
-    }
-
-    string WrapperClassNames => wrapperClassBuilder.Class;
-
-    string WrapperStyleNames => wrapperStyleBuilder.Styles;
-
-    string CheckboxClassNames => AsButton == true
-        ? string.Empty
-        : $"ant-radio ant-wave-target{( IsActive ? " ant-radio-checked" : "" )}{( IsDisabled ? " ant-radio-disabled" : "" )}";
-
-    string InnerClassNames => AsButton == true
-        ? "ant-radio-button-inner"
-        : "ant-radio-inner";
-
-    string LabelClassNames => AsButton == true
-        ? "ant-segmented-item-label"
-        : "ant-radio-label";
-
-    string RadioSizeClass
-        => ThemeSize != Blazorise.Size.Default
-            ? $"ant-radio-{ClassProvider.ToSize( ThemeSize )}"
-            : null;
-
-    string RadioColorClass
-        => AsButton
-            ? $"ant-segmented-item-{ClassProvider.ToColor( ButtonColor )}"
-            : null;
 }

@@ -687,7 +687,9 @@ public abstract class ThemeGenerator : IThemeGenerator
     {
         if ( spinKitOptions?.Color is not null && spinKitOptions.Color != Color.Default )
         {
-            Variables[ThemeVariables.SpinKitColor] = $"var(--b-spinkit-color-{spinKitOptions.Color.Name})";
+            Variables[ThemeVariables.SpinKitColor] = spinKitOptions.Color.IsCssValue
+                ? spinKitOptions.Color.Name
+                : $"var(--b-spinkit-color-{spinKitOptions.Color.Name})";
         }
 
         if ( !string.IsNullOrEmpty( spinKitOptions?.Size ) )
@@ -1024,6 +1026,7 @@ public abstract class ThemeGenerator : IThemeGenerator
         GenerateButtonVariantStyles( sb, theme, variant, theme.ButtonOptions );
         GenerateButtonOutlineVariantStyles( sb, theme, variant, theme.ButtonOptions );
         GenerateBadgeVariantStyles( sb, theme, variant, color );
+        GenerateInputVariantStyles( sb, theme, variant, color );
         GenerateSwitchVariantStyles( sb, theme, variant, color, theme.SwitchOptions );
         GenerateStepsVariantStyles( sb, theme, variant, color, theme.StepsOptions );
         GenerateProgressVariantStyles( sb, theme, variant, color, theme.ProgressOptions );
@@ -1068,7 +1071,6 @@ public abstract class ThemeGenerator : IThemeGenerator
     protected virtual void GenerateTypographyVariantStyles( StringBuilder sb, Theme theme, string variant, string color )
     {
         GenerateParagraphVariantStyles( sb, theme, variant, color );
-        GenerateInputVariantStyles( sb, theme, variant, color );
     }
 
     /// <summary>
@@ -1478,14 +1480,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="value">String that represents a color.</param>
     /// <returns>Color value.</returns>
     protected static System.Drawing.Color ParseColor( string value )
-    {
-        if ( value.StartsWith( '#' ) )
-            return HexStringToColor( value );
-        else if ( value.StartsWith( "rgb" ) )
-            return CssRgbaFunctionToColor( value );
-
-        return System.Drawing.Color.FromName( value );
-    }
+        => Utilities.HtmlColorCodeParser.ParseColor( value, IsHexDigit );
 
     /// <summary>
     /// Converts the RGBA to RGB color format.
@@ -1495,15 +1490,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="customAlpha">Alpha component of a new color value.</param>
     /// <returns>A blend of all the supplied color value.</returns>
     protected static System.Drawing.Color Rgba2Rgb( System.Drawing.Color background, System.Drawing.Color color, float? customAlpha = null )
-    {
-        var alpha = customAlpha ?? color.A / byte.MaxValue;
-
-        return System.Drawing.Color.FromArgb(
-            (int)( ( 1 - alpha ) * background.R + alpha * color.R ),
-            (int)( ( 1 - alpha ) * background.G + alpha * color.G ),
-            (int)( ( 1 - alpha ) * background.B + alpha * color.B )
-        );
-    }
+        => Utilities.ColorUtilities.Rgba2Rgb( background, color, customAlpha );
 
     /// <summary>
     /// Converts the hexadecimal string into a <see cref="System.Drawing.Color">Color</see> value.
@@ -1511,35 +1498,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="hexColor">A color represented as hexadecimal string.</param>
     /// <returns>Parsed color value or <see cref="System.Drawing.Color.Empty">Empty</see> if failed.</returns>
     protected static System.Drawing.Color HexStringToColor( string hexColor )
-    {
-        var hc = ExtractHexDigits( hexColor );
-
-        if ( hc.Length == 3 )
-            hc = string.Format( "{0}{0}{1}{1}{2}{2}", hc[0], hc[1], hc[2] );
-
-        if ( hc.Length < 6 )
-            return System.Drawing.Color.Empty;
-
-        try
-        {
-            var r = int.Parse( hc.Substring( 0, 2 ), NumberStyles.HexNumber );
-            var g = int.Parse( hc.Substring( 2, 2 ), NumberStyles.HexNumber );
-            var b = int.Parse( hc.Substring( 4, 2 ), NumberStyles.HexNumber );
-
-            if ( hc.Length == 8 )
-            {
-                var a = int.Parse( hc.Substring( 6, 2 ), NumberStyles.HexNumber );
-
-                return System.Drawing.Color.FromArgb( a, r, g, b );
-            }
-
-            return System.Drawing.Color.FromArgb( r, g, b );
-        }
-        catch
-        {
-            return System.Drawing.Color.Empty;
-        }
-    }
+        => Utilities.HtmlColorCodeParser.HexStringToColor( hexColor, IsHexDigit );
 
     /// <summary>
     /// Converts the hexadecimal string into a <see cref="HslColor">HlsColor</see> value.
@@ -1553,66 +1512,22 @@ public abstract class ThemeGenerator : IThemeGenerator
             hexColor = $"#{hexColor}";
         }
 
-        // Convert hex to RGB first
-        var color = HexStringToColor( hexColor );
-
-        // Then to HSL
-        var r = color.R / 255d;
-        var g = color.G / 255d;
-        var b = color.B / 255d;
-
-        var cmin = Math.Min( Math.Min( r, g ), b );
-        var cmax = Math.Max( Math.Max( r, g ), b );
-        var delta = cmax - cmin;
-        var h = 0d;
-        var s = 0d;
-        var l = 0d;
-
-        if ( delta == 0 )
-            h = 0;
-        else if ( cmax == r )
-            h = ( ( g - b ) / delta ) % 6;
-        else if ( cmax == g )
-            h = ( b - r ) / delta + 2;
-        else
-            h = ( r - g ) / delta + 4;
-
-        h = Math.Round( h * 60 );
-
-        if ( h < 0 )
-            h += 360;
-
-        l = ( cmax + cmin ) / 2;
-        s = delta == 0 ? 0 : delta / ( 1 - Math.Abs( 2 * l - 1 ) );
-        s = +( s * 100 );
-        l = +( l * 100 );
-
-        return new HslColor( h, s, l );
+        return HslColor.FromColor( HexStringToColor( hexColor ) );
     }
 
     /// <summary>
-    /// Gets the relative brightness of any point in a colorspace, normalized to 0 for darkest black and 1 for lightest white.
+    /// Gets the relative brightness of any point in a colorspace, on a scale from 0 for black to 100 for white.
     /// </summary>
     /// <param name="color">The color from which to calculate luminance.</param>
-    /// <returns>Rteurns the relative brightness of any point in a colorspace, normalized to 0 for darkest black and 1 for lightest white.</returns>
+    /// <returns>Returns the relative brightness of any point in a colorspace, on a scale from 0 for black to 100 for white.</returns>
     protected static double LuminanceFromColor( System.Drawing.Color color )
-    {
-        // Formula from WCAG 2.0
-        var rgb = new double[] { color.R, color.G, color.B }.Select( c =>
-        {
-            c /= 255d;// to 0-1 range
-
-            return c < 0.03928 ? c / 12.92 : Math.Pow( ( c + 0.055 ) / 1.055, 2.4 );
-        } ).ToArray();
-
-        return 21.26 * rgb[0] + 71.52 * rgb[1] + 7.22 * rgb[2];
-    }
+        => Utilities.ColorUtilities.LuminanceFromColor( color );
 
     /// <summary>
-    /// Gets the relative brightness of any point in a colorspace, normalized to 0 for darkest black and 1 for lightest white.
+    /// Gets the relative brightness of any point in a colorspace, on a scale from 0 for black to 100 for white.
     /// </summary>
     /// <param name="hexColor">The hex color from which to calculate luminance.</param>
-    /// <returns>Rteurns the relative brightness of any point in a colorspace, normalized to 0 for darkest black and 1 for lightest white.</returns>
+    /// <returns>Returns the relative brightness of any point in a colorspace, on a scale from 0 for black to 100 for white.</returns>
     protected static double LuminanceFromColor( string hexColor )
     {
         return LuminanceFromColor( ParseColor( hexColor ) );
@@ -1624,37 +1539,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="cssColor">A color represented as (rgb or rgba) function call.</param>
     /// <returns>Parsed color value or <see cref="System.Drawing.Color.Empty">Empty</see> if failed.</returns>
     protected static System.Drawing.Color CssRgbaFunctionToColor( string cssColor )
-    {
-        int left = cssColor.IndexOf( '(' );
-        int right = cssColor.IndexOf( ')' );
-
-        if ( 0 > left || 0 > right )
-            throw new FormatException( $"Invalid rgb or rgba function format: {cssColor}" );
-
-        var noBrackets = cssColor.Substring( left + 1, right - left - 1 );
-
-        var parts = noBrackets.Split( ',' );
-
-        if ( parts.Length < 3 )
-            throw new FormatException( $"Invalid rgb format: {cssColor}" );
-
-        var r = int.Parse( parts[0], CultureInfo.InvariantCulture );
-        var g = int.Parse( parts[1], CultureInfo.InvariantCulture );
-        var b = int.Parse( parts[2], CultureInfo.InvariantCulture );
-
-        if ( 3 == parts.Length )
-        {
-            return System.Drawing.Color.FromArgb( r, g, b );
-        }
-        else if ( 4 == parts.Length )
-        {
-            var a = float.Parse( parts[3], CultureInfo.InvariantCulture );
-
-            return System.Drawing.Color.FromArgb( (int)( a * 255 ), r, g, b );
-        }
-
-        return System.Drawing.Color.Empty;
-    }
+        => Utilities.HtmlColorCodeParser.CssRgbaFunctionToColor( cssColor );
 
     /// <summary>
     /// Checks for characters that are Hexadecimal
@@ -1667,17 +1552,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="input">A string to extract.</param>
     /// <returns>A new hex string.</returns>
     protected static string ExtractHexDigits( string input )
-    {
-        var sb = new StringBuilder();
-        var result = IsHexDigit.Matches( input );
-
-        foreach ( System.Text.RegularExpressions.Match item in result )
-        {
-            sb.Append( item.Value );
-        }
-
-        return sb.ToString();
-    }
+        => Utilities.HtmlColorCodeParser.ExtractHexDigits( input, IsHexDigit );
 
     /// <summary>
     /// Converts the color to a 6 digit hexadecimal, or 8 digit hexadecimal string if alpha is defined.
@@ -1685,12 +1560,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="color">Color to convert.</param>
     /// <returns>A 6 or 8 hexadecimal digit representation of color value.</returns>
     protected static string ToHex( System.Drawing.Color color )
-    {
-        if ( color.A < 255 )
-            return $"#{color.R:X2}{color.G:X2}{color.B:X2}{color.A:X2}";
-
-        return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
-    }
+        => Utilities.ColorUtilities.ToHex( color );
 
     /// <summary>
     /// Converts the color 8 digit hexadecimal string.
@@ -1698,9 +1568,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="color">Color to convert.</param>
     /// <returns>A 8 hexadecimal representation of color value.</returns>
     protected static string ToHexRGBA( System.Drawing.Color color )
-    {
-        return $"#{color.R:X2}{color.G:X2}{color.B:X2}{color.A:X2}";
-    }
+        => Utilities.ColorUtilities.ToHexRGBA( color );
 
     /// <summary>
     /// Converts the hslColor to a 6 digit hexadecimal, or 8 digit hexadecimal string if alpha is defined.
@@ -1708,11 +1576,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="hslColor">Color to convert.</param>
     /// <returns>A 6 or 8 hexadecimal digit representation of color value.</returns>
     protected static string ToHex( HslColor hslColor )
-    {
-        var color = hslColor.ToColor();
-
-        return ToHex( color );
-    }
+        => Utilities.ColorUtilities.ToHex( hslColor );
 
     /// <summary>
     /// Applied the transparency to the supplied color.
@@ -1721,11 +1585,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="alpha">The alpha component. Valid values are 0 through 255.</param>
     /// <returns>New transparent color.</returns>
     protected static System.Drawing.Color Transparency( string hexColor, int alpha )
-    {
-        var color = ParseColor( hexColor );
-
-        return System.Drawing.Color.FromArgb( alpha, color.R, color.G, color.B );
-    }
+        => Transparency( ParseColor( hexColor ), alpha );
 
     /// <summary>
     /// Applied the transparency to the supplied color.
@@ -1734,9 +1594,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="alpha">The alpha component. Valid values are 0 through 255.</param>
     /// <returns>New transparent color.</returns>
     protected static System.Drawing.Color Transparency( System.Drawing.Color color, int alpha )
-    {
-        return System.Drawing.Color.FromArgb( alpha, color.R, color.G, color.B );
-    }
+        => Utilities.ColorUtilities.Transparency( color, alpha );
 
     /// <summary>
     /// Darkens the color based on the defined percentage.
@@ -1758,9 +1616,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="percentage">Percentage of how much to darken the color.</param>
     /// <returns>Darkened color.</returns>
     protected static System.Drawing.Color Darken( System.Drawing.Color color, float percentage )
-    {
-        return ChangeColorBrightness( color, -1 * percentage / 100f );
-    }
+        => Utilities.ColorUtilities.Darken( color, percentage );
 
     /// <summary>
     /// Lightens the color based on the defined percentage.
@@ -1782,9 +1638,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="percentage">Percentage of how much to lighten the color.</param>
     /// <returns>Lightened color.</returns>
     protected static System.Drawing.Color Lighten( System.Drawing.Color color, float percentage )
-    {
-        return ChangeColorBrightness( color, percentage / 100f );
-    }
+        => Utilities.ColorUtilities.Lighten( color, percentage );
 
     /// <summary>
     /// Inverts the supplied color.
@@ -1792,9 +1646,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="color">Color to invert.</param>
     /// <returns>Inverted color.</returns>
     protected static System.Drawing.Color Invert( System.Drawing.Color color )
-    {
-        return System.Drawing.Color.FromArgb( 255 - color.R, 255 - color.G, 255 - color.B );
-    }
+        => Utilities.ColorUtilities.Invert( color );
 
     /// <summary>
     /// Applies the correction factor on a color to make it brighter.
@@ -1803,27 +1655,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="correctionFactor">How much to correct the color.</param>
     /// <returns>Brightened color.</returns>
     protected static System.Drawing.Color ChangeColorBrightness( System.Drawing.Color color, float correctionFactor )
-    {
-        float red = color.R;
-        float green = color.G;
-        float blue = color.B;
-
-        if ( correctionFactor < 0 )
-        {
-            correctionFactor = 1 + correctionFactor;
-            red *= correctionFactor;
-            green *= correctionFactor;
-            blue *= correctionFactor;
-        }
-        else
-        {
-            red = ( 255 - red ) * correctionFactor + red;
-            green = ( 255 - green ) * correctionFactor + green;
-            blue = ( 255 - blue ) * correctionFactor + blue;
-        }
-
-        return System.Drawing.Color.FromArgb( color.A, (int)red, (int)green, (int)blue );
-    }
+        => Utilities.ColorUtilities.ChangeColorBrightness( color, correctionFactor );
 
     /// <summary>
     /// Applies the theme contrast to supplied color value.
@@ -1845,21 +1677,25 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="color">Color to change.</param>
     /// <param name="luminanceThreshold">The threshold that controls the contrast level.</param>
     /// <returns>New color with the applied contrast.</returns>
-    protected static System.Drawing.Color Contrast( Theme theme, System.Drawing.Color color, byte? luminanceThreshold = null )
-    {
-        // Counting the perceptive luminance - human eye favors green color...
-        double luminance = ( 299 * color.R + 587 * color.G + 114 * color.B ) / 1000d;
+    protected internal static System.Drawing.Color Contrast( Theme theme, System.Drawing.Color color, byte? luminanceThreshold = null )
+        => Utilities.ColorUtilities.Contrast(
+            color,
+            ParseContrastColor( theme?.Black, System.Drawing.Color.FromArgb( 52, 58, 64 ) ),
+            ParseContrastColor( theme?.White, System.Drawing.Color.White ),
+            luminanceThreshold ?? theme?.LuminanceThreshold ?? 150 );
 
-        System.Drawing.Color contrast;
+    /// <summary>
+    /// Preserves the theme's preferred foreground when readable, otherwise selects the highest contrast.
+    /// </summary>
+    internal static System.Drawing.Color GetAccessibleContrastColor( Theme theme, System.Drawing.Color background )
+        => Utilities.ColorUtilities.GetAccessibleContrastColor(
+            background,
+            ParseContrastColor( theme?.Black, System.Drawing.Color.FromArgb( 52, 58, 64 ) ),
+            ParseContrastColor( theme?.White, System.Drawing.Color.White ),
+            theme?.LuminanceThreshold ?? 150 );
 
-        // The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
-        if ( luminance > ( luminanceThreshold ?? theme.LuminanceThreshold ) )
-            contrast = ParseColor( theme.Black ); // bright colors - black font
-        else
-            contrast = ParseColor( theme.White ); // dark colors - white font
-
-        return contrast;
-    }
+    private static System.Drawing.Color ParseContrastColor( string value, System.Drawing.Color fallback )
+        => Utilities.HtmlColorCodeParser.TryParse( value, out System.Drawing.Color color ) ? color : fallback;
 
     /// <summary>
     /// Applies the provider contrast algorithm to supplied color value.
@@ -1891,13 +1727,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="percentage">The level of blend.</param>
     /// <returns>Combination of two colors.</returns>
     protected static System.Drawing.Color Blend( System.Drawing.Color color, System.Drawing.Color color2, float percentage )
-    {
-        var alpha = percentage / 100f;
-        byte r = (byte)( ( color.R * alpha ) + color2.R * ( 1f - alpha ) );
-        byte g = (byte)( ( color.G * alpha ) + color2.G * ( 1f - alpha ) );
-        byte b = (byte)( ( color.B * alpha ) + color2.B * ( 1f - alpha ) );
-        return System.Drawing.Color.FromArgb( r, g, b );
-    }
+        => Utilities.ColorUtilities.Blend( color, color2, percentage );
 
     /// <summary>
     /// Sass-compatible mix of two colors by weight percentage (0..100).
@@ -1905,64 +1735,19 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// Weight favors c1. Handles alpha like Sass/Dart Sass.
     /// </summary>
     protected static System.Drawing.Color Mix( System.Drawing.Color c1, System.Drawing.Color c2, double weightPercent )
-    {
-        // Clamp weight
-        var p = Math.Max( 0.0, Math.Min( 100.0, weightPercent ) ) / 100.0;
-
-        // Convert channels to [0..255], alpha to [0..1]
-        double r1 = c1.R, g1 = c1.G, b1 = c1.B, a1 = c1.A / 255.0;
-        double r2 = c2.R, g2 = c2.G, b2 = c2.B, a2 = c2.A / 255.0;
-
-        // Sass/Dart Sass algorithm
-        var w = p * 2.0 - 1.0;
-        var a = a1 - a2;
-
-        double w1;
-        var wa = w * a;
-
-        if ( Math.Abs( wa + 1.0 ) < 1e-12 )
-        {
-            // Avoid division by zero; fall back
-            w1 = w;
-        }
-        else
-        {
-            w1 = ( w + a ) / ( 1.0 + wa );
-        }
-
-        w1 = ( w1 + 1.0 ) / 2.0;
-        var w2 = 1.0 - w1;
-
-        // Combine RGB
-        var r = (int)Math.Round( r1 * w1 + r2 * w2 );
-        var g = (int)Math.Round( g1 * w1 + g2 * w2 );
-        var b = (int)Math.Round( b1 * w1 + b2 * w2 );
-
-        // Combine alpha (simple weighted blend per Sass)
-        var aOut = a1 * p + a2 * ( 1.0 - p );
-        var aByte = (int)Math.Round( aOut * 255.0 );
-
-        r = Clamp8( r );
-        g = Clamp8( g );
-        b = Clamp8( b );
-        aByte = Clamp8( aByte );
-
-        return System.Drawing.Color.FromArgb( aByte, r, g, b );
-
-        static int Clamp8( int v ) => v < 0 ? 0 : ( v > 255 ? 255 : v );
-    }
+        => Utilities.ColorUtilities.Mix( c1, c2, weightPercent );
 
     /// <summary>
     /// Sass tint-color($color, $weight) = mix(white, $color, $weight).
     /// </summary>
     public static System.Drawing.Color TintColor( System.Drawing.Color baseColor, double weightPercent )
-        => Mix( System.Drawing.Color.FromArgb( 255, 255, 255, 255 ), baseColor, weightPercent );
+        => Utilities.ColorUtilities.TintColor( baseColor, weightPercent );
 
     /// <summary>
     /// Sass shade-color($color, $weight) = mix(black, $color, $weight). (Not used by Bootstrap’s subtle, but handy.)
     /// </summary>
     public static System.Drawing.Color ShadeColor( System.Drawing.Color baseColor, double weightPercent )
-        => Mix( System.Drawing.Color.FromArgb( 255, 0, 0, 0 ), baseColor, weightPercent );
+        => Utilities.ColorUtilities.ShadeColor( baseColor, weightPercent );
 
     /// <summary>
     /// Gets the first string that is not null or empty.

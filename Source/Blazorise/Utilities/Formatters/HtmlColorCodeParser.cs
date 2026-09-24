@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 #endregion
 
@@ -420,6 +421,228 @@ public static class HtmlColorCodeParser
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Resolves literal CSS colors without evaluating variables or assuming a backdrop.
+    /// Uses standard CSS named colors independently of the legacy RGB overload's mapping.
+    /// </summary>
+    /// <param name="value">The literal CSS color to parse.</param>
+    /// <param name="color">The parsed color, including alpha.</param>
+    /// <returns>True if the color can be resolved without browser state.</returns>
+    public static bool TryParse( string value, out System.Drawing.Color color )
+    {
+        color = System.Drawing.Color.Empty;
+
+        if ( string.IsNullOrWhiteSpace( value ) )
+            return false;
+
+        value = value.Trim();
+
+        if ( value.StartsWith( '#' ) )
+        {
+            string hex = value[1..];
+
+            if ( hex.Length is 3 or 4 )
+            {
+                string expanded = string.Empty;
+
+                foreach ( char digit in hex )
+                    expanded += new string( digit, 2 );
+
+                hex = expanded;
+            }
+
+            if ( hex.Length is not ( 6 or 8 ) || !uint.TryParse( hex, NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out uint channels ) )
+                return false;
+
+            int alpha = hex.Length == 8 ? (int)( channels & 255 ) : 255;
+            if ( hex.Length == 8 )
+                channels >>= 8;
+
+            color = System.Drawing.Color.FromArgb( alpha, (int)( channels >> 16 & 255 ), (int)( channels >> 8 & 255 ), (int)( channels & 255 ) );
+            return true;
+        }
+
+        int opening = value.IndexOf( '(' );
+
+        if ( opening < 0 )
+        {
+            color = System.Drawing.Color.FromName( value );
+            return color.IsKnownColor;
+        }
+
+        string function = value[..opening].ToLowerInvariant();
+        if ( function is not ( "rgb" or "rgba" or "hsl" or "hsla" ) || !value.EndsWith( ')' ) )
+            return false;
+
+        string[] parts = Regex.Split( value[( opening + 1 )..^1].Trim(), @"\s*[,/]\s*|\s+" );
+        if ( parts.Length is not ( 3 or 4 ) )
+            return false;
+
+        double opacity = 1;
+        if ( parts.Length == 4 && !TryNumber( parts[3], 1, out opacity ) )
+            return false;
+
+        int alphaChannel = (int)( Math.Clamp( opacity, 0, 1 ) * 255 );
+
+        if ( function is "rgb" or "rgba" )
+        {
+            if ( !TryNumber( parts[0], 255, out double red )
+                || !TryNumber( parts[1], 255, out double green )
+                || !TryNumber( parts[2], 255, out double blue ) )
+                return false;
+
+            color = System.Drawing.Color.FromArgb( alphaChannel, Channel( red ), Channel( green ), Channel( blue ) );
+            return true;
+        }
+
+        if ( !TryHue( parts[0], out double hue )
+            || !parts[1].EndsWith( '%' ) || !TryNumber( parts[1], 1, out double saturation )
+            || !parts[2].EndsWith( '%' ) || !TryNumber( parts[2], 1, out double lightness ) )
+            return false;
+
+        HslColor hsl = new(
+            ( hue % 360 + 360 ) % 360,
+            Math.Clamp( saturation, 0, 1 ) * 100,
+            Math.Clamp( lightness, 0, 1 ) * 100 );
+        color = System.Drawing.Color.FromArgb( alphaChannel, hsl.ToColor() );
+        return true;
+    }
+
+    private static int Channel( double value ) => (int)Math.Round( Math.Clamp( value, 0, 255 ) );
+
+    private static bool TryNumber( string value, double percentageScale, out double number )
+    {
+        bool percentage = value.EndsWith( '%' );
+        if ( !double.TryParse( percentage ? value[..^1] : value, NumberStyles.Float, CultureInfo.InvariantCulture, out number ) || !double.IsFinite( number ) )
+            return false;
+
+        if ( percentage )
+            number = number / 100 * percentageScale;
+
+        return true;
+    }
+
+    private static bool TryHue( string value, out double hue )
+    {
+        value = value.ToLowerInvariant();
+        double scale = 1;
+        if ( value.EndsWith( "grad", StringComparison.Ordinal ) )
+        {
+            value = value[..^4];
+            scale = .9;
+        }
+        else if ( value.EndsWith( "turn", StringComparison.Ordinal ) )
+        {
+            value = value[..^4];
+            scale = 360;
+        }
+        else if ( value.EndsWith( "rad", StringComparison.Ordinal ) )
+        {
+            value = value[..^3];
+            scale = 180 / Math.PI;
+        }
+        else if ( value.EndsWith( "deg", StringComparison.Ordinal ) )
+        {
+            value = value[..^3];
+        }
+
+        if ( !double.TryParse( value, NumberStyles.Float, CultureInfo.InvariantCulture, out hue ) || !double.IsFinite( hue ) )
+            return false;
+
+        hue *= scale;
+        return double.IsFinite( hue );
+    }
+
+    internal static System.Drawing.Color ParseColor( string value, Regex hexDigits )
+    {
+        if ( TryParse( value, out System.Drawing.Color color ) )
+            return color;
+
+        if ( value.StartsWith( '#' ) )
+            return HexStringToColor( value, hexDigits );
+        else if ( value.StartsWith( "rgb" ) )
+            return CssRgbaFunctionToColor( value );
+
+        return System.Drawing.Color.FromName( value );
+    }
+
+    internal static System.Drawing.Color HexStringToColor( string hexColor, Regex hexDigits )
+    {
+        string hc = ExtractHexDigits( hexColor, hexDigits );
+
+        if ( hc.Length == 3 )
+            hc = string.Format( "{0}{0}{1}{1}{2}{2}", hc[0], hc[1], hc[2] );
+
+        if ( hc.Length < 6 )
+            return System.Drawing.Color.Empty;
+
+        try
+        {
+            int r = int.Parse( hc.Substring( 0, 2 ), NumberStyles.HexNumber );
+            int g = int.Parse( hc.Substring( 2, 2 ), NumberStyles.HexNumber );
+            int b = int.Parse( hc.Substring( 4, 2 ), NumberStyles.HexNumber );
+
+            if ( hc.Length == 8 )
+            {
+                int a = int.Parse( hc.Substring( 6, 2 ), NumberStyles.HexNumber );
+
+                return System.Drawing.Color.FromArgb( a, r, g, b );
+            }
+
+            return System.Drawing.Color.FromArgb( r, g, b );
+        }
+        catch
+        {
+            return System.Drawing.Color.Empty;
+        }
+    }
+
+    internal static System.Drawing.Color CssRgbaFunctionToColor( string cssColor )
+    {
+        int left = cssColor.IndexOf( '(' );
+        int right = cssColor.IndexOf( ')' );
+
+        if ( 0 > left || 0 > right )
+            throw new FormatException( $"Invalid rgb or rgba function format: {cssColor}" );
+
+        string noBrackets = cssColor.Substring( left + 1, right - left - 1 );
+
+        string[] parts = noBrackets.Split( ',' );
+
+        if ( parts.Length < 3 )
+            throw new FormatException( $"Invalid rgb format: {cssColor}" );
+
+        int r = int.Parse( parts[0], CultureInfo.InvariantCulture );
+        int g = int.Parse( parts[1], CultureInfo.InvariantCulture );
+        int b = int.Parse( parts[2], CultureInfo.InvariantCulture );
+
+        if ( 3 == parts.Length )
+        {
+            return System.Drawing.Color.FromArgb( r, g, b );
+        }
+        else if ( 4 == parts.Length )
+        {
+            float a = float.Parse( parts[3], CultureInfo.InvariantCulture );
+
+            return System.Drawing.Color.FromArgb( (int)( a * 255 ), r, g, b );
+        }
+
+        return System.Drawing.Color.Empty;
+    }
+
+    internal static string ExtractHexDigits( string input, Regex hexDigits )
+    {
+        StringBuilder sb = new StringBuilder();
+        MatchCollection result = hexDigits.Matches( input );
+
+        foreach ( System.Text.RegularExpressions.Match item in result )
+        {
+            sb.Append( item.Value );
+        }
+
+        return sb.ToString();
     }
 
     private static byte ParseHexValueAsByte( string value )

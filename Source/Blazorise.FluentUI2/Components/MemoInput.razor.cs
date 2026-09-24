@@ -38,6 +38,11 @@ public partial class MemoInput
     {
         builder.Append( "fui-Textarea" );
 
+        if ( !Plaintext && !IsDisabled && ( ParentValidation?.Status ?? ValidationStatus.None ) == ValidationStatus.None )
+        {
+            builder.Append( ClassProvider.MemoInputColor( Color ) );
+        }
+
         if ( Plaintext )
         {
             builder.Append( "fui-Textarea-plaintext" );
@@ -72,12 +77,19 @@ public partial class MemoInput
     private void BuildAddonClasses( ClassBuilder builder )
     {
         builder.Append( "fui-Input__content" );
+
+        if ( !Plaintext && !IsDisabled && ( ParentValidation?.Status ?? ValidationStatus.None ) == ValidationStatus.None )
+        {
+            builder.Append( ClassProvider.MemoInputColor( Color ) );
+        }
+
         builder.Append( Classes?.Wrapper );
         AppendWrapperUtilities( builder );
     }
 
     private void BuildWrapperStyles( StyleBuilder builder )
     {
+        builder.Append( StyleProvider.MemoInputColor( Color ) );
         AppendWrapperUtilities( builder );
     }
 

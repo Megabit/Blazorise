@@ -744,3 +744,42 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>Custom switch colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use custom CSS colors for switch tracks with contrasting thumbs.</CardText>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.Wrap" Gap="Gap.Is3">
+                    <Switch TValue="bool" Color="@("#DBB5E6")" Value="true">Lavender</Switch>
+                    <Switch TValue="bool" Color="@(new Color("#312E81"))" Value="true">Indigo</Switch>
+                    <Switch TValue="bool" Color="@CssColor.Variable("--accent", "#34D399")" Value="true">Accent</Switch>
+                    <Switch TValue="bool" Color="@("rgb(15, 118, 110)")">Unchecked</Switch>
+                    <Switch TValue="bool" Color="@("#FDE68A")" Value="true" Disabled>Disabled</Switch>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>Custom radio button colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Set a custom color on a radio button group or override individual buttons.</CardText>
+            </CardBody>
+            <CardBody>
+                <RadioGroup TValue="string" Name="custom-colors" Buttons Color="@("#DBB5E6")" Value="@("lavender")">
+                    <Radio Value="@("lavender")">Lavender</Radio>
+                    <Radio Value="@("indigo")" Color="@(new Color("#312E81"))">Indigo</Radio>
+                    <Radio Value="@("accent")" Color="@CssColor.Variable("--accent", "#34D399")">Accent</Radio>
+                    <Radio Value="@("disabled")" Color="@("#FDE68A")" Disabled>Disabled</Radio>
+                </RadioGroup>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

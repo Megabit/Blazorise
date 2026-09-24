@@ -155,3 +155,47 @@ td:focus {
         }
     }
 }
+
+.table {
+    > :is(tbody, thead, tfoot) > tr.is-custom {
+        > :is(th, td):not(#{$table-contextual-cell-selectors}) {
+            background-color: var(--bulma-table-cell-background-color);
+            color: var(--bulma-text);
+            border-color: color-mix(in srgb, var(--bulma-table-cell-background-color) 70%, black);
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(var(--bulma-table-cell-background-color));
+            }
+        }
+    }
+
+    &.is-striped > tbody > tr.is-custom:nth-of-type(odd) {
+        > :is(th, td):not(#{$table-contextual-cell-selectors}) {
+            background-color: color-mix(in srgb, var(--bulma-table-cell-background-color) 90%, black);
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(color-mix(in srgb, var(--bulma-table-cell-background-color) 90%, black));
+            }
+        }
+    }
+
+    &.is-hoverable > tbody > tr.is-custom:hover {
+        > :is(th, td):not(#{$table-contextual-cell-selectors}) {
+            background-color: color-mix(in srgb, var(--bulma-table-cell-background-color) 85%, black);
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(color-mix(in srgb, var(--bulma-table-cell-background-color) 85%, black));
+            }
+        }
+    }
+
+    > :is(tbody, thead, tfoot) > tr > td.is-custom {
+        background-color: var(--bulma-table-cell-background-color);
+        color: var(--bulma-text);
+        border-color: color-mix(in srgb, var(--bulma-table-cell-background-color) 70%, black);
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--bulma-table-cell-background-color));
+        }
+    }
+}

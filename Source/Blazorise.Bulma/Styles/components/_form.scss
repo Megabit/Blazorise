@@ -1,3 +1,29 @@
+@each $name, $color in $theme-colors {
+    .is-color-#{$name} {
+        @extend %bulma-input-color;
+        --bulma-input-custom-color: var(--bulma-#{$name}, #{$color});
+    }
+}
+
+.is-colored {
+    @extend %bulma-input-color;
+}
+
+%bulma-input-color {
+    &:is(.input, .textarea):not(.is-static):not(:disabled):not(.is-success, .is-warning, .is-danger) {
+        --bulma-input-border-color: var(--bulma-input-custom-color);
+        --bulma-input-focus-shadow-color: color-mix(in srgb, var(--bulma-input-custom-color), transparent 75%);
+        border-color: var(--bulma-input-border-color);
+
+        &:focus,
+        &.is-focused,
+        &:active,
+        &.is-active {
+            box-shadow: var(--bulma-input-focus-shadow-size, 0 0 0 0.125em) var(--bulma-input-focus-shadow-color);
+        }
+    }
+}
+
 label.radio.button {
     display: flex;
 }

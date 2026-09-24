@@ -1,0 +1,67 @@
+.tag {
+    &.is-custom,
+    &.is-custom-subtle {
+        background-color: var(--bulma-tag-background-color);
+        border-color: var(--bulma-tag-background-color);
+        color: $white;
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--bulma-tag-background-color));
+        }
+
+        &[href] {
+            &:hover,
+            &:focus {
+                background-color: color-mix(in srgb, var(--bulma-tag-background-color) 85%, black);
+                border-color: color-mix(in srgb, var(--bulma-tag-background-color) 85%, black);
+                color: $white;
+
+                @supports (color: contrast-color(white)) {
+                    color: contrast-color(color-mix(in srgb, var(--bulma-tag-background-color) 85%, black));
+                }
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--bulma-tag-background-color);
+                outline-offset: 2px;
+            }
+        }
+
+        .delete {
+            color: inherit;
+
+            &:hover,
+            &:focus {
+                color: inherit;
+            }
+
+            &::before,
+            &::after {
+                background-color: currentColor;
+            }
+        }
+    }
+
+    &.is-custom-subtle {
+        background-color: color-mix(in srgb, var(--bulma-tag-background-color) 12%, var(--bulma-scheme-main));
+        border-color: color-mix(in srgb, var(--bulma-tag-background-color) 30%, var(--bulma-scheme-main));
+        color: color-mix(in srgb, var(--bulma-tag-background-color) 40%, var(--bulma-text));
+
+        @supports (color: contrast-color(white)) {
+            color: color-mix(in srgb, var(--bulma-tag-background-color) 30%, contrast-color(color-mix(in srgb, var(--bulma-tag-background-color) 12%, var(--bulma-scheme-main))));
+        }
+
+        &[href] {
+            &:hover,
+            &:focus {
+                background-color: color-mix(in srgb, var(--bulma-tag-background-color) 25%, var(--bulma-scheme-main));
+                border-color: color-mix(in srgb, var(--bulma-tag-background-color) 40%, var(--bulma-scheme-main));
+                color: color-mix(in srgb, var(--bulma-tag-background-color) 40%, var(--bulma-text));
+
+                @supports (color: contrast-color(white)) {
+                    color: color-mix(in srgb, var(--bulma-tag-background-color) 30%, contrast-color(color-mix(in srgb, var(--bulma-tag-background-color) 25%, var(--bulma-scheme-main))));
+                }
+            }
+        }
+    }
+}

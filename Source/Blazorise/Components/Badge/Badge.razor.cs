@@ -49,6 +49,14 @@ public partial class Badge : BaseComponent<BadgeClasses, BadgeStyles>
         base.BuildClasses( builder );
     }
 
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.BadgeColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
     /// <summary>
     /// Builds the classnames for a close button.
     /// </summary>
@@ -118,7 +126,7 @@ public partial class Badge : BaseComponent<BadgeClasses, BadgeStyles>
     }
 
     /// <summary>
-    /// Specifies the contextual <see cref="Color"/> applied to the badge's background and text.
+    /// Specifies the contextual or explicit CSS color applied to the badge's background and text.
     /// </summary>
     [Parameter]
     public Color Color
@@ -129,6 +137,7 @@ public partial class Badge : BaseComponent<BadgeClasses, BadgeStyles>
             color = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

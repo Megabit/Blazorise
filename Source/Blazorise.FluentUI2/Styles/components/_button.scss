@@ -308,3 +308,41 @@
         transform: rotate(360deg);
     }
 }
+
+.fui-Button {
+    &.fui-Button-custom,
+    &.fui-ButtonOutline-custom {
+        --colorBrandBackgroundHover: color-mix(in srgb, var(--colorBrandBackground) 90%, black);
+        --colorBrandBackgroundPressed: color-mix(in srgb, var(--colorBrandBackground) 80%, black);
+
+        &:focus-visible {
+            outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+            outline-offset: var(--strokeWidthThick);
+        }
+    }
+
+    &.fui-Button-custom {
+        @include button-variant(var(--colorBrandBackground), var(--colorBrandBackgroundHover), var(--colorBrandBackgroundPressed), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
+
+        @supports (color: contrast-color(white)) {
+            @include button-variant(var(--colorBrandBackground), var(--colorBrandBackgroundHover), var(--colorBrandBackgroundPressed), contrast-color(var(--colorBrandBackground)), contrast-color(var(--colorBrandBackgroundHover)), contrast-color(var(--colorBrandBackgroundPressed)));
+        }
+    }
+
+    &.fui-ButtonOutline-custom {
+        @include button-outline-variant(var(--colorBrandBackground), var(--colorBrandBackgroundHover), var(--colorBrandBackgroundPressed));
+    }
+
+    &.fui-Button-custom,
+    &.fui-ButtonOutline-custom {
+        &.fui-Button-disabled,
+        &:disabled {
+            color: var(--colorNeutralForegroundDisabled);
+        }
+    }
+}
+
+label.fui-Button.fui-Button-custom:has(input:focus-visible) {
+    outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
+    outline-offset: var(--strokeWidthThick);
+}

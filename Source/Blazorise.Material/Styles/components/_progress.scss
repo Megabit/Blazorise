@@ -62,6 +62,12 @@
     }
 
     &-bar {
+        @supports (color: contrast-color(red)) {
+            &.mui-progress-bar-custom {
+                --mui-progress-text-color: contrast-color(var(--mui-progress-color));
+            }
+        }
+
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -337,4 +343,8 @@
     100% {
         transform: translateX(250%);
     }
+}
+
+.mui-page-progress .mui-page-progress-indicator.mui-page-progress-indicator-custom {
+    background-color: var(--mui-page-progress-bg);
 }

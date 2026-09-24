@@ -26,6 +26,12 @@ namespace Blazorise.Tailwind.Components
         {
             builder.Append( "inline-flex items-center p-0.5 ml-2 rounded-sm" );
 
+            if ( Color?.IsCssValue == true )
+            {
+                builder.Append( ClassProvider.BadgeCloseColor( Color, Subtle ) );
+                return;
+            }
+
             builder.Append( Color?.Name switch
             {
                 "primary" => "bg-blue-100 text-blue-500 focus:ring-2 focus:ring-blue-400 hover:bg-blue-200 dark:bg-blue-200 dark:text-blue-600 dark:hover:bg-blue-300",

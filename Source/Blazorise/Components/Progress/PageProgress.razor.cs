@@ -63,6 +63,8 @@ public partial class PageProgress : BaseComponent<PageProgressClasses, PageProgr
     /// <param name="builder">Style builder used to append the styles.</param>
     protected virtual void BuildIndicatorStyles( StyleBuilder builder )
     {
+        builder.Append( StyleProvider.PageProgressIndicatorColor( Color ) );
+
         if ( Value is not null )
             builder.Append( $"width: {Value}%" );
     }
@@ -173,6 +175,7 @@ public partial class PageProgress : BaseComponent<PageProgressClasses, PageProgr
             color = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

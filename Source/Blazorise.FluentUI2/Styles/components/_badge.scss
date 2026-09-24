@@ -71,3 +71,66 @@
         border-color: #{map-get($border-theme-colors-subtle, $color-name)};
     }
 }
+
+.fui-Badge {
+    &.fui-Badge-custom,
+    &.fui-Badge-custom-subtle {
+        background-color: var(--colorBadgeBackground);
+        border-color: var(--colorBadgeBackground);
+        color: var(--colorNeutralForegroundOnBrand);
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--colorBadgeBackground));
+        }
+
+        &[href] {
+            &:hover,
+            &:focus {
+                background-color: color-mix(in srgb, var(--colorBadgeBackground) 85%, black);
+                border-color: color-mix(in srgb, var(--colorBadgeBackground) 85%, black);
+                color: var(--colorNeutralForegroundOnBrand);
+
+                @supports (color: contrast-color(white)) {
+                    color: contrast-color(color-mix(in srgb, var(--colorBadgeBackground) 85%, black));
+                }
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--colorBadgeBackground);
+                outline-offset: 2px;
+            }
+        }
+
+        .fui-Badge__close {
+            color: inherit;
+
+            &:hover,
+            &:focus {
+                color: inherit;
+            }
+        }
+    }
+
+    &.fui-Badge-custom-subtle {
+        background-color: color-mix(in srgb, var(--colorBadgeBackground) 12%, var(--colorNeutralBackground1));
+        border-color: color-mix(in srgb, var(--colorBadgeBackground) 30%, var(--colorNeutralBackground1));
+        color: color-mix(in srgb, var(--colorBadgeBackground) 40%, var(--colorNeutralForeground1));
+
+        @supports (color: contrast-color(white)) {
+            color: color-mix(in srgb, var(--colorBadgeBackground) 30%, contrast-color(color-mix(in srgb, var(--colorBadgeBackground) 12%, var(--colorNeutralBackground1))));
+        }
+
+        &[href] {
+            &:hover,
+            &:focus {
+                background-color: color-mix(in srgb, var(--colorBadgeBackground) 25%, var(--colorNeutralBackground1));
+                border-color: color-mix(in srgb, var(--colorBadgeBackground) 40%, var(--colorNeutralBackground1));
+                color: color-mix(in srgb, var(--colorBadgeBackground) 40%, var(--colorNeutralForeground1));
+
+                @supports (color: contrast-color(white)) {
+                    color: color-mix(in srgb, var(--colorBadgeBackground) 30%, contrast-color(color-mix(in srgb, var(--colorBadgeBackground) 25%, var(--colorNeutralBackground1))));
+                }
+            }
+        }
+    }
+}

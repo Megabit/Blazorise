@@ -13,7 +13,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string TextInputSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
-    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "mui-input-colored" : color.IsNotNullOrDefault() ? $"mui-input-color-{ToColor( color )}" : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -24,6 +24,8 @@ public class MaterialClassProvider : ClassProvider
     public override string MemoInput( bool plaintext ) => plaintext ? "mui-input-plaintext" : "mui-input";
 
     public override string MemoInputSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
+
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
 
     public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -47,7 +49,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string NumericInputSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
-    public override string NumericInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
 
     public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -59,7 +61,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string DateInputSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
-    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => TextInputColor( color );
 
     public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -71,7 +73,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string TimeInputSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
-    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
 
     public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -91,7 +93,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -151,7 +153,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -190,7 +192,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -202,7 +204,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -279,7 +281,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Switch() => "mui-switch";
 
-    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-switch-{ToColor( color )}" : null;
+    public override string SwitchColor( Color color ) => color?.IsCssValue == true ? "mui-switch-custom" : color.IsNotNullOrDefault() ? $"mui-switch-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => size != Size.Default ? $"mui-switch-{ToSize( size )}" : null;
 
@@ -361,7 +363,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string RatingItem() => "mui-rating-item";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-rating-item-{ToColor( color )}" : null;
+    public override string RatingItemColor( Color color ) => color?.IsCssValue == true ? "mui-rating-item-custom" : color.IsNotNullOrDefault() ? $"mui-rating-item-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => selected ? "mui-rating-item-selected" : null;
 
@@ -560,7 +562,9 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Button( bool outline ) => "mui-button";
 
-    public override string ButtonColor( Color color, bool outline ) => outline
+    public override string ButtonColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "mui-button-outline-custom" : "mui-button-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline"
         : color.IsNotNullOrDefault() ? $"{Button( outline )}-{ToColor( color )}" : null;
 
@@ -645,7 +649,9 @@ public class MaterialClassProvider : ClassProvider
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "mui-dropdown-item mui-dropdown-toggle" : "mui-button mui-dropdown-toggle";
 
-    public override string DropdownToggleColor( Color color, bool outline ) => outline
+    public override string DropdownToggleColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "mui-button-outline-custom" : "mui-button-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"mui-button-outline-{ToColor( color )}" : $"mui-button-outline"
         : color.IsNotNullOrDefault() ? $"mui-button-{ToColor( color )}" : null;
 
@@ -804,11 +810,11 @@ public class MaterialClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "mui-step-item-completed" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
+    public override string StepItemColor( Color color ) => color?.IsCssValue == true ? "mui-step-item-custom" : color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "mui-step-marker";
 
-    public override string StepItemMarkerColor( Color color, bool active ) => color.IsNotNullOrDefault() ? $"mui-step-marker-{ToColor( color )}" : null;
+    public override string StepItemMarkerColor( Color color, bool active ) => color?.IsCssValue == true ? null : color.IsNotNullOrDefault() ? $"mui-step-marker-{ToColor( color )}" : null;
 
     public override string StepItemDescription() => "mui-step-description";
 
@@ -919,7 +925,7 @@ public class MaterialClassProvider : ClassProvider
     public override string ListGroupItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
     public override string ListGroupItemColor( Color color, bool selectable, bool active )
-        => color.IsNotNullOrDefault() ? $"{ListGroupItem()}-{ToColor( color )}" : null;
+        => color?.IsCssValue == true ? "mui-list-item-custom" : color.IsNotNullOrDefault() ? $"{ListGroupItem()}-{ToColor( color )}" : null;
 
     #endregion
 
@@ -1154,7 +1160,9 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Alert() => "mui-alert";
 
-    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"{Alert()}-{ToColor( color )}" : null;
+    public override string AlertColor( Color color ) => color?.IsCssValue == true
+        ? "mui-alert-custom"
+        : color.IsNotNullOrDefault() ? $"{Alert()}-{ToColor( color )}" : null;
 
     public override string AlertDismisable( bool dismissable ) => dismissable ? "mui-alert-closable" : null;
 
@@ -1354,7 +1362,9 @@ public class MaterialClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => size != Size.Default ? $"mui-progress-bar-{ToSize( size )}" : null;
 
-    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-progress-bar-{ToColor( color )}" : null;
+    public override string ProgressBarColor( Color color ) => color?.IsCssValue == true
+        ? "mui-progress-bar-custom"
+        : color.IsNotNullOrDefault() ? $"mui-progress-bar-{ToColor( color )}" : null;
 
     public override string ProgressBarStriped( bool striped ) => striped ? "mui-progress-bar-striped" : null;
 
@@ -1370,7 +1380,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string PageProgressIndicator() => "mui-page-progress-indicator";
 
-    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-page-progress-indicator-{ToColor( color )}" : null;
+    public override string PageProgressIndicatorColor( Color color ) => color?.IsCssValue == true ? "mui-page-progress-indicator-custom" : color.IsNotNullOrDefault() ? $"mui-page-progress-indicator-{ToColor( color )}" : null;
 
     public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "mui-page-progress-indicator-indeterminate" : null;
 
@@ -1428,7 +1438,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => "mui-table-row";
 
-    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-table-row-{ToColor( color )}" : null;
+    public override string TableRowColor( Color color ) => color?.IsCssValue == true ? "mui-table-row-custom" : color.IsNotNullOrDefault() ? $"mui-table-row-{ToColor( color )}" : null;
 
     public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "mui-table-row-selectable" : null;
 
@@ -1448,7 +1458,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string TableRowCell() => "mui-table-row-cell";
 
-    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-table-cell-{ToColor( color )}" : null;
+    public override string TableRowCellColor( Color color ) => color?.IsCssValue == true ? "mui-table-cell-custom" : color.IsNotNullOrDefault() ? $"mui-table-cell-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {
@@ -1485,14 +1495,16 @@ public class MaterialClassProvider : ClassProvider
     public override string Badge() => "mui-chip";
 
     public override string BadgeColor( Color color, bool subtle )
-        => color.IsNotNullOrDefault() ? $"mui-chip-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true
+            ? subtle ? "mui-chip-custom-subtle" : "mui-chip-custom"
+            : color.IsNotNullOrDefault() ? $"mui-chip-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     public override string BadgePill( bool pill ) => pill ? "mui-chip-rounded" : null;
 
     public override string BadgeClose() => "mui-chip-close";
 
     public override string BadgeCloseColor( Color color, bool subtle )
-        => color.IsNotNullOrDefault() ? $"mui-chip-close-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true ? null : color.IsNotNullOrDefault() ? $"mui-chip-close-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     #endregion
 

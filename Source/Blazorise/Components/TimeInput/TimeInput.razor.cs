@@ -36,6 +36,14 @@ public partial class TimeInput<TValue> : BaseTextInput<TValue, TimeInputClasses,
     }
 
     /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.TimeInputColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
+    /// <inheritdoc/>
     protected override Task OnChangeHandler( ChangeEventArgs e )
     {
         return CurrentValueHandler( e?.Value?.ToString() );

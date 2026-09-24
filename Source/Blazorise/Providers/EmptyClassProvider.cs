@@ -27,6 +27,8 @@ class EmptyClassProvider : IClassProvider
 
     public string MemoInputSize( Size size ) => null;
 
+    public string MemoInputColor( Color color ) => null;
+
     public string MemoInputValidation( ValidationStatus validationStatus ) => null;
 
     #endregion

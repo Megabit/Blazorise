@@ -5,6 +5,60 @@ namespace Blazorise.Bootstrap.Providers;
 
 public class BootstrapStyleProvider : StyleProvider
 {
+    #region Component colors
+
+    public override string TextInputColor( Color color ) => ColorStyle( color, "--bs-input-border-color" );
+
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
+
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
+
+    public override string DateInputColor( Color color ) => TextInputColor( color );
+
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
+
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
+
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
+
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
+
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
+
+    public override string ListGroupItemColor( Color color ) => ColorStyle( color, "--bs-list-group-bg" );
+
+    public override string TableRowColor( Color color ) => ColorStyle( color, "--bs-table-bg" );
+
+    public override string TableRowCellColor( Color color ) => ColorStyle( color, "--bs-table-bg" );
+
+    public override string SwitchColor( Color color ) => ColorStyle( color, "--bs-switch-bg" );
+
+    public override string RatingItemColor( Color color ) => ColorStyle( color, "--bs-rating-color" );
+
+    public override string StepItemColor( Color color ) => ColorStyle( color, "--bs-step-color" );
+
+    public override string PageProgressIndicatorColor( Color color ) => ColorStyle( color, "--bs-page-progress-bg" );
+
+    #endregion
+
+    #region Badge
+
+    public override string BadgeColor( Color color ) => ColorStyle( color, "--bs-badge-bg" );
+
+    #endregion
+
+    #region Alert
+
+    public override string AlertColor( Color color ) => ColorStyle( color, "--bs-alert-bg" );
+
+    #endregion
+
+    #region Button
+
+    public override string ButtonColor( Color color ) => ColorStyle( color, "--bs-btn-bg" );
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 1050;
@@ -38,6 +92,8 @@ public class BootstrapStyleProvider : StyleProvider
     #endregion
 
     #region ProgressBar
+
+    public override string ProgressBarColor( Color color ) => ColorStyle( color, "--bs-progress-bar-bg" );
 
     public override string ProgressBarValue( int value ) => $"width: {value}%";
 

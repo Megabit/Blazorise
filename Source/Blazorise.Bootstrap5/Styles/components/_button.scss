@@ -80,3 +80,35 @@ input[type="button"] {
         width: 100%;
     }
 }
+
+.btn {
+    &.btn-custom,
+    &.btn-outline-custom {
+        --bs-btn-color: #{$color-contrast-light};
+        --bs-btn-bg: var(--bs-btn-border-color);
+        --bs-btn-hover-bg: color-mix(in srgb, var(--bs-btn-border-color) 85%, black);
+        --bs-btn-hover-border-color: var(--bs-btn-hover-bg);
+        --bs-btn-hover-color: #{$color-contrast-light};
+        --bs-btn-active-bg: color-mix(in srgb, var(--bs-btn-border-color) 80%, black);
+        --bs-btn-active-border-color: var(--bs-btn-active-bg);
+        --bs-btn-active-color: #{$color-contrast-light};
+        --bs-btn-disabled-color: var(--bs-btn-color);
+        --bs-btn-disabled-bg: var(--bs-btn-bg);
+        --bs-btn-disabled-border-color: var(--bs-btn-border-color);
+        --bs-btn-focus-box-shadow: 0 0 0 #{$btn-focus-width} color-mix(in srgb, var(--bs-btn-border-color) 50%, transparent);
+
+        @supports (color: contrast-color(white)) {
+            --bs-btn-color: contrast-color(var(--bs-btn-bg));
+            --bs-btn-hover-color: contrast-color(var(--bs-btn-hover-bg));
+            --bs-btn-active-color: contrast-color(var(--bs-btn-active-bg));
+        }
+    }
+
+    &.btn-outline-custom {
+        --bs-btn-color: var(--bs-btn-border-color);
+        --bs-btn-bg: transparent;
+        --bs-btn-hover-bg: var(--bs-btn-border-color);
+        --bs-btn-active-bg: var(--bs-btn-border-color);
+        --bs-gradient: none;
+    }
+}

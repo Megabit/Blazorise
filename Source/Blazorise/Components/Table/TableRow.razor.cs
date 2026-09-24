@@ -69,6 +69,14 @@ public partial class TableRow : BaseDraggableComponent
     }
 
     /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.TableRowColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
+    /// <inheritdoc/>
     protected override void BuildRenderTree( RenderTreeBuilder builder )
     {
         builder
@@ -407,6 +415,7 @@ public partial class TableRow : BaseDraggableComponent
             color = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

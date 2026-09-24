@@ -38,6 +38,11 @@ public partial class NumericInput<TValue> : Blazorise.NumericInput<TValue>
     {
         builder.Append( "fui-Input" );
 
+        if ( !Plaintext && !IsDisabled && ( ParentValidation?.Status ?? ValidationStatus.None ) == ValidationStatus.None )
+        {
+            builder.Append( ClassProvider.NumericInputColor( Color ) );
+        }
+
         if ( Plaintext )
         {
             builder.Append( "fui-Input-plaintext" );
@@ -72,12 +77,19 @@ public partial class NumericInput<TValue> : Blazorise.NumericInput<TValue>
     private void BuildAddonClasses( ClassBuilder builder )
     {
         builder.Append( "fui-Input__content" );
+
+        if ( !Plaintext && !IsDisabled && ( ParentValidation?.Status ?? ValidationStatus.None ) == ValidationStatus.None )
+        {
+            builder.Append( ClassProvider.NumericInputColor( Color ) );
+        }
+
         builder.Append( Classes?.Wrapper );
         AppendWrapperUtilities( builder );
     }
 
     private void BuildWrapperStyles( StyleBuilder builder )
     {
+        builder.Append( StyleProvider.NumericInputColor( Color ) );
         AppendWrapperUtilities( builder );
     }
 

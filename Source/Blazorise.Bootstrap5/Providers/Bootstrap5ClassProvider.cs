@@ -15,7 +15,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TextInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "form-control-colored" : color.IsNotNullOrDefault() ? $"form-control-{ToColor( color )}" : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -26,6 +26,8 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string MemoInput( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
     public override string MemoInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
 
     public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -49,7 +51,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string NumericInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string NumericInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
 
     public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -61,7 +63,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DateInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => TextInputColor( color );
 
     public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -73,7 +75,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TimeInputSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
 
     public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -93,7 +95,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -153,7 +155,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -192,7 +194,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -204,7 +206,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -264,7 +266,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Switch() => "form-check-input";
 
-    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
+    public override string SwitchColor( Color color ) => color?.IsCssValue == true ? "form-check-input-custom" : color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => size != Size.Default ? $"form-check-input-{ToSize( size )}" : null;
 
@@ -346,7 +348,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string RatingItem() => "rating-item";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"rating-item-{ToColor( color )}" : null;
+    public override string RatingItemColor( Color color ) => color?.IsCssValue == true ? "rating-item-custom" : color.IsNotNullOrDefault() ? $"rating-item-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => null;
 
@@ -540,7 +542,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Button( bool outline ) => "btn";
 
-    public override string ButtonColor( Color color, bool outline ) => outline
+    public override string ButtonColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "btn-outline-custom" : "btn-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline"
         : color.IsNotNullOrDefault() ? $"{Button( outline )}-{ToColor( color )}" : null;
 
@@ -625,7 +629,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
 
-    public override string DropdownToggleColor( Color color, bool outline ) => outline
+    public override string DropdownToggleColor( Color color, bool outline ) => color?.IsCssValue == true
+        ? outline ? "btn-outline-custom" : "btn-custom"
+        : outline
         ? color.IsNotNullOrDefault() ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
         : color.IsNotNullOrDefault() ? $"btn-{ToColor( color )}" : null;
 
@@ -775,7 +781,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "step-completed" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
+    public override string StepItemColor( Color color ) => color?.IsCssValue == true ? "step-custom" : color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "step-circle";
 
@@ -889,7 +895,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
-    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"{ListGroupItem()}-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color?.IsCssValue == true ? "list-group-item-custom" : $"{ListGroupItem()}-{ToColor( color )}";
 
     #endregion
 
@@ -1128,7 +1134,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Alert() => "alert";
 
-    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"{Alert()}-{ToColor( color )}" : null;
+    public override string AlertColor( Color color ) => color?.IsCssValue == true
+        ? "alert-custom"
+        : color.IsNotNullOrDefault() ? $"{Alert()}-{ToColor( color )}" : null;
 
     public override string AlertDismisable( bool dismissable ) => dismissable ? "alert-dismissible" : null;
 
@@ -1319,7 +1327,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => null;
 
-    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"bg-{ToColor( color )}" : null;
+    public override string ProgressBarColor( Color color ) => color?.IsCssValue == true
+        ? "progress-bar-custom"
+        : color.IsNotNullOrDefault() ? $"bg-{ToColor( color )}" : null;
 
     public override string ProgressBarStriped( bool striped ) => striped ? "progress-bar-striped" : null;
 
@@ -1335,7 +1345,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string PageProgressIndicator() => "b-page-progress-indicator";
 
-    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
+    public override string PageProgressIndicatorColor( Color color ) => color?.IsCssValue == true ? "page-progress-indicator-custom" : color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
 
     public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "b-page-progress-indicator-indeterminate" : null;
 
@@ -1393,7 +1403,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => null;
 
-    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
+    public override string TableRowColor( Color color ) => color?.IsCssValue == true ? "table-custom" : color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
 
     public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "table-row-selectable" : null;
 
@@ -1413,7 +1423,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TableRowCell() => null;
 
-    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
+    public override string TableRowCellColor( Color color ) => color?.IsCssValue == true ? "table-custom" : color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {
@@ -1450,14 +1460,16 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string Badge() => "badge";
 
     public override string BadgeColor( Color color, bool subtle )
-        => color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true
+            ? subtle ? "badge-custom-subtle" : "badge-custom"
+            : color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     public override string BadgePill( bool pill ) => pill ? "rounded-pill" : null;
 
     public override string BadgeClose() => "badge-close";
 
     public override string BadgeCloseColor( Color color, bool subtle )
-        => color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
+        => color?.IsCssValue == true ? null : color.IsNotNullOrDefault() ? $"text-bg-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     #endregion
 

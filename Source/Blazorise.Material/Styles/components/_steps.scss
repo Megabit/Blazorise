@@ -170,3 +170,23 @@
         opacity: 1;
     }
 }
+
+.mui-steps > .mui-step-item.mui-step-item-custom {
+    --mui-step-on-accent: var(--mui-on-primary);
+    --mui-step-container: color-mix(in srgb, var(--mui-step-accent) 15%, var(--mui-surface-container-lowest));
+    --mui-step-on-container: var(--mui-on-surface);
+
+    &.mui-step-item-active,
+    &.mui-step-item-completed {
+        color: color-mix(in srgb, var(--mui-step-accent) 40%, var(--mui-on-surface));
+    }
+
+    > .mui-step-marker {
+        border-color: var(--mui-step-accent);
+    }
+
+    @supports (color: contrast-color(white)) {
+        --mui-step-on-accent: contrast-color(var(--mui-step-accent));
+        --mui-step-on-container: contrast-color(var(--mui-step-container));
+    }
+}

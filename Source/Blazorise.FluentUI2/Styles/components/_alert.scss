@@ -191,3 +191,27 @@
         color: var(--colorBrandForegroundLink);
     }
 }
+
+.fui-MessageBar.fui-MessageBar-custom {
+    background-color: color-mix(in srgb, var(--colorMessageBarBackground) 15%, var(--colorNeutralBackground1));
+    border-color: color-mix(in srgb, var(--colorMessageBarBackground) 35%, var(--colorNeutralBackground1));
+    color: color-mix(in srgb, var(--colorMessageBarBackground) 40%, var(--colorNeutralForeground1));
+
+    @supports (color: contrast-color(white)) {
+        color: color-mix(in srgb, var(--colorMessageBarBackground) 30%, contrast-color(color-mix(in srgb, var(--colorMessageBarBackground) 15%, var(--colorNeutralBackground1))));
+    }
+
+    .alert-link,
+    .fui-MessageBar__icon {
+        color: inherit;
+    }
+
+    .fui-CloseButton {
+        color: inherit;
+
+        &:hover,
+        &:focus {
+            color: inherit;
+        }
+    }
+}

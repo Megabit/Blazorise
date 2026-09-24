@@ -197,3 +197,27 @@
         }
     }
 }
+
+.steps .step-item.is-custom {
+    .step-marker {
+        color: var(--bulma-step-color);
+        border-color: var(--bulma-step-color);
+    }
+
+    &.is-active,
+    &.is-completed {
+        .step-marker {
+            background-color: var(--bulma-step-color);
+            border-color: var(--bulma-step-color);
+            color: white;
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(var(--bulma-step-color));
+            }
+        }
+
+        &::before {
+            background: var(--bulma-step-color);
+        }
+    }
+}

@@ -232,13 +232,21 @@ public partial class LoadingIndicator : BaseComponent<LoadingIndicatorClasses, L
     /// </summary>
     private RenderFragment Spinner => ( builder ) =>
     {
+        string spinnerColor = SpinnerColor?.Name switch
+        {
+            null or "" => "#000000",
+            "primary" or "secondary" or "success" or "info" or "warning" or "danger" or "light" or "dark" or "link"
+                => CssColor.ResolveColor( SpinnerColor, $"var(--b-loading-indicator-color-{SpinnerColor.Name}, #000000)" ),
+            _ => SpinnerColor.Name,
+        };
+
         builder.OpenRegion( 0 );
         builder.AddMarkupContent( 1, @$"
                 <svg viewBox='0 0 128 128'
                     {( !string.IsNullOrEmpty( SpinnerWidth ) ? $"width='{SpinnerWidth}'" : "" )}
                     {( !string.IsNullOrEmpty( SpinnerHeight ) ? $"height='{SpinnerHeight}'" : "" )}>
                       <g>
-                          <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerColor.Name}' />
+                          <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{System.Net.WebUtility.HtmlEncode( spinnerColor )}' />
                           <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(45 64 64)' />
                           <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(90 64 64)' />
                           <path d = 'M38.52 33.37L21.36 16.2A63.6 63.6 0 0 1 59.5.16v24.3a39.5 39.5 0 0 0-20.98 8.92z' fill='{SpinnerBackground.Name}' transform='rotate(135 64 64)' />
@@ -333,7 +341,7 @@ public partial class LoadingIndicator : BaseComponent<LoadingIndicatorClasses, L
     [Parameter] public Background SpinnerBackground { get; set; } = "#c0c0c0";
 
     /// <summary>
-    /// Specifies the spinner color in a HEX format.
+    /// Defines the intent of the spinner.
     /// </summary>
     [Parameter] public Color SpinnerColor { get; set; } = "#000000";
 

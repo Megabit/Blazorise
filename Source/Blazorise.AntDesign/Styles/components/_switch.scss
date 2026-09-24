@@ -119,3 +119,28 @@
         }
     }
 }
+
+.ant-switch.ant-switch-custom {
+    &.ant-switch-checked {
+        background-color: var(--ant-switch-bg);
+
+        &:hover:not(:disabled),
+        &:active:not(:disabled) {
+            background-color: color-mix(in srgb, var(--ant-switch-bg) 82%, white);
+        }
+
+        &:disabled {
+            background-color: color-mix(in srgb, var(--ant-switch-bg) 50%, transparent);
+        }
+
+        @supports (color: contrast-color(white)) {
+            .ant-switch-handle::before {
+                background-color: contrast-color(var(--ant-switch-bg));
+            }
+        }
+    }
+
+    &:focus-visible {
+        box-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, var(--ant-switch-bg) 25%, transparent);
+    }
+}

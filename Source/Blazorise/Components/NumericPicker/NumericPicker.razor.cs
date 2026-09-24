@@ -307,6 +307,14 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
         base.BuildClasses( builder );
     }
 
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.NumericPickerColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
     /// <summary>
     /// Executes given action after the rendering is done.
     /// </summary>

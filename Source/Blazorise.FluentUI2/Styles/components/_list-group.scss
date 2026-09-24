@@ -212,3 +212,48 @@
         }
     }
 }
+
+.fui-ListGroup .fui-ListGroupItem.fui-ListGroupItem-custom {
+    background-image: none;
+    background-color: color-mix(in srgb, var(--colorListGroupItemBackground) 15%, var(--colorNeutralBackground1));
+    border-color: color-mix(in srgb, var(--colorListGroupItemBackground) 35%, var(--colorNeutralBackground1));
+    color: color-mix(in srgb, var(--colorListGroupItemBackground) 40%, var(--colorNeutralForeground1));
+
+    @supports (color: contrast-color(white)) {
+        color: color-mix(in srgb, var(--colorListGroupItemBackground) 30%, contrast-color(color-mix(in srgb, var(--colorListGroupItemBackground) 15%, var(--colorNeutralBackground1))));
+    }
+
+    &.fui-ListGroupItem-action:not(.fui-ListGroupItem-disabled):not(:disabled):not(.fui-ListGroupItem-active) {
+        &:hover,
+        &:focus {
+            background-color: color-mix(in srgb, var(--colorListGroupItemBackground) 25%, var(--colorNeutralBackground1));
+
+            @supports (color: contrast-color(white)) {
+                color: color-mix(in srgb, var(--colorListGroupItemBackground) 30%, contrast-color(color-mix(in srgb, var(--colorListGroupItemBackground) 25%, var(--colorNeutralBackground1))));
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--colorListGroupItemBackground);
+            outline-offset: -2px;
+        }
+    }
+
+    &.fui-ListGroupItem-active,
+    &.fui-ListGroupItem-active:hover,
+    &.fui-ListGroupItem-active:focus {
+        background-color: var(--colorListGroupItemBackground);
+        border-color: var(--colorListGroupItemBackground);
+        color: white;
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--colorListGroupItemBackground));
+        }
+    }
+
+    &.fui-ListGroupItem-disabled,
+    &:disabled {
+        opacity: .5;
+        pointer-events: none;
+    }
+}

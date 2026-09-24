@@ -165,3 +165,35 @@
         display: block;
     }
 }
+
+.steps .step.step-custom {
+    &.step-active,
+    &.step-completed {
+        .step-text {
+            color: color-mix(in srgb, var(--bs-step-color) 40%, $body-color);
+        }
+    }
+
+    .step-circle {
+        color: var(--bs-step-color);
+        border-color: var(--bs-step-color);
+    }
+
+    &.step-active,
+    &.step-completed {
+        .step-circle {
+            background-color: var(--bs-step-color);
+            border-color: var(--bs-step-color);
+            color: white;
+
+            @supports (color: contrast-color(white)) {
+                color: contrast-color(var(--bs-step-color));
+            }
+
+            &::before {
+                color: var(--bs-step-color);
+            }
+        }
+
+    }
+}

@@ -398,6 +398,14 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     }
 
     /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.DatePickerColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
+    /// <inheritdoc/>
     protected override Task OnChangeHandler( ChangeEventArgs eventArgs )
     {
         return ProcessInputTextAsync( eventArgs?.Value?.ToString(), formatParsedValue: true );

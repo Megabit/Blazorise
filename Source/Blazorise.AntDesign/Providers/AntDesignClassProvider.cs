@@ -15,7 +15,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TextInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string TextInputColor( Color color ) => color?.IsCssValue == true ? "ant-input-colored" : color.IsNotNullOrDefault() ? $"ant-input-color-{ToColor( color )}" : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -26,6 +26,8 @@ public class AntDesignClassProvider : ClassProvider
     public override string MemoInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input ant-input-outlined";
 
     public override string MemoInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
 
     public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-input" ) : null;
 
@@ -49,7 +51,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string NumericInputSize( Size size ) => size != Size.Default ? $"ant-input-number-{ToSize( size )}" : null;
 
-    public override string NumericInputColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
 
     public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-input-number" ) : null;
 
@@ -61,7 +63,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DateInputSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
-    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string DateInputColor( Color color ) => TextInputColor( color );
 
     public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
@@ -73,7 +75,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TimeInputSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
-    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
 
     public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
@@ -93,7 +95,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
@@ -153,7 +155,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
@@ -192,7 +194,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"ant-input-number-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-input-number" ) : null;
 
@@ -200,11 +202,11 @@ public class AntDesignClassProvider : ClassProvider
 
     #region InputMask
 
-    public override string InputMask( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string InputMask( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input ant-input-outlined";
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -265,7 +267,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Switch() => "ant-switch";
 
-    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
+    public override string SwitchColor( Color color ) => color?.IsCssValue == true ? "ant-switch-custom" : color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => size != Size.Default ? $"{Switch()}-{ToSize( size )}" : null;
 
@@ -347,7 +349,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string RatingItem() => "ant-rate-star";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-rate-star-{ToColor( color )}" : null;
+    public override string RatingItemColor( Color color ) => color?.IsCssValue == true ? "ant-rate-star-custom" : color.IsNotNullOrDefault() ? $"ant-rate-star-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => selected ? "ant-rate-star-full" : null;
 
@@ -779,7 +781,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "ant-steps-item-finish" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-steps-item-{ToColor( color )}" : null;
+    public override string StepItemColor( Color color ) => color?.IsCssValue == true ? "ant-steps-item-custom" : color.IsNotNullOrDefault() ? $"ant-steps-item-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "ant-steps-item-icon";
 
@@ -893,7 +895,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled( bool disabled ) => disabled ? "ant-list-group-item-disabled" : null;
 
-    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color == Color.Default ? null : $"ant-list-group-item-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color?.IsCssValue == true ? "ant-list-group-item-custom" : color == Color.Default ? null : $"ant-list-group-item-{ToColor( color )}";
 
     #endregion
 
@@ -1142,6 +1144,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string AlertColor( Color color )
     {
+        if ( color?.IsCssValue == true )
+            return "ant-alert-custom";
+
         if ( color.IsNullOrDefault() )
             return null;
 
@@ -1356,7 +1361,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => null;
 
-    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-progress-track-{ToColor( color )}" : null;
+    public override string ProgressBarColor( Color color ) => color?.IsCssValue == true
+        ? "ant-progress-track-custom"
+        : color.IsNotNullOrDefault() ? $"ant-progress-track-{ToColor( color )}" : null;
 
     public override string ProgressBarStriped( bool striped ) => striped ? "ant-progress-track-striped" : null;
 
@@ -1372,7 +1379,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string PageProgressIndicator() => "ant-page-progress-indicator";
 
-    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-page-progress-indicator-{ToColor( color )}" : null;
+    public override string PageProgressIndicatorColor( Color color ) => color?.IsCssValue == true ? "ant-page-progress-indicator-custom" : color.IsNotNullOrDefault() ? $"ant-page-progress-indicator-{ToColor( color )}" : null;
 
     public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "ant-page-progress-indicator-indeterminate" : null;
 
@@ -1430,7 +1437,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => "ant-table-row";
 
-    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-table-{ToColor( color )}" : null;
+    public override string TableRowColor( Color color ) => color?.IsCssValue == true ? "ant-table-custom" : color.IsNotNullOrDefault() ? $"ant-table-{ToColor( color )}" : null;
 
     public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "ant-table-row-selectable" : null;
 
@@ -1450,7 +1457,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableRowCell() => "ant-table-cell";
 
-    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-table-{ToColor( color )}" : null;
+    public override string TableRowCellColor( Color color ) => color?.IsCssValue == true ? "ant-table-custom" : color.IsNotNullOrDefault() ? $"ant-table-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {
@@ -1488,6 +1495,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BadgeColor( Color color, bool subtle )
     {
+        if ( color?.IsCssValue == true )
+            return $"ant-tag-custom {ToBadgeVariantClass( subtle )}";
+
         if ( color.IsNullOrDefault() )
             return null;
 
@@ -2296,6 +2306,9 @@ public class AntDesignClassProvider : ClassProvider
 
     private string ToButtonColorClass( Color color, bool outline )
     {
+        if ( color?.IsCssValue == true )
+            return outline ? "ant-btn-outline-custom ant-btn-variant-outlined" : "ant-btn-custom ant-btn-variant-solid";
+
         var colorName = color.IsNotNullOrDefault()
             ? ToColor( color )
             : null;

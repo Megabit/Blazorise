@@ -165,3 +165,24 @@
 .ant-btn:disabled {
     box-shadow: none !important;
 }
+
+.ant-btn {
+    &-custom.ant-btn-variant-solid {
+        @include ant-btn-solid-vars(var(--ant-color-primary), var(--ant-color-text-light-solid));
+
+        @supports (color: contrast-color(white)) {
+            --ant-btn-text-color: contrast-color(var(--ant-btn-bg-color));
+            --ant-btn-text-color-hover: contrast-color(var(--ant-btn-bg-color-hover));
+            --ant-btn-text-color-active: contrast-color(var(--ant-btn-bg-color-active));
+        }
+    }
+
+    &-outline-custom.ant-btn-variant-outlined {
+        @include ant-btn-outline-vars(var(--ant-color-primary));
+    }
+
+    &-custom,
+    &-outline-custom {
+        --ant-color-primary-border: color-mix(in srgb, var(--ant-color-primary) 50%, transparent);
+    }
+}

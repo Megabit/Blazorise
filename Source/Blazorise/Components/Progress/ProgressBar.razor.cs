@@ -55,6 +55,8 @@ public partial class ProgressBar : BaseComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
+        builder.Append( StyleProvider.ProgressBarColor( Color ) );
+
         if ( Percentage is not null )
             builder.Append( StyleProvider.ProgressBarValue( Percentage ?? 0 ) );
 
@@ -91,7 +93,7 @@ public partial class ProgressBar : BaseComponent
     protected bool IsShowValue => ParentProgress?.ShowValue ?? true;
 
     /// <summary>
-    /// Specifies the progress bar color.
+    /// Specifies the contextual or explicit CSS color of the progress bar.
     /// </summary>
     [Parameter]
     public Color Color
@@ -102,6 +104,7 @@ public partial class ProgressBar : BaseComponent
             color = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

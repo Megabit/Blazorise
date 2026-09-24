@@ -4,6 +4,19 @@
 
 $ant-white: #ffffff !default;
 
+$input-color-components: ("ant-input", "ant-input-number", "ant-picker") !default;
+$input-color-variants: (
+    primary: var(--ant-color-primary),
+    secondary: var(--ant-color-text-secondary),
+    success: var(--ant-color-success),
+    info: var(--ant-color-info),
+    warning: var(--ant-color-warning),
+    danger: var(--ant-color-error),
+    light: var(--ant-color-border),
+    dark: var(--ant-color-text),
+    link: var(--ant-color-link)
+) !default;
+
 // Buttons
 $mobile: 576px;
 $tablet: 768px;
@@ -1275,3 +1288,5 @@ html {
     --ant-gold-hover: #ffc53d;
     --ant-gold-active: #d48806;
 }
+
+$table-contextual-cell-selectors: ".ant-table-primary, .ant-table-secondary, .ant-table-success, .ant-table-danger, .ant-table-warning, .ant-table-info, .ant-table-light, .ant-table-dark, .ant-table-link";

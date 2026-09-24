@@ -251,3 +251,5 @@ $overflows: join($overflows, (visible, scroll));
 $position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;
 
 $gutters: $spacers !default;
+
+$table-contextual-cell-selectors: ".table-primary, .table-secondary, .table-success, .table-danger, .table-warning, .table-info, .table-light, .table-dark, .table-link";

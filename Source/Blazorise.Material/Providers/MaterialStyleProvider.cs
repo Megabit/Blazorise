@@ -2,6 +2,60 @@ namespace Blazorise.Material.Providers;
 
 public class MaterialStyleProvider : StyleProvider
 {
+    #region Component colors
+
+    public override string TextInputColor( Color color ) => ColorStyle( color, "--mui-input-border-color" );
+
+    public override string MemoInputColor( Color color ) => TextInputColor( color );
+
+    public override string NumericInputColor( Color color ) => TextInputColor( color );
+
+    public override string DateInputColor( Color color ) => TextInputColor( color );
+
+    public override string TimeInputColor( Color color ) => TextInputColor( color );
+
+    public override string DatePickerColor( Color color ) => TextInputColor( color );
+
+    public override string TimePickerColor( Color color ) => TextInputColor( color );
+
+    public override string NumericPickerColor( Color color ) => TextInputColor( color );
+
+    public override string InputMaskColor( Color color ) => TextInputColor( color );
+
+    public override string ListGroupItemColor( Color color ) => ColorStyle( color, "--mui-list-item-bg" );
+
+    public override string TableRowColor( Color color ) => ColorStyle( color, "--mui-table-row-bg" );
+
+    public override string TableRowCellColor( Color color ) => ColorStyle( color, "--mui-table-cell-bg" );
+
+    public override string SwitchColor( Color color ) => ColorStyle( color, "--mui-switch-bg" );
+
+    public override string RatingItemColor( Color color ) => ColorStyle( color, "--mui-rating-color" );
+
+    public override string StepItemColor( Color color ) => ColorStyle( color, "--mui-step-accent" );
+
+    public override string PageProgressIndicatorColor( Color color ) => ColorStyle( color, "--mui-page-progress-bg" );
+
+    #endregion
+
+    #region Badge
+
+    public override string BadgeColor( Color color ) => ColorStyle( color, "--mui-chip-bg" );
+
+    #endregion
+
+    #region Alert
+
+    public override string AlertColor( Color color ) => ColorStyle( color, "--mui-alert-bg" );
+
+    #endregion
+
+    #region Button
+
+    public override string ButtonColor( Color color ) => ColorStyle( color, "--mui-btn-border-color" );
+
+    #endregion
+
     #region Modal
 
     public override int DefaultModalZIndex => 1055;
@@ -34,6 +88,8 @@ public class MaterialStyleProvider : StyleProvider
     #endregion
 
     #region ProgressBar
+
+    public override string ProgressBarColor( Color color ) => ColorStyle( color, "--mui-progress-color" );
 
     public override string ProgressBarValue( int value ) => $"width: {value}%";
 

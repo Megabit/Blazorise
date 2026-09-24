@@ -78,6 +78,14 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
     }
 
     /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.NumericInputColor( Color ) );
+
+        base.BuildStyles( builder );
+    }
+
+    /// <inheritdoc/>
     protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
     {
         if ( Converters.TryChangeType<TValue>( value, out var result, CurrentCultureInfo ) )

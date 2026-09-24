@@ -69,6 +69,12 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
     private void BuildNumericWrapperClasses( ClassBuilder builder )
     {
         builder.Append( "fui-SpinButton" );
+
+        if ( !Plaintext && !IsDisabled && ( ParentValidation?.Status ?? ValidationStatus.None ) == ValidationStatus.None )
+        {
+            builder.Append( ClassProvider.NumericPickerColor( Color ) );
+        }
+
         builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
         AppendWrapperUtilities( builder );
 
@@ -85,6 +91,7 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
 
     private void BuildNumericWrapperStyles( StyleBuilder builder )
     {
+        builder.Append( StyleProvider.NumericPickerColor( Color ) );
         AppendWrapperUtilities( builder );
     }
 
