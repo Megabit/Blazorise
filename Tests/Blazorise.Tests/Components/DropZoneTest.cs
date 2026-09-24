@@ -1,12 +1,16 @@
+#region Using directives
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.Tests.TestServices;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 using Moq;
 using Xunit;
+#endregion
 
 namespace Blazorise.Tests.Components;
 
@@ -56,6 +60,48 @@ public class DropZoneTest : BunitContext
         zone.DropNotAllowedClass.Should().BeNullOrEmpty();
         zone.OnlyZone.Should().BeFalse();
         zone.AllowReorder.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task DropZone_AnimationChangeDuringInitialization_UpdatesJavaScriptOptions()
+    {
+        var initialUpdate = new TaskCompletionSource<bool>();
+        var module = new Mock<IJSDragDropModule>();
+        module.Setup( x => x.UpdateOptions(
+                It.IsAny<ElementReference>(),
+                It.IsAny<string>(),
+                It.IsAny<DotNetObjectReference<DropZone<object>>>(),
+                It.Is<DragDropJSOptions>( options => options.Animated ) ) )
+            .Returns( new ValueTask( initialUpdate.Task ) );
+
+        Services.AddSingleton( module.Object );
+
+        var comp = Render<DropZone<object>>( parameters => parameters
+            .AddCascadingValue( new DropContainer<object>() )
+            .Add( x => x.AllowReorder, true )
+            .Add( x => x.Animated, true )
+            .Add( x => x.AnimationDuration, 1000 ) );
+
+        module.Verify( x => x.UpdateOptions(
+            It.IsAny<ElementReference>(),
+            It.IsAny<string>(),
+            It.IsAny<DotNetObjectReference<DropZone<object>>>(),
+            It.Is<DragDropJSOptions>( options => options.Animated && options.AnimationDuration == 1000 ) ), Times.Once );
+
+        try
+        {
+            comp.Render( parameters => parameters.Add( x => x.Animated, false ) );
+        }
+        finally
+        {
+            await comp.InvokeAsync( () => initialUpdate.SetResult( true ) );
+        }
+
+        comp.WaitForAssertion( () => module.Verify( x => x.UpdateOptions(
+            It.IsAny<ElementReference>(),
+            It.IsAny<string>(),
+            It.IsAny<DotNetObjectReference<DropZone<object>>>(),
+            It.Is<DragDropJSOptions>( options => !options.Animated && options.AllowReorder ) ), Times.AtLeastOnce ) );
     }
 
     [Fact]
