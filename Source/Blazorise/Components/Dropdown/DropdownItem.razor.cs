@@ -207,6 +207,12 @@ public partial class DropdownItem : BaseComponent
     [Parameter] public bool Checked { get; set; }
 
     /// <summary>
+    /// Displays a partial selection indicator when <see cref="ShowCheckbox"/> is enabled.
+    /// This does not change <see cref="Checked"/>; update it when the related selections change.
+    /// </summary>
+    [Parameter] public bool Indeterminate { get; set; }
+
+    /// <summary>
     /// Occurs after the Checked state is changed, whenever the DropdownItem is in checkbox mode.
     /// </summary>
     [Parameter] public EventCallback<bool> CheckedChanged { get; set; }

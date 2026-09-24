@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-24T07:35:36.9269777Z",
+  "generatedUtc": "2026-09-24T08:11:35.0880840Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -47872,6 +47872,14 @@
           "typeName": "IFluentSizing",
           "defaultValue": "null",
           "summary": "Specifies the height of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Indeterminate",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Displays a partial selection indicator when <strong>ShowCheckbox</strong> is enabled.     This does not change <strong>Checked</strong>; update it when the related selections change.",
           "isBlazoriseEnum": false
         },
         {

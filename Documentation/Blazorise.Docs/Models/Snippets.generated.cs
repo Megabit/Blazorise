@@ -2460,13 +2460,30 @@ namespace Blazorise.Docs.Models
         Dropdown With Checkboxes
     </DropdownToggle>
     <DropdownMenu>
-        <DropdownItem ShowCheckbox>Checkbox</DropdownItem>
+        <DropdownItem ShowCheckbox Checked=""@IsAllSelected"" Indeterminate=""@IsPartiallySelected"" CheckedChanged=""@OnSelectAllChangedHandler"">Select all</DropdownItem>
         <DropdownDivider />
-        <DropdownItem ShowCheckbox>Another Checkbox</DropdownItem>
+        <DropdownItem ShowCheckbox @bind-Checked=""firstSelected"">First option</DropdownItem>
+        <DropdownItem ShowCheckbox @bind-Checked=""secondSelected"">Second option</DropdownItem>
         <DropdownItem ShowCheckbox Disabled>Checkbox Disabled</DropdownItem>
         <DropdownItem>Action</DropdownItem>
     </DropdownMenu>
-</Dropdown>";
+</Dropdown>
+
+@code {
+    private bool firstSelected = true;
+
+    private bool secondSelected;
+
+    private bool IsAllSelected => firstSelected && secondSelected;
+
+    private bool IsPartiallySelected => firstSelected != secondSelected;
+
+    private void OnSelectAllChangedHandler( bool isChecked )
+    {
+        firstSelected = isChecked;
+        secondSelected = isChecked;
+    }
+}";
 
         public const string DropdownExample = @"<Dropdown>
     <DropdownToggle Color=""Color.Primary"">

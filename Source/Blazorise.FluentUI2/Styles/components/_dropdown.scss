@@ -597,7 +597,8 @@
                     }
                 }
 
-                &[aria-checked="true"] {
+                &[aria-checked="true"],
+                &[aria-checked="mixed"] {
                     .fui-MenuItem__checkmark {
                         visibility: visible;
                     }

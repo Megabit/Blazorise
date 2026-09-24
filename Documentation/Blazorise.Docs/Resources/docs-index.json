@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-24T07:35:37.7542466Z",
+  "generatedUtc": "2026-09-24T08:11:35.6949604Z",
   "pages": [
     {
       "route": "/docs",
@@ -1700,9 +1700,9 @@
           "code": "DropdownCheckboxExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Dropdowns/Examples/DropdownCheckboxExample.razor",
-          "content": "<Dropdown>\r\n    <DropdownToggle Color=\"Color.Primary\">\r\n        Dropdown With Checkboxes\r\n    </DropdownToggle>\r\n    <DropdownMenu>\r\n        <DropdownItem ShowCheckbox>Checkbox</DropdownItem>\r\n        <DropdownDivider />\r\n        <DropdownItem ShowCheckbox>Another Checkbox</DropdownItem>\r\n        <DropdownItem ShowCheckbox Disabled>Checkbox Disabled</DropdownItem>\r\n        <DropdownItem>Action</DropdownItem>\r\n    </DropdownMenu>\r\n</Dropdown>",
+          "content": "<Dropdown>\r\n    <DropdownToggle Color=\"Color.Primary\">\r\n        Dropdown With Checkboxes\r\n    </DropdownToggle>\r\n    <DropdownMenu>\r\n        <DropdownItem ShowCheckbox Checked=\"@IsAllSelected\" Indeterminate=\"@IsPartiallySelected\" CheckedChanged=\"@OnSelectAllChangedHandler\">Select all</DropdownItem>\r\n        <DropdownDivider />\r\n        <DropdownItem ShowCheckbox @bind-Checked=\"firstSelected\">First option</DropdownItem>\r\n        <DropdownItem ShowCheckbox @bind-Checked=\"secondSelected\">Second option</DropdownItem>\r\n        <DropdownItem ShowCheckbox Disabled>Checkbox Disabled</DropdownItem>\r\n        <DropdownItem>Action</DropdownItem>\r\n    </DropdownMenu>\r\n</Dropdown>\r\n\r\n@code {\r\n    private bool firstSelected = true;\r\n\r\n    private bool secondSelected;\r\n\r\n    private bool IsAllSelected => firstSelected && secondSelected;\r\n\r\n    private bool IsPartiallySelected => firstSelected != secondSelected;\r\n\r\n    private void OnSelectAllChangedHandler( bool isChecked )\r\n    {\r\n        firstSelected = isChecked;\r\n        secondSelected = isChecked;\r\n    }\r\n}",
           "title": "Dropdown checkboxes",
-          "description": "Set Checkbox to true to render a checkbox by each dropdown item."
+          "description": "Set ShowCheckbox to true to render a checkbox by each dropdown item. Use Indeterminate to show a partial selection, such as when some but not all options are selected. Calculate this state from your selections and update it through CheckedChanged ; it does not change Checked automatically."
         },
         {
           "code": "SplitDropdownExample",
