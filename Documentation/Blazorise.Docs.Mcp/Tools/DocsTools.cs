@@ -125,9 +125,9 @@ internal sealed class DocsTools
         if ( apiIndex.Components is null || apiIndex.Components.Count == 0 )
             return new List<DocsApiComponent>();
 
-        Dictionary<string, DocsApiComponent> componentsByTypeName = apiIndex.Components
+        ILookup<string, DocsApiComponent> componentsByTypeName = apiIndex.Components
             .Where( component => !string.IsNullOrWhiteSpace( component.TypeName ) )
-            .ToDictionary( component => component.TypeName, StringComparer.OrdinalIgnoreCase );
+            .ToLookup( component => component.TypeName, StringComparer.OrdinalIgnoreCase );
 
         List<DocsApiComponent> results = new List<DocsApiComponent>();
         HashSet<string> seen = new HashSet<string>( StringComparer.OrdinalIgnoreCase );
@@ -140,10 +140,12 @@ internal sealed class DocsTools
                 if ( string.IsNullOrWhiteSpace( apiTypeName ) )
                     continue;
 
-                if ( componentsByTypeName.TryGetValue( apiTypeName, out DocsApiComponent component )
-                     && seen.Add( component.TypeName ) )
+                foreach ( DocsApiComponent component in componentsByTypeName[apiTypeName] )
                 {
-                    results.Add( component );
+                    if ( seen.Add( component.Type ?? component.TypeName ) )
+                    {
+                        results.Add( component );
+                    }
                 }
             }
             else if ( string.Equals( apiRef.Kind, "category", StringComparison.OrdinalIgnoreCase ) )
@@ -155,8 +157,10 @@ internal sealed class DocsTools
 
                 foreach ( DocsApiComponent component in categoryComponents )
                 {
-                    if ( seen.Add( component.TypeName ) )
+                    if ( seen.Add( component.Type ?? component.TypeName ) )
+                    {
                         results.Add( component );
+                    }
                 }
             }
         }
