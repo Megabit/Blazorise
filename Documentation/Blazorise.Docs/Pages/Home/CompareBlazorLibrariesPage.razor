@@ -1,0 +1,127 @@
+@page "/compare-blazor-libraries"
+
+<Seo Canonical="/compare-blazor-libraries" Title="Compare Blazor UI libraries | Blazorise" Description="Compare design systems, advanced components, developer utilities, and licensing across Blazorise, MudBlazor, Radzen Blazor Components, and Telerik UI for Blazor." />
+
+<Div Class="b-visual b-marketing b-expanded-page b-library-comparison-page">
+    <MarketingPageHeader Variant="BrandBackdropVariant.EdgePeaks" Counterpoint="BrandBackdropVariant.EdgePeaks">
+        <Title>Choose the right<br /><Span>Blazor UI library.</Span></Title>
+        <Description>One component API. Multiple design systems. Advanced components and developer utilities. Compare Blazorise with MudBlazor, Radzen Blazor Components, and Telerik UI for Blazor.</Description>
+        <Actions><Anchor To="docs/start" Class="b-visual-button b-visual-button-primary">Try Blazorise</Anchor><Anchor To="pricing" Class="b-visual-button b-visual-button-outline">View Blazorise plans</Anchor></Actions>
+    </MarketingPageHeader>
+
+    <section class="b-visual-section b-library-comparison-overview" aria-labelledby="comparison-overview-title">
+        <Container>
+            <Div Class="b-library-comparison-intro" Margin="Margin.Is4.FromBottom">
+                <Paragraph Class="b-visual-eyebrow">AT A GLANCE</Paragraph>
+                <Heading Size="HeadingSize.Is2" ElementId="comparison-overview-title">How they compare</Heading>
+                <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
+                    Compare design systems, advanced components, developer utilities, and licensing at a glance. Follow the source links for current product details.
+                </Paragraph>
+            </Div>
+
+            <LibraryComparisonTable />
+            <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+                Comparison based on publicly available product documentation. Last reviewed September 2026.
+            </Paragraph>
+        </Container>
+    </section>
+
+    <section class="b-visual-section b-marketing-tint b-library-comparison-guidance" aria-labelledby="comparison-guidance-title">
+        <Container>
+            <Heading Size="HeadingSize.Is2" ElementId="comparison-guidance-title" Margin="Margin.Is4.FromBottom">What to check before choosing</Heading>
+            <Row>
+                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+                    <Card Height="Height.Is100">
+                        <CardBody>
+                            <Heading Size="HeadingSize.Is3">Design systems</Heading>
+                            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                                Decide whether your team wants one opinionated design system or needs flexibility across several. Consider the visual requirements of your existing applications.
+                            </Paragraph>
+                            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                                Blazorise provides one component API across Material 3 Expressive, Fluent 2, Ant Design v6, Bootstrap, Tailwind, and Bulma.
+                            </Paragraph>
+                            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
+                                This flexibility can help with white-label products and different customer requirements, or when changing an application's visual system while keeping the component API.
+                            </Paragraph>
+                        </CardBody>
+                    </Card>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+                    <Card Height="Height.Is100">
+                        <CardBody>
+                            <Heading Size="HeadingSize.Is3">Enterprise components</Heading>
+                            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                                Look beyond buttons, inputs, and grids. Check whether the library covers the workflows that matter to your application, such as reporting, scheduling, or data analysis.
+                            </Paragraph>
+                            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                                Blazorise includes Reporting with designer and preview, DataGrid, Gantt, Scheduler, Charts, Maps, PivotGrid, and other specialized components.
+                            </Paragraph>
+                            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
+                                Evaluate those workflows with your own data. Using one library can reduce the integration and maintenance work involved in combining several third-party packages.
+                            </Paragraph>
+                        </CardBody>
+                    </Card>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+                    <Card Height="Height.Is100">
+                        <CardBody>
+                            <Heading Size="HeadingSize.Is3">Developer utilities</Heading>
+                            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                                The code around the components affects day-to-day development. Check how a library handles styling, validation, localization, responsive behavior, and accessibility.
+                            </Paragraph>
+                            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                                Blazorise offers strongly typed fluent utilities and helpers for styling and layout, so these settings can be expressed in C# rather than primarily through CSS class strings.
+                            </Paragraph>
+                            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
+                                Typed APIs help with discoverability, safer refactoring, and consistent usage. Async validation, JSON localization, breakpoints, theming, and accessibility features can also reduce the supporting infrastructure your application needs to implement.
+                            </Paragraph>
+                        </CardBody>
+                    </Card>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+                    <Card Height="Height.Is100">
+                        <CardBody>
+                            <Heading Size="HeadingSize.Is3">Licensing</Heading>
+                            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                                Review who may use each license, which components and updates are included, and what support is available. Price alone does not establish whether a license fits your team.
+                            </Paragraph>
+                            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                                Blazorise Community is free for eligible individuals. Commercial licenses are available for organizations.
+                            </Paragraph>
+                            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
+                                Check how the terms apply when an individual project becomes an organizational or commercial application. Revisit eligibility, developer coverage, and support needs as the team grows.
+                            </Paragraph>
+                        </CardBody>
+                    </Card>
+                </Column>
+            </Row>
+        </Container>
+    </section>
+
+    <section class="b-visual-section b-library-comparison-sources" aria-labelledby="comparison-sources-title">
+        <Container>
+            <Div Class="b-library-comparison-intro">
+                <Heading Size="HeadingSize.Is2" ElementId="comparison-sources-title">Product sources</Heading>
+                <Paragraph TextColor="TextColor.Muted">These links support the comparison. Check the product documentation for current features and license terms.</Paragraph>
+            </Div>
+            <Div Class="b-library-comparison-source-list">
+                <Div>
+                    <Strong>Blazorise</Strong>
+                    <Paragraph Margin="Margin.Is1.FromTop.Is0.FromBottom"><Anchor To="docs/usage/material">Material 3</Anchor> · <Anchor To="docs/usage/fluent2">Fluent 2</Anchor> · <Anchor To="docs/usage/ant-design">Ant Design</Anchor> · <Anchor To="docs/extensions/reporting">Reporting</Anchor> · <Anchor To="docs/extensions">Extensions</Anchor> · <Anchor To="community">Community license</Anchor> · <Anchor To="pricing">Plans and support</Anchor></Paragraph>
+                </Div>
+                <Div>
+                    <Strong>MudBlazor</Strong>
+                    <Paragraph Margin="Margin.Is1.FromTop.Is0.FromBottom"><Anchor To="https://github.com/MudBlazor/MudBlazor" Target="Target.Blank">Component library and MIT license</Anchor> · <Anchor To="https://github.com/MudBlazor/MudBlazor/issues/12053" Target="Target.Blank">Material 3 roadmap</Anchor> · <Anchor To="https://github.com/MudBlazor/MudBlazor/tree/dev/src/MudBlazor/Components" Target="Target.Blank">First-party component catalog</Anchor></Paragraph>
+                </Div>
+                <Div>
+                    <Strong>Radzen Blazor Components</Strong>
+                    <Paragraph Margin="Margin.Is1.FromTop.Is0.FromBottom"><Anchor To="https://blazor.radzen.com/get-started" Target="Target.Blank">Components and license</Anchor> · <Anchor To="https://blazor.radzen.com/themes" Target="Target.Blank">Themes and Studio</Anchor> · <Anchor To="https://blazor.radzen.com/scheduler" Target="Target.Blank">Scheduler</Anchor> · <Anchor To="https://blazor.radzen.com/gantt" Target="Target.Blank">Gantt</Anchor> · <Anchor To="https://blazor.radzen.com/ssrsviewer" Target="Target.Blank">SSRS viewer</Anchor></Paragraph>
+                </Div>
+                <Div>
+                    <Strong>Telerik UI for Blazor</Strong>
+                    <Paragraph Margin="Margin.Is1.FromTop.Is0.FromBottom"><Anchor To="https://www.telerik.com/blazor-ui/documentation/styling-and-themes/overview" Target="Target.Blank">Themes and swatches</Anchor> · <Anchor To="https://www.telerik.com/blazor-ui" Target="Target.Blank">Component catalog</Anchor> · <Anchor To="https://www.telerik.com/blazor-ui/documentation/introduction" Target="Target.Blank">Licensing and support</Anchor></Paragraph>
+                </Div>
+            </Div>
+        </Container>
+    </section>
+</Div>

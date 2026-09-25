@@ -490,6 +490,28 @@
 .b-pricing-compare .table .text-light { color: var(--b-visual-muted) !important; }
 .b-pricing-compare .b-pricing-table-region { border: 1px solid var(--b-visual-line); border-radius: .5rem; overflow-x: auto; }
 .b-pricing-compare .table-responsive { overflow: visible; }
+.b-visual-library-comparison { background: #f2edf7; }
+.b-library-comparison-intro { max-width: 53rem; }
+.b-library-comparison-intro .b-visual-eyebrow { color: #7722b4; }
+.b-library-comparison-region { max-width: 100%; overflow-x: auto; border: 1px solid var(--b-visual-line); border-radius: var(--b-visual-radius); background: var(--b-visual-paper); box-shadow: 0 14px 40px rgba(30, 17, 43, .055); }
+.b-library-comparison { width: 100%; min-width: 940px; margin: 0; table-layout: fixed; --bs-table-bg: var(--b-visual-paper); --bs-table-color: var(--b-visual-ink); font-size: .96rem; line-height: 1.55; }
+.b-library-comparison :is(th, td) { padding: 1.15rem 1.2rem; border-color: var(--b-visual-line); vertical-align: top; white-space: normal; overflow-wrap: anywhere; }
+.b-library-comparison thead th { --bs-table-bg: #2c2035; --bs-table-color: #fff; background: #2c2035; color: #fff; font-size: .94rem; font-weight: 700; }
+.b-library-comparison thead th:first-child { width: 15%; }
+.b-library-comparison thead th:not(:first-child) { width: 21.25%; }
+.b-library-comparison thead th:nth-child(2) { --bs-table-bg: #68238d; background: #68238d; }
+.b-library-comparison tbody th { position: sticky; left: 0; z-index: 1; --bs-table-bg: var(--b-visual-paper); background: var(--b-visual-paper); font-weight: 700; }
+.b-library-comparison tbody td:nth-child(2) { --bs-table-bg: color-mix(in srgb, var(--b-visual-violet) 9%, var(--b-visual-paper)); background: var(--bs-table-bg); }
+.b-library-comparison tbody tr:last-child > * { border-bottom: 0; }
+.b-library-comparison-footer a { font-weight: 700; }
+.b-library-comparison-guidance .card { border-top: 3px solid var(--b-visual-violet); }
+.b-library-comparison-guidance .row > div:nth-child(2) .card { border-top-color: var(--b-visual-pink); }
+.b-library-comparison-guidance .row > div:nth-child(3) .card { border-top-color: var(--b-visual-lilac); }
+.b-library-comparison-source-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 2rem; max-width: 65rem; }
+.b-library-comparison-source-list > div { padding-top: 1rem; border-top: 1px solid var(--b-visual-line); }
+@media (max-width: 767.98px) {
+    .b-library-comparison-source-list { grid-template-columns: 1fr; }
+}
 .b-education-licenses .card { border-top: 4px solid #9317e1; }
 .b-education-licenses .row > div:nth-child(2) .card { border-top-color: #e03d76; }
 .b-education-licenses .card-body { padding: clamp(1.25rem, 3vw, 2.5rem) !important; }
