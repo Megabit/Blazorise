@@ -29,6 +29,11 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
 
     private bool initialized;
 
+    /// <summary>
+    /// Calls before the first render still populate local state; calls during initialization must wait.
+    /// </summary>
+    private Task initializationTask = Task.CompletedTask;
+
     #endregion
 
     #region Methods
@@ -38,9 +43,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     {
         if ( firstRender && !initialized )
         {
-            await Initialize();
-
-            initialized = true;
+            initializationTask = Initialize();
+            await initializationTask;
 
             await NotifyInitialized();
         }
@@ -60,6 +64,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Clear()
     {
+        await initializationTask;
+
         dirty = true;
 
         Labels.Clear();
@@ -76,6 +82,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task AddLabels( params object[] labels )
     {
+        await initializationTask;
+
         dirty = true;
 
         Labels.AddRange( labels );
@@ -116,6 +124,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <param name="datasets">Data set(s).</param>
     public async Task AddDataSet( params TDataSet[] datasets )
     {
+        await initializationTask;
+
         dirty = true;
 
         LimitDataSets( datasets );
@@ -133,6 +143,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task RemoveDataSet( int dataSetIndex )
     {
+        await initializationTask;
+
         dirty = true;
 
         Datasets.RemoveAt( dataSetIndex );
@@ -149,6 +161,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetData( int dataSetIndex, List<TItem> data )
     {
+        await initializationTask;
+
         dirty = true;
 
         var limitedData = LimitData( data );
@@ -166,6 +180,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task AddData( int dataSetIndex, params TItem[] data )
     {
+        await initializationTask;
+
         dirty = true;
 
         var limitedData = LimitData( data.ToList() );
@@ -183,6 +199,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task AddDatasetsAndUpdate( params TDataSet[] datasets )
     {
+        await initializationTask;
+
         dirty = true;
 
         LimitDataSets( datasets );
@@ -201,6 +219,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task AddLabelsDatasetsAndUpdate( IReadOnlyCollection<object> labels, params TDataSet[] datasets )
     {
+        await initializationTask;
+
         dirty = true;
 
         LimitDataSets( datasets );
@@ -217,6 +237,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// </summary>
     public async Task ShiftLabel()
     {
+        await initializationTask;
+
         dirty = true;
 
         if ( initialized )
@@ -230,6 +252,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns></returns>
     public async Task ShiftData( int dataSetIndex )
     {
+        await initializationTask;
+
         dirty = true;
 
         if ( initialized )
@@ -240,6 +264,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// </summary>
     public async Task PopLabel()
     {
+        await initializationTask;
+
         dirty = true;
 
         if ( initialized )
@@ -253,6 +279,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task PopData( int dataSetIndex )
     {
+        await initializationTask;
+
         dirty = true;
 
         if ( initialized )
@@ -266,6 +294,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetOptions( TOptions options )
     {
+        await initializationTask;
+
         dirty = true;
 
         Options = options;
@@ -282,6 +312,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetOptionsObject( object optionsObject )
     {
+        await initializationTask;
+
         dirty = true;
 
         OptionsObject = optionsObject;
@@ -298,6 +330,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Resize()
     {
+        await initializationTask;
+
         if ( initialized )
             await JSModule.Resize( ElementId );
     }
@@ -309,6 +343,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task ChangeType( ChartType type )
     {
+        await initializationTask;
+
         if ( initialized )
             await JSModule.ChangeType( ElementRef, ElementId, type );
     }
@@ -319,11 +355,13 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Destroy()
     {
+        await initializationTask;
+
         if ( initialized )
             await JSModule.Destroy( ElementRef, ElementId );
     }
 
-    private ValueTask Initialize()
+    private async Task Initialize()
     {
         DotNetObjectRef ??= DotNetObjectReference.Create<ChartAdapter>( new( this ) );
 
@@ -333,13 +371,15 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
             HasHoverEvent = Hovered.HasDelegate,
         };
 
-        return JSModule.Initialize( DotNetObjectRef, eventOptions, ElementRef, ElementId, Type,
+        await JSModule.Initialize( DotNetObjectRef, eventOptions, ElementRef, ElementId, Type,
             Data,
             Options,
             DataJsonString,
             OptionsJsonString,
             OptionsObject,
             PluginNames );
+
+        initialized = true;
     }
 
     /// <summary>
@@ -348,7 +388,9 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     /// <returns></returns>
     public async Task Update()
     {
-        if ( dirty )
+        await initializationTask;
+
+        if ( initialized && dirty )
         {
             dirty = false;
 
