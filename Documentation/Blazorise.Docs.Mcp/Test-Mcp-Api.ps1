@@ -3,7 +3,7 @@ param(
     [int]$TimeoutSeconds = 20,
     [string]$ProtocolVersion = "2024-11-05",
     [string]$ComponentTypeName = "Button",
-    [string]$DocsRoute = ""
+    [string]$DocsRoute = "/docs/components/dropdown/api"
 )
 
 Set-StrictMode -Version Latest
@@ -165,6 +165,19 @@ function Process-JsonRpcPayload
                 [string] $serialized = $message | ConvertTo-Json -Depth 6
                 Write-Host "${SourceLabel}: $serialized"
             }
+        }
+
+        [object] $errorValue = Get-PayloadPropertyValue -Payload $message -Name "error"
+        if ( $null -ne $errorValue )
+        {
+            throw "MCP request failed: $($errorValue | ConvertTo-Json -Depth 10 -Compress)"
+        }
+
+        [object] $resultValue = Get-PayloadPropertyValue -Payload $message -Name "result"
+        [object] $isError = Get-PayloadPropertyValue -Payload $resultValue -Name "isError"
+        if ( $isError -eq $true )
+        {
+            throw "MCP tool failed: $($resultValue | ConvertTo-Json -Depth 10 -Compress)"
         }
 
         [object] $idValue = Get-PayloadPropertyValue -Payload $message -Name "id"

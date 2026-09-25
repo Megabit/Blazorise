@@ -95,6 +95,8 @@ The script reads SSE responses and also handles JSON-RPC responses returned in H
 
 Script: `Documentation/Blazorise.Docs.Mcp/Test-Mcp-Api.ps1`
 
+By default, the script requests the Button component API and the Dropdown API page at `/docs/components/dropdown/api`. JSON-RPC errors and MCP tool errors cause the script to fail. Pass `-DocsRoute ""` to skip the page API request.
+
 Fetch API docs for a component:
 ```powershell
 powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "http://localhost:12791" -ComponentTypeName "Button"
@@ -102,7 +104,7 @@ powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "http://localhost:12791" -Component
 
 Fetch API docs for a docs page route:
 ```powershell
-powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "https://mcp.blazorise.com" -DocsRoute "/docs/components/button"
+powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "https://mcp.blazorise.com" -DocsRoute "/docs/components/button/api"
 ```
 
 ## Script Commands
@@ -119,8 +121,8 @@ powershell -File .\Test-Mcp.ps1 -BaseUrl "http://localhost:12791" -TimeoutSecond
 Component API:
 ```powershell
 powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "http://localhost:12791" -ComponentTypeName "Button"
-powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "https://mcp.blazorise.com" -DocsRoute "/docs/components/button"
-powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "http://localhost:12791" -ComponentTypeName "TextInput" -DocsRoute "/docs/components/text-input"
+powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "https://mcp.blazorise.com" -DocsRoute "/docs/components/button/api"
+powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "http://localhost:12791" -ComponentTypeName "TextInput" -DocsRoute "/docs/components/text-input/api"
 powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "http://localhost:12791" -TimeoutSeconds 60 -ProtocolVersion "2024-11-05"
 ```
 
