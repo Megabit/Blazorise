@@ -1,0 +1,41 @@
+@using System.Globalization
+
+<Switch ElementId="useValidation" @bind-Value="useValidation">Use validation</Switch>
+
+<DataGrid TItem="SalaryItem"
+          Data="items"
+          Editable
+          UseValidation="useValidation"
+          EditMode="DataGridEditMode.Cell"
+          NavigationMode="DataGridNavigationMode.Cell"
+          EditModeOptions="new() { CellEditOnSingleClick = false, CellEditOnDoubleClick = false, CellEditSelectTextOnEdit = true }">
+    <DataGridColumns>
+        <DataGridColumn Field="@nameof( SalaryItem.PlainSalary )" Caption="Plain salary" Editable DisplayFormat="{0:F2}" DisplayFormatProvider="CultureInfo.InvariantCulture" />
+        <DataGridNumericColumn Field="@nameof( SalaryItem.Salary )" Caption="Salary" Editable DisplayFormat="{0:F2}" DisplayFormatProvider="CultureInfo.InvariantCulture" />
+        <DataGridNumericColumn Field="@nameof( SalaryItem.NullableSalary )" Caption="Comma salary" Editable DecimalSeparator="," GroupSeparator="." DisplayFormat="{0:F2}" DisplayFormatProvider="CultureInfo.InvariantCulture" />
+        <DataGridColumn Field="@nameof( SalaryItem.Quantity )" Caption="Quantity" Editable />
+        <DataGridColumn Field="@nameof( SalaryItem.Name )" Caption="Name" Editable />
+    </DataGridColumns>
+</DataGrid>
+
+@code {
+    private bool useValidation;
+
+    private readonly List<SalaryItem> items = new()
+    {
+        new(),
+    };
+
+    public class SalaryItem
+    {
+        public double PlainSalary { get; set; } = 9876.54;
+
+        public double Salary { get; set; } = 9876.54;
+
+        public decimal? NullableSalary { get; set; } = 9876.54m;
+
+        public int Quantity { get; set; } = 99;
+
+        public string Name { get; set; } = "Original";
+    }
+}

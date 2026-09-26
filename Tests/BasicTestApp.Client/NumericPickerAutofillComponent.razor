@@ -1,0 +1,22 @@
+@using System.Globalization
+
+<NumericPicker ElementId="autofillImmediate" name="autofillImmediate" TValue="decimal?" @bind-Value="immediateValue" Immediate GroupSeparator="," />
+<Span ElementId="autofillImmediateValue">@(immediateValue?.ToString( CultureInfo.InvariantCulture ) ?? "null")</Span>
+
+<NumericPicker ElementId="autofillDeferred" name="autofillDeferred" TValue="decimal?" @bind-Value="deferredValue" Immediate="false" GroupSeparator="," />
+<Span ElementId="autofillDeferredValue">@(deferredValue?.ToString( CultureInfo.InvariantCulture ) ?? "null")</Span>
+
+<NumericPicker ElementId="autofillComma" name="autofillComma" TValue="decimal?" @bind-Value="commaValue" Immediate DecimalSeparator="," GroupSeparator="." />
+<Span ElementId="autofillCommaValue">@(commaValue?.ToString( CultureInfo.InvariantCulture ) ?? "null")</Span>
+
+<NumericPicker ElementId="autofillLimited" name="autofillLimited" TValue="decimal?" @bind-Value="limitedValue" Immediate Min="0m" Max="100m" />
+<Span ElementId="autofillLimitedValue">@(limitedValue?.ToString( CultureInfo.InvariantCulture ) ?? "null")</Span>
+
+<Button ElementId="autofillBlur">Move focus</Button>
+
+@code {
+    private decimal? immediateValue;
+    private decimal? deferredValue;
+    private decimal? commaValue;
+    private decimal? limitedValue = 12m;
+}

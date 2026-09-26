@@ -62,6 +62,10 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
                 {
                     await Focus();
                 }
+                else if ( !Column.NativeInputMode && ( valueHasChanged || ParentDataGrid.IsCellEditSelectTextOnEdit ) )
+                {
+                    await ParentDataGrid.FocusNumericCellEditor( elementId, !valueHasChanged );
+                }
                 else if ( ParentDataGrid.IsCellEditSelectTextOnEdit && !valueHasChanged )
                 {
                     await Select();

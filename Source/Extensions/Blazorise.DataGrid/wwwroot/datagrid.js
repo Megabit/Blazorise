@@ -158,6 +158,11 @@ export function blurActiveCellEditor(element, elementId) {
     }
 }
 
+export async function focusNumericCellEditor(elementId, selectText) {
+    const numericPicker = await import("../Blazorise/numericPicker.js?v=2.3.2.0");
+    numericPicker.focus(null, elementId, selectText);
+}
+
 export function getCellWidth(element, elementId, rowIndex, columnId) {
     element = getRequiredElement(element, elementId);
 

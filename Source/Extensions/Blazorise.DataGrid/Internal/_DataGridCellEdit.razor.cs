@@ -37,12 +37,18 @@ public partial class _DataGridCellEdit<TItem> : ComponentBase
                 var cellValue = ParentDataGrid.ReadCellEditValue( Column.Field )?.ToString();
                 var columnValue = Column.GetValue( ParentDataGrid.editItem )?.ToString();
                 var valueHasChanged = cellValue != columnValue;
+                Type valueType = Nullable.GetUnderlyingType( ValueType ) ?? ValueType;
+                bool isNumericPicker = valueType == typeof( decimal ) || valueType == typeof( double ) || valueType == typeof( float ) || valueType == typeof( int ) || valueType == typeof( long );
 
                 await Task.Yield();
 
                 if ( shouldRestoreFocus )
                 {
                     await Focus();
+                }
+                else if ( isNumericPicker && ( valueHasChanged || ParentDataGrid.IsCellEditSelectTextOnEdit ) )
+                {
+                    await ParentDataGrid.FocusNumericCellEditor( elementId, !valueHasChanged );
                 }
                 else if ( ParentDataGrid.IsCellEditSelectTextOnEdit && !valueHasChanged )
                 {

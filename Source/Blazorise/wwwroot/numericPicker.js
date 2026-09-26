@@ -50,13 +50,75 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         }
     });
 
+    element.addEventListener('input', onNativeValueChanged);
+    element.addEventListener('change', onNativeValueChanged);
+
     _instances[elementId] = instance;
+}
+
+function onNativeValueChanged(event) {
+    // AutoNumeric already processes typing and raises its own synthetic input events.
+    if (!event.isTrusted)
+        return;
+
+    const instance = AutoNumeric.getAutoNumericElement(event.currentTarget);
+
+    if (!instance)
+        return;
+
+    try {
+        const value = AutoNumeric.unformat(event.currentTarget.value, instance.getSettings());
+
+        if (Number.isNaN(Number(value))) {
+            instance.reformat();
+            return;
+        }
+
+        instance.set(value === "" ? null : value);
+    } catch {
+        // Ignore saved values that no longer satisfy the configured numeric limits.
+        instance.reformat();
+    }
+}
+
+export function focus(element, elementId, selectText) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element) {
+        return;
+    }
+
+    const focusInstance = instance => {
+        if (!element.isConnected) {
+            return;
+        }
+
+        element.focus();
+
+        if (selectText) {
+            element.select();
+        } else {
+            instance.selectInteger();
+            const caret = element.selectionEnd;
+            element.setSelectionRange(caret, caret);
+        }
+    };
+
+    const instance = _instances[elementId];
+
+    if (instance) {
+        focusInstance(instance);
+    } else {
+        element.addEventListener("autoNumeric:initialized", event => focusInstance(event.detail.aNElement), { once: true });
+    }
 }
 
 export function destroy(element, elementId) {
     const instance = _instances[elementId];
 
     if (instance) {
+        instance.node().removeEventListener('input', onNativeValueChanged);
+        instance.node().removeEventListener('change', onNativeValueChanged);
         instance.remove();
     }
 
