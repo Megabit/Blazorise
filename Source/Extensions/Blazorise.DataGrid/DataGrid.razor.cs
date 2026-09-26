@@ -2374,6 +2374,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await Task.Yield();
     }
 
+    internal ValueTask FocusNumericCellEditor( string elementId, bool selectText )
+        => JSModule.FocusNumericCellEditor( elementId, selectText );
+
     private async Task<string> CaptureCellEditWidth( TItem item, DataGridColumn<TItem> column )
     {
         if ( tableRef is null || item is null || column is null )
@@ -2453,39 +2456,32 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 batchEditItem = batchEditItem ??
                     GetBatchEditItem( item );
-
-                if ( batchEditItem is not null )
-                {
-                    await Edit( batchEditItem.NewItem );
-                    if ( startingvalue is not null )
-                    {
-                        var columnType = column.GetValueType( batchEditItem.NewItem );
-                        if ( startingvalue == String.Empty )
-                        {
-                            UpdateCellEditValue( column.Field, columnType.IsValueType ? Activator.CreateInstance( columnType ) : startingvalue );
-                        }
-                        else if ( Converters.TryChangeType( startingvalue, columnType, out var parsedBatchStartingValue ) )
-                        {
-                            UpdateCellEditValue( column.Field, parsedBatchStartingValue );
-                        }
-
-                        return;
-                    }
-                }
             }
-            await Edit( item );
+
+            TItem editingItem = batchEditItem is not null ? batchEditItem.NewItem : item;
+
+            InitEditItem( EditItemCreator != null ? EditItemCreator.Invoke( editingItem ) : editingItem );
+
+            editState = DataGridEditState.Edit;
+
+            // Apply the starting value before the first render initializes and focuses the editor.
             if ( startingvalue is not null )
             {
-                var columnType = column.GetValueType( item );
-                if ( startingvalue == String.Empty )
+                Type columnType = column.GetValueType( editItem );
+
+                if ( startingvalue == string.Empty )
                 {
                     UpdateCellEditValue( column.Field, columnType.IsValueType ? Activator.CreateInstance( columnType ) : startingvalue );
+                    return;
                 }
                 else if ( Converters.TryChangeType( startingvalue, columnType, out var parsedStartingValue ) )
                 {
                     UpdateCellEditValue( column.Field, parsedStartingValue );
+                    return;
                 }
             }
+
+            await InvokeAsync( StateHasChanged );
         }
     }
 

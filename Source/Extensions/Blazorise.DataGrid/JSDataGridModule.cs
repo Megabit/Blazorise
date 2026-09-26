@@ -69,6 +69,12 @@ public class JSDataGridModule : BaseJSModule
     }
 
     /// <summary>
+    /// Focuses an initialized numeric cell editor, selecting its contents or placing the caret at the end of the integer part.
+    /// </summary>
+    internal ValueTask FocusNumericCellEditor( string elementId, bool selectText )
+        => InvokeVoidAsync( "focusNumericCellEditor", elementId, selectText );
+
+    /// <summary>
     /// Returns cell width.
     /// </summary>
     public virtual async ValueTask<int> GetCellWidth( ElementReference elementRef, string elementId, int rowIndex, string columnId )
