@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Tab
-<button @ref="@ElementRef" id="@ElementId" role="tab" type="button" aria-selected="@AriaSelected" value="@Name" class="@ClassNames" style="@StyleNames" disabled="@DisabledString" @onclick="@ClickHandler" @attributes="@Attributes">
+<button @ref="@ElementRef" id="@ElementId" role="tab" aria-labelledby="@AriaLabelledBy" tabindex="@TabIndex" type="button" aria-controls="@AriaControls" aria-selected="@AriaSelected" value="@Name" class="@ClassNames" style="@StyleNames" disabled="@DisabledString" @onclick="@ClickHandler" @attributes="@Attributes">
     <span class="@LinkClassNames" style="@Styles?.Link">
         @ChildContent
     </span>
@@ -11,7 +11,9 @@
     }
 </button>
 @code {
-    string AriaSelected => Disabled ? null : Active ? "true" : "false";
+    protected override string TabElementId => ElementId;
+
+    string AriaSelected => Active ? "true" : "false";
 
     string DisabledString => Disabled ? "true" : null;
 }

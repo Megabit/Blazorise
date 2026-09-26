@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-24T08:40:49.2924973Z",
+  "generatedUtc": "2026-09-26T16:46:53.9847175Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -126276,6 +126276,14 @@
       "searchUrl": "docs/components/tabs",
       "parameters": [
         {
+          "name": "AriaLabelledBy",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Specifies the space-separated IDs of elements that label this tab.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Attributes",
           "type": "Dictionary<string, object>",
           "typeName": "Dictionary<string, object>",
@@ -126665,6 +126673,14 @@
           "defaultValue": "Default",
           "summary": "Specifies how an element should float within its containing block.",
           "isBlazoriseEnum": true
+        },
+        {
+          "name": "Focusable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether the active panel is included in the keyboard Tab sequence.     Defaults to true. Setting this to false does not affect focusable elements inside the panel.",
+          "isBlazoriseEnum": false
         },
         {
           "name": "Gap",
@@ -131278,6 +131294,22 @@
       "summary": "$\"\"\"\r\n       Tabs organize content across different screens, data sets, and other interactions.\r\n       \"\"\"",
       "searchUrl": "docs/components/tabs",
       "parameters": [
+        {
+          "name": "AriaLabel",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Specifies the accessible name of the tab list when no visible label is available.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AriaLabelledBy",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Specifies the space-separated IDs of elements that label the tab list.",
+          "isBlazoriseEnum": false
+        },
         {
           "name": "Attributes",
           "type": "Dictionary<string, object>",

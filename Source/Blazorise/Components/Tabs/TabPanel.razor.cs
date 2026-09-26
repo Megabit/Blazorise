@@ -35,6 +35,17 @@ public partial class TabPanel : BaseComponent, IDisposable
     #region Methods
 
     /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        bool nameChanged = parameters.TryGetValue<string>( nameof( Name ), out string name ) && Name != name;
+
+        await base.SetParametersAsync( parameters );
+
+        if ( nameChanged )
+            ParentTabs?.NotifyTabParametersChanged();
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TabPanel() );
@@ -46,11 +57,11 @@ public partial class TabPanel : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        ParentTabs?.NotifyTabPanelInitialized( Name );
+        base.OnInitialized();
+
+        ParentTabs?.NotifyTabPanelInitialized( this );
 
         ParentTabsContent?.NotifyTabPanelInitialized( Name );
-
-        base.OnInitialized();
     }
 
     /// <inheritdoc/>
@@ -66,7 +77,7 @@ public partial class TabPanel : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            ParentTabs?.NotifyTabPanelRemoved( Name );
+            ParentTabs?.NotifyTabPanelRemoved( this );
 
             ParentTabsContent?.NotifyTabPanelRemoved( Name );
         }
@@ -78,10 +89,23 @@ public partial class TabPanel : BaseComponent, IDisposable
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Gets the ID of the tab that labels this panel.
+    /// </summary>
+    protected string AriaLabelledBy => ParentTabs?.GetTabElementId( Name );
+
     /// <summary>
     /// True if this panel is currently set as selected.
     /// </summary>
     protected bool Active => ParentTabsState?.SelectedTab == Name || ParentTabsContentState?.SelectedPanel == Name;
+
+    /// <summary>
+    /// Gets the tab order for this panel.
+    /// </summary>
+    protected int TabIndex => Active && Focusable ? 0 : -1;
 
     /// <summary>
     /// Gets the aria-hidden attribute value for this panel.
@@ -100,6 +124,12 @@ public partial class TabPanel : BaseComponent, IDisposable
     /// Specifies the panel name. Must match the corresponding tab name.
     /// </summary>
     [Parameter] public string Name { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the active panel is included in the keyboard Tab sequence.
+    /// Defaults to true. Setting this to false does not affect focusable elements inside the panel.
+    /// </summary>
+    [Parameter] public bool Focusable { get; set; } = true;
 
     /// <summary>
     /// Cascaded parent <see cref="Tabs"/> state.

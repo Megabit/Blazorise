@@ -1,82 +1,111 @@
 @page "/docs/components/tab"
 
-<Seo Canonical="/docs/components/tab" Title="Blazorise Tab component" Description="Learn to use and work with the Blazorise Tab component, which is used for hiding content behind a selectable item. This can also be used as a pseudo-navigation for a page, where the tabs are links and the tab-items are the content." />
+<Seo Canonical="/docs/components/tab" Title="Blazorise Tab component" Description="Organize related content into tabbed panels with the Blazorise Tabs component. Learn how to connect tabs to panels and support accessible keyboard navigation." />
 
 <DocsPageTitle Path="Components/Tab">
     Blazorise Tab component
 </DocsPageTitle>
 
 <DocsPageLead>
-    Tabs are used to organize and group content into sections that the user can navigate between.
+    Tabs organize related content into panels, allowing users to switch between them without leaving the page.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <Code Tag>Tab</Code> component is used for hiding content behind a selectable item. This can also be used as a pseudo-navigation for a page, where the tabs are links and the tab-items are the content.
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    There are two pieces to a tabbed interface: the tabs themselves, and the content for each tab.
+    Use tabs for related sections that do not need to appear together, such as account settings.
+    The <Code Tag>Tabs</Code> component manages selection and shows one panel at a time:
 </DocsPageParagraph>
 
 <UnorderedList>
     <UnorderedListItem>
         <Paragraph>
-            <Code Tag>Tabs</Code> container for Tab items.
+            <Code Tag>Items</Code> contains the <Code Tag>Tab</Code> components that users select to switch panels.
         </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>Items</Code> collection of tab items.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>Tab</Code> individual tab item, which can be clicked to navigate to the tab content.
-                        </Paragraph>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>Content</Code> container for tab panels.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>TabPanel</Code> individual tab content, which is displayed when the tab item is clicked.
-                        </Paragraph>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-        </UnorderedList>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Code Tag>Content</Code> contains the <Code Tag>TabPanel</Code> components that hold each tab's content.
+        </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
 
 <DocsPageParagraph>
-    The tabs are container for tab items. Each tab item contains a link to a tab panel. The <Code>Name</Code> of each
-    tab item should match the <Code>Name</Code> of a tab panel.
+    Give each <Code>Tab</Code> and its <Code>TabPanel</Code> the same <Code>Name</Code>. Use <Code>SelectedTab</Code>
+    to set the initial selection, or bind it to keep selection in sync with your application state.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Usually, tabs and panels belong together inside <Code>Tabs</Code>. To render panels elsewhere, use
+    <Code Tag>TabsContent</Code> and bind its <Code>SelectedPanel</Code> to the same value as <Code>Tabs.SelectedTab</Code>.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Accessible labels
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    Name the tab list so screen reader users can identify its purpose. Set <Code>AriaLabelledBy</Code> on
+    <Code>Tabs</Code> to a visible heading's ID, or use <Code>AriaLabel="Account settings"</Code> when there is no heading.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Each <Code>Tab</Code> uses its text as its accessible name. Choose distinct labels that describe the panels,
+    or set the tab's <Code>AriaLabelledBy</Code> when another element provides its label.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Within <Code>Tabs</Code>, matching <Code>Name</Code> values automatically connect tabs and panels through
+    <Code>aria-controls</Code> and <Code>aria-labelledby</Code>. Names must be unique within each group.
+    IDs are generated as needed; set <Code>ElementId</Code> to supply your own.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    For a separate <Code>TabsContent</Code>, provide explicit ARIA relationships and accessible panel names,
+    since automatic associations are scoped to the parent <Code>Tabs</Code>.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Keyboard navigation
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    The tab list is a single keyboard stop, so users can reach the content without visiting every tab.
+    Moving focus does not change selection. Keep the focus indicator visible to distinguish the focused tab from the selected tab.
 </DocsPageParagraph>
 
 <UnorderedList>
     <UnorderedListItem>
-        <Code Tag>TabsContent</Code> container for tab panels
-        <UnorderedList>
-            <UnorderedListItem>
-                <Code Tag>TabPanel</Code> container for tab content
-            </UnorderedListItem>
-        </UnorderedList>
+        <Kbd>Tab</Kbd> focuses the selected tab, then the next focusable element in document order, usually the active panel.
+        <Kbd>Shift</Kbd> + <Kbd>Tab</Kbd> moves backwards.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Kbd>Left Arrow</Kbd> / <Kbd>Right Arrow</Kbd> focus adjacent horizontal tabs; <Kbd>Up Arrow</Kbd> / <Kbd>Down Arrow</Kbd>
+        do the same for vertical tabs. Navigation wraps and skips disabled tabs.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Kbd>Home</Kbd> focuses the first enabled tab, and <Kbd>End</Kbd> focuses the last enabled tab.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Kbd>Enter</Kbd> or <Kbd>Space</Kbd> selects the focused tab and displays its panel.
     </UnorderedListItem>
 </UnorderedList>
 
 <DocsPageParagraph>
-    The tab content container is used to hold tab panels. Each content pane also has a unique <Code>Name</Code>, which
-    is targeted by a link in the tab-strip.
+    Screen readers may require interaction mode for these keys; their own reading commands remain available for exploring content.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Panel focus
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    <Code>TabPanel</Code> defaults to <Code>Focusable="true"</Code>, giving the active panel <Code>tabindex="0"</Code>.
+    This provides a keyboard stop for reading text and scrolling the panel.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Most of the time you will only need to use <Code>Tabs</Code> component as it is crafted to hold both clickable
-    tab items and tab content. Only in the advanced scenario where the content will be separated from the tab items you
-    will need to use <Code Tag>TabsContent</Code> component.
+    Set <Code>Focusable="false"</Code> to skip the panel itself when its content starts with a focusable control and
+    the panel does not need keyboard scrolling. Controls inside remain reachable with <Kbd>Tab</Kbd>.
+    Keep the default for panels with introductory text, no focusable controls, or their own scrolling.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
@@ -85,6 +114,8 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
+        Match each tab and panel by <Code>Name</Code>. This example starts on Profile and updates
+        <Code>SelectedTab</Code> through <Code>SelectedTabChanged</Code> when another tab is selected.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="BasicTabExample" Outlined FullWidth>
         <BasicTabExample />

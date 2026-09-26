@@ -35,7 +35,7 @@
     {
         @if ( Items != null )
         {
-            <div @ref="@ElementRef" id="@ElementId" role="tablist" aria-orientation="@AriaOrientation" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            <div @ref="@ElementRef" id="@ElementId" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="@AriaOrientation" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                 @Items
             </div>
         }
@@ -49,6 +49,4 @@
             </div>
         }
     };
-
-    string AriaOrientation => TabPosition == TabPosition.Start || TabPosition == TabPosition.End ? "vertical" : "horizontal";
 }

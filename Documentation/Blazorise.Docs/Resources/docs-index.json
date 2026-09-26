@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-24T08:11:35.6949604Z",
+  "generatedUtc": "2026-09-26T17:10:14.1704959Z",
   "pages": [
     {
       "route": "/docs",
@@ -4008,7 +4008,7 @@
     {
       "route": "/docs/components/tab",
       "title": "Blazorise Tab component",
-      "description": "Learn to use and work with the Blazorise Tab component, which is used for hiding content behind a selectable item. This can also be used as a pseudo-navigation for a page, where the tabs are links and the tab-items are the content.",
+      "description": "Organize related content into tabbed panels with the Blazorise Tabs component. Learn how to connect tabs to panels and support accessible keyboard navigation.",
       "pagePath": "Pages/Docs/Components/Tabs/TabPage.razor",
       "examples": [
         {
@@ -4016,7 +4016,8 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Tabs/Examples/BasicTabExample.razor",
           "content": "<Tabs SelectedTab=\"@selectedTab\" SelectedTabChanged=\"@OnSelectedTabChanged\">\r\n    <Items>\r\n        <Tab Name=\"home\">Home</Tab>\r\n        <Tab Name=\"profile\">Profile</Tab>\r\n        <Tab Name=\"messages\">Messages</Tab>\r\n        <Tab Name=\"settings\">Settings</Tab>\r\n    </Items>\r\n    <Content>\r\n        <TabPanel Name=\"home\">\r\n            Content for home.\r\n        </TabPanel>\r\n        <TabPanel Name=\"profile\">\r\n            Content for profile.\r\n        </TabPanel>\r\n        <TabPanel Name=\"messages\">\r\n            Content for messages.\r\n        </TabPanel>\r\n        <TabPanel Name=\"settings\">\r\n            Content for settings.\r\n        </TabPanel>\r\n    </Content>\r\n</Tabs>\r\n@code {\r\n    string selectedTab = \"profile\";\r\n\r\n    private Task OnSelectedTabChanged( string name )\r\n    {\r\n        selectedTab = name;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
-          "title": "Basic"
+          "title": "Basic",
+          "description": "Match each tab and panel by Name . This example starts on Profile and updates SelectedTab through SelectedTabChanged when another tab is selected."
         },
         {
           "code": "LazyLoadTabExample",
