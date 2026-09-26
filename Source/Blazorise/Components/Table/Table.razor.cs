@@ -239,7 +239,7 @@ public partial class Table : BaseDraggableComponent<TableClasses, TableStyles>, 
     /// <summary>
     /// If table has <see cref="FixedHeader"/> enabled, it will scroll position to the provided row.
     /// </summary>
-    /// <param name="row">Zero-based index of table row to scroll to.</param>
+    /// <param name="row">Zero-based index of the table body row to scroll to.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask ScrollToRow( int row )
     {

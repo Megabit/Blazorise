@@ -73,16 +73,30 @@ export function fixedHeaderScrollTableToPixels(element, elementId, pixels) {
 export function fixedHeaderScrollTableToRow(element, elementId, row) {
     element = getRequiredElement(element, elementId);
 
-    if (element) {
-        let rows = element.querySelectorAll("tr");
-        let rowsLength = rows.length;
+    if (!element || !element.parentElement)
+        return;
 
-        if (rowsLength > 0 && row >= 0 && row < rowsLength) {
-            rows[row].scrollIntoView({
-                behavior: "smooth",
-                block: "nearest"
-            });
-        }
+    const targetRow = element.querySelectorAll(":scope > tbody > tr")[row];
+
+    if (!targetRow)
+        return;
+
+    const container = element.parentElement;
+    const containerRect = container.getBoundingClientRect();
+    const rowRect = targetRow.getBoundingClientRect();
+    const viewportTop = containerRect.top + container.clientTop;
+    const viewportBottom = viewportTop + container.clientHeight;
+    let visibleTop = viewportTop;
+
+    // Fixed header cells cover the top of the scrollable area.
+    element.querySelectorAll(":scope > thead > tr > th").forEach(cell => {
+        visibleTop = Math.max(visibleTop, cell.getBoundingClientRect().bottom);
+    });
+
+    if (rowRect.top < visibleTop) {
+        container.scrollBy({ top: rowRect.top - visibleTop, behavior: "smooth" });
+    } else if (rowRect.bottom > viewportBottom) {
+        container.scrollBy({ top: rowRect.bottom - viewportBottom, behavior: "smooth" });
     }
 }
 

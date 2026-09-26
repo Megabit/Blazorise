@@ -1,0 +1,44 @@
+<Switch ElementId="groupHeaders" @bind-Value="groupHeaders">Group headers</Switch>
+
+<DataGrid @ref="dataGrid"
+          ElementId="scrollGrid"
+          TItem="ScrollItem"
+          Data="items"
+          PageSize="30"
+          FixedHeader
+          FixedHeaderDataGridMaxHeight="200px"
+          ShowHeaderGroupCaptions="groupHeaders"
+          @bind-SelectedRow="selectedRow">
+    <DataGridColumns>
+        <DataGridColumn Field="@nameof( ScrollItem.Id )" Caption="Id" HeaderGroupCaption="Item" />
+        <DataGridColumn Field="@nameof( ScrollItem.Name )" Caption="Name" HeaderGroupCaption="Item" />
+    </DataGridColumns>
+</DataGrid>
+
+@foreach ( int index in new[] { 0, 5, 6, 10, 20, 29 } )
+{
+    <Button ElementId="@($"scrollTo{index}")" Clicked="@(() => ScrollToRow( index ))">Scroll to @index</Button>
+}
+
+@code {
+    private DataGrid<ScrollItem> dataGrid;
+    private ScrollItem selectedRow;
+    private bool groupHeaders;
+
+    private readonly List<ScrollItem> items = Enumerable.Range( 0, 30 )
+        .Select( index => new ScrollItem { Id = index, Name = $"Item {index}" } )
+        .ToList();
+
+    private async Task ScrollToRow( int index )
+    {
+        selectedRow = items[index];
+        await dataGrid.ScrollToRow( index );
+    }
+
+    public class ScrollItem
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+    }
+}
