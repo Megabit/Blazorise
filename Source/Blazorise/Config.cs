@@ -126,6 +126,7 @@ public static class Config
         { typeof( IJSFilePickerModule ), typeof( JSFilePickerModule ) },
         { typeof( IJSFileModule ), typeof( JSFileModule ) },
         { typeof( IJSTableModule ), typeof( JSTableModule ) },
+        { typeof( IJSTabsModule ), typeof( JSTabsModule ) },
         { typeof( IJSInputMaskModule ), typeof( JSInputMaskModule ) },
         { typeof( IJSDragDropModule ), typeof( JSDragDropModule ) },
         { typeof( IJSDropdownModule ), typeof( JSDropdownModule ) },

@@ -1,0 +1,39 @@
+@foreach ( TabPosition position in new[] { TabPosition.Top, TabPosition.Start } )
+{
+    <Div id="@($"keyboard-tabs-{position}")">
+        <Button class="before-tabs">Before tabs</Button>
+        <Tabs SelectedTab="2" TabPosition="@position" AriaLabel="@($"{position} tabs")">
+            <Items>
+                <Tab Name="1" ElementId="@($"first-tab-{position}")">First</Tab>
+                <Tab Name="2">Second</Tab>
+                <Tab Name="3" Disabled>Disabled</Tab>
+                <Tab Name="4">Last</Tab>
+            </Items>
+            <Content>
+                <TabPanel Name="1" ElementId="@($"first-panel-{position}")">First panel</TabPanel>
+                <TabPanel Name="2">Second panel</TabPanel>
+                <TabPanel Name="3">Disabled panel</TabPanel>
+                <TabPanel Name="4">Last panel</TabPanel>
+            </Content>
+        </Tabs>
+        <Button class="after-tabs">After tabs</Button>
+    </Div>
+}
+
+<Div id="keyboard-tabs-skip-panel">
+    <Heading Size="HeadingSize.Is3" ElementId="skip-panel-heading">Panel focus</Heading>
+    <Tabs SelectedTab="1" AriaLabelledBy="skip-panel-heading">
+        <Items>
+            <Tab Name="1">First</Tab>
+            <Tab Name="2">Second</Tab>
+        </Items>
+        <Content>
+            <TabPanel Name="1" Focusable="false">
+                <Button>First panel button</Button>
+            </TabPanel>
+            <TabPanel Name="2" Focusable="false">
+                <Button>Second panel button</Button>
+            </TabPanel>
+        </Content>
+    </Tabs>
+</Div>

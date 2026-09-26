@@ -4,7 +4,7 @@
         <div @ref="@ElementRef" id="@ElementId" class="@RootClassNames" style="@StyleNames" @attributes="@Attributes">
             @if ( Items != null )
             {
-                <div role="tablist" aria-orientation="@AriaOrientation" class="@TabsNavClassNames">
+                <div role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="@AriaOrientation" class="@TabsNavClassNames">
                     <div class="ant-tabs-nav-wrap">
                         <div class="ant-tabs-nav-list">
                             @Items
