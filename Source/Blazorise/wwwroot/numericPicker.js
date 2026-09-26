@@ -53,6 +53,38 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     _instances[elementId] = instance;
 }
 
+export function focus(element, elementId, selectText) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element) {
+        return;
+    }
+
+    const focusInstance = instance => {
+        if (!element.isConnected) {
+            return;
+        }
+
+        element.focus();
+
+        if (selectText) {
+            element.select();
+        } else {
+            instance.selectInteger();
+            const caret = element.selectionEnd;
+            element.setSelectionRange(caret, caret);
+        }
+    };
+
+    const instance = _instances[elementId];
+
+    if (instance) {
+        focusInstance(instance);
+    } else {
+        element.addEventListener("autoNumeric:initialized", event => focusInstance(event.detail.aNElement), { once: true });
+    }
+}
+
 export function destroy(element, elementId) {
     const instance = _instances[elementId];
 
