@@ -2,6 +2,7 @@
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Versioning;
 using Blazorise.Reporting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -38,14 +39,7 @@ public static class Config
 
         if ( !OperatingSystem.IsBrowser() )
         {
-            httpClientBuilder.ConfigurePrimaryHttpMessageHandler( () => new SocketsHttpHandler
-            {
-                AllowAutoRedirect = false,
-                AutomaticDecompression = DecompressionMethods.All,
-                UseCookies = false,
-                UseProxy = false,
-                ConnectCallback = WebApiPublicNetworkGuard.ConnectAsync,
-            } );
+            httpClientBuilder.ConfigurePrimaryHttpMessageHandler( CreateHttpMessageHandler );
         }
 
         services.AddReportDataSourceProvider<WebApiReportDataSourceProvider>();
@@ -65,6 +59,23 @@ public static class Config
         services.TryAddEnumerable( ServiceDescriptor.Scoped<IReportWebApiResponseReader, TReader>() );
 
         return services;
+    }
+
+    /// <summary>
+    /// Creates the HTTP handler for non-browser applications.
+    /// </summary>
+    /// <returns>The HTTP message handler.</returns>
+    [UnsupportedOSPlatform( "browser" )]
+    private static HttpMessageHandler CreateHttpMessageHandler()
+    {
+        return new SocketsHttpHandler
+        {
+            AllowAutoRedirect = false,
+            AutomaticDecompression = DecompressionMethods.All,
+            UseCookies = false,
+            UseProxy = false,
+            ConnectCallback = WebApiPublicNetworkGuard.ConnectAsync,
+        };
     }
 
     #endregion

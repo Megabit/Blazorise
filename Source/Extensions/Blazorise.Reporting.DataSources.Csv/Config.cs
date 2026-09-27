@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Net.Http;
+using System.Runtime.Versioning;
 using Blazorise.Reporting;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -33,17 +34,27 @@ public static class Config
 
         if ( !OperatingSystem.IsBrowser() )
         {
-            httpClientBuilder.ConfigurePrimaryHttpMessageHandler( () => new HttpClientHandler
-            {
-                AllowAutoRedirect = false,
-                UseCookies = false,
-            } );
+            httpClientBuilder.ConfigurePrimaryHttpMessageHandler( CreateHttpMessageHandler );
         }
 
         configureHttpClientBuilder?.Invoke( httpClientBuilder );
         services.AddReportDataSourceProvider<CsvReportDataSourceProvider>();
 
         return services;
+    }
+
+    /// <summary>
+    /// Creates the HTTP handler for non-browser applications.
+    /// </summary>
+    /// <returns>The HTTP message handler.</returns>
+    [UnsupportedOSPlatform( "browser" )]
+    private static HttpMessageHandler CreateHttpMessageHandler()
+    {
+        return new HttpClientHandler
+        {
+            AllowAutoRedirect = false,
+            UseCookies = false,
+        };
     }
 
     #endregion

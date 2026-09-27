@@ -103,7 +103,7 @@ public partial class Field : BaseColumnComponent, IDisposable
     {
         builder.Append( ClassProvider.Field() );
         builder.Append( ClassProvider.FieldHorizontal( Horizontal ) );
-        builder.Append( ClassProvider.FieldJustifyContent( JustifyContent ) );
+        builder.Append( ClassProvider.FieldJustifyContent( justifyContent ) );
         builder.Append( ClassProvider.FieldValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );

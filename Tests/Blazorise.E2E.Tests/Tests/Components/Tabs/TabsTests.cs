@@ -241,12 +241,11 @@ public class TabsTests : BlazorisePageTest
 
     private async Task ExpectShowClass( ILocator locator )
     {
-        await Expect( locator ).ToHaveClassAsync( expected: new Regex( "show" ) );
+        await Expect( locator ).ToContainClassAsync( "show" );
     }
 
     private async Task DoNotExpectShowClass( ILocator locator )
     {
-        await Expect( locator ).Not.ToHaveClassAsync( expected: new Regex( "show" ) );
+        await Expect( locator ).Not.ToContainClassAsync( "show" );
     }
-
 }

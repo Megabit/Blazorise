@@ -6,12 +6,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.Reporting.DataSources.WebApi;
 
+[UnsupportedOSPlatform( "browser" )]
 internal static class WebApiPublicNetworkGuard
 {
     #region Members

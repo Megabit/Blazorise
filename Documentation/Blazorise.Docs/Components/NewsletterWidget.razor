@@ -20,12 +20,14 @@
                             <Addons>
                                 <Addon AddonType="AddonType.Body">
                                     <TextInput Role="TextRole.Email" Placeholder="Email Address" @bind-Value="@email">
+                                        <Feedback>
+                                            <ValidationError Style="font-size: .85rem;">Please complete this required field.</ValidationError>
+                                        </Feedback>
                                     </TextInput>
                                 </Addon>
                                 <Addon AddonType="AddonType.End">
                                     <Button Color="Color.Primary" Clicked="@OnSubscribeClicked">Subscribe</Button>
                                 </Addon>
-                                <ValidationError Style="font-size: .85rem;">Please complete this required field.</ValidationError>
                             </Addons>
                         </FieldBody>
                     </Field>

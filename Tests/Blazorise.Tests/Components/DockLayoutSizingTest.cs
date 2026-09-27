@@ -117,9 +117,15 @@ public class DockLayoutSizingTest
         DockPane designer = CreateDockPane( "designer", role: DockPaneRole.Document );
         DockLayoutRegistry registry = new();
 
-        explorer.MinSize = "10rem";
-        explorer.MaxSize = "24rem";
-        properties.MinSize = "12rem";
+        ParameterView.FromDictionary( new Dictionary<string, object>
+        {
+            [nameof( DockPane.MinSize )] = "10rem",
+            [nameof( DockPane.MaxSize )] = "24rem",
+        } ).SetParameterProperties( explorer );
+        ParameterView.FromDictionary( new Dictionary<string, object>
+        {
+            [nameof( DockPane.MinSize )] = "12rem",
+        } ).SetParameterProperties( properties );
 
         registry.RegisterPane( explorer );
         registry.RegisterPane( properties );
