@@ -11,7 +11,7 @@
     }
 </button>
 @code {
-    protected override string TabElementId => ElementId;
+    protected internal override string TabElementId => ElementId;
 
     string AriaSelected => Active ? "true" : "false";
 
