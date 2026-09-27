@@ -124,7 +124,8 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Lazy Load">
-        You are able to set the <Code>Tabs</Code> component to lazy load your tabs.
+        <Code>TabsRenderMode.LazyLoad</Code> creates each panel's content on its first visit and keeps it afterward.
+        Enter values below and switch tabs to see how the inputs retain their state.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="LazyLoadTabExample" Outlined FullWidth>
         <LazyLoadTabExample />
@@ -133,7 +134,8 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Lazy Reload">
-        You are able to set the <Code>Tabs</Code> component to lazy load your tabs everytime.
+        <Code>TabsRenderMode.LazyReload</Code> renders only the active panel's content and recreates it on each visit.
+        These inputs keep their values locally, so switching tabs clears them. Bind values to parent state when they need to persist.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="LazyReloadTabExample" Outlined FullWidth>
         <LazyReloadTabExample />

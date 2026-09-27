@@ -1,18 +1,32 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Tabs RenderMode="TabsRenderMode.LazyLoad" SelectedTab="tab1">
+<Tabs RenderMode="TabsRenderMode.LazyLoad" SelectedTab="contact" AriaLabel="Contact details with lazy loading">
     <Items>
-        <Tab Name="tab1">Tab 1</Tab>
-        <Tab Name="tab2">Tab 2</Tab>
+        <Tab Name="contact">Contact</Tab>
+        <Tab Name="notes">Notes</Tab>
     </Items>
     <Content>
-        <TabPanel Name="tab1">
-            This Tabs component is set to <code>LazyLoad</code> mode, meaning each tab will only be rendered/loaded the first time it is visited.
-            This is specially useful when you want to delay some heavy or long waited operations for when the tab is actually clicked instead.
-            <TextInput></TextInput>
+        <TabPanel Name="contact" Focusable="false" Padding="Padding.Is3">
+            <Paragraph>Enter contact details, visit Notes, then return. Your entries stay in place.</Paragraph>
+            <Field>
+                <FieldLabel>Full name</FieldLabel>
+                <TextInput Placeholder="e.g. Alex Morgan" />
+            </Field>
+            <Field Margin="Margin.Is0.FromBottom">
+                <FieldLabel>Email address</FieldLabel>
+                <TextInput Role="TextRole.Email" Placeholder="e.g. alex@example.com" />
+            </Field>
         </TabPanel>
-        <TabPanel Name="tab2">
-            <TextInput></TextInput>
+        <TabPanel Name="notes" Focusable="false" Padding="Padding.Is3">
+            <Paragraph>This form is created on your first visit and kept when you switch tabs.</Paragraph>
+            <Field>
+                <FieldLabel>Subject</FieldLabel>
+                <TextInput Placeholder="e.g. Project introduction" />
+            </Field>
+            <Field Margin="Margin.Is0.FromBottom">
+                <FieldLabel>Notes</FieldLabel>
+                <MemoInput Rows="3" Placeholder="Add a few details to discuss with this contact." />
+            </Field>
         </TabPanel>
     </Content>
 </Tabs>
