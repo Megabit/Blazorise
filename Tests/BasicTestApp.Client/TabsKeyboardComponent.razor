@@ -1,0 +1,73 @@
+@using BasicTestApp.Client.Infrastructure
+
+@foreach ( TabPosition position in new[] { TabPosition.Top, TabPosition.Start } )
+{
+    <Div id="@($"keyboard-tabs-{position}")">
+        <Button class="before-tabs">Before tabs</Button>
+        <TestTabs SelectedTab="2" TabPosition="@position" AriaLabel="@($"{position} tabs")" Initialized="OnTabsInitialized">
+            <Items>
+                <Tab Name="1" ElementId="@($"first-tab-{position}")">First</Tab>
+                <Tab Name="2">Second</Tab>
+                <Tab Name="3" Disabled>Disabled</Tab>
+                <Tab Name="4">Last</Tab>
+            </Items>
+            <Content>
+                <TabPanel Name="1" ElementId="@($"first-panel-{position}")">First panel</TabPanel>
+                <TabPanel Name="2">Second panel</TabPanel>
+                <TabPanel Name="3">Disabled panel</TabPanel>
+                <TabPanel Name="4">Last panel</TabPanel>
+            </Content>
+        </TestTabs>
+        <Button class="after-tabs">After tabs</Button>
+    </Div>
+}
+
+<Div id="keyboard-tabs-skip-panel">
+    <Heading Size="HeadingSize.Is3" ElementId="skip-panel-heading">Panel focus</Heading>
+    <Button class="before-tabs">Before tabs</Button>
+    <TestTabs SelectedTab="1" RenderMode="TabsRenderMode.LazyReload" AriaLabelledBy="skip-panel-heading" Initialized="OnTabsInitialized">
+        <Items>
+            <Tab Name="1">First</Tab>
+            <Tab Name="2">Second</Tab>
+        </Items>
+        <Content>
+            <TabPanel Name="1" Focusable="false">
+                <Button>First panel button</Button>
+            </TabPanel>
+            <TabPanel Name="2" Focusable="false">
+                <Button>Second panel button</Button>
+            </TabPanel>
+        </Content>
+    </TestTabs>
+    <Button class="after-tabs">After tabs</Button>
+</Div>
+
+@foreach ( (string Name, string Style) hiddenTab in new[] { ("display", "display: none;"), ("visibility", "visibility: hidden;") } )
+{
+    <Div id="@($"keyboard-tabs-hidden-{hiddenTab.Name}")">
+        <Button class="before-tabs">Before tabs</Button>
+        <TestTabs SelectedTab="hidden" AriaLabel="Hidden tab navigation" Initialized="OnTabsInitialized">
+            <Items>
+                <Tab Name="hidden" Style="@hiddenTab.Style">Hidden</Tab>
+                <Tab Name="first">First visible</Tab>
+                <Tab Name="disabled" Disabled>Disabled</Tab>
+                <Tab Name="last">Last visible</Tab>
+            </Items>
+        </TestTabs>
+        <Button class="after-tabs">After tabs</Button>
+    </Div>
+}
+
+@if ( initializedTabs == 5 )
+{
+    <Span ElementId="keyboard-tabs-ready">Ready</Span>
+}
+
+@code {
+    private int initializedTabs;
+
+    private void OnTabsInitialized()
+    {
+        initializedTabs++;
+    }
+}

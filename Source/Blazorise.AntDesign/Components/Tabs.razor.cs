@@ -39,7 +39,5 @@ public partial class Tabs : Blazorise.Tabs
         _ => "ant-tabs-top",
     };
 
-    string AriaOrientation => TabPosition is TabPosition.Start or TabPosition.End ? "vertical" : "horizontal";
-
     #endregion
 }

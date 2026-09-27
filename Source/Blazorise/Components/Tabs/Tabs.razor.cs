@@ -1,6 +1,10 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -11,7 +15,7 @@ namespace Blazorise;
 /// <summary>
 /// Tabs organize content across different screens, data sets, and other interactions.
 /// </summary>
-public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>
+public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>, IAsyncDisposable
 {
     #region Members
 
@@ -24,14 +28,14 @@ public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>
     };
 
     /// <summary>
-    /// List of all tab names that are placed inside if this component.
+    /// List of all tabs that are placed inside of this component.
     /// </summary>
-    private List<string> tabItems = new();
+    private readonly List<Tab> tabItems = new();
 
     /// <summary>
-    /// List of all panel names that are placed inside if this component.
+    /// List of all panels that are placed inside of this component.
     /// </summary>
-    private List<string> tabPanels = new();
+    private readonly List<TabPanel> tabPanels = new();
 
     #endregion
 
@@ -48,6 +52,24 @@ public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( Items is not null )
+            await JSModule.Initialize( ElementRef, ElementId );
+
+        await base.OnAfterRenderAsync( firstRender );
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing && Rendered )
+            await JSModule.SafeDestroy( ElementRef, ElementId );
+
+        await base.DisposeAsync( disposing );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -81,42 +103,70 @@ public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>
     /// <summary>
     /// Notify this <see cref="Tabs"/> component that it's <see cref="Tab"/> child component is placed inside of it.
     /// </summary>
-    /// <param name="name">The name of the tab.</param>
-    internal void NotifyTabInitialized( string name )
+    /// <param name="tab">The tab component.</param>
+    internal void NotifyTabInitialized( Tab tab )
     {
-        if ( !tabItems.Contains( name ) )
-            tabItems.Add( name );
+        if ( !tabItems.Contains( tab ) )
+        {
+            tabItems.Add( tab );
+            InvokeAsync( StateHasChanged );
+        }
     }
 
     /// <summary>
     /// Notify this <see cref="Tabs"/> component that it's <see cref="Tab"/> child component is removed from it.
     /// </summary>
-    /// <param name="name">The name of the tab.</param>
-    internal void NotifyTabRemoved( string name )
+    /// <param name="tab">The tab component.</param>
+    internal void NotifyTabRemoved( Tab tab )
     {
-        if ( tabItems.Contains( name ) )
-            tabItems.Remove( name );
+        if ( tabItems.Remove( tab ) )
+            InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
     /// Notify this <see cref="Tabs"/> component that it's <see cref="TabPanel"/> child component is placed inside of it.
     /// </summary>
-    /// <param name="name">The name of the panel.</param>
-    internal void NotifyTabPanelInitialized( string name )
+    /// <param name="panel">The panel component.</param>
+    internal void NotifyTabPanelInitialized( TabPanel panel )
     {
-        if ( !tabPanels.Contains( name ) )
-            tabPanels.Add( name );
+        if ( !tabPanels.Contains( panel ) )
+        {
+            tabPanels.Add( panel );
+            InvokeAsync( StateHasChanged );
+        }
     }
 
     /// <summary>
     /// Notify this <see cref="Tabs"/> component that it's <see cref="TabPanel"/> child component is removed from it.
     /// </summary>
-    /// <param name="name">The name of the panel.</param>
-    internal void NotifyTabPanelRemoved( string name )
+    /// <param name="panel">The panel component.</param>
+    internal void NotifyTabPanelRemoved( TabPanel panel )
     {
-        if ( tabPanels.Contains( name ) )
-            tabPanels.Remove( name );
+        if ( tabPanels.Remove( panel ) )
+            InvokeAsync( StateHasChanged );
     }
+
+    /// <summary>
+    /// Gets the ID of the tab associated with a panel.
+    /// </summary>
+    /// <param name="name">The shared tab and panel name.</param>
+    /// <returns>The tab element ID, or null if no matching tab is registered.</returns>
+    internal string GetTabElementId( string name )
+        => tabItems.Find( tab => tab.Name == name )?.TabElementId;
+
+    /// <summary>
+    /// Gets the ID of the panel associated with a tab.
+    /// </summary>
+    /// <param name="name">The shared tab and panel name.</param>
+    /// <returns>The panel element ID, or null if no matching panel is registered.</returns>
+    internal string GetTabPanelElementId( string name )
+        => tabPanels.Find( panel => panel.Name == name )?.ElementId;
+
+    /// <summary>
+    /// Refreshes tab and panel associations after their names change.
+    /// </summary>
+    internal void NotifyTabParametersChanged()
+        => InvokeAsync( StateHasChanged );
 
     /// <summary>
     /// Sets the active tab by the name.
@@ -133,6 +183,16 @@ public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the orientation of the tab list for assistive technology and keyboard navigation.
+    /// </summary>
+    protected string AriaOrientation => TabPosition is TabPosition.Start or TabPosition.End ? "vertical" : "horizontal";
+
+    /// <summary>
+    /// Gets the tabs JavaScript module.
+    /// </summary>
+    [Inject] protected IJSTabsModule JSModule { get; set; }
 
     /// <summary>
     /// Gets the reference to the tabs state object.
@@ -157,17 +217,27 @@ public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>
     /// <summary>
     /// Get the index of the currently selected tab.
     /// </summary>
-    protected int IndexOfSelectedTab => tabItems.IndexOf( state.SelectedTab );
+    protected int IndexOfSelectedTab => tabItems.FindIndex( tab => tab.Name == state.SelectedTab );
 
     /// <summary>
     /// Gets the list of all tab item names that are placed inside of this container.
     /// </summary>
-    protected IReadOnlyList<string> TabItems => tabItems;
+    protected IReadOnlyList<string> TabItems => tabItems.Select( tab => tab.Name ).ToArray();
 
     /// <summary>
     /// Gets the list of all tab panel names that are placed inside of this container.
     /// </summary>
-    protected IReadOnlyList<string> TabPanels => tabPanels;
+    protected IReadOnlyList<string> TabPanels => tabPanels.Select( panel => panel.Name ).ToArray();
+
+    /// <summary>
+    /// Specifies the accessible name of the tab list when no visible label is available.
+    /// </summary>
+    [Parameter] public string AriaLabel { get; set; }
+
+    /// <summary>
+    /// Specifies the space-separated IDs of elements that label the tab list.
+    /// </summary>
+    [Parameter] public string AriaLabelledBy { get; set; }
 
     /// <summary>
     /// Makes the tab items to appear as pills.

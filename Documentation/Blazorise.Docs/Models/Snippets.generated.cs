@@ -6660,7 +6660,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </TableBody>
 </Table>";
 
-        public const string BasicTabExample = @"<Tabs SelectedTab=""@selectedTab"" SelectedTabChanged=""@OnSelectedTabChanged"">
+        public const string BasicTabExample = @"<Tabs SelectedTab=""@selectedTab"" SelectedTabChanged=""@OnSelectedTabChanged"" AriaLabel=""Account overview"">
     <Items>
         <Tab Name=""home"">Home</Tab>
         <Tab Name=""profile"">Profile</Tab>
@@ -6668,17 +6668,49 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         <Tab Name=""settings"">Settings</Tab>
     </Items>
     <Content>
-        <TabPanel Name=""home"">
-            Content for home.
+        <TabPanel Name=""home"" Padding=""Padding.Is3"">
+            <Heading Size=""HeadingSize.Is5"">Welcome back</Heading>
+            <Paragraph>
+                Your account brings together your profile, conversations, and preferences. Use these tabs to explore
+                each section without leaving the page.
+            </Paragraph>
+            <Paragraph Margin=""Margin.Is0.FromBottom"">
+                Start by reviewing your profile, catch up on messages from your team, or adjust your settings to suit
+                the way you work.
+            </Paragraph>
         </TabPanel>
-        <TabPanel Name=""profile"">
-            Content for profile.
+        <TabPanel Name=""profile"" Padding=""Padding.Is3"">
+            <Heading Size=""HeadingSize.Is5"">Your profile</Heading>
+            <Paragraph>
+                Your profile helps teammates recognize you and find the right person to contact. It includes your
+                display name, role, and a short introduction to your work.
+            </Paragraph>
+            <Paragraph Margin=""Margin.Is0.FromBottom"">
+                Keep your contact details up to date and include the projects or topics you can help with. A clear
+                introduction makes it easier for new team members to get in touch.
+            </Paragraph>
         </TabPanel>
-        <TabPanel Name=""messages"">
-            Content for messages.
+        <TabPanel Name=""messages"" Padding=""Padding.Is3"">
+            <Heading Size=""HeadingSize.Is5"">Team messages</Heading>
+            <Paragraph>
+                Conversations keep project updates and questions in one place. Review recent discussions to see
+                what has changed and where your team needs your input.
+            </Paragraph>
+            <Paragraph Margin=""Margin.Is0.FromBottom"">
+                Give each conversation a descriptive subject so teammates can find it later. Keep replies in the
+                same thread to preserve the context of a decision.
+            </Paragraph>
         </TabPanel>
-        <TabPanel Name=""settings"">
-            Content for settings.
+        <TabPanel Name=""settings"" Padding=""Padding.Is3"">
+            <Heading Size=""HeadingSize.Is5"">Account settings</Heading>
+            <Paragraph>
+                Preferences let you tailor your account to your daily routine. Choose how you receive notifications
+                and which updates deserve your attention.
+            </Paragraph>
+            <Paragraph Margin=""Margin.Is0.FromBottom"">
+                Review these choices as your responsibilities change. Keeping only the notifications you need can
+                help you stay informed while reducing interruptions.
+            </Paragraph>
         </TabPanel>
     </Content>
 </Tabs>
@@ -6693,37 +6725,64 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string LazyLoadTabExample = @"<Tabs RenderMode=""TabsRenderMode.LazyLoad"" SelectedTab=""tab1"">
+        public const string LazyLoadTabExample = @"<Tabs RenderMode=""TabsRenderMode.LazyLoad"" SelectedTab=""contact"" AriaLabel=""Contact details with lazy loading"">
     <Items>
-        <Tab Name=""tab1"">Tab 1</Tab>
-        <Tab Name=""tab2"">Tab 2</Tab>
+        <Tab Name=""contact"">Contact</Tab>
+        <Tab Name=""notes"">Notes</Tab>
     </Items>
     <Content>
-        <TabPanel Name=""tab1"">
-            This Tabs component is set to <code>LazyLoad</code> mode, meaning each tab will only be rendered/loaded the first time it is visited.
-            This is specially useful when you want to delay some heavy or long waited operations for when the tab is actually clicked instead.
-            <TextInput></TextInput>
+        <TabPanel Name=""contact"" Focusable=""false"" Padding=""Padding.Is3"">
+            <Paragraph>Enter contact details, visit Notes, then return. Your entries stay in place.</Paragraph>
+            <Field>
+                <FieldLabel>Full name</FieldLabel>
+                <TextInput Placeholder=""e.g. Alex Morgan"" />
+            </Field>
+            <Field Margin=""Margin.Is0.FromBottom"">
+                <FieldLabel>Email address</FieldLabel>
+                <TextInput Role=""TextRole.Email"" Placeholder=""e.g. alex@example.com"" />
+            </Field>
         </TabPanel>
-        <TabPanel Name=""tab2"">
-            <TextInput></TextInput>
+        <TabPanel Name=""notes"" Focusable=""false"" Padding=""Padding.Is3"">
+            <Paragraph>This form is created on your first visit and kept when you switch tabs.</Paragraph>
+            <Field>
+                <FieldLabel>Subject</FieldLabel>
+                <TextInput Placeholder=""e.g. Project introduction"" />
+            </Field>
+            <Field Margin=""Margin.Is0.FromBottom"">
+                <FieldLabel>Notes</FieldLabel>
+                <MemoInput Rows=""3"" Placeholder=""Add a few details to discuss with this contact."" />
+            </Field>
         </TabPanel>
     </Content>
 </Tabs>";
 
-        public const string LazyReloadTabExample = @"<Tabs RenderMode=""TabsRenderMode.LazyReload"" SelectedTab=""tab1"">
+        public const string LazyReloadTabExample = @"<Tabs RenderMode=""TabsRenderMode.LazyReload"" SelectedTab=""contact"" AriaLabel=""Contact details with lazy reloading"">
     <Items>
-        <Tab Name=""tab1"">Tab 1</Tab>
-        <Tab Name=""tab2"">Tab 2</Tab>
+        <Tab Name=""contact"">Contact</Tab>
+        <Tab Name=""notes"">Notes</Tab>
     </Items>
     <Content>
-        <TabPanel Name=""tab1"">
-            This Tabs component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time.
-            Try typing some text in the provided Text components and changing between tabs, the tab will always be refresh as the tab content is always lazy loaded,
-            therefore re-calculated.
-            <TextInput></TextInput>
+        <TabPanel Name=""contact"" Focusable=""false"" Padding=""Padding.Is3"">
+            <Paragraph>Enter contact details, visit Notes, then return. The inputs are recreated and your entries are cleared.</Paragraph>
+            <Field>
+                <FieldLabel>Full name</FieldLabel>
+                <TextInput Placeholder=""e.g. Alex Morgan"" />
+            </Field>
+            <Field Margin=""Margin.Is0.FromBottom"">
+                <FieldLabel>Email address</FieldLabel>
+                <TextInput Role=""TextRole.Email"" Placeholder=""e.g. alex@example.com"" />
+            </Field>
         </TabPanel>
-        <TabPanel Name=""tab2"">
-            <TextInput></TextInput>
+        <TabPanel Name=""notes"" Focusable=""false"" Padding=""Padding.Is3"">
+            <Paragraph>Only the active panel's content is rendered. These inputs also start empty each time you return.</Paragraph>
+            <Field>
+                <FieldLabel>Subject</FieldLabel>
+                <TextInput Placeholder=""e.g. Project introduction"" />
+            </Field>
+            <Field Margin=""Margin.Is0.FromBottom"">
+                <FieldLabel>Notes</FieldLabel>
+                <MemoInput Rows=""3"" Placeholder=""Add a few details to discuss with this contact."" />
+            </Field>
         </TabPanel>
     </Content>
 </Tabs>";

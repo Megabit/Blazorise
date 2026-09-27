@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -11,7 +12,7 @@ namespace Blazorise;
 /// <summary>
 /// A clickable item for <see cref="Tabs"/> component.
 /// </summary>
-public partial class Tab : BaseComponent<TabClasses, TabStyles>
+public partial class Tab : BaseComponent<TabClasses, TabStyles>, IDisposable
 {
     #region Members
 
@@ -44,9 +45,29 @@ public partial class Tab : BaseComponent<TabClasses, TabStyles>
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        ParentTabs?.NotifyTabInitialized( Name );
-
         base.OnInitialized();
+
+        ParentTabs?.NotifyTabInitialized( this );
+    }
+
+    /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        bool nameChanged = parameters.TryGetValue<string>( nameof( Name ), out string name ) && Name != name;
+
+        await base.SetParametersAsync( parameters );
+
+        if ( nameChanged )
+            ParentTabs?.NotifyTabParametersChanged();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+            ParentTabs?.NotifyTabRemoved( this );
+
+        base.Dispose( disposing );
     }
 
     /// <inheritdoc/>
@@ -100,6 +121,19 @@ public partial class Tab : BaseComponent<TabClasses, TabStyles>
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Gets the ID of the element with the tab role.
+    /// </summary>
+    protected internal virtual string TabElementId => $"{ElementId}-tab";
+
+    /// <summary>
+    /// Gets the ID of the panel controlled by this tab.
+    /// </summary>
+    protected string AriaControls => ParentTabs?.GetTabPanelElementId( Name );
+
     /// <summary>
     /// Gets or sets the class builder for the link element.
     /// </summary>
@@ -126,9 +160,19 @@ public partial class Tab : BaseComponent<TabClasses, TabStyles>
     protected string AriaDisabledString => Disabled ? "true" : "false";
 
     /// <summary>
+    /// Gets the tab order, allowing only the active, enabled tab to receive focus with the Tab key.
+    /// </summary>
+    protected int TabIndex => !Disabled && Active ? 0 : -1;
+
+    /// <summary>
     /// Specifies the tab name. Must match the corresponding panel name.
     /// </summary>
     [Parameter] public string Name { get; set; }
+
+    /// <summary>
+    /// Specifies the space-separated IDs of elements that label this tab.
+    /// </summary>
+    [Parameter] public string AriaLabelledBy { get; set; }
 
     /// <summary>
     /// Flag to indicate that the tab is not responsive for user interaction.
