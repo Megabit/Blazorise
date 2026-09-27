@@ -21,7 +21,7 @@
                                 <Addon AddonType="AddonType.Body">
                                     <TextInput Role="TextRole.Email" Placeholder="Email Address" @bind-Value="@email">
                                         <Feedback>
-                                            <ValidationError Style="font-size: .85rem;">Please complete this required field.</ValidationError>
+                                            <ValidationError TextSize="TextSize.Rem( 0.85 )">Please complete this required field.</ValidationError>
                                         </Feedback>
                                     </TextInput>
                                 </Addon>
@@ -35,7 +35,7 @@
             </Validations>
             @if ( emailSent )
             {
-                <Alert Color="Color.Success" Visible Style="font-size: .85rem;">
+                <Alert Color="Color.Success" Visible TextSize="TextSize.Rem( 0.85 )">
                     <AlertDescription>
                         Thank you for subscribing.
                     </AlertDescription>
@@ -62,12 +62,12 @@ else
                                 <FieldBody>
                                     <TextInput Role="TextRole.Email" Placeholder="Email Address" @bind-Value="@email">
                                         <Feedback>
-                                            <ValidationError Style="font-size: .8rem;">Please complete this required field.</ValidationError>
+                                            <ValidationError TextSize="TextSize.Rem( 0.8 )">Please complete this required field.</ValidationError>
                                         </Feedback>
                                     </TextInput>
                                 </FieldBody>
                             </Field>
-                            <Paragraph Style="font-size: .8rem;">
+                            <Paragraph TextSize="TextSize.Rem( 0.8 )">
                                 Blazorise needs the contact information you provide to contact you about our products and services. You may unsubscribe from these communications at anytime. For information on how to unsubscribe, as well as our privacy practices and commitment to protecting your privacy, check out our <Anchor To="privacy" Title="Link to Privacy Policy">Privacy Policy</Anchor>.
                             </Paragraph>
 
@@ -76,7 +76,7 @@ else
                     </Validations>
                     @if ( emailSent )
                     {
-                        <Alert Color="Color.Success" Visible Style="font-size: .8rem;" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+                        <Alert Color="Color.Success" Visible TextSize="TextSize.Rem( 0.8 )" Margin="Margin.Is3.FromTop.Is0.FromBottom">
                             <AlertDescription>
                                 Thank you for subscribing.
                             </AlertDescription>

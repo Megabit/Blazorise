@@ -129,7 +129,7 @@
                                 Logo
                             </Badge>
                             <Div>
-                                <Image Source="@logoExample" Text="Blazorise logo" Fluid Style="max-width: 100px;" />
+                                <Image Source="@logoExample" Text="Blazorise logo" Fluid Width="Width.Px().Max( 100 )" />
                             </Div>
                             <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Margin="Margin.Is3.FromTop" Clicked="@(() => OnCopyUrl( logoExample ))">
                                 Copy URL
@@ -145,7 +145,7 @@
                             Marketing Image
                         </Badge>
                         <Div>
-                            <Image Source="@imageExample" Text="Blazorise marketing image" Fluid Style="max-width: 420px;" Border="Border.Rounded.Is1.Light" />
+                            <Image Source="@imageExample" Text="Blazorise marketing image" Fluid Width="Width.Px().Max( 420 )" Border="Border.Rounded.Is1.Light" />
                         </Div>
                         <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Margin="Margin.Is3.FromTop" Clicked="@(() => OnCopyUrl( imageExample ))">
                             Copy Image URL

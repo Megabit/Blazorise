@@ -6,7 +6,7 @@
             Image Cropper
         </FieldLabel>
         <FieldBody>
-            <Cropper @ref="cropper" Source="img/gallery/6.jpg" SelectionChanged="@OnSelectionChanged" Style="aspect-ratio: 16 / 9; height: 100%;" />
+            <Cropper @ref="cropper" Source="img/gallery/6.jpg" SelectionChanged="@OnSelectionChanged" Height="Height.Percent( 100 )" Style="aspect-ratio: 16 / 9;" />
         </FieldBody>
     </Column>
     <Column>
@@ -14,7 +14,7 @@
             <Button Color="Color.Primary" Clicked="@GetCroppedImage" Disabled="@cropButtonDisabled">Get Cropped Image</Button>
             <Button Color="Color.Secondary" Clicked="@ResetSelection" Disabled="@cropButtonDisabled">Reset Selection</Button>
         </Div>
-        <Image Source="@result" Border="Border.Is1" Style="width: 250px; height: 250px;" />
+        <Image Source="@result" Border="Border.Is1" Width="Width.Px( 250 )" Height="Height.Px( 250 )" />
     </Column>
 </Row>
 

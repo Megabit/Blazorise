@@ -27,6 +27,7 @@
 
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">ElementId</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">resizer-inspector</span><span class="quot">&quot;</span>
          <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.Shrink.Is0</span><span class="quot">&quot;</span>
+         <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>Width.Var( &quot;--docs-inspector-width&quot; )</span><span class="quot">&quot;</span>
          <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>InspectorStyle</span><span class="quot">&quot;</span>
          <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Background</span><span class="enumValue">.Light</span><span class="quot">&quot;</span>
          <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Padding</span><span class="enumValue">.Is4</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
@@ -43,7 +44,7 @@
 
     <span class="keyword">private</span> <span class="keyword">string</span> InspectorStyle
         =&gt; FormattableString.Invariant(
-            $<span class="string">&quot;--docs-inspector-width: {inspectorWidth}px; width: var(--docs-inspector-width);&quot;</span> );
+            $<span class="string">&quot;--docs-inspector-width: {inspectorWidth}px;&quot;</span> );
 }
 </pre></div>
 </div>

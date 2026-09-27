@@ -27,6 +27,7 @@
 
     <Div ElementId="resizer-inspector"
          Flex="Flex.Shrink.Is0"
+         Width="@Width.Var( "--docs-inspector-width" )"
          Style="@InspectorStyle"
          Background="Background.Light"
          Padding="Padding.Is4">
@@ -42,5 +43,5 @@
 
     private string InspectorStyle
         => FormattableString.Invariant(
-            $"--docs-inspector-width: {inspectorWidth}px; width: var(--docs-inspector-width);" );
+            $"--docs-inspector-width: {inspectorWidth}px;" );
 }

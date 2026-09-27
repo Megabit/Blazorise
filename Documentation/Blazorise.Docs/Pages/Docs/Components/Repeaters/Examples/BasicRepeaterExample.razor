@@ -2,7 +2,7 @@
 
 <UnorderedList>
     <Repeater Items="@items" CollectionChanged="@OnCollectionChanged">
-        <UnorderedListItem style="@GetColor( context )">@context</UnorderedListItem>
+        <UnorderedListItem TextColor="@GetColor( context )">@context</UnorderedListItem>
     </Repeater>
 </UnorderedList>
 
@@ -16,7 +16,7 @@
         return Task.CompletedTask;
     }
 
-    private static string GetColor( int number )
+    private static TextColor GetColor( int number )
     {
         const string letters = "0123456789ABCDEF";
 
@@ -27,6 +27,6 @@
             color += letters[( 3 * number + i ) % letters.Length];
         }
 
-        return $"color: #{color}";
+        return new TextColor( $"#{color}" );
     }
 }

@@ -453,7 +453,7 @@ namespace Blazorise.Docs.Models
 
         public const string TopBarExamplePage = @"<TopBarExample />";
 
-        public const string VerticalBarExternalExample = @"<Layout Sider Style=""min-height: 360px;"">
+        public const string VerticalBarExternalExample = @"<Layout Sider Height=""Height.Px().Min( 360 )"">
     <LayoutSider>
         <LayoutSiderContent>
             <Bar @ref=""@sidebar""
@@ -654,7 +654,7 @@ namespace Blazorise.Docs.Models
     </BarMenu>
 </Bar>";
 
-        public const string VerticalBarRightAlignedExample = @"<Layout Sider Style=""min-height: 360px;"">
+        public const string VerticalBarRightAlignedExample = @"<Layout Sider Height=""Height.Px().Min( 360 )"">
     <Layout>
         <LayoutContent Padding=""Padding.Is3"">
             <Card>
@@ -707,7 +707,7 @@ namespace Blazorise.Docs.Models
     </LayoutSider>
 </Layout>";
 
-        public const string VerticalBarSideBarExample = @"<Layout Sider Style=""min-height: 420px;"">
+        public const string VerticalBarSideBarExample = @"<Layout Sider Height=""Height.Px().Min( 420 )"">
     <LayoutSider>
         <LayoutSiderContent>
             <Bar Mode=""BarMode.VerticalInline""
@@ -1968,7 +1968,7 @@ namespace Blazorise.Docs.Models
     How they tinkle, tinkle, tinkle, In the icy air of night !
 </Paragraph>";
 
-        public const string BasicDockLayoutExample = @"<DockLayout Style=""height: 28rem;"" PaneBordered>
+        public const string BasicDockLayoutExample = @"<DockLayout Height=""Height.Rem( 28 )"" PaneBordered>
     <DockPane Name=""toolbar"" Caption=""Toolbar"" PanePosition=""DockPanePosition.Top"" Role=""DockPaneRole.Tool"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
         <DockPaneBody>
             Toolbar
@@ -2014,7 +2014,7 @@ namespace Blazorise.Docs.Models
 
         public const string DockLayoutStateExample = @"@using System.Text.Json
 
-<DockLayout @ref=""@dockLayout"" Style=""height: 24rem;"" PaneBordered>
+<DockLayout @ref=""@dockLayout"" Height=""Height.Rem( 24 )"" PaneBordered>
     <DockPane Name=""actions"" Caption=""Actions"" PanePosition=""DockPanePosition.Top"" Resizable=""false"" ShowTab=""false"" AutoHideable=""false"" Closable=""false"">
         <DockPaneBody Padding=""Padding.Is2"">
             <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
@@ -2095,7 +2095,7 @@ namespace Blazorise.Docs.Models
     }
 }";
 
-        public const string DockLayoutTabbedPanesExample = @"<DockLayout Style=""height: 24rem;"" PaneBordered>
+        public const string DockLayoutTabbedPanesExample = @"<DockLayout Height=""Height.Rem( 24 )"" PaneBordered>
     <DockPane Name=""document"" Caption=""Document"" PanePosition=""DockPanePosition.Center"" Role=""DockPaneRole.Document"" ShowTab=""false"" Closable=""false"">
         <DockPaneHeader>
             <Strong>Document</Strong>
@@ -2139,7 +2139,7 @@ namespace Blazorise.Docs.Models
     <ItemTemplate>
         <Card Shadow=""Shadow.Default"" Margin=""Margin.Is3.OnY"">
             <CardBody>
-                <Image Source=""@context.Image"" Text=""DragDrop image example"" Style=""width:48px;height:48px;"" />
+                <Image Source=""@context.Image"" Text=""DragDrop image example"" Width=""Width.Px( 48 )"" Height=""Height.Px( 48 )"" />
                 @context.Name
             </CardBody>
         </Card>
@@ -3160,9 +3160,9 @@ namespace Blazorise.Docs.Models
         public const string GesturesGalleryExample = @"<Gestures Direction=""GestureDirection.Horizontal""
           TouchAction=""GestureTouchAction.PanY""
           Swiped=""@OnSwiped"">
-    <Card Background=""@CurrentSlide.Background"" TextColor=""TextColor.White"" Style=""min-height: 260px; user-select: none;"">
+    <Card Background=""@CurrentSlide.Background"" TextColor=""TextColor.White"" Height=""Height.Px().Min( 260 )"" Style=""user-select: none;"">
         <CardBody Padding=""Padding.Is5"">
-            <Div Flex=""Flex.Column.JustifyContent.Between"" Style=""min-height: 220px;"">
+            <Div Flex=""Flex.Column.JustifyContent.Between"" Height=""Height.Px().Min( 220 )"">
                 <Div>
                     <Badge Color=""Color.Light"" TextColor=""TextColor.Dark"" Pill>
                         @( currentIndex + 1 ) / @slides.Count
@@ -5484,7 +5484,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string BasicRepeaterExample = @"<UnorderedList>
     <Repeater Items=""@items"" CollectionChanged=""@OnCollectionChanged"">
-        <UnorderedListItem style=""@GetColor( context )"">@context</UnorderedListItem>
+        <UnorderedListItem TextColor=""@GetColor( context )"">@context</UnorderedListItem>
     </Repeater>
 </UnorderedList>
 
@@ -5498,7 +5498,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         return Task.CompletedTask;
     }
 
-    private static string GetColor( int number )
+    private static TextColor GetColor( int number )
     {
         const string letters = ""0123456789ABCDEF"";
 
@@ -5509,7 +5509,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             color += letters[( 3 * number + i ) % letters.Length];
         }
 
-        return $""color: #{color}"";
+        return new TextColor( $""#{color}"" );
     }
 }";
 
@@ -5623,7 +5623,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
      Overflow=""Overflow.Hidden"">
     <Div ElementId=""resizer-start-panel""
          Flex=""Flex.Shrink.Is0""
-         Style=""width: 50%;""
+         Width=""Width.Percent( 50 )""
          Background=""Background.Light""
          Padding=""Padding.Is4"">
         <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Navigation</Heading>
@@ -5645,7 +5645,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
     <Div ElementId=""resizer-end-panel""
          Flex=""Flex.Shrink.Is0""
-         Style=""width: 50%;""
+         Width=""Width.Percent( 50 )""
          Padding=""Padding.Is4"">
         <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Workspace</Heading>
         <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
@@ -5746,6 +5746,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
     <Div ElementId=""resizer-inspector""
          Flex=""Flex.Shrink.Is0""
+         Width=""@Width.Var( ""--docs-inspector-width"" )""
          Style=""@InspectorStyle""
          Background=""Background.Light""
          Padding=""Padding.Is4"">
@@ -5761,7 +5762,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
     private string InspectorStyle
         => FormattableString.Invariant(
-            $""--docs-inspector-width: {inspectorWidth}px; width: var(--docs-inspector-width);"" );
+            $""--docs-inspector-width: {inspectorWidth}px;"" );
 }";
 
         public const string BasicSelectExample = @"<Select TValue=""int"">
@@ -7245,7 +7246,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 </Tooltip>";
 
         public const string TooltipTextTruncateExample = @"<Tooltip Text=""Lorem Ipsum is simply dummy text of the printing and typesetting industry..."" Multiline Inline>
-    <Text TextOverflow=""TextOverflow.Truncate"" Display=""Display.InlineBlock"" Style=""max-width: 200px; cursor: pointer;"" TextColor=""TextColor.Muted"">
+    <Text TextOverflow=""TextOverflow.Truncate"" Display=""Display.InlineBlock"" Width=""Width.Px().Max( 200 )"" Style=""cursor: pointer;"" TextColor=""TextColor.Muted"">
         Lorem Ipsum is simply dummy text of the printing and typesetting industry...
     </Text>
 </Tooltip>";
@@ -10924,7 +10925,7 @@ console.log(greeting(""Blazorise""));
             Image Cropper
         </FieldLabel>
         <FieldBody>
-            <Cropper @ref=""cropper"" Source=""img/gallery/6.jpg"" SelectionChanged=""@OnSelectionChanged"" Style=""aspect-ratio: 16 / 9; height: 100%;"" />
+            <Cropper @ref=""cropper"" Source=""img/gallery/6.jpg"" SelectionChanged=""@OnSelectionChanged"" Height=""Height.Percent( 100 )"" Style=""aspect-ratio: 16 / 9;"" />
         </FieldBody>
     </Column>
     <Column>
@@ -10932,7 +10933,7 @@ console.log(greeting(""Blazorise""));
             <Button Color=""Color.Primary"" Clicked=""@GetCroppedImage"" Disabled=""@cropButtonDisabled"">Get Cropped Image</Button>
             <Button Color=""Color.Secondary"" Clicked=""@ResetSelection"" Disabled=""@cropButtonDisabled"">Reset Selection</Button>
         </Div>
-        <Image Source=""@result"" Border=""Border.Is1"" Style=""width: 250px; height: 250px;"" />
+        <Image Source=""@result"" Border=""Border.Is1"" Width=""Width.Px( 250 )"" Height=""Height.Px( 250 )"" />
     </Column>
 </Row>
 
@@ -10987,9 +10988,9 @@ console.log(greeting(""Blazorise""));
             Preview
         </FieldLabel>
         <FieldBody>
-            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 150px; height: 150px;"" />
-            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 100px; height: 100px;"" />
-            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 50px; height: 50px;"" />
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Width=""Width.Px( 150 )"" Height=""Height.Px( 150 )"" />
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Width=""Width.Px( 100 )"" Height=""Height.Px( 100 )"" />
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Width=""Width.Px( 50 )"" Height=""Height.Px( 50 )"" />
         </FieldBody>
     </Column>
 </Row>
@@ -28896,19 +28897,19 @@ builder.Services
      Width=""Width.Is100""
      Flex=""Flex.Column.JustifyContent.Between"">
     <Div Flex=""Flex.JustifyContent.Between.AlignItems.Center""
-         Style=""height:14pt;font-size:9pt;line-height:14pt;font-weight:700;color:#212529"">
+         TextWeight=""TextWeight.Bold""
+         TextColor=""@(new TextColor( ""#212529"" ))""
+         Style=""height:14pt; font-size:9pt; line-height:14pt;"">
         <Span>@ProgressBarReportElementPlugin.GetCaption( Context.Element )</Span>
         <Span>@($""{Value}%"")</Span>
     </Div>
-    <Div Style=""height:12pt;background-color:#E9ECEF;overflow:hidden"">
-        <Div Height=""Height.Is100"" Style=""@FillStyle"" />
+    <Div Overflow=""Overflow.Hidden"" Background=""@(new Background( ""#E9ECEF"" ))"" Style=""height:12pt;"">
+        <Div Height=""Height.Is100"" Width=""Width.Percent( Value )"" Background=""@(new Background( ProgressBarReportElementPlugin.GetColor( Context.Element ) ))"" />
     </Div>
 </Div>
 
 @code {
     private int Value => ProgressBarReportElementPlugin.GetValue( Context.Element );
-
-    private string FillStyle => $""width:{Value}%;background-color:{ProgressBarReportElementPlugin.GetColor( Context.Element )}"";
 }";
 
         public const string ReportingBackendPdfExample = @"using System;
@@ -31348,7 +31349,7 @@ builder.Services
 
         public const string SpinKitSizeExample = @"<SpinKit Type=""SpinKitType.Plane"" Size=""Size.Small"" />";
 
-        public const string SplitterBackgroundImageExample = @"<Splitter Style=""height: 100px;"" GutterSize=""32"" GutterBackgroundImage=""_content/Blazorise.Docs/assets/img/icons/resize-horizontal-30.png"">
+        public const string SplitterBackgroundImageExample = @"<Splitter Height=""Height.Px( 100 )"" GutterSize=""32"" GutterBackgroundImage=""_content/Blazorise.Docs/assets/img/icons/resize-horizontal-30.png"">
     <SplitterSection>
         <div>Hello!</div>
     </SplitterSection>
@@ -31357,7 +31358,7 @@ builder.Services
     </SplitterSection>
 </Splitter>";
 
-        public const string SplitterGutterSIzeExample = @"<Splitter Style=""height: 100px;"" GutterSize=""50"">
+        public const string SplitterGutterSIzeExample = @"<Splitter Height=""Height.Px( 100 )"" GutterSize=""50"">
     <SplitterSection>
         <div>Hello!</div>
     </SplitterSection>
@@ -31366,7 +31367,7 @@ builder.Services
     </SplitterSection>
 </Splitter>";
 
-        public const string SplitterHorizontalExample = @"<Splitter Style=""height: 100px;"">
+        public const string SplitterHorizontalExample = @"<Splitter Height=""Height.Px( 100 )"">
     <SplitterSection>
         <div>Hello!</div>
     </SplitterSection>
@@ -31377,7 +31378,7 @@ builder.Services
 
         public const string SplitterImportsExample = @"@using Blazorise.Splitter";
 
-        public const string SplitterMinSizeExample = @"<Splitter Style=""height: 100px;"">
+        public const string SplitterMinSizeExample = @"<Splitter Height=""Height.Px( 100 )"">
     <SplitterSection MinSize=""50"">
         <div>Hello!</div>
     </SplitterSection>
@@ -31390,7 +31391,7 @@ builder.Services
 
         public const string SplitterNugetInstallExample = @"dotnet add package Blazorise.Splitter";
 
-        public const string SplitterVerticalExample = @"<Splitter Direction=""SplitterDirection.Vertical"" Style=""height: 250px;"">
+        public const string SplitterVerticalExample = @"<Splitter Direction=""SplitterDirection.Vertical"" Height=""Height.Px( 250 )"">
     <SplitterSection>
         <div>Hello!</div>
     </SplitterSection>
@@ -33601,7 +33602,7 @@ builder.Services
                 @{
                     var imageSource = $""img/fruit/{item.Value.ToLower()}.png"";
                 }
-                <Image Source=""@imageSource"" Style=""width:24px;height:24px;"" Text=""Small image"" />
+                <Image Source=""@imageSource"" Width=""Width.Px( 24 )"" Height=""Height.Px( 24 )"" Text=""Small image"" />
                 @item.Value
             </CardBody>
         </Card>
@@ -34974,69 +34975,69 @@ builder.Services
     Visible from tablet up to highlight supporting information without crowding mobile layouts.
 </Div>";
 
-        public const string FlexAlignItemsExample = @"<Div Flex=""Flex.AlignItems.Start"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        public const string FlexAlignItemsExample = @"<Div Flex=""Flex.AlignItems.Start"" Margin=""Margin.Is3.FromBottom"" Height=""Height.Px( 100 )"" Background=""@(new Background( ContainerBackgroundColor ))"" Border=""@Border.WithColor( ContainerBorderColor )"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 1
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 2
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 3
     </Div>
 </Div>
-<Div Flex=""Flex.AlignItems.End"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+<Div Flex=""Flex.AlignItems.End"" Margin=""Margin.Is3.FromBottom"" Height=""Height.Px( 100 )"" Background=""@(new Background( ContainerBackgroundColor ))"" Border=""@Border.WithColor( ContainerBorderColor )"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 1
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 2
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 3
     </Div>
 </Div>
-<Div Flex=""Flex.AlignItems.Center"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+<Div Flex=""Flex.AlignItems.Center"" Margin=""Margin.Is3.FromBottom"" Height=""Height.Px( 100 )"" Background=""@(new Background( ContainerBackgroundColor ))"" Border=""@Border.WithColor( ContainerBorderColor )"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 1
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 2
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 3
     </Div>
 </Div>
-<Div Flex=""Flex.AlignItems.Baseline"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+<Div Flex=""Flex.AlignItems.Baseline"" Margin=""Margin.Is3.FromBottom"" Height=""Height.Px( 100 )"" Background=""@(new Background( ContainerBackgroundColor ))"" Border=""@Border.WithColor( ContainerBorderColor )"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 1
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 2
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 3
     </Div>
 </Div>
-<Div Flex=""Flex.AlignItems.Stretch"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+<Div Flex=""Flex.AlignItems.Stretch"" Margin=""Margin.Is3.FromBottom"" Height=""Height.Px( 100 )"" Background=""@(new Background( ContainerBackgroundColor ))"" Border=""@Border.WithColor( ContainerBorderColor )"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 1
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 2
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 3
     </Div>
 </Div>
-<Div Flex=""Flex.Column.AlignItems.Center"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsColumnFlexContainerStyle"">
-    <Div Padding=""Padding.Is2"" Width=""Width.Rem( 8 )"" Style=""@flexItemStyle"">
+<Div Flex=""Flex.Column.AlignItems.Center"" Margin=""Margin.Is3.FromBottom"" Height=""Height.Px( 140 )"" Width=""Width.Px( 240 )"" Background=""@(new Background( ContainerBackgroundColor ))"" Border=""@Border.WithColor( ContainerBorderColor )"">
+    <Div Padding=""Padding.Is2"" Width=""Width.Rem( 8 )"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 1
     </Div>
-    <Div Padding=""Padding.Is2"" Width=""Width.Rem( 8 )"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Width=""Width.Rem( 8 )"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 2
     </Div>
-    <Div Padding=""Padding.Is2"" Width=""Width.Rem( 8 )"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Width=""Width.Rem( 8 )"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 3
     </Div>
 </Div>
@@ -35046,77 +35047,71 @@ builder.Services
 
     const string ItemBackgroundColor = ""rgba(95, 163, 103,.15)"";
     const string ItemBorderColor = ""rgba(95, 163, 103,.15)"";
-
-    string flexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};"";
-    string alignItemsFlexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 100px;"";
-    string alignItemsColumnFlexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 140px;width: 240px;"";
-
-    string flexItemStyle = $""background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};"";
 }";
 
-        public const string FlexJustifyContentExample = @"<Div Flex=""Flex.JustifyContent.Start"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+        public const string FlexJustifyContentExample = @"<Div Flex=""Flex.JustifyContent.Start"" Margin=""Margin.Is3.FromBottom"" Background=""@(new Background( ContainerBackgroundColor ))"" Border=""@Border.WithColor( ContainerBorderColor )"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 1
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 2
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 3
     </Div>
 </Div>
-<Div Flex=""Flex.JustifyContent.End"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+<Div Flex=""Flex.JustifyContent.End"" Margin=""Margin.Is3.FromBottom"" Background=""@(new Background( ContainerBackgroundColor ))"" Border=""@Border.WithColor( ContainerBorderColor )"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 1
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 2
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 3
     </Div>
 </Div>
-<Div Flex=""Flex.JustifyContent.Center"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+<Div Flex=""Flex.JustifyContent.Center"" Margin=""Margin.Is3.FromBottom"" Background=""@(new Background( ContainerBackgroundColor ))"" Border=""@Border.WithColor( ContainerBorderColor )"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 1
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 2
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 3
     </Div>
 </Div>
-<Div Flex=""Flex.JustifyContent.Between"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+<Div Flex=""Flex.JustifyContent.Between"" Margin=""Margin.Is3.FromBottom"" Background=""@(new Background( ContainerBackgroundColor ))"" Border=""@Border.WithColor( ContainerBorderColor )"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 1
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 2
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 3
     </Div>
 </Div>
-<Div Flex=""Flex.JustifyContent.Around"" Margin=""Margin.Is3.FromBottom"" Style=""@flexContainerStyle"">
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+<Div Flex=""Flex.JustifyContent.Around"" Margin=""Margin.Is3.FromBottom"" Background=""@(new Background( ContainerBackgroundColor ))"" Border=""@Border.WithColor( ContainerBorderColor )"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 1
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 2
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 3
     </Div>
 </Div>
-<Div Flex=""Flex.Column.JustifyContent.Between"" Margin=""Margin.Is3.FromBottom"" Style=""@alignItemsFlexContainerStyle"">
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+<Div Flex=""Flex.Column.JustifyContent.Between"" Margin=""Margin.Is3.FromBottom"" Height=""Height.Px( 100 )"" Background=""@(new Background( ContainerBackgroundColor ))"" Border=""@Border.WithColor( ContainerBorderColor )"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 1
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 2
     </Div>
-    <Div Padding=""Padding.Is2"" Style=""@flexItemStyle"">
+    <Div Padding=""Padding.Is2"" Background=""@(new Background( ItemBackgroundColor ))"" Border=""@Border.WithColor( ItemBorderColor )"">
         Flex item 3
     </Div>
 </Div>
@@ -35126,11 +35121,6 @@ builder.Services
 
     const string ItemBackgroundColor = ""rgba(95, 163, 103,.15)"";
     const string ItemBorderColor = ""rgba(95, 163, 103,.15)"";
-
-    string flexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};"";
-    string alignItemsFlexContainerStyle = $""background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 100px;"";
-
-    string flexItemStyle = $""background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};"";
 }";
 
         public const string BasicContainerExample = @"<Container>
@@ -35397,25 +35387,25 @@ builder.Services
 }";
 
         public const string OverflowExample = @"<Div Display=""Display.Flex.Row.OnDesktop"">
-    <Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+    <Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Width=""Width.Px().Max( 260 )"" Height=""Height.Px().Max( 100 )"">
         This is an example of using <code>Overflow.Auto</code> on an element with set width and height dimensions. By design, this content will vertically scroll.
     </Div>
-    <Div Overflow=""Overflow.Hidden"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+    <Div Overflow=""Overflow.Hidden"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Width=""Width.Px().Max( 260 )"" Height=""Height.Px().Max( 100 )"">
         This is an example of using <code>Overflow.Hidden</code> on an element with set width and height dimensions.
     </Div>
-    <Div Overflow=""Overflow.Visible"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+    <Div Overflow=""Overflow.Visible"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Width=""Width.Px().Max( 260 )"" Height=""Height.Px().Max( 100 )"">
         This is an example of using <code>Overflow.Visible</code> on an element with set width and height dimensions.
     </Div>
-    <Div Overflow=""Overflow.Scroll"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 100px;"">
+    <Div Overflow=""Overflow.Scroll"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromBottom.Is0.FromBottom.OnDesktop.Is3.FromEnd.OnDesktop"" Background=""Background.Light"" Width=""Width.Px().Max( 260 )"" Height=""Height.Px().Max( 100 )"">
         This is an example of using <code>Overflow.Scroll</code> on an element with set width and height dimensions.
     </Div>
 </Div>
 
-<Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromTop"" Background=""Background.Light"" Style=""max-width: 260px; white-space: nowrap;"">
+<Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromTop"" Background=""Background.Light"" Width=""Width.Px().Max( 260 )"" TextOverflow=""TextOverflow.NoWrap"">
     This line is intentionally long to demonstrate horizontal scrolling when content exceeds the width of the container.
 </Div>
 
-<Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromTop"" Background=""Background.Light"" Style=""max-width: 260px; max-height: 120px;"">
+<Div Overflow=""Overflow.Auto"" Padding=""Padding.Is3"" Margin=""Margin.Is3.FromTop"" Background=""Background.Light"" Width=""Width.Px().Max( 260 )"" Height=""Height.Px().Max( 120 )"">
     <UnorderedList>
         <UnorderedListItem>Scrollable list item one</UnorderedListItem>
         <UnorderedListItem>Scrollable list item two</UnorderedListItem>
@@ -35644,7 +35634,7 @@ builder.Services
     </Card>
 </CardDeck>";
 
-        public const string ComponentStylingPrimaryExample = @"<Card Class=""component-styling-card"" Style=""border: 2px dashed #0b7285; padding: 1rem;"">
+        public const string ComponentStylingPrimaryExample = @"<Card Class=""component-styling-card"" Padding=""Padding.Is3"" Style=""border: 2px dashed #0b7285;"">
     <CardBody>
         <CardTitle Size=""HeadingSize.Is4"">
             Class and Style

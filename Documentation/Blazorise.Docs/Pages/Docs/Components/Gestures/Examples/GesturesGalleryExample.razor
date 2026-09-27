@@ -3,9 +3,9 @@
 <Gestures Direction="GestureDirection.Horizontal"
           TouchAction="GestureTouchAction.PanY"
           Swiped="@OnSwiped">
-    <Card Background="@CurrentSlide.Background" TextColor="TextColor.White" Style="min-height: 260px; user-select: none;">
+    <Card Background="@CurrentSlide.Background" TextColor="TextColor.White" Height="Height.Px().Min( 260 )" Style="user-select: none;">
         <CardBody Padding="Padding.Is5">
-            <Div Flex="Flex.Column.JustifyContent.Between" Style="min-height: 220px;">
+            <Div Flex="Flex.Column.JustifyContent.Between" Height="Height.Px().Min( 220 )">
                 <Div>
                     <Badge Color="Color.Light" TextColor="TextColor.Dark" Pill>
                         @( currentIndex + 1 ) / @slides.Count
