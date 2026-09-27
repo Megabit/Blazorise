@@ -15,7 +15,8 @@ export function initialize(element, elementId) {
     const activeTab = tabs.find(tab => tab.getAttribute("aria-selected") === "true") || tabs[0];
     const focusedTab = tabs.find(tab => tab === document.activeElement);
 
-    setTabStop(tabList, focusedTab || activeTab);
+    if (tabs.length > 0)
+        setTabStop(tabList, focusedTab || activeTab);
 
     element.addEventListener("keydown", onKeyDown);
     element.addEventListener("focusout", onFocusOut);
@@ -38,7 +39,9 @@ function getTabs(tabList) {
     return Array.from(tabList.querySelectorAll('[role="tab"]')).filter(tab =>
         tab.closest('[role="tablist"]') === tabList
         && !tab.hasAttribute("disabled")
-        && tab.getAttribute("aria-disabled") !== "true");
+        && tab.getAttribute("aria-disabled") !== "true"
+        && tab.getClientRects().length > 0
+        && getComputedStyle(tab).visibility !== "hidden");
 }
 
 function setTabStop(tabList, focusedTab) {
@@ -70,8 +73,7 @@ function onKeyDown(event) {
     if (!tabList)
         return;
 
-    const tabs = getTabs(tabList).filter(tab =>
-        tab.getClientRects().length > 0 && getComputedStyle(tab).visibility !== "hidden");
+    const tabs = getTabs(tabList);
     const index = tabs.indexOf(event.target);
 
     // Ignore events from tab content, nested tab groups, and controls inside a tab.

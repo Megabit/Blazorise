@@ -161,6 +161,32 @@ public class TabsTests : BlazorisePageTest
         await Expect( group.Locator( ".after-tabs" ) ).ToBeFocusedAsync();
     }
 
+    [TestCase( "display" )]
+    [TestCase( "visibility" )]
+    public async Task HiddenSelectedTab_ShouldUseFirstVisibleTabForKeyboardEntry( string hidingMethod )
+    {
+        await SelectKeyboardComponent();
+
+        ILocator group = Page.Locator( $"#keyboard-tabs-hidden-{hidingMethod}" );
+        ILocator tabs = group.Locator( "[role=tab]" );
+
+        await Expect( tabs.First ).ToHaveAttributeAsync( "tabindex", "-1" );
+        await Expect( tabs.Nth( 1 ) ).ToHaveAttributeAsync( "tabindex", "0" );
+        await group.Locator( ".before-tabs" ).FocusAsync();
+        await Page.Keyboard.PressAsync( "Tab" );
+        await Expect( tabs.Nth( 1 ) ).ToBeFocusedAsync();
+
+        await Page.Keyboard.PressAsync( "End" );
+        await Expect( tabs.Nth( 3 ) ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "Tab" );
+        await Expect( group.Locator( ".after-tabs" ) ).ToBeFocusedAsync();
+        await Expect( tabs.First ).ToHaveAttributeAsync( "tabindex", "-1" );
+        await Expect( tabs.Nth( 1 ) ).ToHaveAttributeAsync( "tabindex", "0" );
+        await Page.Keyboard.PressAsync( "Shift+Tab" );
+        await Expect( tabs.Nth( 1 ) ).ToBeFocusedAsync();
+        await Expect( tabs.First ).ToHaveAttributeAsync( "aria-selected", "true" );
+    }
+
     [Test]
     public async Task CanSelectTabs()
     {

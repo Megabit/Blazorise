@@ -42,7 +42,23 @@
     <Button class="after-tabs">After tabs</Button>
 </Div>
 
-@if ( initializedTabs == 3 )
+@foreach ( (string Name, string Style) hiddenTab in new[] { ("display", "display: none;"), ("visibility", "visibility: hidden;") } )
+{
+    <Div id="@($"keyboard-tabs-hidden-{hiddenTab.Name}")">
+        <Button class="before-tabs">Before tabs</Button>
+        <TestTabs SelectedTab="hidden" AriaLabel="Hidden tab navigation" Initialized="OnTabsInitialized">
+            <Items>
+                <Tab Name="hidden" Style="@hiddenTab.Style">Hidden</Tab>
+                <Tab Name="first">First visible</Tab>
+                <Tab Name="disabled" Disabled>Disabled</Tab>
+                <Tab Name="last">Last visible</Tab>
+            </Items>
+        </TestTabs>
+        <Button class="after-tabs">After tabs</Button>
+    </Div>
+}
+
+@if ( initializedTabs == 5 )
 {
     <Span ElementId="keyboard-tabs-ready">Ready</Span>
 }
