@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
+using Blazorise.States;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Xunit;
@@ -114,6 +115,52 @@ public class TabsComponentTest : BunitContext
             Assert.Equal( panelId, tabElement.GetAttribute( "aria-controls" ) );
             Assert.Equal( tabElement.Id, panelElement.GetAttribute( "aria-labelledby" ) );
         } );
+    }
+
+    [Theory]
+    [InlineData( TabsRenderMode.Default, true )]
+    [InlineData( TabsRenderMode.Default, false )]
+    [InlineData( TabsRenderMode.LazyLoad, true )]
+    [InlineData( TabsRenderMode.LazyLoad, false )]
+    [InlineData( TabsRenderMode.LazyReload, true )]
+    [InlineData( TabsRenderMode.LazyReload, false )]
+    public void ActivePanel_ShouldUpdateTabIndexWithoutChangingContent( TabsRenderMode renderMode, bool focusable )
+    {
+        var component = Render<TabPanel>( parameters => parameters
+            .AddCascadingValue( new TabsState { SelectedTab = "panel", RenderMode = renderMode } )
+            .Add( panel => panel.Name, "panel" )
+            .Add( panel => panel.Focusable, focusable )
+            .AddChildContent( "<button type=\"button\">Panel action</button>" ) );
+
+        var panelElement = component.Find( "[role=tabpanel]" );
+        Assert.Equal( focusable ? "0" : "-1", panelElement.GetAttribute( "tabindex" ) );
+        Assert.Equal( "false", panelElement.GetAttribute( "aria-hidden" ) );
+        Assert.Contains( "show", panelElement.GetAttribute( "class" ) );
+        string buttonMarkup = component.Find( "button" ).OuterHtml;
+
+        component.Render( parameters => parameters.Add( panel => panel.Focusable, !focusable ) );
+
+        panelElement = component.Find( "[role=tabpanel]" );
+        Assert.Equal( focusable ? "-1" : "0", panelElement.GetAttribute( "tabindex" ) );
+        Assert.Equal( "false", panelElement.GetAttribute( "aria-hidden" ) );
+        Assert.Contains( "show", panelElement.GetAttribute( "class" ) );
+        Assert.Equal( buttonMarkup, component.Find( "button" ).OuterHtml );
+    }
+
+    [Theory]
+    [InlineData( true )]
+    [InlineData( false )]
+    public void InactivePanel_ShouldStayOutsideTabSequence( bool focusable )
+    {
+        var component = Render<TabPanel>( parameters => parameters
+            .AddCascadingValue( new TabsState { SelectedTab = "other" } )
+            .Add( panel => panel.Name, "panel" )
+            .Add( panel => panel.Focusable, focusable ) );
+
+        var panelElement = component.Find( "[role=tabpanel]" );
+        Assert.Equal( "-1", panelElement.GetAttribute( "tabindex" ) );
+        Assert.Equal( "true", panelElement.GetAttribute( "aria-hidden" ) );
+        Assert.DoesNotContain( "show", panelElement.GetAttribute( "class" ) );
     }
 
     [Fact]

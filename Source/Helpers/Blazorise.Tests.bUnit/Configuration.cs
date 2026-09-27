@@ -67,6 +67,7 @@ public static class Configuration
         services.AddScoped<IJSFileInputModule, JSFileInputModule>();
         services.AddScoped<IJSFileModule, JSFileModule>();
         services.AddScoped<IJSTableModule, JSTableModule>();
+        services.AddScoped<IJSTabsModule, JSTabsModule>();
         services.AddScoped<IJSInputMaskModule, JSInputMaskModule>();
         services.AddScoped<IJSDropdownModule, JSDropdownModule>();
         services.AddScoped<IJSDragDropModule, JSDragDropModule>();

@@ -1,8 +1,10 @@
+@using BasicTestApp.Client.Infrastructure
+
 @foreach ( TabPosition position in new[] { TabPosition.Top, TabPosition.Start } )
 {
     <Div id="@($"keyboard-tabs-{position}")">
         <Button class="before-tabs">Before tabs</Button>
-        <Tabs SelectedTab="2" TabPosition="@position" AriaLabel="@($"{position} tabs")">
+        <TestTabs SelectedTab="2" TabPosition="@position" AriaLabel="@($"{position} tabs")" Initialized="OnTabsInitialized">
             <Items>
                 <Tab Name="1" ElementId="@($"first-tab-{position}")">First</Tab>
                 <Tab Name="2">Second</Tab>
@@ -15,14 +17,15 @@
                 <TabPanel Name="3">Disabled panel</TabPanel>
                 <TabPanel Name="4">Last panel</TabPanel>
             </Content>
-        </Tabs>
+        </TestTabs>
         <Button class="after-tabs">After tabs</Button>
     </Div>
 }
 
 <Div id="keyboard-tabs-skip-panel">
     <Heading Size="HeadingSize.Is3" ElementId="skip-panel-heading">Panel focus</Heading>
-    <Tabs SelectedTab="1" AriaLabelledBy="skip-panel-heading">
+    <Button class="before-tabs">Before tabs</Button>
+    <TestTabs SelectedTab="1" RenderMode="TabsRenderMode.LazyReload" AriaLabelledBy="skip-panel-heading" Initialized="OnTabsInitialized">
         <Items>
             <Tab Name="1">First</Tab>
             <Tab Name="2">Second</Tab>
@@ -35,5 +38,20 @@
                 <Button>Second panel button</Button>
             </TabPanel>
         </Content>
-    </Tabs>
+    </TestTabs>
+    <Button class="after-tabs">After tabs</Button>
 </Div>
+
+@if ( initializedTabs == 3 )
+{
+    <Span ElementId="keyboard-tabs-ready">Ready</Span>
+}
+
+@code {
+    private int initializedTabs;
+
+    private void OnTabsInitialized()
+    {
+        initializedTabs++;
+    }
+}

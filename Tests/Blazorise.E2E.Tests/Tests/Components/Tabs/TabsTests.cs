@@ -8,27 +8,30 @@ public class TabsTests : BlazorisePageTest
     [TestCase( "Space" )]
     public async Task ActivationKey_ShouldSelectFocusedTab( string key )
     {
-        await SelectTestComponent<TabsKeyboardComponent>();
+        await SelectKeyboardComponent();
 
         ILocator group = Page.Locator( "#keyboard-tabs-Top" );
         ILocator firstTab = group.Locator( "[role=tab]" ).First;
 
-        await group.Locator( "[role=tab]" ).Nth( 1 ).FocusAsync();
-        await Page.Keyboard.PressAsync( "ArrowLeft" );
+        await firstTab.FocusAsync();
         await Expect( firstTab ).ToBeFocusedAsync();
         await Expect( firstTab ).ToHaveAttributeAsync( "aria-selected", "false" );
         await Page.Keyboard.PressAsync( key );
 
         await Expect( firstTab ).ToHaveAttributeAsync( "aria-selected", "true" );
         await Expect( firstTab ).ToHaveAttributeAsync( "tabindex", "0" );
-        await Expect( group.Locator( "[role=tabpanel]" ).First ).ToBeVisibleAsync();
+        await ExpectShowClass( group.Locator( "[role=tabpanel]" ).First );
+        await DoNotExpectShowClass( group.Locator( "[role=tabpanel]" ).Nth( 1 ) );
+        await Expect( group.Locator( "[role=tabpanel]" ).First ).ToHaveAttributeAsync( "aria-hidden", "false" );
+        await Expect( group.Locator( "[role=tabpanel]" ).Nth( 1 ) ).ToHaveAttributeAsync( "aria-hidden", "true" );
+        await Expect( firstTab ).ToBeFocusedAsync();
     }
 
     [TestCase( "Top", "ArrowRight", "ArrowLeft", "ArrowDown" )]
     [TestCase( "Start", "ArrowDown", "ArrowUp", "ArrowRight" )]
     public async Task ArrowKeys_ShouldFocusEnabledTabsAndWrapWithoutSelecting( string position, string nextKey, string previousKey, string unusedKey )
     {
-        await SelectTestComponent<TabsKeyboardComponent>();
+        await SelectKeyboardComponent();
 
         ILocator group = Page.Locator( $"#keyboard-tabs-{position}" );
         ILocator tabs = group.Locator( "[role=tab]" );
@@ -44,7 +47,8 @@ public class TabsTests : BlazorisePageTest
         await Page.Keyboard.PressAsync( nextKey );
         await Expect( tabs.Nth( 3 ) ).ToBeFocusedAsync();
         await Expect( tabs.Nth( 3 ) ).ToHaveAttributeAsync( "aria-selected", "false" );
-        await Expect( group.Locator( "[role=tabpanel]" ).Nth( 1 ) ).ToBeVisibleAsync();
+        await ExpectShowClass( group.Locator( "[role=tabpanel]" ).Nth( 1 ) );
+        await Expect( group.Locator( "[role=tabpanel]" ).Nth( 1 ) ).ToHaveAttributeAsync( "aria-hidden", "false" );
 
         await Page.Keyboard.PressAsync( nextKey );
         await Expect( tabs.Nth( 0 ) ).ToBeFocusedAsync();
@@ -68,7 +72,7 @@ public class TabsTests : BlazorisePageTest
     [TestCase( "Start" )]
     public async Task TabKey_ShouldMoveBetweenActiveTabAndPanel( string position )
     {
-        await SelectTestComponent<TabsKeyboardComponent>();
+        await SelectKeyboardComponent();
 
         ILocator group = Page.Locator( $"#keyboard-tabs-{position}" );
         ILocator activeTab = group.Locator( "[role=tab][aria-selected=true]" );
@@ -92,7 +96,7 @@ public class TabsTests : BlazorisePageTest
     [TestCase( "Start", "ArrowDown", 3 )]
     public async Task TabKey_FromUnselectedTab_ShouldLeaveListAndReturnToSelectedTab( string position, string key, int focusedIndex )
     {
-        await SelectTestComponent<TabsKeyboardComponent>();
+        await SelectKeyboardComponent();
 
         ILocator group = Page.Locator( $"#keyboard-tabs-{position}" );
         ILocator tabs = group.Locator( "[role=tab]" );
@@ -109,31 +113,52 @@ public class TabsTests : BlazorisePageTest
         await Expect( tabs.Nth( 1 ) ).ToHaveAttributeAsync( "aria-selected", "true" );
     }
 
-    [Test]
-    public async Task NonFocusablePanel_ShouldSkipPanelAndKeepContentAndTabsAccessible()
+    [TestCase( 0 )]
+    [TestCase( 1 )]
+    public async Task NonFocusableLazyPanel_ShouldSkipPanelAndKeepContentAndTabsAccessible( int tabIndex )
     {
-        await SelectTestComponent<TabsKeyboardComponent>();
+        await SelectKeyboardComponent();
 
         ILocator group = Page.Locator( "#keyboard-tabs-skip-panel" );
         ILocator tabs = group.Locator( "[role=tab]" );
         ILocator panels = group.Locator( "[role=tabpanel]" );
+        ILocator selectedTab = tabs.Nth( tabIndex );
+        ILocator selectedPanel = panels.Nth( tabIndex );
+        ILocator panelButton = selectedPanel.Locator( "button" );
 
-        await tabs.First.FocusAsync();
+        await group.Locator( ".before-tabs" ).FocusAsync();
         await Page.Keyboard.PressAsync( "Tab" );
-        await Expect( panels.First.Locator( "button" ) ).ToBeFocusedAsync();
-        await Expect( panels.First ).ToHaveAttributeAsync( "tabindex", "-1" );
-
-        await Page.Keyboard.PressAsync( "Shift+Tab" );
         await Expect( tabs.First ).ToBeFocusedAsync();
-        await Page.Keyboard.PressAsync( "ArrowRight" );
-        await Expect( tabs.Nth( 1 ) ).ToBeFocusedAsync();
-        await Expect( tabs.Nth( 1 ) ).ToHaveAttributeAsync( "aria-selected", "false" );
-        await Page.Keyboard.PressAsync( "Enter" );
-        await Expect( tabs.Nth( 1 ) ).ToHaveAttributeAsync( "aria-selected", "true" );
+
+        if ( tabIndex == 1 )
+        {
+            await Page.Keyboard.PressAsync( "Tab" );
+            await Expect( panels.First.Locator( "button" ) ).ToBeFocusedAsync();
+            await Page.Keyboard.PressAsync( "Shift+Tab" );
+            await Expect( tabs.First ).ToBeFocusedAsync();
+            await Page.Keyboard.PressAsync( "ArrowRight" );
+            await Expect( selectedTab ).ToBeFocusedAsync();
+            await Page.Keyboard.PressAsync( "Enter" );
+        }
+
+        await Expect( selectedTab ).ToHaveAttributeAsync( "aria-selected", "true" );
+        await ExpectShowClass( selectedPanel );
+        await DoNotExpectShowClass( panels.Nth( 1 - tabIndex ) );
+        await Expect( selectedPanel ).ToHaveAttributeAsync( "aria-hidden", "false" );
+        await Expect( panels.Nth( 1 - tabIndex ) ).ToHaveAttributeAsync( "aria-hidden", "true" );
+        await Expect( selectedPanel.Locator( "button" ) ).ToHaveCountAsync( 1 );
+        await Expect( panels.Nth( 1 - tabIndex ).Locator( "button" ) ).ToHaveCountAsync( 0 );
+        await Expect( selectedPanel ).ToHaveAttributeAsync( "tabindex", "-1" );
+        await Expect( selectedTab ).ToBeFocusedAsync();
 
         await Page.Keyboard.PressAsync( "Tab" );
-        await Expect( panels.Nth( 1 ).Locator( "button" ) ).ToBeFocusedAsync();
-        await Expect( panels.Nth( 1 ) ).ToHaveAttributeAsync( "tabindex", "-1" );
+        await Expect( panelButton ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "Shift+Tab" );
+        await Expect( selectedTab ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "Tab" );
+        await Expect( panelButton ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "Tab" );
+        await Expect( group.Locator( ".after-tabs" ) ).ToBeFocusedAsync();
     }
 
     [Test]
@@ -180,6 +205,12 @@ public class TabsTests : BlazorisePageTest
         await DoNotExpectShowClass( panels[1] );
         await ExpectShowClass( panels[2] );
 
+    }
+
+    private async Task SelectKeyboardComponent()
+    {
+        await SelectTestComponent<TabsKeyboardComponent>();
+        await Expect( Page.Locator( "#keyboard-tabs-ready" ) ).ToHaveTextAsync( "Ready" );
     }
 
     private async Task ExpectShowClass( ILocator locator )
