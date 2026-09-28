@@ -1,12 +1,12 @@
-﻿using System.IO;
+﻿#region Using directives
+using System.IO;
 using System.Linq;
+#endregion
 
 namespace Blazorise.Docs.Compiler;
 
 public static class Paths
 {
-    private const string NewFilesToBuild = "NewFilesToBuild.txt";
-
     public const string ExampleDiscriminator = "Example"; // example components must contain this string
 
     public static string RootDirPath
@@ -40,5 +40,5 @@ public static class Paths
     public static string DocsIndexFilePath() => Path.Join( DirPath(), "Resources", "docs-index.json" );
     public static string DocsApiIndexFilePath() => Path.Join( DirPath(), "Resources", "docs-api-index.json" );
 
-    public static string NewFilesToBuildPath() => Path.Join( DirPath(), NewFilesToBuild );
+    public static string NewFilesToBuildPath() => Path.Join( DirPath(), "NewFilesToBuild.txt" );
 }

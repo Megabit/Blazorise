@@ -452,8 +452,50 @@
   .left-full {
     left: 100%;
   }
+  .\!-z-1 {
+    z-index: calc(1 * -1) !important;
+  }
+  .\!-z-2 {
+    z-index: calc(2 * -1) !important;
+  }
+  .\!-z-3 {
+    z-index: calc(3 * -1) !important;
+  }
+  .\!z-0 {
+    z-index: 0 !important;
+  }
+  .\!z-1 {
+    z-index: 1 !important;
+  }
+  .\!z-2 {
+    z-index: 2 !important;
+  }
+  .\!z-3 {
+    z-index: 3 !important;
+  }
+  .\!z-10 {
+    z-index: 10 !important;
+  }
   .\!z-20 {
     z-index: 20 !important;
+  }
+  .\!z-30 {
+    z-index: 30 !important;
+  }
+  .\!z-40 {
+    z-index: 40 !important;
+  }
+  .\!z-50 {
+    z-index: 50 !important;
+  }
+  .\!z-150 {
+    z-index: 150 !important;
+  }
+  .\!z-1090 {
+    z-index: 1090 !important;
+  }
+  .\!z-\[var\(--tw-tooltip-z-index\,10\)\] {
+    z-index: var(--tw-tooltip-z-index,10) !important;
   }
   .z-10 {
     z-index: 10;

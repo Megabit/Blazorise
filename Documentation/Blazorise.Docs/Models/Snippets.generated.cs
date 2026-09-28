@@ -35668,6 +35668,57 @@ builder.Services
     </Card>
 </CardDeck>";
 
+        public const string ZIndexExample = @"<Div Position=""Position.Relative"" ZIndex=""ZIndex.Is0"" Height=""Height.Px( 224 )"">
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is0"" ZIndex=""ZIndex.Fixed"" Width=""Width.Px( 176 )"" Height=""Height.Px( 144 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is3"">
+        ZIndex.Fixed
+    </Div>
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is0"" ZIndex=""ZIndex.Modal"" Width=""Width.Px( 176 )"" Height=""Height.Px( 144 )"" Margin=""Margin.Is5.FromTop.Is5.FromStart"" Background=""Background.Warning.Subtle"" TextColor=""TextColor.Warning.Emphasis"" Border=""Border.Is1.Warning.OnAll.Rounded"" Padding=""Padding.Is3"" Flex=""Flex.JustifyContent.End.AlignItems.End"">
+        ZIndex.Modal
+    </Div>
+</Div>";
+
+        public const string ZIndexLevelsExample = @"<Div Position=""Position.Relative"" ZIndex=""ZIndex.Is0"" Height=""Height.Px( 320 )"">
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is0"" ZIndex=""ZIndex.Is3"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"">
+        ZIndex.Is3
+    </Div>
+    <Div Position=""Position.Absolute"" ZIndex=""ZIndex.Is2"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 32px; inset-inline-start: 32px;"">
+        ZIndex.Is2
+    </Div>
+    <Div Position=""Position.Absolute"" ZIndex=""ZIndex.Is1"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 64px; inset-inline-start: 64px;"">
+        ZIndex.Is1
+    </Div>
+    <Div Position=""Position.Absolute"" ZIndex=""ZIndex.Is0"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 96px; inset-inline-start: 96px;"">
+        ZIndex.Is0
+    </Div>
+    <Div Position=""Position.Absolute"" ZIndex=""ZIndex.Is1.Negative"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 128px; inset-inline-start: 128px;"">
+        ZIndex.Is1.Negative
+    </Div>
+    <Div Position=""Position.Absolute"" ZIndex=""ZIndex.Is2.Negative"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 160px; inset-inline-start: 160px;"">
+        ZIndex.Is2.Negative
+    </Div>
+    <Div Position=""Position.Absolute"" ZIndex=""ZIndex.Is3.Negative"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 192px; inset-inline-start: 192px;"">
+        ZIndex.Is3.Negative
+    </Div>
+</Div>";
+
+        public const string ZIndexNumericExample = @"<Div Position=""Position.Relative"" ZIndex=""ZIndex.Is0"" Height=""Height.Px( 256 )"">
+    <Div Position=""Position.Absolute.Top.Is0.Start.Is0"" ZIndex=""3"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"">
+        z-index: 3
+    </Div>
+    <Div Position=""Position.Absolute"" ZIndex=""2"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 32px; inset-inline-start: 32px;"">
+        z-index: 2
+    </Div>
+    <Div Position=""Position.Absolute"" ZIndex=""1"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 64px; inset-inline-start: 64px;"">
+        z-index: 1
+    </Div>
+    <Div Position=""Position.Absolute"" ZIndex=""0"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 96px; inset-inline-start: 96px;"">
+        z-index: 0
+    </Div>
+    <Div Position=""Position.Absolute"" ZIndex=""-1"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 128px; inset-inline-start: 128px;"">
+        z-index: -1
+    </Div>
+</Div>";
+
         public const string BasicMessageServiceExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowInfoMessage"">Say hi!</Button>
 
 @code {

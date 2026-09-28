@@ -12099,3 +12099,79 @@ ol.is-ordered-list-upper-roman {
 .is-invisible {
   visibility: hidden !important;
 }
+
+.is-z-index-n3.is-z-index-n3 {
+  z-index: -3;
+}
+
+.is-z-index-n2.is-z-index-n2 {
+  z-index: -2;
+}
+
+.is-z-index-n1.is-z-index-n1 {
+  z-index: -1;
+}
+
+.is-z-index-0.is-z-index-0 {
+  z-index: 0;
+}
+
+.is-z-index-1.is-z-index-1 {
+  z-index: 1;
+}
+
+.is-z-index-2.is-z-index-2 {
+  z-index: 2;
+}
+
+.is-z-index-3.is-z-index-3 {
+  z-index: 3;
+}
+
+.is-z-index-dropdown.is-z-index-dropdown {
+  z-index: var(--bulma-dropdown-content-z, 20);
+}
+
+.is-z-index-sticky.is-z-index-sticky {
+  z-index: 20;
+}
+
+.is-z-index-fixed.is-z-index-fixed {
+  z-index: 30;
+}
+
+.is-z-index-offcanvas-backdrop.is-z-index-offcanvas-backdrop {
+  z-index: 1040;
+}
+
+.is-z-index-offcanvas.is-z-index-offcanvas {
+  z-index: 1050;
+}
+
+.is-z-index-modal-backdrop.is-z-index-modal-backdrop {
+  z-index: 0;
+}
+
+.is-z-index-modal.is-z-index-modal {
+  z-index: var(--bulma-modal-z, 40);
+}
+
+.is-z-index-popover.is-z-index-popover {
+  z-index: 40;
+}
+
+.is-z-index-tooltip.is-z-index-tooltip {
+  z-index: var(--bulma-tooltip-z-index, 1020);
+}
+
+.is-z-index-toast.is-z-index-toast {
+  z-index: 99999;
+}
+
+.is-z-index-snackbar.is-z-index-snackbar {
+  z-index: 1090;
+}
+
+.is-z-index-on-screen-keyboard.is-z-index-on-screen-keyboard {
+  z-index: calc(var(--bulma-modal-z, 40) + 100);
+}

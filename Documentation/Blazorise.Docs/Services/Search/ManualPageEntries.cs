@@ -214,6 +214,7 @@ public static class ManualPageEntries
     new( "docs/helpers/utilities/border", "Border", "Style borders, sides, colors, and radius with fluent utilities." ),
     new( "docs/helpers/utilities/overflow", "Overflow", "Manage scroll and clipping behavior for overflow content." ),
     new( "docs/helpers/utilities/position", "Position", "Place elements using relative and absolute positioning with edge helpers." ),
+    new( "docs/helpers/utilities/z-index", "Z-Index", "Choose stacking layers or exact z-index values for headers and overlays." ),
     new( "docs/helpers/utilities/grid", "Grid", "Responsive flexbox grid system with rows, columns, and containers." ),
     new( "docs/helpers/utilities/css-grid", "CSS Grid", "Two-dimensional CSS Grid utilities for layout." ),
     new( "docs/helpers/utilities/gutters", "Gutters", "Control horizontal and vertical spacing between grid columns and rows using Blazorise gutter utilities." ),

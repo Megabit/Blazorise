@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --b-bar-horizontal-height: 60px;
 }
 
@@ -953,3 +953,23 @@ $zindex-modal-backdrop: 1050 !default;
 $zindex-modal: 1055 !default;
 $zindex-popover: 1070 !default;
 $zindex-tooltip: 1080 !default;
+$zindex-toast: 1090 !default;
+
+// Semantic stacking layers used by the ZIndex utility.
+// Low levels reuse Bootstrap's native z-n1 and z-0 through z-3 utilities from $zindex-levels.
+$z-index-values: (
+    n3: -3,
+    n2: -2,
+    dropdown: var(--bs-dropdown-zindex, #{$zindex-dropdown}),
+    sticky: $zindex-sticky,
+    fixed: $zindex-fixed,
+    offcanvas-backdrop: var(--bs-backdrop-zindex, #{$zindex-offcanvas-backdrop}),
+    offcanvas: var(--bs-offcanvas-zindex, #{$zindex-offcanvas}),
+    modal-backdrop: var(--bs-backdrop-zindex, #{$zindex-modal-backdrop}),
+    modal: var(--bs-modal-zindex, #{$zindex-modal}),
+    popover: var(--bs-popover-zindex, #{$zindex-popover}),
+    tooltip: var(--bs-tooltip-zindex, #{$zindex-tooltip}),
+    toast: var(--bs-toast-zindex, #{$zindex-toast}),
+    snackbar: $zindex-popover,
+    on-screen-keyboard: $zindex-modal + 100,
+) !default;

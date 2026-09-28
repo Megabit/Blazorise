@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --b-bar-horizontal-height: 60px;
 }
 
@@ -253,3 +253,26 @@ $position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;
 $gutters: $spacers !default;
 
 $table-contextual-cell-selectors: ".table-primary, .table-secondary, .table-success, .table-danger, .table-warning, .table-info, .table-light, .table-dark, .table-link";
+
+// Semantic stacking layers used by the ZIndex utility.
+$z-index-values: (
+    n3: -3,
+    n2: -2,
+    n1: -1,
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    dropdown: $zindex-dropdown,
+    sticky: $zindex-sticky,
+    fixed: $zindex-fixed,
+    offcanvas-backdrop: $zindex-offcanvas-backdrop,
+    offcanvas: var(--offcanvas-zindex, #{$zindex-offcanvas}),
+    modal-backdrop: $zindex-modal-backdrop,
+    modal: $zindex-modal,
+    popover: $zindex-popover,
+    tooltip: var(--tooltip-z-index, #{$zindex-tooltip}),
+    toast: $zindex-popover,
+    snackbar: 1060,
+    on-screen-keyboard: $zindex-modal + 100,
+) !default;

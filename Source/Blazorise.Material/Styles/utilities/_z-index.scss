@@ -1,0 +1,6 @@
+// Override component defaults while allowing inline modal stacking and numeric values.
+@each $name, $value in $z-index-values {
+    .mui-z-index-#{$name}.mui-z-index-#{$name} {
+        z-index: $value;
+    }
+}

@@ -5,6 +5,14 @@ namespace Blazorise.Providers;
 
 class EmptyStyleProvider : IStyleProvider
 {
+    #region ZIndex
+
+    public string ZIndex( int? zIndex ) => zIndex is int value
+        ? $"z-index:{value.ToString( System.Globalization.CultureInfo.InvariantCulture )}"
+        : null;
+
+    #endregion
+
     #region Accordion
 
     public string AccordionAnimationDuration( int? animationDuration ) => null;

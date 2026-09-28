@@ -180,3 +180,26 @@ $flex-utilities: (
 ) !default;
 
 $table-contextual-cell-selectors: ".has-background-primary, .has-background-secondary, .has-background-success, .has-background-danger, .has-background-warning, .has-background-info, .has-background-light, .has-background-dark, .has-background-link";
+
+// Semantic stacking layers used by the ZIndex utility.
+$z-index-values: (
+    n3: -3,
+    n2: -2,
+    n1: -1,
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    dropdown: var(--bulma-dropdown-content-z, 20),
+    sticky: 20,
+    fixed: 30,
+    offcanvas-backdrop: 1040,
+    offcanvas: 1050,
+    modal-backdrop: 0,
+    modal: var(--bulma-modal-z, 40),
+    popover: 40,
+    tooltip: var(--bulma-tooltip-z-index, 1020),
+    toast: 99999,
+    snackbar: 1090,
+    on-screen-keyboard: calc(var(--bulma-modal-z, 40) + 100),
+) !default;

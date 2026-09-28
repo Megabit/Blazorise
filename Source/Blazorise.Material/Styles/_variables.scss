@@ -184,3 +184,26 @@ $mui-ripple-targets: (
     ".mui-chip.mui-chip-link",
     ".mui-chip > .mui-chip-close"
 ) !default;
+
+// Semantic stacking layers used by the ZIndex utility.
+$z-index-values: (
+    n3: -3,
+    n2: -2,
+    n1: -1,
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    dropdown: var(--mui-zindex-dropdown),
+    sticky: var(--mui-zindex-sticky),
+    fixed: var(--mui-zindex-fixed),
+    offcanvas-backdrop: var(--mui-zindex-drawerbackdrop),
+    offcanvas: var(--mui-zindex-drawer),
+    modal-backdrop: var(--mui-zindex-modalbackdrop),
+    modal: var(--mui-zindex-modal),
+    popover: var(--mui-zindex-popover),
+    tooltip: var(--mui-tooltip-z-index, var(--mui-zindex-tooltip)),
+    toast: var(--mui-zindex-tooltip),
+    snackbar: calc(var(--mui-zindex-tooltip) + 2),
+    on-screen-keyboard: calc(var(--mui-zindex-modal) + 100),
+) !default;

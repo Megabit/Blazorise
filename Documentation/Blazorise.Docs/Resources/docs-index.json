@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-27T12:17:04.9472168Z",
+  "generatedUtc": "2026-09-28T09:45:14.9083451Z",
   "pages": [
     {
       "route": "/docs",
@@ -11088,6 +11088,38 @@
           "content": "<CardDeck>\r\n    <Card UtilityTarget=\"UtilityTarget.Wrapper\" Padding=\"Padding.Is2\">\r\n        <CardBody>\r\n            <CardTitle Size=\"HeadingSize.Is4\">\r\n                Example 1\r\n            </CardTitle>\r\n            <CardText>\r\n                Utility spacing targets the wrapper element.\r\n            </CardText>\r\n        </CardBody>\r\n    </Card>\r\n    <Card Margin=\"Margin.Is3.OnWrapper\">\r\n        <CardBody>\r\n            <CardTitle Size=\"HeadingSize.Is4\">\r\n                Example 2\r\n            </CardTitle>\r\n            <CardText>\r\n                Or make it more specific by targeting only the wrapper element for margin utilities.\r\n            </CardText>\r\n        </CardBody>\r\n    </Card>\r\n</CardDeck>",
           "title": "UtilityTarget example",
           "description": "Apply utility spacing to a wrapper while keeping the card root styled with Class and Style ."
+        }
+      ]
+    },
+    {
+      "route": "/docs/helpers/utilities/z-index",
+      "title": "Blazorise Z-Index Utility",
+      "description": "Choose stacking layers for sticky headers, floating toolbars, and custom overlays with the Blazorise Z-Index utility.",
+      "pagePath": "Pages/Docs/Helpers/Utilities/ZIndex/ZIndexPage.razor",
+      "examples": [
+        {
+          "code": "ZIndexExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Helpers/Utilities/ZIndex/Examples/ZIndexExample.razor",
+          "content": "<Div Position=\"Position.Relative\" ZIndex=\"ZIndex.Is0\" Height=\"Height.Px( 224 )\">\r\n    <Div Position=\"Position.Absolute.Top.Is0.Start.Is0\" ZIndex=\"ZIndex.Fixed\" Width=\"Width.Px( 176 )\" Height=\"Height.Px( 144 )\" Background=\"Background.Primary.Subtle\" TextColor=\"TextColor.Primary.Emphasis\" Border=\"Border.Is1.Primary.OnAll.Rounded\" Padding=\"Padding.Is3\">\r\n        ZIndex.Fixed\r\n    </Div>\r\n    <Div Position=\"Position.Absolute.Top.Is0.Start.Is0\" ZIndex=\"ZIndex.Modal\" Width=\"Width.Px( 176 )\" Height=\"Height.Px( 144 )\" Margin=\"Margin.Is5.FromTop.Is5.FromStart\" Background=\"Background.Warning.Subtle\" TextColor=\"TextColor.Warning.Emphasis\" Border=\"Border.Is1.Warning.OnAll.Rounded\" Padding=\"Padding.Is3\" Flex=\"Flex.JustifyContent.End.AlignItems.End\">\r\n        ZIndex.Modal\r\n    </Div>\r\n</Div>",
+          "title": "Named",
+          "description": "Use named layers to match an element's role. Here, ZIndex.Modal places the modal layer in front of ZIndex.Fixed ."
+        },
+        {
+          "code": "ZIndexLevelsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Helpers/Utilities/ZIndex/Examples/ZIndexLevelsExample.razor",
+          "content": "<Div Position=\"Position.Relative\" ZIndex=\"ZIndex.Is0\" Height=\"Height.Px( 320 )\">\r\n    <Div Position=\"Position.Absolute.Top.Is0.Start.Is0\" ZIndex=\"ZIndex.Is3\" Width=\"Width.Px( 128 )\" Height=\"Height.Px( 128 )\" Background=\"Background.Primary.Subtle\" TextColor=\"TextColor.Primary.Emphasis\" Border=\"Border.Is1.Primary.OnAll.Rounded\" Padding=\"Padding.Is1\" Flex=\"Flex.JustifyContent.End.AlignItems.End\">\r\n        ZIndex.Is3\r\n    </Div>\r\n    <Div Position=\"Position.Absolute\" ZIndex=\"ZIndex.Is2\" Width=\"Width.Px( 128 )\" Height=\"Height.Px( 128 )\" Background=\"Background.Primary.Subtle\" TextColor=\"TextColor.Primary.Emphasis\" Border=\"Border.Is1.Primary.OnAll.Rounded\" Padding=\"Padding.Is1\" Flex=\"Flex.JustifyContent.End.AlignItems.End\" Style=\"inset-block-start: 32px; inset-inline-start: 32px;\">\r\n        ZIndex.Is2\r\n    </Div>\r\n    <Div Position=\"Position.Absolute\" ZIndex=\"ZIndex.Is1\" Width=\"Width.Px( 128 )\" Height=\"Height.Px( 128 )\" Background=\"Background.Primary.Subtle\" TextColor=\"TextColor.Primary.Emphasis\" Border=\"Border.Is1.Primary.OnAll.Rounded\" Padding=\"Padding.Is1\" Flex=\"Flex.JustifyContent.End.AlignItems.End\" Style=\"inset-block-start: 64px; inset-inline-start: 64px;\">\r\n        ZIndex.Is1\r\n    </Div>\r\n    <Div Position=\"Position.Absolute\" ZIndex=\"ZIndex.Is0\" Width=\"Width.Px( 128 )\" Height=\"Height.Px( 128 )\" Background=\"Background.Primary.Subtle\" TextColor=\"TextColor.Primary.Emphasis\" Border=\"Border.Is1.Primary.OnAll.Rounded\" Padding=\"Padding.Is1\" Flex=\"Flex.JustifyContent.End.AlignItems.End\" Style=\"inset-block-start: 96px; inset-inline-start: 96px;\">\r\n        ZIndex.Is0\r\n    </Div>\r\n    <Div Position=\"Position.Absolute\" ZIndex=\"ZIndex.Is1.Negative\" Width=\"Width.Px( 128 )\" Height=\"Height.Px( 128 )\" Background=\"Background.Primary.Subtle\" TextColor=\"TextColor.Primary.Emphasis\" Border=\"Border.Is1.Primary.OnAll.Rounded\" Padding=\"Padding.Is1\" Flex=\"Flex.JustifyContent.End.AlignItems.End\" Style=\"inset-block-start: 128px; inset-inline-start: 128px;\">\r\n        ZIndex.Is1.Negative\r\n    </Div>\r\n    <Div Position=\"Position.Absolute\" ZIndex=\"ZIndex.Is2.Negative\" Width=\"Width.Px( 128 )\" Height=\"Height.Px( 128 )\" Background=\"Background.Primary.Subtle\" TextColor=\"TextColor.Primary.Emphasis\" Border=\"Border.Is1.Primary.OnAll.Rounded\" Padding=\"Padding.Is1\" Flex=\"Flex.JustifyContent.End.AlignItems.End\" Style=\"inset-block-start: 160px; inset-inline-start: 160px;\">\r\n        ZIndex.Is2.Negative\r\n    </Div>\r\n    <Div Position=\"Position.Absolute\" ZIndex=\"ZIndex.Is3.Negative\" Width=\"Width.Px( 128 )\" Height=\"Height.Px( 128 )\" Background=\"Background.Primary.Subtle\" TextColor=\"TextColor.Primary.Emphasis\" Border=\"Border.Is1.Primary.OnAll.Rounded\" Padding=\"Padding.Is1\" Flex=\"Flex.JustifyContent.End.AlignItems.End\" Style=\"inset-block-start: 192px; inset-inline-start: 192px;\">\r\n        ZIndex.Is3.Negative\r\n    </Div>\r\n</Div>",
+          "title": "Levels",
+          "description": "Use ZIndex.Is0 , ZIndex.Is1 , ZIndex.Is2 , and ZIndex.Is3 to arrange overlapping elements. Blazorise selects the appropriate value for each level. Add Negative to a numbered level, such as ZIndex.Is2.Negative , to place it below zero. Higher levels appear in front of lower levels. In this example, each block appears in front of the next one."
+        },
+        {
+          "code": "ZIndexNumericExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Helpers/Utilities/ZIndex/Examples/ZIndexNumericExample.razor",
+          "content": "<Div Position=\"Position.Relative\" ZIndex=\"ZIndex.Is0\" Height=\"Height.Px( 256 )\">\r\n    <Div Position=\"Position.Absolute.Top.Is0.Start.Is0\" ZIndex=\"3\" Width=\"Width.Px( 128 )\" Height=\"Height.Px( 128 )\" Background=\"Background.Primary.Subtle\" TextColor=\"TextColor.Primary.Emphasis\" Border=\"Border.Is1.Primary.OnAll.Rounded\" Padding=\"Padding.Is1\" Flex=\"Flex.JustifyContent.End.AlignItems.End\">\r\n        z-index: 3\r\n    </Div>\r\n    <Div Position=\"Position.Absolute\" ZIndex=\"2\" Width=\"Width.Px( 128 )\" Height=\"Height.Px( 128 )\" Background=\"Background.Primary.Subtle\" TextColor=\"TextColor.Primary.Emphasis\" Border=\"Border.Is1.Primary.OnAll.Rounded\" Padding=\"Padding.Is1\" Flex=\"Flex.JustifyContent.End.AlignItems.End\" Style=\"inset-block-start: 32px; inset-inline-start: 32px;\">\r\n        z-index: 2\r\n    </Div>\r\n    <Div Position=\"Position.Absolute\" ZIndex=\"1\" Width=\"Width.Px( 128 )\" Height=\"Height.Px( 128 )\" Background=\"Background.Primary.Subtle\" TextColor=\"TextColor.Primary.Emphasis\" Border=\"Border.Is1.Primary.OnAll.Rounded\" Padding=\"Padding.Is1\" Flex=\"Flex.JustifyContent.End.AlignItems.End\" Style=\"inset-block-start: 64px; inset-inline-start: 64px;\">\r\n        z-index: 1\r\n    </Div>\r\n    <Div Position=\"Position.Absolute\" ZIndex=\"0\" Width=\"Width.Px( 128 )\" Height=\"Height.Px( 128 )\" Background=\"Background.Primary.Subtle\" TextColor=\"TextColor.Primary.Emphasis\" Border=\"Border.Is1.Primary.OnAll.Rounded\" Padding=\"Padding.Is1\" Flex=\"Flex.JustifyContent.End.AlignItems.End\" Style=\"inset-block-start: 96px; inset-inline-start: 96px;\">\r\n        z-index: 0\r\n    </Div>\r\n    <Div Position=\"Position.Absolute\" ZIndex=\"-1\" Width=\"Width.Px( 128 )\" Height=\"Height.Px( 128 )\" Background=\"Background.Primary.Subtle\" TextColor=\"TextColor.Primary.Emphasis\" Border=\"Border.Is1.Primary.OnAll.Rounded\" Padding=\"Padding.Is1\" Flex=\"Flex.JustifyContent.End.AlignItems.End\" Style=\"inset-block-start: 128px; inset-inline-start: 128px;\">\r\n        z-index: -1\r\n    </Div>\r\n</Div>",
+          "title": "Numeric",
+          "description": "Use a number when you need an exact value, for example &lt;Div ZIndex=\"2000\" /&gt; . Both int and int? values are supported, including zero and negative numbers. These blocks use values from 3 down to -1. Higher values appear in front of lower values."
         }
       ]
     },

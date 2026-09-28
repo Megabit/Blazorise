@@ -1,14 +1,16 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+#endregion
 
 namespace Blazorise.Docs.Compiler;
 
 public class CodeExamplesMarkup
 {
-    public bool Execute()
+    public bool Execute( bool regenerateAll = false )
     {
         var newFiles = new StringBuilder();
         var success = true;
@@ -17,12 +19,11 @@ public class CodeExamplesMarkup
 
         try
         {
-            var lastCheckedTime = new DateTime();
-            if ( File.Exists( Paths.NewFilesToBuildPath() ) )
-            {
-                var lastNewFilesToBuild = new FileInfo( Paths.NewFilesToBuildPath() );
-                lastCheckedTime = lastNewFilesToBuild.LastWriteTime;
-            }
+            var startedUtc = DateTime.UtcNow;
+            var timestampPath = Paths.NewFilesToBuildPath();
+            var lastCheckedUtc = File.Exists( timestampPath )
+                ? File.GetLastWriteTimeUtc( timestampPath )
+                : DateTime.MinValue;
 
             var dirPath = Paths.DirPath();
             var directoryInfo = new DirectoryInfo( dirPath );
@@ -40,10 +41,12 @@ public class CodeExamplesMarkup
                     continue;
                 }
 
-                bool isCSharp = entry.FullName.EndsWith( ".csharp" );
+                var isCSharp = entry.FullName.EndsWith( ".csharp" );
 
                 if ( !isCSharp && !entry.Name.Contains( Paths.ExampleDiscriminator ) )
+                {
                     continue;
+                }
 
                 var markupPath = entry.FullName
                     .Replace( "Examples", "Code" )
@@ -51,7 +54,7 @@ public class CodeExamplesMarkup
                     .Replace( ".snippet", "Code.html" )
                     .Replace( ".csharp", "Code.html" );
 
-                if ( entry.LastWriteTime < lastCheckedTime && File.Exists( markupPath ) )
+                if ( !regenerateAll && entry.LastWriteTimeUtc < lastCheckedUtc && File.Exists( markupPath ) )
                 {
                     continue;
                 }
@@ -62,9 +65,7 @@ public class CodeExamplesMarkup
                     Directory.CreateDirectory( markupDir );
                 }
 
-                //var cb = new CodeBuilder();
                 var currentCode = string.Empty;
-                var builtCode = string.Empty;
                 var source = File.ReadAllText( entry.FullName, Encoding.UTF8 );
                 source = CodeSnippets.PrepareSourceForDisplay( entry.FullName, source );
 
@@ -73,7 +74,7 @@ public class CodeExamplesMarkup
                     currentCode = File.ReadAllText( markupPath ).NormalizeGeneratedText();
                 }
 
-                builtCode = new MarkupBuilder().Build( source, isCSharp ? "cs" : null );
+                var builtCode = new MarkupBuilder().Build( source, isCSharp ? "cs" : null );
 
                 if ( currentCode != builtCode )
                 {
@@ -91,7 +92,10 @@ public class CodeExamplesMarkup
                 }
             }
 
-            File.WriteAllText( Paths.NewFilesToBuildPath(), newFiles.ToString() );
+            File.WriteAllText( timestampPath, newFiles.ToString() );
+
+            // Preserve edits made while the generator was running for the next build.
+            File.SetLastWriteTimeUtc( timestampPath, startedUtc );
         }
         catch ( Exception e )
         {

@@ -78,6 +78,8 @@ public abstract class BaseComponent : BaseStyledComponent
 
     private Shadow shadow = Shadow.None;
 
+    private ZIndex zIndex = Blazorise.ZIndex.Default;
+
     #endregion
 
     #region Constructors
@@ -246,7 +248,7 @@ public abstract class BaseComponent : BaseStyledComponent
     /// <param name="target">The target where the utility classes should be applied.</param>
     protected virtual void BuildUtilityClasses( ClassBuilder builder, UtilityTarget target )
     {
-        UtilityTarget currentTarget = target;
+        var currentTarget = target;
 
         if ( ShouldApplyUtility( Display, currentTarget ) )
             builder.Append( Display.Class( ClassProvider ) );
@@ -292,6 +294,8 @@ public abstract class BaseComponent : BaseStyledComponent
 
         if ( UtilityTarget == currentTarget )
         {
+            builder.Append( ClassProvider.ZIndex( ZIndex ) );
+
             if ( Float != Float.Default )
                 builder.Append( ClassProvider.Float( Float ) );
 
@@ -363,7 +367,12 @@ public abstract class BaseComponent : BaseStyledComponent
     /// <param name="target">The target where the utility styles should be applied.</param>
     protected virtual void BuildUtilityStyles( StyleBuilder builder, UtilityTarget target )
     {
-        UtilityTarget currentTarget = target;
+        var currentTarget = target;
+
+        if ( UtilityTarget == currentTarget )
+        {
+            builder.Append( StyleProvider.ZIndex( ZIndex?.Value ) );
+        }
 
         if ( ShouldApplyUtility( Width, currentTarget ) )
             builder.Append( GetSizingStyles( Width, SizingType.Width ) );
@@ -1015,6 +1024,29 @@ public abstract class BaseComponent : BaseStyledComponent
             shadow = value;
 
             DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Specifies a provider-defined stacking layer or an explicit numeric z-index.
+    /// Default and null retain the component's existing stacking behavior.
+    /// This parameter does not change positioning or escape ancestor stacking contexts.
+    /// </summary>
+    [Parameter]
+    public ZIndex ZIndex
+    {
+        get => zIndex;
+        set
+        {
+            if ( zIndex == value )
+            {
+                return;
+            }
+
+            zIndex = value;
+
+            DirtyClasses();
+            DirtyStyles();
         }
     }
 

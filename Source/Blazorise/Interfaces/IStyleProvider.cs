@@ -2,6 +2,14 @@
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public interface IStyleProvider
 {
+    #region ZIndex
+
+    string ZIndex( int? zIndex ) => zIndex is int value
+        ? $"z-index:{value.ToString( System.Globalization.CultureInfo.InvariantCulture )}"
+        : null;
+
+    #endregion
+
     #region Accordion
 
     string AccordionAnimationDuration( int? animationDuration ) => null;

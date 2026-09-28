@@ -8,14 +8,15 @@ class Program
 {
     static int Main( string[] args )
     {
-        Stopwatch stopWatch = Stopwatch.StartNew();
+        var stopWatch = Stopwatch.StartNew();
 
-        string apiDocsOutputPath = GetArgValue( args, "--api-docs-path" );
+        var apiDocsOutputPath = GetArgValue( args, "--api-docs-path" );
+        var regenerateExamples = bool.TryParse( GetArgValue( args, "--regenerate-examples" ), out var regenerateAll ) && regenerateAll;
 
-        bool codeSnippetResult = new CodeSnippets().Execute();
-        bool codeExamplesResult = new CodeExamplesMarkup().Execute();
-        bool apiDocsGenerator = new ComponentsApiDocsGenerator( apiDocsOutputPath ).Execute();
-        bool docsIndexGenerator = new DocsIndexGenerator().Execute();
+        var codeSnippetResult = new CodeSnippets().Execute();
+        var codeExamplesResult = new CodeExamplesMarkup().Execute( regenerateExamples );
+        var apiDocsGenerator = new ComponentsApiDocsGenerator( apiDocsOutputPath ).Execute();
+        var docsIndexGenerator = new DocsIndexGenerator().Execute();
 
         Console.WriteLine( $"Blazorise.Docs.Compiler completed in {stopWatch.ElapsedMilliseconds} milliseconds." );
         return codeSnippetResult && codeExamplesResult && apiDocsGenerator && docsIndexGenerator ? 0 : 1;

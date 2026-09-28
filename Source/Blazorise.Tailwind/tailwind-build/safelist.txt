@@ -4649,6 +4649,20 @@
   xl:w-full
   xl:w-fullscreen
   xl:w-screen
+  !-z-1
+  !-z-2
+  !-z-3
+  !z-0
+  !z-1
+  !z-2
+  !z-3
+  !z-10
+  !z-30
+  !z-40
+  !z-50
+  !z-150
+  !z-1090
+  !z-[var(--tw-tooltip-z-index,10)]
   z-10
   z-20
   z-30

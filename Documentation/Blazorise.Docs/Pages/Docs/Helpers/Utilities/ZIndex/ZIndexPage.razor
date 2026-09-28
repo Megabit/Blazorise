@@ -1,0 +1,93 @@
+@page "/docs/helpers/utilities/z-index"
+
+<Seo Canonical="/docs/helpers/utilities/z-index" Title="Blazorise Z-Index Utility" Description="Choose stacking layers for sticky headers, floating toolbars, and custom overlays with the Blazorise Z-Index utility." />
+
+<DocsPageTitle Path="Helpers/Utilities/Z-Index">
+    Blazorise Z-Index Utility
+</DocsPageTitle>
+
+<DocsPageLead>
+    Control which elements appear in front of others, from sticky headers and floating toolbars to custom overlays.
+</DocsPageLead>
+
+<DocsPageSectionTitle>
+    Layers
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    Choose a layer that matches your use case, and Blazorise selects the appropriate stacking value.
+    Available layers are <Code>ZIndex.Dropdown</Code>, <Code>ZIndex.Sticky</Code>, <Code>ZIndex.Fixed</Code>,
+    <Code>ZIndex.OffcanvasBackdrop</Code>, <Code>ZIndex.Offcanvas</Code>, <Code>ZIndex.ModalBackdrop</Code>, <Code>ZIndex.Modal</Code>,
+    <Code>ZIndex.Popover</Code>, <Code>ZIndex.Tooltip</Code>, <Code>ZIndex.Toast</Code>, <Code>ZIndex.Snackbar</Code>, or <Code>ZIndex.OnScreenKeyboard</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    For a floating toolbar, use <Code>&lt;Div Position="Position.Fixed" ZIndex="ZIndex.Fixed" /&gt;</Code>.
+    Use <Code>Position</Code> to control placement and <Code>ZIndex</Code> to control stacking order.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Named">
+        <Paragraph>
+            Use named layers to match an element's role.
+            Here, <Code>ZIndex.Modal</Code> places the modal layer in front of <Code>ZIndex.Fixed</Code>.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ZIndexExample" Outlined>
+        <ZIndexExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Levels">
+        <Paragraph>
+            Use <Code>ZIndex.Is0</Code>, <Code>ZIndex.Is1</Code>, <Code>ZIndex.Is2</Code>, and <Code>ZIndex.Is3</Code>
+            to arrange overlapping elements. Blazorise selects the appropriate value for each level.
+            Add <Code>Negative</Code> to a numbered level, such as <Code>ZIndex.Is2.Negative</Code>, to place it below zero.
+        </Paragraph>
+        <Paragraph>
+            Higher levels appear in front of lower levels. In this example, each block appears in front of the next one.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ZIndexLevelsExample" Outlined>
+        <ZIndexLevelsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Numeric">
+        <Paragraph>
+            Use a number when you need an exact value, for example <Code>&lt;Div ZIndex="2000" /&gt;</Code>.
+            Both <Code>int</Code> and <Code>int?</Code> values are supported, including zero and negative numbers.
+        </Paragraph>
+        <Paragraph>
+            These blocks use values from 3 down to -1. Higher values appear in front of lower values.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="ZIndexNumericExample" Outlined>
+        <ZIndexNumericExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSectionTitle>
+    Usage
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    Use <Code>UtilityTarget</Code> to choose whether <Code>ZIndex</Code> applies to a component or its wrapper, where supported.
+    It follows the same target as the component's other utilities.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    A parent's stacking order can limit which elements its children can overlap.
+    If increasing a child's level does not bring it forward, check the parent's stacking order too.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Defaults
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    Set <Code>ZIndex.Default</Code> or pass <Code>null</Code> to restore the component's default stacking behavior.
+    Use <Code>ZIndex.Is0</Code> when you want to explicitly choose the zero level.
+</DocsPageParagraph>

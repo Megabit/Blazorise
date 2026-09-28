@@ -1,4 +1,4 @@
-﻿$figure-dimensions: 16 24 32 48 64 96 128 256 512 !default;
+$figure-dimensions: 16 24 32 48 64 96 128 256 512 !default;
 
 $button-sizes: (
     xs: ( height: calc(var(--spacing) * 8), padding-x: calc(var(--spacing) * 3), padding-y: calc(var(--spacing) * 2), font-size: var(--text-xs), line-height: var(--text-xs--line-height) ),

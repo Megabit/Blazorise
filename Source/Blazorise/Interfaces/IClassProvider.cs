@@ -1622,6 +1622,12 @@ public interface IClassProvider
 
     #endregion
 
+    #region ZIndex
+
+    string ZIndex( ZIndex zIndex ) => null;
+
+    #endregion
+
     #region Shadow
 
     string Shadow( Shadow shadow );

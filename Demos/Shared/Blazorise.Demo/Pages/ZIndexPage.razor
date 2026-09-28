@@ -1,0 +1,121 @@
+@page "/tests/utilities/z-index"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Named</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    Compare common stacking layers. Each pair shows two overlapping blocks, with Blazorise selecting the appropriate value for each layer.
+                </Paragraph>
+                <Row>
+                    @foreach ( var combination in combinations )
+                    {
+                        <Column ColumnSize="ColumnSize.Is6.OnTablet.Is4.OnWidescreen">
+                            <Div Overflow="Overflow.Auto">
+                                <Div Position="Position.Relative" ZIndex="ZIndex.Is0" Width="Width.Px( 256 )" Height="Height.Px( 224 )">
+                                    <Div Position="Position.Absolute.Top.Is0.Start.Is0" ZIndex="combination.First"
+                                         Width="Width.Px( 192 )" Height="Height.Px( 144 )" Background="Background.Primary.Subtle" TextColor="TextColor.Primary.Emphasis"
+                                         Border="Border.Is1.Primary.OnAll.Rounded" Padding="Padding.Is2">
+                                        @combination.FirstLabel
+                                    </Div>
+                                    <Div Position="Position.Absolute.Top.Is0.Start.Is0" ZIndex="combination.Second"
+                                         Width="Width.Px( 192 )" Height="Height.Px( 144 )" Background="Background.Warning.Subtle" TextColor="TextColor.Warning.Emphasis"
+                                         Border="Border.Is1.Warning.OnAll.Rounded" Padding="Padding.Is2" Margin="Margin.Is5.FromTop.Is5.FromStart" Flex="Flex.JustifyContent.End.AlignItems.End">
+                                        @combination.SecondLabel
+                                    </Div>
+                                </Div>
+                            </Div>
+                        </Column>
+                    }
+                </Row>
+                <Paragraph Margin="Margin.Is0.FromBottom">
+                    Higher values appear in front. At equal levels, the yellow block appears in front because it comes later in the markup.
+                    Default and null restore the default stacking behavior.
+                </Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Levels</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    These blocks use levels from Is3 down to Is3.Negative. Higher levels appear in front of lower levels.
+                    Blazorise selects the appropriate value for each level.
+                </Paragraph>
+                <Div Overflow="Overflow.Auto">
+                    <Div Position="Position.Relative" ZIndex="ZIndex.Is0" Width="Width.Px( 320 )" Height="Height.Px( 320 )">
+                        <Div Position="Position.Absolute.Top.Is0.Start.Is0" ZIndex="ZIndex.Is3" Width="Width.Px( 128 )" Height="Height.Px( 128 )" Background="Background.Primary.Subtle" TextColor="TextColor.Primary.Emphasis" Border="Border.Is1.Primary.OnAll.Rounded" Padding="Padding.Is1" Flex="Flex.JustifyContent.End.AlignItems.End">
+                            Is3
+                        </Div>
+                        <Div Position="Position.Absolute" ZIndex="ZIndex.Is2" Width="Width.Px( 128 )" Height="Height.Px( 128 )" Background="Background.Primary.Subtle" TextColor="TextColor.Primary.Emphasis" Border="Border.Is1.Primary.OnAll.Rounded" Padding="Padding.Is1" Flex="Flex.JustifyContent.End.AlignItems.End" Style="inset-block-start: 32px; inset-inline-start: 32px;">
+                            Is2
+                        </Div>
+                        <Div Position="Position.Absolute" ZIndex="ZIndex.Is1" Width="Width.Px( 128 )" Height="Height.Px( 128 )" Background="Background.Primary.Subtle" TextColor="TextColor.Primary.Emphasis" Border="Border.Is1.Primary.OnAll.Rounded" Padding="Padding.Is1" Flex="Flex.JustifyContent.End.AlignItems.End" Style="inset-block-start: 64px; inset-inline-start: 64px;">
+                            Is1
+                        </Div>
+                        <Div Position="Position.Absolute" ZIndex="ZIndex.Is0" Width="Width.Px( 128 )" Height="Height.Px( 128 )" Background="Background.Primary.Subtle" TextColor="TextColor.Primary.Emphasis" Border="Border.Is1.Primary.OnAll.Rounded" Padding="Padding.Is1" Flex="Flex.JustifyContent.End.AlignItems.End" Style="inset-block-start: 96px; inset-inline-start: 96px;">
+                            Is0
+                        </Div>
+                        <Div Position="Position.Absolute" ZIndex="ZIndex.Is1.Negative" Width="Width.Px( 128 )" Height="Height.Px( 128 )" Background="Background.Primary.Subtle" TextColor="TextColor.Primary.Emphasis" Border="Border.Is1.Primary.OnAll.Rounded" Padding="Padding.Is1" Flex="Flex.JustifyContent.End.AlignItems.End" Style="inset-block-start: 128px; inset-inline-start: 128px;">
+                            Is1.Negative
+                        </Div>
+                        <Div Position="Position.Absolute" ZIndex="ZIndex.Is2.Negative" Width="Width.Px( 128 )" Height="Height.Px( 128 )" Background="Background.Primary.Subtle" TextColor="TextColor.Primary.Emphasis" Border="Border.Is1.Primary.OnAll.Rounded" Padding="Padding.Is1" Flex="Flex.JustifyContent.End.AlignItems.End" Style="inset-block-start: 160px; inset-inline-start: 160px;">
+                            Is2.Negative
+                        </Div>
+                        <Div Position="Position.Absolute" ZIndex="ZIndex.Is3.Negative" Width="Width.Px( 128 )" Height="Height.Px( 128 )" Background="Background.Primary.Subtle" TextColor="TextColor.Primary.Emphasis" Border="Border.Is1.Primary.OnAll.Rounded" Padding="Padding.Is1" Flex="Flex.JustifyContent.End.AlignItems.End" Style="inset-block-start: 192px; inset-inline-start: 192px;">
+                            Is3.Negative
+                        </Div>
+                    </Div>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Numeric</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    These blocks use exact numbers from 3 down to -1, including zero. Higher values appear in front of lower values.
+                </Paragraph>
+                <Div Overflow="Overflow.Auto">
+                    <Div Position="Position.Relative" ZIndex="ZIndex.Is0" Width="Width.Px( 256 )" Height="Height.Px( 256 )">
+                        @for ( var index = 0; index < 5; index++ )
+                        {
+                            var number = 3 - index;
+                            var offset = index * 32;
+
+                            <Div Position="Position.Absolute" ZIndex="number" Width="Width.Px( 128 )" Height="Height.Px( 128 )"
+                                 Background="Background.Primary.Subtle" TextColor="TextColor.Primary.Emphasis" Border="Border.Is1.Primary.OnAll.Rounded"
+                                 Padding="Padding.Is1" Flex="Flex.JustifyContent.End.AlignItems.End"
+                                 Style="@FormattableString.Invariant( $"inset-block-start: {offset}px; inset-inline-start: {offset}px;" )">
+                                z-index: @number
+                            </Div>
+                        }
+                    </Div>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private static readonly (string FirstLabel, ZIndex First, string SecondLabel, ZIndex Second)[] combinations =
+    {
+        (nameof( ZIndex.Dropdown ), ZIndex.Dropdown, nameof( ZIndex.Sticky ), ZIndex.Sticky),
+        (nameof( ZIndex.Fixed ), ZIndex.Fixed, nameof( ZIndex.Modal ), ZIndex.Modal),
+        (nameof( ZIndex.OffcanvasBackdrop ), ZIndex.OffcanvasBackdrop, nameof( ZIndex.Offcanvas ), ZIndex.Offcanvas),
+        (nameof( ZIndex.ModalBackdrop ), ZIndex.ModalBackdrop, nameof( ZIndex.Modal ), ZIndex.Modal),
+        (nameof( ZIndex.Popover ), ZIndex.Popover, nameof( ZIndex.Tooltip ), ZIndex.Tooltip),
+        (nameof( ZIndex.Toast ), ZIndex.Toast, nameof( ZIndex.Snackbar ), ZIndex.Snackbar),
+        (nameof( ZIndex.Modal ), ZIndex.Modal, nameof( ZIndex.OnScreenKeyboard ), ZIndex.OnScreenKeyboard),
+        (nameof( ZIndex.Default ), ZIndex.Default, "Null", null),
+    };
+}
