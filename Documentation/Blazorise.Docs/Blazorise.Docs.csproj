@@ -65,6 +65,8 @@
 
   <!--Project path for code generator-->
   <PropertyGroup>
+    <GenerateDocs Condition="'$(GenerateDocs)' == ''">true</GenerateDocs>
+    <RegenerateDocsExamples Condition="'$(RegenerateDocsExamples)' == ''">false</RegenerateDocsExamples>
     <ProjectDocsCompiler>dotnet run --configuration $(Configuration) --project "$(MSBuildProjectDirectory)/../../Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj" --</ProjectDocsCompiler>
   </PropertyGroup>
 
@@ -73,10 +75,10 @@
   </ItemGroup>
 
   <!--Execute the code generator-->
-  <Target Name="CompileDocs" BeforeTargets="BeforeBuild" Condition="'$(DesignTimeBuild)' != 'true'">
+  <Target Name="CompileDocs" BeforeTargets="BeforeBuild" Condition="'$(DesignTimeBuild)' != 'true' and '$(GenerateDocs)' == 'true'">
     <!--Command-line for the code generator-->
     <Message Text="Generating Docs and Tests" Importance="high" />
-    <Exec Command="$(ProjectDocsCompiler) --api-docs-path &quot;$(ApiDocsIntermediatePath)&quot;" />
+    <Exec Command="$(ProjectDocsCompiler) --api-docs-path &quot;$(ApiDocsIntermediatePath)&quot; --regenerate-examples &quot;$(RegenerateDocsExamples)&quot;" />
   </Target>
 
   <Target Name="IncludeApiDocs" BeforeTargets="CoreCompile" DependsOnTargets="CompileDocs">
@@ -85,19 +87,22 @@
     </ItemGroup>
   </Target>
 
-  <!--This file contains any ExampleCode that is new and needs including in the build -->
-  <Target Name="ReadFromFile" DependsOnTargets="CompileDocs">
+  <!--Refresh generated inputs after generation and before resource metadata is assigned.
+      Evaluation-time globs cannot include files created during the current build. -->
+  <Target Name="IncludeGeneratedExampleCode" BeforeTargets="AssignTargetPaths">
     <ItemGroup>
-      <NewFiles Include="NewFilesToBuild.txt" />
+      <EmbeddedResource Remove="Pages\**\*.html" />
+      <EmbeddedResource Include="Pages\**\*.html" />
+      <Compile Remove="Models\Snippets.generated.cs" />
+      <Compile Include="Models\Snippets.generated.cs" Condition="Exists('Models\Snippets.generated.cs')" />
     </ItemGroup>
-    <ReadLinesFromFile File="@(NewFiles)">
-      <Output TaskParameter="Lines" ItemName="NewExampleCodeToBuild" />
-    </ReadLinesFromFile>
   </Target>
 
   <!--Update ExampleCode-->
   <ItemGroup>
     <EmbeddedResource Include="Pages\**\*.html" />
+    <!--Razor files are tracked by the SDK; these example sources also need a real build when changed. -->
+    <UpToDateCheckInput Include="Pages\**\*.snippet;Pages\**\*.csharp" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Pages\Docs\Extensions\Reporting\Examples\StatusBadgeReportElementPropertiesExample.razor" />
