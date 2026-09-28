@@ -1,3 +1,7 @@
+#region Using directives
+using System.Globalization;
+#endregion
+
 namespace Blazorise;
 
 /// <summary>
@@ -27,6 +31,9 @@ public sealed record ZIndex
     /// <param name="value">The optional CSS z-index.</param>
     public static implicit operator ZIndex( int? value ) => value.HasValue ? new( value.Value ) : Default;
 
+    /// <inheritdoc/>
+    public override string ToString() => Name ?? Value?.ToString( CultureInfo.InvariantCulture ) ?? string.Empty;
+
     /// <summary>
     /// Gets the named provider layer, or null for default and numeric values.
     /// </summary>
@@ -48,29 +55,24 @@ public sealed record ZIndex
     public static readonly ZIndex Default = new( (string)null );
 
     /// <summary>
-    /// Uses the provider's negative stacking level. The CSS value is provider-defined.
-    /// </summary>
-    public static readonly ZIndex IsNegative1 = new( "n1" );
-
-    /// <summary>
     /// Uses the provider's zero stacking level, distinct from leaving z-index unspecified.
     /// </summary>
-    public static readonly ZIndex Is0 = new( "0" );
+    public static readonly ZIndexLevel Is0 = new( new ZIndex( "0" ), new ZIndex( "0" ) );
 
     /// <summary>
     /// Uses the provider's first positive stacking level. The CSS value is provider-defined.
     /// </summary>
-    public static readonly ZIndex Is1 = new( "1" );
+    public static readonly ZIndexLevel Is1 = new( new ZIndex( "1" ), new ZIndex( "n1" ) );
 
     /// <summary>
     /// Uses the provider's second positive stacking level. The CSS value is provider-defined.
     /// </summary>
-    public static readonly ZIndex Is2 = new( "2" );
+    public static readonly ZIndexLevel Is2 = new( new ZIndex( "2" ), new ZIndex( "n2" ) );
 
     /// <summary>
     /// Uses the provider's third positive stacking level. The CSS value is provider-defined.
     /// </summary>
-    public static readonly ZIndex Is3 = new( "3" );
+    public static readonly ZIndexLevel Is3 = new( new ZIndex( "3" ), new ZIndex( "n3" ) );
 
     /// <summary>
     /// Uses the provider's dropdown layer.
@@ -131,4 +133,53 @@ public sealed record ZIndex
     /// Uses the provider's on-screen keyboard layer.
     /// </summary>
     public static readonly ZIndex OnScreenKeyboard = new( "on-screen-keyboard" );
+}
+
+/// <summary>
+/// A numbered stacking level that supports a negative counterpart.
+/// Implicitly converts to <see cref="ZIndex"/>.
+/// </summary>
+public readonly struct ZIndexLevel
+{
+    internal ZIndexLevel( ZIndex value, ZIndex negative )
+    {
+        Value = value;
+        Negative = new( negative );
+    }
+
+    internal ZIndex Value { get; }
+
+    /// <summary>
+    /// Uses the negative counterpart of this stacking level. The zero level remains zero.
+    /// </summary>
+    public ZIndexVariant Negative { get; }
+
+    /// <summary>
+    /// Implicitly converts the numbered level to its corresponding <see cref="ZIndex"/> value.
+    /// </summary>
+    /// <param name="zIndexLevel">The numbered level to convert.</param>
+    public static implicit operator ZIndex( ZIndexLevel zIndexLevel ) => zIndexLevel.Value;
+
+    /// <inheritdoc/>
+    public override string ToString() => Value?.ToString() ?? string.Empty;
+}
+
+/// <summary>
+/// A wrapper returned by a stacking level modifier to prevent further chaining.
+/// Implicitly converts back to <see cref="ZIndex"/>.
+/// </summary>
+public readonly struct ZIndexVariant
+{
+    internal ZIndexVariant( ZIndex zIndex ) => Value = zIndex;
+
+    internal ZIndex Value { get; }
+
+    /// <summary>
+    /// Implicitly converts the variant to its corresponding <see cref="ZIndex"/> value.
+    /// </summary>
+    /// <param name="zIndexVariant">The variant to convert.</param>
+    public static implicit operator ZIndex( ZIndexVariant zIndexVariant ) => zIndexVariant.Value;
+
+    /// <inheritdoc/>
+    public override string ToString() => Value?.ToString() ?? string.Empty;
 }

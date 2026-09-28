@@ -10763,6 +10763,14 @@ ol.ordered-list-upper-roman {
   text-align: justify !important;
 }
 
+.z-n3.z-n3 {
+  z-index: -3;
+}
+
+.z-n2.z-n2 {
+  z-index: -2;
+}
+
 .z-dropdown.z-dropdown {
   z-index: var(--bs-dropdown-zindex, 1000);
 }

@@ -9760,6 +9760,14 @@ ol.ordered-list-upper-roman {
   color: #495057 !important;
 }
 
+.z-n3.z-n3 {
+  z-index: -3;
+}
+
+.z-n2.z-n2 {
+  z-index: -2;
+}
+
 .z-n1.z-n1 {
   z-index: -1;
 }

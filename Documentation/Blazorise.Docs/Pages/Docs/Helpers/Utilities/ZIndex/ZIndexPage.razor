@@ -41,8 +41,9 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Levels">
         <Paragraph>
-            Use <Code>ZIndex.IsNegative1</Code>, <Code>ZIndex.Is0</Code>, <Code>ZIndex.Is1</Code>, <Code>ZIndex.Is2</Code>, and <Code>ZIndex.Is3</Code>
+            Use <Code>ZIndex.Is0</Code>, <Code>ZIndex.Is1</Code>, <Code>ZIndex.Is2</Code>, and <Code>ZIndex.Is3</Code>
             to arrange overlapping elements. Blazorise selects the appropriate value for each level.
+            Add <Code>Negative</Code> to a numbered level, such as <Code>ZIndex.Is2.Negative</Code>, to place it below zero.
         </Paragraph>
         <Paragraph>
             Higher levels appear in front of lower levels. In this example, each block appears in front of the next one.

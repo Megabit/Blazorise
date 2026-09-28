@@ -23050,6 +23050,14 @@ pre:has(> .mui-code) {
   position: absolute !important;
 }
 
+.mui-z-index-n3.mui-z-index-n3 {
+  z-index: -3;
+}
+
+.mui-z-index-n2.mui-z-index-n2 {
+  z-index: -2;
+}
+
 .mui-z-index-n1.mui-z-index-n1 {
   z-index: -1;
 }

@@ -12100,6 +12100,14 @@ ol.is-ordered-list-upper-roman {
   visibility: hidden !important;
 }
 
+.is-z-index-n3.is-z-index-n3 {
+  z-index: -3;
+}
+
+.is-z-index-n2.is-z-index-n2 {
+  z-index: -2;
+}
+
 .is-z-index-n1.is-z-index-n1 {
   z-index: -1;
 }

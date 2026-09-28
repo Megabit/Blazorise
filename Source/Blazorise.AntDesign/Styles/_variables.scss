@@ -1295,6 +1295,8 @@ $table-contextual-cell-selectors: ".ant-table-primary, .ant-table-secondary, .an
 
 // Semantic stacking layers used by the ZIndex utility.
 $z-index-values: (
+    n3: -3,
+    n2: -2,
     n1: -1,
     0: 0,
     1: 1,

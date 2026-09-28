@@ -20183,6 +20183,14 @@ ol.ant-ordered-list-upper-roman {
   visibility: hidden !important;
 }
 
+.ant-z-index-n3.ant-z-index-n3 {
+  z-index: -3;
+}
+
+.ant-z-index-n2.ant-z-index-n2 {
+  z-index: -2;
+}
+
 .ant-z-index-n1.ant-z-index-n1 {
   z-index: -1;
 }

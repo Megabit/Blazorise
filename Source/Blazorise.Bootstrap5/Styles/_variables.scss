@@ -958,6 +958,8 @@ $zindex-toast: 1090 !default;
 // Semantic stacking layers used by the ZIndex utility.
 // Low levels reuse Bootstrap's native z-n1 and z-0 through z-3 utilities from $zindex-levels.
 $z-index-values: (
+    n3: -3,
+    n2: -2,
     dropdown: var(--bs-dropdown-zindex, #{$zindex-dropdown}),
     sticky: $zindex-sticky,
     fixed: $zindex-fixed,

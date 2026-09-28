@@ -2828,6 +2828,8 @@ public class TailwindClassProvider : ClassProvider
     public override string ZIndex( ZIndex zIndex ) => zIndex?.Name switch
     {
         "n1" => "!-z-1",
+        "n2" => "!-z-2",
+        "n3" => "!-z-3",
         "0" => "!z-0",
         "1" => "!z-1",
         "2" => "!z-2",

@@ -25186,6 +25186,14 @@ body .b-report {
   --b-report-zindex-modal-layer: var(--zIndexModal);
 }
 
+.fui-ZIndex-n3.fui-ZIndex-n3 {
+  z-index: -3;
+}
+
+.fui-ZIndex-n2.fui-ZIndex-n2 {
+  z-index: -2;
+}
+
 .fui-ZIndex-n1.fui-ZIndex-n1 {
   z-index: -1;
 }

@@ -54,7 +54,9 @@ public class ZIndexTest
     {
         var layers = new (string Expected, ZIndex Layer)[]
         {
-            ("z-n1", ZIndex.IsNegative1),
+            ("z-n3", ZIndex.Is3.Negative),
+            ("z-n2", ZIndex.Is2.Negative),
+            ("z-n1", ZIndex.Is1.Negative),
             ("z-0", ZIndex.Is0),
             ("z-1", ZIndex.Is1),
             ("z-2", ZIndex.Is2),
@@ -87,13 +89,42 @@ public class ZIndexTest
     [Fact]
     public void AreLevelsDistinctFromNumbers()
     {
-        var levels = new[] { ZIndex.IsNegative1, ZIndex.Is0, ZIndex.Is1, ZIndex.Is2, ZIndex.Is3 };
+        var levels = new ZIndex[] { ZIndex.Is3.Negative, ZIndex.Is2.Negative, ZIndex.Is1.Negative, ZIndex.Is0, ZIndex.Is1, ZIndex.Is2, ZIndex.Is3 };
 
         for ( var index = 0; index < levels.Length; index++ )
         {
-            Assert.NotEqual( (ZIndex)( index - 1 ), levels[index] );
+            Assert.NotEqual( (ZIndex)( index - 3 ), levels[index] );
         }
 
-        Assert.NotEqual( ZIndex.Default, ZIndex.Is0 );
+        Assert.NotEqual( ZIndex.Default, (ZIndex)ZIndex.Is0 );
+    }
+
+    [Fact]
+    public void IsNegativeZeroStillZero()
+    {
+        var value = (ZIndex)ZIndex.Is0.Negative;
+
+        Assert.Equal( (ZIndex)ZIndex.Is0, value );
+        Assert.Equal( "z-0", classProvider.ZIndex( value ) );
+    }
+
+    [Fact]
+    public void IsNegativeVariantConvertedToLevel()
+    {
+        var variant = ZIndex.Is2.Negative;
+        var value = (ZIndex)variant;
+
+        Assert.Equal( "n2", variant.ToString() );
+        Assert.Equal( "n2", value.ToString() );
+        Assert.Equal( value, (ZIndex)ZIndex.Is2.Negative );
+    }
+
+    [Fact]
+    public void NegativeRequiresNumberedLevel()
+    {
+        Assert.Null( typeof( ZIndex ).GetProperty( nameof( ZIndexLevel.Negative ) ) );
+        Assert.Null( typeof( ZIndexVariant ).GetProperty( nameof( ZIndexLevel.Negative ) ) );
+        Assert.IsType<ZIndexLevel>( ZIndex.Is2 );
+        Assert.IsType<ZIndex>( ZIndex.Dropdown );
     }
 }

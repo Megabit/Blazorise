@@ -35677,7 +35677,7 @@ builder.Services
     </Div>
 </Div>";
 
-        public const string ZIndexLevelsExample = @"<Div Position=""Position.Relative"" ZIndex=""ZIndex.Is0"" Height=""Height.Px( 256 )"">
+        public const string ZIndexLevelsExample = @"<Div Position=""Position.Relative"" ZIndex=""ZIndex.Is0"" Height=""Height.Px( 320 )"">
     <Div Position=""Position.Absolute.Top.Is0.Start.Is0"" ZIndex=""ZIndex.Is3"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"">
         ZIndex.Is3
     </Div>
@@ -35690,8 +35690,14 @@ builder.Services
     <Div Position=""Position.Absolute"" ZIndex=""ZIndex.Is0"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 96px; inset-inline-start: 96px;"">
         ZIndex.Is0
     </Div>
-    <Div Position=""Position.Absolute"" ZIndex=""ZIndex.IsNegative1"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 128px; inset-inline-start: 128px;"">
-        ZIndex.IsNegative1
+    <Div Position=""Position.Absolute"" ZIndex=""ZIndex.Is1.Negative"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 128px; inset-inline-start: 128px;"">
+        ZIndex.Is1.Negative
+    </Div>
+    <Div Position=""Position.Absolute"" ZIndex=""ZIndex.Is2.Negative"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 160px; inset-inline-start: 160px;"">
+        ZIndex.Is2.Negative
+    </Div>
+    <Div Position=""Position.Absolute"" ZIndex=""ZIndex.Is3.Negative"" Width=""Width.Px( 128 )"" Height=""Height.Px( 128 )"" Background=""Background.Primary.Subtle"" TextColor=""TextColor.Primary.Emphasis"" Border=""Border.Is1.Primary.OnAll.Rounded"" Padding=""Padding.Is1"" Flex=""Flex.JustifyContent.End.AlignItems.End"" Style=""inset-block-start: 192px; inset-inline-start: 192px;"">
+        ZIndex.Is3.Negative
     </Div>
 </Div>";
 
