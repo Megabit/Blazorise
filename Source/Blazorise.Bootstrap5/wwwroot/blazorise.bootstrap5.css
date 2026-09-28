@@ -10762,3 +10762,51 @@ ol.ordered-list-upper-roman {
 .text-justify {
   text-align: justify !important;
 }
+
+.z-dropdown.z-dropdown {
+  z-index: var(--bs-dropdown-zindex, 1000);
+}
+
+.z-sticky.z-sticky {
+  z-index: 1020;
+}
+
+.z-fixed.z-fixed {
+  z-index: 1030;
+}
+
+.z-offcanvas-backdrop.z-offcanvas-backdrop {
+  z-index: var(--bs-backdrop-zindex, 1040);
+}
+
+.z-offcanvas.z-offcanvas {
+  z-index: var(--bs-offcanvas-zindex, 1045);
+}
+
+.z-modal-backdrop.z-modal-backdrop {
+  z-index: var(--bs-backdrop-zindex, 1050);
+}
+
+.z-modal.z-modal {
+  z-index: var(--bs-modal-zindex, 1055);
+}
+
+.z-popover.z-popover {
+  z-index: var(--bs-popover-zindex, 1070);
+}
+
+.z-tooltip.z-tooltip {
+  z-index: var(--bs-tooltip-zindex, 1080);
+}
+
+.z-toast.z-toast {
+  z-index: var(--bs-toast-zindex, 1090);
+}
+
+.z-snackbar.z-snackbar {
+  z-index: 1070;
+}
+
+.z-on-screen-keyboard.z-on-screen-keyboard {
+  z-index: 1155;
+}

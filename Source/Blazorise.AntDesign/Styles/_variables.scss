@@ -1292,3 +1292,24 @@ html {
 }
 
 $table-contextual-cell-selectors: ".ant-table-primary, .ant-table-secondary, .ant-table-success, .ant-table-danger, .ant-table-warning, .ant-table-info, .ant-table-light, .ant-table-dark, .ant-table-link";
+
+// Semantic stacking layers used by the ZIndex utility.
+$z-index-values: (
+    n1: -1,
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    dropdown: var(--ant-dropdown-z-index-popup),
+    sticky: calc(var(--ant-z-index-base) + 2),
+    fixed: calc(var(--ant-z-index-base) + 3),
+    offcanvas-backdrop: var(--ant-drawer-z-index-popup),
+    offcanvas: var(--ant-drawer-z-index-popup),
+    modal-backdrop: var(--ant-z-index-popup-base),
+    modal: var(--ant-z-index-popup-base),
+    popover: calc(var(--ant-z-index-popup-base) + 30),
+    tooltip: var(--ant-tooltip-z-index, var(--ant-tooltip-z-index-popup)),
+    toast: var(--ant-notification-z-index-popup),
+    snackbar: 1010,
+    on-screen-keyboard: calc(var(--ant-z-index-popup-base) + 100),
+) !default;

@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --borderRadiusNone: 0;
     --borderRadiusSmall: 2px;
     --borderRadiusMedium: 4px;
@@ -1057,3 +1057,24 @@ $border-sides: (top: "top", right: "end", bottom: "bottom", left: "start") !defa
 $border-sizes: (0: var(--strokeWidthNone), 1: var(--strokeWidthThin), 2: var(--strokeWidthThick), 3: var(--strokeWidthThicker), 4: var(--strokeWidthThickest), 5: var(--strokeWidthMax)) !default;
 
 $table-contextual-cell-selectors: ".fui-TableCell-primary, .fui-TableCell-secondary, .fui-TableCell-success, .fui-TableCell-danger, .fui-TableCell-warning, .fui-TableCell-info, .fui-TableCell-light, .fui-TableCell-dark, .fui-TableCell-link";
+
+// Semantic stacking layers used by the ZIndex utility.
+$z-index-values: (
+    n1: -1,
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    dropdown: var(--zIndexDropdown),
+    sticky: var(--zIndexSticky),
+    fixed: var(--zIndexFixed),
+    offcanvas-backdrop: var(--zIndexDrawerBackdrop),
+    offcanvas: var(--zIndexDrawer),
+    modal-backdrop: var(--zIndexModalBackdrop),
+    modal: var(--zIndexModal),
+    popover: var(--zIndexPopover),
+    tooltip: var(--fui-tooltip-z-index, var(--zIndexTooltip)),
+    toast: var(--zIndexPopover),
+    snackbar: calc(var(--zIndexPopover) + 1),
+    on-screen-keyboard: calc(var(--zIndexModal) + 100),
+) !default;

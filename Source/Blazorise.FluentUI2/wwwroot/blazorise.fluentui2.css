@@ -25185,3 +25185,71 @@ body .b-report {
   --b-report-zindex-menu: var(--zIndexDropdown);
   --b-report-zindex-modal-layer: var(--zIndexModal);
 }
+
+.fui-ZIndex-n1.fui-ZIndex-n1 {
+  z-index: -1;
+}
+
+.fui-ZIndex-0.fui-ZIndex-0 {
+  z-index: 0;
+}
+
+.fui-ZIndex-1.fui-ZIndex-1 {
+  z-index: 1;
+}
+
+.fui-ZIndex-2.fui-ZIndex-2 {
+  z-index: 2;
+}
+
+.fui-ZIndex-3.fui-ZIndex-3 {
+  z-index: 3;
+}
+
+.fui-ZIndex-dropdown.fui-ZIndex-dropdown {
+  z-index: var(--zIndexDropdown);
+}
+
+.fui-ZIndex-sticky.fui-ZIndex-sticky {
+  z-index: var(--zIndexSticky);
+}
+
+.fui-ZIndex-fixed.fui-ZIndex-fixed {
+  z-index: var(--zIndexFixed);
+}
+
+.fui-ZIndex-offcanvas-backdrop.fui-ZIndex-offcanvas-backdrop {
+  z-index: var(--zIndexDrawerBackdrop);
+}
+
+.fui-ZIndex-offcanvas.fui-ZIndex-offcanvas {
+  z-index: var(--zIndexDrawer);
+}
+
+.fui-ZIndex-modal-backdrop.fui-ZIndex-modal-backdrop {
+  z-index: var(--zIndexModalBackdrop);
+}
+
+.fui-ZIndex-modal.fui-ZIndex-modal {
+  z-index: var(--zIndexModal);
+}
+
+.fui-ZIndex-popover.fui-ZIndex-popover {
+  z-index: var(--zIndexPopover);
+}
+
+.fui-ZIndex-tooltip.fui-ZIndex-tooltip {
+  z-index: var(--fui-tooltip-z-index, var(--zIndexTooltip));
+}
+
+.fui-ZIndex-toast.fui-ZIndex-toast {
+  z-index: var(--zIndexPopover);
+}
+
+.fui-ZIndex-snackbar.fui-ZIndex-snackbar {
+  z-index: calc(var(--zIndexPopover) + 1);
+}
+
+.fui-ZIndex-on-screen-keyboard.fui-ZIndex-on-screen-keyboard {
+  z-index: calc(var(--zIndexModal) + 100);
+}

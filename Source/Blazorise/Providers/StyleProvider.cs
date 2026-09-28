@@ -28,6 +28,14 @@ public abstract class StyleProvider : IStyleProvider
 
     #endregion
 
+    #region ZIndex
+
+    public virtual string ZIndex( int? zIndex ) => zIndex is int value
+        ? $"z-index:{value.ToString( System.Globalization.CultureInfo.InvariantCulture )}"
+        : null;
+
+    #endregion
+
     #region Accordion
 
     public virtual string AccordionAnimationDuration( int? animationDuration ) => null;

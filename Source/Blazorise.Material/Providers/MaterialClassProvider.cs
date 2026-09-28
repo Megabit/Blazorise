@@ -1929,6 +1929,12 @@ public class MaterialClassProvider : ClassProvider
 
     #endregion
 
+    #region ZIndex
+
+    public override string ZIndex( ZIndex zIndex ) => zIndex?.Name is { } name ? $"mui-z-index-{name}" : null;
+
+    #endregion
+
     #region Shadow
 
     public override string Shadow( Shadow shadow )

@@ -73,7 +73,6 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         bool stylesChanged = parameters.IsParameterChanged( Fade )
                              || paramAnimation.Changed
                              || previousParamAnimation.Defined != paramAnimation.Defined
-                             || parameters.IsParameterChanged( ZIndex )
                              || parameters.IsParameterChanged( ShowDelay )
                              || parameters.IsParameterChanged( HideDelay )
                              || paramFadeDuration.Changed
@@ -144,7 +143,6 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         builder.Append( StyleProvider.TooltipShowDelay( EffectiveShowDelay ) );
         builder.Append( StyleProvider.TooltipHideDelay( EffectiveHideDelay ) );
         builder.Append( StyleProvider.TooltipFadeDuration( HasAnimation, EffectiveFadeDuration ), ShouldApplyFadeDuration );
-        builder.Append( StyleProvider.TooltipZIndex( ZIndex ) );
 
         base.BuildStyles( builder );
 
@@ -564,11 +562,6 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     /// Specifies the id of an external element that triggers the tooltip.
     /// </summary>
     [Parameter] public string TriggerTargetId { get; set; }
-
-    /// <summary>
-    /// Specifies the z-index of the tooltip surface.
-    /// </summary>
-    [Parameter] public int? ZIndex { get; set; }
 
     /// <summary>
     /// Determines if the tooltip has interactive content inside of it, so that it can be hovered over and clicked inside without hiding.

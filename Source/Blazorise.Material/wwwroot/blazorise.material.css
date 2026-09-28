@@ -23049,3 +23049,71 @@ pre:has(> .mui-code) {
 .mui-visually-hidden-focusable:not(:focus):not(:focus-within):not(caption) {
   position: absolute !important;
 }
+
+.mui-z-index-n1.mui-z-index-n1 {
+  z-index: -1;
+}
+
+.mui-z-index-0.mui-z-index-0 {
+  z-index: 0;
+}
+
+.mui-z-index-1.mui-z-index-1 {
+  z-index: 1;
+}
+
+.mui-z-index-2.mui-z-index-2 {
+  z-index: 2;
+}
+
+.mui-z-index-3.mui-z-index-3 {
+  z-index: 3;
+}
+
+.mui-z-index-dropdown.mui-z-index-dropdown {
+  z-index: var(--mui-zindex-dropdown);
+}
+
+.mui-z-index-sticky.mui-z-index-sticky {
+  z-index: var(--mui-zindex-sticky);
+}
+
+.mui-z-index-fixed.mui-z-index-fixed {
+  z-index: var(--mui-zindex-fixed);
+}
+
+.mui-z-index-offcanvas-backdrop.mui-z-index-offcanvas-backdrop {
+  z-index: var(--mui-zindex-drawerbackdrop);
+}
+
+.mui-z-index-offcanvas.mui-z-index-offcanvas {
+  z-index: var(--mui-zindex-drawer);
+}
+
+.mui-z-index-modal-backdrop.mui-z-index-modal-backdrop {
+  z-index: var(--mui-zindex-modalbackdrop);
+}
+
+.mui-z-index-modal.mui-z-index-modal {
+  z-index: var(--mui-zindex-modal);
+}
+
+.mui-z-index-popover.mui-z-index-popover {
+  z-index: var(--mui-zindex-popover);
+}
+
+.mui-z-index-tooltip.mui-z-index-tooltip {
+  z-index: var(--mui-tooltip-z-index, var(--mui-zindex-tooltip));
+}
+
+.mui-z-index-toast.mui-z-index-toast {
+  z-index: var(--mui-zindex-tooltip);
+}
+
+.mui-z-index-snackbar.mui-z-index-snackbar {
+  z-index: calc(var(--mui-zindex-tooltip) + 2);
+}
+
+.mui-z-index-on-screen-keyboard.mui-z-index-on-screen-keyboard {
+  z-index: calc(var(--mui-zindex-modal) + 100);
+}

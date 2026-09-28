@@ -1,4 +1,5 @@
 #region Using directives
+using System.Threading.Tasks;
 using AngleSharp.Dom;
 using Blazorise.Bootstrap.Providers;
 using Blazorise.Modules;
@@ -27,7 +28,6 @@ public class TooltipComponentTest : BunitContext
             .Add( x => x.FadeDuration, 180 )
             .Add( x => x.ShowDelay, 75 )
             .Add( x => x.HideDelay, 100 )
-            .Add( x => x.ZIndex, 2000 )
             .AddChildContent( "Target" ) );
 
         IElement host = component.Find( ".tooltip-host" );
@@ -44,7 +44,6 @@ public class TooltipComponentTest : BunitContext
         Assert.Contains( "--tooltip-show-delay: 75ms", style );
         Assert.Contains( "--tooltip-hide-delay: 100ms", style );
         Assert.Contains( "--tooltip-fade-duration: 180ms", style );
-        Assert.Contains( "--tooltip-z-index: 2000", style );
         Assert.DoesNotContain( "--blazorise-", style );
         this.JSInterop.VerifyNotInvoke( "initialize" );
     }
@@ -217,22 +216,22 @@ public class TooltipComponentTest : BunitContext
     }
 
     [Fact]
-    public void ClickTrigger_ShouldToggleActiveState()
+    public async Task ClickTrigger_ShouldToggleActiveState()
     {
-        IRenderedComponent<Tooltip> component = Render<Tooltip>( parameters => parameters
+        var component = Render<Tooltip>( parameters => parameters
             .Add( x => x.Text, "Tooltip text" )
             .Add( x => x.Trigger, TooltipTrigger.Click )
             .AddChildContent( "Target" ) );
 
-        IElement host = component.Find( ".tooltip-host" );
+        var host = component.Find( ".tooltip-host" );
 
         Assert.Equal( "false", host.GetAttribute( "data-tooltip-active" ) );
 
-        host.Click();
+        await host.ClickAsync();
 
         Assert.Equal( "true", host.GetAttribute( "data-tooltip-active" ) );
 
-        host.Click();
+        await host.ClickAsync();
 
         Assert.Equal( "false", host.GetAttribute( "data-tooltip-active" ) );
     }

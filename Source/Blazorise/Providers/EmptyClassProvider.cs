@@ -1627,6 +1627,12 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region ZIndex
+
+    public string ZIndex( ZIndex zIndex ) => null;
+
+    #endregion
+
     #region Shadow
 
     public string Shadow( Shadow shadow ) => null;

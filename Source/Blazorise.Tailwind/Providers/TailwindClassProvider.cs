@@ -2823,6 +2823,28 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region ZIndex
+
+    public override string ZIndex( ZIndex zIndex ) => zIndex?.Name switch
+    {
+        "n1" => "!-z-1",
+        "0" => "!z-0",
+        "1" => "!z-1",
+        "2" => "!z-2",
+        "3" => "!z-3",
+        "dropdown" => "!z-10",
+        "sticky" => "!z-20",
+        "fixed" or "offcanvas-backdrop" => "!z-30",
+        "offcanvas" or "modal-backdrop" => "!z-40",
+        "modal" or "popover" or "toast" => "!z-50",
+        "tooltip" => "!z-[var(--tw-tooltip-z-index,10)]",
+        "snackbar" => "!z-1090",
+        "on-screen-keyboard" => "!z-150",
+        _ => null,
+    };
+
+    #endregion
+
     #region Shadow
 
     public override string Shadow( Shadow shadow ) => shadow switch

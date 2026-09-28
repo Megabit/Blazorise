@@ -1641,6 +1641,12 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region ZIndex
+
+    public virtual string ZIndex( ZIndex zIndex ) => null;
+
+    #endregion
+
     #region Shadow
 
     public abstract string Shadow( Shadow shadow );

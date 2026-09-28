@@ -9759,3 +9759,71 @@ ol.ordered-list-upper-roman {
 .text-dark-emphasis {
   color: #495057 !important;
 }
+
+.z-n1.z-n1 {
+  z-index: -1;
+}
+
+.z-0.z-0 {
+  z-index: 0;
+}
+
+.z-1.z-1 {
+  z-index: 1;
+}
+
+.z-2.z-2 {
+  z-index: 2;
+}
+
+.z-3.z-3 {
+  z-index: 3;
+}
+
+.z-dropdown.z-dropdown {
+  z-index: 1000;
+}
+
+.z-sticky.z-sticky {
+  z-index: 1020;
+}
+
+.z-fixed.z-fixed {
+  z-index: 1030;
+}
+
+.z-offcanvas-backdrop.z-offcanvas-backdrop {
+  z-index: 1040;
+}
+
+.z-offcanvas.z-offcanvas {
+  z-index: var(--offcanvas-zindex, 1045);
+}
+
+.z-modal-backdrop.z-modal-backdrop {
+  z-index: 1040;
+}
+
+.z-modal.z-modal {
+  z-index: 1050;
+}
+
+.z-popover.z-popover {
+  z-index: 1060;
+}
+
+.z-tooltip.z-tooltip {
+  z-index: var(--tooltip-z-index, 1070);
+}
+
+.z-toast.z-toast {
+  z-index: 1060;
+}
+
+.z-snackbar.z-snackbar {
+  z-index: 1060;
+}
+
+.z-on-screen-keyboard.z-on-screen-keyboard {
+  z-index: 1150;
+}

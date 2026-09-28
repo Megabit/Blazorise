@@ -148,7 +148,12 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
         if ( EffectivePlacement != OnScreenKeyboardPlacement.Inline )
         {
             builder.Append( "position:fixed" );
-            builder.Append( $"z-index:{EffectiveZIndex}" );
+
+            if ( ZIndex is null || ZIndex.IsDefault )
+            {
+                builder.Append( StyleProvider.ZIndex( StyleProvider.DefaultOnScreenKeyboardZIndex ) );
+            }
+
             builder.Append( "left:0", EffectiveKeyboardSize == OnScreenKeyboardSize.FullWidth );
             builder.Append( "right:0", EffectiveKeyboardSize == OnScreenKeyboardSize.FullWidth );
             builder.Append( "left:50%", EffectiveKeyboardSize != OnScreenKeyboardSize.FullWidth );
@@ -500,8 +505,6 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
         ? "."
         : OnScreenKeyboardService.State.Context.DecimalSeparator;
 
-    private int EffectiveZIndex => ZIndex ?? StyleProvider.DefaultOnScreenKeyboardZIndex;
-
     private int EffectiveAutoScrollMargin => Math.Max( 0, Options?.AccessibilityOptions?.OnScreenKeyboard?.AutoScrollMargin ?? 12 );
 
     private string KeyboardMaxWidthStyle => EffectiveKeyboardSize switch
@@ -632,11 +635,6 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
     /// Gets or sets the keyboard placement.
     /// </summary>
     [Parameter] public OnScreenKeyboardPlacement? Placement { get; set; }
-
-    /// <summary>
-    /// Gets or sets the CSS z-index used by the fixed keyboard placement. When not set, the current style provider default is used.
-    /// </summary>
-    [Parameter] public int? ZIndex { get; set; }
 
     /// <summary>
     /// Gets or sets the keyboard visual width.

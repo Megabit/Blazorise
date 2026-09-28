@@ -113,7 +113,6 @@ public partial class LoadingIndicator : BaseComponent<LoadingIndicatorClasses, L
     {
         builder.Append( $"animation:b-loading-indicator-overlay-fadein {FadeInDuration.TotalMilliseconds}ms ease-in;", FadeIn );
         builder.Append( $"background-color:{IndicatorBackground.Name}" );
-        builder.Append( $"z-index:{ZIndex}", ZIndex.HasValue );
     }
 
     /// <summary>
@@ -394,11 +393,6 @@ public partial class LoadingIndicator : BaseComponent<LoadingIndicatorClasses, L
     /// Wrap inline content.
     /// </summary>
     [Parameter] public bool Inline { get; set; }
-
-    /// <summary>
-    /// Overlay screen z-index.
-    /// </summary>
-    [Parameter] public int? ZIndex { get; set; }
 
     #endregion
 }

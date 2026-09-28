@@ -1993,6 +1993,12 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
+    #region ZIndex
+
+    public override string ZIndex( ZIndex zIndex ) => zIndex?.Name is { } name ? $"z-{name}" : null;
+
+    #endregion
+
     #region Shadow
 
     public override string Shadow( Shadow shadow )

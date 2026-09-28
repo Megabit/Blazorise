@@ -2015,6 +2015,12 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region ZIndex
+
+    public override string ZIndex( ZIndex zIndex ) => zIndex?.Name is { } name ? $"fui-ZIndex-{name}" : null;
+
+    #endregion
+
     #region Shadow
 
     public override string Shadow( Shadow shadow )
