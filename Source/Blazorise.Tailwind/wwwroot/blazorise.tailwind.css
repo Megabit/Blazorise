@@ -1185,8 +1185,8 @@
   .min-w-10 {
     min-width: calc(var(--spacing) * 10);
   }
-  .min-w-20 {
-    min-width: calc(var(--spacing) * 20);
+  .min-w-28 {
+    min-width: calc(var(--spacing) * 28);
   }
   .min-w-auto {
     min-width: auto;
@@ -2685,6 +2685,9 @@
   .break-words {
     overflow-wrap: break-word;
   }
+  .\[word-break\:normal\] {
+    word-break: normal;
+  }
   .text-ellipsis {
     text-overflow: ellipsis;
   }
@@ -3766,11 +3769,6 @@
   .last\:max-w-40 {
     &:last-child {
       max-width: calc(var(--spacing) * 40);
-    }
-  }
-  .last\:min-w-10 {
-    &:last-child {
-      min-width: calc(var(--spacing) * 10);
     }
   }
   .last\:flex-none {

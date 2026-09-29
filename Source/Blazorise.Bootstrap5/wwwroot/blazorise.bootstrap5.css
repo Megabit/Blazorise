@@ -4276,14 +4276,14 @@ li.list-group-item-action {
 
 .step {
   position: relative;
-  flex: 1 0 5rem;
+  flex: 1 0 7rem;
   min-width: 0;
   cursor: pointer;
 }
 .step::before {
   content: "";
   position: absolute;
-  inset-inline-end: calc((5rem + 2rem + 1rem) / 2);
+  inset-inline-end: calc((7rem + 2rem + 1rem) / 2);
   top: calc(2rem / 2);
   width: calc(100% - 2rem - 1rem);
   height: 2px;
@@ -4293,7 +4293,7 @@ li.list-group-item-action {
   pointer-events: none;
 }
 .step:first-child {
-  flex: 0 0 5rem;
+  flex: 0 0 7rem;
 }
 .step:first-child::before {
   display: none;
@@ -4317,7 +4317,7 @@ li.list-group-item-action {
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 5rem;
+  width: 7rem;
   min-width: 0;
   margin-inline-start: auto;
   padding: 0 0.5rem;
@@ -4345,11 +4345,13 @@ li.list-group-item-action {
 }
 
 .step-text {
-  max-width: 100%;
+  width: 100%;
   margin-top: 0.5rem;
   font-size: 0.875rem;
   color: var(--bs-secondary-color, #6c757d);
-  overflow-wrap: anywhere;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
   text-align: center;
 }
 

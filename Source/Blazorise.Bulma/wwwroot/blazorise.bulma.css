@@ -5087,7 +5087,7 @@ li.list-group-item-action {
 }
 .steps .step-item {
   position: relative;
-  flex: 1 0 5em;
+  flex: 1 0 7em;
   min-width: 0;
   margin-top: 0;
   cursor: pointer;
@@ -5095,7 +5095,7 @@ li.list-group-item-action {
 .steps .step-item::before {
   content: "";
   position: absolute;
-  inset-inline-end: calc((5em + 2em) / 2);
+  inset-inline-end: calc((7em + 2em) / 2);
   top: calc(2em / 2);
   width: calc(100% - 2em);
   height: 0.4em;
@@ -5104,7 +5104,7 @@ li.list-group-item-action {
   pointer-events: none;
 }
 .steps .step-item:first-child {
-  flex: 0 0 5em;
+  flex: 0 0 7em;
 }
 .steps .step-item:first-child::before {
   display: none;
@@ -5294,7 +5294,7 @@ li.list-group-item-action {
   justify-content: center;
   width: 2em;
   height: 2em;
-  margin-inline-start: calc(100% - (5em + 2em) / 2);
+  margin-inline-start: calc(100% - (7em + 2em) / 2);
   border: 0.2em solid transparent;
   border-radius: 50%;
   background-color: var(--bulma-border, hsl(221, 14%, 86%));
@@ -5307,11 +5307,13 @@ li.list-group-item-action {
   height: 1em;
 }
 .steps .step-details {
-  width: 5em;
+  width: 7em;
   margin-inline-start: auto;
   padding: 0.5em 0.5em 0;
   text-align: center;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 .steps .step-title {
   margin: 0;

@@ -147,7 +147,9 @@
         margin-inline-start: auto;
         padding: .5em .5em 0;
         text-align: center;
-        white-space: nowrap;
+        white-space: normal;
+        word-break: normal;
+        overflow-wrap: break-word;
     }
 
     .step-title {

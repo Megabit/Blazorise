@@ -71,10 +71,13 @@
     }
 
     .ant-steps-item-title {
+        min-width: 0;
         color: var(--ant-color-text);
         font-size: var(--ant-font-size);
         line-height: var(--ant-line-height);
-        white-space: nowrap;
+        white-space: normal;
+        word-break: normal;
+        overflow-wrap: break-word;
     }
 
     .ant-steps-item-rail {

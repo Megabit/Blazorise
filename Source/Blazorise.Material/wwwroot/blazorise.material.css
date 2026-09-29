@@ -9398,7 +9398,7 @@ body.modal-open {
 }
 .mui-steps {
   --mui-step-marker-size: 2rem;
-  --mui-step-content-size: 5rem;
+  --mui-step-content-size: 7rem;
   --mui-step-marker-border-size: 0.125rem;
   --mui-step-connector-size: 0.125rem;
   --mui-step-active-halo-size: 0.375rem;
@@ -9482,7 +9482,9 @@ body.modal-open {
   font-weight: 500;
   color: inherit;
   text-align: center;
-  word-break: keep-all;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 .mui-steps > .mui-step-item:focus-visible {

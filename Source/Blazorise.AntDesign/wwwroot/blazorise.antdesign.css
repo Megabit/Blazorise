@@ -9797,10 +9797,13 @@ a.ant-typography-disabled[aria-disabled=true] {
   gap: var(--ant-margin-sm);
 }
 .ant-steps .ant-steps-item-title {
+  min-width: 0;
   color: var(--ant-color-text);
   font-size: var(--ant-font-size);
   line-height: var(--ant-line-height);
-  white-space: nowrap;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 .ant-steps .ant-steps-item-rail {
   flex: 1 1 auto;

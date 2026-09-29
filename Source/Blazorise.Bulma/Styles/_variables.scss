@@ -111,7 +111,7 @@ $steps-completed-color: $primary !default;
 $steps-active-color: $primary !default;
 $steps-divider-height: .4em !default;
 $steps-marker-size: 2em !default;
-$steps-content-width: 5em !default;
+$steps-content-width: 7em !default;
 
 $sizes-percentages: () !default;
 $sizes-percentages: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes-percentages );

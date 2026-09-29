@@ -85,11 +85,13 @@
 }
 
 .step-text {
-    max-width: 100%;
+    width: 100%;
     margin-top: $step-gutter * .5;
     font-size: $font-size-sm;
     color: var(--bs-secondary-color, #{$step-text-color});
-    overflow-wrap: anywhere;
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: break-word;
     text-align: center;
 }
 

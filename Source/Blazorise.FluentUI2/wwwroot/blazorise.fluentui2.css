@@ -12074,7 +12074,7 @@ input::file-selector-button {
 
 .fui-Steps {
   --fluent-wizard-circle-size: 24px;
-  --fluent-wizard-content-size: 5rem;
+  --fluent-wizard-content-size: 7rem;
   --fluent-wizard-spacing: 4px;
   display: flex;
   inline-size: 100%;
@@ -12152,6 +12152,9 @@ input::file-selector-button {
 .fui-Steps .fui-Step .fui-Step__text {
   inline-size: var(--fluent-wizard-content-size);
   text-align: center;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 .fui-Steps .fui-Step:not(:last-child)::after {
   content: "";

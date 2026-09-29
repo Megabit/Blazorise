@@ -1116,7 +1116,7 @@ public class TailwindClassProvider : ClassProvider
     public override string Steps() => "tw-steps flex w-full list-none items-start gap-4 overflow-x-auto p-1.5";
 
     public override string StepItem()
-        => "tw-step group/step relative min-w-20 flex-1 cursor-pointer last:min-w-10 last:max-w-40 last:flex-none focus-visible:outline-none "
+        => "tw-step group/step relative min-w-28 flex-1 cursor-pointer last:max-w-40 last:flex-none focus-visible:outline-none "
             + "after:absolute after:start-14 after:end-0 after:top-5 after:h-1 after:-translate-y-1/2 after:rounded-full after:bg-gray-200 after:content-[''] last:after:hidden "
             + "dark:after:bg-gray-700 "
             + "[&:is(.tw-step-active,.tw-step-completed)]:after:bg-[color:color-mix(in_srgb,var(--tw-step-bg)_25%,white)] "
@@ -1178,7 +1178,7 @@ public class TailwindClassProvider : ClassProvider
             + "dark:text-[color:color-mix(in_srgb,var(--tw-step-bg)_50%,white)]";
     }
 
-    public override string StepItemDescription() => "tw-step-caption mt-2 block break-words pe-4 text-sm font-medium text-gray-600 dark:text-gray-300";
+    public override string StepItemDescription() => "tw-step-caption mt-2 block max-w-full whitespace-normal break-words [word-break:normal] pe-4 text-sm font-medium text-gray-600 dark:text-gray-300";
 
     public override string StepsContent() => "tw-steps-content";
 
