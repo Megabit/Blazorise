@@ -4544,20 +4544,20 @@ li.list-group-item-action {
   top: 0;
   right: 0;
   height: 100%;
+  width: var(--offcanvas-size);
   transform: translateX(100%);
 }
 .offcanvas.is-end.is-active {
   transform: none;
-  width: var(--offcanvas-size);
 }
 .offcanvas.is-top, .offcanvas.is-bottom {
   left: 0;
   right: 0;
   width: 100%;
+  height: var(--offcanvas-size);
 }
 .offcanvas.is-top.is-active, .offcanvas.is-bottom.is-active {
   transform: none;
-  height: var(--offcanvas-size);
 }
 .offcanvas.is-top {
   top: 0;
@@ -4581,7 +4581,6 @@ li.list-group-item-action {
   top: auto;
 }
 .offcanvas-body {
-  display: flex;
   flex-grow: 1;
   overflow-y: auto;
   padding: 1rem;
@@ -4612,11 +4611,10 @@ li.list-group-item-action {
 .field.is-grouped.are-extra-large > .control > .offcanvas.button {
   --offcanvas-size: 32rem;
 }
-.offcanvas.is-fullscreen.is-start, .offcanvas.is-fullscreen.is-end {
-  --offcanvas-size: 100vw;
-}
-.offcanvas.is-fullscreen.is-top, .offcanvas.is-fullscreen.is-bottom {
-  --offcanvas-size: 100vh;
+.offcanvas.is-fullscreen {
+  inset: 0;
+  width: auto;
+  height: auto;
 }
 
 .pagination.is-extra-small, .field.has-addons.are-extra-small > .control > .pagination.button,
