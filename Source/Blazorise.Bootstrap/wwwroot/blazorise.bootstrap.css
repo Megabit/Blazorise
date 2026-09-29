@@ -3928,355 +3928,312 @@ li.list-group-item-action {
 }
 
 .steps {
-  padding: 0;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0.5rem 0;
   margin: 0;
   list-style: none;
-  display: flex;
   overflow-x: auto;
-}
-.steps .step:first-child {
-  margin-left: auto;
-}
-.steps .step:last-child {
-  margin-right: auto;
 }
 
 .step {
+  position: relative;
+  flex: 1 0 5rem;
+  min-width: 0;
   cursor: pointer;
+}
+.step::before {
+  content: "";
+  position: absolute;
+  inset-inline-end: calc((5rem + 2rem + 1rem) / 2);
+  top: calc(2rem / 2);
+  width: calc(100% - 2rem - 1rem);
+  height: 2px;
+  transform: translateY(-50%);
+  background-color: #dee2e6;
+  border-radius: 2px;
+  pointer-events: none;
+}
+.step:first-child {
+  flex: 0 0 5rem;
+}
+.step:first-child::before {
+  display: none;
 }
 .step:focus-visible {
   outline: none;
 }
-.step:focus-visible .step-circle, .step:focus-visible:not(:has(.step-circle)) .step-text {
+.step:focus-visible .step-circle {
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: 0 0 0 2px #fff, 0 0 0 4px #007bff, 0 0 0 6px color-mix(in srgb, #007bff 16%, transparent);
 }
 @media (forced-colors: active) {
-  .step:focus-visible .step-circle, .step:focus-visible:not(:has(.step-circle)) .step-text {
+  .step:focus-visible .step-circle {
     outline-color: Highlight;
     box-shadow: none;
   }
 }
-.step:focus-visible:not(:has(.step-circle)) .step-text {
-  border-radius: 0.25rem;
-}
-.step:first-of-type .step-circle::before {
-  display: none;
-}
-.step:last-of-type .step-container {
-  padding-right: 0;
-}
 
 .step-container {
-  box-sizing: content-box;
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 5rem;
-  min-width: 5rem;
-  max-width: 5rem;
-  padding-top: 0.5rem;
-  padding-right: 1rem;
+  min-width: 0;
+  margin-inline-start: auto;
+  padding: 0 0.5rem;
 }
 
 .step-circle {
-  position: relative;
   display: flex;
+  flex: 0 0 auto;
   justify-content: center;
   align-items: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  color: #adb5bd;
-  border: 2px solid #adb5bd;
-  border-radius: 100%;
-  background-color: #fff;
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #6c757d;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 50%;
 }
-.step-circle::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: -2px;
-  width: calc(5rem + 1rem - 1.5rem);
-  height: 2px;
-  transform: translate(-100%, -50%);
-  color: #adb5bd;
-  background-color: currentColor;
+
+.step-check {
+  width: 1rem;
+  height: 1rem;
 }
 
 .step-text {
-  color: #adb5bd;
-  word-break: keep-all;
+  max-width: 100%;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #6c757d;
+  overflow-wrap: anywhere;
   text-align: center;
-  margin-top: 0.25em;
 }
 
-.step-completed .step-circle {
-  color: #fff;
+.step-completed::before {
   background-color: #28a745;
+}
+.step-completed .step-circle {
+  color: color-mix(in srgb, #28a745 40%, #212529);
+  background-color: color-mix(in srgb, #28a745 12%, #fff);
   border-color: #28a745;
 }
-.step-completed .step-circle::before {
-  color: #28a745;
-}
 .step-completed .step-text {
-  color: #28a745;
+  color: color-mix(in srgb, #28a745 40%, #212529);
 }
 
+.step-active::before {
+  background-color: #007bff;
+}
 .step-active .step-circle {
   color: #fff;
   background-color: #007bff;
   border-color: #007bff;
 }
-.step-active .step-circle::before {
-  color: #007bff;
-}
 .step-active .step-text {
-  color: #007bff;
+  color: color-mix(in srgb, #007bff 40%, #212529);
+  font-weight: 700;
 }
 
 .step-primary .step-circle {
-  color: #007bff;
+  color: color-mix(in srgb, #007bff 40%, #212529);
+  background-color: #fff;
   border-color: #007bff;
 }
 .step-primary.step-completed .step-circle {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
-}
-.step-primary.step-completed .step-circle::before {
-  color: #007bff;
-}
-.step-primary.step-completed .step-text {
-  color: #007bff;
+  background-color: color-mix(in srgb, #007bff 12%, #fff);
 }
 .step-primary.step-active .step-circle {
   color: #fff;
   background-color: #007bff;
-  border-color: #007bff;
 }
-.step-primary.step-active::before {
-  color: #007bff;
+.step-primary.step-completed::before, .step-primary.step-active::before {
+  background-color: #007bff;
 }
-.step-primary.step-active .step-text {
-  color: #007bff;
+.step-primary.step-completed .step-text, .step-primary.step-active .step-text {
+  color: color-mix(in srgb, #007bff 40%, #212529);
 }
 
 .step-secondary .step-circle {
-  color: #6c757d;
+  color: color-mix(in srgb, #6c757d 40%, #212529);
+  background-color: #fff;
   border-color: #6c757d;
 }
 .step-secondary.step-completed .step-circle {
-  color: #fff;
-  background-color: #6c757d;
-  border-color: #6c757d;
-}
-.step-secondary.step-completed .step-circle::before {
-  color: #6c757d;
-}
-.step-secondary.step-completed .step-text {
-  color: #6c757d;
+  background-color: color-mix(in srgb, #6c757d 12%, #fff);
 }
 .step-secondary.step-active .step-circle {
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #6c757d;
 }
-.step-secondary.step-active::before {
-  color: #007bff;
+.step-secondary.step-completed::before, .step-secondary.step-active::before {
+  background-color: #6c757d;
 }
-.step-secondary.step-active .step-text {
-  color: #007bff;
+.step-secondary.step-completed .step-text, .step-secondary.step-active .step-text {
+  color: color-mix(in srgb, #6c757d 40%, #212529);
 }
 
 .step-success .step-circle {
-  color: #28a745;
+  color: color-mix(in srgb, #28a745 40%, #212529);
+  background-color: #fff;
   border-color: #28a745;
 }
 .step-success.step-completed .step-circle {
-  color: #fff;
-  background-color: #28a745;
-  border-color: #28a745;
-}
-.step-success.step-completed .step-circle::before {
-  color: #28a745;
-}
-.step-success.step-completed .step-text {
-  color: #28a745;
+  background-color: color-mix(in srgb, #28a745 12%, #fff);
 }
 .step-success.step-active .step-circle {
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #28a745;
 }
-.step-success.step-active::before {
-  color: #007bff;
+.step-success.step-completed::before, .step-success.step-active::before {
+  background-color: #28a745;
 }
-.step-success.step-active .step-text {
-  color: #007bff;
+.step-success.step-completed .step-text, .step-success.step-active .step-text {
+  color: color-mix(in srgb, #28a745 40%, #212529);
 }
 
 .step-info .step-circle {
-  color: #17a2b8;
+  color: color-mix(in srgb, #17a2b8 40%, #212529);
+  background-color: #fff;
   border-color: #17a2b8;
 }
 .step-info.step-completed .step-circle {
-  color: #fff;
-  background-color: #17a2b8;
-  border-color: #17a2b8;
-}
-.step-info.step-completed .step-circle::before {
-  color: #17a2b8;
-}
-.step-info.step-completed .step-text {
-  color: #17a2b8;
+  background-color: color-mix(in srgb, #17a2b8 12%, #fff);
 }
 .step-info.step-active .step-circle {
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #17a2b8;
 }
-.step-info.step-active::before {
-  color: #007bff;
+.step-info.step-completed::before, .step-info.step-active::before {
+  background-color: #17a2b8;
 }
-.step-info.step-active .step-text {
-  color: #007bff;
+.step-info.step-completed .step-text, .step-info.step-active .step-text {
+  color: color-mix(in srgb, #17a2b8 40%, #212529);
 }
 
 .step-warning .step-circle {
-  color: #ffc107;
+  color: color-mix(in srgb, #ffc107 40%, #212529);
+  background-color: #fff;
   border-color: #ffc107;
 }
 .step-warning.step-completed .step-circle {
-  color: #fff;
-  background-color: #ffc107;
-  border-color: #ffc107;
-}
-.step-warning.step-completed .step-circle::before {
-  color: #ffc107;
-}
-.step-warning.step-completed .step-text {
-  color: #ffc107;
+  background-color: color-mix(in srgb, #ffc107 12%, #fff);
 }
 .step-warning.step-active .step-circle {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  color: #212529;
+  background-color: #ffc107;
 }
-.step-warning.step-active::before {
-  color: #007bff;
+.step-warning.step-completed::before, .step-warning.step-active::before {
+  background-color: #ffc107;
 }
-.step-warning.step-active .step-text {
-  color: #007bff;
+.step-warning.step-completed .step-text, .step-warning.step-active .step-text {
+  color: color-mix(in srgb, #ffc107 40%, #212529);
 }
 
 .step-danger .step-circle {
-  color: #dc3545;
+  color: color-mix(in srgb, #dc3545 40%, #212529);
+  background-color: #fff;
   border-color: #dc3545;
 }
 .step-danger.step-completed .step-circle {
-  color: #fff;
-  background-color: #dc3545;
-  border-color: #dc3545;
-}
-.step-danger.step-completed .step-circle::before {
-  color: #dc3545;
-}
-.step-danger.step-completed .step-text {
-  color: #dc3545;
+  background-color: color-mix(in srgb, #dc3545 12%, #fff);
 }
 .step-danger.step-active .step-circle {
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #dc3545;
 }
-.step-danger.step-active::before {
-  color: #007bff;
+.step-danger.step-completed::before, .step-danger.step-active::before {
+  background-color: #dc3545;
 }
-.step-danger.step-active .step-text {
-  color: #007bff;
+.step-danger.step-completed .step-text, .step-danger.step-active .step-text {
+  color: color-mix(in srgb, #dc3545 40%, #212529);
 }
 
 .step-light .step-circle {
-  color: #f8f9fa;
+  color: color-mix(in srgb, #f8f9fa 40%, #212529);
+  background-color: #fff;
   border-color: #f8f9fa;
 }
 .step-light.step-completed .step-circle {
-  color: #fff;
-  background-color: #f8f9fa;
-  border-color: #f8f9fa;
-}
-.step-light.step-completed .step-circle::before {
-  color: #f8f9fa;
-}
-.step-light.step-completed .step-text {
-  color: #f8f9fa;
+  background-color: color-mix(in srgb, #f8f9fa 12%, #fff);
 }
 .step-light.step-active .step-circle {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  color: #212529;
+  background-color: #f8f9fa;
 }
-.step-light.step-active::before {
-  color: #007bff;
+.step-light.step-completed::before, .step-light.step-active::before {
+  background-color: #f8f9fa;
 }
-.step-light.step-active .step-text {
-  color: #007bff;
+.step-light.step-completed .step-text, .step-light.step-active .step-text {
+  color: color-mix(in srgb, #f8f9fa 40%, #212529);
 }
 
 .step-dark .step-circle {
-  color: #343a40;
+  color: color-mix(in srgb, #343a40 40%, #212529);
+  background-color: #fff;
   border-color: #343a40;
 }
 .step-dark.step-completed .step-circle {
-  color: #fff;
-  background-color: #343a40;
-  border-color: #343a40;
-}
-.step-dark.step-completed .step-circle::before {
-  color: #343a40;
-}
-.step-dark.step-completed .step-text {
-  color: #343a40;
+  background-color: color-mix(in srgb, #343a40 12%, #fff);
 }
 .step-dark.step-active .step-circle {
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #343a40;
 }
-.step-dark.step-active::before {
-  color: #007bff;
+.step-dark.step-completed::before, .step-dark.step-active::before {
+  background-color: #343a40;
 }
-.step-dark.step-active .step-text {
-  color: #007bff;
+.step-dark.step-completed .step-text, .step-dark.step-active .step-text {
+  color: color-mix(in srgb, #343a40 40%, #212529);
 }
 
 .step-link .step-circle {
-  color: #3273dc;
+  color: color-mix(in srgb, #3273dc 40%, #212529);
+  background-color: #fff;
   border-color: #3273dc;
 }
 .step-link.step-completed .step-circle {
-  color: #fff;
-  background-color: #3273dc;
-  border-color: #3273dc;
-}
-.step-link.step-completed .step-circle::before {
-  color: #3273dc;
-}
-.step-link.step-completed .step-text {
-  color: #3273dc;
+  background-color: color-mix(in srgb, #3273dc 12%, #fff);
 }
 .step-link.step-active .step-circle {
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #3273dc;
 }
-.step-link.step-active::before {
-  color: #007bff;
+.step-link.step-completed::before, .step-link.step-active::before {
+  background-color: #3273dc;
 }
-.step-link.step-active .step-text {
-  color: #007bff;
+.step-link.step-completed .step-text, .step-link.step-active .step-text {
+  color: color-mix(in srgb, #3273dc 40%, #212529);
+}
+
+.steps .step.step-custom .step-circle {
+  color: color-mix(in srgb, var(--bs-step-color) 40%, #212529);
+  background-color: #fff;
+  border-color: var(--bs-step-color);
+}
+.steps .step.step-custom.step-completed .step-circle {
+  background-color: color-mix(in srgb, var(--bs-step-color) 12%, #fff);
+}
+.steps .step.step-custom.step-active .step-circle {
+  color: #fff;
+  background-color: var(--bs-step-color);
+}
+@supports (color: contrast-color(white)) {
+  .steps .step.step-custom.step-active .step-circle {
+    color: contrast-color(var(--bs-step-color));
+  }
+}
+.steps .step.step-custom.step-completed::before, .steps .step.step-custom.step-active::before {
+  background-color: var(--bs-step-color);
+}
+.steps .step.step-custom.step-completed .step-text, .steps .step.step-custom.step-active .step-text {
+  color: color-mix(in srgb, var(--bs-step-color) 40%, #212529);
 }
 
 .steps-content {
@@ -4287,27 +4244,6 @@ li.list-group-item-action {
 }
 .steps-content > .active {
   display: block;
-}
-
-.steps .step.step-custom.step-active .step-text, .steps .step.step-custom.step-completed .step-text {
-  color: color-mix(in srgb, var(--bs-step-color) 40%, #212529);
-}
-.steps .step.step-custom .step-circle {
-  color: var(--bs-step-color);
-  border-color: var(--bs-step-color);
-}
-.steps .step.step-custom.step-active .step-circle, .steps .step.step-custom.step-completed .step-circle {
-  background-color: var(--bs-step-color);
-  border-color: var(--bs-step-color);
-  color: white;
-}
-@supports (color: contrast-color(white)) {
-  .steps .step.step-custom.step-active .step-circle, .steps .step.step-custom.step-completed .step-circle {
-    color: contrast-color(var(--bs-step-color));
-  }
-}
-.steps .step.step-custom.step-active .step-circle::before, .steps .step.step-custom.step-completed .step-circle::before {
-  color: var(--bs-step-color);
 }
 
 .custom-switch .custom-control-input.custom-control-input-primary:checked ~ .custom-control-label::before {

@@ -4265,355 +4265,312 @@ li.list-group-item-action {
 }
 
 .steps {
-  padding: 0;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0.5rem 0;
   margin: 0;
   list-style: none;
-  display: flex;
   overflow-x: auto;
-}
-.steps .step:first-child {
-  margin-left: auto;
-}
-.steps .step:last-child {
-  margin-right: auto;
 }
 
 .step {
+  position: relative;
+  flex: 1 0 5rem;
+  min-width: 0;
   cursor: pointer;
+}
+.step::before {
+  content: "";
+  position: absolute;
+  inset-inline-end: calc((5rem + 2rem + 1rem) / 2);
+  top: calc(2rem / 2);
+  width: calc(100% - 2rem - 1rem);
+  height: 2px;
+  transform: translateY(-50%);
+  background-color: var(--bs-border-color, #dee2e6);
+  border-radius: 2px;
+  pointer-events: none;
+}
+.step:first-child {
+  flex: 0 0 5rem;
+}
+.step:first-child::before {
+  display: none;
 }
 .step:focus-visible {
   outline: none;
 }
-.step:focus-visible .step-circle, .step:focus-visible:not(:has(.step-circle)) .step-text {
+.step:focus-visible .step-circle {
   outline: 2px solid transparent;
   outline-offset: 2px;
   box-shadow: 0 0 0 2px var(--bs-body-bg, #fff), 0 0 0 4px var(--bs-primary, #0d6efd), 0 0 0 6px color-mix(in srgb, var(--bs-primary, #0d6efd) 16%, transparent);
 }
 @media (forced-colors: active) {
-  .step:focus-visible .step-circle, .step:focus-visible:not(:has(.step-circle)) .step-text {
+  .step:focus-visible .step-circle {
     outline-color: Highlight;
     box-shadow: none;
   }
 }
-.step:focus-visible:not(:has(.step-circle)) .step-text {
-  border-radius: var(--bs-border-radius, 0.375rem);
-}
-.step:first-of-type .step-circle::before {
-  display: none;
-}
-.step:last-of-type .step-container {
-  padding-right: 0;
-}
 
 .step-container {
-  box-sizing: content-box;
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 5rem;
-  min-width: 5rem;
-  max-width: 5rem;
-  padding-top: 0.5rem;
-  padding-right: 1rem;
+  min-width: 0;
+  margin-inline-start: auto;
+  padding: 0 0.5rem;
 }
 
 .step-circle {
-  position: relative;
   display: flex;
+  flex: 0 0 auto;
   justify-content: center;
   align-items: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  color: #adb5bd;
-  border: 2px solid #adb5bd;
-  border-radius: 100%;
-  background-color: #fff;
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--bs-secondary-color, #6c757d);
+  background-color: var(--bs-tertiary-bg, #f8f9fa);
+  border: 1px solid var(--bs-border-color, #dee2e6);
+  border-radius: 50%;
 }
-.step-circle::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: -2px;
-  width: calc(5rem + 1rem - 1.5rem);
-  height: 2px;
-  transform: translate(-100%, -50%);
-  color: #adb5bd;
-  background-color: currentColor;
+
+.step-check {
+  width: 1rem;
+  height: 1rem;
 }
 
 .step-text {
-  color: #adb5bd;
-  word-break: keep-all;
+  max-width: 100%;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--bs-secondary-color, #6c757d);
+  overflow-wrap: anywhere;
   text-align: center;
-  margin-top: 0.25em;
 }
 
-.step-completed .step-circle {
-  color: #fff;
-  background-color: #198754;
-  border-color: #198754;
+.step-completed::before {
+  background-color: var(--bs-success, #198754);
 }
-.step-completed .step-circle::before {
-  color: #198754;
+.step-completed .step-circle {
+  color: color-mix(in srgb, var(--bs-success, #198754) 40%, var(--bs-body-color, #212529));
+  background-color: color-mix(in srgb, var(--bs-success, #198754) 12%, var(--bs-body-bg, #fff));
+  border-color: var(--bs-success, #198754);
 }
 .step-completed .step-text {
-  color: #198754;
+  color: var(--bs-success-text-emphasis, color-mix(in srgb, #198754 40%, var(--bs-body-color, #212529)));
 }
 
+.step-active::before {
+  background-color: var(--bs-primary, #0d6efd);
+}
 .step-active .step-circle {
   color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-}
-.step-active .step-circle::before {
-  color: #0d6efd;
+  background-color: var(--bs-primary, #0d6efd);
+  border-color: var(--bs-primary, #0d6efd);
 }
 .step-active .step-text {
-  color: #0d6efd;
+  color: var(--bs-primary-text-emphasis, color-mix(in srgb, #0d6efd 40%, var(--bs-body-color, #212529)));
+  font-weight: 700;
 }
 
 .step-primary .step-circle {
-  color: #0d6efd;
-  border-color: #0d6efd;
+  color: var(--bs-primary-text-emphasis, color-mix(in srgb, var(--bs-primary, #0d6efd) 40%, var(--bs-body-color, #212529)));
+  background-color: var(--bs-body-bg, #fff);
+  border-color: var(--bs-primary, #0d6efd);
 }
 .step-primary.step-completed .step-circle {
-  color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-}
-.step-primary.step-completed .step-circle::before {
-  color: #0d6efd;
-}
-.step-primary.step-completed .step-text {
-  color: #0d6efd;
+  background-color: var(--bs-primary-bg-subtle, color-mix(in srgb, var(--bs-primary, #0d6efd) 12%, var(--bs-body-bg, #fff)));
 }
 .step-primary.step-active .step-circle {
   color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  background-color: var(--bs-primary, #0d6efd);
 }
-.step-primary.step-active::before {
-  color: #0d6efd;
+.step-primary.step-completed::before, .step-primary.step-active::before {
+  background-color: var(--bs-primary, #0d6efd);
 }
-.step-primary.step-active .step-text {
-  color: #0d6efd;
+.step-primary.step-completed .step-text, .step-primary.step-active .step-text {
+  color: var(--bs-primary-text-emphasis, color-mix(in srgb, var(--bs-primary, #0d6efd) 40%, var(--bs-body-color, #212529)));
 }
 
 .step-secondary .step-circle {
-  color: #6c757d;
-  border-color: #6c757d;
+  color: var(--bs-secondary-text-emphasis, color-mix(in srgb, var(--bs-secondary, #6c757d) 40%, var(--bs-body-color, #212529)));
+  background-color: var(--bs-body-bg, #fff);
+  border-color: var(--bs-secondary, #6c757d);
 }
 .step-secondary.step-completed .step-circle {
-  color: #fff;
-  background-color: #6c757d;
-  border-color: #6c757d;
-}
-.step-secondary.step-completed .step-circle::before {
-  color: #6c757d;
-}
-.step-secondary.step-completed .step-text {
-  color: #6c757d;
+  background-color: var(--bs-secondary-bg-subtle, color-mix(in srgb, var(--bs-secondary, #6c757d) 12%, var(--bs-body-bg, #fff)));
 }
 .step-secondary.step-active .step-circle {
   color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  background-color: var(--bs-secondary, #6c757d);
 }
-.step-secondary.step-active::before {
-  color: #0d6efd;
+.step-secondary.step-completed::before, .step-secondary.step-active::before {
+  background-color: var(--bs-secondary, #6c757d);
 }
-.step-secondary.step-active .step-text {
-  color: #0d6efd;
+.step-secondary.step-completed .step-text, .step-secondary.step-active .step-text {
+  color: var(--bs-secondary-text-emphasis, color-mix(in srgb, var(--bs-secondary, #6c757d) 40%, var(--bs-body-color, #212529)));
 }
 
 .step-success .step-circle {
-  color: #198754;
-  border-color: #198754;
+  color: var(--bs-success-text-emphasis, color-mix(in srgb, var(--bs-success, #198754) 40%, var(--bs-body-color, #212529)));
+  background-color: var(--bs-body-bg, #fff);
+  border-color: var(--bs-success, #198754);
 }
 .step-success.step-completed .step-circle {
-  color: #fff;
-  background-color: #198754;
-  border-color: #198754;
-}
-.step-success.step-completed .step-circle::before {
-  color: #198754;
-}
-.step-success.step-completed .step-text {
-  color: #198754;
+  background-color: var(--bs-success-bg-subtle, color-mix(in srgb, var(--bs-success, #198754) 12%, var(--bs-body-bg, #fff)));
 }
 .step-success.step-active .step-circle {
   color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  background-color: var(--bs-success, #198754);
 }
-.step-success.step-active::before {
-  color: #0d6efd;
+.step-success.step-completed::before, .step-success.step-active::before {
+  background-color: var(--bs-success, #198754);
 }
-.step-success.step-active .step-text {
-  color: #0d6efd;
+.step-success.step-completed .step-text, .step-success.step-active .step-text {
+  color: var(--bs-success-text-emphasis, color-mix(in srgb, var(--bs-success, #198754) 40%, var(--bs-body-color, #212529)));
 }
 
 .step-info .step-circle {
-  color: #0dcaf0;
-  border-color: #0dcaf0;
+  color: var(--bs-info-text-emphasis, color-mix(in srgb, var(--bs-info, #0dcaf0) 40%, var(--bs-body-color, #212529)));
+  background-color: var(--bs-body-bg, #fff);
+  border-color: var(--bs-info, #0dcaf0);
 }
 .step-info.step-completed .step-circle {
-  color: #fff;
-  background-color: #0dcaf0;
-  border-color: #0dcaf0;
-}
-.step-info.step-completed .step-circle::before {
-  color: #0dcaf0;
-}
-.step-info.step-completed .step-text {
-  color: #0dcaf0;
+  background-color: var(--bs-info-bg-subtle, color-mix(in srgb, var(--bs-info, #0dcaf0) 12%, var(--bs-body-bg, #fff)));
 }
 .step-info.step-active .step-circle {
-  color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  color: #000;
+  background-color: var(--bs-info, #0dcaf0);
 }
-.step-info.step-active::before {
-  color: #0d6efd;
+.step-info.step-completed::before, .step-info.step-active::before {
+  background-color: var(--bs-info, #0dcaf0);
 }
-.step-info.step-active .step-text {
-  color: #0d6efd;
+.step-info.step-completed .step-text, .step-info.step-active .step-text {
+  color: var(--bs-info-text-emphasis, color-mix(in srgb, var(--bs-info, #0dcaf0) 40%, var(--bs-body-color, #212529)));
 }
 
 .step-warning .step-circle {
-  color: #ffc107;
-  border-color: #ffc107;
+  color: var(--bs-warning-text-emphasis, color-mix(in srgb, var(--bs-warning, #ffc107) 40%, var(--bs-body-color, #212529)));
+  background-color: var(--bs-body-bg, #fff);
+  border-color: var(--bs-warning, #ffc107);
 }
 .step-warning.step-completed .step-circle {
-  color: #fff;
-  background-color: #ffc107;
-  border-color: #ffc107;
-}
-.step-warning.step-completed .step-circle::before {
-  color: #ffc107;
-}
-.step-warning.step-completed .step-text {
-  color: #ffc107;
+  background-color: var(--bs-warning-bg-subtle, color-mix(in srgb, var(--bs-warning, #ffc107) 12%, var(--bs-body-bg, #fff)));
 }
 .step-warning.step-active .step-circle {
-  color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  color: #000;
+  background-color: var(--bs-warning, #ffc107);
 }
-.step-warning.step-active::before {
-  color: #0d6efd;
+.step-warning.step-completed::before, .step-warning.step-active::before {
+  background-color: var(--bs-warning, #ffc107);
 }
-.step-warning.step-active .step-text {
-  color: #0d6efd;
+.step-warning.step-completed .step-text, .step-warning.step-active .step-text {
+  color: var(--bs-warning-text-emphasis, color-mix(in srgb, var(--bs-warning, #ffc107) 40%, var(--bs-body-color, #212529)));
 }
 
 .step-danger .step-circle {
-  color: #dc3545;
-  border-color: #dc3545;
+  color: var(--bs-danger-text-emphasis, color-mix(in srgb, var(--bs-danger, #dc3545) 40%, var(--bs-body-color, #212529)));
+  background-color: var(--bs-body-bg, #fff);
+  border-color: var(--bs-danger, #dc3545);
 }
 .step-danger.step-completed .step-circle {
-  color: #fff;
-  background-color: #dc3545;
-  border-color: #dc3545;
-}
-.step-danger.step-completed .step-circle::before {
-  color: #dc3545;
-}
-.step-danger.step-completed .step-text {
-  color: #dc3545;
+  background-color: var(--bs-danger-bg-subtle, color-mix(in srgb, var(--bs-danger, #dc3545) 12%, var(--bs-body-bg, #fff)));
 }
 .step-danger.step-active .step-circle {
   color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  background-color: var(--bs-danger, #dc3545);
 }
-.step-danger.step-active::before {
-  color: #0d6efd;
+.step-danger.step-completed::before, .step-danger.step-active::before {
+  background-color: var(--bs-danger, #dc3545);
 }
-.step-danger.step-active .step-text {
-  color: #0d6efd;
+.step-danger.step-completed .step-text, .step-danger.step-active .step-text {
+  color: var(--bs-danger-text-emphasis, color-mix(in srgb, var(--bs-danger, #dc3545) 40%, var(--bs-body-color, #212529)));
 }
 
 .step-light .step-circle {
-  color: #f8f9fa;
-  border-color: #f8f9fa;
+  color: var(--bs-light-text-emphasis, color-mix(in srgb, var(--bs-light, #f8f9fa) 40%, var(--bs-body-color, #212529)));
+  background-color: var(--bs-body-bg, #fff);
+  border-color: var(--bs-light, #f8f9fa);
 }
 .step-light.step-completed .step-circle {
-  color: #fff;
-  background-color: #f8f9fa;
-  border-color: #f8f9fa;
-}
-.step-light.step-completed .step-circle::before {
-  color: #f8f9fa;
-}
-.step-light.step-completed .step-text {
-  color: #f8f9fa;
+  background-color: var(--bs-light-bg-subtle, color-mix(in srgb, var(--bs-light, #f8f9fa) 12%, var(--bs-body-bg, #fff)));
 }
 .step-light.step-active .step-circle {
-  color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  color: #000;
+  background-color: var(--bs-light, #f8f9fa);
 }
-.step-light.step-active::before {
-  color: #0d6efd;
+.step-light.step-completed::before, .step-light.step-active::before {
+  background-color: var(--bs-light, #f8f9fa);
 }
-.step-light.step-active .step-text {
-  color: #0d6efd;
+.step-light.step-completed .step-text, .step-light.step-active .step-text {
+  color: var(--bs-light-text-emphasis, color-mix(in srgb, var(--bs-light, #f8f9fa) 40%, var(--bs-body-color, #212529)));
 }
 
 .step-dark .step-circle {
-  color: #212529;
-  border-color: #212529;
+  color: var(--bs-dark-text-emphasis, color-mix(in srgb, var(--bs-dark, #212529) 40%, var(--bs-body-color, #212529)));
+  background-color: var(--bs-body-bg, #fff);
+  border-color: var(--bs-dark, #212529);
 }
 .step-dark.step-completed .step-circle {
-  color: #fff;
-  background-color: #212529;
-  border-color: #212529;
-}
-.step-dark.step-completed .step-circle::before {
-  color: #212529;
-}
-.step-dark.step-completed .step-text {
-  color: #212529;
+  background-color: var(--bs-dark-bg-subtle, color-mix(in srgb, var(--bs-dark, #212529) 12%, var(--bs-body-bg, #fff)));
 }
 .step-dark.step-active .step-circle {
   color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  background-color: var(--bs-dark, #212529);
 }
-.step-dark.step-active::before {
-  color: #0d6efd;
+.step-dark.step-completed::before, .step-dark.step-active::before {
+  background-color: var(--bs-dark, #212529);
 }
-.step-dark.step-active .step-text {
-  color: #0d6efd;
+.step-dark.step-completed .step-text, .step-dark.step-active .step-text {
+  color: var(--bs-dark-text-emphasis, color-mix(in srgb, var(--bs-dark, #212529) 40%, var(--bs-body-color, #212529)));
 }
 
 .step-link .step-circle {
-  color: #3273dc;
-  border-color: #3273dc;
+  color: var(--bs-link-text-emphasis, color-mix(in srgb, var(--bs-link, #3273dc) 40%, var(--bs-body-color, #212529)));
+  background-color: var(--bs-body-bg, #fff);
+  border-color: var(--bs-link, #3273dc);
 }
 .step-link.step-completed .step-circle {
-  color: #fff;
-  background-color: #3273dc;
-  border-color: #3273dc;
-}
-.step-link.step-completed .step-circle::before {
-  color: #3273dc;
-}
-.step-link.step-completed .step-text {
-  color: #3273dc;
+  background-color: var(--bs-link-bg-subtle, color-mix(in srgb, var(--bs-link, #3273dc) 12%, var(--bs-body-bg, #fff)));
 }
 .step-link.step-active .step-circle {
   color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  background-color: var(--bs-link, #3273dc);
 }
-.step-link.step-active::before {
-  color: #0d6efd;
+.step-link.step-completed::before, .step-link.step-active::before {
+  background-color: var(--bs-link, #3273dc);
 }
-.step-link.step-active .step-text {
-  color: #0d6efd;
+.step-link.step-completed .step-text, .step-link.step-active .step-text {
+  color: var(--bs-link-text-emphasis, color-mix(in srgb, var(--bs-link, #3273dc) 40%, var(--bs-body-color, #212529)));
+}
+
+.steps .step.step-custom .step-circle {
+  color: color-mix(in srgb, var(--bs-step-color) 40%, var(--bs-body-color, #212529));
+  background-color: var(--bs-body-bg, #fff);
+  border-color: var(--bs-step-color);
+}
+.steps .step.step-custom.step-completed .step-circle {
+  background-color: color-mix(in srgb, var(--bs-step-color) 12%, var(--bs-body-bg, #fff));
+}
+.steps .step.step-custom.step-active .step-circle {
+  color: #fff;
+  background-color: var(--bs-step-color);
+}
+@supports (color: contrast-color(white)) {
+  .steps .step.step-custom.step-active .step-circle {
+    color: contrast-color(var(--bs-step-color));
+  }
+}
+.steps .step.step-custom.step-completed::before, .steps .step.step-custom.step-active::before {
+  background-color: var(--bs-step-color);
+}
+.steps .step.step-custom.step-completed .step-text, .steps .step.step-custom.step-active .step-text {
+  color: color-mix(in srgb, var(--bs-step-color) 40%, var(--bs-body-color, #212529));
 }
 
 .steps-content {
@@ -4624,27 +4581,6 @@ li.list-group-item-action {
 }
 .steps-content > .active {
   display: block;
-}
-
-.steps .step.step-custom.step-active .step-text, .steps .step.step-custom.step-completed .step-text {
-  color: color-mix(in srgb, var(--bs-step-color) 40%, var(--bs-body-color));
-}
-.steps .step.step-custom .step-circle {
-  color: var(--bs-step-color);
-  border-color: var(--bs-step-color);
-}
-.steps .step.step-custom.step-active .step-circle, .steps .step.step-custom.step-completed .step-circle {
-  background-color: var(--bs-step-color);
-  border-color: var(--bs-step-color);
-  color: white;
-}
-@supports (color: contrast-color(white)) {
-  .steps .step.step-custom.step-active .step-circle, .steps .step.step-custom.step-completed .step-circle {
-    color: contrast-color(var(--bs-step-color));
-  }
-}
-.steps .step.step-custom.step-active .step-circle::before, .steps .step.step-custom.step-completed .step-circle::before {
-  color: var(--bs-step-color);
 }
 
 .form-check.form-switch .form-check-input.form-check-input-primary:checked {

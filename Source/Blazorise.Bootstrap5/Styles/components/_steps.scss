@@ -1,177 +1,196 @@
 ﻿.steps {
-    padding: 0;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    padding: $step-container-padding-top 0;
     margin: 0;
     list-style: none;
-    display: flex;
     overflow-x: auto;
-
-    .step {
-        &:first-child {
-            margin-left: auto;
-        }
-
-        &:last-child {
-            margin-right: auto;
-        }
-    }
 }
 
 .step {
+    position: relative;
+    flex: 1 0 $step-container-width;
+    min-width: 0;
     cursor: pointer;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset-inline-end: calc((#{$step-container-width} + #{$step-circle-size} + #{$step-gutter}) / 2);
+        top: calc(#{$step-circle-size} / 2);
+        width: calc(100% - #{$step-circle-size} - #{$step-gutter});
+        height: $step-circle-border-width;
+        transform: translateY(-50%);
+        background-color: var(--bs-border-color, #{$border-color});
+        border-radius: $step-circle-border-width;
+        pointer-events: none;
+    }
+
+    &:first-child {
+        flex: 0 0 $step-container-width;
+
+        &::before {
+            display: none;
+        }
+    }
 
     &:focus-visible {
         outline: none;
 
-        .step-circle,
-        &:not(:has(.step-circle)) .step-text {
+        .step-circle {
             outline: 2px solid transparent;
             outline-offset: 2px;
-            box-shadow: 0 0 0 2px var(--bs-body-bg, #{$body-bg}), 0 0 0 4px var(--bs-primary, #{$primary}), 0 0 0 6px color-mix(in srgb, var(--bs-primary, #{$primary}) 16%, transparent);
+            box-shadow: 0 0 0 2px var(--bs-body-bg, #{$body-bg}),
+                0 0 0 4px var(--bs-primary, #{$step-icon-active-color}),
+                0 0 0 6px color-mix(in srgb, var(--bs-primary, #{$step-icon-active-color}) 16%, transparent);
 
             @media (forced-colors: active) {
                 outline-color: Highlight;
                 box-shadow: none;
             }
         }
-
-        &:not(:has(.step-circle)) .step-text {
-            border-radius: var(--bs-border-radius, #{$border-radius});
-        }
-    }
-
-    &:first-of-type {
-        .step-circle::before {
-            display: none;
-        }
-    }
-
-    &:last-of-type {
-        .step-container {
-            padding-right: 0;
-        }
     }
 }
 
 .step-container {
-    box-sizing: content-box;
     display: flex;
     align-items: center;
     flex-direction: column;
     width: $step-container-width;
-    min-width: $step-container-width;
-    max-width: $step-container-width;
-    padding-top: $step-container-padding-top;
-    padding-right: $step-gutter;
+    min-width: 0;
+    margin-inline-start: auto;
+    padding: 0 ($step-gutter * .5);
 }
 
 .step-circle {
-    position: relative;
     display: flex;
+    flex: 0 0 auto;
     justify-content: center;
     align-items: center;
     width: $step-circle-size;
     height: $step-circle-size;
-    color: $step-icon-color;
-    border: $step-circle-border-width solid $step-icon-color;
-    border-radius: 100%;
-    background-color: $step-icon-background;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    line-height: 1;
+    color: var(--bs-secondary-color, #{$step-icon-color});
+    background-color: var(--bs-tertiary-bg, #{$step-icon-background});
+    border: $border-width solid var(--bs-border-color, #{$border-color});
+    border-radius: 50%;
+}
 
-    &::before {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: -$step-circle-border-width;
-        width: calc(#{$step-container-width} + #{$step-gutter} - #{$step-circle-size});
-        height: $step-circle-border-width;
-        transform: translate(-100%, -50%);
-        color: $step-icon-color;
-        background-color: currentColor;
-    }
+.step-check {
+    width: 1rem;
+    height: 1rem;
 }
 
 .step-text {
-    color: $step-text-color;
-    word-break: keep-all;
+    max-width: 100%;
+    margin-top: $step-gutter * .5;
+    font-size: $font-size-sm;
+    color: var(--bs-secondary-color, #{$step-text-color});
+    overflow-wrap: anywhere;
     text-align: center;
-    margin-top: 0.25em;
 }
 
-
 .step-completed {
-    .step-circle {
-        color: $white;
-        background-color: $step-icon-completed-color;
-        border-color: $step-icon-completed-color;
+    &::before {
+        background-color: var(--bs-success, #{$step-icon-completed-color});
+    }
 
-        &::before {
-            color: $step-icon-completed-color;
-        }
+    .step-circle {
+        color: color-mix(in srgb, var(--bs-success, #{$step-icon-completed-color}) 40%, var(--bs-body-color, #{$body-color}));
+        background-color: color-mix(in srgb, var(--bs-success, #{$step-icon-completed-color}) 12%, var(--bs-body-bg, #{$body-bg}));
+        border-color: var(--bs-success, #{$step-icon-completed-color});
     }
 
     .step-text {
-        color: $step-icon-completed-color;
+        color: var(--bs-success-text-emphasis, color-mix(in srgb, #{$step-text-completed-color} 40%, var(--bs-body-color, #{$body-color})));
     }
 }
 
 .step-active {
-    .step-circle {
-        color: $white;
-        background-color: $step-icon-active-color;
-        border-color: $step-icon-active-color;
+    &::before {
+        background-color: var(--bs-primary, #{$step-icon-active-color});
+    }
 
-        &::before {
-            color: $step-icon-active-color;
-        }
+    .step-circle {
+        color: color-contrast($step-icon-active-color);
+        background-color: var(--bs-primary, #{$step-icon-active-color});
+        border-color: var(--bs-primary, #{$step-icon-active-color});
     }
 
     .step-text {
-        color: $step-text-active-color;
+        color: var(--bs-primary-text-emphasis, color-mix(in srgb, #{$step-text-active-color} 40%, var(--bs-body-color, #{$body-color})));
+        font-weight: $font-weight-bold;
     }
 }
 
-
 @each $name, $value in $theme-colors {
-    $color: $value;
-    $color-invert: color-contrast($value);
+    $color: var(--bs-#{$name}, #{$value});
+    $text: var(--bs-#{$name}-text-emphasis, color-mix(in srgb, #{$color} 40%, var(--bs-body-color, #{$body-color})));
 
     .step-#{$name} {
         .step-circle {
-            color: $color;
+            color: $text;
+            background-color: var(--bs-body-bg, #{$body-bg});
             border-color: $color;
         }
 
         &.step-completed {
             .step-circle {
-                color: $white;
-                background-color: $color;
-                border-color: $color;
-
-                &::before {
-                    color: $color;
-                }
-            }
-
-            .step-text {
-                color: $color;
+                background-color: var(--bs-#{$name}-bg-subtle, color-mix(in srgb, #{$color} 12%, var(--bs-body-bg, #{$body-bg})));
             }
         }
 
         &.step-active {
             .step-circle {
-                color: $white;
-                background-color: $step-icon-active-color;
-                border-color: $step-icon-active-color;
+                color: color-contrast($value);
+                background-color: $color;
             }
+        }
 
-
+        &.step-completed,
+        &.step-active {
             &::before {
-                color: $step-icon-active-color;
+                background-color: $color;
             }
 
             .step-text {
-                color: $step-text-active-color;
+                color: $text;
             }
+        }
+    }
+}
+
+.steps .step.step-custom {
+    .step-circle {
+        color: color-mix(in srgb, var(--bs-step-color) 40%, var(--bs-body-color, #{$body-color}));
+        background-color: var(--bs-body-bg, #{$body-bg});
+        border-color: var(--bs-step-color);
+    }
+
+    &.step-completed .step-circle {
+        background-color: color-mix(in srgb, var(--bs-step-color) 12%, var(--bs-body-bg, #{$body-bg}));
+    }
+
+    &.step-active .step-circle {
+        color: $white;
+        background-color: var(--bs-step-color);
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--bs-step-color));
+        }
+    }
+
+    &.step-completed,
+    &.step-active {
+        &::before {
+            background-color: var(--bs-step-color);
+        }
+
+        .step-text {
+            color: color-mix(in srgb, var(--bs-step-color) 40%, var(--bs-body-color, #{$body-color}));
         }
     }
 }
@@ -185,36 +204,5 @@
 
     > .active {
         display: block;
-    }
-}
-
-.steps .step.step-custom {
-    &.step-active,
-    &.step-completed {
-        .step-text {
-            color: color-mix(in srgb, var(--bs-step-color) 40%, var(--bs-body-color));
-        }
-    }
-
-    .step-circle {
-        color: var(--bs-step-color);
-        border-color: var(--bs-step-color);
-    }
-
-    &.step-active,
-    &.step-completed {
-        .step-circle {
-            background-color: var(--bs-step-color);
-            border-color: var(--bs-step-color);
-            color: white;
-
-            @supports (color: contrast-color(white)) {
-                color: contrast-color(var(--bs-step-color));
-            }
-
-            &::before {
-                color: var(--bs-step-color);
-            }
-        }
     }
 }

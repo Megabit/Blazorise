@@ -763,95 +763,81 @@ public class BootstrapThemeGenerator : ThemeGenerator
 
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
     {
+        var backgroundColor = Var( ThemeVariables.BodyBackgroundColor, Var( ThemeVariables.White ) );
+        var textColor = Var( ThemeVariables.BodyTextColor );
+
         sb
             .Append( "@media (forced-colors: none){" )
-            .Append( ".step:focus-visible .step-circle, .step:focus-visible:not(:has(.step-circle)) .step-text" ).Append( "{" )
-            .Append( $"box-shadow: 0 0 0 2px {Var( ThemeVariables.BodyBackgroundColor, Var( ThemeVariables.White ) )}," )
+            .Append( ".step:focus-visible .step-circle" ).Append( "{" )
+            .Append( $"box-shadow: 0 0 0 2px {backgroundColor}," )
             .Append( $"0 0 0 4px {Var( ThemeVariables.Color( "primary" ) )}," )
             .Append( $"0 0 0 6px color-mix(in srgb, {Var( ThemeVariables.Color( "primary" ) )} 16%, transparent);" )
             .AppendLine( "}}" );
 
         if ( stepsOptions is null )
+        {
             return;
+        }
+
+        var completedColor = Var( ThemeVariables.StepsItemIconCompleted, Var( ThemeVariables.Color( "success" ) ) );
+        var activeColor = Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) );
+        var completedTextColor = Var( ThemeVariables.StepsItemTextCompleted, completedColor );
+        var activeTextColor = Var( ThemeVariables.StepsItemTextActive, activeColor );
 
         sb
             .Append( ".step-completed .step-circle" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.White )};" )
-            .Append( $"background-color: {Var( ThemeVariables.StepsItemIconCompleted, Var( ThemeVariables.Color( "success" ) ) )};" )
-            .Append( $"border-color: {Var( ThemeVariables.StepsItemIconCompleted, Var( ThemeVariables.Color( "success" ) ) )};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( ".step-completed .step-circle::before" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.StepsItemIconCompleted, Var( ThemeVariables.Color( "success" ) ) )};" )
-            .AppendLine( "}" );
-
-        sb
+            .Append( $"color: color-mix(in srgb, {completedColor} 40%, {textColor});" )
+            .Append( $"background-color: color-mix(in srgb, {completedColor} 12%, {backgroundColor});" )
+            .Append( $"border-color: {completedColor};" )
+            .AppendLine( "}" )
+            .Append( ".step-completed::before" ).Append( "{" )
+            .Append( $"background-color: {completedColor};" )
+            .AppendLine( "}" )
             .Append( ".step-completed .step-text" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.StepsItemTextCompleted, Var( ThemeVariables.Color( "success" ) ) )};" )
-            .AppendLine( "}" );
-
-        sb
+            .Append( $"color: color-mix(in srgb, {completedTextColor} 40%, {textColor});" )
+            .AppendLine( "}" )
             .Append( ".step-active .step-circle" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.White )};" )
-            .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
-            .Append( $"border-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( ".step-active .step-circle::before" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
-            .AppendLine( "}" );
-
-        sb
+            .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq, Var( ThemeVariables.White ) )};" )
+            .Append( $"background-color: {activeColor};" )
+            .Append( $"border-color: {activeColor};" )
+            .AppendLine( "}" )
+            .Append( ".step-active::before" ).Append( "{" )
+            .Append( $"background-color: {activeColor};" )
+            .AppendLine( "}" )
             .Append( ".step-active .step-text" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.StepsItemTextActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+            .Append( $"color: color-mix(in srgb, {activeTextColor} 40%, {textColor});" )
             .AppendLine( "}" );
     }
 
     protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
     {
-        if ( stepsOptions is null )
-            return;
+        var color = Var( ThemeVariables.VariantStepsItemIcon( variant ) );
+        var contrastColor = Var( ThemeVariables.VariantStepsItemIconYiq( variant ) );
+        var backgroundColor = Var( ThemeVariables.BodyBackgroundColor, Var( ThemeVariables.White ) );
+        var textColor = Var( ThemeVariables.BodyTextColor );
+        var variantTextColor = Var( ThemeVariables.VariantStepsItemText( variant ) );
 
         sb
             .Append( $".step-{variant} .step-circle" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
-            .Append( $"border-color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
-            .AppendLine( "}" );
-
-        sb
+            .Append( $"color: color-mix(in srgb, {color} 40%, {textColor});" )
+            .Append( $"background-color: {backgroundColor};" )
+            .Append( $"border-color: {color};" )
+            .AppendLine( "}" )
             .Append( $".step-{variant}.step-completed .step-circle" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.VariantStepsItemIconYiq( variant ) )};" )
-            .Append( $"background-color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
-            .Append( $"border-color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".step-{variant}.step-completed .step-circle::before" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".step-{variant}.step-completed .step-text" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.VariantStepsItemText( variant ) )};" )
-            .AppendLine( "}" );
-
-        sb
+            .Append( $"color: color-mix(in srgb, {color} 40%, {textColor});" )
+            .Append( $"background-color: color-mix(in srgb, {color} 12%, {backgroundColor});" )
+            .Append( $"border-color: {color};" )
+            .AppendLine( "}" )
             .Append( $".step-{variant}.step-active .step-circle" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq, Var( ThemeVariables.White ) )};" )
-            .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
-            .Append( $"border-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".step-{variant}.step-active::before" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".step-{variant}.step-active .step-text" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+            .Append( $"color: {contrastColor};" )
+            .Append( $"background-color: {color};" )
+            .Append( $"border-color: {color};" )
+            .AppendLine( "}" )
+            .Append( $".step-{variant}.step-completed::before, .step-{variant}.step-active::before" ).Append( "{" )
+            .Append( $"background-color: {color};" )
+            .AppendLine( "}" )
+            .Append( $".step-{variant}.step-completed .step-text, .step-{variant}.step-active .step-text" ).Append( "{" )
+            .Append( $"color: color-mix(in srgb, {variantTextColor} 40%, {textColor});" )
             .AppendLine( "}" );
     }
 
