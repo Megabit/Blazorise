@@ -21,7 +21,7 @@
         min-inline-size: 0;
         cursor: pointer;
 
-        &:last-child {
+        &:first-child {
             flex: 0 0 var(--fluent-wizard-content-size);
         }
 
@@ -62,7 +62,7 @@
             place-items: center;
             inline-size: calc(1.2 * var(--fluent-wizard-circle-size));
             block-size: calc(1.2 * var(--fluent-wizard-circle-size));
-            margin-inline-start: calc((var(--fluent-wizard-content-size) - 1.2 * var(--fluent-wizard-circle-size)) * 0.5);
+            margin-inline-start: calc(100% - (var(--fluent-wizard-content-size) + 1.2 * var(--fluent-wizard-circle-size)) * 0.5);
 
             > svg {
                 display: block;
@@ -92,23 +92,31 @@
 
         .fui-Step__text {
             inline-size: var(--fluent-wizard-content-size);
+            margin-inline-start: auto;
             text-align: center;
             white-space: normal;
             word-break: normal;
             overflow-wrap: break-word;
         }
 
-        &:not(:last-child) {
+        &:not(:first-child) {
             &::after {
                 content: "";
                 position: absolute;
-                inset-inline-start: calc((var(--fluent-wizard-content-size) + 1.2 * var(--fluent-wizard-circle-size)) * 0.5 + var(--fluent-wizard-spacing));
-                inset-inline-end: calc((1.2 * var(--fluent-wizard-circle-size) - var(--fluent-wizard-content-size)) * 0.5 + var(--fluent-wizard-spacing));
+                inset-inline-start: calc((1.2 * var(--fluent-wizard-circle-size) - var(--fluent-wizard-content-size)) * 0.5 + var(--fluent-wizard-spacing));
+                inset-inline-end: calc((var(--fluent-wizard-content-size) + 1.2 * var(--fluent-wizard-circle-size)) * 0.5 + var(--fluent-wizard-spacing));
                 top: calc(var(--fluent-wizard-circle-size) * 0.6);
                 height: var(--strokeWidthThick);
                 transform: translateY(-50%);
                 background-color: var(--colorNeutralStroke1);
                 pointer-events: none;
+            }
+        }
+
+        &.fui-Step-active,
+        &.fui-Step-completed {
+            &::after {
+                background-color: var(--colorBrandBackground);
             }
         }
 
@@ -128,11 +136,68 @@
 
                 &.fui-Step-active,
                 &.fui-Step-completed {
+                    &::after {
+                        background-color: $value;
+                    }
+
                     .fui-Step__circle-number {
                         color: var(--colorNeutralForegroundOnBrand);
                     }
                 }
             }
+        }
+    }
+}
+
+.fui-Steps.fui-Steps-vertical {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    // Equal rows let incoming connectors span the previous row when captions wrap.
+    grid-auto-rows: 1fr;
+    row-gap: var(--spacingVerticalXXL);
+    align-items: stretch;
+    overflow: visible;
+    padding-inline: var(--spacingHorizontalS);
+
+    > .fui-Step {
+        flex-direction: row;
+        gap: var(--spacingHorizontalM);
+        inline-size: 100%;
+
+        .fui-Step__circle {
+            flex: none;
+            margin-inline-start: 0;
+        }
+
+        .fui-Step__text {
+            flex: 1;
+            min-inline-size: 0;
+            inline-size: auto;
+            margin-inline-start: 0;
+            padding-block-start: var(--spacingVerticalXS);
+            text-align: start;
+        }
+
+        &:not(:first-child)::after {
+            inset-inline-start: calc((1.2 * var(--fluent-wizard-circle-size) - var(--strokeWidthThick)) * .5);
+            inset-inline-end: auto;
+            top: calc(1.2 * var(--fluent-wizard-circle-size) + var(--fluent-wizard-spacing) - 100% - var(--spacingVerticalXXL));
+            width: var(--strokeWidthThick);
+            height: calc(100% + var(--spacingVerticalXXL) - 1.2 * var(--fluent-wizard-circle-size) - 2 * var(--fluent-wizard-spacing));
+            transform: none;
+        }
+    }
+
+    &.fui-Steps-end > .fui-Step {
+        flex-direction: row-reverse;
+
+        &:not(:first-child)::after {
+            inset-inline-start: auto;
+            inset-inline-end: calc((1.2 * var(--fluent-wizard-circle-size) - var(--strokeWidthThick)) * .5);
+        }
+
+        .fui-Step__text {
+            text-align: end;
         }
     }
 }
@@ -175,7 +240,8 @@
         }
     }
 
-    &.fui-Step-completed:not(:last-child)::after {
+    &.fui-Step-active::after,
+    &.fui-Step-completed::after {
         background-color: var(--colorStepBackground);
     }
 }

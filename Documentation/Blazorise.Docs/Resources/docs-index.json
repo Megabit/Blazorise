@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-29T14:40:49.2156573Z",
+  "generatedUtc": "2026-09-29T19:13:06.2815839Z",
   "pages": [
     {
       "route": "/docs",
@@ -3889,6 +3889,14 @@
           "sourcePath": "Pages/Docs/Components/Steps/Examples/BasicStepExample.razor",
           "content": "<Steps SelectedStep=\"@selectedStep\" SelectedStepChanged=\"@OnSelectedStepChanged\">\r\n    <Items>\r\n        <Step Name=\"step1\">Create campaign settings</Step>\r\n        <Step Name=\"step2\">Create an ad group</Step>\r\n        <Step Name=\"step3\">Create an add</Step>\r\n        <Step Name=\"step4\">\r\n            <Marker>\r\n                <Icon Name=\"IconName.Flag\" />\r\n            </Marker>\r\n            <Caption>\r\n                Finish\r\n            </Caption>\r\n        </Step>\r\n    </Items>\r\n    <Content>\r\n        <StepPanel Name=\"step1\">\r\n            Content for step 1.\r\n        </StepPanel>\r\n        <StepPanel Name=\"step2\">\r\n            Content for step 2.\r\n        </StepPanel>\r\n        <StepPanel Name=\"step3\">\r\n            Content for step 3.\r\n        </StepPanel>\r\n        <StepPanel Name=\"step4\">\r\n            Content for finish.\r\n        </StepPanel>\r\n    </Content>\r\n</Steps>\r\n@code{\r\n    string selectedStep = \"step1\";\r\n\r\n    private Task OnSelectedStepChanged( string name )\r\n    {\r\n        selectedStep = name;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
           "title": "Basic"
+        },
+        {
+          "code": "VerticalStepExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Steps/Examples/VerticalStepExample.razor",
+          "content": "<Steps @bind-SelectedStep=\"selectedStep\" StepPosition=\"StepPosition.Start\" AriaLabel=\"Checkout progress\">\r\n    <Items>\r\n        <Step Name=\"delivery\" Completed>Delivery details</Step>\r\n        <Step Name=\"payment\">Payment method</Step>\r\n        <Step Name=\"review\">Review your order</Step>\r\n    </Items>\r\n    <Content>\r\n        <StepPanel Name=\"delivery\" Padding=\"Padding.Is3\">\r\n            <Heading Size=\"HeadingSize.Is5\">Delivery details</Heading>\r\n            <Paragraph>Choose where your order should be delivered.</Paragraph>\r\n            <Paragraph Margin=\"Margin.Is0.FromBottom\">You can return to this step to check your address before placing the order.</Paragraph>\r\n        </StepPanel>\r\n        <StepPanel Name=\"payment\" Padding=\"Padding.Is3\">\r\n            <Heading Size=\"HeadingSize.Is5\">Payment method</Heading>\r\n            <Paragraph>Select how you would like to pay for your order.</Paragraph>\r\n            <Paragraph Margin=\"Margin.Is0.FromBottom\">Your delivery details are complete. Review your order when you are ready to continue.</Paragraph>\r\n        </StepPanel>\r\n        <StepPanel Name=\"review\" Padding=\"Padding.Is3\">\r\n            <Heading Size=\"HeadingSize.Is5\">Review your order</Heading>\r\n            <Paragraph>Check your items, delivery address, and payment method.</Paragraph>\r\n            <Paragraph Margin=\"Margin.Is0.FromBottom\">Select an earlier step if you need to make a change.</Paragraph>\r\n        </StepPanel>\r\n    </Content>\r\n</Steps>\r\n@code {\r\n    private string selectedStep = \"payment\";\r\n}",
+          "title": "Placement",
+          "description": "Use StepPosition.Start or StepPosition.End to place steps on either side of their content. StepPosition.Top is the default, and StepPosition.Bottom places the steps below the content. The step list takes the space it needs, and the content fills the remaining width. Use the up and down arrow keys to move between vertical steps."
         },
         {
           "code": "StepNavigationAllowedExample",

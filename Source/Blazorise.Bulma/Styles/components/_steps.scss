@@ -200,6 +200,67 @@
     }
 }
 
+.steps.is-vertical {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    // Equal rows let incoming connectors span the previous row when captions wrap.
+    grid-auto-rows: 1fr;
+    row-gap: 1.5em;
+    align-items: stretch;
+    overflow: visible;
+    padding-inline: .5em;
+
+    > .step-item {
+        display: flex;
+        align-items: flex-start;
+        gap: .75em;
+        width: 100%;
+
+        &::before {
+            display: block;
+            inset-inline-start: calc((#{$steps-marker-size} - #{$steps-divider-height}) / 2);
+            inset-inline-end: auto;
+            top: calc(#{$steps-marker-size} - 100% - 1.25em);
+            width: $steps-divider-height;
+            height: calc(100% - #{$steps-marker-size} + 1em);
+            transform: none;
+        }
+
+        &:first-child {
+            &::before {
+                display: none;
+            }
+        }
+
+        .step-marker {
+            flex: none;
+            margin-inline-start: 0;
+        }
+
+        .step-details {
+            flex: 1;
+            min-width: 0;
+            width: auto;
+            margin: 0;
+            padding: .25em 0 0;
+            text-align: start;
+        }
+    }
+
+    &.is-end > .step-item {
+        flex-direction: row-reverse;
+
+        &::before {
+            inset-inline-start: auto;
+            inset-inline-end: calc((#{$steps-marker-size} - #{$steps-divider-height}) / 2);
+        }
+
+        .step-details {
+            text-align: end;
+        }
+    }
+}
+
 .steps-content {
     margin: 2rem 0;
 

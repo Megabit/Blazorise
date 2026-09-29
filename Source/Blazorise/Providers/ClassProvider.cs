@@ -707,6 +707,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Steps();
 
+    public virtual string StepsPosition( StepPosition stepPosition ) => null;
+
     public abstract string StepItem();
 
     public abstract string StepItemActive( bool active );

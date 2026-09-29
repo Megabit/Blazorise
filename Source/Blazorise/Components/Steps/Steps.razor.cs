@@ -21,6 +21,8 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>, IAsyncDis
 
     private StepsState state = new();
 
+    private StepPosition stepPosition = StepPosition.Top;
+
     private readonly List<Step> stepItems = new();
 
     private readonly List<StepPanel> stepPanels = new();
@@ -79,6 +81,7 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>, IAsyncDis
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Steps() );
+        builder.Append( ClassProvider.StepsPosition( StepPosition ) );
 
         base.BuildClasses( builder );
     }
@@ -259,6 +262,16 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>, IAsyncDis
     protected string ContentClassNames => ContentClassBuilder.Class;
 
     /// <summary>
+    /// Gets the orientation serialized for assistive technology.
+    /// </summary>
+    protected string AriaOrientationString => IsVertical ? "vertical" : "horizontal";
+
+    /// <summary>
+    /// Gets whether the steps are placed beside their content.
+    /// </summary>
+    protected bool IsVertical => StepPosition is StepPosition.Start or StepPosition.End;
+
+    /// <summary>
     /// Gets the shared tab-list keyboard navigation module.
     /// </summary>
     [Inject] protected IJSTabsModule JSModule { get; set; }
@@ -277,6 +290,27 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>, IAsyncDis
     /// Specifies the currently selected step name.
     /// </summary>
     [Parameter] public string SelectedStep { get; set; }
+
+    /// <summary>
+    /// Specifies the placement of the steps relative to their content.
+    /// Defaults to <see cref="StepPosition.Top"/>.
+    /// </summary>
+    [Parameter]
+    public StepPosition StepPosition
+    {
+        get => stepPosition;
+        set
+        {
+            if ( stepPosition == value )
+            {
+                return;
+            }
+
+            stepPosition = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Specifies how the steps content will be rendered.

@@ -4022,12 +4022,12 @@ li.list-group-item-action {
   background-color: #28a745;
 }
 .step-completed .step-circle {
-  color: color-mix(in srgb, #28a745 40%, #212529);
-  background-color: color-mix(in srgb, #28a745 12%, #fff);
-  border-color: #28a745;
+  color: rgb(20.8, 86.84, 35.88);
+  background-color: rgb(212, 237.4, 217.8);
+  border-color: rgb(194.8, 230.36, 202.92);
 }
 .step-completed .step-text {
-  color: color-mix(in srgb, #28a745 40%, #212529);
+  color: rgb(20.8, 86.84, 35.88);
 }
 
 .step-active::before {
@@ -4049,16 +4049,22 @@ li.list-group-item-action {
   border-color: #007bff;
 }
 .step-primary.step-completed .step-circle {
-  background-color: color-mix(in srgb, #007bff 12%, #fff);
+  color: rgb(0, 63.96, 132.6);
+  background-color: rgb(204, 228.6, 255);
+  border-color: rgb(183.6, 218.04, 255);
+}
+.step-primary.step-completed .step-text {
+  color: rgb(0, 63.96, 132.6);
 }
 .step-primary.step-active .step-circle {
   color: #fff;
   background-color: #007bff;
+  border-color: #007bff;
 }
 .step-primary.step-completed::before, .step-primary.step-active::before {
   background-color: #007bff;
 }
-.step-primary.step-completed .step-text, .step-primary.step-active .step-text {
+.step-primary.step-active .step-text {
   color: color-mix(in srgb, #007bff 40%, #212529);
 }
 
@@ -4068,16 +4074,22 @@ li.list-group-item-action {
   border-color: #6c757d;
 }
 .step-secondary.step-completed .step-circle {
-  background-color: color-mix(in srgb, #6c757d 12%, #fff);
+  color: rgb(56.16, 60.84, 65);
+  background-color: rgb(225.6, 227.4, 229);
+  border-color: rgb(213.84, 216.36, 218.6);
+}
+.step-secondary.step-completed .step-text {
+  color: rgb(56.16, 60.84, 65);
 }
 .step-secondary.step-active .step-circle {
   color: #fff;
   background-color: #6c757d;
+  border-color: #6c757d;
 }
 .step-secondary.step-completed::before, .step-secondary.step-active::before {
   background-color: #6c757d;
 }
-.step-secondary.step-completed .step-text, .step-secondary.step-active .step-text {
+.step-secondary.step-active .step-text {
   color: color-mix(in srgb, #6c757d 40%, #212529);
 }
 
@@ -4087,16 +4099,22 @@ li.list-group-item-action {
   border-color: #28a745;
 }
 .step-success.step-completed .step-circle {
-  background-color: color-mix(in srgb, #28a745 12%, #fff);
+  color: rgb(20.8, 86.84, 35.88);
+  background-color: rgb(212, 237.4, 217.8);
+  border-color: rgb(194.8, 230.36, 202.92);
+}
+.step-success.step-completed .step-text {
+  color: rgb(20.8, 86.84, 35.88);
 }
 .step-success.step-active .step-circle {
   color: #fff;
   background-color: #28a745;
+  border-color: #28a745;
 }
 .step-success.step-completed::before, .step-success.step-active::before {
   background-color: #28a745;
 }
-.step-success.step-completed .step-text, .step-success.step-active .step-text {
+.step-success.step-active .step-text {
   color: color-mix(in srgb, #28a745 40%, #212529);
 }
 
@@ -4106,16 +4124,22 @@ li.list-group-item-action {
   border-color: #17a2b8;
 }
 .step-info.step-completed .step-circle {
-  background-color: color-mix(in srgb, #17a2b8 12%, #fff);
+  color: rgb(11.96, 84.24, 95.68);
+  background-color: rgb(208.6, 236.4, 240.8);
+  border-color: rgb(190.04, 228.96, 235.12);
+}
+.step-info.step-completed .step-text {
+  color: rgb(11.96, 84.24, 95.68);
 }
 .step-info.step-active .step-circle {
   color: #fff;
   background-color: #17a2b8;
+  border-color: #17a2b8;
 }
 .step-info.step-completed::before, .step-info.step-active::before {
   background-color: #17a2b8;
 }
-.step-info.step-completed .step-text, .step-info.step-active .step-text {
+.step-info.step-active .step-text {
   color: color-mix(in srgb, #17a2b8 40%, #212529);
 }
 
@@ -4125,16 +4149,22 @@ li.list-group-item-action {
   border-color: #ffc107;
 }
 .step-warning.step-completed .step-circle {
-  background-color: color-mix(in srgb, #ffc107 12%, #fff);
+  color: rgb(132.6, 100.36, 3.64);
+  background-color: rgb(255, 242.6, 205.4);
+  border-color: rgb(255, 237.64, 185.56);
+}
+.step-warning.step-completed .step-text {
+  color: rgb(132.6, 100.36, 3.64);
 }
 .step-warning.step-active .step-circle {
   color: #212529;
   background-color: #ffc107;
+  border-color: #ffc107;
 }
 .step-warning.step-completed::before, .step-warning.step-active::before {
   background-color: #ffc107;
 }
-.step-warning.step-completed .step-text, .step-warning.step-active .step-text {
+.step-warning.step-active .step-text {
   color: color-mix(in srgb, #ffc107 40%, #212529);
 }
 
@@ -4144,16 +4174,22 @@ li.list-group-item-action {
   border-color: #dc3545;
 }
 .step-danger.step-completed .step-circle {
-  background-color: color-mix(in srgb, #dc3545 12%, #fff);
+  color: rgb(114.4, 27.56, 35.88);
+  background-color: rgb(248, 214.6, 217.8);
+  border-color: rgb(245.2, 198.44, 202.92);
+}
+.step-danger.step-completed .step-text {
+  color: rgb(114.4, 27.56, 35.88);
 }
 .step-danger.step-active .step-circle {
   color: #fff;
   background-color: #dc3545;
+  border-color: #dc3545;
 }
 .step-danger.step-completed::before, .step-danger.step-active::before {
   background-color: #dc3545;
 }
-.step-danger.step-completed .step-text, .step-danger.step-active .step-text {
+.step-danger.step-active .step-text {
   color: color-mix(in srgb, #dc3545 40%, #212529);
 }
 
@@ -4163,16 +4199,22 @@ li.list-group-item-action {
   border-color: #f8f9fa;
 }
 .step-light.step-completed .step-circle {
-  background-color: color-mix(in srgb, #f8f9fa 12%, #fff);
+  color: rgb(128.96, 129.48, 130);
+  background-color: rgb(253.6, 253.8, 254);
+  border-color: rgb(253.04, 253.32, 253.6);
+}
+.step-light.step-completed .step-text {
+  color: rgb(128.96, 129.48, 130);
 }
 .step-light.step-active .step-circle {
   color: #212529;
   background-color: #f8f9fa;
+  border-color: #f8f9fa;
 }
 .step-light.step-completed::before, .step-light.step-active::before {
   background-color: #f8f9fa;
 }
-.step-light.step-completed .step-text, .step-light.step-active .step-text {
+.step-light.step-active .step-text {
   color: color-mix(in srgb, #f8f9fa 40%, #212529);
 }
 
@@ -4182,16 +4224,22 @@ li.list-group-item-action {
   border-color: #343a40;
 }
 .step-dark.step-completed .step-circle {
-  background-color: color-mix(in srgb, #343a40 12%, #fff);
+  color: rgb(27.04, 30.16, 33.28);
+  background-color: rgb(214.4, 215.6, 216.8);
+  border-color: rgb(198.16, 199.84, 201.52);
+}
+.step-dark.step-completed .step-text {
+  color: rgb(27.04, 30.16, 33.28);
 }
 .step-dark.step-active .step-circle {
   color: #fff;
   background-color: #343a40;
+  border-color: #343a40;
 }
 .step-dark.step-completed::before, .step-dark.step-active::before {
   background-color: #343a40;
 }
-.step-dark.step-completed .step-text, .step-dark.step-active .step-text {
+.step-dark.step-active .step-text {
   color: color-mix(in srgb, #343a40 40%, #212529);
 }
 
@@ -4201,16 +4249,22 @@ li.list-group-item-action {
   border-color: #3273dc;
 }
 .step-link.step-completed .step-circle {
-  background-color: color-mix(in srgb, #3273dc 12%, #fff);
+  color: rgb(26, 59.8, 114.4);
+  background-color: #d6e3f8;
+  border-color: rgb(197.6, 215.8, 245.2);
+}
+.step-link.step-completed .step-text {
+  color: rgb(26, 59.8, 114.4);
 }
 .step-link.step-active .step-circle {
   color: #fff;
   background-color: #3273dc;
+  border-color: #3273dc;
 }
 .step-link.step-completed::before, .step-link.step-active::before {
   background-color: #3273dc;
 }
-.step-link.step-completed .step-text, .step-link.step-active .step-text {
+.step-link.step-active .step-text {
   color: color-mix(in srgb, #3273dc 40%, #212529);
 }
 
@@ -4220,11 +4274,18 @@ li.list-group-item-action {
   border-color: var(--bs-step-color);
 }
 .steps .step.step-custom.step-completed .step-circle {
-  background-color: color-mix(in srgb, var(--bs-step-color) 12%, #fff);
+  background-color: color-mix(in srgb, var(--bs-step-color) 15%, #fff);
+  border-color: color-mix(in srgb, var(--bs-step-color) 35%, #fff);
+}
+@supports (color: contrast-color(white)) {
+  .steps .step.step-custom.step-completed .step-circle {
+    color: color-mix(in srgb, var(--bs-step-color) 30%, contrast-color(color-mix(in srgb, var(--bs-step-color) 15%, #fff)));
+  }
 }
 .steps .step.step-custom.step-active .step-circle {
   color: #fff;
   background-color: var(--bs-step-color);
+  border-color: var(--bs-step-color);
 }
 @supports (color: contrast-color(white)) {
   .steps .step.step-custom.step-active .step-circle {
@@ -4236,6 +4297,57 @@ li.list-group-item-action {
 }
 .steps .step.step-custom.step-completed .step-text, .steps .step.step-custom.step-active .step-text {
   color: color-mix(in srgb, var(--bs-step-color) 40%, #212529);
+}
+
+.steps.steps-vertical {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: 1fr;
+  row-gap: 1.5rem;
+  align-items: stretch;
+  overflow: visible;
+  padding-inline: 0.5rem;
+}
+.steps.steps-vertical > .step {
+  width: 100%;
+}
+.steps.steps-vertical > .step::before {
+  display: block;
+  inset-inline-start: calc((2rem - 2px) / 2);
+  inset-inline-end: auto;
+  top: calc(2rem - 100% - 1rem * 1.25);
+  width: 2px;
+  height: calc(100% - 2rem + 1rem);
+  transform: none;
+}
+.steps.steps-vertical > .step:first-child::before {
+  display: none;
+}
+.steps.steps-vertical > .step .step-container {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.steps.steps-vertical > .step .step-text {
+  flex: 1;
+  min-width: 0;
+  width: auto;
+  margin-top: 0;
+  padding-top: 0.25rem;
+  text-align: start;
+}
+.steps.steps-vertical.steps-end > .step::before {
+  inset-inline-start: auto;
+  inset-inline-end: calc((2rem - 2px) / 2);
+}
+.steps.steps-vertical.steps-end > .step .step-container {
+  flex-direction: row-reverse;
+}
+.steps.steps-vertical.steps-end > .step .step-text {
+  text-align: end;
 }
 
 .steps-content {

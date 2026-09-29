@@ -784,6 +784,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Steps() => "fui-Steps";
 
+    public override string StepsPosition( StepPosition stepPosition ) => stepPosition switch
+    {
+        StepPosition.Start => "fui-Steps-vertical",
+        StepPosition.End => "fui-Steps-vertical fui-Steps-end",
+        _ => null,
+    };
+
     public override string StepItem() => "fui-Step";
 
     public override string StepItemActive( bool active ) => active ? "fui-Step-active" : null;

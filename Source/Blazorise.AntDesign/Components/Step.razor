@@ -2,6 +2,7 @@
 @using Blazorise.Utilities
 <CascadingValue Value="@this" IsFixed>
     <div @ref="@ElementRef" id="@ElementId" class="@RootClassNames" style="@StyleNames" role="tab" tabindex="@TabIndex" aria-labelledby="@AriaLabelledBy" aria-controls="@AriaControls" aria-selected="@AriaSelectedString" @onclick="@OnClickHandler" @attributes="@Attributes">
+        <div class="@RailClassNames"></div>
         <div class="@ContainerClassNames" style="@ContainerStyleNames">
             <div class="@MarkerClassNames" style="@Styles?.Marker">
                 @if ( Completed )
@@ -33,7 +34,6 @@
                             @ChildContent
                         }
                     </div>
-                    <div class="@RailClassNames"></div>
                 </div>
             </div>
         </div>

@@ -6109,6 +6109,34 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string VerticalStepExample = @"<Steps @bind-SelectedStep=""selectedStep"" StepPosition=""StepPosition.Start"" AriaLabel=""Checkout progress"">
+    <Items>
+        <Step Name=""delivery"" Completed>Delivery details</Step>
+        <Step Name=""payment"">Payment method</Step>
+        <Step Name=""review"">Review your order</Step>
+    </Items>
+    <Content>
+        <StepPanel Name=""delivery"" Padding=""Padding.Is3"">
+            <Heading Size=""HeadingSize.Is5"">Delivery details</Heading>
+            <Paragraph>Choose where your order should be delivered.</Paragraph>
+            <Paragraph Margin=""Margin.Is0.FromBottom"">You can return to this step to check your address before placing the order.</Paragraph>
+        </StepPanel>
+        <StepPanel Name=""payment"" Padding=""Padding.Is3"">
+            <Heading Size=""HeadingSize.Is5"">Payment method</Heading>
+            <Paragraph>Select how you would like to pay for your order.</Paragraph>
+            <Paragraph Margin=""Margin.Is0.FromBottom"">Your delivery details are complete. Review your order when you are ready to continue.</Paragraph>
+        </StepPanel>
+        <StepPanel Name=""review"" Padding=""Padding.Is3"">
+            <Heading Size=""HeadingSize.Is5"">Review your order</Heading>
+            <Paragraph>Check your items, delivery address, and payment method.</Paragraph>
+            <Paragraph Margin=""Margin.Is0.FromBottom"">Select an earlier step if you need to make a change.</Paragraph>
+        </StepPanel>
+    </Content>
+</Steps>
+@code {
+    private string selectedStep = ""payment"";
+}";
+
         public const string BasicSwitchExample = @"<Switch TValue=""bool"">Remember me</Switch>";
 
         public const string CustomColorsSwitchExample = @"<Div Flex=""Flex.Wrap"" Gap=""Gap.Is3"">

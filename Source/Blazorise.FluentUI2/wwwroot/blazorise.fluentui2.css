@@ -12095,7 +12095,7 @@ input::file-selector-button {
   min-inline-size: 0;
   cursor: pointer;
 }
-.fui-Steps .fui-Step:last-child {
+.fui-Steps .fui-Step:first-child {
   flex: 0 0 var(--fluent-wizard-content-size);
 }
 .fui-Steps .fui-Step.fui-Step-active .fui-Step__circle > svg {
@@ -12128,7 +12128,7 @@ input::file-selector-button {
   place-items: center;
   inline-size: calc(1.2 * var(--fluent-wizard-circle-size));
   block-size: calc(1.2 * var(--fluent-wizard-circle-size));
-  margin-inline-start: calc((var(--fluent-wizard-content-size) - 1.2 * var(--fluent-wizard-circle-size)) * 0.5);
+  margin-inline-start: calc(100% - (var(--fluent-wizard-content-size) + 1.2 * var(--fluent-wizard-circle-size)) * 0.5);
 }
 .fui-Steps .fui-Step .fui-Step__circle > svg {
   display: block;
@@ -12151,27 +12151,34 @@ input::file-selector-button {
 }
 .fui-Steps .fui-Step .fui-Step__text {
   inline-size: var(--fluent-wizard-content-size);
+  margin-inline-start: auto;
   text-align: center;
   white-space: normal;
   word-break: normal;
   overflow-wrap: break-word;
 }
-.fui-Steps .fui-Step:not(:last-child)::after {
+.fui-Steps .fui-Step:not(:first-child)::after {
   content: "";
   position: absolute;
-  inset-inline-start: calc((var(--fluent-wizard-content-size) + 1.2 * var(--fluent-wizard-circle-size)) * 0.5 + var(--fluent-wizard-spacing));
-  inset-inline-end: calc((1.2 * var(--fluent-wizard-circle-size) - var(--fluent-wizard-content-size)) * 0.5 + var(--fluent-wizard-spacing));
+  inset-inline-start: calc((1.2 * var(--fluent-wizard-circle-size) - var(--fluent-wizard-content-size)) * 0.5 + var(--fluent-wizard-spacing));
+  inset-inline-end: calc((var(--fluent-wizard-content-size) + 1.2 * var(--fluent-wizard-circle-size)) * 0.5 + var(--fluent-wizard-spacing));
   top: calc(var(--fluent-wizard-circle-size) * 0.6);
   height: var(--strokeWidthThick);
   transform: translateY(-50%);
   background-color: var(--colorNeutralStroke1);
   pointer-events: none;
 }
+.fui-Steps .fui-Step.fui-Step-active::after, .fui-Steps .fui-Step.fui-Step-completed::after {
+  background-color: var(--colorBrandBackground);
+}
 .fui-Steps .fui-Step.fui-Step-primary .fui-Step__circle > svg {
   fill: var(--colorBrandBackground);
 }
 .fui-Steps .fui-Step.fui-Step-primary .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorBrandForeground1);
+}
+.fui-Steps .fui-Step.fui-Step-primary.fui-Step-active::after, .fui-Steps .fui-Step.fui-Step-primary.fui-Step-completed::after {
+  background-color: var(--colorBrandBackground);
 }
 .fui-Steps .fui-Step.fui-Step-primary.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-primary.fui-Step-completed .fui-Step__circle-number {
   color: var(--colorNeutralForegroundOnBrand);
@@ -12182,6 +12189,9 @@ input::file-selector-button {
 .fui-Steps .fui-Step.fui-Step-secondary .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorNeutralForeground3);
 }
+.fui-Steps .fui-Step.fui-Step-secondary.fui-Step-active::after, .fui-Steps .fui-Step.fui-Step-secondary.fui-Step-completed::after {
+  background-color: var(--colorNeutralBackground3);
+}
 .fui-Steps .fui-Step.fui-Step-secondary.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-secondary.fui-Step-completed .fui-Step__circle-number {
   color: var(--colorNeutralForegroundOnBrand);
 }
@@ -12190,6 +12200,9 @@ input::file-selector-button {
 }
 .fui-Steps .fui-Step.fui-Step-success .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorStatusSuccessForeground3);
+}
+.fui-Steps .fui-Step.fui-Step-success.fui-Step-active::after, .fui-Steps .fui-Step.fui-Step-success.fui-Step-completed::after {
+  background-color: var(--colorStatusSuccessBackground3);
 }
 .fui-Steps .fui-Step.fui-Step-success.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-success.fui-Step-completed .fui-Step__circle-number {
   color: var(--colorNeutralForegroundOnBrand);
@@ -12200,6 +12213,9 @@ input::file-selector-button {
 .fui-Steps .fui-Step.fui-Step-danger .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorPaletteRedForeground3);
 }
+.fui-Steps .fui-Step.fui-Step-danger.fui-Step-active::after, .fui-Steps .fui-Step.fui-Step-danger.fui-Step-completed::after {
+  background-color: var(--colorStatusDangerBackground3);
+}
 .fui-Steps .fui-Step.fui-Step-danger.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-danger.fui-Step-completed .fui-Step__circle-number {
   color: var(--colorNeutralForegroundOnBrand);
 }
@@ -12208,6 +12224,9 @@ input::file-selector-button {
 }
 .fui-Steps .fui-Step.fui-Step-warning .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorStatusWarningBackground3);
+}
+.fui-Steps .fui-Step.fui-Step-warning.fui-Step-active::after, .fui-Steps .fui-Step.fui-Step-warning.fui-Step-completed::after {
+  background-color: var(--colorStatusWarningBackground3);
 }
 .fui-Steps .fui-Step.fui-Step-warning.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-warning.fui-Step-completed .fui-Step__circle-number {
   color: var(--colorNeutralForegroundOnBrand);
@@ -12218,6 +12237,9 @@ input::file-selector-button {
 .fui-Steps .fui-Step.fui-Step-info .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorNeutralForeground3);
 }
+.fui-Steps .fui-Step.fui-Step-info.fui-Step-active::after, .fui-Steps .fui-Step.fui-Step-info.fui-Step-completed::after {
+  background-color: var(--colorNeutralForeground3);
+}
 .fui-Steps .fui-Step.fui-Step-info.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-info.fui-Step-completed .fui-Step__circle-number {
   color: var(--colorNeutralForegroundOnBrand);
 }
@@ -12226,6 +12248,9 @@ input::file-selector-button {
 }
 .fui-Steps .fui-Step.fui-Step-light .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorNeutralForeground4);
+}
+.fui-Steps .fui-Step.fui-Step-light.fui-Step-active::after, .fui-Steps .fui-Step.fui-Step-light.fui-Step-completed::after {
+  background-color: var(--colorNeutralBackground2);
 }
 .fui-Steps .fui-Step.fui-Step-light.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-light.fui-Step-completed .fui-Step__circle-number {
   color: var(--colorNeutralForegroundOnBrand);
@@ -12236,6 +12261,9 @@ input::file-selector-button {
 .fui-Steps .fui-Step.fui-Step-dark .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorNeutralForeground1);
 }
+.fui-Steps .fui-Step.fui-Step-dark.fui-Step-active::after, .fui-Steps .fui-Step.fui-Step-dark.fui-Step-completed::after {
+  background-color: var(--colorNeutralForeground1);
+}
 .fui-Steps .fui-Step.fui-Step-dark.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-dark.fui-Step-completed .fui-Step__circle-number {
   color: var(--colorNeutralForegroundOnBrand);
 }
@@ -12245,8 +12273,56 @@ input::file-selector-button {
 .fui-Steps .fui-Step.fui-Step-link .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorBrandForegroundLink);
 }
+.fui-Steps .fui-Step.fui-Step-link.fui-Step-active::after, .fui-Steps .fui-Step.fui-Step-link.fui-Step-completed::after {
+  background-color: var(--colorBrandForegroundLink);
+}
 .fui-Steps .fui-Step.fui-Step-link.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-link.fui-Step-completed .fui-Step__circle-number {
   color: var(--colorNeutralForegroundOnBrand);
+}
+
+.fui-Steps.fui-Steps-vertical {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: 1fr;
+  row-gap: var(--spacingVerticalXXL);
+  align-items: stretch;
+  overflow: visible;
+  padding-inline: var(--spacingHorizontalS);
+}
+.fui-Steps.fui-Steps-vertical > .fui-Step {
+  flex-direction: row;
+  gap: var(--spacingHorizontalM);
+  inline-size: 100%;
+}
+.fui-Steps.fui-Steps-vertical > .fui-Step .fui-Step__circle {
+  flex: none;
+  margin-inline-start: 0;
+}
+.fui-Steps.fui-Steps-vertical > .fui-Step .fui-Step__text {
+  flex: 1;
+  min-inline-size: 0;
+  inline-size: auto;
+  margin-inline-start: 0;
+  padding-block-start: var(--spacingVerticalXS);
+  text-align: start;
+}
+.fui-Steps.fui-Steps-vertical > .fui-Step:not(:first-child)::after {
+  inset-inline-start: calc((1.2 * var(--fluent-wizard-circle-size) - var(--strokeWidthThick)) * 0.5);
+  inset-inline-end: auto;
+  top: calc(1.2 * var(--fluent-wizard-circle-size) + var(--fluent-wizard-spacing) - 100% - var(--spacingVerticalXXL));
+  width: var(--strokeWidthThick);
+  height: calc(100% + var(--spacingVerticalXXL) - 1.2 * var(--fluent-wizard-circle-size) - 2 * var(--fluent-wizard-spacing));
+  transform: none;
+}
+.fui-Steps.fui-Steps-vertical.fui-Steps-end > .fui-Step {
+  flex-direction: row-reverse;
+}
+.fui-Steps.fui-Steps-vertical.fui-Steps-end > .fui-Step:not(:first-child)::after {
+  inset-inline-start: auto;
+  inset-inline-end: calc((1.2 * var(--fluent-wizard-circle-size) - var(--strokeWidthThick)) * 0.5);
+}
+.fui-Steps.fui-Steps-vertical.fui-Steps-end > .fui-Step .fui-Step__text {
+  text-align: end;
 }
 
 .fui-StepPanels {
@@ -12279,7 +12355,7 @@ input::file-selector-button {
     color: contrast-color(var(--colorStepBackground));
   }
 }
-.fui-Steps .fui-Step.fui-Step-custom.fui-Step-completed:not(:last-child)::after {
+.fui-Steps .fui-Step.fui-Step-custom.fui-Step-active::after, .fui-Steps .fui-Step.fui-Step-custom.fui-Step-completed::after {
   background-color: var(--colorStepBackground);
 }
 

@@ -761,6 +761,13 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Steps() => "steps";
 
+    public override string StepsPosition( StepPosition stepPosition ) => stepPosition switch
+    {
+        StepPosition.Start => "is-vertical",
+        StepPosition.End => "is-vertical is-end",
+        _ => null,
+    };
+
     public override string StepItem() => "step-item";
 
     public override string StepItemActive( bool active ) => active ? Active() : null;

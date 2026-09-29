@@ -88,6 +88,18 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Placement" New>
+        Use <Code>StepPosition.Start</Code> or <Code>StepPosition.End</Code> to place steps on either side of their content.
+        <Code>StepPosition.Top</Code> is the default, and <Code>StepPosition.Bottom</Code> places the steps below the content.
+        The step list takes the space it needs, and the content fills the remaining width.
+        Use the up and down arrow keys to move between vertical steps.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="VerticalStepExample" Outlined FullWidth>
+        <VerticalStepExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Navigation Control">
         <Paragraph>
             Use <Code>NavigationAllowed</Code> to check the current step before moving forward. In this example, enter a valid email address to continue. You can go back at any time without losing your entry.
@@ -149,6 +161,7 @@
 
 <DocsPageParagraph>
     Press <Kbd>Tab</Kbd> to reach the selected step, then use the left and right arrow keys to move between steps.
+    Vertical steps use the up and down arrow keys instead.
     <Kbd>Home</Kbd> and <Kbd>End</Kbd> move to the first and last steps. Press <Kbd>Enter</Kbd> or <Kbd>Space</Kbd>
     to open the chosen step, as long as your navigation rules allow it. Arrow keys alone do not change the displayed content.
 </DocsPageParagraph>
@@ -158,7 +171,7 @@
 </DocsPageSubsectionTitle>
 
 <DocsPageParagraph>
-    By default, pressing <Kbd>Tab</Kbd> after the selected step moves to the open panel, where users can read or scroll its content.
+    By default, users can reach the open panel with <Kbd>Tab</Kbd> to read or scroll its content.
     Set <Code>Focusable="false"</Code> on <Code>StepPanel</Code> to skip the panel itself.
     Buttons, links, and form controls inside it remain reachable with <Kbd>Tab</Kbd>.
 </DocsPageParagraph>

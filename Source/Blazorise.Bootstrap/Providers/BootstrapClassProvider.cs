@@ -772,6 +772,13 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Steps() => "steps";
 
+    public override string StepsPosition( StepPosition stepPosition ) => stepPosition switch
+    {
+        StepPosition.Start => "steps-vertical",
+        StepPosition.End => "steps-vertical steps-end",
+        _ => null,
+    };
+
     public override string StepItem() => "step";
 
     public override string StepItemActive( bool active ) => active ? "step-active" : null;

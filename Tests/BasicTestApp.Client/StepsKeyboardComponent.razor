@@ -1,10 +1,10 @@
 @using BasicTestApp.Client.Infrastructure
 
-@foreach ( var group in new[] { "basic", "guarded", "items-only" } )
+@foreach ( var group in new[] { "basic", "guarded", "items-only", "vertical", "vertical-end", "bottom" } )
 {
     <Div ElementId="@($"keyboard-steps-{group}")">
         <Button Class="before-steps">Before steps</Button>
-        <TestSteps SelectedStep="2" AriaLabel="@($"{group} steps")" NavigationAllowed="@( group == "guarded" ? OnNavigationAllowed : null )" Initialized="OnStepsInitializedHandler">
+        <TestSteps SelectedStep="2" StepPosition="ResolveStepPosition( group )" AriaLabel="@($"{group} steps")" NavigationAllowed="@( group == "guarded" ? OnNavigationAllowed : null )" Initialized="OnStepsInitializedHandler">
             <Items>
                 <Step Name="1" ElementId="@($"first-step-{group}")">First</Step>
                 <Step Name="2">Second</Step>
@@ -23,7 +23,7 @@
     </Div>
 }
 
-@if ( initializedSteps == 3 )
+@if ( initializedSteps == 6 )
 {
     <Span ElementId="keyboard-steps-ready">Ready</Span>
 }
@@ -37,4 +37,12 @@
     }
 
     private Task<bool> OnNavigationAllowed( StepNavigationContext context ) => Task.FromResult( context.NextStepName != "3" );
+
+    private static StepPosition ResolveStepPosition( string group ) => group switch
+    {
+        "vertical" => StepPosition.Start,
+        "vertical-end" => StepPosition.End,
+        "bottom" => StepPosition.Bottom,
+        _ => StepPosition.Top,
+    };
 }

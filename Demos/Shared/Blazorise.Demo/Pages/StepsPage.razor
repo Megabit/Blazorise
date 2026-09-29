@@ -67,6 +67,69 @@
 </Row>
 
 <Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Steps Vertical Start</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Steps StepPosition="StepPosition.Start" @bind-SelectedStep="selectedStartStep" AriaLabel="Checkout progress at the start">
+                    <Items>
+                        <Step Name="delivery" Completed Color="Color.Success">Delivery details</Step>
+                        <Step Name="payment">Payment method</Step>
+                        <Step Name="review" Color="Color.Info">Review your order</Step>
+                    </Items>
+                    <Content>
+                        <StepPanel Name="delivery">
+                            <Heading Size="HeadingSize.Is5">Delivery details</Heading>
+                            <Paragraph>Check the address where your order will be delivered.</Paragraph>
+                        </StepPanel>
+                        <StepPanel Name="payment">
+                            <Heading Size="HeadingSize.Is5">Payment method</Heading>
+                            <Paragraph>Choose how you would like to pay, then review your order.</Paragraph>
+                        </StepPanel>
+                        <StepPanel Name="review">
+                            <Heading Size="HeadingSize.Is5">Review your order</Heading>
+                            <Paragraph>Check your delivery details and payment method before continuing.</Paragraph>
+                        </StepPanel>
+                    </Content>
+                </Steps>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Steps Vertical End</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Steps StepPosition="StepPosition.End" @bind-SelectedStep="selectedEndStep" AriaLabel="Checkout progress at the end">
+                    <Items>
+                        <Step Name="delivery" Completed Color="Color.Success">Delivery details</Step>
+                        <Step Name="payment">Payment method</Step>
+                        <Step Name="review" Color="Color.Info">Review your order</Step>
+                    </Items>
+                    <Content>
+                        <StepPanel Name="delivery">
+                            <Heading Size="HeadingSize.Is5">Delivery details</Heading>
+                            <Paragraph>Check the address where your order will be delivered.</Paragraph>
+                        </StepPanel>
+                        <StepPanel Name="payment">
+                            <Heading Size="HeadingSize.Is5">Payment method</Heading>
+                            <Paragraph>Choose how you would like to pay, then review your order.</Paragraph>
+                        </StepPanel>
+                        <StepPanel Name="review">
+                            <Heading Size="HeadingSize.Is5">Review your order</Heading>
+                            <Paragraph>Check your delivery details and payment method before continuing.</Paragraph>
+                        </StepPanel>
+                    </Content>
+                </Steps>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
     <Column ColumnSize="ColumnSize.IsFull">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
@@ -148,6 +211,10 @@
     private bool showEmailValidationError;
     private string emailValidationMessage;
     private string selectedStep = "2";
+
+    private string selectedStartStep = "payment";
+
+    private string selectedEndStep = "payment";
 
     private string Email
     {

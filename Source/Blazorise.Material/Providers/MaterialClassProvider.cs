@@ -804,6 +804,13 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Steps() => "mui-steps";
 
+    public override string StepsPosition( StepPosition stepPosition ) => stepPosition switch
+    {
+        StepPosition.Start => "mui-steps-vertical",
+        StepPosition.End => "mui-steps-vertical mui-steps-end",
+        _ => null,
+    };
+
     public override string StepItem() => "mui-step-item";
 
     public override string StepItemActive( bool active ) => active ? "mui-step-item-active" : null;

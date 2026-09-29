@@ -1113,11 +1113,38 @@ public class TailwindClassProvider : ClassProvider
 
     #region Steps
 
-    public override string Steps() => "tw-steps flex w-full list-none items-start gap-4 overflow-x-auto p-1.5";
+    public override string Steps() => "tw-steps w-full list-none p-1.5";
+
+    public override string StepsPosition( StepPosition stepPosition )
+    {
+        if ( stepPosition is not (StepPosition.Start or StepPosition.End) )
+        {
+            return "flex items-start overflow-x-auto "
+                + "[&>.tw-step]:flex-[1_0_7rem] [&>.tw-step:first-child]:flex-none [&>.tw-step:first-child]:w-28 "
+                + "[&>.tw-step>.tw-step-container]:ms-auto [&>.tw-step>.tw-step-container]:w-28 "
+                + "[&>.tw-step:last-child:not(:first-child)]:basis-10 [&>.tw-step:last-child:not(:first-child)]:min-w-28 "
+                + "[&>.tw-step:last-child:not(:first-child)]:after:end-14 "
+                + "[&>.tw-step:last-child:not(:first-child)>.tw-step-container]:items-end "
+                + "[&>.tw-step:last-child:not(:first-child)>.tw-step-container>.tw-step-caption]:pe-0 [&>.tw-step:last-child:not(:first-child)>.tw-step-container>.tw-step-caption]:text-end";
+        }
+
+        var classes = "tw-steps-vertical grid grid-cols-[minmax(0,1fr)] auto-rows-fr items-stretch gap-6 overflow-visible "
+            + "[&>.tw-step]:w-full "
+            + "[&>.tw-step]:after:top-[calc(1.5rem-100%)] "
+            + "[&>.tw-step]:after:h-[calc(100%-2rem)] [&>.tw-step]:after:w-1 [&>.tw-step]:after:translate-y-0 "
+            + "[&>.tw-step>.tw-step-container]:gap-3 "
+            + "[&>.tw-step>.tw-step-container>.tw-step-caption]:mt-0 [&>.tw-step>.tw-step-container>.tw-step-caption]:min-w-0 "
+            + "[&>.tw-step>.tw-step-container>.tw-step-caption]:flex-1 [&>.tw-step>.tw-step-container>.tw-step-caption]:pt-2 "
+            + "[&>.tw-step>.tw-step-container>.tw-step-caption]:pe-0 ";
+
+        return stepPosition == StepPosition.End
+            ? classes + "tw-steps-end [&>.tw-step]:after:start-auto [&>.tw-step]:after:end-4.5 [&>.tw-step>.tw-step-container]:flex-row-reverse [&>.tw-step>.tw-step-container>.tw-step-caption]:text-end"
+            : classes + "[&>.tw-step]:after:start-4.5 [&>.tw-step]:after:end-auto [&>.tw-step>.tw-step-container]:flex-row [&>.tw-step>.tw-step-container>.tw-step-caption]:text-start";
+    }
 
     public override string StepItem()
-        => "tw-step group/step relative min-w-28 flex-1 cursor-pointer last:max-w-40 last:flex-none focus-visible:outline-none "
-            + "after:absolute after:start-14 after:end-0 after:top-5 after:h-1 after:-translate-y-1/2 after:rounded-full after:bg-gray-200 after:content-[''] last:after:hidden "
+        => "tw-step group/step relative min-w-0 cursor-pointer focus-visible:outline-none "
+            + "after:pointer-events-none after:absolute after:-start-14 after:end-32 after:top-5 after:h-1 after:-translate-y-1/2 after:rounded-full after:bg-gray-200 after:content-[''] first:after:hidden "
             + "dark:after:bg-gray-700 "
             + "[&:is(.tw-step-active,.tw-step-completed)]:after:bg-[color:color-mix(in_srgb,var(--tw-step-bg)_25%,white)] "
             + "dark:[&:is(.tw-step-active,.tw-step-completed)]:after:bg-[color:color-mix(in_srgb,var(--tw-step-bg)_45%,var(--color-gray-900))]";
@@ -2736,7 +2763,9 @@ public class TailwindClassProvider : ClassProvider
             sb.Append( "content-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
 
         if ( flexDefinition.GrowShrink != FlexGrowShrink.Default && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.Default )
-            sb.Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
+        {
+            sb.Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( '-' ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
+        }
 
         if ( flexDefinition.Basis && flexDefinition.BasisSize != FlexBasisSize.Default )
             sb.Append( breakpoint ).Append( "basis-" ).Append( ToBasisSize( flexDefinition.BasisSize ) );
@@ -2883,11 +2912,15 @@ public class TailwindClassProvider : ClassProvider
     {
         var sb = new StringBuilder( $"{ToPositionType( positionType )}" );
 
-        if ( edges != null && edges.Count() > 0 )
+        if ( edges is not null && edges.Any() )
+        {
             sb.Append( ' ' ).Append( string.Join( " ", edges.Select( x => Position( positionType, x.edgeType, x.edgeOffset, translateType ) ) ) );
+        }
 
         if ( translateType != PositionTranslateType.None )
+        {
             sb.Append( ' ' ).Append( ToPositionTranslateType( translateType ) );
+        }
 
         return sb.ToString();
     }

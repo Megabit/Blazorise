@@ -101,13 +101,13 @@
     }
 
     .step-circle {
-        color: color-mix(in srgb, var(--bs-success, #{$step-icon-completed-color}) 40%, var(--bs-body-color, #{$body-color}));
-        background-color: color-mix(in srgb, var(--bs-success, #{$step-icon-completed-color}) 12%, var(--bs-body-bg, #{$body-bg}));
-        border-color: var(--bs-success, #{$step-icon-completed-color});
+        color: var(--bs-success-text-emphasis, #{$success-text-emphasis});
+        background-color: var(--bs-success-bg-subtle, #{$success-bg-subtle});
+        border-color: var(--bs-success-border-subtle, #{$success-border-subtle});
     }
 
     .step-text {
-        color: var(--bs-success-text-emphasis, color-mix(in srgb, #{$step-text-completed-color} 40%, var(--bs-body-color, #{$body-color})));
+        color: var(--bs-success-text-emphasis, #{$success-text-emphasis});
     }
 }
 
@@ -131,6 +131,21 @@
 @each $name, $value in $theme-colors {
     $color: var(--bs-#{$name}, #{$value});
     $text: var(--bs-#{$name}-text-emphasis, color-mix(in srgb, #{$color} 40%, var(--bs-body-color, #{$body-color})));
+    $soft-text: map-get($theme-colors-text, $name);
+    $soft-background: map-get($theme-colors-bg-subtle, $name);
+    $soft-border: map-get($theme-colors-border-subtle, $name);
+
+    @if $soft-text == null {
+        $soft-text: shade-color($value, 60%);
+    }
+
+    @if $soft-background == null {
+        $soft-background: tint-color($value, 80%);
+    }
+
+    @if $soft-border == null {
+        $soft-border: tint-color($value, 60%);
+    }
 
     .step-#{$name} {
         .step-circle {
@@ -141,7 +156,13 @@
 
         &.step-completed {
             .step-circle {
-                background-color: var(--bs-#{$name}-bg-subtle, color-mix(in srgb, #{$color} 12%, var(--bs-body-bg, #{$body-bg})));
+                color: var(--bs-#{$name}-text-emphasis, #{$soft-text});
+                background-color: var(--bs-#{$name}-bg-subtle, #{$soft-background});
+                border-color: var(--bs-#{$name}-border-subtle, #{$soft-border});
+            }
+
+            .step-text {
+                color: var(--bs-#{$name}-text-emphasis, #{$soft-text});
             }
         }
 
@@ -149,6 +170,7 @@
             .step-circle {
                 color: color-contrast($value);
                 background-color: $color;
+                border-color: $color;
             }
         }
 
@@ -157,10 +179,10 @@
             &::before {
                 background-color: $color;
             }
+        }
 
-            .step-text {
-                color: $text;
-            }
+        &.step-active .step-text {
+            color: $text;
         }
     }
 }
@@ -173,12 +195,18 @@
     }
 
     &.step-completed .step-circle {
-        background-color: color-mix(in srgb, var(--bs-step-color) 12%, var(--bs-body-bg, #{$body-bg}));
+        background-color: color-mix(in srgb, var(--bs-step-color) 15%, var(--bs-body-bg, #{$body-bg}));
+        border-color: color-mix(in srgb, var(--bs-step-color) 35%, var(--bs-body-bg, #{$body-bg}));
+
+        @supports (color: contrast-color(white)) {
+            color: color-mix(in srgb, var(--bs-step-color) 30%, contrast-color(color-mix(in srgb, var(--bs-step-color) 15%, var(--bs-body-bg, #{$body-bg}))));
+        }
     }
 
     &.step-active .step-circle {
         color: $white;
         background-color: var(--bs-step-color);
+        border-color: var(--bs-step-color);
 
         @supports (color: contrast-color(white)) {
             color: contrast-color(var(--bs-step-color));
@@ -193,6 +221,70 @@
 
         .step-text {
             color: color-mix(in srgb, var(--bs-step-color) 40%, var(--bs-body-color, #{$body-color}));
+        }
+    }
+}
+
+.steps.steps-vertical {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    // Equal rows let incoming connectors span the previous row when captions wrap.
+    grid-auto-rows: 1fr;
+    row-gap: $step-gutter * 1.5;
+    align-items: stretch;
+    overflow: visible;
+    padding-inline: $step-gutter * .5;
+
+    > .step {
+        width: 100%;
+
+        &::before {
+            display: block;
+            inset-inline-start: calc((#{$step-circle-size} - #{$step-circle-border-width}) / 2);
+            inset-inline-end: auto;
+            top: calc(#{$step-circle-size} - 100% - #{$step-gutter} * 1.25);
+            width: $step-circle-border-width;
+            height: calc(100% - #{$step-circle-size} + #{$step-gutter});
+            transform: none;
+        }
+
+        &:first-child {
+            &::before {
+                display: none;
+            }
+        }
+
+        .step-container {
+            flex-direction: row;
+            align-items: flex-start;
+            gap: $step-gutter;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .step-text {
+            flex: 1;
+            min-width: 0;
+            width: auto;
+            margin-top: 0;
+            padding-top: $step-gutter * .25;
+            text-align: start;
+        }
+    }
+
+    &.steps-end > .step {
+        &::before {
+            inset-inline-start: auto;
+            inset-inline-end: calc((#{$step-circle-size} - #{$step-circle-border-width}) / 2);
+        }
+
+        .step-container {
+            flex-direction: row-reverse;
+        }
+
+        .step-text {
+            text-align: end;
         }
     }
 }

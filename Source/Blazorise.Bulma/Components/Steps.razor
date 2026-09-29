@@ -1,9 +1,48 @@
 ﻿@inherits Blazorise.Steps
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="State">
-        @if ( Items is not null && Content is not null )
+        @if ( StepPosition == StepPosition.Start && Items is not null && Content is not null )
         {
-            <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="horizontal" @attributes="@Attributes">
+            <Row>
+                <Column ColumnSize="ColumnSize.IsAuto">
+                    <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="@AriaOrientationString" @attributes="@Attributes">
+                        @Items
+                    </ul>
+                </Column>
+                <Column>
+                    <div class="@ContentClassNames" style="@Styles?.Content">
+                        @Content
+                    </div>
+                </Column>
+            </Row>
+        }
+        else if ( StepPosition == StepPosition.End && Items is not null && Content is not null )
+        {
+            <Row>
+                <Column>
+                    <div class="@ContentClassNames" style="@Styles?.Content">
+                        @Content
+                    </div>
+                </Column>
+                <Column ColumnSize="ColumnSize.IsAuto">
+                    <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="@AriaOrientationString" @attributes="@Attributes">
+                        @Items
+                    </ul>
+                </Column>
+            </Row>
+        }
+        else if ( StepPosition == StepPosition.Bottom && Items is not null && Content is not null )
+        {
+            <div class="@ContentClassNames" style="@Styles?.Content">
+                @Content
+            </div>
+            <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="@AriaOrientationString" @attributes="@Attributes">
+                @Items
+            </ul>
+        }
+        else if ( Items is not null && Content is not null )
+        {
+            <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="@AriaOrientationString" @attributes="@Attributes">
                 @Items
             </ul>
             <div class="@ContentClassNames" style="@Styles?.Content">
@@ -12,7 +51,7 @@
         }
         else
         {
-            <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="horizontal" @attributes="@Attributes">
+            <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="@AriaOrientationString" @attributes="@Attributes">
                 @( Items ?? ChildContent )
             </ul>
         }

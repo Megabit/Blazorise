@@ -706,6 +706,8 @@ public interface IClassProvider
 
     string Steps();
 
+    string StepsPosition( StepPosition stepPosition );
+
     string StepItem();
 
     string StepItemActive( bool active );

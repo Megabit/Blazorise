@@ -101,13 +101,13 @@
     }
 
     .step-circle {
-        color: color-mix(in srgb, $step-icon-completed-color 40%, $body-color);
-        background-color: color-mix(in srgb, $step-icon-completed-color 12%, $body-bg);
-        border-color: $step-icon-completed-color;
+        color: mix(if($alert-color-level > 0, $black, $white), $step-icon-completed-color, abs($alert-color-level) * $theme-color-interval);
+        background-color: mix(if($alert-bg-level > 0, $black, $white), $step-icon-completed-color, abs($alert-bg-level) * $theme-color-interval);
+        border-color: mix(if($alert-border-level > 0, $black, $white), $step-icon-completed-color, abs($alert-border-level) * $theme-color-interval);
     }
 
     .step-text {
-        color: color-mix(in srgb, $step-text-completed-color 40%, $body-color);
+        color: mix(if($alert-color-level > 0, $black, $white), $step-text-completed-color, abs($alert-color-level) * $theme-color-interval);
     }
 }
 
@@ -141,7 +141,13 @@
 
         &.step-completed {
             .step-circle {
-                background-color: color-mix(in srgb, #{$color} 12%, #{$body-bg});
+                color: theme-color-level($name, $alert-color-level);
+                background-color: theme-color-level($name, $alert-bg-level);
+                border-color: theme-color-level($name, $alert-border-level);
+            }
+
+            .step-text {
+                color: theme-color-level($name, $alert-color-level);
             }
         }
 
@@ -149,6 +155,7 @@
             .step-circle {
                 color: color-yiq($value);
                 background-color: $color;
+                border-color: $color;
             }
         }
 
@@ -157,10 +164,10 @@
             &::before {
                 background-color: $color;
             }
+        }
 
-            .step-text {
-                color: $text;
-            }
+        &.step-active .step-text {
+            color: $text;
         }
     }
 }
@@ -173,12 +180,18 @@
     }
 
     &.step-completed .step-circle {
-        background-color: color-mix(in srgb, var(--bs-step-color) 12%, $body-bg);
+        background-color: color-mix(in srgb, var(--bs-step-color) 15%, $body-bg);
+        border-color: color-mix(in srgb, var(--bs-step-color) 35%, $body-bg);
+
+        @supports (color: contrast-color(white)) {
+            color: color-mix(in srgb, var(--bs-step-color) 30%, contrast-color(color-mix(in srgb, var(--bs-step-color) 15%, $body-bg)));
+        }
     }
 
     &.step-active .step-circle {
         color: $white;
         background-color: var(--bs-step-color);
+        border-color: var(--bs-step-color);
 
         @supports (color: contrast-color(white)) {
             color: contrast-color(var(--bs-step-color));
@@ -193,6 +206,70 @@
 
         .step-text {
             color: color-mix(in srgb, var(--bs-step-color) 40%, $body-color);
+        }
+    }
+}
+
+.steps.steps-vertical {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    // Equal rows let incoming connectors span the previous row when captions wrap.
+    grid-auto-rows: 1fr;
+    row-gap: $step-gutter * 1.5;
+    align-items: stretch;
+    overflow: visible;
+    padding-inline: $step-gutter * .5;
+
+    > .step {
+        width: 100%;
+
+        &::before {
+            display: block;
+            inset-inline-start: calc((#{$step-circle-size} - #{$step-circle-border-width}) / 2);
+            inset-inline-end: auto;
+            top: calc(#{$step-circle-size} - 100% - #{$step-gutter} * 1.25);
+            width: $step-circle-border-width;
+            height: calc(100% - #{$step-circle-size} + #{$step-gutter});
+            transform: none;
+        }
+
+        &:first-child {
+            &::before {
+                display: none;
+            }
+        }
+
+        .step-container {
+            flex-direction: row;
+            align-items: flex-start;
+            gap: $step-gutter;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .step-text {
+            flex: 1;
+            min-width: 0;
+            width: auto;
+            margin-top: 0;
+            padding-top: $step-gutter * .25;
+            text-align: start;
+        }
+    }
+
+    &.steps-end > .step {
+        &::before {
+            inset-inline-start: auto;
+            inset-inline-end: calc((#{$step-circle-size} - #{$step-circle-border-width}) / 2);
+        }
+
+        .step-container {
+            flex-direction: row-reverse;
+        }
+
+        .step-text {
+            text-align: end;
         }
     }
 }

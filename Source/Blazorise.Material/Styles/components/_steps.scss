@@ -31,7 +31,7 @@
         color: var(--mui-step-label);
         cursor: pointer;
 
-        &:last-child {
+        &:first-child {
             flex: 0 0 var(--mui-step-content-size);
         }
     }
@@ -40,15 +40,15 @@
         content: "";
         position: absolute;
         inset-block-start: calc((var(--mui-step-marker-size) - var(--mui-step-connector-size)) * 0.5);
-        inset-inline-start: calc((var(--mui-step-content-size) + var(--mui-step-marker-size)) * 0.5 + 0.5rem);
-        inset-inline-end: calc((var(--mui-step-marker-size) - var(--mui-step-content-size)) * 0.5 + 0.5rem);
+        inset-inline-start: calc((var(--mui-step-marker-size) - var(--mui-step-content-size)) * 0.5 + 0.5rem);
+        inset-inline-end: calc((var(--mui-step-content-size) + var(--mui-step-marker-size)) * 0.5 + 0.5rem);
         block-size: var(--mui-step-connector-size);
         border-radius: 999rem;
         background-color: var(--mui-step-line);
         pointer-events: none;
     }
 
-    & > .mui-step-item:last-child::after {
+    & > .mui-step-item:first-child::after {
         display: none;
     }
 }
@@ -63,7 +63,7 @@
         min-inline-size: var(--mui-step-marker-size);
         block-size: var(--mui-step-marker-size);
         min-block-size: var(--mui-step-marker-size);
-        margin-inline-start: calc((var(--mui-step-content-size) - var(--mui-step-marker-size)) * 0.5);
+        margin-inline-start: calc(100% - (var(--mui-step-content-size) + var(--mui-step-marker-size)) * 0.5);
         border-radius: 999rem;
         border: var(--mui-step-marker-border-size) solid var(--mui-outline);
         background-color: var(--mui-surface-container-lowest);
@@ -87,6 +87,7 @@
         inline-size: var(--mui-step-content-size);
         padding-inline: 0.5rem;
         margin-top: 0.5rem;
+        margin-inline-start: auto;
         font-size: 0.875rem;
         line-height: 1.25rem;
         font-weight: 500;
@@ -136,6 +137,7 @@
         color: var(--mui-step-accent);
     }
 
+    &-item.mui-step-item-active::after,
     &-item.mui-step-item-completed::after {
         background-color: var(--mui-step-accent);
     }
@@ -186,6 +188,58 @@
     &-panel.mui-step-panel-active {
         display: block;
         animation: mui-step-panel-fade-in var(--mui-duration-normal) var(--mui-curve-decelerate-min);
+    }
+}
+
+.mui-steps.mui-steps-vertical {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    // Equal rows let incoming connectors span the previous row when captions wrap.
+    grid-auto-rows: 1fr;
+    row-gap: 1.5rem;
+    align-items: stretch;
+    overflow: visible;
+    padding-inline: calc(var(--mui-step-active-halo-size) + .125rem);
+
+    > .mui-step-item {
+        flex-direction: row;
+        gap: 1rem;
+        inline-size: 100%;
+
+        &::after {
+            inset-inline-start: calc((var(--mui-step-marker-size) - var(--mui-step-connector-size)) * .5);
+            inset-inline-end: auto;
+            inset-block-start: calc(var(--mui-step-marker-size) - 100% - 1rem);
+            inline-size: var(--mui-step-connector-size);
+            block-size: calc(100% - var(--mui-step-marker-size) + .5rem);
+        }
+
+        > .mui-step-marker {
+            flex: none;
+            margin-inline-start: 0;
+        }
+
+        > .mui-step-description {
+            flex: 1;
+            min-inline-size: 0;
+            inline-size: auto;
+            margin: 0;
+            padding: .375rem 0 0;
+            text-align: start;
+        }
+    }
+
+    &.mui-steps-end > .mui-step-item {
+        flex-direction: row-reverse;
+
+        &::after {
+            inset-inline-start: auto;
+            inset-inline-end: calc((var(--mui-step-marker-size) - var(--mui-step-connector-size)) * .5);
+        }
+
+        > .mui-step-description {
+            text-align: end;
+        }
     }
 }
 

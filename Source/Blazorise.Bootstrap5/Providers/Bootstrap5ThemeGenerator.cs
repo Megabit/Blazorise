@@ -770,7 +770,6 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
     {
-        var backgroundColor = "var(--bs-body-bg)";
         var textColor = "var(--bs-body-color)";
 
         if ( stepsOptions is null )
@@ -785,15 +784,15 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
         sb
             .Append( ".step-completed .step-circle" ).Append( "{" )
-            .Append( $"color: color-mix(in srgb, {completedColor} 40%, {textColor});" )
-            .Append( $"background-color: color-mix(in srgb, {completedColor} 12%, {backgroundColor});" )
-            .Append( $"border-color: {completedColor};" )
+            .Append( $"color: {ThemeColorLevelHex( theme, completedColor, theme.AlertOptions?.ColorLevel ?? 6 )};" )
+            .Append( $"background-color: {ThemeColorLevelHex( theme, completedColor, theme.AlertOptions?.BackgroundLevel ?? -10 )};" )
+            .Append( $"border-color: {ThemeColorLevelHex( theme, completedColor, theme.AlertOptions?.BorderLevel ?? -7 )};" )
             .AppendLine( "}" )
             .Append( ".step-completed::before" ).Append( "{" )
             .Append( $"background-color: {completedColor};" )
             .AppendLine( "}" )
             .Append( ".step-completed .step-text" ).Append( "{" )
-            .Append( $"color: color-mix(in srgb, {completedTextColor} 40%, {textColor});" )
+            .Append( $"color: {ThemeColorLevelHex( theme, completedTextColor, theme.AlertOptions?.ColorLevel ?? 6 )};" )
             .AppendLine( "}" )
             .Append( ".step-active .step-circle" ).Append( "{" )
             .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq, Var( ThemeVariables.White ) )};" )
@@ -823,9 +822,9 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
             .Append( $"border-color: {color};" )
             .AppendLine( "}" )
             .Append( $".step-{variant}.step-completed .step-circle" ).Append( "{" )
-            .Append( $"color: color-mix(in srgb, {color} 40%, {textColor});" )
-            .Append( $"background-color: color-mix(in srgb, {color} 12%, {backgroundColor});" )
-            .Append( $"border-color: {color};" )
+            .Append( $"color: {ThemeColorLevelHex( theme, color, theme.AlertOptions?.ColorLevel ?? 6 )};" )
+            .Append( $"background-color: {ThemeColorLevelHex( theme, color, theme.AlertOptions?.BackgroundLevel ?? -10 )};" )
+            .Append( $"border-color: {ThemeColorLevelHex( theme, color, theme.AlertOptions?.BorderLevel ?? -7 )};" )
             .AppendLine( "}" )
             .Append( $".step-{variant}.step-active .step-circle" ).Append( "{" )
             .Append( $"color: {contrastColor};" )
@@ -835,7 +834,10 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
             .Append( $".step-{variant}.step-completed::before, .step-{variant}.step-active::before" ).Append( "{" )
             .Append( $"background-color: {color};" )
             .AppendLine( "}" )
-            .Append( $".step-{variant}.step-completed .step-text, .step-{variant}.step-active .step-text" ).Append( "{" )
+            .Append( $".step-{variant}.step-completed .step-text" ).Append( "{" )
+            .Append( $"color: {ThemeColorLevelHex( theme, variantTextColor, theme.AlertOptions?.ColorLevel ?? 6 )};" )
+            .AppendLine( "}" )
+            .Append( $".step-{variant}.step-active .step-text" ).Append( "{" )
             .Append( $"color: color-mix(in srgb, {variantTextColor} 40%, {textColor});" )
             .AppendLine( "}" );
     }
