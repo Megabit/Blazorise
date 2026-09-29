@@ -1113,73 +1113,76 @@ public class TailwindClassProvider : ClassProvider
 
     #region Steps
 
-    public override string Steps() => "b-steps relative flex justify-between w-full list-none overflow-hidden";
+    public override string Steps() => "tw-steps flex w-full list-none items-start gap-4 overflow-x-auto p-1.5";
 
-    public override string StepItem() => "b-step-item flex-auto h-16";
+    public override string StepItem()
+        => "tw-step group/step relative min-w-20 flex-1 cursor-pointer last:min-w-10 last:max-w-40 last:flex-none focus-visible:outline-none "
+            + "after:absolute after:start-14 after:end-0 after:top-5 after:h-1 after:-translate-y-1/2 after:rounded-full after:bg-gray-200 after:content-[''] last:after:hidden "
+            + "dark:after:bg-gray-700 "
+            + "[&:is(.tw-step-active,.tw-step-completed)]:after:bg-[color:color-mix(in_srgb,var(--tw-step-bg)_25%,white)] "
+            + "dark:[&:is(.tw-step-active,.tw-step-completed)]:after:bg-[color:color-mix(in_srgb,var(--tw-step-bg)_45%,var(--color-gray-900))]";
 
-    public override string StepItemActive( bool active ) => active ? "b-step-active" : null;
+    public override string StepItemActive( bool active ) => active ? "tw-step-active" : null;
 
-    public override string StepItemCompleted( bool completed ) => completed ? "b-step-completed" : null;
+    public override string StepItemCompleted( bool completed ) => completed ? "tw-step-completed" : null;
 
-    public override string StepItemColor( Color color ) => color?.IsCssValue == true
-        ? "[&.b-step-completed_.b-step-item-head-icon]:bg-[color:var(--tw-step-bg)] "
-            + "[&.b-step-completed_.b-step-item-head-icon]:text-white "
-            + "supports-[color:contrast-color(white)]:[&.b-step-completed_.b-step-item-head-icon]:text-[color:contrast-color(var(--tw-step-bg))] "
-            + "[&.b-step-completed_.b-step-item-head]:before:!bg-[color:var(--tw-step-bg)] "
-            + "[&.b-step-completed_.b-step-item-head]:after:!bg-[color:var(--tw-step-bg)]"
-        : null;
-
-    public override string StepItemMarker() => "b-step-item-head-icon my-6 mr-2 flex justify-center items-center rounded-full w-7 h-7 text-sm border-2";
-
-    public override string StepItemMarkerColor( Color color, bool active )
+    public override string StepItemColor( Color color )
     {
         if ( color?.IsCssValue == true )
         {
-            const string sharedClasses = "border-[color:var(--tw-step-bg)] ";
-
-            return active
-                ? sharedClasses + "bg-[color:var(--tw-step-bg)] text-white supports-[color:contrast-color(white)]:text-[color:contrast-color(var(--tw-step-bg))] shadow-md shadow-[color:color-mix(in_srgb,var(--tw-step-bg)_30%,transparent)]"
-                : sharedClasses + "text-[color:var(--tw-step-bg)]";
-        }
-        var name = color?.Name;
-
-        if ( active )
-        {
-            return name switch
-            {
-                "primary" => "text-white bg-primary-800 hover:bg-primary-900 focus:ring-primary-400 dark:bg-primary-700 dark:hover:bg-primary-800 dark:focus:ring-primary-900 shadow-md shadow-blue-900",
-                "secondary" => "text-white bg-secondary-500 hover:bg-secondary-600 focus:ring-secondary-100 dark:bg-secondary-400 dark:hover:bg-secondary-500 dark:focus:ring-secondary-600 shadow-md shadow-secondary-600",
-                "success" => "text-white bg-success-700 hover:bg-success-800 focus:ring-success-300 dark:bg-success-600 dark:hover:bg-success-700 dark:focus:ring-success-800 shadow-md shadow-success-800",
-                "danger" => "text-white bg-danger-700 hover:bg-danger-800 focus:ring-danger-300 dark:bg-danger-600 dark:hover:bg-danger-700 dark:focus:ring-danger-900 shadow-md shadow-danger-800",
-                "warning" => "text-white bg-warning-400 hover:bg-warning-500 focus:ring-warning-300 dark:focus:ring-warning-900 shadow-md shadow-blue-900 shadow-md shadow-warning-500",
-                "info" => "text-white bg-info-700 hover:bg-info-800 focus:ring-info-300 dark:bg-info-600 dark:hover:bg-info-700 dark:focus:ring-info-900 shadow-md shadow-info-800",
-                "light" => "text-light-900 bg-light-300 border border-light-300 hover:bg-light-100 focus:ring-light-200 dark:bg-light-800 dark:text-white dark:border-light-600 dark:hover:bg-light-700 dark:hover:border-light-600 dark:focus:ring-light-700 shadow-md shadow-light-400",
-                "dark" => "text-white bg-dark-800 hover:bg-dark-900 focus:ring-dark-300 dark:bg-dark-800 dark:hover:bg-dark-700 dark:focus:ring-dark-700 dark:border-dark-700 shadow-md shadow-dark-900",
-                "link" => "text-primary-600 dark:text-primary-500 hover:underline",
-                _ => "text-white bg-primary-800 hover:bg-primary-900 focus:ring-primary-400 dark:bg-primary-700 dark:hover:bg-primary-800 dark:focus:ring-primary-900 shadow-md shadow-blue-900",
-            };
+            return null;
         }
 
-        return name switch
+        return color?.Name switch
         {
-            "primary" => "text-white bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800",
-            "secondary" => "text-white bg-secondary-500 hover:bg-secondary-600 focus:ring-secondary-100 dark:bg-secondary-400 dark:hover:bg-secondary-500 dark:focus:ring-secondary-600",
-            "success" => "text-white bg-success-700 hover:bg-success-800 focus:ring-success-300 dark:bg-success-600 dark:hover:bg-success-700 dark:focus:ring-success-800",
-            "danger" => "text-white bg-danger-700 hover:bg-danger-800 focus:ring-danger-300 dark:bg-danger-600 dark:hover:bg-danger-700 dark:focus:ring-danger-900",
-            "warning" => "text-white bg-warning-400 hover:bg-warning-500 focus:ring-warning-300 dark:focus:ring-warning-900",
-            "info" => "text-white bg-info-700 hover:bg-info-800 focus:ring-info-300 dark:bg-info-600 dark:hover:bg-info-700 dark:focus:ring-info-900",
-            "light" => "text-light-900 bg-light-300 border border-light-300 hover:bg-light-100 focus:ring-light-200 dark:bg-light-800 dark:text-white dark:border-light-600 dark:hover:bg-light-700 dark:hover:border-light-600 dark:focus:ring-light-700",
-            "dark" => "text-white bg-dark-800 hover:bg-dark-900 focus:ring-dark-300 dark:bg-dark-800 dark:hover:bg-dark-700 dark:focus:ring-dark-700 dark:border-dark-700",
-            "link" => "text-primary-600 dark:text-primary-500 hover:underline",
-            _ => null,
+            "secondary" => "[--tw-step-bg:var(--color-secondary-600)]",
+            "success" => "[--tw-step-bg:var(--color-success-600)]",
+            "danger" => "[--tw-step-bg:var(--color-danger-600)]",
+            "warning" => "[--tw-step-bg:var(--color-warning-600)]",
+            "info" => "[--tw-step-bg:var(--color-info-600)]",
+            "light" => "[--tw-step-bg:var(--color-light-600)]",
+            "dark" => "[--tw-step-bg:var(--color-dark-800)]",
+            _ => "[--tw-step-bg:var(--color-primary-600)]",
         };
     }
 
-    public override string StepItemDescription() => "b-step-item-head-text font-medium";
+    public override string StepItemMarker()
+        => "tw-step-marker flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-medium "
+            + "outline-2 outline-offset-2 outline-transparent "
+            + "group-focus-visible/step:ring-2 group-focus-visible/step:ring-primary-600 group-focus-visible/step:ring-offset-2 group-focus-visible/step:ring-offset-white "
+            + "group-focus-visible/step:shadow-[0_0_0_6px_color-mix(in_srgb,var(--color-primary-600)_16%,transparent)] "
+            + "dark:group-focus-visible/step:ring-primary-400 dark:group-focus-visible/step:ring-offset-gray-900 "
+            + "forced-colors:group-focus-visible/step:outline-[color:Highlight] forced-colors:group-focus-visible/step:ring-0 forced-colors:group-focus-visible/step:shadow-none";
 
-    public override string StepsContent() => "b-steps-content";
+    public override string StepItemMarkerColor( Color color, bool active )
+    {
+        if ( active )
+        {
+            if ( color?.Name == "light" )
+            {
+                return "bg-light-300 text-light-900 dark:bg-light-700 dark:text-white";
+            }
 
-    public override string StepPanel() => "b-step-panel";
+            var textClass = color?.Name == "info" ? "text-gray-950" : "text-white";
+
+            return $"bg-[color:var(--tw-step-bg)] {textClass} supports-[color:contrast-color(white)]:text-[color:contrast-color(var(--tw-step-bg))]";
+        }
+
+        if ( color.IsNullOrDefault() )
+        {
+            return "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300";
+        }
+
+        return "bg-[color:color-mix(in_srgb,var(--tw-step-bg)_10%,white)] text-[color:var(--tw-step-bg)] "
+            + "dark:bg-[color:color-mix(in_srgb,var(--tw-step-bg)_25%,var(--color-gray-900))] "
+            + "dark:text-[color:color-mix(in_srgb,var(--tw-step-bg)_50%,white)]";
+    }
+
+    public override string StepItemDescription() => "tw-step-caption mt-2 block break-words pe-4 text-sm font-medium text-gray-600 dark:text-gray-300";
+
+    public override string StepsContent() => "tw-steps-content";
+
+    public override string StepPanel() => "tw-step-panel";
 
     public override string StepPanelActive( bool active ) => active ? "block" : "hidden";
 
