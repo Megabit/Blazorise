@@ -1,19 +1,32 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Steps RenderMode="StepsRenderMode.LazyReload" SelectedStep="step1">
+<Steps RenderMode="StepsRenderMode.LazyReload" SelectedStep="contact" AriaLabel="Contact details with lazy reloading">
     <Items>
-        <Step Name="step1">Step 1</Step>
-        <Step Name="step2">Step 2</Step>
+        <Step Name="contact">Contact</Step>
+        <Step Name="notes">Notes</Step>
     </Items>
     <Content>
-        <StepPanel Name="step1">
-            This Steps component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time. 
-            Try typing some text in the provided Text components and changing between tabs, the tab will always be refreshed as the tab content is always lazy loaded, 
-            therefore re-calculated.
-            <TextInput></TextInput>
+        <StepPanel Name="contact" Padding="Padding.Is3">
+            <Paragraph>Enter contact details, visit Notes, then return. The inputs are recreated and your entries are cleared.</Paragraph>
+            <Field>
+                <FieldLabel>Full name</FieldLabel>
+                <TextInput Placeholder="e.g. Alex Morgan" />
+            </Field>
+            <Field Margin="Margin.Is0.FromBottom">
+                <FieldLabel>Email address</FieldLabel>
+                <TextInput Role="TextRole.Email" Placeholder="e.g. alex@example.com" />
+            </Field>
         </StepPanel>
-        <StepPanel Name="step2">
-            <TextInput></TextInput>
+        <StepPanel Name="notes" Padding="Padding.Is3">
+            <Paragraph>Only the active panel's content is rendered. These inputs also start empty each time you return.</Paragraph>
+            <Field>
+                <FieldLabel>Subject</FieldLabel>
+                <TextInput Placeholder="e.g. Project introduction" />
+            </Field>
+            <Field Margin="Margin.Is0.FromBottom">
+                <FieldLabel>Notes</FieldLabel>
+                <MemoInput Rows="3" Placeholder="Add a few details to discuss with this contact." />
+            </Field>
         </StepPanel>
     </Content>
 </Steps>

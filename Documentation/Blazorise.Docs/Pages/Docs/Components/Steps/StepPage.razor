@@ -90,10 +90,10 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Navigation Control">
         <Paragraph>
-            Basic steps navigation has no constraints, so it is possible to jump to any steps by clicking on them. However, this is usually impossible in real-world scenarios as sometimes a user is required to enter valid data before proceeding to the next step.
+            Use <Code>NavigationAllowed</Code> to check the current step before moving forward. In this example, enter a valid email address to continue. You can go back at any time without losing your entry.
         </Paragraph>
         <Paragraph>
-            To control the navigation between the steps, you need to use the <Code>NavigationAllowed</Code> parameter, which acts as a function that has all the information you need to validate the page switch.
+            The <Code>Validation</Code> component checks the email and shows a message beside the field. Moving forward calls <Code>Validations.ValidateAll()</Code>, whether you use Next or select a later step.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="StepNavigationAllowedExample" Outlined FullWidth>
@@ -103,7 +103,8 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Lazy Load">
-        You are able to set the <Code>Steps</Code> component to lazy load your steps.
+        <Code>StepsRenderMode.LazyLoad</Code> creates each step's content on its first visit and keeps it afterward.
+        Enter values below and switch steps to see how the inputs retain their state.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="StepLazyLoadStepExample" Outlined FullWidth>
         <StepLazyLoadStepExample />
@@ -112,7 +113,8 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Lazy Reload">
-        You are able to set the <Code>Steps</Code> component to lazy load your steps everytime.
+        <Code>StepsRenderMode.LazyReload</Code> renders only the selected step's content and recreates it on each visit.
+        These inputs keep their values locally, so switching steps clears them. Bind values to parent state when they need to persist.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="StepLazyReloadStepExample" Outlined FullWidth>
         <StepLazyReloadStepExample />
