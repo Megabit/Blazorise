@@ -17,6 +17,30 @@
 }
 
 .step {
+    cursor: pointer;
+
+    &:focus-visible {
+        outline: none;
+
+        .step-circle,
+        &:not(:has(.step-circle)) .step-text {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 2px $body-bg,
+                0 0 0 4px $component-active-bg,
+                0 0 0 6px color-mix(in srgb, $component-active-bg 16%, transparent);
+
+            @media (forced-colors: active) {
+                outline-color: Highlight;
+                box-shadow: none;
+            }
+        }
+
+        &:not(:has(.step-circle)) .step-text {
+            border-radius: $border-radius;
+        }
+    }
+
     &:first-of-type {
         .step-circle::before {
             display: none;

@@ -1,7 +1,10 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -12,15 +15,15 @@ namespace Blazorise;
 /// <summary>
 /// Steps is a navigation bar that guides users through the steps of a task.
 /// </summary>
-public partial class Steps : BaseComponent<StepsClasses, StepsStyles>
+public partial class Steps : BaseComponent<StepsClasses, StepsStyles>, IAsyncDisposable
 {
     #region Members
 
     private StepsState state = new();
 
-    private readonly List<string> stepItems = new();
+    private readonly List<Step> stepItems = new();
 
-    private readonly List<string> stepPanels = new();
+    private readonly List<StepPanel> stepPanels = new();
 
     #endregion
 
@@ -38,6 +41,14 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>
 
     #region Methods
 
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await JSModule.Initialize( ElementRef, ElementId );
+
+        await base.OnAfterRenderAsync( firstRender );
+    }
+
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
@@ -51,6 +62,17 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>
                 await SelectedStepChanged.InvokeAsync( state.SelectedStep );
             }
         }
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing && Rendered )
+        {
+            await JSModule.SafeDestroy( ElementRef, ElementId );
+        }
+
+        await base.DisposeAsync( disposing );
     }
 
     /// <inheritdoc/>
@@ -74,29 +96,54 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>
         base.DirtyClasses();
     }
 
-    internal void NotifyStepInitialized( string name )
+    internal void NotifyStepInitialized( Step step )
     {
-        if ( !stepItems.Contains( name ) )
-            stepItems.Add( name );
+        if ( !stepItems.Contains( step ) )
+        {
+            stepItems.Add( step );
+            InvokeAsync( StateHasChanged );
+        }
     }
 
-    internal void NotifyStepRemoved( string name )
+    internal void NotifyStepRemoved( Step step )
     {
-        if ( stepItems.Contains( name ) )
-            stepItems.Remove( name );
+        if ( stepItems.Remove( step ) )
+        {
+            InvokeAsync( StateHasChanged );
+        }
     }
 
-    internal void NotifyStepPanelInitialized( string name )
+    internal void NotifyStepPanelInitialized( StepPanel panel )
     {
-        if ( !stepPanels.Contains( name ) )
-            stepPanels.Add( name );
+        if ( !stepPanels.Contains( panel ) )
+        {
+            stepPanels.Add( panel );
+            InvokeAsync( StateHasChanged );
+        }
     }
 
-    internal void NotifyStepPanelRemoved( string name )
+    internal void NotifyStepPanelRemoved( StepPanel panel )
     {
-        if ( stepPanels.Contains( name ) )
-            stepPanels.Remove( name );
+        if ( stepPanels.Remove( panel ) )
+        {
+            InvokeAsync( StateHasChanged );
+        }
     }
+
+    /// <summary>
+    /// Gets the ID of the step associated with a panel.
+    /// </summary>
+    internal string GetStepElementId( string name ) => stepItems.Find( step => step.Name == name )?.ElementId;
+
+    /// <summary>
+    /// Gets the ID of the panel associated with a step.
+    /// </summary>
+    internal string GetStepPanelElementId( string name ) => stepPanels.Find( panel => panel.Name == name )?.ElementId;
+
+    /// <summary>
+    /// Refreshes step and panel associations after their names change.
+    /// </summary>
+    internal void NotifyStepParametersChanged() => InvokeAsync( StateHasChanged );
 
     /// <summary>
     /// Sets the active step by the name.
@@ -146,14 +193,14 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task<bool> NextStep()
     {
-        var selectedStepIndex = stepItems.IndexOf( SelectedStep );
+        var selectedStepIndex = stepItems.FindIndex( step => step.Name == SelectedStep );
 
         if ( selectedStepIndex == stepItems.Count - 1 )
         {
             return false;
         }
 
-        return await SelectStep( stepItems[selectedStepIndex + 1] );
+        return await SelectStep( stepItems[selectedStepIndex + 1].Name );
     }
 
     /// <summary>
@@ -162,14 +209,14 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task<bool> PreviousStep()
     {
-        var selectedStepIndex = stepItems.IndexOf( SelectedStep );
+        var selectedStepIndex = stepItems.FindIndex( step => step.Name == SelectedStep );
 
         if ( selectedStepIndex <= 0 )
         {
             return false;
         }
 
-        return await SelectStep( stepItems[selectedStepIndex - 1] );
+        return await SelectStep( stepItems[selectedStepIndex - 1].Name );
     }
 
     /// <summary>
@@ -179,7 +226,7 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>
     /// <returns>The one-based index or 0 if not found.</returns>
     internal int IndexOfStep( string name )
     {
-        return stepItems.IndexOf( name ) + 1;
+        return stepItems.FindIndex( step => step.Name == name ) + 1;
     }
 
     #endregion
@@ -194,12 +241,12 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>
     /// <summary>
     /// Gets the list of all <see cref="Step"/>s  within the <see cref="Steps"/>.
     /// </summary>
-    protected IReadOnlyList<string> StepItems => stepItems;
+    protected IReadOnlyList<string> StepItems => stepItems.Select( step => step.Name ).ToArray();
 
     /// <summary>
     /// Gets the list of all <see cref="StepPanel"/>s within the <see cref="Steps"/>.
     /// </summary>
-    protected IReadOnlyList<string> StepPanels => stepPanels;
+    protected IReadOnlyList<string> StepPanels => stepPanels.Select( panel => panel.Name ).ToArray();
 
     /// <summary>
     /// Content element class builder.
@@ -210,6 +257,21 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>
     /// Gets the classnames for the content element.
     /// </summary>
     protected string ContentClassNames => ContentClassBuilder.Class;
+
+    /// <summary>
+    /// Gets the shared tab-list keyboard navigation module.
+    /// </summary>
+    [Inject] protected IJSTabsModule JSModule { get; set; }
+
+    /// <summary>
+    /// Specifies the accessible name of the step list when no visible label is available.
+    /// </summary>
+    [Parameter] public string AriaLabel { get; set; }
+
+    /// <summary>
+    /// Specifies the space-separated IDs of elements that label the step list.
+    /// </summary>
+    [Parameter] public string AriaLabelledBy { get; set; }
 
     /// <summary>
     /// Specifies the currently selected step name.

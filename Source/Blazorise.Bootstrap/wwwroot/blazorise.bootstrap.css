@@ -3941,6 +3941,26 @@ li.list-group-item-action {
   margin-right: auto;
 }
 
+.step {
+  cursor: pointer;
+}
+.step:focus-visible {
+  outline: none;
+}
+.step:focus-visible .step-circle, .step:focus-visible:not(:has(.step-circle)) .step-text {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #007bff, 0 0 0 6px color-mix(in srgb, #007bff 16%, transparent);
+}
+@media (forced-colors: active) {
+  .step:focus-visible .step-circle, .step:focus-visible:not(:has(.step-circle)) .step-text {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+}
+.step:focus-visible:not(:has(.step-circle)) .step-text {
+  border-radius: 0.25rem;
+}
 .step:first-of-type .step-circle::before {
   display: none;
 }

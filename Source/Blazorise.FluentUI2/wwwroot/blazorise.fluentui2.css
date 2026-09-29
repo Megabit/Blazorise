@@ -12090,6 +12090,27 @@ input::file-selector-button {
   flex: 1;
   text-align: center;
   max-width: 100%;
+  cursor: pointer;
+}
+.fui-Steps .fui-Step:focus-visible {
+  outline: none;
+}
+.fui-Steps .fui-Step:focus-visible > .fui-Step__circle > svg, .fui-Steps .fui-Step:focus-visible:not(:has(> .fui-Step__circle)) > .fui-Step__text {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--colorNeutralBackground1), 0 0 0 4px var(--colorBrandStroke1), 0 0 0 6px color-mix(in srgb, var(--colorBrandStroke1) 16%, transparent);
+}
+@media (forced-colors: active) {
+  .fui-Steps .fui-Step:focus-visible > .fui-Step__circle > svg, .fui-Steps .fui-Step:focus-visible:not(:has(> .fui-Step__circle)) > .fui-Step__text {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+}
+.fui-Steps .fui-Step:focus-visible > .fui-Step__circle > svg {
+  border-radius: 50%;
+}
+.fui-Steps .fui-Step:focus-visible:not(:has(> .fui-Step__circle)) > .fui-Step__text {
+  border-radius: var(--borderRadiusMedium);
 }
 .fui-Steps .fui-Step .fui-Step__circle {
   min-width: calc(1.2 * var(--fluent-wizard-circle-size));

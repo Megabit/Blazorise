@@ -5086,6 +5086,24 @@ li.list-group-item-action {
   position: relative;
   flex-grow: 1;
   flex-basis: 0;
+  cursor: pointer;
+}
+.steps .step-item:focus-visible {
+  outline: none;
+}
+.steps .step-item:focus-visible > .step-marker, .steps .step-item:focus-visible:not(:has(> .step-marker)) > .step-details {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--bulma-scheme-main, hsl(221, 14%, 100%)), 0 0 0 4px var(--bulma-link, hsl(233, 100%, 63%)), 0 0 0 6px color-mix(in srgb, var(--bulma-link, hsl(233, 100%, 63%)) 16%, transparent);
+}
+@media (forced-colors: active) {
+  .steps .step-item:focus-visible > .step-marker, .steps .step-item:focus-visible:not(:has(> .step-marker)) > .step-details {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+}
+.steps .step-item:focus-visible:not(:has(> .step-marker)) > .step-details {
+  border-radius: var(--bulma-radius, 0.375rem);
 }
 .steps .step-item:not(:first-child) {
   flex-basis: 1em;

@@ -9474,9 +9474,22 @@ body.modal-open {
   word-break: keep-all;
 }
 
-.mui-step-item:focus-visible, .mui-step-item:focus-visible > .mui-step-marker {
-  outline: 0.125rem solid color-mix(in srgb, var(--mui-step-accent) 48%, transparent);
-  outline-offset: 0.125rem;
+.mui-steps > .mui-step-item:focus-visible {
+  outline: none;
+}
+.mui-steps > .mui-step-item:focus-visible > .mui-step-marker, .mui-steps > .mui-step-item:focus-visible:not(:has(> .mui-step-marker)) > .mui-step-description {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--mui-surface), 0 0 0 4px var(--mui-primary), 0 0 0 6px color-mix(in srgb, var(--mui-primary) 16%, transparent);
+}
+@media (forced-colors: active) {
+  .mui-steps > .mui-step-item:focus-visible > .mui-step-marker, .mui-steps > .mui-step-item:focus-visible:not(:has(> .mui-step-marker)) > .mui-step-description {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+}
+.mui-steps > .mui-step-item:focus-visible:not(:has(> .mui-step-marker)) > .mui-step-description {
+  border-radius: 0.5rem;
 }
 
 .mui-step-item.mui-step-item-active {

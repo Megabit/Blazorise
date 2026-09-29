@@ -9740,6 +9740,24 @@ a.ant-typography-disabled[aria-disabled=true] {
 .ant-steps .ant-steps-item {
   flex: 1 1 0;
   min-width: 0;
+  cursor: pointer;
+}
+.ant-steps .ant-steps-item[role=tab]:focus-visible {
+  outline: none;
+}
+.ant-steps .ant-steps-item[role=tab]:focus-visible > .ant-steps-item-wrapper > .ant-steps-item-icon, .ant-steps .ant-steps-item[role=tab]:focus-visible:not(:has(> .ant-steps-item-wrapper > .ant-steps-item-icon)) > .ant-steps-item-wrapper .ant-steps-item-title {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--ant-color-bg-container), 0 0 0 4px var(--ant-color-primary), 0 0 0 6px color-mix(in srgb, var(--ant-color-primary) 16%, transparent);
+}
+@media (forced-colors: active) {
+  .ant-steps .ant-steps-item[role=tab]:focus-visible > .ant-steps-item-wrapper > .ant-steps-item-icon, .ant-steps .ant-steps-item[role=tab]:focus-visible:not(:has(> .ant-steps-item-wrapper > .ant-steps-item-icon)) > .ant-steps-item-wrapper .ant-steps-item-title {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+}
+.ant-steps .ant-steps-item[role=tab]:focus-visible:not(:has(> .ant-steps-item-wrapper > .ant-steps-item-icon)) > .ant-steps-item-wrapper .ant-steps-item-title {
+  border-radius: var(--ant-border-radius-sm);
 }
 .ant-steps .ant-steps-item-wrapper {
   display: flex;

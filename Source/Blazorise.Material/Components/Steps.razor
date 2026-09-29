@@ -3,7 +3,7 @@
     <CascadingValue Value="@State">
         @if ( Items != null && Content != null )
         {
-            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="horizontal" @attributes="@Attributes">
                 @Items
             </div>
             <div class="@ContentClassNames" style="@Styles?.Content" @attributes="@Attributes">
@@ -12,8 +12,8 @@
         }
         else
         {
-            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                @ChildContent
+            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="horizontal" @attributes="@Attributes">
+                @( Items ?? ChildContent )
             </div>
         }
     </CascadingValue>

@@ -48,6 +48,29 @@
         position: relative;
         flex-grow: 1;
         flex-basis: 0;
+        cursor: pointer;
+
+        &:focus-visible {
+            outline: none;
+
+            > .step-marker,
+            &:not(:has(> .step-marker)) > .step-details {
+                outline: 2px solid transparent;
+                outline-offset: 2px;
+                box-shadow: 0 0 0 2px var(--bulma-scheme-main, #{$scheme-main}),
+                    0 0 0 4px var(--bulma-link, #{$link}),
+                    0 0 0 6px color-mix(in srgb, var(--bulma-link, #{$link}) 16%, transparent);
+
+                @media (forced-colors: active) {
+                    outline-color: Highlight;
+                    box-shadow: none;
+                }
+            }
+
+            &:not(:has(> .step-marker)) > .step-details {
+                border-radius: var(--bulma-radius, #{$radius});
+            }
+        }
 
         &:not(:first-child) {
             flex-basis: 1em;

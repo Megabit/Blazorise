@@ -17,6 +17,28 @@
 }
 
 .step {
+    cursor: pointer;
+
+    &:focus-visible {
+        outline: none;
+
+        .step-circle,
+        &:not(:has(.step-circle)) .step-text {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 2px var(--bs-body-bg, #{$body-bg}), 0 0 0 4px var(--bs-primary, #{$primary}), 0 0 0 6px color-mix(in srgb, var(--bs-primary, #{$primary}) 16%, transparent);
+
+            @media (forced-colors: active) {
+                outline-color: Highlight;
+                box-shadow: none;
+            }
+        }
+
+        &:not(:has(.step-circle)) .step-text {
+            border-radius: var(--bs-border-radius, #{$border-radius});
+        }
+    }
+
     &:first-of-type {
         .step-circle::before {
             display: none;
@@ -194,6 +216,5 @@
                 color: var(--bs-step-color);
             }
         }
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tabpanel" tabindex="@TabIndex" aria-labelledby="@AriaLabelledBy" aria-hidden="@AriaHiddenString" @attributes="@Attributes">
     @if ( RenderMode == StepsRenderMode.Default || ( RenderMode == StepsRenderMode.LazyReload && Active ) || ( RenderMode == StepsRenderMode.LazyLoad && lazyLoaded ) )
     {
         @ChildContent

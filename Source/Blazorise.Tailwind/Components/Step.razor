@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.Step
 @using Blazorise.Utilities
 <CascadingValue Value="@this" IsFixed>
-    <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+    <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tab" tabindex="@TabIndex" aria-labelledby="@AriaLabelledBy" aria-controls="@AriaControls" aria-selected="@AriaSelectedString" @onclick="@OnClickHandler" @attributes="@Attributes">
         <div class="@ContainerClassNames" style="@ContainerStyleNames">
             @if ( Marker != null || Caption != null )
             {

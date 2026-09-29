@@ -16,6 +16,33 @@
         flex: 1;
         text-align: center;
         max-width: 100%;
+        cursor: pointer;
+
+        &:focus-visible {
+            outline: none;
+
+            > .fui-Step__circle > svg,
+            &:not(:has(> .fui-Step__circle)) > .fui-Step__text {
+                outline: 2px solid transparent;
+                outline-offset: 2px;
+                box-shadow: 0 0 0 2px var(--colorNeutralBackground1),
+                    0 0 0 4px var(--colorBrandStroke1),
+                    0 0 0 6px color-mix(in srgb, var(--colorBrandStroke1) 16%, transparent);
+
+                @media (forced-colors: active) {
+                    outline-color: Highlight;
+                    box-shadow: none;
+                }
+            }
+
+            > .fui-Step__circle > svg {
+                border-radius: 50%;
+            }
+
+            &:not(:has(> .fui-Step__circle)) > .fui-Step__text {
+                border-radius: var(--borderRadiusMedium);
+            }
+        }
 
         .fui-Step__circle {
             min-width: calc(1.2 * var(--fluent-wizard-circle-size));

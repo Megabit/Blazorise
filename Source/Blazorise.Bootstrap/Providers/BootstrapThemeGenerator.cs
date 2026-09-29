@@ -763,6 +763,14 @@ public class BootstrapThemeGenerator : ThemeGenerator
 
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
     {
+        sb
+            .Append( "@media (forced-colors: none){" )
+            .Append( ".step:focus-visible .step-circle, .step:focus-visible:not(:has(.step-circle)) .step-text" ).Append( "{" )
+            .Append( $"box-shadow: 0 0 0 2px {Var( ThemeVariables.BodyBackgroundColor, Var( ThemeVariables.White ) )}," )
+            .Append( $"0 0 0 4px {Var( ThemeVariables.Color( "primary" ) )}," )
+            .Append( $"0 0 0 6px color-mix(in srgb, {Var( ThemeVariables.Color( "primary" ) )} 16%, transparent);" )
+            .AppendLine( "}}" );
+
         if ( stepsOptions is null )
             return;
 
