@@ -603,7 +603,7 @@
 .b-blog .b-blog-article h1 { font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.15; font-weight: 700; letter-spacing: -.055em; margin-block: 2rem !important; }
 .b-blog .b-blog-article h2 { font-size: clamp(1.6rem, 3vw, 2.25rem); margin-top: 2.5rem; border-color: var(--b-visual-line); }
 .b-blog .b-blog-article h3 { font-size: 1.45rem; margin-top: 2rem; border-color: var(--b-visual-line); }
-.b-blog .b-blog-article p, .b-blog .b-blog-article li { line-height: 1.85; }
+.b-blog .b-blog-article p, .b-blog .b-blog-article li { line-height: 1.5; }
 .b-blog-article img { max-width: 100%; height: auto; }
 .b-blog-article pre { max-width: 100%; overflow-x: auto; }
 .b-blog-article .table-responsive { max-width: 100%; overflow-x: auto; }
