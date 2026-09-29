@@ -6,7 +6,7 @@
             @if ( Marker is not null )
             {
                 <div class="@MarkerClassNames" style="@Styles?.Marker">
-                    <svg style="width: 24px; width: var(--fluent-wizard-circle-size);" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                    <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                         @if ( Completed || Active )
                         {
                             <path d="M2 12a10 10 0 1120 0 10 10 0 01-20 0z"></path>
@@ -31,7 +31,7 @@
         else
         {
             <div class="@MarkerClassNames" style="@Styles?.Marker">
-                <svg style="width: 24px; width: var(--fluent-wizard-circle-size);" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                     @if ( Completed || Active )
                     {
                         <path d="M2 12a10 10 0 1120 0 10 10 0 01-20 0z"></path>
