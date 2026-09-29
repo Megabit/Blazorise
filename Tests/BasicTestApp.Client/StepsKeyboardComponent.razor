@@ -1,0 +1,40 @@
+@using BasicTestApp.Client.Infrastructure
+
+@foreach ( var group in new[] { "basic", "guarded", "items-only" } )
+{
+    <Div ElementId="@($"keyboard-steps-{group}")">
+        <Button Class="before-steps">Before steps</Button>
+        <TestSteps SelectedStep="2" AriaLabel="@($"{group} steps")" NavigationAllowed="@( group == "guarded" ? OnNavigationAllowed : null )" Initialized="OnStepsInitializedHandler">
+            <Items>
+                <Step Name="1" ElementId="@($"first-step-{group}")">First</Step>
+                <Step Name="2">Second</Step>
+                <Step Name="3">Last</Step>
+            </Items>
+            <Content>
+                @if ( group != "items-only" )
+                {
+                    <StepPanel Name="1" ElementId="@($"first-panel-{group}")">First panel</StepPanel>
+                    <StepPanel Name="2">Second panel</StepPanel>
+                    <StepPanel Name="3">Last panel</StepPanel>
+                }
+            </Content>
+        </TestSteps>
+        <Button Class="after-steps">After steps</Button>
+    </Div>
+}
+
+@if ( initializedSteps == 3 )
+{
+    <Span ElementId="keyboard-steps-ready">Ready</Span>
+}
+
+@code {
+    private int initializedSteps;
+
+    private void OnStepsInitializedHandler()
+    {
+        initializedSteps++;
+    }
+
+    private Task<bool> OnNavigationAllowed( StepNavigationContext context ) => Task.FromResult( context.NextStepName != "3" );
+}
