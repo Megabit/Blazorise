@@ -735,72 +735,56 @@ public class BulmaThemeGenerator : ThemeGenerator
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
     {
         if ( stepsOptions is null )
+        {
             return;
+        }
+
+        var completedColor = Var( ThemeVariables.StepsItemIconCompleted, Var( ThemeVariables.Color( "primary" ) ) );
+        var activeColor = Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) );
+        var backgroundColor = $"var(--bulma-scheme-main, {Var( ThemeVariables.BodyBackgroundColor, Var( ThemeVariables.White ) )})";
+        var textColor = $"var(--bulma-text-strong, {Var( ThemeVariables.BodyTextColor )})";
 
         sb
             .Append( ".steps .step-item.is-completed::before" ).Append( "{" )
-            .Append( "background-position: left bottom;" )
-            .AppendLine( "}" );
-
-        sb
+            .Append( $"background-color: {completedColor};" )
+            .AppendLine( "}" )
             .Append( ".steps .step-item.is-completed .step-marker" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.White )};" )
-            .Append( $"background-color: {Var( ThemeVariables.StepsItemIconCompleted, Var( ThemeVariables.Color( "success" ) ) )};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( ".steps .step-item.is-active.is-completed .step-marker," )
-            .Append( ".steps .step-item.is-active .step-marker" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.White )};" )
-            .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
-            .AppendLine( "}" );
-
-        sb
+            .Append( $"color: {Var( ThemeVariables.StepsItemIconCompletedYiq, Var( ThemeVariables.White ) )};" )
+            .Append( $"background-color: {completedColor};" )
+            .AppendLine( "}" )
             .Append( ".steps .step-item.is-active::before" ).Append( "{" )
-            .Append( $"background: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+            .Append( $"background-color: {activeColor};" )
+            .AppendLine( "}" )
+            .Append( ".steps .step-item.is-active .step-marker" ).Append( "{" )
+            .Append( $"color: color-mix(in srgb, {activeColor} 40%, {textColor});" )
+            .Append( $"background-color: {backgroundColor};" )
+            .Append( $"border-color: {activeColor};" )
             .AppendLine( "}" );
     }
 
     protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
     {
-        if ( stepsOptions is null )
-            return;
-
-        sb
-            .Append( $".steps .step-item.is-{variant}::before" ).Append( "{" )
-            .Append( $"background: linear-gradient(to left, #dbdbdb 50%, {Var( ThemeVariables.VariantStepsItemIcon( variant ) )} 50%);" )
-            .Append( "background-size: 200% 100%;" )
-            .Append( "background-position: right bottom;" )
-            .AppendLine( "}" );
+        var color = Var( ThemeVariables.VariantStepsItemIcon( variant ) );
+        var contrastColor = Var( ThemeVariables.VariantStepsItemIconYiq( variant ) );
+        var backgroundColor = $"var(--bulma-scheme-main, {Var( ThemeVariables.BodyBackgroundColor, Var( ThemeVariables.White ) )})";
+        var textColor = $"var(--bulma-text-strong, {Var( ThemeVariables.BodyTextColor )})";
 
         sb
             .Append( $".steps .step-item.is-{variant} .step-marker" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.VariantStepsItemIconYiq( variant ) )};" )
-            .Append( $"background-color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".steps .step-item.is-{variant}.is-completed::before" ).Append( "{" )
-            .Append( "background-position: left bottom;" )
-            .AppendLine( "}" );
-
-        sb
+            .Append( $"color: color-mix(in srgb, {color} 40%, {textColor});" )
+            .Append( $"background-color: color-mix(in srgb, {color} 12%, {backgroundColor});" )
+            .AppendLine( "}" )
             .Append( $".steps .step-item.is-{variant}.is-completed .step-marker" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.StepsItemIconCompletedYiq )};" )
-            .Append( $"background-color: {Var( ThemeVariables.StepsItemIconCompleted )};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".steps .step-item.is-{variant}.is-active::before" ).Append( "{" )
-            .Append( "background-position: left bottom;" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".steps .step-item.is-{variant}.is-active.is-completed .step-marker," )
+            .Append( $"color: {contrastColor};" )
+            .Append( $"background-color: {color};" )
+            .AppendLine( "}" )
             .Append( $".steps .step-item.is-{variant}.is-active .step-marker" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq, Var( ThemeVariables.White ) )};" )
-            .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
-            .Append( $"border-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+            .Append( $"color: color-mix(in srgb, {color} 40%, {textColor});" )
+            .Append( $"background-color: {backgroundColor};" )
+            .Append( $"border-color: {color};" )
+            .AppendLine( "}" )
+            .Append( $".steps .step-item.is-{variant}.is-completed::before, .steps .step-item.is-{variant}.is-active::before" ).Append( "{" )
+            .Append( $"background-color: {color};" )
             .AppendLine( "}" );
     }
 

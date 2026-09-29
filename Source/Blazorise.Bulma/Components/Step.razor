@@ -1,33 +1,37 @@
 ﻿@inherits Blazorise.Step
 <CascadingValue Value="@this" IsFixed>
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tab" tabindex="@TabIndex" aria-labelledby="@AriaLabelledBy" aria-controls="@AriaControls" aria-selected="@AriaSelectedString" @onclick="@OnClickHandler" @attributes="@Attributes">
-        @if ( Marker != null || Caption != null )
-        {
-            @if ( Marker != null )
+    <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tab" tabindex="@TabIndex" aria-labelledby="@AriaLabelledBy" aria-controls="@AriaControls" aria-selected="@AriaSelectedString" @onclick="@OnClickHandler" @attributes="@Attributes">
+        <span class="@MarkerClassNames" style="@Styles?.Marker">
+            @if ( Marker is not null )
             {
-                <div class="@MarkerClassNames" style="@Styles?.Marker">
-                    @Marker
-                </div>
+                @Marker
             }
-            @if ( Caption != null )
+            else if ( Completed )
             {
-                <div class="@DescriptionClassNames" style="@Styles?.Description">
-                    <p class="step-title">
-                        @Caption
-                    </p>
-                </div>
+                <svg class="step-check" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="is-sr-only">@CalculatedIndex</span>
             }
-        }
-        else
-        {
-            <div class="@MarkerClassNames" style="@Styles?.Marker">
+            else
+            {
                 @CalculatedIndex
-            </div>
+            }
+        </span>
+        @if ( Caption is not null || ChildContent is not null )
+        {
             <div class="@DescriptionClassNames" style="@Styles?.Description">
                 <p class="step-title">
-                    @ChildContent
+                    @if ( Caption is not null )
+                    {
+                        @Caption
+                    }
+                    else
+                    {
+                        @ChildContent
+                    }
                 </p>
             </div>
         }
-    </div>
+    </li>
 </CascadingValue>

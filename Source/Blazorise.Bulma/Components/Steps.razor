@@ -1,20 +1,20 @@
 ﻿@inherits Blazorise.Steps
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="State">
-        @if ( Items != null && Content != null )
+        @if ( Items is not null && Content is not null )
         {
-            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="horizontal" @attributes="@Attributes">
+            <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="horizontal" @attributes="@Attributes">
                 @Items
-            </div>
+            </ul>
             <div class="@ContentClassNames" style="@Styles?.Content">
                 @Content
             </div>
         }
         else
         {
-            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="horizontal" @attributes="@Attributes">
+            <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-orientation="horizontal" @attributes="@Attributes">
                 @( Items ?? ChildContent )
-            </div>
+            </ul>
         }
     </CascadingValue>
 </CascadingValue>

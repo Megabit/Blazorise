@@ -1,60 +1,49 @@
-﻿@mixin steps-size($size) {
-    font-size: $size;
-    min-height: $size*2;
-
-    .step-item {
-        &:not(:first-child)::before {
-            height: $steps-divider-height;
-            width: 100%;
-            bottom: 0;
-            left: -50%;
-            top: #{$size};
-        }
-
-        .step-marker {
-            height: $size * 2;
-            width: $size * 2;
-            position: absolute;
-            left: calc(50% - #{$size});
-
-            .icon {
-                * {
-                    font-size: $size;
-                }
-            }
-        }
-
-        .step-details {
-            margin-top: $size * 2;
-            margin-left: .5em;
-            margin-right: .5em;
-            padding-top: .2em;
-
-            .step-title {
-                font-size: $size * 1.2;
-                font-weight: $weight-semibold;
-            }
-        }
-    }
-}
-
-.steps {
+﻿.steps {
     @include block;
     display: flex;
-    flex-wrap: wrap;
+    align-items: flex-start;
+    width: 100%;
+    padding: .5rem 0;
+    overflow-x: auto;
+    font-size: var(--bulma-size-normal, #{$size-normal});
+
+    &,
+    .content & {
+        margin: 0;
+        list-style: none;
+    }
 
     .step-item {
-        margin-top: 0;
         position: relative;
-        flex-grow: 1;
-        flex-basis: 0;
+        flex: 1 0 $steps-content-width;
+        min-width: 0;
+        margin-top: 0;
         cursor: pointer;
+
+        &::before {
+            content: '';
+            position: absolute;
+            inset-inline-end: calc((#{$steps-content-width} + #{$steps-marker-size}) / 2);
+            top: calc(#{$steps-marker-size} / 2);
+            width: calc(100% - #{$steps-marker-size});
+            height: $steps-divider-height;
+            transform: translateY(-50%);
+            background-color: var(--bulma-border, #{$steps-default-color});
+            pointer-events: none;
+        }
+
+        &:first-child {
+            flex: 0 0 $steps-content-width;
+
+            &::before {
+                display: none;
+            }
+        }
 
         &:focus-visible {
             outline: none;
 
-            > .step-marker,
-            &:not(:has(> .step-marker)) > .step-details {
+            > .step-marker {
                 outline: 2px solid transparent;
                 outline-offset: 2px;
                 box-shadow: 0 0 0 2px var(--bulma-scheme-main, #{$scheme-main}),
@@ -66,150 +55,150 @@
                     box-shadow: none;
                 }
             }
-
-            &:not(:has(> .step-marker)) > .step-details {
-                border-radius: var(--bulma-radius, #{$radius});
-            }
-        }
-
-        &:not(:first-child) {
-            flex-basis: 1em;
-            flex-grow: 1;
-            flex-shrink: 1;
-
-            &::before {
-                // This will contain the horizontal or vertical divider
-                content: " ";
-                display: block;
-                position: absolute;
-            }
-        }
-
-        &::before {
-            background: linear-gradient(to left, $steps-default-color 50%, $steps-active-color 50%);
-            background-size: 200% 100%;
-            background-position: right bottom;
-
-            .step-marker {
-                color: $white;
-            }
         }
 
         &.is-completed {
             &::before {
-                background-position: left bottom;
+                background-color: var(--bulma-primary, #{$steps-completed-color});
             }
 
             .step-marker {
-                color: $white;
-                background-color: $steps-completed-color;
+                background-color: var(--bulma-primary, #{$steps-completed-color});
+                color: var(--bulma-primary-invert, #{bulmaFindColorInvert($steps-completed-color)});
             }
         }
 
         &.is-active {
             &::before {
-                background-position: left bottom;
+                background-color: var(--bulma-primary, #{$steps-active-color});
             }
 
-
-            &.is-completed .step-marker,
             .step-marker {
-                background-color: $steps-active-color;
-                color: $white;
+                background-color: var(--bulma-scheme-main, #{$scheme-main});
+                border-color: var(--bulma-primary, #{$steps-active-color});
+                color: var(--bulma-primary-on-scheme, #{bulmaFindDarkColor($steps-active-color)});
+            }
+
+            .step-title {
+                color: var(--bulma-text-strong, #{$text-strong});
+                font-weight: var(--bulma-weight-semibold, #{$weight-semibold});
             }
         }
 
-        .step-marker {
-            align-items: center;
-            display: flex;
-            border-radius: 50%;
-            font-weight: $weight-bold;
-            justify-content: center;
-            background: $steps-marker-default-color;
-            color: $white;
-            border: $steps-marker-default-border;
-            z-index: 1;
-        }
-
-        .step-details {
-            text-align: center;
-        }
-
-        @each $name, $color in $theme-colors {
+        @each $name, $value in $theme-colors {
+            $color: var(--bulma-#{$name}, #{$value});
+            $text-color: var(--bulma-#{$name}-on-scheme, color-mix(in srgb, #{$color} 40%, var(--bulma-text-strong, #{$text-strong})));
 
             &.is-#{$name} {
-                &::before {
-                    background: linear-gradient(to left, $steps-default-color 50%, $color 50%);
-                    background-size: 200% 100%;
-                    background-position: right bottom;
-                }
-
                 .step-marker {
-                    background-color: $color;
-                    color: $white;
+                    background-color: var(--bulma-#{$name}-soft, color-mix(in srgb, #{$color} 12%, var(--bulma-scheme-main, #{$scheme-main})));
+                    color: var(--bulma-#{$name}-soft-invert, #{$text-color});
                 }
 
                 &.is-completed {
-                    &::before {
-                        background-position: left bottom;
-                    }
-
                     .step-marker {
                         background-color: $color;
-                        color: $white;
+                        color: var(--bulma-#{$name}-invert, #{bulmaFindColorInvert($value)});
                     }
                 }
 
                 &.is-active {
-                    &::before {
-                        background-position: left bottom;
-                    }
-
-                    &.is-completed .step-marker,
                     .step-marker {
-                        background-color: $steps-active-color;
-                        border-color: $steps-active-color;
-                        color: $white;
+                        background-color: var(--bulma-scheme-main, #{$scheme-main});
+                        border-color: $color;
+                        color: $text-color;
+                    }
+                }
+
+                &.is-completed,
+                &.is-active {
+                    &::before {
+                        background-color: $color;
                     }
                 }
             }
         }
     }
 
-    .steps-actions {
+    .step-marker {
+        position: relative;
+        z-index: 1;
         display: flex;
-        align-items: stretch;
-        flex-basis: 100%;
+        align-items: center;
+        justify-content: center;
+        width: $steps-marker-size;
+        height: $steps-marker-size;
+        margin-inline-start: calc(100% - (#{$steps-content-width} + #{$steps-marker-size}) / 2);
+        border: $steps-marker-default-border;
+        border-radius: 50%;
+        background-color: var(--bulma-border, #{$steps-marker-default-color});
+        color: var(--bulma-text-strong, #{$text-strong});
+        font-weight: var(--bulma-weight-bold, #{$weight-bold});
+        line-height: 1;
+    }
 
-        .steps-action {
-            display: flex;
-            flex-basis: 0;
-            flex-grow: 1;
-            margin: .5rem;
-            justify-content: center;
-            align-items: center;
-        }
+    .step-check {
+        width: 1em;
+        height: 1em;
+    }
+
+    .step-details {
+        width: $steps-content-width;
+        margin-inline-start: auto;
+        padding: .5em .5em 0;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .step-title {
+        margin: 0;
+        font-size: 1em;
+        color: var(--bulma-text, #{$text});
     }
 
     &.is-animated {
-        .step-item {
-            &::before {
-                transition: all 2s ease;
+        @media (prefers-reduced-motion: no-preference) {
+            .step-item::before {
+                transition: background-color $speed-slow ease;
             }
 
             .step-marker {
-                transition: all 0s ease;
-                transition-delay: 1.5s;
+                transition: background-color $speed-slow ease, border-color $speed-slow ease, color $speed-slow ease;
             }
         }
     }
+}
 
-    @include steps-size($size-normal);
+.steps .step-item.is-custom {
+    .step-marker {
+        background-color: color-mix(in srgb, var(--bulma-step-color) 12%, var(--bulma-scheme-main, #{$scheme-main}));
+        color: color-mix(in srgb, var(--bulma-step-color) 40%, var(--bulma-text-strong, #{$text-strong}));
+    }
+
+    &.is-completed .step-marker {
+        background-color: var(--bulma-step-color);
+        color: $white;
+
+        @supports (color: contrast-color(white)) {
+            color: contrast-color(var(--bulma-step-color));
+        }
+    }
+
+    &.is-active .step-marker {
+        background-color: var(--bulma-scheme-main, #{$scheme-main});
+        border-color: var(--bulma-step-color);
+        color: color-mix(in srgb, var(--bulma-step-color) 40%, var(--bulma-text-strong, #{$text-strong}));
+    }
+
+    &.is-completed,
+    &.is-active {
+        &::before {
+            background-color: var(--bulma-step-color);
+        }
+    }
 }
 
 .steps-content {
-    align-items: stretch;
-    flex-basis: 100%;
     margin: 2rem 0;
 
     .step-content {
@@ -217,30 +206,6 @@
 
         &.is-active {
             display: block;
-        }
-    }
-}
-
-.steps .step-item.is-custom {
-    .step-marker {
-        color: var(--bulma-step-color);
-        border-color: var(--bulma-step-color);
-    }
-
-    &.is-active,
-    &.is-completed {
-        .step-marker {
-            background-color: var(--bulma-step-color);
-            border-color: var(--bulma-step-color);
-            color: white;
-
-            @supports (color: contrast-color(white)) {
-                color: contrast-color(var(--bulma-step-color));
-            }
-        }
-
-        &::before {
-            background: var(--bulma-step-color);
         }
     }
 }

@@ -104,12 +104,14 @@ $card-deck-margin: $card-group-margin !default;
 
 // Steps
 
-$steps-marker-default-color: $grey-light !default;
-$steps-marker-default-border: .2em solid #fff !default;
+$steps-marker-default-color: $grey-lighter !default;
+$steps-marker-default-border: .2em solid transparent !default;
 $steps-default-color: $grey-lighter !default;
-$steps-completed-color: $success !default;
+$steps-completed-color: $primary !default;
 $steps-active-color: $primary !default;
-$steps-divider-height: .2em !default;
+$steps-divider-height: .4em !default;
+$steps-marker-size: 2em !default;
+$steps-content-width: 5em !default;
 
 $sizes-percentages: () !default;
 $sizes-percentages: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes-percentages );
