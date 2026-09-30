@@ -773,7 +773,35 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Steps
 
-    public override string Steps() => "ant-steps ant-steps-horizontal ant-steps-title-horizontal ant-steps-filled";
+    public override string Steps() => "ant-steps ant-steps-title-horizontal ant-steps-filled";
+
+    public override string StepsPosition( StepPosition stepPosition ) => stepPosition switch
+    {
+        StepPosition.Start => "ant-steps-vertical",
+        StepPosition.End => "ant-steps-vertical ant-steps-end",
+        _ => "ant-steps-horizontal",
+    };
+
+    public override string StepsLayout( StepPosition stepPosition, StepAlignment stepAlignment )
+    {
+        var positionClassNames = StepsPosition( stepPosition );
+
+        if ( stepAlignment == StepAlignment.Default )
+        {
+            return positionClassNames;
+        }
+
+        var sb = new StringBuilder();
+
+        if ( !string.IsNullOrEmpty( positionClassNames ) )
+        {
+            sb.Append( positionClassNames ).Append( ' ' );
+        }
+
+        sb.Append( "ant-steps-layout ant-steps-alignment-" ).Append( ToStepAlignment( stepAlignment ) );
+
+        return sb.ToString();
+    }
 
     public override string StepItem() => "ant-steps-item";
 

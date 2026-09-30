@@ -5983,90 +5983,179 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Step Name=""publish"" Color=""@CssColor.Variable(""--accent"", ""#7C3AED"")"">Publish</Step>
 </Steps>";
 
-        public const string StepLazyLoadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyLoad"" SelectedStep=""step1"">
-    <Items>
-        <Step Name=""step1"">Step 1</Step>
-        <Step Name=""step2"">Step 2</Step>
-    </Items>
-    <Content>
-        <StepPanel Name=""step1"">
-            This Steps component is set to <code>LazyLoad</code> mode, meaning each step will only be rendered/loaded the first time it is visited.
-            This is specially useful when you want to delay some heavy or long waited operations for when the step is actually clicked instead.
-            <TextInput></TextInput>
-        </StepPanel>
-        <StepPanel Name=""step2"">
-            <TextInput></TextInput>
-        </StepPanel>
-    </Content>
+        public const string StepAlignmentExample = @"<Heading Size=""HeadingSize.Is6"">Grouped at the start</Heading>
+<Steps StepAlignment=""StepAlignment.Start"" SelectedStep=""payment"" AriaLabel=""Compact checkout progress"">
+    <Step Name=""delivery"" Completed>Delivery details</Step>
+    <Step Name=""payment"">Payment</Step>
+    <Step Name=""review"">Review order</Step>
+</Steps>
+
+<Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is4.FromTop"">Space between items</Heading>
+<Steps StepAlignment=""StepAlignment.SpaceBetween"" SelectedStep=""payment"" AriaLabel=""Spread checkout progress"">
+    <Step Name=""delivery"" Completed>Delivery details</Step>
+    <Step Name=""payment"">Payment</Step>
+    <Step Name=""review"">Review order</Step>
+</Steps>
+
+<Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is4.FromTop"">Equal space for each item</Heading>
+<Steps StepAlignment=""StepAlignment.Justified"" SelectedStep=""payment"" AriaLabel=""Equal-width checkout progress"">
+    <Step Name=""delivery"" Completed>Delivery details</Step>
+    <Step Name=""payment"">Payment</Step>
+    <Step Name=""review"">Review order</Step>
 </Steps>";
 
-        public const string StepLazyReloadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyReload"" SelectedStep=""step1"">
+        public const string StepLazyLoadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyLoad"" SelectedStep=""contact"" AriaLabel=""Contact details with lazy loading"">
     <Items>
-        <Step Name=""step1"">Step 1</Step>
-        <Step Name=""step2"">Step 2</Step>
+        <Step Name=""contact"">Contact</Step>
+        <Step Name=""notes"">Notes</Step>
     </Items>
     <Content>
-        <StepPanel Name=""step1"">
-            This Steps component is set to <code>LazyReload</code> mode, meaning that only the active tab will have it's html rendered at a time. 
-            Try typing some text in the provided Text components and changing between tabs, the tab will always be refreshed as the tab content is always lazy loaded, 
-            therefore re-calculated.
-            <TextInput></TextInput>
-        </StepPanel>
-        <StepPanel Name=""step2"">
-            <TextInput></TextInput>
-        </StepPanel>
-    </Content>
-</Steps>";
-
-        public const string StepNavigationAllowedExample = @"<Steps @ref=""stepsRef"" @bind-SelectedStep=""@selectedStep"" NavigationAllowed=""NavigationAllowed"">
-    <Items>
-        <Step Name=""1"">Step 1</Step>
-        <Step Name=""2"">Step 2</Step>
-        <Step Name=""3"">Step 3</Step>
-        <Step Name=""4"">Step 4</Step>
-    </Items>
-    <Content>
-        <StepPanel Name=""1"">
-            Step 1
-        </StepPanel>
-        <StepPanel Name=""2"">
+        <StepPanel Name=""contact"" Padding=""Padding.Is3"">
+            <Paragraph>Enter contact details, visit Notes, then return. Your entries stay in place.</Paragraph>
             <Field>
+                <FieldLabel>Full name</FieldLabel>
+                <TextInput Placeholder=""e.g. Alex Morgan"" />
+            </Field>
+            <Field Margin=""Margin.Is0.FromBottom"">
                 <FieldLabel>Email address</FieldLabel>
-                <TextInput @bind-Value=""email"" Placeholder=""Enter email"">
-                    <FieldHelp>This field is required in order to proceed to the next step.</FieldHelp>
-                </TextInput>
+                <TextInput Role=""TextRole.Email"" Placeholder=""e.g. alex@example.com"" />
             </Field>
         </StepPanel>
-        <StepPanel Name=""3"">
-            Step 3
+        <StepPanel Name=""notes"" Padding=""Padding.Is3"">
+            <Paragraph>This form is created on your first visit and kept when you switch steps.</Paragraph>
+            <Field>
+                <FieldLabel>Subject</FieldLabel>
+                <TextInput Placeholder=""e.g. Project introduction"" />
+            </Field>
+            <Field Margin=""Margin.Is0.FromBottom"">
+                <FieldLabel>Notes</FieldLabel>
+                <MemoInput Rows=""3"" Placeholder=""Add a few details to discuss with this contact."" />
+            </Field>
         </StepPanel>
-        <StepPanel Name=""4"">
-            Step 4
+    </Content>
+</Steps>";
+
+        public const string StepLazyReloadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyReload"" SelectedStep=""contact"" AriaLabel=""Contact details with lazy reloading"">
+    <Items>
+        <Step Name=""contact"">Contact</Step>
+        <Step Name=""notes"">Notes</Step>
+    </Items>
+    <Content>
+        <StepPanel Name=""contact"" Padding=""Padding.Is3"">
+            <Paragraph>Enter contact details, visit Notes, then return. The inputs are recreated and your entries are cleared.</Paragraph>
+            <Field>
+                <FieldLabel>Full name</FieldLabel>
+                <TextInput Placeholder=""e.g. Alex Morgan"" />
+            </Field>
+            <Field Margin=""Margin.Is0.FromBottom"">
+                <FieldLabel>Email address</FieldLabel>
+                <TextInput Role=""TextRole.Email"" Placeholder=""e.g. alex@example.com"" />
+            </Field>
+        </StepPanel>
+        <StepPanel Name=""notes"" Padding=""Padding.Is3"">
+            <Paragraph>Only the active panel's content is rendered. These inputs also start empty each time you return.</Paragraph>
+            <Field>
+                <FieldLabel>Subject</FieldLabel>
+                <TextInput Placeholder=""e.g. Project introduction"" />
+            </Field>
+            <Field Margin=""Margin.Is0.FromBottom"">
+                <FieldLabel>Notes</FieldLabel>
+                <MemoInput Rows=""3"" Placeholder=""Add a few details to discuss with this contact."" />
+            </Field>
+        </StepPanel>
+    </Content>
+</Steps>";
+
+        public const string StepNavigationAllowedExample = @"<Steps @ref=""stepsRef"" @bind-SelectedStep=""selectedStep"" NavigationAllowed=""OnNavigationAllowedHandler"" AriaLabel=""Contact registration"">
+    <Items>
+        <Step Name=""contact"">Contact</Step>
+        <Step Name=""review"">Review</Step>
+        <Step Name=""finish"">Finish</Step>
+    </Items>
+    <Content>
+        <StepPanel Name=""contact"" Padding=""Padding.Is3"">
+            <Paragraph>Enter your email address, then choose Next or select a later step. Try leaving the field empty to see the validation message.</Paragraph>
+            <Validations @ref=""contactValidations"" Mode=""ValidationMode.Manual"">
+                <Validation Validator=""ValidationRule.IsEmail"">
+                    <Field Margin=""Margin.Is0.FromBottom"">
+                        <FieldLabel>Email address</FieldLabel>
+                        <TextInput @bind-Value=""email"" Role=""TextRole.Email"" Placeholder=""e.g. alex@example.com"">
+                            <Feedback>
+                                <ValidationError>Enter a valid email address to continue.</ValidationError>
+                            </Feedback>
+                        </TextInput>
+                        <FieldHelp>You can return to this step to change your email address.</FieldHelp>
+                    </Field>
+                </Validation>
+            </Validations>
+        </StepPanel>
+        <StepPanel Name=""review"" Padding=""Padding.Is3"">
+            <Paragraph>Email address: @email</Paragraph>
+            <Paragraph>Choose Previous to make a correction or Next to finish.</Paragraph>
+        </StepPanel>
+        <StepPanel Name=""finish"" Padding=""Padding.Is3"">
+            <Paragraph>You have reached the final step. You can still go back and edit your details.</Paragraph>
         </StepPanel>
     </Content>
 </Steps>
 <Div Flex=""Flex.JustifyContent.Center"">
-    <Button Color=""Color.Secondary"" Margin=""Margin.Is2.FromEnd"" Clicked=""() => stepsRef.PreviousStep()"">
+    <Button Color=""Color.Secondary"" Margin=""Margin.Is2.FromEnd"" Disabled=""@( selectedStep == ""contact"" )"" Clicked=""OnPreviousClickedHandler"">
         Previous
     </Button>
-    <Button Color=""Color.Primary"" Clicked=""() => stepsRef.NextStep()"">
+    <Button Color=""Color.Primary"" Disabled=""@( selectedStep == ""finish"" )"" Clicked=""OnNextClickedHandler"">
         Next
     </Button>
 </Div>
 @code {
     private Steps stepsRef;
-    private string email;
-    private string selectedStep = ""2"";
 
-    private Task<bool> NavigationAllowed( StepNavigationContext context )
+    private Validations contactValidations;
+
+    private string email;
+
+    private string selectedStep = ""contact"";
+
+    private Task OnPreviousClickedHandler() => stepsRef.PreviousStep();
+
+    private Task OnNextClickedHandler() => stepsRef.NextStep();
+
+    private Task<bool> OnNavigationAllowedHandler( StepNavigationContext context )
     {
-        if ( context.CurrentStepIndex == 2 && context.NextStepIndex > 2 && !ValidationRule.IsEmail( email ) )
+        if ( context.CurrentStepIndex == 0 || context.NextStepIndex <= context.CurrentStepIndex )
         {
-            return Task.FromResult( false );
+            return Task.FromResult( true );
         }
 
-        return Task.FromResult( true );
+        return contactValidations.ValidateAll();
     }
+}";
+
+        public const string VerticalStepExample = @"<Steps @bind-SelectedStep=""selectedStep"" StepPosition=""StepPosition.Start"" AriaLabel=""Checkout progress"">
+    <Items>
+        <Step Name=""delivery"" Completed>Delivery details</Step>
+        <Step Name=""payment"">Payment method</Step>
+        <Step Name=""review"">Review your order</Step>
+    </Items>
+    <Content>
+        <StepPanel Name=""delivery"" Padding=""Padding.Is3"">
+            <Heading Size=""HeadingSize.Is5"">Delivery details</Heading>
+            <Paragraph>Choose where your order should be delivered.</Paragraph>
+            <Paragraph Margin=""Margin.Is0.FromBottom"">You can return to this step to check your address before placing the order.</Paragraph>
+        </StepPanel>
+        <StepPanel Name=""payment"" Padding=""Padding.Is3"">
+            <Heading Size=""HeadingSize.Is5"">Payment method</Heading>
+            <Paragraph>Select how you would like to pay for your order.</Paragraph>
+            <Paragraph Margin=""Margin.Is0.FromBottom"">Your delivery details are complete. Review your order when you are ready to continue.</Paragraph>
+        </StepPanel>
+        <StepPanel Name=""review"" Padding=""Padding.Is3"">
+            <Heading Size=""HeadingSize.Is5"">Review your order</Heading>
+            <Paragraph>Check your items, delivery address, and payment method.</Paragraph>
+            <Paragraph Margin=""Margin.Is0.FromBottom"">Select an earlier step if you need to make a change.</Paragraph>
+        </StepPanel>
+    </Content>
+</Steps>
+@code {
+    private string selectedStep = ""payment"";
 }";
 
         public const string BasicSwitchExample = @"<Switch TValue=""bool"">Remember me</Switch>";
@@ -6787,6 +6876,56 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         </TabPanel>
     </Content>
 </Tabs>";
+
+        public const string VerticalTabExample = @"<Tabs @bind-SelectedTab=""selectedTab"" TabPosition=""TabPosition.Start"" Pills Gap=""Gap.Is2"" AriaLabel=""Account sections"">
+    <Items>
+        <Tab Name=""profile"">
+            <Icon Name=""IconName.UserCircle"" Margin=""Margin.Is2.FromEnd"" />
+            Profile
+        </Tab>
+        <Tab Name=""dashboard"">
+            <Icon Name=""IconName.ChartBar"" Margin=""Margin.Is2.FromEnd"" />
+            Dashboard
+        </Tab>
+        <Tab Name=""settings"">
+            <Icon Name=""IconName.Settings"" Margin=""Margin.Is2.FromEnd"" />
+            Settings
+        </Tab>
+        <Tab Name=""contact"">
+            <Icon Name=""IconName.Headset"" Margin=""Margin.Is2.FromEnd"" />
+            Contact
+        </Tab>
+        <Tab Name=""disabled"" Disabled>
+            <Icon Name=""IconName.TimesCircle"" Margin=""Margin.Is2.FromEnd"" />
+            Disabled
+        </Tab>
+    </Items>
+    <Content>
+        <TabPanel Name=""profile"" Background=""Background.Light"" TextColor=""TextColor.Dark"" Border=""Border.Rounded"" Padding=""Padding.Is4"" Height=""Height.Px().Min( 280 )"">
+            <Heading Size=""HeadingSize.Is5"">Your profile</Heading>
+            <Paragraph>Your profile helps teammates recognize you and learn about your work.</Paragraph>
+            <Paragraph Margin=""Margin.Is0.FromBottom"">Keep your name, role, and contact details up to date so the right people can reach you.</Paragraph>
+        </TabPanel>
+        <TabPanel Name=""dashboard"" Background=""Background.Light"" TextColor=""TextColor.Dark"" Border=""Border.Rounded"" Padding=""Padding.Is4"" Height=""Height.Px().Min( 280 )"">
+            <Heading Size=""HeadingSize.Is5"">Your dashboard</Heading>
+            <Paragraph>See recent activity and keep track of the projects that need your attention.</Paragraph>
+            <Paragraph Margin=""Margin.Is0.FromBottom"">Review updates from your team and plan your next tasks in one place.</Paragraph>
+        </TabPanel>
+        <TabPanel Name=""settings"" Background=""Background.Light"" TextColor=""TextColor.Dark"" Border=""Border.Rounded"" Padding=""Padding.Is4"" Height=""Height.Px().Min( 280 )"">
+            <Heading Size=""HeadingSize.Is5"">Account settings</Heading>
+            <Paragraph>Choose the notifications and preferences that fit the way you work.</Paragraph>
+            <Paragraph Margin=""Margin.Is0.FromBottom"">Review these choices as your responsibilities change to keep updates useful.</Paragraph>
+        </TabPanel>
+        <TabPanel Name=""contact"" Background=""Background.Light"" TextColor=""TextColor.Dark"" Border=""Border.Rounded"" Padding=""Padding.Is4"" Height=""Height.Px().Min( 280 )"">
+            <Heading Size=""HeadingSize.Is5"">Get in touch</Heading>
+            <Paragraph>Contact your support team for help with your account or a question about the service.</Paragraph>
+            <Paragraph Margin=""Margin.Is0.FromBottom"">Include a short description of what you need so your request reaches the right person.</Paragraph>
+        </TabPanel>
+    </Content>
+</Tabs>
+@code {
+    private string selectedTab = ""profile"";
+}";
 
         public const string TextInputBasicExample = @"<TextInput />";
 

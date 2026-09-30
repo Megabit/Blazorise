@@ -784,6 +784,34 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Steps() => "fui-Steps";
 
+    public override string StepsPosition( StepPosition stepPosition ) => stepPosition switch
+    {
+        StepPosition.Start => "fui-Steps-vertical",
+        StepPosition.End => "fui-Steps-vertical fui-Steps-end",
+        _ => null,
+    };
+
+    public override string StepsLayout( StepPosition stepPosition, StepAlignment stepAlignment )
+    {
+        var positionClassNames = StepsPosition( stepPosition );
+
+        if ( stepAlignment == StepAlignment.Default )
+        {
+            return positionClassNames;
+        }
+
+        var sb = new StringBuilder();
+
+        if ( !string.IsNullOrEmpty( positionClassNames ) )
+        {
+            sb.Append( positionClassNames ).Append( ' ' );
+        }
+
+        sb.Append( "fui-Steps-layout fui-Steps-alignment-" ).Append( ToStepAlignment( stepAlignment ) );
+
+        return sb.ToString();
+    }
+
     public override string StepItem() => "fui-Step";
 
     public override string StepItemActive( bool active ) => active ? "fui-Step-active" : null;

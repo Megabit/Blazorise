@@ -1,0 +1,51 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Tabs @bind-SelectedTab="selectedTab" TabPosition="TabPosition.Start" Pills Gap="Gap.Is2" AriaLabel="Account sections">
+    <Items>
+        <Tab Name="profile">
+            <Icon Name="IconName.UserCircle" Margin="Margin.Is2.FromEnd" />
+            Profile
+        </Tab>
+        <Tab Name="dashboard">
+            <Icon Name="IconName.ChartBar" Margin="Margin.Is2.FromEnd" />
+            Dashboard
+        </Tab>
+        <Tab Name="settings">
+            <Icon Name="IconName.Settings" Margin="Margin.Is2.FromEnd" />
+            Settings
+        </Tab>
+        <Tab Name="contact">
+            <Icon Name="IconName.Headset" Margin="Margin.Is2.FromEnd" />
+            Contact
+        </Tab>
+        <Tab Name="disabled" Disabled>
+            <Icon Name="IconName.TimesCircle" Margin="Margin.Is2.FromEnd" />
+            Disabled
+        </Tab>
+    </Items>
+    <Content>
+        <TabPanel Name="profile" Background="Background.Light" TextColor="TextColor.Dark" Border="Border.Rounded" Padding="Padding.Is4" Height="Height.Px().Min( 280 )">
+            <Heading Size="HeadingSize.Is5">Your profile</Heading>
+            <Paragraph>Your profile helps teammates recognize you and learn about your work.</Paragraph>
+            <Paragraph Margin="Margin.Is0.FromBottom">Keep your name, role, and contact details up to date so the right people can reach you.</Paragraph>
+        </TabPanel>
+        <TabPanel Name="dashboard" Background="Background.Light" TextColor="TextColor.Dark" Border="Border.Rounded" Padding="Padding.Is4" Height="Height.Px().Min( 280 )">
+            <Heading Size="HeadingSize.Is5">Your dashboard</Heading>
+            <Paragraph>See recent activity and keep track of the projects that need your attention.</Paragraph>
+            <Paragraph Margin="Margin.Is0.FromBottom">Review updates from your team and plan your next tasks in one place.</Paragraph>
+        </TabPanel>
+        <TabPanel Name="settings" Background="Background.Light" TextColor="TextColor.Dark" Border="Border.Rounded" Padding="Padding.Is4" Height="Height.Px().Min( 280 )">
+            <Heading Size="HeadingSize.Is5">Account settings</Heading>
+            <Paragraph>Choose the notifications and preferences that fit the way you work.</Paragraph>
+            <Paragraph Margin="Margin.Is0.FromBottom">Review these choices as your responsibilities change to keep updates useful.</Paragraph>
+        </TabPanel>
+        <TabPanel Name="contact" Background="Background.Light" TextColor="TextColor.Dark" Border="Border.Rounded" Padding="Padding.Is4" Height="Height.Px().Min( 280 )">
+            <Heading Size="HeadingSize.Is5">Get in touch</Heading>
+            <Paragraph>Contact your support team for help with your account or a question about the service.</Paragraph>
+            <Paragraph Margin="Margin.Is0.FromBottom">Include a short description of what you need so your request reaches the right person.</Paragraph>
+        </TabPanel>
+    </Content>
+</Tabs>
+@code {
+    private string selectedTab = "profile";
+}

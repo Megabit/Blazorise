@@ -1,34 +1,79 @@
 ﻿.fui-Steps {
     --fluent-wizard-circle-size: 24px;
+    --fluent-wizard-content-size: 7rem;
     --fluent-wizard-spacing: 4px;
     display: flex;
-    padding-inline-start: 0px;
-    margin-block-start: 0px;
-    margin-block-end: 0px;
-    padding: 10px;
+    inline-size: 100%;
+    margin: 0;
+    padding: 10px 0;
+    list-style: none;
+    overflow-x: auto;
     flex-direction: row;
-    justify-content: center;
+    align-items: flex-start;
 
     .fui-Step {
         position: relative;
         display: flex;
         flex-direction: column;
-        flex: 1;
+        flex: 1 0 var(--fluent-wizard-content-size);
+        align-items: flex-start;
         text-align: center;
-        max-width: 100%;
+        min-inline-size: 0;
+        cursor: pointer;
+        column-gap: inherit;
 
-        .fui-Step__circle {
-            min-width: calc(1.2 * var(--fluent-wizard-circle-size));
-            min-height: calc(1.2 * var(--fluent-wizard-circle-size));
+        &:first-child {
+            flex: 0 0 var(--fluent-wizard-content-size);
 
-            > svg {
-                fill: var(--colorBrandBackground);
+            > .fui-Step__connector {
+                display: none;
+            }
+        }
+
+        &.fui-Step-active .fui-Step__circle > svg {
+            transform: scale(1.2);
+        }
+
+        &:focus-visible {
+            outline: none;
+
+            > .fui-Step__circle > svg,
+            &:not(:has(> .fui-Step__circle)) > .fui-Step__text {
+                outline: 2px solid transparent;
+                outline-offset: 2px;
+                box-shadow: 0 0 0 2px var(--colorNeutralBackground1),
+                    0 0 0 4px var(--colorBrandStroke1),
+                    0 0 0 6px color-mix(in srgb, var(--colorBrandStroke1) 16%, transparent);
+
+                @media (forced-colors: active) {
+                    outline-color: Highlight;
+                    box-shadow: none;
+                }
             }
 
-            &::after {
-                position: absolute;
-                width: calc(1.2 * var(--fluent-wizard-circle-size));
-                height: calc(1.2 * var(--fluent-wizard-circle-size));
+            > .fui-Step__circle > svg {
+                border-radius: 50%;
+            }
+
+            &:not(:has(> .fui-Step__circle)) > .fui-Step__text {
+                border-radius: var(--borderRadiusMedium);
+            }
+        }
+
+        .fui-Step__circle {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            place-items: center;
+            inline-size: calc(1.2 * var(--fluent-wizard-circle-size));
+            block-size: calc(1.2 * var(--fluent-wizard-circle-size));
+            margin-inline-start: calc(100% - (var(--fluent-wizard-content-size) + 1.2 * var(--fluent-wizard-circle-size)) * 0.5);
+
+            > svg {
+                display: block;
+                inline-size: var(--fluent-wizard-circle-size);
+                block-size: var(--fluent-wizard-circle-size);
+                fill: var(--colorBrandBackground);
             }
         }
 
@@ -40,23 +85,55 @@
         }
 
         .fui-Step__circle-number {
-            margin-top: calc(var(--fluent-wizard-circle-size) * -1 - 2px);
-            font-size: small;
-            text-align: center;
-            height: var(--fluent-wizard-circle-size);
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--fontSizeBase200);
+            line-height: 1;
             color: var(--colorBrandBackground);
         }
 
-        &:not(:last-child) {
-            &::after {
-                content: "";
+        .fui-Step__text {
+            inline-size: var(--fluent-wizard-content-size);
+            margin-inline-start: auto;
+            text-align: center;
+            white-space: normal;
+            word-break: normal;
+            overflow-wrap: break-word;
+        }
+
+        &:not(:first-child) {
+            & > .fui-Step__connector {
+                // The zero-sized track adds the inherited gap to the incoming line.
+                display: grid;
+                grid-template-columns: 0 100%;
+                grid-template-rows: 100%;
+                justify-content: end;
+                column-gap: inherit;
                 position: absolute;
-                left: calc(50% + calc(var(--fluent-wizard-circle-size) / 2 + var(--fluent-wizard-spacing)));
-                top: calc(var(--fluent-wizard-circle-size) / 2);
-                width: calc(100% - var(--fluent-wizard-circle-size) - calc(var(--fluent-wizard-spacing) * 2));
+                inline-size: 100%;
+                inset-inline-end: calc((var(--fluent-wizard-content-size) + 1.2 * var(--fluent-wizard-circle-size)) * 0.5 + var(--fluent-wizard-spacing));
+                top: calc(var(--fluent-wizard-circle-size) * 0.6);
                 height: var(--strokeWidthThick);
-                order: -1;
-                background-color: var(--colorNeutralStroke1);
+                transform: translateY(-50%);
+                pointer-events: none;
+
+                &::before {
+                    content: '';
+                    grid-area: 1 / 1 / -1 / -1;
+                    margin-inline-start: calc(1.2 * var(--fluent-wizard-circle-size) + 2 * var(--fluent-wizard-spacing));
+                    background-color: var(--colorNeutralStroke1);
+                    border-radius: inherit;
+                }
+            }
+        }
+
+        &.fui-Step-active,
+        &.fui-Step-completed {
+            & > .fui-Step__connector::before {
+                background-color: var(--colorBrandBackground);
             }
         }
 
@@ -76,11 +153,112 @@
 
                 &.fui-Step-active,
                 &.fui-Step-completed {
+                    & > .fui-Step__connector::before {
+                        background-color: $value;
+                    }
+
                     .fui-Step__circle-number {
                         color: var(--colorNeutralForegroundOnBrand);
                     }
                 }
             }
+        }
+    }
+}
+
+.fui-Steps.fui-Steps-vertical {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    // Equal rows let incoming connectors span the previous row when captions wrap.
+    grid-auto-rows: 1fr;
+    row-gap: var(--spacingVerticalXXL);
+    align-items: stretch;
+    overflow: visible;
+    padding-inline: var(--spacingHorizontalS);
+
+    > .fui-Step {
+        flex-direction: row;
+        column-gap: var(--spacingHorizontalM);
+        row-gap: inherit;
+        inline-size: 100%;
+
+        .fui-Step__circle {
+            flex: none;
+            margin-inline-start: 0;
+        }
+
+        .fui-Step__text {
+            flex: 1;
+            min-inline-size: 0;
+            inline-size: auto;
+            margin-inline-start: 0;
+            padding-block-start: var(--spacingVerticalXS);
+            text-align: start;
+        }
+
+        &:not(:first-child) > .fui-Step__connector {
+            inset-inline-start: calc((1.2 * var(--fluent-wizard-circle-size) - var(--strokeWidthThick)) * .5);
+            inset-inline-end: auto;
+            grid-template-columns: 100%;
+            grid-template-rows: 0 100%;
+            align-content: end;
+            gap: inherit;
+            top: -100%;
+            inline-size: var(--strokeWidthThick);
+            height: 100%;
+            transform: none;
+
+            &::before {
+                margin-inline-start: 0;
+                margin-block-start: calc(1.2 * var(--fluent-wizard-circle-size) + var(--fluent-wizard-spacing));
+                margin-block-end: var(--fluent-wizard-spacing);
+            }
+        }
+    }
+
+    &.fui-Steps-end > .fui-Step {
+        flex-direction: row-reverse;
+
+        &:not(:first-child) > .fui-Step__connector {
+            inset-inline-start: auto;
+            inset-inline-end: calc((1.2 * var(--fluent-wizard-circle-size) - var(--strokeWidthThick)) * .5);
+        }
+
+        .fui-Step__text {
+            text-align: end;
+        }
+    }
+}
+
+.fui-Steps.fui-Steps-layout:not(.fui-Steps-vertical) {
+    &.fui-Steps-alignment-center {
+        justify-content: safe center;
+    }
+
+    &.fui-Steps-alignment-end {
+        justify-content: safe flex-end;
+    }
+
+    > .fui-Step {
+        flex: 0 0 var(--fluent-wizard-content-size);
+    }
+
+    &.fui-Steps-alignment-space-between > .fui-Step:not(:first-child),
+    &.fui-Steps-alignment-justified > .fui-Step {
+        flex: 1 0 var(--fluent-wizard-content-size);
+    }
+
+    &.fui-Steps-alignment-justified > .fui-Step {
+        > .fui-Step__circle {
+            margin-inline-start: calc((100% - 1.2 * var(--fluent-wizard-circle-size)) * .5);
+        }
+
+        > .fui-Step__text {
+            margin-inline: auto;
+        }
+
+        &:not(:first-child) > .fui-Step__connector {
+            inset-inline-end: calc((100% + 1.2 * var(--fluent-wizard-circle-size)) * .5 + var(--fluent-wizard-spacing));
         }
     }
 }
@@ -123,7 +301,8 @@
         }
     }
 
-    &.fui-Step-completed:not(:last-child)::after {
+    &.fui-Step-active > .fui-Step__connector::before,
+    &.fui-Step-completed > .fui-Step__connector::before {
         background-color: var(--colorStepBackground);
     }
 }

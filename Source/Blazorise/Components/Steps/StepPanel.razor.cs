@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -31,18 +32,33 @@ public partial class StepPanel : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        ParentSteps?.NotifyStepInitialized( Name );
+        base.OnInitialized();
+
+        ParentSteps?.NotifyStepPanelInitialized( this );
 
         ParentStepsContent?.NotifyStepPanelInitialized( Name );
+    }
 
-        base.OnInitialized();
+    /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Name, out var paramName );
+
+        await base.SetParametersAsync( parameters );
+
+        if ( paramName.Changed )
+        {
+            ParentSteps?.NotifyStepParametersChanged();
+        }
     }
 
     /// <inheritdoc/>
     protected override Task OnParametersSetAsync()
     {
         if ( Active )
+        {
             lazyLoaded = ( RenderMode == StepsRenderMode.LazyLoad );
+        }
 
         return base.OnParametersSetAsync();
     }
@@ -52,7 +68,7 @@ public partial class StepPanel : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            ParentSteps?.NotifyStepRemoved( Name );
+            ParentSteps?.NotifyStepPanelRemoved( this );
 
             ParentStepsContent?.NotifyStepPanelRemoved( Name );
         }
@@ -73,6 +89,24 @@ public partial class StepPanel : BaseComponent, IDisposable
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Gets the ID of the step that labels this panel.
+    /// </summary>
+    protected string AriaLabelledBy => ParentSteps?.GetStepElementId( Name );
+
+    /// <summary>
+    /// Gets the tab order for this panel.
+    /// </summary>
+    protected int TabIndex => Active && Focusable ? 0 : -1;
+
+    /// <summary>
+    /// Gets the hidden state serialized for assistive technology.
+    /// </summary>
+    protected string AriaHiddenString => parentStepsState is null && parentStepsContentState is null ? null : ( Active ? "false" : "true" );
+
     /// <summary>
     /// True if the step panel is currently selected.
     /// </summary>
@@ -81,12 +115,18 @@ public partial class StepPanel : BaseComponent, IDisposable
     /// <summary>
     /// Gets the current render mode.
     /// </summary>
-    protected StepsRenderMode RenderMode => ParentStepsState?.RenderMode ?? ParentStepsState?.RenderMode ?? StepsRenderMode.Default;
+    protected StepsRenderMode RenderMode => ParentStepsState?.RenderMode ?? StepsRenderMode.Default;
 
     /// <summary>
     /// Specifies the panel name. Must match the corresponding step name.
     /// </summary>
     [Parameter] public string Name { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the active panel is included in the keyboard Tab sequence.
+    /// Defaults to true. Setting this to false does not affect focusable elements inside the panel.
+    /// </summary>
+    [Parameter] public bool Focusable { get; set; } = true;
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="StepPanel"/>.

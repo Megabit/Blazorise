@@ -706,6 +706,10 @@ public interface IClassProvider
 
     string Steps();
 
+    string StepsPosition( StepPosition stepPosition );
+
+    string StepsLayout( StepPosition stepPosition, StepAlignment stepAlignment );
+
     string StepItem();
 
     string StepItemActive( bool active );

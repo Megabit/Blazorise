@@ -709,6 +709,10 @@ class EmptyClassProvider : IClassProvider
 
     public string Steps() => null;
 
+    public string StepsPosition( StepPosition stepPosition ) => null;
+
+    public string StepsLayout( StepPosition stepPosition, StepAlignment stepAlignment ) => null;
+
     public string StepItem() => null;
 
     public string StepItemActive( bool active ) => null;

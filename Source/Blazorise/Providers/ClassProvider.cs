@@ -707,6 +707,20 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Steps();
 
+    public virtual string StepsPosition( StepPosition stepPosition ) => null;
+
+    public virtual string StepsLayout( StepPosition stepPosition, StepAlignment stepAlignment ) => StepsPosition( stepPosition );
+
+    protected static string ToStepAlignment( StepAlignment stepAlignment ) => stepAlignment switch
+    {
+        StepAlignment.Start => "start",
+        StepAlignment.Center => "center",
+        StepAlignment.End => "end",
+        StepAlignment.SpaceBetween => "space-between",
+        StepAlignment.Justified => "justified",
+        _ => null,
+    };
+
     public abstract string StepItem();
 
     public abstract string StepItemActive( bool active );

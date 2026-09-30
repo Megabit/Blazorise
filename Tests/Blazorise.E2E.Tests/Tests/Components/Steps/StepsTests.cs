@@ -4,6 +4,138 @@
 [TestFixture]
 public class StepsTests : BlazorisePageTest
 {
+    [TestCase( "Enter" )]
+    [TestCase( "Space" )]
+    public async Task ActivationKey_ShouldSelectFocusedStep( string key )
+    {
+        await SelectKeyboardComponent();
+
+        var group = Page.Locator( "#keyboard-steps-basic" );
+        var steps = group.Locator( "[role=tab]" );
+        var panels = group.Locator( "[role=tabpanel]" );
+
+        await group.Locator( ".before-steps" ).FocusAsync();
+        await Page.Keyboard.PressAsync( "Tab" );
+        await Expect( steps.Nth( 1 ) ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "ArrowLeft" );
+        await Expect( steps.First ).ToBeFocusedAsync();
+        await Expect( steps.Nth( 1 ) ).ToHaveAttributeAsync( "aria-selected", "true" );
+        await Page.Keyboard.PressAsync( key );
+
+        await Expect( steps.First ).ToHaveAttributeAsync( "aria-selected", "true" );
+        await Expect( panels.First ).ToHaveAttributeAsync( "aria-hidden", "false" );
+        await Expect( panels.Nth( 1 ) ).ToHaveAttributeAsync( "aria-hidden", "true" );
+        await Expect( steps.First ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "Tab" );
+        await Expect( panels.First ).ToBeFocusedAsync();
+    }
+
+    [Test]
+    public async Task NavigationKeys_ShouldMoveFocusWithoutSelectingAndReturnToSelectedStep()
+    {
+        await SelectKeyboardComponent();
+
+        var group = Page.Locator( "#keyboard-steps-basic" );
+        var steps = group.Locator( "[role=tab]" );
+
+        await steps.Nth( 1 ).FocusAsync();
+        await Page.Keyboard.PressAsync( "End" );
+        await Expect( steps.Last ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "ArrowRight" );
+        await Expect( steps.First ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "ArrowLeft" );
+        await Expect( steps.Last ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "Home" );
+        await Expect( steps.First ).ToBeFocusedAsync();
+        await Expect( steps.Nth( 1 ) ).ToHaveAttributeAsync( "aria-selected", "true" );
+
+        await Page.Keyboard.PressAsync( "Tab" );
+        await Expect( group.Locator( "[role=tabpanel]" ).Nth( 1 ) ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "Shift+Tab" );
+        await Expect( steps.Nth( 1 ) ).ToBeFocusedAsync();
+    }
+
+    [TestCase( "Enter" )]
+    [TestCase( "Space" )]
+    public async Task RejectedKeyboardNavigation_ShouldKeepSelectionAndFocus( string key )
+    {
+        await SelectKeyboardComponent();
+
+        var group = Page.Locator( "#keyboard-steps-guarded" );
+        var steps = group.Locator( "[role=tab]" );
+
+        await steps.Nth( 1 ).FocusAsync();
+        await Page.Keyboard.PressAsync( "ArrowRight" );
+        await Page.Keyboard.PressAsync( key );
+
+        await Expect( steps.Last ).ToBeFocusedAsync();
+        await Expect( steps.Last ).ToHaveAttributeAsync( "aria-selected", "false" );
+        await Expect( steps.Nth( 1 ) ).ToHaveAttributeAsync( "aria-selected", "true" );
+        await Expect( group.Locator( "[role=tabpanel]" ).Nth( 1 ) ).ToHaveAttributeAsync( "aria-hidden", "false" );
+    }
+
+    [TestCase( "vertical" )]
+    [TestCase( "vertical-end" )]
+    public async Task VerticalNavigation_ShouldUseUpAndDownArrowsWithoutSelecting( string groupName )
+    {
+        await SelectKeyboardComponent();
+
+        var group = Page.Locator( $"#keyboard-steps-{groupName}" );
+        var steps = group.Locator( "[role=tab]" );
+        var panels = group.Locator( "[role=tabpanel]" );
+
+        await Expect( group.Locator( "[role=tablist]" ) ).ToHaveAttributeAsync( "aria-orientation", "vertical" );
+        await group.Locator( ".before-steps" ).FocusAsync();
+        await Page.Keyboard.PressAsync( "Tab" );
+
+        if ( groupName == "vertical-end" )
+        {
+            await Expect( panels.Nth( 1 ) ).ToBeFocusedAsync();
+            await Page.Keyboard.PressAsync( "Tab" );
+        }
+
+        await Expect( steps.Nth( 1 ) ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "ArrowRight" );
+        await Expect( steps.Nth( 1 ) ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "ArrowDown" );
+        await Expect( steps.Last ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "ArrowDown" );
+        await Expect( steps.First ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "ArrowUp" );
+        await Expect( steps.Last ).ToBeFocusedAsync();
+        await Expect( steps.Nth( 1 ) ).ToHaveAttributeAsync( "aria-selected", "true" );
+        await Expect( panels.Nth( 1 ) ).ToHaveAttributeAsync( "aria-hidden", "false" );
+
+        await Page.Keyboard.PressAsync( "Enter" );
+        await Expect( steps.Last ).ToHaveAttributeAsync( "aria-selected", "true" );
+        await Expect( panels.Last ).ToHaveAttributeAsync( "aria-hidden", "false" );
+        await Page.Keyboard.PressAsync( groupName == "vertical-end" ? "Shift+Tab" : "Tab" );
+        await Expect( panels.Last ).ToBeFocusedAsync();
+    }
+
+    [Test]
+    public async Task BottomPosition_ShouldPlaceContentBeforeHorizontalNavigation()
+    {
+        await SelectKeyboardComponent();
+
+        var group = Page.Locator( "#keyboard-steps-bottom" );
+        var steps = group.Locator( "[role=tab]" );
+        var panels = group.Locator( "[role=tabpanel]" );
+
+        await Expect( group.Locator( "[role=tablist]" ) ).ToHaveAttributeAsync( "aria-orientation", "horizontal" );
+        await group.Locator( ".before-steps" ).FocusAsync();
+        await Page.Keyboard.PressAsync( "Tab" );
+        await Expect( panels.Nth( 1 ) ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "Tab" );
+        await Expect( steps.Nth( 1 ) ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "ArrowLeft" );
+        await Expect( steps.First ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "Enter" );
+        await Expect( steps.First ).ToHaveAttributeAsync( "aria-selected", "true" );
+        await Page.Keyboard.PressAsync( "Shift+Tab" );
+        await Expect( panels.First ).ToBeFocusedAsync();
+    }
+
     [Test]
     public async Task CanSelectSteps()
     {
@@ -47,6 +179,12 @@ public class StepsTests : BlazorisePageTest
         await DoNotExpectActiveStepContentClass( panels[0] );
         await DoNotExpectActiveStepContentClass( panels[1] );
         await ExpectActiveStepContentClass( panels[2] );
+    }
+
+    private async Task SelectKeyboardComponent()
+    {
+        await SelectTestComponent<StepsKeyboardComponent>();
+        await Expect( Page.Locator( "#keyboard-steps-ready" ) ).ToHaveTextAsync( "Ready" );
     }
 
     private async Task ExpectActiveStepClass( ILocator locator )

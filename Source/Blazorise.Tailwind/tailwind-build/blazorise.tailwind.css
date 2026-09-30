@@ -2406,23 +2406,6 @@ textarea[data-autosize=true] {
     mask-position: -200% 0%;
   }
 }
-.b-steps .b-step-item:not(:first-child) .b-step-item-head:before {
-  flex: 1;
-  height: 1px;
-  width: 100%;
-  margin-right: 0.5rem;
-  content: "";
-  background-color: rgba(0, 0, 0, 0.1);
-}
-.b-steps .b-step-item:not(:last-child) .b-step-item-head:after {
-  flex: 1;
-  height: 1px;
-  width: 100%;
-  margin-left: 0.5rem;
-  content: "";
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
 .b-table .b-table-resizer {
   position: absolute;
   top: 0;

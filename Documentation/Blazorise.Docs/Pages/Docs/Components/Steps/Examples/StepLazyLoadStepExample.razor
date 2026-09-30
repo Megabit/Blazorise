@@ -1,18 +1,32 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Steps RenderMode="StepsRenderMode.LazyLoad" SelectedStep="step1">
+<Steps RenderMode="StepsRenderMode.LazyLoad" SelectedStep="contact" AriaLabel="Contact details with lazy loading">
     <Items>
-        <Step Name="step1">Step 1</Step>
-        <Step Name="step2">Step 2</Step>
+        <Step Name="contact">Contact</Step>
+        <Step Name="notes">Notes</Step>
     </Items>
     <Content>
-        <StepPanel Name="step1">
-            This Steps component is set to <code>LazyLoad</code> mode, meaning each step will only be rendered/loaded the first time it is visited.
-            This is specially useful when you want to delay some heavy or long waited operations for when the step is actually clicked instead.
-            <TextInput></TextInput>
+        <StepPanel Name="contact" Padding="Padding.Is3">
+            <Paragraph>Enter contact details, visit Notes, then return. Your entries stay in place.</Paragraph>
+            <Field>
+                <FieldLabel>Full name</FieldLabel>
+                <TextInput Placeholder="e.g. Alex Morgan" />
+            </Field>
+            <Field Margin="Margin.Is0.FromBottom">
+                <FieldLabel>Email address</FieldLabel>
+                <TextInput Role="TextRole.Email" Placeholder="e.g. alex@example.com" />
+            </Field>
         </StepPanel>
-        <StepPanel Name="step2">
-            <TextInput></TextInput>
+        <StepPanel Name="notes" Padding="Padding.Is3">
+            <Paragraph>This form is created on your first visit and kept when you switch steps.</Paragraph>
+            <Field>
+                <FieldLabel>Subject</FieldLabel>
+                <TextInput Placeholder="e.g. Project introduction" />
+            </Field>
+            <Field Margin="Margin.Is0.FromBottom">
+                <FieldLabel>Notes</FieldLabel>
+                <MemoInput Rows="3" Placeholder="Add a few details to discuss with this contact." />
+            </Field>
         </StepPanel>
     </Content>
 </Steps>

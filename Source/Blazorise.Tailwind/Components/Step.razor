@@ -1,63 +1,38 @@
 ﻿@inherits Blazorise.Step
-@using Blazorise.Utilities
 <CascadingValue Value="@this" IsFixed>
-    <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+    <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tab" tabindex="@TabIndex" aria-labelledby="@AriaLabelledBy" aria-controls="@AriaControls" aria-selected="@AriaSelectedString" @onclick="@OnClickHandler" @attributes="@Attributes">
+        <span class="tw-step-connector pointer-events-none absolute end-32 top-5 grid h-1 w-full -translate-y-1/2 grid-cols-[0_100%] grid-rows-[100%] justify-end [column-gap:inherit] before:col-[1/-1] before:row-[1/-1] before:ms-18 before:rounded-full before:bg-gray-200 before:content-[''] dark:before:bg-gray-700" aria-hidden="true"></span>
         <div class="@ContainerClassNames" style="@ContainerStyleNames">
-            @if ( Marker != null || Caption != null )
-            {
-                @if ( Marker != null )
+            <span class="@MarkerClassNames" style="@Styles?.Marker">
+                @if ( Marker is not null )
                 {
-                    <span class="@MarkerClassNames" style="@Styles?.Marker">
-                        @Marker
-                    </span>
+                    @Marker
                 }
-                @if ( Caption != null )
+                else if ( Completed )
                 {
-                    <span class="@DescriptionClassNames" style="@Styles?.Description">
-                        @Caption
-                    </span>
+                    <svg class="h-5 w-5" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span class="sr-only">@CalculatedIndex</span>
                 }
-            }
-            else
-            {
-                <span class="@MarkerClassNames" style="@Styles?.Marker">
+                else
+                {
                     @CalculatedIndex
-                </span>
+                }
+            </span>
+            @if ( Caption is not null || ChildContent is not null )
+            {
                 <span class="@DescriptionClassNames" style="@Styles?.Description">
-                    @ChildContent
+                    @if ( Caption is not null )
+                    {
+                        @Caption
+                    }
+                    else
+                    {
+                        @ChildContent
+                    }
                 </span>
             }
         </div>
     </li>
 </CascadingValue>
-@code {
-    string ContainerClassNames
-    {
-        get
-        {
-            const string baseClasses = "b-step-item-head flex items-center cursor-pointer leading-5 no-underline";
-            var builder = new ClassBuilder( classBuilder =>
-            {
-                classBuilder.Append( baseClasses );
-                classBuilder.Append( Classes?.Container );
-                AppendWrapperUtilities( classBuilder );
-            } );
-
-            return builder.Class;
-        }
-    }
-
-    string ContainerStyleNames
-    {
-        get
-        {
-            var builder = new StyleBuilder( styleBuilder =>
-            {
-                AppendWrapperUtilities( styleBuilder );
-                styleBuilder.Append( Styles?.Container );
-            } );
-
-            return builder.Styles;
-        }
-    }
-}

@@ -4544,20 +4544,20 @@ li.list-group-item-action {
   top: 0;
   right: 0;
   height: 100%;
+  width: var(--offcanvas-size);
   transform: translateX(100%);
 }
 .offcanvas.is-end.is-active {
   transform: none;
-  width: var(--offcanvas-size);
 }
 .offcanvas.is-top, .offcanvas.is-bottom {
   left: 0;
   right: 0;
   width: 100%;
+  height: var(--offcanvas-size);
 }
 .offcanvas.is-top.is-active, .offcanvas.is-bottom.is-active {
   transform: none;
-  height: var(--offcanvas-size);
 }
 .offcanvas.is-top {
   top: 0;
@@ -4581,7 +4581,6 @@ li.list-group-item-action {
   top: auto;
 }
 .offcanvas-body {
-  display: flex;
   flex-grow: 1;
   overflow-y: auto;
   padding: 1rem;
@@ -4612,11 +4611,10 @@ li.list-group-item-action {
 .field.is-grouped.are-extra-large > .control > .offcanvas.button {
   --offcanvas-size: 32rem;
 }
-.offcanvas.is-fullscreen.is-start, .offcanvas.is-fullscreen.is-end {
-  --offcanvas-size: 100vw;
-}
-.offcanvas.is-fullscreen.is-top, .offcanvas.is-fullscreen.is-bottom {
-  --offcanvas-size: 100vh;
+.offcanvas.is-fullscreen {
+  inset: 0;
+  width: auto;
+  height: auto;
 }
 
 .pagination.is-extra-small, .field.has-addons.are-extra-small > .control > .pagination.button,
@@ -5074,341 +5072,376 @@ li.list-group-item-action {
 }
 .steps {
   display: flex;
-  flex-wrap: wrap;
-  font-size: 1rem;
-  min-height: 2rem;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0.5rem 0;
+  overflow-x: auto;
+  font-size: var(--bulma-size-normal, 1rem);
 }
 .steps:not(:last-child) {
   margin-bottom: 1.5rem;
 }
+.steps, .content .steps {
+  margin: 0;
+  list-style: none;
+}
 .steps .step-item {
-  margin-top: 0;
   position: relative;
-  flex-grow: 1;
-  flex-basis: 0;
+  flex: 1 0 7em;
+  min-width: 0;
+  margin-top: 0;
+  cursor: pointer;
+  column-gap: inherit;
 }
-.steps .step-item:not(:first-child) {
-  flex-basis: 1em;
-  flex-grow: 1;
-  flex-shrink: 1;
-}
-.steps .step-item:not(:first-child)::before {
-  content: " ";
-  display: block;
+.steps .step-item > .step-connector {
+  display: grid;
+  grid-template-columns: 0 100%;
+  grid-template-rows: 100%;
+  justify-content: end;
+  column-gap: inherit;
   position: absolute;
+  inset-inline-end: calc((7em + 2em) / 2);
+  top: calc(2em / 2);
+  width: 100%;
+  height: 0.4em;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
-.steps .step-item::before {
-  background: linear-gradient(to left, hsl(221, 14%, 86%) 50%, hsl(171, 100%, 41%) 50%);
-  background-size: 200% 100%;
-  background-position: right bottom;
+.steps .step-item > .step-connector::before {
+  content: "";
+  grid-area: 1/1/-1/-1;
+  margin-inline-start: 2em;
+  background-color: var(--bulma-border, hsl(221, 14%, 86%));
+  border-radius: inherit;
 }
-.steps .step-item::before .step-marker {
-  color: hsl(221, 14%, 100%);
+.steps .step-item:first-child {
+  flex: 0 0 7em;
 }
-.steps .step-item.is-completed::before {
-  background-position: left bottom;
+.steps .step-item:first-child > .step-connector {
+  display: none;
+}
+.steps .step-item:focus-visible {
+  outline: none;
+}
+.steps .step-item:focus-visible > .step-marker {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--bulma-scheme-main, hsl(221, 14%, 100%)), 0 0 0 4px var(--bulma-link, hsl(233, 100%, 63%)), 0 0 0 6px color-mix(in srgb, var(--bulma-link, hsl(233, 100%, 63%)) 16%, transparent);
+}
+@media (forced-colors: active) {
+  .steps .step-item:focus-visible > .step-marker {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+}
+.steps .step-item.is-completed > .step-connector::before {
+  background-color: var(--bulma-primary, hsl(171, 100%, 41%));
 }
 .steps .step-item.is-completed .step-marker {
-  color: hsl(221, 14%, 100%);
-  background-color: hsl(153, 53%, 53%);
+  background-color: var(--bulma-primary, hsl(171, 100%, 41%));
+  color: var(--bulma-primary-invert, #fff);
 }
-.steps .step-item.is-active::before {
-  background-position: left bottom;
+.steps .step-item.is-active > .step-connector::before {
+  background-color: var(--bulma-primary, hsl(171, 100%, 41%));
 }
-.steps .step-item.is-active.is-completed .step-marker,
 .steps .step-item.is-active .step-marker {
-  background-color: hsl(171, 100%, 41%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-scheme-main, hsl(221, 14%, 100%));
+  border-color: var(--bulma-primary, hsl(171, 100%, 41%));
+  color: var(--bulma-primary-on-scheme, hsl(171, 100%, 29%));
 }
-.steps .step-item .step-marker {
-  align-items: center;
-  display: flex;
-  border-radius: 50%;
-  font-weight: 700;
-  justify-content: center;
-  background: hsl(221, 14%, 71%);
-  color: hsl(221, 14%, 100%);
-  border: 0.2em solid #fff;
-  z-index: 1;
-}
-.steps .step-item .step-details {
-  text-align: center;
-}
-.steps .step-item.is-primary::before {
-  background: linear-gradient(to left, hsl(221, 14%, 86%) 50%, hsl(171, 100%, 41%) 50%);
-  background-size: 200% 100%;
-  background-position: right bottom;
+.steps .step-item.is-active .step-title {
+  color: var(--bulma-text-strong, hsl(221, 14%, 21%));
+  font-weight: var(--bulma-weight-semibold, 600);
 }
 .steps .step-item.is-primary .step-marker {
-  background-color: hsl(171, 100%, 41%);
-  color: hsl(221, 14%, 100%);
-}
-.steps .step-item.is-primary.is-completed::before {
-  background-position: left bottom;
+  background-color: var(--bulma-primary-soft, color-mix(in srgb, var(--bulma-primary, hsl(171, 100%, 41%)) 12%, var(--bulma-scheme-main, hsl(221, 14%, 100%))));
+  color: var(--bulma-primary-soft-invert, var(--bulma-primary-on-scheme, color-mix(in srgb, var(--bulma-primary, hsl(171, 100%, 41%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%)))));
 }
 .steps .step-item.is-primary.is-completed .step-marker {
-  background-color: hsl(171, 100%, 41%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-primary, hsl(171, 100%, 41%));
+  color: var(--bulma-primary-invert, #fff);
 }
-.steps .step-item.is-primary.is-active::before {
-  background-position: left bottom;
-}
-.steps .step-item.is-primary.is-active.is-completed .step-marker,
 .steps .step-item.is-primary.is-active .step-marker {
-  background-color: hsl(171, 100%, 41%);
-  border-color: hsl(171, 100%, 41%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-scheme-main, hsl(221, 14%, 100%));
+  border-color: var(--bulma-primary, hsl(171, 100%, 41%));
+  color: var(--bulma-primary-on-scheme, color-mix(in srgb, var(--bulma-primary, hsl(171, 100%, 41%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-secondary::before {
-  background: linear-gradient(to left, hsl(221, 14%, 86%) 50%, hsl(221, 14%, 48%) 50%);
-  background-size: 200% 100%;
-  background-position: right bottom;
+.steps .step-item.is-primary.is-completed > .step-connector::before, .steps .step-item.is-primary.is-active > .step-connector::before {
+  background-color: var(--bulma-primary, hsl(171, 100%, 41%));
 }
 .steps .step-item.is-secondary .step-marker {
-  background-color: hsl(221, 14%, 48%);
-  color: hsl(221, 14%, 100%);
-}
-.steps .step-item.is-secondary.is-completed::before {
-  background-position: left bottom;
+  background-color: var(--bulma-secondary-soft, color-mix(in srgb, var(--bulma-secondary, hsl(221, 14%, 48%)) 12%, var(--bulma-scheme-main, hsl(221, 14%, 100%))));
+  color: var(--bulma-secondary-soft-invert, var(--bulma-secondary-on-scheme, color-mix(in srgb, var(--bulma-secondary, hsl(221, 14%, 48%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%)))));
 }
 .steps .step-item.is-secondary.is-completed .step-marker {
-  background-color: hsl(221, 14%, 48%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-secondary, hsl(221, 14%, 48%));
+  color: var(--bulma-secondary-invert, #fff);
 }
-.steps .step-item.is-secondary.is-active::before {
-  background-position: left bottom;
-}
-.steps .step-item.is-secondary.is-active.is-completed .step-marker,
 .steps .step-item.is-secondary.is-active .step-marker {
-  background-color: hsl(171, 100%, 41%);
-  border-color: hsl(171, 100%, 41%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-scheme-main, hsl(221, 14%, 100%));
+  border-color: var(--bulma-secondary, hsl(221, 14%, 48%));
+  color: var(--bulma-secondary-on-scheme, color-mix(in srgb, var(--bulma-secondary, hsl(221, 14%, 48%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-success::before {
-  background: linear-gradient(to left, hsl(221, 14%, 86%) 50%, hsl(153, 53%, 53%) 50%);
-  background-size: 200% 100%;
-  background-position: right bottom;
+.steps .step-item.is-secondary.is-completed > .step-connector::before, .steps .step-item.is-secondary.is-active > .step-connector::before {
+  background-color: var(--bulma-secondary, hsl(221, 14%, 48%));
 }
 .steps .step-item.is-success .step-marker {
-  background-color: hsl(153, 53%, 53%);
-  color: hsl(221, 14%, 100%);
-}
-.steps .step-item.is-success.is-completed::before {
-  background-position: left bottom;
+  background-color: var(--bulma-success-soft, color-mix(in srgb, var(--bulma-success, hsl(153, 53%, 53%)) 12%, var(--bulma-scheme-main, hsl(221, 14%, 100%))));
+  color: var(--bulma-success-soft-invert, var(--bulma-success-on-scheme, color-mix(in srgb, var(--bulma-success, hsl(153, 53%, 53%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%)))));
 }
 .steps .step-item.is-success.is-completed .step-marker {
-  background-color: hsl(153, 53%, 53%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-success, hsl(153, 53%, 53%));
+  color: var(--bulma-success-invert, #fff);
 }
-.steps .step-item.is-success.is-active::before {
-  background-position: left bottom;
-}
-.steps .step-item.is-success.is-active.is-completed .step-marker,
 .steps .step-item.is-success.is-active .step-marker {
-  background-color: hsl(171, 100%, 41%);
-  border-color: hsl(171, 100%, 41%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-scheme-main, hsl(221, 14%, 100%));
+  border-color: var(--bulma-success, hsl(153, 53%, 53%));
+  color: var(--bulma-success-on-scheme, color-mix(in srgb, var(--bulma-success, hsl(153, 53%, 53%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-info::before {
-  background: linear-gradient(to left, hsl(221, 14%, 86%) 50%, hsl(198, 100%, 70%) 50%);
-  background-size: 200% 100%;
-  background-position: right bottom;
+.steps .step-item.is-success.is-completed > .step-connector::before, .steps .step-item.is-success.is-active > .step-connector::before {
+  background-color: var(--bulma-success, hsl(153, 53%, 53%));
 }
 .steps .step-item.is-info .step-marker {
-  background-color: hsl(198, 100%, 70%);
-  color: hsl(221, 14%, 100%);
-}
-.steps .step-item.is-info.is-completed::before {
-  background-position: left bottom;
+  background-color: var(--bulma-info-soft, color-mix(in srgb, var(--bulma-info, hsl(198, 100%, 70%)) 12%, var(--bulma-scheme-main, hsl(221, 14%, 100%))));
+  color: var(--bulma-info-soft-invert, var(--bulma-info-on-scheme, color-mix(in srgb, var(--bulma-info, hsl(198, 100%, 70%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%)))));
 }
 .steps .step-item.is-info.is-completed .step-marker {
-  background-color: hsl(198, 100%, 70%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-info, hsl(198, 100%, 70%));
+  color: var(--bulma-info-invert, rgba(0, 0, 0, 0.7));
 }
-.steps .step-item.is-info.is-active::before {
-  background-position: left bottom;
-}
-.steps .step-item.is-info.is-active.is-completed .step-marker,
 .steps .step-item.is-info.is-active .step-marker {
-  background-color: hsl(171, 100%, 41%);
-  border-color: hsl(171, 100%, 41%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-scheme-main, hsl(221, 14%, 100%));
+  border-color: var(--bulma-info, hsl(198, 100%, 70%));
+  color: var(--bulma-info-on-scheme, color-mix(in srgb, var(--bulma-info, hsl(198, 100%, 70%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-warning::before {
-  background: linear-gradient(to left, hsl(221, 14%, 86%) 50%, hsl(42, 100%, 53%) 50%);
-  background-size: 200% 100%;
-  background-position: right bottom;
+.steps .step-item.is-info.is-completed > .step-connector::before, .steps .step-item.is-info.is-active > .step-connector::before {
+  background-color: var(--bulma-info, hsl(198, 100%, 70%));
 }
 .steps .step-item.is-warning .step-marker {
-  background-color: hsl(42, 100%, 53%);
-  color: hsl(221, 14%, 100%);
-}
-.steps .step-item.is-warning.is-completed::before {
-  background-position: left bottom;
+  background-color: var(--bulma-warning-soft, color-mix(in srgb, var(--bulma-warning, hsl(42, 100%, 53%)) 12%, var(--bulma-scheme-main, hsl(221, 14%, 100%))));
+  color: var(--bulma-warning-soft-invert, var(--bulma-warning-on-scheme, color-mix(in srgb, var(--bulma-warning, hsl(42, 100%, 53%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%)))));
 }
 .steps .step-item.is-warning.is-completed .step-marker {
-  background-color: hsl(42, 100%, 53%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-warning, hsl(42, 100%, 53%));
+  color: var(--bulma-warning-invert, rgba(0, 0, 0, 0.7));
 }
-.steps .step-item.is-warning.is-active::before {
-  background-position: left bottom;
-}
-.steps .step-item.is-warning.is-active.is-completed .step-marker,
 .steps .step-item.is-warning.is-active .step-marker {
-  background-color: hsl(171, 100%, 41%);
-  border-color: hsl(171, 100%, 41%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-scheme-main, hsl(221, 14%, 100%));
+  border-color: var(--bulma-warning, hsl(42, 100%, 53%));
+  color: var(--bulma-warning-on-scheme, color-mix(in srgb, var(--bulma-warning, hsl(42, 100%, 53%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-danger::before {
-  background: linear-gradient(to left, hsl(221, 14%, 86%) 50%, hsl(348, 100%, 70%) 50%);
-  background-size: 200% 100%;
-  background-position: right bottom;
+.steps .step-item.is-warning.is-completed > .step-connector::before, .steps .step-item.is-warning.is-active > .step-connector::before {
+  background-color: var(--bulma-warning, hsl(42, 100%, 53%));
 }
 .steps .step-item.is-danger .step-marker {
-  background-color: hsl(348, 100%, 70%);
-  color: hsl(221, 14%, 100%);
-}
-.steps .step-item.is-danger.is-completed::before {
-  background-position: left bottom;
+  background-color: var(--bulma-danger-soft, color-mix(in srgb, var(--bulma-danger, hsl(348, 100%, 70%)) 12%, var(--bulma-scheme-main, hsl(221, 14%, 100%))));
+  color: var(--bulma-danger-soft-invert, var(--bulma-danger-on-scheme, color-mix(in srgb, var(--bulma-danger, hsl(348, 100%, 70%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%)))));
 }
 .steps .step-item.is-danger.is-completed .step-marker {
-  background-color: hsl(348, 100%, 70%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-danger, hsl(348, 100%, 70%));
+  color: var(--bulma-danger-invert, #fff);
 }
-.steps .step-item.is-danger.is-active::before {
-  background-position: left bottom;
-}
-.steps .step-item.is-danger.is-active.is-completed .step-marker,
 .steps .step-item.is-danger.is-active .step-marker {
-  background-color: hsl(171, 100%, 41%);
-  border-color: hsl(171, 100%, 41%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-scheme-main, hsl(221, 14%, 100%));
+  border-color: var(--bulma-danger, hsl(348, 100%, 70%));
+  color: var(--bulma-danger-on-scheme, color-mix(in srgb, var(--bulma-danger, hsl(348, 100%, 70%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-light::before {
-  background: linear-gradient(to left, hsl(221, 14%, 86%) 50%, hsl(221, 14%, 96%) 50%);
-  background-size: 200% 100%;
-  background-position: right bottom;
+.steps .step-item.is-danger.is-completed > .step-connector::before, .steps .step-item.is-danger.is-active > .step-connector::before {
+  background-color: var(--bulma-danger, hsl(348, 100%, 70%));
 }
 .steps .step-item.is-light .step-marker {
-  background-color: hsl(221, 14%, 96%);
-  color: hsl(221, 14%, 100%);
-}
-.steps .step-item.is-light.is-completed::before {
-  background-position: left bottom;
+  background-color: var(--bulma-light-soft, color-mix(in srgb, var(--bulma-light, hsl(221, 14%, 96%)) 12%, var(--bulma-scheme-main, hsl(221, 14%, 100%))));
+  color: var(--bulma-light-soft-invert, var(--bulma-light-on-scheme, color-mix(in srgb, var(--bulma-light, hsl(221, 14%, 96%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%)))));
 }
 .steps .step-item.is-light.is-completed .step-marker {
-  background-color: hsl(221, 14%, 96%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-light, hsl(221, 14%, 96%));
+  color: var(--bulma-light-invert, rgba(0, 0, 0, 0.7));
 }
-.steps .step-item.is-light.is-active::before {
-  background-position: left bottom;
-}
-.steps .step-item.is-light.is-active.is-completed .step-marker,
 .steps .step-item.is-light.is-active .step-marker {
-  background-color: hsl(171, 100%, 41%);
-  border-color: hsl(171, 100%, 41%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-scheme-main, hsl(221, 14%, 100%));
+  border-color: var(--bulma-light, hsl(221, 14%, 96%));
+  color: var(--bulma-light-on-scheme, color-mix(in srgb, var(--bulma-light, hsl(221, 14%, 96%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-dark::before {
-  background: linear-gradient(to left, hsl(221, 14%, 86%) 50%, hsl(221, 14%, 21%) 50%);
-  background-size: 200% 100%;
-  background-position: right bottom;
+.steps .step-item.is-light.is-completed > .step-connector::before, .steps .step-item.is-light.is-active > .step-connector::before {
+  background-color: var(--bulma-light, hsl(221, 14%, 96%));
 }
 .steps .step-item.is-dark .step-marker {
-  background-color: hsl(221, 14%, 21%);
-  color: hsl(221, 14%, 100%);
-}
-.steps .step-item.is-dark.is-completed::before {
-  background-position: left bottom;
+  background-color: var(--bulma-dark-soft, color-mix(in srgb, var(--bulma-dark, hsl(221, 14%, 21%)) 12%, var(--bulma-scheme-main, hsl(221, 14%, 100%))));
+  color: var(--bulma-dark-soft-invert, var(--bulma-dark-on-scheme, color-mix(in srgb, var(--bulma-dark, hsl(221, 14%, 21%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%)))));
 }
 .steps .step-item.is-dark.is-completed .step-marker {
-  background-color: hsl(221, 14%, 21%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-dark, hsl(221, 14%, 21%));
+  color: var(--bulma-dark-invert, #fff);
 }
-.steps .step-item.is-dark.is-active::before {
-  background-position: left bottom;
-}
-.steps .step-item.is-dark.is-active.is-completed .step-marker,
 .steps .step-item.is-dark.is-active .step-marker {
-  background-color: hsl(171, 100%, 41%);
-  border-color: hsl(171, 100%, 41%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-scheme-main, hsl(221, 14%, 100%));
+  border-color: var(--bulma-dark, hsl(221, 14%, 21%));
+  color: var(--bulma-dark-on-scheme, color-mix(in srgb, var(--bulma-dark, hsl(221, 14%, 21%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-link::before {
-  background: linear-gradient(to left, hsl(221, 14%, 86%) 50%, hsl(233, 100%, 63%) 50%);
-  background-size: 200% 100%;
-  background-position: right bottom;
+.steps .step-item.is-dark.is-completed > .step-connector::before, .steps .step-item.is-dark.is-active > .step-connector::before {
+  background-color: var(--bulma-dark, hsl(221, 14%, 21%));
 }
 .steps .step-item.is-link .step-marker {
-  background-color: hsl(233, 100%, 63%);
-  color: hsl(221, 14%, 100%);
-}
-.steps .step-item.is-link.is-completed::before {
-  background-position: left bottom;
+  background-color: var(--bulma-link-soft, color-mix(in srgb, var(--bulma-link, hsl(233, 100%, 63%)) 12%, var(--bulma-scheme-main, hsl(221, 14%, 100%))));
+  color: var(--bulma-link-soft-invert, var(--bulma-link-on-scheme, color-mix(in srgb, var(--bulma-link, hsl(233, 100%, 63%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%)))));
 }
 .steps .step-item.is-link.is-completed .step-marker {
-  background-color: hsl(233, 100%, 63%);
-  color: hsl(221, 14%, 100%);
+  background-color: var(--bulma-link, hsl(233, 100%, 63%));
+  color: var(--bulma-link-invert, #fff);
 }
-.steps .step-item.is-link.is-active::before {
-  background-position: left bottom;
-}
-.steps .step-item.is-link.is-active.is-completed .step-marker,
 .steps .step-item.is-link.is-active .step-marker {
-  background-color: hsl(171, 100%, 41%);
-  border-color: hsl(171, 100%, 41%);
+  background-color: var(--bulma-scheme-main, hsl(221, 14%, 100%));
+  border-color: var(--bulma-link, hsl(233, 100%, 63%));
+  color: var(--bulma-link-on-scheme, color-mix(in srgb, var(--bulma-link, hsl(233, 100%, 63%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
+}
+.steps .step-item.is-link.is-completed > .step-connector::before, .steps .step-item.is-link.is-active > .step-connector::before {
+  background-color: var(--bulma-link, hsl(233, 100%, 63%));
+}
+.steps .step-marker {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2em;
+  height: 2em;
+  margin-inline-start: calc(100% - (7em + 2em) / 2);
+  border: 0.2em solid transparent;
+  border-radius: 50%;
+  background-color: var(--bulma-border, hsl(221, 14%, 86%));
+  color: var(--bulma-text-strong, hsl(221, 14%, 21%));
+  font-weight: var(--bulma-weight-bold, 700);
+  line-height: 1;
+}
+.steps .step-check {
+  width: 1em;
+  height: 1em;
+}
+.steps .step-details {
+  width: 7em;
+  margin-inline-start: auto;
+  padding: 0.5em 0.5em 0;
+  text-align: center;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+.steps .step-title {
+  margin: 0;
+  font-size: 1em;
+  color: var(--bulma-text, hsl(221, 14%, 29%));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .steps.is-animated .step-item > .step-connector::before {
+    transition: background-color 150ms ease;
+  }
+  .steps.is-animated .step-marker {
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  }
+}
+
+.steps .step-item.is-custom .step-marker {
+  background-color: color-mix(in srgb, var(--bulma-step-color) 12%, var(--bulma-scheme-main, hsl(221, 14%, 100%)));
+  color: color-mix(in srgb, var(--bulma-step-color) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%)));
+}
+.steps .step-item.is-custom.is-completed .step-marker {
+  background-color: var(--bulma-step-color);
   color: hsl(221, 14%, 100%);
 }
-.steps .steps-actions {
-  display: flex;
+@supports (color: contrast-color(white)) {
+  .steps .step-item.is-custom.is-completed .step-marker {
+    color: contrast-color(var(--bulma-step-color));
+  }
+}
+.steps .step-item.is-custom.is-active .step-marker {
+  background-color: var(--bulma-scheme-main, hsl(221, 14%, 100%));
+  border-color: var(--bulma-step-color);
+  color: color-mix(in srgb, var(--bulma-step-color) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%)));
+}
+.steps .step-item.is-custom.is-completed > .step-connector::before, .steps .step-item.is-custom.is-active > .step-connector::before {
+  background-color: var(--bulma-step-color);
+}
+
+.steps.is-vertical {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: 1fr;
+  row-gap: 1.5em;
   align-items: stretch;
-  flex-basis: 100%;
+  overflow: visible;
+  padding-inline: 0.5em;
 }
-.steps .steps-actions .steps-action {
+.steps.is-vertical > .step-item {
   display: flex;
-  flex-basis: 0;
-  flex-grow: 1;
-  margin: 0.5rem;
-  justify-content: center;
-  align-items: center;
-}
-.steps.is-animated .step-item::before {
-  transition: all 2s ease;
-}
-.steps.is-animated .step-item .step-marker {
-  transition: all 0s ease;
-  transition-delay: 1.5s;
-}
-.steps .step-item:not(:first-child)::before {
-  height: 0.2em;
+  align-items: flex-start;
+  column-gap: 0.75em;
+  row-gap: inherit;
   width: 100%;
-  bottom: 0;
-  left: -50%;
-  top: 1rem;
 }
-.steps .step-item .step-marker {
-  height: 2rem;
-  width: 2rem;
-  position: absolute;
-  left: calc(50% - 1rem);
+.steps.is-vertical > .step-item > .step-connector {
+  grid-template-columns: 100%;
+  grid-template-rows: 0 100%;
+  align-content: end;
+  gap: inherit;
+  inset-inline-start: calc((2em - 0.4em) / 2);
+  inset-inline-end: auto;
+  top: -100%;
+  width: 0.4em;
+  height: 100%;
+  transform: none;
 }
-.steps .step-item .step-marker .icon * {
-  font-size: 1rem;
+.steps.is-vertical > .step-item > .step-connector::before {
+  margin-inline-start: 0;
+  margin-block-start: calc(2em + 0.25em);
+  margin-block-end: 0.25em;
 }
-.steps .step-item .step-details {
-  margin-top: 2rem;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-  padding-top: 0.2em;
+.steps.is-vertical > .step-item:first-child > .step-connector {
+  display: none;
 }
-.steps .step-item .step-details .step-title {
-  font-size: 1.2rem;
-  font-weight: 600;
+.steps.is-vertical > .step-item .step-marker {
+  flex: none;
+  margin-inline-start: 0;
+}
+.steps.is-vertical > .step-item .step-details {
+  flex: 1;
+  min-width: 0;
+  width: auto;
+  margin: 0;
+  padding: 0.25em 0 0;
+  text-align: start;
+}
+.steps.is-vertical.is-end > .step-item {
+  flex-direction: row-reverse;
+}
+.steps.is-vertical.is-end > .step-item > .step-connector {
+  inset-inline-start: auto;
+  inset-inline-end: calc((2em - 0.4em) / 2);
+}
+.steps.is-vertical.is-end > .step-item .step-details {
+  text-align: end;
+}
+
+.steps.is-layout:not(.is-vertical).is-alignment-center {
+  justify-content: safe center;
+}
+.steps.is-layout:not(.is-vertical).is-alignment-end {
+  justify-content: safe flex-end;
+}
+.steps.is-layout:not(.is-vertical) > .step-item {
+  flex: 0 0 7em;
+}
+.steps.is-layout:not(.is-vertical).is-alignment-space-between > .step-item:not(:first-child), .steps.is-layout:not(.is-vertical).is-alignment-justified > .step-item {
+  flex: 1 0 7em;
+}
+.steps.is-layout:not(.is-vertical).is-alignment-justified > .step-item .step-marker,
+.steps.is-layout:not(.is-vertical).is-alignment-justified > .step-item .step-details {
+  margin-inline: auto;
+}
+.steps.is-layout:not(.is-vertical).is-alignment-justified > .step-item > .step-connector {
+  inset-inline-end: calc((100% + 2em) / 2);
 }
 
 .steps-content {
-  align-items: stretch;
-  flex-basis: 100%;
   margin: 2rem 0;
 }
 .steps-content .step-content {
@@ -5416,24 +5449,6 @@ li.list-group-item-action {
 }
 .steps-content .step-content.is-active {
   display: block;
-}
-
-.steps .step-item.is-custom .step-marker {
-  color: var(--bulma-step-color);
-  border-color: var(--bulma-step-color);
-}
-.steps .step-item.is-custom.is-active .step-marker, .steps .step-item.is-custom.is-completed .step-marker {
-  background-color: var(--bulma-step-color);
-  border-color: var(--bulma-step-color);
-  color: white;
-}
-@supports (color: contrast-color(white)) {
-  .steps .step-item.is-custom.is-active .step-marker, .steps .step-item.is-custom.is-completed .step-marker {
-    color: contrast-color(var(--bulma-step-color));
-  }
-}
-.steps .step-item.is-custom.is-active::before, .steps .step-item.is-custom.is-completed::before {
-  background: var(--bulma-step-color);
 }
 
 .switch[type=checkbox] {

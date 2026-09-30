@@ -43,9 +43,22 @@ public partial class Step : BaseComponent<StepClasses, StepStyles>, IDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        ParentSteps?.NotifyStepInitialized( Name );
-
         base.OnInitialized();
+
+        ParentSteps?.NotifyStepInitialized( this );
+    }
+
+    /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Name, out var paramName );
+
+        await base.SetParametersAsync( parameters );
+
+        if ( paramName.Changed )
+        {
+            ParentSteps?.NotifyStepParametersChanged();
+        }
     }
 
     /// <inheritdoc/>
@@ -53,7 +66,7 @@ public partial class Step : BaseComponent<StepClasses, StepStyles>, IDisposable
     {
         if ( disposing )
         {
-            ParentSteps?.NotifyStepRemoved( Name );
+            ParentSteps?.NotifyStepRemoved( this );
         }
 
         base.Dispose( disposing );
@@ -111,17 +124,44 @@ public partial class Step : BaseComponent<StepClasses, StepStyles>, IDisposable
     /// </summary>
     /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task OnClickHandler( MouseEventArgs eventArgs ) => ClickHandler( eventArgs );
+
+    /// <summary>
+    /// Activates the step through its click callback and navigation guard.
+    /// </summary>
+    /// <param name="eventArgs">The activation event arguments.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     protected async Task ClickHandler( MouseEventArgs eventArgs )
     {
         await Clicked.InvokeAsync( eventArgs );
 
         if ( ParentSteps is not null )
+        {
             await ParentSteps.SelectStep( Name );
+        }
     }
 
     #endregion
 
     #region Properties
+
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Gets the ID of the panel controlled by this step.
+    /// </summary>
+    protected string AriaControls => ParentSteps?.GetStepPanelElementId( Name );
+
+    /// <summary>
+    /// Gets the selected state serialized for assistive technology.
+    /// </summary>
+    protected string AriaSelectedString => Active ? "true" : "false";
+
+    /// <summary>
+    /// Gets the tab order for entry into the step list.
+    /// </summary>
+    protected int TabIndex => Active ? 0 : -1;
 
     /// <summary>
     /// Marker element class builder.
@@ -164,6 +204,11 @@ public partial class Step : BaseComponent<StepClasses, StepStyles>, IDisposable
     /// Specifies the step name.
     /// </summary>
     [Parameter] public string Name { get; set; }
+
+    /// <summary>
+    /// Specifies the space-separated IDs of elements that label this step.
+    /// </summary>
+    [Parameter] public string AriaLabelledBy { get; set; }
 
     /// <summary>
     /// Marks the step as completed.

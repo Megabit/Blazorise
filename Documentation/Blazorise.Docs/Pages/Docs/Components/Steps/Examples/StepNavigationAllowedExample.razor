@@ -1,52 +1,65 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Steps @ref="stepsRef" @bind-SelectedStep="@selectedStep" NavigationAllowed="NavigationAllowed">
+<Steps @ref="stepsRef" @bind-SelectedStep="selectedStep" NavigationAllowed="OnNavigationAllowedHandler" AriaLabel="Contact registration">
     <Items>
-        <Step Name="1">Step 1</Step>
-        <Step Name="2">Step 2</Step>
-        <Step Name="3">Step 3</Step>
-        <Step Name="4">Step 4</Step>
+        <Step Name="contact">Contact</Step>
+        <Step Name="review">Review</Step>
+        <Step Name="finish">Finish</Step>
     </Items>
     <Content>
-        <StepPanel Name="1">
-            Step 1
+        <StepPanel Name="contact" Padding="Padding.Is3">
+            <Paragraph>Enter your email address, then choose Next or select a later step. Try leaving the field empty to see the validation message.</Paragraph>
+            <Validations @ref="contactValidations" Mode="ValidationMode.Manual">
+                <Validation Validator="ValidationRule.IsEmail">
+                    <Field Margin="Margin.Is0.FromBottom">
+                        <FieldLabel>Email address</FieldLabel>
+                        <TextInput @bind-Value="email" Role="TextRole.Email" Placeholder="e.g. alex@example.com">
+                            <Feedback>
+                                <ValidationError>Enter a valid email address to continue.</ValidationError>
+                            </Feedback>
+                        </TextInput>
+                        <FieldHelp>You can return to this step to change your email address.</FieldHelp>
+                    </Field>
+                </Validation>
+            </Validations>
         </StepPanel>
-        <StepPanel Name="2">
-            <Field>
-                <FieldLabel>Email address</FieldLabel>
-                <TextInput @bind-Value="email" Placeholder="Enter email">
-                    <FieldHelp>This field is required in order to proceed to the next step.</FieldHelp>
-                </TextInput>
-            </Field>
+        <StepPanel Name="review" Padding="Padding.Is3">
+            <Paragraph>Email address: @email</Paragraph>
+            <Paragraph>Choose Previous to make a correction or Next to finish.</Paragraph>
         </StepPanel>
-        <StepPanel Name="3">
-            Step 3
-        </StepPanel>
-        <StepPanel Name="4">
-            Step 4
+        <StepPanel Name="finish" Padding="Padding.Is3">
+            <Paragraph>You have reached the final step. You can still go back and edit your details.</Paragraph>
         </StepPanel>
     </Content>
 </Steps>
 <Div Flex="Flex.JustifyContent.Center">
-    <Button Color="Color.Secondary" Margin="Margin.Is2.FromEnd" Clicked="() => stepsRef.PreviousStep()">
+    <Button Color="Color.Secondary" Margin="Margin.Is2.FromEnd" Disabled="@( selectedStep == "contact" )" Clicked="OnPreviousClickedHandler">
         Previous
     </Button>
-    <Button Color="Color.Primary" Clicked="() => stepsRef.NextStep()">
+    <Button Color="Color.Primary" Disabled="@( selectedStep == "finish" )" Clicked="OnNextClickedHandler">
         Next
     </Button>
 </Div>
 @code {
     private Steps stepsRef;
-    private string email;
-    private string selectedStep = "2";
 
-    private Task<bool> NavigationAllowed( StepNavigationContext context )
+    private Validations contactValidations;
+
+    private string email;
+
+    private string selectedStep = "contact";
+
+    private Task OnPreviousClickedHandler() => stepsRef.PreviousStep();
+
+    private Task OnNextClickedHandler() => stepsRef.NextStep();
+
+    private Task<bool> OnNavigationAllowedHandler( StepNavigationContext context )
     {
-        if ( context.CurrentStepIndex == 2 && context.NextStepIndex > 2 && !ValidationRule.IsEmail( email ) )
+        if ( context.CurrentStepIndex == 0 || context.NextStepIndex <= context.CurrentStepIndex )
         {
-            return Task.FromResult( false );
+            return Task.FromResult( true );
         }
 
-        return Task.FromResult( true );
+        return contactValidations.ValidateAll();
     }
 }
