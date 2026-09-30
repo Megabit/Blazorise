@@ -126,13 +126,15 @@ public partial class ContextMenuSubmenu : BaseComponent
     }
 
     /// <summary>
-    /// Defines which pointer interactions can open or close this submenu.
+    /// Defines which pointer interactions can open or close this submenu. Defaults to <c>All</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the parent ContextMenu submenu trigger, falling back to All.</remarks>
     [Parameter] public DropdownTrigger? Trigger { get; set; }
 
     /// <summary>
-    /// Delay in milliseconds before hiding this hover-opened submenu after the mouse leaves it.
+    /// Delay in milliseconds before hiding this hover-opened submenu after the mouse leaves it. Defaults to <c>300</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the parent ContextMenu submenu close delay, falling back to 300 ms.</remarks>
     [Parameter] public int? HoverCloseDelay { get; set; }
 
     /// <summary>

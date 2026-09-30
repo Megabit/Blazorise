@@ -100,23 +100,27 @@ public partial class PdfPage : ComponentBase, IDisposable
     }
 
     /// <summary>
-    /// Page size for this page.
+    /// Page size for this page. Defaults to <c>A4</c>.
     /// </summary>
+    /// <remarks>When Size is Custom and neither dimension is positive, uses the parent document's page size.</remarks>
     [Parameter] public PdfPageSize Size { get; set; } = PdfPageSize.Custom;
 
     /// <summary>
-    /// Page orientation for this page. If omitted, the document orientation is used.
+    /// Page orientation for this page. If omitted, the document orientation is used. Defaults to <c>Portrait</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the parent document's orientation.</remarks>
     [Parameter] public PdfOrientation? Orientation { get; set; }
 
     /// <summary>
-    /// Custom page width used when the page size is custom.
+    /// Custom page width used when the page size is custom. Defaults to <c>Document.PageWidth</c>.
     /// </summary>
+    /// <remarks>When not positive, uses the parent document's custom page width. Named page sizes determine their own dimensions.</remarks>
     [Parameter] public double Width { get; set; }
 
     /// <summary>
-    /// Custom page height used when the page size is custom.
+    /// Custom page height used when the page size is custom. Defaults to <c>Document.PageHeight</c>.
     /// </summary>
+    /// <remarks>When not positive, uses the parent document's custom page height. Named page sizes determine their own dimensions.</remarks>
     [Parameter] public double Height { get; set; }
 
     /// <summary>

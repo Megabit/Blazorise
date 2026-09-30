@@ -69,36 +69,43 @@ public class SvgChartDataDrag : SvgChartPluginBase
     /// <summary>
     /// Defines whether data point dragging is enabled.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public bool Enabled { get; set; }
 
     /// <summary>
     /// Defines the axes along which data points can be dragged.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public SvgChartDataDragMode Mode { get; set; } = SvgChartDataDragMode.Y;
 
     /// <summary>
     /// Defines the optional increment to which dragged X values are snapped.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public double? XStep { get; set; }
 
     /// <summary>
     /// Defines the optional increment to which dragged Y values are snapped.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public double? YStep { get; set; }
 
     /// <summary>
     /// Defines the minimum pointer hit radius in SVG units.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public double HitRadius { get; set; } = 12;
 
     /// <summary>
     /// Defines whether the point tooltip is shown and updated while dragging. The default is <see langword="false"/>.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public bool ShowTooltip { get; set; }
 
     /// <summary>
     /// Defines an optional predicate that determines whether an individual point can be dragged.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public Func<SvgChartPointEventArgs, bool> CanDrag { get; set; }
 
     /// <summary>

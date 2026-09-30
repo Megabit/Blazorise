@@ -309,7 +309,7 @@ public partial class Alert : BaseComponent, IDisposable
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
     /// <summary>
-    /// Specifies the contextual or explicit CSS color of the alert.
+    /// Specifies the contextual or explicit CSS color of the alert. Defaults to <c>Default</c>.
     /// </summary>
     [Parameter]
     public Color Color

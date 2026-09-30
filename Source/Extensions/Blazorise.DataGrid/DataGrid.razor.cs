@@ -4296,10 +4296,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public IEnumerable<TItem> AggregateData { get; set; }
 
     /// <summary>
-    /// Specifies the total number of items available when data is loaded through <see cref="ReadData"/>.
+    /// Specifies the total number of items available when data is loaded through <see cref="ReadData"/>. Defaults to <c>0</c>.
     /// </summary>
     /// <remarks>
     /// This field must be set only when <see cref="ReadData"/> is used to load the data.
+    /// <para>Uses the filtered item count for local data, or 0 until supplied when using ReadData.</para>
     /// </remarks>
     [Parameter] public int? TotalItems { get => paginationContext.TotalItems; set => paginationContext.TotalItems = value; }
 
@@ -4463,12 +4464,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public bool ShowPageSizes { get => paginationContext.ShowPageSizes; set => paginationContext.ShowPageSizes = value; }
 
     /// <summary>
-    /// Specifies the chooseable page sizes of the datagrid.
+    /// Specifies the chooseable page sizes of the datagrid. Defaults to <c>5, 10, 25, 50, 100, 250</c>.
     /// </summary>
     [Parameter] public IEnumerable<int> PageSizes { get => paginationContext.PageSizes; set => paginationContext.PageSizes = value; }
 
     /// <summary>
-    /// Specifies the current page number.
+    /// Specifies the current page number. Defaults to <c>1</c>.
     /// </summary>
     [Parameter] public int Page { get => paginationContext.Page; set => paginationContext.Page = value; }
 
@@ -4558,7 +4559,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public RenderFragment<PaginationContext<TItem>> PageSizesTemplate { get => paginationTemplates.PageSizesTemplate; set => paginationTemplates.PageSizesTemplate = value; }
 
     /// <summary>
-    /// Specifies the maximum number of items for each page.
+    /// Specifies the maximum number of items for each page. Defaults to <c>10</c>.
     /// </summary>
     [Parameter] public int PageSize { get => paginationContext.PageSize; set => paginationContext.PageSize = value; }
 
@@ -4568,7 +4569,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public EventCallback<int> PageSizeChanged { get; set; }
 
     /// <summary>
-    /// Specifies the maximum number of visible pagination links. It has to be odd for well look.
+    /// Specifies the maximum number of visible pagination links. It has to be odd for well look. Defaults to <c>5</c>.
     /// </summary>
     [Parameter] public int MaxPaginationLinks { get => paginationContext.MaxPaginationLinks; set => paginationContext.MaxPaginationLinks = value; }
 

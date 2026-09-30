@@ -141,8 +141,9 @@ public partial class DropdownItem : BaseComponent
     [Parameter] public object Value { get; set; }
 
     /// <summary>
-    /// Specifies the tabindex value for keyboard navigation.
+    /// Specifies the tabindex value for keyboard navigation. Defaults to <c>0</c>.
     /// </summary>
+    /// <remarks>When omitted, uses 0 when enabled. Disabled items always use -1.</remarks>
     [Parameter] public int? TabIndex { get; set; }
 
     /// <summary>

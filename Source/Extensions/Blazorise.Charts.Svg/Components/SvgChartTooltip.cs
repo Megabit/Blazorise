@@ -90,47 +90,56 @@ public class SvgChartTooltip : SvgChartComponentBase
     /// <summary>
     /// Defines whether SVG chart tooltips are shown for points.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public bool Enabled { get; set; } = true;
 
     /// <summary>
     /// Defines how related points are resolved for tooltip content.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public SvgChartInteractionMode InteractionMode { get; set; } = SvgChartInteractionMode.Nearest;
 
     /// <summary>
     /// Defines whether the pointer must intersect a rendered data point to show the tooltip.
     /// When false, the nearest category is resolved from the plot area for cartesian charts.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public bool Intersect { get; set; } = true;
 
     /// <summary>
     /// Defines a callback used to format default tooltip text.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public Func<SvgChartTooltipContext, string> Formatter { get; set; }
 
     /// <summary>
     /// Defines custom tooltip content.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public RenderFragment<SvgChartTooltipContext> Template { get; set; }
 
     /// <summary>
     /// Defines the tooltip width in SVG viewport units at the unscaled chart size. The rendered width is unaffected by chart scaling.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public double Width { get; set; } = 180;
 
     /// <summary>
     /// Defines the tooltip height in SVG viewport units at the unscaled chart size. The rendered height is unaffected by chart scaling.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public double Height { get; set; } = 56;
 
     /// <summary>
     /// Defines the horizontal tooltip offset from the point anchor in SVG viewport units at the unscaled chart size. The rendered offset is unaffected by chart scaling.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public double OffsetX { get; set; } = 8;
 
     /// <summary>
     /// Defines the vertical tooltip offset from the point anchor in SVG viewport units at the unscaled chart size. The rendered offset is unaffected by chart scaling.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public double OffsetY { get; set; } = 8;
 
     #endregion

@@ -116,7 +116,7 @@ public partial class NotificationProvider : BaseComponent, IDisposable
     [Parameter] public NotificationLocation Location { get; set; } = NotificationLocation.Center;
 
     /// <summary>
-    /// Specifies the default interval (in milliseconds) after which the notification alert will be automatically closed (used if IntervalBeforeClose is not set on PushAsync call).
+    /// Specifies the default interval (in milliseconds) after which the notification alert will be automatically closed (used if IntervalBeforeClose is not set on PushAsync call). Defaults to <c>5000</c>.
     /// </summary>
     [Parameter] public double? DefaultInterval { get; set; }
 

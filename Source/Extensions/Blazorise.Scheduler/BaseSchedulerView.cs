@@ -19,12 +19,12 @@ public class BaseSchedulerView<TItem> : ComponentBase
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     /// <summary>
-    /// Specifies the first hour displayed in the view. Default is 00:00.
+    /// Specifies the first hour displayed in the view. Defaults to <c>TimeOnly.MinValue</c>.
     /// </summary>
     [Parameter] public TimeOnly? StartTime { get; set; }
 
     /// <summary>
-    /// Specifies when the day ends.
+    /// Specifies when the day ends. Defaults to <c>TimeOnly.MaxValue</c>.
     /// </summary>
     [Parameter] public TimeOnly? EndTime { get; set; }
 

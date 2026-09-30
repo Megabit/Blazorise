@@ -239,7 +239,9 @@ public partial class ModalProvider : BaseComponent
     /// <summary>
     /// Specifies if the modal should keep the input focus at all times.
     /// Global Option.
+    /// Defaults to <c>true</c>.
     /// </summary>
+    /// <remarks>When unspecified, uses BlazoriseOptions.ModalFocusTrap, falling back to true.</remarks>
     [Parameter] public bool? FocusTrap { get; set; }
 
     /// <summary>

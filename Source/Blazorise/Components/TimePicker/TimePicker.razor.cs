@@ -1128,8 +1128,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     [Parameter] public TimeSpan? Max { get; set; }
 
     /// <summary>
-    /// Specifies the display format of the time input using the picker format syntax supported by earlier versions.
+    /// Specifies the display format of the time input using the picker format syntax supported by earlier versions. Defaults to <c>HH:mm</c>.
     /// </summary>
+    /// <remarks>When omitted, uses HH:mm:ss when Seconds is true and HH:mm otherwise.</remarks>
     [Parameter] public string DisplayFormat { get; set; }
 
     /// <summary>

@@ -181,8 +181,9 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
     }
 
     /// <summary>
-    /// Specifies the intent of radio buttons(only when <see cref="Buttons"/> is true).
+    /// Specifies the intent of radio buttons(only when <see cref="Buttons"/> is true). Defaults to <c>Secondary</c>.
     /// </summary>
+    /// <remarks>Derived from Color.</remarks>
     [Parameter]
     public Intent Intent
     {

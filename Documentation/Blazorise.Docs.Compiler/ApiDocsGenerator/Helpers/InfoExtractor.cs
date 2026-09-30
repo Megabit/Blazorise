@@ -3,6 +3,7 @@ using System.Linq;
 using Blazorise.Docs.Compiler.ApiDocsGenerator.Dtos;
 using Blazorise.Docs.Compiler.ApiDocsGenerator.Extensions;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 #endregion
 
 namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
@@ -20,6 +21,16 @@ public class InfoExtractor
         propertyDetails.Summary = StringHelpers.ExtractFromXmlComment( property, ExtractorParts.Summary );
         propertyDetails.Remarks = StringHelpers.ExtractFromXmlComment( property, ExtractorParts.Remarks );
         propertyDetails.IsBlazoriseEnum = property.Type.TypeKind == TypeKind.Enum && property.Type.ToDisplayString().StartsWith( "Blazorise" );
+
+        var documentedDefault = DefaultValueHelper.GetDocumentedDefaultValue( property );
+
+        if ( documentedDefault is not null )
+        {
+            propertyDetails.DefaultValueString = SymbolDisplay.FormatLiteral( documentedDefault, quote: true );
+            propertyDetails.DefaultValue = documentedDefault;
+
+            return propertyDetails;
+        }
 
         // Determine default value
         object defaultValue = DefaultValueHelper.GetDefaultValue( compilation, property );

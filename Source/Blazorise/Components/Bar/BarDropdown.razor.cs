@@ -509,7 +509,7 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     [Parameter] public int CloseDelay { get; set; } = DefaultCloseDelay;
 
     /// <summary>
-    /// Defines the positioning strategy of a floating <see cref="BarDropdownMenu"/>.
+    /// Defines the positioning strategy of a floating <see cref="BarDropdownMenu"/>. Defaults to <c>Fixed</c>.
     /// </summary>
     [Parameter]
     public DropdownPositionStrategy PositionStrategy

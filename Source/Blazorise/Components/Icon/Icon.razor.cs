@@ -112,8 +112,9 @@ public partial class Icon : BaseComponent
     }
 
     /// <summary>
-    /// Suggested icon style.
+    /// Suggested icon style. Defaults to <c>Provider default</c>.
     /// </summary>
+    /// <remarks>When omitted, uses BlazoriseOptions.IconStyle, falling back to the icon provider default.</remarks>
     [Parameter]
     public IconStyle? IconStyle
     {
@@ -127,8 +128,9 @@ public partial class Icon : BaseComponent
     }
 
     /// <summary>
-    /// Specifies the icon size.
+    /// Specifies the icon size. Defaults to <c>Default</c>.
     /// </summary>
+    /// <remarks>When omitted, uses BlazoriseOptions.IconSize, falling back to IconSize.Default.</remarks>
     [Parameter]
     public IconSize? IconSize
     {

@@ -315,8 +315,9 @@ public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>, IAsyncDispos
     }
 
     /// <summary>
-    /// Controls the size of the items bar when in vertical mode. If left undefined it will default to the <c>ColumnSize.IsAuto</c>.
+    /// Controls the size of the items bar when in vertical mode. Defaults to <c>Auto</c>.
     /// </summary>
+    /// <remarks>When omitted, uses <c>ColumnSize.IsAuto</c>.</remarks>
     [Parameter] public IFluentColumn VerticalItemsColumnSize { get; set; }
 
     /// <summary>

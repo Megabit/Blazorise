@@ -31,8 +31,9 @@ public partial class PropertyGridTextItem : BasePropertyGridEditorItem
     [Parameter] public bool ReadOnly { get; set; }
 
     /// <summary>
-    /// Defines whether value changes are reported immediately.
+    /// Defines whether value changes are reported immediately. Defaults to <c>ValueChanged.HasDelegate</c>.
     /// </summary>
+    /// <remarks>When omitted, enables immediate updates if ValueChanged has a delegate.</remarks>
     [Parameter] public bool? Immediate { get; set; }
 
     #endregion

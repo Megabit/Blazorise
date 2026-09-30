@@ -85,11 +85,13 @@ public class SvgChartCategoryAxis<TItem> : SvgChartComponentBase
     /// <summary>
     /// Defines the axis identifier used by series to target this category axis.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public string Id { get; set; }
 
     /// <summary>
     /// Defines the axis position.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public SvgChartAxisPosition Position { get; set; } = SvgChartAxisPosition.Auto;
 
     /// <summary>
@@ -105,21 +107,25 @@ public class SvgChartCategoryAxis<TItem> : SvgChartComponentBase
     /// <summary>
     /// Defines the axis title.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public string Title { get; set; }
 
     /// <summary>
     /// Defines a callback used to format category axis labels.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public Func<SvgChartAxisTickContext, string> TickFormatter { get; set; }
 
     /// <summary>
-    /// Defines grid line options for this category axis.
+    /// Defines grid line options for this category axis. Defaults to <c>Chart options</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding axis options.</remarks>
     [Parameter] public SvgChartGridLinesOptions GridLines { get; set; }
 
     /// <summary>
-    /// Defines label options for this category axis.
+    /// Defines label options for this category axis. Defaults to <c>Chart options</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding axis options.</remarks>
     [Parameter] public SvgChartAxisLabelsOptions LabelsOptions { get; set; }
 
     #endregion

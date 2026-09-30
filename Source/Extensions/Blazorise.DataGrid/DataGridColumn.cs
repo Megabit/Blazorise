@@ -920,53 +920,63 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public IFluentGap Gap { get; set; }
 
     /// <summary>
-    /// Specifies the alignment for column header cell. If not set, it will fallback to the TextAlignment.
+    /// Specifies the alignment for column header cell. If not set, it will fallback to the TextAlignment. Defaults to <c>TextAlignment</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's TextAlignment setting.</remarks>
     [Parameter] public TextAlignment? HeaderTextAlignment { get; set; }
 
     /// <summary>
-    /// Specifies the text transformation for column header cell. If not set, it will fallback to the TextTransform.
+    /// Specifies the text transformation for column header cell. If not set, it will fallback to the TextTransform. Defaults to <c>TextTransform</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's TextTransform setting.</remarks>
     [Parameter] public TextTransform? HeaderTextTransform { get; set; }
 
     /// <summary>
-    /// Specifies the text decoration for column header cell. If not set, it will fallback to the TextDecoration.
+    /// Specifies the text decoration for column header cell. If not set, it will fallback to the TextDecoration. Defaults to <c>TextDecoration</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's TextDecoration setting.</remarks>
     [Parameter] public TextDecoration? HeaderTextDecoration { get; set; }
 
     /// <summary>
-    /// Specifies the text weight for column header cell. If not set, it will fallback to the TextWeight.
+    /// Specifies the text weight for column header cell. If not set, it will fallback to the TextWeight. Defaults to <c>TextWeight</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's TextWeight setting.</remarks>
     [Parameter] public TextWeight? HeaderTextWeight { get; set; }
 
     /// <summary>
-    /// Determines how the text will behave when it is larger than a parent container for column header cell. If not set, it will fallback to the TextOverflow.
+    /// Determines how the text will behave when it is larger than a parent container for column header cell. If not set, it will fallback to the TextOverflow. Defaults to <c>TextOverflow</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's TextOverflow setting.</remarks>
     [Parameter] public TextOverflow? HeaderTextOverflow { get; set; }
 
     /// <summary>
-    /// Determines the font size of an element for column header cell. If not set, it will fallback to the TextSize.
+    /// Determines the font size of an element for column header cell. If not set, it will fallback to the TextSize. Defaults to <c>TextSize</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's TextSize setting.</remarks>
     [Parameter] public IFluentTextSize HeaderTextSize { get; set; }
 
     /// <summary>
-    /// Specifies the vertical alignment for column header cell.
+    /// Specifies the vertical alignment for column header cell. Defaults to <c>VerticalAlignment</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's VerticalAlignment setting.</remarks>
     [Parameter] public VerticalAlignment? HeaderVerticalAlignment { get; set; }
 
     /// <summary>
-    /// Specifies the display behavior of a header cell.
+    /// Specifies the display behavior of a header cell. Defaults to <c>Display</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's Display setting.</remarks>
     [Parameter] public IFluentDisplay HeaderDisplay { get; set; }
 
     /// <summary>
-    /// Specifies the flex utility of a header cell.
+    /// Specifies the flex utility of a header cell. Defaults to <c>Flex</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's Flex setting.</remarks>
     [Parameter] public IFluentFlex HeaderFlex { get; set; }
 
     /// <summary>
-    /// Specifies the gap utility of a header cell.
+    /// Specifies the gap utility of a header cell. Defaults to <c>Gap</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's Gap setting.</remarks>
     [Parameter] public IFluentGap HeaderGap { get; set; }
 
     /// <summary>
@@ -1085,53 +1095,63 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public string AggregateCellStyle { get; set; }
 
     /// <summary>
-    /// Specifies the alignment for column the aggregate cell. If not set, it will fallback to the TextAlignment.
+    /// Specifies the alignment for column the aggregate cell. If not set, it will fallback to the TextAlignment. Defaults to <c>TextAlignment</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's TextAlignment setting.</remarks>
     [Parameter] public TextAlignment? AggregateTextAlignment { get; set; }
 
     /// <summary>
-    /// Specifies the text transformation for column the aggregate cell. If not set, it will fallback to the TextTransform.
+    /// Specifies the text transformation for column the aggregate cell. If not set, it will fallback to the TextTransform. Defaults to <c>TextTransform</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's TextTransform setting.</remarks>
     [Parameter] public TextTransform? AggregateTextTransform { get; set; }
 
     /// <summary>
-    /// Specifies the text decoration for column the aggregate cell. If not set, it will fallback to the TextDecoration.
+    /// Specifies the text decoration for column the aggregate cell. If not set, it will fallback to the TextDecoration. Defaults to <c>TextDecoration</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's TextDecoration setting.</remarks>
     [Parameter] public TextDecoration? AggregateTextDecoration { get; set; }
 
     /// <summary>
-    /// Specifies the text weight for column the aggregate cell. If not set, it will fallback to the TextWeight.
+    /// Specifies the text weight for column the aggregate cell. If not set, it will fallback to the TextWeight. Defaults to <c>TextWeight</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's TextWeight setting.</remarks>
     [Parameter] public TextWeight? AggregateTextWeight { get; set; }
 
     /// <summary>
-    /// Determines how the text will behave when it is larger than a parent container for column the aggregate cell. If not set, it will fallback to the TextOverflow.
+    /// Determines how the text will behave when it is larger than a parent container for column the aggregate cell. If not set, it will fallback to the TextOverflow. Defaults to <c>TextOverflow</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's TextOverflow setting.</remarks>
     [Parameter] public TextOverflow? AggregateTextOverflow { get; set; }
 
     /// <summary>
-    /// Determines the font size of an element for column the aggregate cell. If not set, it will fallback to the TextSize.
+    /// Determines the font size of an element for column the aggregate cell. If not set, it will fallback to the TextSize. Defaults to <c>TextSize</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's TextSize setting.</remarks>
     [Parameter] public IFluentTextSize AggregateTextSize { get; set; }
 
     /// <summary>
-    /// Specifies the vertical alignment for column the aggregate cell.
+    /// Specifies the vertical alignment for column the aggregate cell. Defaults to <c>VerticalAlignment</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's VerticalAlignment setting.</remarks>
     [Parameter] public VerticalAlignment? AggregateVerticalAlignment { get; set; }
 
     /// <summary>
-    /// Specifies the display behavior of a the aggregate cell.
+    /// Specifies the display behavior of a the aggregate cell. Defaults to <c>Display</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's Display setting.</remarks>
     [Parameter] public IFluentDisplay AggregateDisplay { get; set; }
 
     /// <summary>
-    /// Specifies the flex utility of a the aggregate cell.
+    /// Specifies the flex utility of a the aggregate cell. Defaults to <c>Flex</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's Flex setting.</remarks>
     [Parameter] public IFluentFlex AggregateFlex { get; set; }
 
     /// <summary>
-    /// Specifies the gap utility of a the aggregate cell.
+    /// Specifies the gap utility of a the aggregate cell. Defaults to <c>Gap</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the column's Gap setting.</remarks>
     [Parameter] public IFluentGap AggregateGap { get; set; }
 
     /// <summary>

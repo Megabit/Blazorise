@@ -573,14 +573,16 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; }
 
     /// <summary>
-    /// The template used to render the placeholder for the item being reordered. The template receives the item currently being dragged and overrides the template defined by the parent container.
+    /// The template used to render the placeholder for the item being reordered. The template receives the item currently being dragged and overrides the template defined by the parent container. Defaults to <c>DropContainer.PlaceholderTemplate</c>.
     /// </summary>
     [Parameter] public RenderFragment<TItem> PlaceholderTemplate { get; set; }
 
     /// <summary>
     /// Controls the visibility of the reorder placeholder's outline and content without removing its reserved space.
     /// When null, the placeholder is visible for non-animated reordering or when a placeholder template is supplied.
+    /// Defaults to <c>true</c>.
     /// </summary>
+    /// <remarks>When omitted, shows the placeholder if reorder animation is disabled or a placeholder template is available.</remarks>
     [Parameter] public bool? ShowPlaceholder { get; set; }
 
     /// <summary>
@@ -589,37 +591,40 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     [Parameter] public Func<TItem, bool> DropAllowed { get; set; }
 
     /// <summary>
-    /// Classname that is applied if dropping to the current zone is allowed.
+    /// Classname that is applied if dropping to the current zone is allowed. Defaults to <c>b-drop-zone-drop-allowed</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the parent container's class before using the built-in class.</remarks>
     [Parameter] public string DropAllowedClass { get; set; }
 
     /// <summary>
-    /// Classname that is applied if dropping to the current zone is not allowed.
+    /// Classname that is applied if dropping to the current zone is not allowed. Defaults to <c>b-drop-zone-drop-not-allowed</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the parent container's class before using the built-in class.</remarks>
     [Parameter] public string DropNotAllowedClass { get; set; }
 
     /// <summary>
-    /// When true, <see cref="DropAllowedClass"/> or <see cref="DropNotAllowedClass"/> drop classes are applied as soon as a transaction has started.
+    /// When true, <see cref="DropAllowedClass"/> or <see cref="DropNotAllowedClass"/> drop classes are applied as soon as a transaction has started. Defaults to <c>false</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the parent container's setting.</remarks>
     [Parameter] public bool? ApplyDropClassesOnDragStarted { get; set; }
 
     /// <summary>
-    /// Determines if the item is disabled for dragging and dropping.
+    /// Determines if the item is disabled for dragging and dropping. Defaults to <c>DropContainer.ItemDisabled</c>.
     /// </summary>
     [Parameter] public Func<TItem, bool> ItemDisabled { get; set; }
 
     /// <summary>
-    /// Classname that is applied to the dropzone if the result of <see cref="ItemDisabled"/> is false.
+    /// Classname that is applied to the dropzone if the result of <see cref="ItemDisabled"/> is false. Defaults to <c>DropContainer.DisabledClass</c>.
     /// </summary>
     [Parameter] public string DisabledClass { get; set; }
 
     /// <summary>
-    /// Classname that is applied to the dropzone when the drag operation has started.
+    /// Classname that is applied to the dropzone when the drag operation has started. Defaults to <c>DropContainer.DraggingClass</c>.
     /// </summary>
     [Parameter] public string DraggingClass { get; set; }
 
     /// <summary>
-    /// Classname that is applied to the drag item when it is being dragged.
+    /// Classname that is applied to the drag item when it is being dragged. Defaults to <c>DropContainer.ItemDraggingClass</c>.
     /// </summary>
     [Parameter] public string ItemDraggingClass { get; set; }
 

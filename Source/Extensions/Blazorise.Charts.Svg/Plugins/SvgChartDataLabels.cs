@@ -64,53 +64,63 @@ public class SvgChartDataLabels : SvgChartPluginBase
     #region Properties
 
     /// <summary>
-    /// Defines whether data labels are visible.
+    /// Defines whether data labels are visible. Defaults to <c>false</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public bool Visible { get; set; } = true;
 
     /// <summary>
     /// Defines whether data labels react to pointer and keyboard interactions.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public bool Interactive { get; set; } = true;
 
     /// <summary>
     /// Defines the data label position.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public SvgChartDataLabelPosition Position { get; set; } = SvgChartDataLabelPosition.Auto;
 
     /// <summary>
     /// Defines the label offset from the point anchor.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public double Offset { get; set; } = 6;
 
     /// <summary>
     /// Defines the label opacity.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public double Opacity { get; set; } = 1;
 
     /// <summary>
     /// Defines data label font options.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public SvgChartFontOptions Font { get; set; }
 
     /// <summary>
     /// Defines the label padding.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public SvgChartSpacing Padding { get; set; }
 
     /// <summary>
     /// Defines the label background color.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public Color BackgroundColor { get; set; }
 
     /// <summary>
     /// Defines the label border options.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public SvgChartBorderOptions Border { get; set; }
 
     /// <summary>
     /// Defines a callback used to format label text.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public Func<SvgChartDataLabelContext, string> Formatter { get; set; }
 
     /// <summary>

@@ -632,18 +632,21 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
     [Inject] protected BlazoriseOptions Options { get; set; }
 
     /// <summary>
-    /// Gets or sets the keyboard placement.
+    /// Gets or sets the keyboard placement. Defaults to <c>Bottom</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the global keyboard placement.</remarks>
     [Parameter] public OnScreenKeyboardPlacement? Placement { get; set; }
 
     /// <summary>
-    /// Gets or sets the keyboard visual width.
+    /// Gets or sets the keyboard visual width. Defaults to <c>Medium</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the global keyboard size. Falls back to FullWidth if global keyboard options are unavailable.</remarks>
     [Parameter] public OnScreenKeyboardSize? KeyboardSize { get; set; }
 
     /// <summary>
-    /// Gets or sets the key arrangement inside keyboard rows.
+    /// Gets or sets the key arrangement inside keyboard rows. Defaults to <c>Centered</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the global key layout. Falls back to Stretch if global keyboard options are unavailable.</remarks>
     [Parameter] public OnScreenKeyboardKeyLayout? KeyLayout { get; set; }
 
     /// <summary>
@@ -662,18 +665,21 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
     [Parameter] public Size KeySize { get; set; } = Size.Default;
 
     /// <summary>
-    /// Gets or sets whether text keyboards should show a key that toggles special characters.
+    /// Gets or sets whether text keyboards should show a key that toggles special characters. Defaults to <c>false</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the global special character key option.</remarks>
     [Parameter] public bool ShowSpecialCharactersKey { get; set; }
 
     /// <summary>
-    /// Gets or sets the rows used when the special characters keyboard is active.
+    /// Gets or sets the rows used when the special characters keyboard is active. Defaults to <c>Built-in rows</c>.
     /// </summary>
+    /// <remarks>When omitted, uses globally configured rows, then the built-in special character rows.</remarks>
     [Parameter] public IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> SpecialCharactersRows { get; set; }
 
     /// <summary>
-    /// Gets or sets a function that resolves keyboard rows for the active input context.
+    /// Gets or sets a function that resolves keyboard rows for the active input context. Defaults to <c>null</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the global layout provider, then the built-in layout.</remarks>
     [Parameter] public Func<OnScreenKeyboardContext, IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>>> LayoutProvider { get; set; }
 
     /// <summary>
@@ -682,13 +688,15 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
     [Parameter] public int? KeyTabIndex { get; set; } = -1;
 
     /// <summary>
-    /// Gets or sets the base key width, in pixels, used by centered key layout.
+    /// Gets or sets the base key width, in pixels, used by centered key layout. Defaults to <c>72</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the global key width, falling back to 72 pixels.</remarks>
     [Parameter] public int? KeyWidth { get; set; }
 
     /// <summary>
-    /// Gets or sets the key minimum height, in pixels.
+    /// Gets or sets the key minimum height, in pixels. Defaults to <c>56</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the global minimum height, then 56 pixels for centered keys or 40 pixels for stretched keys.</remarks>
     [Parameter] public int? KeyMinHeight { get; set; }
 
     /// <summary>

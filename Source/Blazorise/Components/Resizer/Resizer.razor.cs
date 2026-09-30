@@ -376,8 +376,9 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Positions the resizer on the target edge. In coordinated mode, target order determines the resize direction.
+    /// Positions the resizer on the target edge. In coordinated mode, target order determines the resize direction. Defaults to <c>End / Bottom</c>.
     /// </summary>
+    /// <remarks>When omitted, uses End for vertical separators or Bottom for horizontal separators.</remarks>
     [Parameter]
     public Placement? Placement
     {
@@ -395,8 +396,9 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Names the CSS property updated during single-target resizing. Coordinated targets define their own resize properties.
+    /// Names the CSS property updated during single-target resizing. Coordinated targets define their own resize properties. Defaults to <c>width / height</c>.
     /// </summary>
+    /// <remarks>When omitted, uses width for vertical separators and height for horizontal separators.</remarks>
     [Parameter] public string ResizeProperty { get; set; }
 
     /// <summary>
@@ -502,8 +504,9 @@ public partial class Resizer : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Describes the separator's purpose to assistive technologies. Uses a localized default when omitted.
+    /// Describes the separator's purpose to assistive technologies. Uses a localized default when omitted. Defaults to <c>Resize</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the localized "Resize" label.</remarks>
     [Parameter] public string AriaLabel { get; set; }
 
     /// <summary>

@@ -111,7 +111,9 @@ public partial class CloseButton : BaseComponent, IDisposable
     /// <summary>
     /// If true, the parent <see cref="Alert"/>, <see cref="Modal"/>, <see cref="Toast"/>, or <see cref="Offcanvas"/> will be automatically closed
     /// when <see cref="CloseButton"/> button is placed inside of them.
+    /// Defaults to <c>true</c>.
     /// </summary>
+    /// <remarks>When unspecified, uses BlazoriseOptions.AutoCloseParent, falling back to true.</remarks>
     [Parameter] public bool? AutoClose { get; set; }
 
     /// <summary>

@@ -360,8 +360,9 @@ public partial class Snackbar : BaseComponent, IDisposable
     [Parameter] public bool DelayCloseOnClick { get; set; }
 
     /// <summary>
-    /// Specifies the interval (in milliseconds) by which the snackbar will be delayed from closing.
+    /// Specifies the interval (in milliseconds) by which the snackbar will be delayed from closing. Defaults to <c>Interval</c>.
     /// </summary>
+    /// <remarks>When omitted, uses Interval.</remarks>
     [Parameter] public double? DelayCloseOnClickInterval { get; set; }
 
     /// <summary>

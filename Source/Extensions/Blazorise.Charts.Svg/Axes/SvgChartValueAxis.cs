@@ -98,56 +98,67 @@ public class SvgChartValueAxis : SvgChartComponentBase
     /// <summary>
     /// Defines the axis identifier used by series to target this value axis.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public string Id { get; set; }
 
     /// <summary>
     /// Defines the axis position.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public SvgChartAxisPosition Position { get; set; } = SvgChartAxisPosition.Auto;
 
     /// <summary>
     /// Defines whether the value axis includes zero.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public bool BeginAtZero { get; set; } = true;
 
     /// <summary>
     /// Defines a custom minimum value.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public double? Min { get; set; }
 
     /// <summary>
     /// Defines a custom maximum value.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public double? Max { get; set; }
 
     /// <summary>
     /// Defines the number of axis ticks.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public int TickCount { get; set; } = 5;
 
     /// <summary>
     /// Defines whether compatible series are stacked on this axis.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public bool Stacked { get; set; }
 
     /// <summary>
     /// Defines a callback used to format value axis tick labels.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public Func<SvgChartAxisTickContext, string> TickFormatter { get; set; }
 
     /// <summary>
-    /// Defines grid line options for this value axis.
+    /// Defines grid line options for this value axis. Defaults to <c>Chart options</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding axis options.</remarks>
     [Parameter] public SvgChartGridLinesOptions GridLines { get; set; } = new();
 
     /// <summary>
-    /// Defines label options for this value axis.
+    /// Defines label options for this value axis. Defaults to <c>Chart options</c>.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding axis options.</remarks>
     [Parameter] public SvgChartAxisLabelsOptions LabelsOptions { get; set; }
 
     /// <summary>
     /// Defines the axis title.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public string Title { get; set; }
 
     #endregion

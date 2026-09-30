@@ -1926,7 +1926,7 @@ public partial class Autocomplete<TItem, TValue>
     [Parameter] public EventCallback<string> SelectedTextChanged { get; set; }
 
     /// <summary>
-    /// Specifies the currently selected item text.
+    /// Specifies the currently selected item text. Defaults to <c>""</c>.
     /// </summary>
     [Parameter]
     public string Search

@@ -119,7 +119,7 @@ public abstract class BasePivotGridField<TItem> : ComponentBase, IDisposable
     [Parameter, EditorRequired] public string Field { get; set; }
 
     /// <summary>
-    /// Optional caption shown in headers.
+    /// Optional caption shown in headers. Defaults to <c>Field</c>.
     /// </summary>
     [Parameter] public string Caption { get; set; }
 

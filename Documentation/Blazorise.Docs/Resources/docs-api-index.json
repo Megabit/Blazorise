@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-30T08:21:34.4021909Z",
+  "generatedUtc": "2026-10-01T08:26:47.4203274Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -2398,8 +2398,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Changes the size of the elements placed inside of this <strong>Addons</strong>.",
+          "remarks": "When omitted, uses the theme input size, falling back to Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -2860,7 +2861,7 @@
           "name": "Color",
           "type": "global::Blazorise.Color",
           "typeName": "Color",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Specifies the contextual or explicit CSS color of the alert.",
           "isBlazoriseEnum": false
         },
@@ -4071,9 +4072,9 @@
           "name": "Animation",
           "type": "global::Blazorise.Animate.IAnimation",
           "typeName": "IAnimation",
-          "defaultValue": "null",
+          "defaultValue": "Fade",
           "summary": "Specifies the animation effect.",
-          "remarks": "The list of all supported animations can be found in <strong>Animations</strong> class.",
+          "remarks": "The list of all supported animations can be found in <strong>Animations</strong> class.     <p>When omitted, uses AnimateOptions.Animation, falling back to Fade.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -4145,18 +4146,18 @@
           "name": "Delay",
           "type": "TimeSpan?",
           "typeName": "TimeSpan?",
-          "defaultValue": "null",
+          "defaultValue": "0 ms",
           "summary": "Gets os sets the delay of the animation before it runs automatically, or manually.",
-          "remarks": "Values from 0 to 3000, with step 50ms.",
+          "remarks": "Values from 0 to 3000, with step 50ms.     <p>When omitted, uses DelayMilliseconds, then a positive AnimateOptions.Delay, then 0 ms.</p>",
           "isBlazoriseEnum": false
         },
         {
           "name": "DelayMilliseconds",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "0",
           "summary": "Gets os sets the delay in milliseconds of the animation before it runs automatically, or manually.",
-          "remarks": "Values from 0 to 3000, with step 50ms.",
+          "remarks": "Values from 0 to 3000, with step 50ms.     <p>When omitted, uses a positive AnimateOptions.Delay, then 0 ms. Delay takes precedence when supplied.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -4171,27 +4172,27 @@
           "name": "Duration",
           "type": "TimeSpan?",
           "typeName": "TimeSpan?",
-          "defaultValue": "null",
+          "defaultValue": "400 ms",
           "summary": "Gets os sets the total duration of the animation.",
-          "remarks": "Values from 0 to 3000, with step 50ms.",
+          "remarks": "Values from 0 to 3000, with step 50ms.     <p>When omitted, uses DurationMilliseconds, then a positive AnimateOptions.Duration, then 400 ms.</p>",
           "isBlazoriseEnum": false
         },
         {
           "name": "DurationMilliseconds",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "400",
           "summary": "Gets os sets the total duration of the animation, in milliseconds.",
-          "remarks": "Values from 0 to 3000, with step 50ms.",
+          "remarks": "Values from 0 to 3000, with step 50ms.     <p>When omitted, uses a positive AnimateOptions.Duration, then 400 ms. Duration takes precedence when supplied.</p>",
           "isBlazoriseEnum": false
         },
         {
           "name": "Easing",
           "type": "global::Blazorise.Animate.IEasing",
           "typeName": "IEasing",
-          "defaultValue": "null",
+          "defaultValue": "Ease",
           "summary": "Specifies the easing effect.",
-          "remarks": "The list of all supported easings can be found in <strong>Easings</strong> class.",
+          "remarks": "The list of all supported easings can be found in <strong>Easings</strong> class.     <p>When omitted, uses AnimateOptions.Easing, falling back to Easings.Ease.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -4249,6 +4250,7 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Whether elements should animate out while scrolling past them.",
+          "remarks": "When omitted, uses AnimateOptions.Mirror, falling back to false.",
           "isBlazoriseEnum": false
         },
         {
@@ -4273,6 +4275,7 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Whether animation should happen only once - while scrolling down.",
+          "remarks": "When omitted, uses AnimateOptions.Once, falling back to false.",
           "isBlazoriseEnum": false
         },
         {
@@ -5411,7 +5414,7 @@
           "name": "Search",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "\"\"",
           "summary": "Specifies the currently selected item text.",
           "isBlazoriseEnum": false
         },
@@ -5531,8 +5534,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -6457,7 +6461,7 @@
           "name": "Breakpoint",
           "type": "global::Blazorise.Breakpoint",
           "typeName": "Breakpoint",
-          "defaultValue": "Breakpoint.None",
+          "defaultValue": "None",
           "summary": "Used for responsive collapsing.",
           "isBlazoriseEnum": true
         },
@@ -6578,7 +6582,7 @@
           "name": "NavigationBreakpoint",
           "type": "global::Blazorise.Breakpoint",
           "typeName": "Breakpoint",
-          "defaultValue": "Breakpoint.None",
+          "defaultValue": "None",
           "summary": "Used for responsive collapsing after Navigation.",
           "isBlazoriseEnum": true
         },
@@ -6690,7 +6694,7 @@
           "name": "ThemeContrast",
           "type": "global::Blazorise.ThemeContrast",
           "typeName": "ThemeContrast",
-          "defaultValue": "ThemeContrast.None",
+          "defaultValue": "Light",
           "summary": "Specifies the preferred theme contrast for this <strong>Bar</strong> component.",
           "isBlazoriseEnum": true
         },
@@ -6722,7 +6726,7 @@
           "name": "Visible",
           "type": "bool",
           "typeName": "bool",
-          "defaultValue": "false",
+          "defaultValue": "true",
           "summary": "Controls the state of toggler and the menu.",
           "isBlazoriseEnum": false
         },
@@ -7773,7 +7777,7 @@
           "name": "PositionStrategy",
           "type": "global::Blazorise.DropdownPositionStrategy",
           "typeName": "DropdownPositionStrategy",
-          "defaultValue": "DropdownPositionStrategy.Absolute",
+          "defaultValue": "Fixed",
           "summary": "Defines the positioning strategy of a floating <strong>BarDropdownMenu</strong>.",
           "isBlazoriseEnum": true
         },
@@ -9059,9 +9063,9 @@
           "name": "ShowToggleIcon",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "Specifies a value indicating whether the dropdown toggle icon is visible.",
-          "remarks": "Default: True",
+          "remarks": "When unspecified, uses the theme setting, falling back to true.",
           "isBlazoriseEnum": false
         },
         {
@@ -9172,9 +9176,9 @@
           "name": "ToggleIconVisible",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "Specifies a value indicating whether the dropdown toggle icon is visible.",
-          "remarks": "This parameter is retained for source compatibility. Use <strong>ShowToggleIcon</strong> instead.",
+          "remarks": "This parameter is retained for source compatibility. Use <strong>ShowToggleIcon</strong> instead.     <p>When unspecified, uses the theme setting, falling back to true.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -14300,8 +14304,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Changes the size of a button.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -18520,8 +18525,9 @@
           "name": "AnimationDuration",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "Provider default",
           "summary": "Overrides the provider's animation duration, in milliseconds. Null preserves the provider's default.     Zero or a negative value disables transitions.",
+          "remarks": "When omitted, uses the provider CSS transition duration. Animation is disabled when Animated is false.",
           "isBlazoriseEnum": false
         },
         {
@@ -18537,7 +18543,7 @@
           "name": "AutoRepeat",
           "type": "bool",
           "typeName": "bool",
-          "defaultValue": "false",
+          "defaultValue": "true",
           "summary": "Auto-repeats the carousel slides once they reach the end.",
           "isBlazoriseEnum": false
         },
@@ -18545,7 +18551,7 @@
           "name": "Autoplay",
           "type": "bool",
           "typeName": "bool",
-          "defaultValue": "false",
+          "defaultValue": "true",
           "summary": "Determines whether playback starts automatically.",
           "isBlazoriseEnum": false
         },
@@ -22100,8 +22106,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -22355,8 +22362,9 @@
           "name": "AutoClose",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "If true, the parent <strong>Alert</strong>, <strong>Modal</strong>, <strong>Toast</strong>, or <strong>Offcanvas</strong> will be automatically closed     when <strong>CloseButton</strong> button is placed inside of them.",
+          "remarks": "When unspecified, uses BlazoriseOptions.AutoCloseParent, falling back to true.",
           "isBlazoriseEnum": false
         },
         {
@@ -23065,16 +23073,16 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Gets or sets whether user-originated value updates are debounced before being sent to .NET.",
-          "remarks": "When supplied, this value overrides the global Blazorise debounce option.",
+          "remarks": "When supplied, this value overrides the global Blazorise debounce option.     <p>When unspecified, uses BlazoriseOptions.Debounce, falling back to false.</p>",
           "isBlazoriseEnum": false
         },
         {
           "name": "DebounceInterval",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "300",
           "summary": "Gets or sets the debounce interval in milliseconds.",
-          "remarks": "When set, this value overrides the global Blazorise debounce interval.",
+          "remarks": "When set, this value overrides the global Blazorise debounce interval.     <p>When unspecified, uses BlazoriseOptions.DebounceInterval, falling back to 300.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -23170,9 +23178,9 @@
           "name": "Immediate",
           "type": "bool",
           "typeName": "bool",
-          "defaultValue": "false",
+          "defaultValue": "true",
           "summary": "Gets or sets whether user-originated value updates are sent to .NET while typing.",
-          "remarks": "When supplied, this value overrides the global Blazorise immediate option. When disabled, the value is sent on blur.",
+          "remarks": "When supplied, this value overrides the global Blazorise immediate option. When disabled, the value is sent on blur.     <p>When unspecified, uses BlazoriseOptions.Immediate, falling back to true.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -23252,8 +23260,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -25287,8 +25296,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -25846,8 +25856,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -28659,8 +28670,9 @@
           "name": "HoverCloseDelay",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "300",
           "summary": "Delay in milliseconds before hiding this hover-opened submenu after the mouse leaves it.",
+          "remarks": "When omitted, uses the parent ContextMenu submenu close delay, falling back to 300 ms.",
           "isBlazoriseEnum": false
         },
         {
@@ -28795,8 +28807,9 @@
           "name": "Trigger",
           "type": "global::Blazorise.DropdownTrigger?",
           "typeName": "DropdownTrigger?",
-          "defaultValue": "null",
+          "defaultValue": "All",
           "summary": "Defines which pointer interactions can open or close this submenu.",
+          "remarks": "When omitted, uses the parent ContextMenu submenu trigger, falling back to All.",
           "isBlazoriseEnum": false
         },
         {
@@ -30515,8 +30528,8 @@
           "name": "ImageType",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "\"image/png\"",
-          "summary": "MIME type for the encoded cropped image. Defaults to <code>image/png</code>.",
+          "defaultValue": "image/png",
+          "summary": "MIME type for the encoded cropped image.",
           "isBlazoriseEnum": false
         },
         {
@@ -31625,7 +31638,7 @@
           "name": "MaxPaginationLinks",
           "type": "int",
           "typeName": "int",
-          "defaultValue": "0",
+          "defaultValue": "5",
           "summary": "Specifies the maximum number of visible pagination links. It has to be odd for well look.",
           "isBlazoriseEnum": false
         },
@@ -31665,7 +31678,7 @@
           "name": "Page",
           "type": "int",
           "typeName": "int",
-          "defaultValue": "0",
+          "defaultValue": "1",
           "summary": "Specifies the current page number.",
           "isBlazoriseEnum": false
         },
@@ -31689,7 +31702,7 @@
           "name": "PageSize",
           "type": "int",
           "typeName": "int",
-          "defaultValue": "0",
+          "defaultValue": "10",
           "summary": "Specifies the maximum number of items for each page.",
           "isBlazoriseEnum": false
         },
@@ -31697,7 +31710,7 @@
           "name": "PageSizes",
           "type": "IEnumerable<>",
           "typeName": "IEnumerable<int>",
-          "defaultValue": "null",
+          "defaultValue": "5, 10, 25, 50, 100, 250",
           "summary": "Specifies the chooseable page sizes of the datagrid.",
           "isBlazoriseEnum": false
         },
@@ -31971,9 +31984,9 @@
           "name": "TotalItems",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "0",
           "summary": "Specifies the total number of items available when data is loaded through <strong>ReadData</strong>.",
-          "remarks": "This field must be set only when <strong>ReadData</strong> is used to load the data.",
+          "remarks": "This field must be set only when <strong>ReadData</strong> is used to load the data.     <p>Uses the filtered item count for local data, or 0 until supplied when using ReadData.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -33102,24 +33115,27 @@
           "name": "AggregateDisplay",
           "type": "global::Blazorise.IFluentDisplay",
           "typeName": "IFluentDisplay",
-          "defaultValue": "null",
+          "defaultValue": "Display",
           "summary": "Specifies the display behavior of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Display setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateFlex",
           "type": "global::Blazorise.IFluentFlex",
           "typeName": "IFluentFlex",
-          "defaultValue": "null",
+          "defaultValue": "Flex",
           "summary": "Specifies the flex utility of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Flex setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateGap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
-          "defaultValue": "null",
+          "defaultValue": "Gap",
           "summary": "Specifies the gap utility of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Gap setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -33134,56 +33150,63 @@
           "name": "AggregateTextAlignment",
           "type": "global::Blazorise.TextAlignment?",
           "typeName": "TextAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "TextAlignment",
           "summary": "Specifies the alignment for column the aggregate cell. If not set, it will fallback to the TextAlignment.",
+          "remarks": "When omitted, inherits the column's TextAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextDecoration",
           "type": "global::Blazorise.TextDecoration?",
           "typeName": "TextDecoration?",
-          "defaultValue": "null",
+          "defaultValue": "TextDecoration",
           "summary": "Specifies the text decoration for column the aggregate cell. If not set, it will fallback to the TextDecoration.",
+          "remarks": "When omitted, inherits the column's TextDecoration setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextOverflow",
           "type": "global::Blazorise.TextOverflow?",
           "typeName": "TextOverflow?",
-          "defaultValue": "null",
+          "defaultValue": "TextOverflow",
           "summary": "Determines how the text will behave when it is larger than a parent container for column the aggregate cell. If not set, it will fallback to the TextOverflow.",
+          "remarks": "When omitted, inherits the column's TextOverflow setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextSize",
           "type": "global::Blazorise.IFluentTextSize",
           "typeName": "IFluentTextSize",
-          "defaultValue": "null",
+          "defaultValue": "TextSize",
           "summary": "Determines the font size of an element for column the aggregate cell. If not set, it will fallback to the TextSize.",
+          "remarks": "When omitted, inherits the column's TextSize setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextTransform",
           "type": "global::Blazorise.TextTransform?",
           "typeName": "TextTransform?",
-          "defaultValue": "null",
+          "defaultValue": "TextTransform",
           "summary": "Specifies the text transformation for column the aggregate cell. If not set, it will fallback to the TextTransform.",
+          "remarks": "When omitted, inherits the column's TextTransform setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextWeight",
           "type": "global::Blazorise.TextWeight?",
           "typeName": "TextWeight?",
-          "defaultValue": "null",
+          "defaultValue": "TextWeight",
           "summary": "Specifies the text weight for column the aggregate cell. If not set, it will fallback to the TextWeight.",
+          "remarks": "When omitted, inherits the column's TextWeight setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateVerticalAlignment",
           "type": "global::Blazorise.VerticalAlignment?",
           "typeName": "VerticalAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "VerticalAlignment",
           "summary": "Specifies the vertical alignment for column the aggregate cell.",
+          "remarks": "When omitted, inherits the column's VerticalAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -33550,24 +33573,27 @@
           "name": "HeaderDisplay",
           "type": "global::Blazorise.IFluentDisplay",
           "typeName": "IFluentDisplay",
-          "defaultValue": "null",
+          "defaultValue": "Display",
           "summary": "Specifies the display behavior of a header cell.",
+          "remarks": "When omitted, inherits the column's Display setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderFlex",
           "type": "global::Blazorise.IFluentFlex",
           "typeName": "IFluentFlex",
-          "defaultValue": "null",
+          "defaultValue": "Flex",
           "summary": "Specifies the flex utility of a header cell.",
+          "remarks": "When omitted, inherits the column's Flex setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderGap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
-          "defaultValue": "null",
+          "defaultValue": "Gap",
           "summary": "Specifies the gap utility of a header cell.",
+          "remarks": "When omitted, inherits the column's Gap setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -33582,56 +33608,63 @@
           "name": "HeaderTextAlignment",
           "type": "global::Blazorise.TextAlignment?",
           "typeName": "TextAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "TextAlignment",
           "summary": "Specifies the alignment for column header cell. If not set, it will fallback to the TextAlignment.",
+          "remarks": "When omitted, inherits the column's TextAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextDecoration",
           "type": "global::Blazorise.TextDecoration?",
           "typeName": "TextDecoration?",
-          "defaultValue": "null",
+          "defaultValue": "TextDecoration",
           "summary": "Specifies the text decoration for column header cell. If not set, it will fallback to the TextDecoration.",
+          "remarks": "When omitted, inherits the column's TextDecoration setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextOverflow",
           "type": "global::Blazorise.TextOverflow?",
           "typeName": "TextOverflow?",
-          "defaultValue": "null",
+          "defaultValue": "TextOverflow",
           "summary": "Determines how the text will behave when it is larger than a parent container for column header cell. If not set, it will fallback to the TextOverflow.",
+          "remarks": "When omitted, inherits the column's TextOverflow setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextSize",
           "type": "global::Blazorise.IFluentTextSize",
           "typeName": "IFluentTextSize",
-          "defaultValue": "null",
+          "defaultValue": "TextSize",
           "summary": "Determines the font size of an element for column header cell. If not set, it will fallback to the TextSize.",
+          "remarks": "When omitted, inherits the column's TextSize setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextTransform",
           "type": "global::Blazorise.TextTransform?",
           "typeName": "TextTransform?",
-          "defaultValue": "null",
+          "defaultValue": "TextTransform",
           "summary": "Specifies the text transformation for column header cell. If not set, it will fallback to the TextTransform.",
+          "remarks": "When omitted, inherits the column's TextTransform setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextWeight",
           "type": "global::Blazorise.TextWeight?",
           "typeName": "TextWeight?",
-          "defaultValue": "null",
+          "defaultValue": "TextWeight",
           "summary": "Specifies the text weight for column header cell. If not set, it will fallback to the TextWeight.",
+          "remarks": "When omitted, inherits the column's TextWeight setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderVerticalAlignment",
           "type": "global::Blazorise.VerticalAlignment?",
           "typeName": "VerticalAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "VerticalAlignment",
           "summary": "Specifies the vertical alignment for column header cell.",
+          "remarks": "When omitted, inherits the column's VerticalAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -33930,24 +33963,27 @@
           "name": "AggregateDisplay",
           "type": "global::Blazorise.IFluentDisplay",
           "typeName": "IFluentDisplay",
-          "defaultValue": "null",
+          "defaultValue": "Display",
           "summary": "Specifies the display behavior of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Display setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateFlex",
           "type": "global::Blazorise.IFluentFlex",
           "typeName": "IFluentFlex",
-          "defaultValue": "null",
+          "defaultValue": "Flex",
           "summary": "Specifies the flex utility of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Flex setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateGap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
-          "defaultValue": "null",
+          "defaultValue": "Gap",
           "summary": "Specifies the gap utility of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Gap setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -33962,56 +33998,63 @@
           "name": "AggregateTextAlignment",
           "type": "global::Blazorise.TextAlignment?",
           "typeName": "TextAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "TextAlignment",
           "summary": "Specifies the alignment for column the aggregate cell. If not set, it will fallback to the TextAlignment.",
+          "remarks": "When omitted, inherits the column's TextAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextDecoration",
           "type": "global::Blazorise.TextDecoration?",
           "typeName": "TextDecoration?",
-          "defaultValue": "null",
+          "defaultValue": "TextDecoration",
           "summary": "Specifies the text decoration for column the aggregate cell. If not set, it will fallback to the TextDecoration.",
+          "remarks": "When omitted, inherits the column's TextDecoration setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextOverflow",
           "type": "global::Blazorise.TextOverflow?",
           "typeName": "TextOverflow?",
-          "defaultValue": "null",
+          "defaultValue": "TextOverflow",
           "summary": "Determines how the text will behave when it is larger than a parent container for column the aggregate cell. If not set, it will fallback to the TextOverflow.",
+          "remarks": "When omitted, inherits the column's TextOverflow setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextSize",
           "type": "global::Blazorise.IFluentTextSize",
           "typeName": "IFluentTextSize",
-          "defaultValue": "null",
+          "defaultValue": "TextSize",
           "summary": "Determines the font size of an element for column the aggregate cell. If not set, it will fallback to the TextSize.",
+          "remarks": "When omitted, inherits the column's TextSize setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextTransform",
           "type": "global::Blazorise.TextTransform?",
           "typeName": "TextTransform?",
-          "defaultValue": "null",
+          "defaultValue": "TextTransform",
           "summary": "Specifies the text transformation for column the aggregate cell. If not set, it will fallback to the TextTransform.",
+          "remarks": "When omitted, inherits the column's TextTransform setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextWeight",
           "type": "global::Blazorise.TextWeight?",
           "typeName": "TextWeight?",
-          "defaultValue": "null",
+          "defaultValue": "TextWeight",
           "summary": "Specifies the text weight for column the aggregate cell. If not set, it will fallback to the TextWeight.",
+          "remarks": "When omitted, inherits the column's TextWeight setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateVerticalAlignment",
           "type": "global::Blazorise.VerticalAlignment?",
           "typeName": "VerticalAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "VerticalAlignment",
           "summary": "Specifies the vertical alignment for column the aggregate cell.",
+          "remarks": "When omitted, inherits the column's VerticalAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -34378,24 +34421,27 @@
           "name": "HeaderDisplay",
           "type": "global::Blazorise.IFluentDisplay",
           "typeName": "IFluentDisplay",
-          "defaultValue": "null",
+          "defaultValue": "Display",
           "summary": "Specifies the display behavior of a header cell.",
+          "remarks": "When omitted, inherits the column's Display setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderFlex",
           "type": "global::Blazorise.IFluentFlex",
           "typeName": "IFluentFlex",
-          "defaultValue": "null",
+          "defaultValue": "Flex",
           "summary": "Specifies the flex utility of a header cell.",
+          "remarks": "When omitted, inherits the column's Flex setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderGap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
-          "defaultValue": "null",
+          "defaultValue": "Gap",
           "summary": "Specifies the gap utility of a header cell.",
+          "remarks": "When omitted, inherits the column's Gap setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -34410,56 +34456,63 @@
           "name": "HeaderTextAlignment",
           "type": "global::Blazorise.TextAlignment?",
           "typeName": "TextAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "TextAlignment",
           "summary": "Specifies the alignment for column header cell. If not set, it will fallback to the TextAlignment.",
+          "remarks": "When omitted, inherits the column's TextAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextDecoration",
           "type": "global::Blazorise.TextDecoration?",
           "typeName": "TextDecoration?",
-          "defaultValue": "null",
+          "defaultValue": "TextDecoration",
           "summary": "Specifies the text decoration for column header cell. If not set, it will fallback to the TextDecoration.",
+          "remarks": "When omitted, inherits the column's TextDecoration setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextOverflow",
           "type": "global::Blazorise.TextOverflow?",
           "typeName": "TextOverflow?",
-          "defaultValue": "null",
+          "defaultValue": "TextOverflow",
           "summary": "Determines how the text will behave when it is larger than a parent container for column header cell. If not set, it will fallback to the TextOverflow.",
+          "remarks": "When omitted, inherits the column's TextOverflow setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextSize",
           "type": "global::Blazorise.IFluentTextSize",
           "typeName": "IFluentTextSize",
-          "defaultValue": "null",
+          "defaultValue": "TextSize",
           "summary": "Determines the font size of an element for column header cell. If not set, it will fallback to the TextSize.",
+          "remarks": "When omitted, inherits the column's TextSize setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextTransform",
           "type": "global::Blazorise.TextTransform?",
           "typeName": "TextTransform?",
-          "defaultValue": "null",
+          "defaultValue": "TextTransform",
           "summary": "Specifies the text transformation for column header cell. If not set, it will fallback to the TextTransform.",
+          "remarks": "When omitted, inherits the column's TextTransform setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextWeight",
           "type": "global::Blazorise.TextWeight?",
           "typeName": "TextWeight?",
-          "defaultValue": "null",
+          "defaultValue": "TextWeight",
           "summary": "Specifies the text weight for column header cell. If not set, it will fallback to the TextWeight.",
+          "remarks": "When omitted, inherits the column's TextWeight setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderVerticalAlignment",
           "type": "global::Blazorise.VerticalAlignment?",
           "typeName": "VerticalAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "VerticalAlignment",
           "summary": "Specifies the vertical alignment for column header cell.",
+          "remarks": "When omitted, inherits the column's VerticalAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -34758,24 +34811,27 @@
           "name": "AggregateDisplay",
           "type": "global::Blazorise.IFluentDisplay",
           "typeName": "IFluentDisplay",
-          "defaultValue": "null",
+          "defaultValue": "Display",
           "summary": "Specifies the display behavior of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Display setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateFlex",
           "type": "global::Blazorise.IFluentFlex",
           "typeName": "IFluentFlex",
-          "defaultValue": "null",
+          "defaultValue": "Flex",
           "summary": "Specifies the flex utility of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Flex setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateGap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
-          "defaultValue": "null",
+          "defaultValue": "Gap",
           "summary": "Specifies the gap utility of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Gap setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -34790,56 +34846,63 @@
           "name": "AggregateTextAlignment",
           "type": "global::Blazorise.TextAlignment?",
           "typeName": "TextAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "TextAlignment",
           "summary": "Specifies the alignment for column the aggregate cell. If not set, it will fallback to the TextAlignment.",
+          "remarks": "When omitted, inherits the column's TextAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextDecoration",
           "type": "global::Blazorise.TextDecoration?",
           "typeName": "TextDecoration?",
-          "defaultValue": "null",
+          "defaultValue": "TextDecoration",
           "summary": "Specifies the text decoration for column the aggregate cell. If not set, it will fallback to the TextDecoration.",
+          "remarks": "When omitted, inherits the column's TextDecoration setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextOverflow",
           "type": "global::Blazorise.TextOverflow?",
           "typeName": "TextOverflow?",
-          "defaultValue": "null",
+          "defaultValue": "TextOverflow",
           "summary": "Determines how the text will behave when it is larger than a parent container for column the aggregate cell. If not set, it will fallback to the TextOverflow.",
+          "remarks": "When omitted, inherits the column's TextOverflow setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextSize",
           "type": "global::Blazorise.IFluentTextSize",
           "typeName": "IFluentTextSize",
-          "defaultValue": "null",
+          "defaultValue": "TextSize",
           "summary": "Determines the font size of an element for column the aggregate cell. If not set, it will fallback to the TextSize.",
+          "remarks": "When omitted, inherits the column's TextSize setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextTransform",
           "type": "global::Blazorise.TextTransform?",
           "typeName": "TextTransform?",
-          "defaultValue": "null",
+          "defaultValue": "TextTransform",
           "summary": "Specifies the text transformation for column the aggregate cell. If not set, it will fallback to the TextTransform.",
+          "remarks": "When omitted, inherits the column's TextTransform setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextWeight",
           "type": "global::Blazorise.TextWeight?",
           "typeName": "TextWeight?",
-          "defaultValue": "null",
+          "defaultValue": "TextWeight",
           "summary": "Specifies the text weight for column the aggregate cell. If not set, it will fallback to the TextWeight.",
+          "remarks": "When omitted, inherits the column's TextWeight setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateVerticalAlignment",
           "type": "global::Blazorise.VerticalAlignment?",
           "typeName": "VerticalAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "VerticalAlignment",
           "summary": "Specifies the vertical alignment for column the aggregate cell.",
+          "remarks": "When omitted, inherits the column's VerticalAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -35286,24 +35349,27 @@
           "name": "HeaderDisplay",
           "type": "global::Blazorise.IFluentDisplay",
           "typeName": "IFluentDisplay",
-          "defaultValue": "null",
+          "defaultValue": "Display",
           "summary": "Specifies the display behavior of a header cell.",
+          "remarks": "When omitted, inherits the column's Display setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderFlex",
           "type": "global::Blazorise.IFluentFlex",
           "typeName": "IFluentFlex",
-          "defaultValue": "null",
+          "defaultValue": "Flex",
           "summary": "Specifies the flex utility of a header cell.",
+          "remarks": "When omitted, inherits the column's Flex setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderGap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
-          "defaultValue": "null",
+          "defaultValue": "Gap",
           "summary": "Specifies the gap utility of a header cell.",
+          "remarks": "When omitted, inherits the column's Gap setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -35318,56 +35384,63 @@
           "name": "HeaderTextAlignment",
           "type": "global::Blazorise.TextAlignment?",
           "typeName": "TextAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "TextAlignment",
           "summary": "Specifies the alignment for column header cell. If not set, it will fallback to the TextAlignment.",
+          "remarks": "When omitted, inherits the column's TextAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextDecoration",
           "type": "global::Blazorise.TextDecoration?",
           "typeName": "TextDecoration?",
-          "defaultValue": "null",
+          "defaultValue": "TextDecoration",
           "summary": "Specifies the text decoration for column header cell. If not set, it will fallback to the TextDecoration.",
+          "remarks": "When omitted, inherits the column's TextDecoration setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextOverflow",
           "type": "global::Blazorise.TextOverflow?",
           "typeName": "TextOverflow?",
-          "defaultValue": "null",
+          "defaultValue": "TextOverflow",
           "summary": "Determines how the text will behave when it is larger than a parent container for column header cell. If not set, it will fallback to the TextOverflow.",
+          "remarks": "When omitted, inherits the column's TextOverflow setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextSize",
           "type": "global::Blazorise.IFluentTextSize",
           "typeName": "IFluentTextSize",
-          "defaultValue": "null",
+          "defaultValue": "TextSize",
           "summary": "Determines the font size of an element for column header cell. If not set, it will fallback to the TextSize.",
+          "remarks": "When omitted, inherits the column's TextSize setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextTransform",
           "type": "global::Blazorise.TextTransform?",
           "typeName": "TextTransform?",
-          "defaultValue": "null",
+          "defaultValue": "TextTransform",
           "summary": "Specifies the text transformation for column header cell. If not set, it will fallback to the TextTransform.",
+          "remarks": "When omitted, inherits the column's TextTransform setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextWeight",
           "type": "global::Blazorise.TextWeight?",
           "typeName": "TextWeight?",
-          "defaultValue": "null",
+          "defaultValue": "TextWeight",
           "summary": "Specifies the text weight for column header cell. If not set, it will fallback to the TextWeight.",
+          "remarks": "When omitted, inherits the column's TextWeight setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderVerticalAlignment",
           "type": "global::Blazorise.VerticalAlignment?",
           "typeName": "VerticalAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "VerticalAlignment",
           "summary": "Specifies the vertical alignment for column header cell.",
+          "remarks": "When omitted, inherits the column's VerticalAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -35714,24 +35787,27 @@
           "name": "AggregateDisplay",
           "type": "global::Blazorise.IFluentDisplay",
           "typeName": "IFluentDisplay",
-          "defaultValue": "null",
+          "defaultValue": "Display",
           "summary": "Specifies the display behavior of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Display setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateFlex",
           "type": "global::Blazorise.IFluentFlex",
           "typeName": "IFluentFlex",
-          "defaultValue": "null",
+          "defaultValue": "Flex",
           "summary": "Specifies the flex utility of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Flex setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateGap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
-          "defaultValue": "null",
+          "defaultValue": "Gap",
           "summary": "Specifies the gap utility of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Gap setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -35746,56 +35822,63 @@
           "name": "AggregateTextAlignment",
           "type": "global::Blazorise.TextAlignment?",
           "typeName": "TextAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "TextAlignment",
           "summary": "Specifies the alignment for column the aggregate cell. If not set, it will fallback to the TextAlignment.",
+          "remarks": "When omitted, inherits the column's TextAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextDecoration",
           "type": "global::Blazorise.TextDecoration?",
           "typeName": "TextDecoration?",
-          "defaultValue": "null",
+          "defaultValue": "TextDecoration",
           "summary": "Specifies the text decoration for column the aggregate cell. If not set, it will fallback to the TextDecoration.",
+          "remarks": "When omitted, inherits the column's TextDecoration setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextOverflow",
           "type": "global::Blazorise.TextOverflow?",
           "typeName": "TextOverflow?",
-          "defaultValue": "null",
+          "defaultValue": "TextOverflow",
           "summary": "Determines how the text will behave when it is larger than a parent container for column the aggregate cell. If not set, it will fallback to the TextOverflow.",
+          "remarks": "When omitted, inherits the column's TextOverflow setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextSize",
           "type": "global::Blazorise.IFluentTextSize",
           "typeName": "IFluentTextSize",
-          "defaultValue": "null",
+          "defaultValue": "TextSize",
           "summary": "Determines the font size of an element for column the aggregate cell. If not set, it will fallback to the TextSize.",
+          "remarks": "When omitted, inherits the column's TextSize setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextTransform",
           "type": "global::Blazorise.TextTransform?",
           "typeName": "TextTransform?",
-          "defaultValue": "null",
+          "defaultValue": "TextTransform",
           "summary": "Specifies the text transformation for column the aggregate cell. If not set, it will fallback to the TextTransform.",
+          "remarks": "When omitted, inherits the column's TextTransform setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextWeight",
           "type": "global::Blazorise.TextWeight?",
           "typeName": "TextWeight?",
-          "defaultValue": "null",
+          "defaultValue": "TextWeight",
           "summary": "Specifies the text weight for column the aggregate cell. If not set, it will fallback to the TextWeight.",
+          "remarks": "When omitted, inherits the column's TextWeight setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateVerticalAlignment",
           "type": "global::Blazorise.VerticalAlignment?",
           "typeName": "VerticalAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "VerticalAlignment",
           "summary": "Specifies the vertical alignment for column the aggregate cell.",
+          "remarks": "When omitted, inherits the column's VerticalAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -36194,24 +36277,27 @@
           "name": "HeaderDisplay",
           "type": "global::Blazorise.IFluentDisplay",
           "typeName": "IFluentDisplay",
-          "defaultValue": "null",
+          "defaultValue": "Display",
           "summary": "Specifies the display behavior of a header cell.",
+          "remarks": "When omitted, inherits the column's Display setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderFlex",
           "type": "global::Blazorise.IFluentFlex",
           "typeName": "IFluentFlex",
-          "defaultValue": "null",
+          "defaultValue": "Flex",
           "summary": "Specifies the flex utility of a header cell.",
+          "remarks": "When omitted, inherits the column's Flex setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderGap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
-          "defaultValue": "null",
+          "defaultValue": "Gap",
           "summary": "Specifies the gap utility of a header cell.",
+          "remarks": "When omitted, inherits the column's Gap setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -36226,56 +36312,63 @@
           "name": "HeaderTextAlignment",
           "type": "global::Blazorise.TextAlignment?",
           "typeName": "TextAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "TextAlignment",
           "summary": "Specifies the alignment for column header cell. If not set, it will fallback to the TextAlignment.",
+          "remarks": "When omitted, inherits the column's TextAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextDecoration",
           "type": "global::Blazorise.TextDecoration?",
           "typeName": "TextDecoration?",
-          "defaultValue": "null",
+          "defaultValue": "TextDecoration",
           "summary": "Specifies the text decoration for column header cell. If not set, it will fallback to the TextDecoration.",
+          "remarks": "When omitted, inherits the column's TextDecoration setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextOverflow",
           "type": "global::Blazorise.TextOverflow?",
           "typeName": "TextOverflow?",
-          "defaultValue": "null",
+          "defaultValue": "TextOverflow",
           "summary": "Determines how the text will behave when it is larger than a parent container for column header cell. If not set, it will fallback to the TextOverflow.",
+          "remarks": "When omitted, inherits the column's TextOverflow setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextSize",
           "type": "global::Blazorise.IFluentTextSize",
           "typeName": "IFluentTextSize",
-          "defaultValue": "null",
+          "defaultValue": "TextSize",
           "summary": "Determines the font size of an element for column header cell. If not set, it will fallback to the TextSize.",
+          "remarks": "When omitted, inherits the column's TextSize setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextTransform",
           "type": "global::Blazorise.TextTransform?",
           "typeName": "TextTransform?",
-          "defaultValue": "null",
+          "defaultValue": "TextTransform",
           "summary": "Specifies the text transformation for column header cell. If not set, it will fallback to the TextTransform.",
+          "remarks": "When omitted, inherits the column's TextTransform setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextWeight",
           "type": "global::Blazorise.TextWeight?",
           "typeName": "TextWeight?",
-          "defaultValue": "null",
+          "defaultValue": "TextWeight",
           "summary": "Specifies the text weight for column header cell. If not set, it will fallback to the TextWeight.",
+          "remarks": "When omitted, inherits the column's TextWeight setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderVerticalAlignment",
           "type": "global::Blazorise.VerticalAlignment?",
           "typeName": "VerticalAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "VerticalAlignment",
           "summary": "Specifies the vertical alignment for column header cell.",
+          "remarks": "When omitted, inherits the column's VerticalAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -36704,24 +36797,27 @@
           "name": "AggregateDisplay",
           "type": "global::Blazorise.IFluentDisplay",
           "typeName": "IFluentDisplay",
-          "defaultValue": "null",
+          "defaultValue": "Display",
           "summary": "Specifies the display behavior of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Display setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateFlex",
           "type": "global::Blazorise.IFluentFlex",
           "typeName": "IFluentFlex",
-          "defaultValue": "null",
+          "defaultValue": "Flex",
           "summary": "Specifies the flex utility of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Flex setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateGap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
-          "defaultValue": "null",
+          "defaultValue": "Gap",
           "summary": "Specifies the gap utility of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Gap setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -36736,56 +36832,63 @@
           "name": "AggregateTextAlignment",
           "type": "global::Blazorise.TextAlignment?",
           "typeName": "TextAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "TextAlignment",
           "summary": "Specifies the alignment for column the aggregate cell. If not set, it will fallback to the TextAlignment.",
+          "remarks": "When omitted, inherits the column's TextAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextDecoration",
           "type": "global::Blazorise.TextDecoration?",
           "typeName": "TextDecoration?",
-          "defaultValue": "null",
+          "defaultValue": "TextDecoration",
           "summary": "Specifies the text decoration for column the aggregate cell. If not set, it will fallback to the TextDecoration.",
+          "remarks": "When omitted, inherits the column's TextDecoration setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextOverflow",
           "type": "global::Blazorise.TextOverflow?",
           "typeName": "TextOverflow?",
-          "defaultValue": "null",
+          "defaultValue": "TextOverflow",
           "summary": "Determines how the text will behave when it is larger than a parent container for column the aggregate cell. If not set, it will fallback to the TextOverflow.",
+          "remarks": "When omitted, inherits the column's TextOverflow setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextSize",
           "type": "global::Blazorise.IFluentTextSize",
           "typeName": "IFluentTextSize",
-          "defaultValue": "null",
+          "defaultValue": "TextSize",
           "summary": "Determines the font size of an element for column the aggregate cell. If not set, it will fallback to the TextSize.",
+          "remarks": "When omitted, inherits the column's TextSize setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextTransform",
           "type": "global::Blazorise.TextTransform?",
           "typeName": "TextTransform?",
-          "defaultValue": "null",
+          "defaultValue": "TextTransform",
           "summary": "Specifies the text transformation for column the aggregate cell. If not set, it will fallback to the TextTransform.",
+          "remarks": "When omitted, inherits the column's TextTransform setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextWeight",
           "type": "global::Blazorise.TextWeight?",
           "typeName": "TextWeight?",
-          "defaultValue": "null",
+          "defaultValue": "TextWeight",
           "summary": "Specifies the text weight for column the aggregate cell. If not set, it will fallback to the TextWeight.",
+          "remarks": "When omitted, inherits the column's TextWeight setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateVerticalAlignment",
           "type": "global::Blazorise.VerticalAlignment?",
           "typeName": "VerticalAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "VerticalAlignment",
           "summary": "Specifies the vertical alignment for column the aggregate cell.",
+          "remarks": "When omitted, inherits the column's VerticalAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -37152,24 +37255,27 @@
           "name": "HeaderDisplay",
           "type": "global::Blazorise.IFluentDisplay",
           "typeName": "IFluentDisplay",
-          "defaultValue": "null",
+          "defaultValue": "Display",
           "summary": "Specifies the display behavior of a header cell.",
+          "remarks": "When omitted, inherits the column's Display setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderFlex",
           "type": "global::Blazorise.IFluentFlex",
           "typeName": "IFluentFlex",
-          "defaultValue": "null",
+          "defaultValue": "Flex",
           "summary": "Specifies the flex utility of a header cell.",
+          "remarks": "When omitted, inherits the column's Flex setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderGap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
-          "defaultValue": "null",
+          "defaultValue": "Gap",
           "summary": "Specifies the gap utility of a header cell.",
+          "remarks": "When omitted, inherits the column's Gap setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -37184,56 +37290,63 @@
           "name": "HeaderTextAlignment",
           "type": "global::Blazorise.TextAlignment?",
           "typeName": "TextAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "TextAlignment",
           "summary": "Specifies the alignment for column header cell. If not set, it will fallback to the TextAlignment.",
+          "remarks": "When omitted, inherits the column's TextAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextDecoration",
           "type": "global::Blazorise.TextDecoration?",
           "typeName": "TextDecoration?",
-          "defaultValue": "null",
+          "defaultValue": "TextDecoration",
           "summary": "Specifies the text decoration for column header cell. If not set, it will fallback to the TextDecoration.",
+          "remarks": "When omitted, inherits the column's TextDecoration setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextOverflow",
           "type": "global::Blazorise.TextOverflow?",
           "typeName": "TextOverflow?",
-          "defaultValue": "null",
+          "defaultValue": "TextOverflow",
           "summary": "Determines how the text will behave when it is larger than a parent container for column header cell. If not set, it will fallback to the TextOverflow.",
+          "remarks": "When omitted, inherits the column's TextOverflow setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextSize",
           "type": "global::Blazorise.IFluentTextSize",
           "typeName": "IFluentTextSize",
-          "defaultValue": "null",
+          "defaultValue": "TextSize",
           "summary": "Determines the font size of an element for column header cell. If not set, it will fallback to the TextSize.",
+          "remarks": "When omitted, inherits the column's TextSize setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextTransform",
           "type": "global::Blazorise.TextTransform?",
           "typeName": "TextTransform?",
-          "defaultValue": "null",
+          "defaultValue": "TextTransform",
           "summary": "Specifies the text transformation for column header cell. If not set, it will fallback to the TextTransform.",
+          "remarks": "When omitted, inherits the column's TextTransform setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextWeight",
           "type": "global::Blazorise.TextWeight?",
           "typeName": "TextWeight?",
-          "defaultValue": "null",
+          "defaultValue": "TextWeight",
           "summary": "Specifies the text weight for column header cell. If not set, it will fallback to the TextWeight.",
+          "remarks": "When omitted, inherits the column's TextWeight setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderVerticalAlignment",
           "type": "global::Blazorise.VerticalAlignment?",
           "typeName": "VerticalAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "VerticalAlignment",
           "summary": "Specifies the vertical alignment for column header cell.",
+          "remarks": "When omitted, inherits the column's VerticalAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -37548,24 +37661,27 @@
           "name": "AggregateDisplay",
           "type": "global::Blazorise.IFluentDisplay",
           "typeName": "IFluentDisplay",
-          "defaultValue": "null",
+          "defaultValue": "Display",
           "summary": "Specifies the display behavior of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Display setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateFlex",
           "type": "global::Blazorise.IFluentFlex",
           "typeName": "IFluentFlex",
-          "defaultValue": "null",
+          "defaultValue": "Flex",
           "summary": "Specifies the flex utility of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Flex setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateGap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
-          "defaultValue": "null",
+          "defaultValue": "Gap",
           "summary": "Specifies the gap utility of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Gap setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -37580,56 +37696,63 @@
           "name": "AggregateTextAlignment",
           "type": "global::Blazorise.TextAlignment?",
           "typeName": "TextAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "TextAlignment",
           "summary": "Specifies the alignment for column the aggregate cell. If not set, it will fallback to the TextAlignment.",
+          "remarks": "When omitted, inherits the column's TextAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextDecoration",
           "type": "global::Blazorise.TextDecoration?",
           "typeName": "TextDecoration?",
-          "defaultValue": "null",
+          "defaultValue": "TextDecoration",
           "summary": "Specifies the text decoration for column the aggregate cell. If not set, it will fallback to the TextDecoration.",
+          "remarks": "When omitted, inherits the column's TextDecoration setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextOverflow",
           "type": "global::Blazorise.TextOverflow?",
           "typeName": "TextOverflow?",
-          "defaultValue": "null",
+          "defaultValue": "TextOverflow",
           "summary": "Determines how the text will behave when it is larger than a parent container for column the aggregate cell. If not set, it will fallback to the TextOverflow.",
+          "remarks": "When omitted, inherits the column's TextOverflow setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextSize",
           "type": "global::Blazorise.IFluentTextSize",
           "typeName": "IFluentTextSize",
-          "defaultValue": "null",
+          "defaultValue": "TextSize",
           "summary": "Determines the font size of an element for column the aggregate cell. If not set, it will fallback to the TextSize.",
+          "remarks": "When omitted, inherits the column's TextSize setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextTransform",
           "type": "global::Blazorise.TextTransform?",
           "typeName": "TextTransform?",
-          "defaultValue": "null",
+          "defaultValue": "TextTransform",
           "summary": "Specifies the text transformation for column the aggregate cell. If not set, it will fallback to the TextTransform.",
+          "remarks": "When omitted, inherits the column's TextTransform setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextWeight",
           "type": "global::Blazorise.TextWeight?",
           "typeName": "TextWeight?",
-          "defaultValue": "null",
+          "defaultValue": "TextWeight",
           "summary": "Specifies the text weight for column the aggregate cell. If not set, it will fallback to the TextWeight.",
+          "remarks": "When omitted, inherits the column's TextWeight setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateVerticalAlignment",
           "type": "global::Blazorise.VerticalAlignment?",
           "typeName": "VerticalAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "VerticalAlignment",
           "summary": "Specifies the vertical alignment for column the aggregate cell.",
+          "remarks": "When omitted, inherits the column's VerticalAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -38037,24 +38160,27 @@
           "name": "HeaderDisplay",
           "type": "global::Blazorise.IFluentDisplay",
           "typeName": "IFluentDisplay",
-          "defaultValue": "null",
+          "defaultValue": "Display",
           "summary": "Specifies the display behavior of a header cell.",
+          "remarks": "When omitted, inherits the column's Display setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderFlex",
           "type": "global::Blazorise.IFluentFlex",
           "typeName": "IFluentFlex",
-          "defaultValue": "null",
+          "defaultValue": "Flex",
           "summary": "Specifies the flex utility of a header cell.",
+          "remarks": "When omitted, inherits the column's Flex setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderGap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
-          "defaultValue": "null",
+          "defaultValue": "Gap",
           "summary": "Specifies the gap utility of a header cell.",
+          "remarks": "When omitted, inherits the column's Gap setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -38069,56 +38195,63 @@
           "name": "HeaderTextAlignment",
           "type": "global::Blazorise.TextAlignment?",
           "typeName": "TextAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "TextAlignment",
           "summary": "Specifies the alignment for column header cell. If not set, it will fallback to the TextAlignment.",
+          "remarks": "When omitted, inherits the column's TextAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextDecoration",
           "type": "global::Blazorise.TextDecoration?",
           "typeName": "TextDecoration?",
-          "defaultValue": "null",
+          "defaultValue": "TextDecoration",
           "summary": "Specifies the text decoration for column header cell. If not set, it will fallback to the TextDecoration.",
+          "remarks": "When omitted, inherits the column's TextDecoration setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextOverflow",
           "type": "global::Blazorise.TextOverflow?",
           "typeName": "TextOverflow?",
-          "defaultValue": "null",
+          "defaultValue": "TextOverflow",
           "summary": "Determines how the text will behave when it is larger than a parent container for column header cell. If not set, it will fallback to the TextOverflow.",
+          "remarks": "When omitted, inherits the column's TextOverflow setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextSize",
           "type": "global::Blazorise.IFluentTextSize",
           "typeName": "IFluentTextSize",
-          "defaultValue": "null",
+          "defaultValue": "TextSize",
           "summary": "Determines the font size of an element for column header cell. If not set, it will fallback to the TextSize.",
+          "remarks": "When omitted, inherits the column's TextSize setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextTransform",
           "type": "global::Blazorise.TextTransform?",
           "typeName": "TextTransform?",
-          "defaultValue": "null",
+          "defaultValue": "TextTransform",
           "summary": "Specifies the text transformation for column header cell. If not set, it will fallback to the TextTransform.",
+          "remarks": "When omitted, inherits the column's TextTransform setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextWeight",
           "type": "global::Blazorise.TextWeight?",
           "typeName": "TextWeight?",
-          "defaultValue": "null",
+          "defaultValue": "TextWeight",
           "summary": "Specifies the text weight for column header cell. If not set, it will fallback to the TextWeight.",
+          "remarks": "When omitted, inherits the column's TextWeight setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderVerticalAlignment",
           "type": "global::Blazorise.VerticalAlignment?",
           "typeName": "VerticalAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "VerticalAlignment",
           "summary": "Specifies the vertical alignment for column header cell.",
+          "remarks": "When omitted, inherits the column's VerticalAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -38490,24 +38623,27 @@
           "name": "AggregateDisplay",
           "type": "global::Blazorise.IFluentDisplay",
           "typeName": "IFluentDisplay",
-          "defaultValue": "null",
+          "defaultValue": "Display",
           "summary": "Specifies the display behavior of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Display setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateFlex",
           "type": "global::Blazorise.IFluentFlex",
           "typeName": "IFluentFlex",
-          "defaultValue": "null",
+          "defaultValue": "Flex",
           "summary": "Specifies the flex utility of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Flex setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateGap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
-          "defaultValue": "null",
+          "defaultValue": "Gap",
           "summary": "Specifies the gap utility of a the aggregate cell.",
+          "remarks": "When omitted, inherits the column's Gap setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -38522,56 +38658,63 @@
           "name": "AggregateTextAlignment",
           "type": "global::Blazorise.TextAlignment?",
           "typeName": "TextAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "TextAlignment",
           "summary": "Specifies the alignment for column the aggregate cell. If not set, it will fallback to the TextAlignment.",
+          "remarks": "When omitted, inherits the column's TextAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextDecoration",
           "type": "global::Blazorise.TextDecoration?",
           "typeName": "TextDecoration?",
-          "defaultValue": "null",
+          "defaultValue": "TextDecoration",
           "summary": "Specifies the text decoration for column the aggregate cell. If not set, it will fallback to the TextDecoration.",
+          "remarks": "When omitted, inherits the column's TextDecoration setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextOverflow",
           "type": "global::Blazorise.TextOverflow?",
           "typeName": "TextOverflow?",
-          "defaultValue": "null",
+          "defaultValue": "TextOverflow",
           "summary": "Determines how the text will behave when it is larger than a parent container for column the aggregate cell. If not set, it will fallback to the TextOverflow.",
+          "remarks": "When omitted, inherits the column's TextOverflow setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextSize",
           "type": "global::Blazorise.IFluentTextSize",
           "typeName": "IFluentTextSize",
-          "defaultValue": "null",
+          "defaultValue": "TextSize",
           "summary": "Determines the font size of an element for column the aggregate cell. If not set, it will fallback to the TextSize.",
+          "remarks": "When omitted, inherits the column's TextSize setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextTransform",
           "type": "global::Blazorise.TextTransform?",
           "typeName": "TextTransform?",
-          "defaultValue": "null",
+          "defaultValue": "TextTransform",
           "summary": "Specifies the text transformation for column the aggregate cell. If not set, it will fallback to the TextTransform.",
+          "remarks": "When omitted, inherits the column's TextTransform setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateTextWeight",
           "type": "global::Blazorise.TextWeight?",
           "typeName": "TextWeight?",
-          "defaultValue": "null",
+          "defaultValue": "TextWeight",
           "summary": "Specifies the text weight for column the aggregate cell. If not set, it will fallback to the TextWeight.",
+          "remarks": "When omitted, inherits the column's TextWeight setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "AggregateVerticalAlignment",
           "type": "global::Blazorise.VerticalAlignment?",
           "typeName": "VerticalAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "VerticalAlignment",
           "summary": "Specifies the vertical alignment for column the aggregate cell.",
+          "remarks": "When omitted, inherits the column's VerticalAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -39034,24 +39177,27 @@
           "name": "HeaderDisplay",
           "type": "global::Blazorise.IFluentDisplay",
           "typeName": "IFluentDisplay",
-          "defaultValue": "null",
+          "defaultValue": "Display",
           "summary": "Specifies the display behavior of a header cell.",
+          "remarks": "When omitted, inherits the column's Display setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderFlex",
           "type": "global::Blazorise.IFluentFlex",
           "typeName": "IFluentFlex",
-          "defaultValue": "null",
+          "defaultValue": "Flex",
           "summary": "Specifies the flex utility of a header cell.",
+          "remarks": "When omitted, inherits the column's Flex setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderGap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
-          "defaultValue": "null",
+          "defaultValue": "Gap",
           "summary": "Specifies the gap utility of a header cell.",
+          "remarks": "When omitted, inherits the column's Gap setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -39066,56 +39212,63 @@
           "name": "HeaderTextAlignment",
           "type": "global::Blazorise.TextAlignment?",
           "typeName": "TextAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "TextAlignment",
           "summary": "Specifies the alignment for column header cell. If not set, it will fallback to the TextAlignment.",
+          "remarks": "When omitted, inherits the column's TextAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextDecoration",
           "type": "global::Blazorise.TextDecoration?",
           "typeName": "TextDecoration?",
-          "defaultValue": "null",
+          "defaultValue": "TextDecoration",
           "summary": "Specifies the text decoration for column header cell. If not set, it will fallback to the TextDecoration.",
+          "remarks": "When omitted, inherits the column's TextDecoration setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextOverflow",
           "type": "global::Blazorise.TextOverflow?",
           "typeName": "TextOverflow?",
-          "defaultValue": "null",
+          "defaultValue": "TextOverflow",
           "summary": "Determines how the text will behave when it is larger than a parent container for column header cell. If not set, it will fallback to the TextOverflow.",
+          "remarks": "When omitted, inherits the column's TextOverflow setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextSize",
           "type": "global::Blazorise.IFluentTextSize",
           "typeName": "IFluentTextSize",
-          "defaultValue": "null",
+          "defaultValue": "TextSize",
           "summary": "Determines the font size of an element for column header cell. If not set, it will fallback to the TextSize.",
+          "remarks": "When omitted, inherits the column's TextSize setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextTransform",
           "type": "global::Blazorise.TextTransform?",
           "typeName": "TextTransform?",
-          "defaultValue": "null",
+          "defaultValue": "TextTransform",
           "summary": "Specifies the text transformation for column header cell. If not set, it will fallback to the TextTransform.",
+          "remarks": "When omitted, inherits the column's TextTransform setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderTextWeight",
           "type": "global::Blazorise.TextWeight?",
           "typeName": "TextWeight?",
-          "defaultValue": "null",
+          "defaultValue": "TextWeight",
           "summary": "Specifies the text weight for column header cell. If not set, it will fallback to the TextWeight.",
+          "remarks": "When omitted, inherits the column's TextWeight setting.",
           "isBlazoriseEnum": false
         },
         {
           "name": "HeaderVerticalAlignment",
           "type": "global::Blazorise.VerticalAlignment?",
           "typeName": "VerticalAlignment?",
-          "defaultValue": "null",
+          "defaultValue": "VerticalAlignment",
           "summary": "Specifies the vertical alignment for column header cell.",
+          "remarks": "When omitted, inherits the column's VerticalAlignment setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -39695,30 +39848,34 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global accessibility setting and enabled input types.",
           "isBlazoriseEnum": false
         },
         {
           "name": "OnScreenKeyboardEnterKeyBehavior",
           "type": "global::Blazorise.OnScreenKeyboardEnterKeyBehavior",
           "typeName": "OnScreenKeyboardEnterKeyBehavior",
-          "defaultValue": "OnScreenKeyboardEnterKeyBehavior.Default",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies how the on-screen keyboard enter key should behave for this input component.",
+          "remarks": "When omitted, uses the cascading override, then the global option, then the input component's behavior.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardLayout",
           "type": "global::Blazorise.OnScreenKeyboardLayout",
           "typeName": "OnScreenKeyboardLayout",
-          "defaultValue": "OnScreenKeyboardLayout.Text",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global default layout, then the input component's layout.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardShowMode",
           "type": "global::Blazorise.OnScreenKeyboardShowMode",
           "typeName": "OnScreenKeyboardShowMode",
-          "defaultValue": "OnScreenKeyboardShowMode.Default",
+          "defaultValue": "Focus",
           "summary": "Gets or sets how the on-screen keyboard is shown for this input.",
+          "remarks": "When omitted, uses the global show mode; Default resolves to Focus.",
           "isBlazoriseEnum": true
         },
         {
@@ -39789,8 +39946,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -40244,9 +40402,9 @@
           "name": "DisplayFormat",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "yyyy-MM-dd",
           "summary": "Specifies the display format of the date input using the picker format syntax supported by earlier versions.",
-          "remarks": "Week mode additionally supports <code>w</code>, <code>ww</code>, and <code>wo</code> for the week number and its English ordinal form.",
+          "remarks": "Week mode additionally supports <code>w</code>, <code>ww</code>, and <code>wo</code> for the week number and its English ordinal form.     <p>When omitted, resolves the display format from InputMode and DateFormat.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -40386,30 +40544,34 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global accessibility setting and enabled input types.",
           "isBlazoriseEnum": false
         },
         {
           "name": "OnScreenKeyboardEnterKeyBehavior",
           "type": "global::Blazorise.OnScreenKeyboardEnterKeyBehavior",
           "typeName": "OnScreenKeyboardEnterKeyBehavior",
-          "defaultValue": "OnScreenKeyboardEnterKeyBehavior.Default",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies how the on-screen keyboard enter key should behave for this input component.",
+          "remarks": "When omitted, uses the cascading override, then the global option, then the input component's behavior.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardLayout",
           "type": "global::Blazorise.OnScreenKeyboardLayout",
           "typeName": "OnScreenKeyboardLayout",
-          "defaultValue": "OnScreenKeyboardLayout.Text",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global default layout, then the input component's layout.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardShowMode",
           "type": "global::Blazorise.OnScreenKeyboardShowMode",
           "typeName": "OnScreenKeyboardShowMode",
-          "defaultValue": "OnScreenKeyboardShowMode.Default",
+          "defaultValue": "Focus",
           "summary": "Gets or sets how the on-screen keyboard is shown for this input.",
+          "remarks": "When omitted, uses the global show mode; Default resolves to Focus.",
           "isBlazoriseEnum": true
         },
         {
@@ -40472,8 +40634,9 @@
           "name": "RangeSeparator",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "\" to \"",
           "summary": "Overrides the range separator that is used to separate date values when <strong>SelectionMode</strong> is set to <strong>Range</strong>.",
+          "remarks": "When omitted, uses the localized range separator, falling back to \\\" to \\\".",
           "isBlazoriseEnum": false
         },
         {
@@ -40529,8 +40692,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -43531,8 +43695,9 @@
           "name": "DividerType",
           "type": "global::Blazorise.DividerType?",
           "typeName": "DividerType?",
-          "defaultValue": "null",
+          "defaultValue": "Solid",
           "summary": "Specifies the type and style of the divider.",
+          "remarks": "When unspecified, uses the theme setting, falling back to Solid.",
           "isBlazoriseEnum": false
         },
         {
@@ -47257,8 +47422,9 @@
           "name": "ApplyDropClassesOnDragStarted",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "false",
           "summary": "When true, <strong>DropAllowedClass</strong> or <strong>DropNotAllowedClass</strong> drop classes are applied as soon as a transaction has started.",
+          "remarks": "When omitted, inherits the parent container's setting.",
           "isBlazoriseEnum": false
         },
         {
@@ -47330,7 +47496,7 @@
           "name": "DisabledClass",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "DropContainer.DisabledClass",
           "summary": "Classname that is applied to the dropzone if the result of <strong>ItemDisabled</strong> is false.",
           "isBlazoriseEnum": false
         },
@@ -47346,7 +47512,7 @@
           "name": "DraggingClass",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "DropContainer.DraggingClass",
           "summary": "Classname that is applied to the dropzone when the drag operation has started.",
           "isBlazoriseEnum": false
         },
@@ -47354,16 +47520,18 @@
           "name": "DropAllowedClass",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "b-drop-zone-drop-allowed",
           "summary": "Classname that is applied if dropping to the current zone is allowed.",
+          "remarks": "When omitted, inherits the parent container's class before using the built-in class.",
           "isBlazoriseEnum": false
         },
         {
           "name": "DropNotAllowedClass",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "b-drop-zone-drop-not-allowed",
           "summary": "Classname that is applied if dropping to the current zone is not allowed.",
+          "remarks": "When omitted, inherits the parent container's class before using the built-in class.",
           "isBlazoriseEnum": false
         },
         {
@@ -47411,7 +47579,7 @@
           "name": "ItemDraggingClass",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "DropContainer.ItemDraggingClass",
           "summary": "Classname that is applied to the drag item when it is being dragged.",
           "isBlazoriseEnum": false
         },
@@ -47475,7 +47643,7 @@
           "name": "PlaceholderTemplate",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<TItem>",
-          "defaultValue": "null",
+          "defaultValue": "DropContainer.PlaceholderTemplate",
           "summary": "The template used to render the placeholder for the item being reordered. The template receives the item currently being dragged and overrides the template defined by the parent container.",
           "isBlazoriseEnum": false
         },
@@ -47499,8 +47667,9 @@
           "name": "ShowPlaceholder",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "Controls the visibility of the reorder placeholder's outline and content without removing its reserved space.     When null, the placeholder is visible for non-animated reordering or when a placeholder template is supplied.",
+          "remarks": "When omitted, shows the placeholder if reorder animation is disabled or a placeholder template is available.",
           "isBlazoriseEnum": false
         },
         {
@@ -47629,7 +47798,7 @@
           "name": "ItemDisabled",
           "type": "Func<,>",
           "typeName": "Func<TItem, bool>",
-          "defaultValue": "null",
+          "defaultValue": "DropContainer.ItemDisabled",
           "summary": "Determines if the item is disabled for dragging and dropping.",
           "isBlazoriseEnum": false
         },
@@ -48830,8 +48999,9 @@
           "name": "TabIndex",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "0",
           "summary": "Specifies the tabindex value for keyboard navigation.",
+          "remarks": "When omitted, uses 0 when enabled. Disabled items always use -1.",
           "isBlazoriseEnum": false
         },
         {
@@ -49621,17 +49791,18 @@
           "name": "ShowToggleIcon",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "Specifies a value indicating whether the dropdown toggle icon is visible.",
-          "remarks": "Default: True",
+          "remarks": "When unspecified, uses the theme setting, falling back to true.",
           "isBlazoriseEnum": false
         },
         {
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Specifies the dropdown size.",
+          "remarks": "When omitted, uses the theme dropdown size, falling back to Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -49718,9 +49889,9 @@
           "name": "ToggleIconVisible",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "Specifies a value indicating whether the dropdown toggle icon is visible.",
-          "remarks": "This parameter is retained for source compatibility. Use <strong>ShowToggleIcon</strong> instead.",
+          "remarks": "This parameter is retained for source compatibility. Use <strong>ShowToggleIcon</strong> instead.     <p>When unspecified, uses the theme setting, falling back to true.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -53223,8 +53394,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -60002,16 +60174,18 @@
           "name": "IconSize",
           "type": "global::Blazorise.IconSize?",
           "typeName": "IconSize?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Specifies the icon size.",
+          "remarks": "When omitted, uses BlazoriseOptions.IconSize, falling back to IconSize.Default.",
           "isBlazoriseEnum": false
         },
         {
           "name": "IconStyle",
           "type": "global::Blazorise.IconStyle?",
           "typeName": "IconStyle?",
-          "defaultValue": "null",
+          "defaultValue": "Provider default",
           "summary": "Suggested icon style.",
+          "remarks": "When omitted, uses BlazoriseOptions.IconStyle, falling back to the icon provider default.",
           "isBlazoriseEnum": false
         },
         {
@@ -60898,16 +61072,18 @@
           "name": "Debounce",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "false",
           "summary": "If true the entered text will be slightly delayed before submitting it to the internal value.",
+          "remarks": "When unspecified, uses BlazoriseOptions.Debounce, falling back to false.",
           "isBlazoriseEnum": false
         },
         {
           "name": "DebounceInterval",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "300",
           "summary": "Interval in milliseconds that entered text will be delayed from submitting to the internal value.",
+          "remarks": "When unspecified, uses BlazoriseOptions.DebounceInterval, falling back to 300.",
           "isBlazoriseEnum": false
         },
         {
@@ -60987,9 +61163,9 @@
           "name": "Immediate",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "If true the text in will be changed after each key press.",
-          "remarks": "Note that setting this will override global settings in <strong>Immediate</strong>.",
+          "remarks": "Note that setting this will override global settings in <strong>Immediate</strong>.     <p>When unspecified, uses BlazoriseOptions.Immediate, falling back to true.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -61046,30 +61222,34 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global accessibility setting and enabled input types.",
           "isBlazoriseEnum": false
         },
         {
           "name": "OnScreenKeyboardEnterKeyBehavior",
           "type": "global::Blazorise.OnScreenKeyboardEnterKeyBehavior",
           "typeName": "OnScreenKeyboardEnterKeyBehavior",
-          "defaultValue": "OnScreenKeyboardEnterKeyBehavior.Default",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies how the on-screen keyboard enter key should behave for this input component.",
+          "remarks": "When omitted, uses the cascading override, then the global option, then the input component's behavior.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardLayout",
           "type": "global::Blazorise.OnScreenKeyboardLayout",
           "typeName": "OnScreenKeyboardLayout",
-          "defaultValue": "OnScreenKeyboardLayout.Text",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global default layout, then the input component's layout.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardShowMode",
           "type": "global::Blazorise.OnScreenKeyboardShowMode",
           "typeName": "OnScreenKeyboardShowMode",
-          "defaultValue": "OnScreenKeyboardShowMode.Default",
+          "defaultValue": "Focus",
           "summary": "Gets or sets how the on-screen keyboard is shown for this input.",
+          "remarks": "When omitted, uses the global show mode; Default resolves to Focus.",
           "isBlazoriseEnum": true
         },
         {
@@ -61148,8 +61328,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -61573,16 +61754,18 @@
           "name": "Debounce",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "false",
           "summary": "If true the entered text will be slightly delayed before submitting it to the internal value.",
+          "remarks": "When unspecified, uses BlazoriseOptions.Debounce, falling back to false.",
           "isBlazoriseEnum": false
         },
         {
           "name": "DebounceInterval",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "300",
           "summary": "Interval in milliseconds that entered text will be delayed from submitting to the internal value.",
+          "remarks": "When unspecified, uses BlazoriseOptions.DebounceInterval, falling back to 300.",
           "isBlazoriseEnum": false
         },
         {
@@ -61670,9 +61853,9 @@
           "name": "Immediate",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "If true the text in will be changed after each key press.",
-          "remarks": "Note that setting this will override global settings in <strong>Immediate</strong>.",
+          "remarks": "Note that setting this will override global settings in <strong>Immediate</strong>.     <p>When unspecified, uses BlazoriseOptions.Immediate, falling back to true.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -61745,30 +61928,34 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global accessibility setting and enabled input types.",
           "isBlazoriseEnum": false
         },
         {
           "name": "OnScreenKeyboardEnterKeyBehavior",
           "type": "global::Blazorise.OnScreenKeyboardEnterKeyBehavior",
           "typeName": "OnScreenKeyboardEnterKeyBehavior",
-          "defaultValue": "OnScreenKeyboardEnterKeyBehavior.Default",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies how the on-screen keyboard enter key should behave for this input component.",
+          "remarks": "When omitted, uses the cascading override, then the global option, then the input component's behavior.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardLayout",
           "type": "global::Blazorise.OnScreenKeyboardLayout",
           "typeName": "OnScreenKeyboardLayout",
-          "defaultValue": "OnScreenKeyboardLayout.Text",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global default layout, then the input component's layout.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardShowMode",
           "type": "global::Blazorise.OnScreenKeyboardShowMode",
           "typeName": "OnScreenKeyboardShowMode",
-          "defaultValue": "OnScreenKeyboardShowMode.Default",
+          "defaultValue": "Focus",
           "summary": "Gets or sets how the on-screen keyboard is shown for this input.",
+          "remarks": "When omitted, uses the global show mode; Default resolves to Focus.",
           "isBlazoriseEnum": true
         },
         {
@@ -61888,8 +62075,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -69082,8 +69270,9 @@
           "name": "Id",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "Generated",
           "summary": "Identifies this layer for updates, events, and removal. Changing the value after initialization removes the previous provider layer and registers a new one.",
+          "remarks": "When omitted, generates a GUID in N format.",
           "isBlazoriseEnum": false
         },
         {
@@ -69205,8 +69394,9 @@
           "name": "Id",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "Generated",
           "summary": "Identifies this layer for updates, events, and removal. Changing the value after initialization removes the previous provider layer and registers a new one.",
+          "remarks": "When omitted, generates a GUID in N format.",
           "isBlazoriseEnum": false
         },
         {
@@ -69286,8 +69476,9 @@
           "name": "Id",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "Generated",
           "summary": "Identifies this layer for updates, events, and removal. Changing the value after initialization removes the previous provider layer and registers a new one.",
+          "remarks": "When omitted, generates a GUID in N format.",
           "isBlazoriseEnum": false
         },
         {
@@ -69392,8 +69583,9 @@
           "name": "Id",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "Generated",
           "summary": "Identifies this layer for updates, events, and removal. Changing the value after initialization removes the previous provider layer and registers a new one.",
+          "remarks": "When omitted, generates a GUID in N format.",
           "isBlazoriseEnum": false
         },
         {
@@ -69611,8 +69803,9 @@
           "name": "Id",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "Generated",
           "summary": "Identifies this layer for updates, events, and removal. Changing the value after initialization removes the previous provider layer and registers a new one.",
+          "remarks": "When omitted, generates a GUID in N format.",
           "isBlazoriseEnum": false
         },
         {
@@ -69692,8 +69885,9 @@
           "name": "Id",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "Generated",
           "summary": "Identifies this layer for updates, events, and removal. Changing the value after initialization removes the previous provider layer and registers a new one.",
+          "remarks": "When omitted, generates a GUID in N format.",
           "isBlazoriseEnum": false
         },
         {
@@ -69765,8 +69959,9 @@
           "name": "Id",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "Generated",
           "summary": "Identifies this layer for updates, events, and removal. Changing the value after initialization removes the previous provider layer and registers a new one.",
+          "remarks": "When omitted, generates a GUID in N format.",
           "isBlazoriseEnum": false
         },
         {
@@ -70247,30 +70442,34 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global accessibility setting and enabled input types.",
           "isBlazoriseEnum": false
         },
         {
           "name": "OnScreenKeyboardEnterKeyBehavior",
           "type": "global::Blazorise.OnScreenKeyboardEnterKeyBehavior",
           "typeName": "OnScreenKeyboardEnterKeyBehavior",
-          "defaultValue": "OnScreenKeyboardEnterKeyBehavior.Default",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies how the on-screen keyboard enter key should behave for this input component.",
+          "remarks": "When omitted, uses the cascading override, then the global option, then the input component's behavior.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardLayout",
           "type": "global::Blazorise.OnScreenKeyboardLayout",
           "typeName": "OnScreenKeyboardLayout",
-          "defaultValue": "OnScreenKeyboardLayout.Text",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global default layout, then the input component's layout.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardShowMode",
           "type": "global::Blazorise.OnScreenKeyboardShowMode",
           "typeName": "OnScreenKeyboardShowMode",
-          "defaultValue": "OnScreenKeyboardShowMode.Default",
+          "defaultValue": "Focus",
           "summary": "Gets or sets how the on-screen keyboard is shown for this input.",
+          "remarks": "When omitted, uses the global show mode; Default resolves to Focus.",
           "isBlazoriseEnum": true
         },
         {
@@ -70413,8 +70612,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -73076,16 +73276,18 @@
           "name": "Debounce",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "false",
           "summary": "If true the entered text will be slightly delayed before submitting it to the internal value.",
+          "remarks": "When unspecified, uses BlazoriseOptions.Debounce, falling back to false.",
           "isBlazoriseEnum": false
         },
         {
           "name": "DebounceInterval",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "300",
           "summary": "Interval in milliseconds that entered text will be delayed from submitting to the internal value.",
+          "remarks": "When unspecified, uses BlazoriseOptions.DebounceInterval, falling back to 300.",
           "isBlazoriseEnum": false
         },
         {
@@ -73157,9 +73359,9 @@
           "name": "Immediate",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "If true the text in will be changed after each key press.",
-          "remarks": "Note that setting this will override global settings in <strong>Immediate</strong>.",
+          "remarks": "Note that setting this will override global settings in <strong>Immediate</strong>.     <p>When unspecified, uses BlazoriseOptions.Immediate, falling back to true.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -73200,30 +73402,34 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global accessibility setting and enabled input types.",
           "isBlazoriseEnum": false
         },
         {
           "name": "OnScreenKeyboardEnterKeyBehavior",
           "type": "global::Blazorise.OnScreenKeyboardEnterKeyBehavior",
           "typeName": "OnScreenKeyboardEnterKeyBehavior",
-          "defaultValue": "OnScreenKeyboardEnterKeyBehavior.Default",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies how the on-screen keyboard enter key should behave for this input component.",
+          "remarks": "When omitted, uses the cascading override, then the global option, then the input component's behavior.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardLayout",
           "type": "global::Blazorise.OnScreenKeyboardLayout",
           "typeName": "OnScreenKeyboardLayout",
-          "defaultValue": "OnScreenKeyboardLayout.Text",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global default layout, then the input component's layout.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardShowMode",
           "type": "global::Blazorise.OnScreenKeyboardShowMode",
           "typeName": "OnScreenKeyboardShowMode",
-          "defaultValue": "OnScreenKeyboardShowMode.Default",
+          "defaultValue": "Focus",
           "summary": "Gets or sets how the on-screen keyboard is shown for this input.",
+          "remarks": "When omitted, uses the global show mode; Default resolves to Focus.",
           "isBlazoriseEnum": true
         },
         {
@@ -73310,8 +73516,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -74323,7 +74530,8 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
-          "summary": "Specifies if the modal should keep the input focus at all times.     When not defined, the global <strong>ModalFocusTrap</strong> option is used, which defaults to <code>true</code>.",
+          "summary": "Specifies if the modal should keep the input focus at all times.",
+          "remarks": "When unspecified, uses BlazoriseOptions.ModalFocusTrap, falling back to true.",
           "isBlazoriseEnum": false
         },
         {
@@ -76227,8 +76435,9 @@
           "name": "FocusTrap",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "Specifies if the modal should keep the input focus at all times.     Global Option.",
+          "remarks": "When unspecified, uses BlazoriseOptions.ModalFocusTrap, falling back to true.",
           "isBlazoriseEnum": false
         },
         {
@@ -76893,7 +77102,7 @@
           "name": "DefaultInterval",
           "type": "double?",
           "typeName": "double?",
-          "defaultValue": "null",
+          "defaultValue": "5000",
           "summary": "Specifies the default interval (in milliseconds) after which the notification alert will be automatically closed (used if IntervalBeforeClose is not set on PushAsync call).",
           "isBlazoriseEnum": false
         },
@@ -77254,7 +77463,7 @@
           "name": "Culture",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "CultureInfo.InvariantCulture",
           "summary": "Helps define the language of an element. See <a href=\\\"https://www.w3schools.com/tags/ref_language_codes.asp\\\">w3schools.com</a>.",
           "isBlazoriseEnum": false
         },
@@ -77262,16 +77471,18 @@
           "name": "Debounce",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "false",
           "summary": "If true the entered text will be slightly delayed before submitting it to the internal value.",
+          "remarks": "When unspecified, uses BlazoriseOptions.Debounce, falling back to false.",
           "isBlazoriseEnum": false
         },
         {
           "name": "DebounceInterval",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "300",
           "summary": "Interval in milliseconds that entered text will be delayed from submitting to the internal value.",
+          "remarks": "When unspecified, uses BlazoriseOptions.DebounceInterval, falling back to 300.",
           "isBlazoriseEnum": false
         },
         {
@@ -77343,9 +77554,9 @@
           "name": "Immediate",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "If true the text in will be changed after each key press.",
-          "remarks": "Note that setting this will override global settings in <strong>Immediate</strong>.",
+          "remarks": "Note that setting this will override global settings in <strong>Immediate</strong>.     <p>When unspecified, uses BlazoriseOptions.Immediate, falling back to true.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -77368,16 +77579,18 @@
           "name": "Max",
           "type": "object",
           "typeName": "TValue",
-          "defaultValue": "null",
+          "defaultValue": "Unrestricted",
           "summary": "The maximum value to accept for this input.",
+          "remarks": "When omitted, no maximum constraint is applied.",
           "isBlazoriseEnum": false
         },
         {
           "name": "Min",
           "type": "object",
           "typeName": "TValue",
-          "defaultValue": "null",
+          "defaultValue": "Unrestricted",
           "summary": "The minimum value to accept for this input.",
+          "remarks": "When omitted, no minimum constraint is applied.",
           "isBlazoriseEnum": false
         },
         {
@@ -77394,30 +77607,34 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global accessibility setting and enabled input types.",
           "isBlazoriseEnum": false
         },
         {
           "name": "OnScreenKeyboardEnterKeyBehavior",
           "type": "global::Blazorise.OnScreenKeyboardEnterKeyBehavior",
           "typeName": "OnScreenKeyboardEnterKeyBehavior",
-          "defaultValue": "OnScreenKeyboardEnterKeyBehavior.Default",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies how the on-screen keyboard enter key should behave for this input component.",
+          "remarks": "When omitted, uses the cascading override, then the global option, then the input component's behavior.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardLayout",
           "type": "global::Blazorise.OnScreenKeyboardLayout",
           "typeName": "OnScreenKeyboardLayout",
-          "defaultValue": "OnScreenKeyboardLayout.Text",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global default layout, then the input component's layout.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardShowMode",
           "type": "global::Blazorise.OnScreenKeyboardShowMode",
           "typeName": "OnScreenKeyboardShowMode",
-          "defaultValue": "OnScreenKeyboardShowMode.Default",
+          "defaultValue": "Focus",
           "summary": "Gets or sets how the on-screen keyboard is shown for this input.",
+          "remarks": "When omitted, uses the global show mode; Default resolves to Focus.",
           "isBlazoriseEnum": true
         },
         {
@@ -77488,8 +77705,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -77914,7 +78132,7 @@
           "name": "Culture",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "CultureInfo.InvariantCulture",
           "summary": "Helps define the language of an element. See <a href=\\\"https://www.w3schools.com/tags/ref_language_codes.asp\\\">w3schools.com</a>.",
           "isBlazoriseEnum": false
         },
@@ -77938,16 +78156,18 @@
           "name": "Debounce",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "false",
           "summary": "If true the entered text will be slightly delayed before submitting it to the internal value.",
+          "remarks": "When unspecified, uses BlazoriseOptions.Debounce, falling back to false.",
           "isBlazoriseEnum": false
         },
         {
           "name": "DebounceInterval",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "300",
           "summary": "Interval in milliseconds that entered text will be delayed from submitting to the internal value.",
+          "remarks": "When unspecified, uses BlazoriseOptions.DebounceInterval, falling back to 300.",
           "isBlazoriseEnum": false
         },
         {
@@ -77995,8 +78215,9 @@
           "name": "EnableStep",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys.",
+          "remarks": "When unspecified, uses BlazoriseOptions.EnableNumericStep, falling back to true.",
           "isBlazoriseEnum": false
         },
         {
@@ -78059,9 +78280,9 @@
           "name": "Immediate",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "If true the text in will be changed after each key press.",
-          "remarks": "Note that setting this will override global settings in <strong>Immediate</strong>.",
+          "remarks": "Note that setting this will override global settings in <strong>Immediate</strong>.     <p>When unspecified, uses BlazoriseOptions.Immediate, falling back to true.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -78126,30 +78347,34 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global accessibility setting and enabled input types.",
           "isBlazoriseEnum": false
         },
         {
           "name": "OnScreenKeyboardEnterKeyBehavior",
           "type": "global::Blazorise.OnScreenKeyboardEnterKeyBehavior",
           "typeName": "OnScreenKeyboardEnterKeyBehavior",
-          "defaultValue": "OnScreenKeyboardEnterKeyBehavior.Default",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies how the on-screen keyboard enter key should behave for this input component.",
+          "remarks": "When omitted, uses the cascading override, then the global option, then the input component's behavior.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardLayout",
           "type": "global::Blazorise.OnScreenKeyboardLayout",
           "typeName": "OnScreenKeyboardLayout",
-          "defaultValue": "OnScreenKeyboardLayout.Text",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global default layout, then the input component's layout.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardShowMode",
           "type": "global::Blazorise.OnScreenKeyboardShowMode",
           "typeName": "OnScreenKeyboardShowMode",
-          "defaultValue": "OnScreenKeyboardShowMode.Default",
+          "defaultValue": "Focus",
           "summary": "Gets or sets how the on-screen keyboard is shown for this input.",
+          "remarks": "When omitted, uses the global show mode; Default resolves to Focus.",
           "isBlazoriseEnum": true
         },
         {
@@ -78236,16 +78461,18 @@
           "name": "ShowStepButtons",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "If true, step buttons will be visible.",
+          "remarks": "When omitted, uses BlazoriseOptions.ShowNumericStepButtons. Step buttons are hidden when stepping is disabled.",
           "isBlazoriseEnum": false
         },
         {
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -80582,16 +80809,18 @@
           "name": "KeyLayout",
           "type": "global::Blazorise.OnScreenKeyboardKeyLayout?",
           "typeName": "OnScreenKeyboardKeyLayout?",
-          "defaultValue": "null",
+          "defaultValue": "Centered",
           "summary": "Gets or sets the key arrangement inside keyboard rows.",
+          "remarks": "When omitted, uses the global key layout. Falls back to Stretch if global keyboard options are unavailable.",
           "isBlazoriseEnum": false
         },
         {
           "name": "KeyMinHeight",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "56",
           "summary": "Gets or sets the key minimum height, in pixels.",
+          "remarks": "When omitted, uses the global minimum height, then 56 pixels for centered keys or 40 pixels for stretched keys.",
           "isBlazoriseEnum": false
         },
         {
@@ -80630,16 +80859,18 @@
           "name": "KeyWidth",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "72",
           "summary": "Gets or sets the base key width, in pixels, used by centered key layout.",
+          "remarks": "When omitted, uses the global key width, falling back to 72 pixels.",
           "isBlazoriseEnum": false
         },
         {
           "name": "KeyboardSize",
           "type": "global::Blazorise.OnScreenKeyboardSize?",
           "typeName": "OnScreenKeyboardSize?",
-          "defaultValue": "null",
+          "defaultValue": "Medium",
           "summary": "Gets or sets the keyboard visual width.",
+          "remarks": "When omitted, uses the global keyboard size. Falls back to FullWidth if global keyboard options are unavailable.",
           "isBlazoriseEnum": false
         },
         {
@@ -80678,8 +80909,9 @@
           "name": "Placement",
           "type": "global::Blazorise.OnScreenKeyboardPlacement?",
           "typeName": "OnScreenKeyboardPlacement?",
-          "defaultValue": "null",
+          "defaultValue": "Bottom",
           "summary": "Gets or sets the keyboard placement.",
+          "remarks": "When omitted, uses the global keyboard placement.",
           "isBlazoriseEnum": false
         },
         {
@@ -80704,14 +80936,16 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Gets or sets whether text keyboards should show a key that toggles special characters.",
+          "remarks": "When omitted, uses the global special character key option.",
           "isBlazoriseEnum": false
         },
         {
           "name": "SpecialCharactersRows",
           "type": "IReadOnlyList<>",
           "typeName": "IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>>",
-          "defaultValue": "null",
+          "defaultValue": "Built-in rows",
           "summary": "Gets or sets the rows used when the special characters keyboard is active.",
+          "remarks": "When omitted, uses globally configured rows, then the built-in special character rows.",
           "isBlazoriseEnum": false
         },
         {
@@ -80826,6 +81060,7 @@
           "typeName": "Func<OnScreenKeyboardContext, IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>>>",
           "defaultValue": "null",
           "summary": "Gets or sets a function that resolves keyboard rows for the active input context.",
+          "remarks": "When omitted, uses the global layout provider, then the built-in layout.",
           "isBlazoriseEnum": false
         }
       ],
@@ -81110,8 +81345,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -82723,8 +82959,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Specifies the pagination size.",
+          "remarks": "When omitted, uses the theme pagination size, falling back to Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -83953,30 +84190,34 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global accessibility setting and enabled input types.",
           "isBlazoriseEnum": false
         },
         {
           "name": "OnScreenKeyboardEnterKeyBehavior",
           "type": "global::Blazorise.OnScreenKeyboardEnterKeyBehavior",
           "typeName": "OnScreenKeyboardEnterKeyBehavior",
-          "defaultValue": "OnScreenKeyboardEnterKeyBehavior.Default",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies how the on-screen keyboard enter key should behave for this input component.",
+          "remarks": "When omitted, uses the cascading override, then the global option, then the input component's behavior.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardLayout",
           "type": "global::Blazorise.OnScreenKeyboardLayout",
           "typeName": "OnScreenKeyboardLayout",
-          "defaultValue": "OnScreenKeyboardLayout.Text",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global default layout, then the input component's layout.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardShowMode",
           "type": "global::Blazorise.OnScreenKeyboardShowMode",
           "typeName": "OnScreenKeyboardShowMode",
-          "defaultValue": "OnScreenKeyboardShowMode.Default",
+          "defaultValue": "Focus",
           "summary": "Gets or sets how the on-screen keyboard is shown for this input.",
+          "remarks": "When omitted, uses the global show mode; Default resolves to Focus.",
           "isBlazoriseEnum": true
         },
         {
@@ -84159,8 +84400,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -84923,32 +85165,36 @@
           "name": "Height",
           "type": "double",
           "typeName": "double",
-          "defaultValue": "0",
+          "defaultValue": "Document.PageHeight",
           "summary": "Custom page height used when the page size is custom.",
+          "remarks": "When not positive, uses the parent document's custom page height. Named page sizes determine their own dimensions.",
           "isBlazoriseEnum": false
         },
         {
           "name": "Orientation",
           "type": "global::Blazorise.Pdf.PdfOrientation?",
           "typeName": "PdfOrientation?",
-          "defaultValue": "null",
+          "defaultValue": "Portrait",
           "summary": "Page orientation for this page. If omitted, the document orientation is used.",
+          "remarks": "When omitted, uses the parent document's orientation.",
           "isBlazoriseEnum": false
         },
         {
           "name": "Size",
           "type": "global::Blazorise.Pdf.PdfPageSize",
           "typeName": "PdfPageSize",
-          "defaultValue": "Custom",
+          "defaultValue": "A4",
           "summary": "Page size for this page.",
+          "remarks": "When Size is Custom and neither dimension is positive, uses the parent document's page size.",
           "isBlazoriseEnum": true
         },
         {
           "name": "Width",
           "type": "double",
           "typeName": "double",
-          "defaultValue": "0",
+          "defaultValue": "Document.PageWidth",
           "summary": "Custom page width used when the page size is custom.",
+          "remarks": "When not positive, uses the parent document's custom page width. Named page sizes determine their own dimensions.",
           "isBlazoriseEnum": false
         }
       ],
@@ -87451,8 +87697,9 @@
           "name": "PagerSize",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Pager control size.",
+          "remarks": "When omitted, uses Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -87790,7 +88037,7 @@
           "name": "Caption",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "Field",
           "summary": "Optional caption shown in headers.",
           "isBlazoriseEnum": false
         },
@@ -87920,7 +88167,7 @@
           "name": "Caption",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "Field",
           "summary": "Optional caption shown in headers.",
           "isBlazoriseEnum": false
         },
@@ -88022,7 +88269,7 @@
           "name": "Caption",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "Field",
           "summary": "Optional caption shown in headers.",
           "isBlazoriseEnum": false
         },
@@ -88124,7 +88371,7 @@
           "name": "Caption",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "Field",
           "summary": "Optional caption shown in headers.",
           "isBlazoriseEnum": false
         },
@@ -89128,7 +89375,7 @@
           "name": "Color",
           "type": "global::Blazorise.Color",
           "typeName": "Color",
-          "defaultValue": "null",
+          "defaultValue": "Primary",
           "summary": "Specifies the contextual or explicit CSS color of the progress bar.",
           "isBlazoriseEnum": false
         },
@@ -89193,8 +89440,9 @@
           "name": "Intent",
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
-          "defaultValue": "null",
+          "defaultValue": "Primary",
           "summary": "Specifies the progress bar intent.",
+          "remarks": "Derived from Color.",
           "isBlazoriseEnum": false
         },
         {
@@ -89209,7 +89457,7 @@
           "name": "Max",
           "type": "int",
           "typeName": "int",
-          "defaultValue": "0",
+          "defaultValue": "100",
           "summary": "Maximum value of the progress bar.",
           "isBlazoriseEnum": false
         },
@@ -89273,8 +89521,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Size of the progress bar.",
+          "remarks": "When omitted, uses the theme progress size, falling back to Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -89549,8 +89798,9 @@
           "name": "Intent",
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
-          "defaultValue": "null",
+          "defaultValue": "Primary",
           "summary": "Specifies the progress bar intent.",
+          "remarks": "Derived from Color.",
           "isBlazoriseEnum": false
         },
         {
@@ -90582,8 +90832,9 @@
           "name": "NamedColors",
           "type": "IReadOnlyList<>",
           "typeName": "IReadOnlyList<PropertyGridSelectOption<string>>",
-          "defaultValue": "null",
+          "defaultValue": "Built-in colors",
           "summary": "Defines the named colors available in the select editor.",
+          "remarks": "When omitted, uses the built-in named color options.",
           "isBlazoriseEnum": false
         },
         {
@@ -92960,8 +93211,9 @@
           "name": "Immediate",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "ValueChanged.HasDelegate",
           "summary": "Defines whether value changes are reported immediately.",
+          "remarks": "When omitted, enables immediate updates if ValueChanged has a delegate.",
           "isBlazoriseEnum": false
         },
         {
@@ -95855,8 +96107,9 @@
           "name": "Color",
           "type": "global::Blazorise.Color",
           "typeName": "Color",
-          "defaultValue": "null",
+          "defaultValue": "Secondary",
           "summary": "Specifies the color of a radio button(only when <strong>Buttons</strong> is true).",
+          "remarks": "When omitted, uses the parent RadioGroup color, falling back to Color.Secondary.",
           "isBlazoriseEnum": false
         },
         {
@@ -95928,8 +96181,9 @@
           "name": "Group",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "RadioGroup.Name",
           "summary": "Sets the radio group name.",
+          "remarks": "When omitted, uses the parent RadioGroup name when available.",
           "isBlazoriseEnum": false
         },
         {
@@ -96016,8 +96270,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -96452,8 +96707,9 @@
           "name": "Intent",
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
-          "defaultValue": "null",
+          "defaultValue": "Secondary",
           "summary": "Specifies the intent of radio buttons(only when <strong>Buttons</strong> is true).",
+          "remarks": "Derived from Color.",
           "isBlazoriseEnum": false
         },
         {
@@ -96532,8 +96788,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -97058,8 +97315,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -97466,8 +97724,9 @@
           "name": "Intent",
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
-          "defaultValue": "null",
+          "defaultValue": "Warning",
           "summary": "Specifies the intent of the rating icons.",
+          "remarks": "Derived from Color.",
           "isBlazoriseEnum": false
         },
         {
@@ -97831,8 +98090,9 @@
           "name": "Intent",
           "type": "global::Blazorise.Intent",
           "typeName": "Intent",
-          "defaultValue": "null",
+          "defaultValue": "Warning",
           "summary": "Specifies the item intent.",
+          "remarks": "Derived from Color.",
           "isBlazoriseEnum": false
         },
         {
@@ -98140,7 +98400,7 @@
           "name": "Skip",
           "type": "long?",
           "typeName": "long?",
-          "defaultValue": "null",
+          "defaultValue": "0",
           "summary": "[Optional] The number of items to skip.",
           "isBlazoriseEnum": false
         },
@@ -98148,8 +98408,9 @@
           "name": "Take",
           "type": "long?",
           "typeName": "long?",
-          "defaultValue": "null",
+          "defaultValue": "long.MaxValue",
           "summary": "[Optional] The number of items to take.",
+          "remarks": "When omitted, takes all remaining items using long.MaxValue.",
           "isBlazoriseEnum": false
         }
       ],
@@ -100898,8 +101159,9 @@
           "name": "AriaLabel",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "Resize",
           "summary": "Describes the separator's purpose to assistive technologies. Uses a localized default when omitted.",
+          "remarks": "When omitted, uses the localized \\\"Resize\\\" label.",
           "isBlazoriseEnum": false
         },
         {
@@ -101084,8 +101346,9 @@
           "name": "Placement",
           "type": "global::Blazorise.Placement?",
           "typeName": "Placement?",
-          "defaultValue": "null",
+          "defaultValue": "End / Bottom",
           "summary": "Positions the resizer on the target edge. In coordinated mode, target order determines the resize direction.",
+          "remarks": "When omitted, uses End for vertical separators or Bottom for horizontal separators.",
           "isBlazoriseEnum": false
         },
         {
@@ -101100,8 +101363,9 @@
           "name": "ResizeProperty",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "width / height",
           "summary": "Names the CSS property updated during single-target resizing. Coordinated targets define their own resize properties.",
+          "remarks": "When omitted, uses width for vertical separators and height for horizontal separators.",
           "isBlazoriseEnum": false
         },
         {
@@ -101526,30 +101790,34 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global accessibility setting and enabled input types.",
           "isBlazoriseEnum": false
         },
         {
           "name": "OnScreenKeyboardEnterKeyBehavior",
           "type": "global::Blazorise.OnScreenKeyboardEnterKeyBehavior",
           "typeName": "OnScreenKeyboardEnterKeyBehavior",
-          "defaultValue": "OnScreenKeyboardEnterKeyBehavior.Default",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies how the on-screen keyboard enter key should behave for this input component.",
+          "remarks": "When omitted, uses the cascading override, then the global option, then the input component's behavior.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardLayout",
           "type": "global::Blazorise.OnScreenKeyboardLayout",
           "typeName": "OnScreenKeyboardLayout",
-          "defaultValue": "OnScreenKeyboardLayout.Text",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global default layout, then the input component's layout.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardShowMode",
           "type": "global::Blazorise.OnScreenKeyboardShowMode",
           "typeName": "OnScreenKeyboardShowMode",
-          "defaultValue": "OnScreenKeyboardShowMode.Default",
+          "defaultValue": "Focus",
           "summary": "Gets or sets how the on-screen keyboard is shown for this input.",
+          "remarks": "When omitted, uses the global show mode; Default resolves to Focus.",
           "isBlazoriseEnum": true
         },
         {
@@ -101613,8 +101881,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -104172,7 +104441,7 @@
           "name": "EndTime",
           "type": "TimeOnly?",
           "typeName": "TimeOnly?",
-          "defaultValue": "null",
+          "defaultValue": "TimeOnly.MaxValue",
           "summary": "Specifies when the day ends.",
           "isBlazoriseEnum": false
         },
@@ -104228,8 +104497,8 @@
           "name": "StartTime",
           "type": "TimeOnly?",
           "typeName": "TimeOnly?",
-          "defaultValue": "null",
-          "summary": "Specifies the first hour displayed in the view. Default is 00:00.",
+          "defaultValue": "TimeOnly.MinValue",
+          "summary": "Specifies the first hour displayed in the view.",
           "isBlazoriseEnum": false
         },
         {
@@ -104277,7 +104546,7 @@
           "name": "EndTime",
           "type": "TimeOnly?",
           "typeName": "TimeOnly?",
-          "defaultValue": "null",
+          "defaultValue": "TimeOnly.MaxValue",
           "summary": "Specifies when the day ends.",
           "isBlazoriseEnum": false
         },
@@ -104342,8 +104611,8 @@
           "name": "StartTime",
           "type": "TimeOnly?",
           "typeName": "TimeOnly?",
-          "defaultValue": "null",
-          "summary": "Specifies the first hour displayed in the view. Default is 00:00.",
+          "defaultValue": "TimeOnly.MinValue",
+          "summary": "Specifies the first hour displayed in the view.",
           "isBlazoriseEnum": false
         },
         {
@@ -104391,7 +104660,7 @@
           "name": "EndTime",
           "type": "TimeOnly?",
           "typeName": "TimeOnly?",
-          "defaultValue": "null",
+          "defaultValue": "TimeOnly.MaxValue",
           "summary": "Specifies when the day ends.",
           "isBlazoriseEnum": false
         },
@@ -104448,8 +104717,8 @@
           "name": "StartTime",
           "type": "TimeOnly?",
           "typeName": "TimeOnly?",
-          "defaultValue": "null",
-          "summary": "Specifies the first hour displayed in the view. Default is 00:00.",
+          "defaultValue": "TimeOnly.MinValue",
+          "summary": "Specifies the first hour displayed in the view.",
           "isBlazoriseEnum": false
         },
         {
@@ -104497,7 +104766,7 @@
           "name": "EndTime",
           "type": "TimeOnly?",
           "typeName": "TimeOnly?",
-          "defaultValue": "null",
+          "defaultValue": "TimeOnly.MaxValue",
           "summary": "Specifies when the day ends.",
           "isBlazoriseEnum": false
         },
@@ -104563,8 +104832,8 @@
           "name": "StartTime",
           "type": "TimeOnly?",
           "typeName": "TimeOnly?",
-          "defaultValue": "null",
-          "summary": "Specifies the first hour displayed in the view. Default is 00:00.",
+          "defaultValue": "TimeOnly.MinValue",
+          "summary": "Specifies the first hour displayed in the view.",
           "isBlazoriseEnum": false
         },
         {
@@ -104892,8 +105161,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -110244,8 +110514,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -110845,8 +111116,9 @@
           "name": "DelayCloseOnClickInterval",
           "type": "double?",
           "typeName": "double?",
-          "defaultValue": "null",
+          "defaultValue": "Interval",
           "summary": "Specifies the interval (in milliseconds) by which the snackbar will be delayed from closing.",
+          "remarks": "When omitted, uses Interval.",
           "isBlazoriseEnum": false
         },
         {
@@ -112380,7 +112652,7 @@
           "name": "CloseButtonIcon",
           "type": "object",
           "typeName": "object",
-          "defaultValue": "null",
+          "defaultValue": "Times",
           "summary": "Specifies an icon to show for snackbar close button. Leave as null to not show it!",
           "isBlazoriseEnum": false
         },
@@ -118695,6 +118967,7 @@
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Defines whether chart elements animate when the chart first renders.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -118703,6 +118976,7 @@
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Defines whether chart elements animate when chart data or options update.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -118711,6 +118985,7 @@
           "typeName": "TimeSpan",
           "defaultValue": "TimeSpan.Zero",
           "summary": "Defines the delay before chart animations start.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -118719,6 +118994,7 @@
           "typeName": "TimeSpan",
           "defaultValue": "TimeSpan.FromMilliseconds( 400 )",
           "summary": "Defines the duration used by chart animations.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -118727,14 +119003,16 @@
           "typeName": "SvgChartAnimationEasing",
           "defaultValue": "EaseOut",
           "summary": "Defines the easing function used by chart animations.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": true
         },
         {
           "name": "Enabled",
           "type": "bool",
           "typeName": "bool",
-          "defaultValue": "true",
+          "defaultValue": "false",
           "summary": "Defines whether general chart animations are enabled.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -118743,6 +119021,7 @@
           "typeName": "SvgChartGeometryAnimationOptions",
           "defaultValue": "new()",
           "summary": "Defines geometry animation options.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -118751,6 +119030,7 @@
           "typeName": "SvgChartOpacityAnimationOptions",
           "defaultValue": "new()",
           "summary": "Defines opacity animation options.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -118759,6 +119039,7 @@
           "typeName": "SvgChartPathAnimationOptions",
           "defaultValue": "new()",
           "summary": "Defines path animation options.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -118767,6 +119048,7 @@
           "typeName": "SvgChartStrokeAnimationOptions",
           "defaultValue": "new()",
           "summary": "Defines stroke animation options.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -118775,6 +119057,7 @@
           "typeName": "SvgChartTransformAnimationOptions",
           "defaultValue": "new()",
           "summary": "Defines transform animation options.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         }
       ],
@@ -119755,8 +120038,9 @@
           "name": "GridLines",
           "type": "global::Blazorise.Charts.Svg.SvgChartGridLinesOptions",
           "typeName": "SvgChartGridLinesOptions",
-          "defaultValue": "null",
+          "defaultValue": "Chart options",
           "summary": "Defines grid line options for this category axis.",
+          "remarks": "When omitted, inherits the corresponding axis options.",
           "isBlazoriseEnum": false
         },
         {
@@ -119765,6 +120049,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Defines the axis identifier used by series to target this category axis.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -119779,8 +120064,9 @@
           "name": "LabelsOptions",
           "type": "global::Blazorise.Charts.Svg.SvgChartAxisLabelsOptions",
           "typeName": "SvgChartAxisLabelsOptions",
-          "defaultValue": "null",
+          "defaultValue": "Chart options",
           "summary": "Defines label options for this category axis.",
+          "remarks": "When omitted, inherits the corresponding axis options.",
           "isBlazoriseEnum": false
         },
         {
@@ -119789,6 +120075,7 @@
           "typeName": "SvgChartAxisPosition",
           "defaultValue": "Auto",
           "summary": "Defines the axis position.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": true
         },
         {
@@ -119797,6 +120084,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Defines the axis title.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         }
       ],
@@ -119807,6 +120095,7 @@
           "typeName": "Func<SvgChartAxisTickContext, string>",
           "defaultValue": "null",
           "summary": "Defines a callback used to format category axis labels.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -119839,6 +120128,7 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Defines whether data point dragging is enabled.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -119847,6 +120137,7 @@
           "typeName": "double",
           "defaultValue": "12",
           "summary": "Defines the minimum pointer hit radius in SVG units.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -119855,6 +120146,7 @@
           "typeName": "SvgChartDataDragMode",
           "defaultValue": "Y",
           "summary": "Defines the axes along which data points can be dragged.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": true
         },
         {
@@ -119863,6 +120155,7 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Defines whether the point tooltip is shown and updated while dragging. The default is <code>false</code>.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -119871,6 +120164,7 @@
           "typeName": "double?",
           "defaultValue": "null",
           "summary": "Defines the optional increment to which dragged X values are snapped.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -119879,6 +120173,7 @@
           "typeName": "double?",
           "defaultValue": "null",
           "summary": "Defines the optional increment to which dragged Y values are snapped.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         }
       ],
@@ -119889,6 +120184,7 @@
           "typeName": "Func<SvgChartPointEventArgs, bool>",
           "defaultValue": "null",
           "summary": "Defines an optional predicate that determines whether an individual point can be dragged.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -120015,6 +120311,7 @@
           "typeName": "Color",
           "defaultValue": "null",
           "summary": "Defines the label background color.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -120023,6 +120320,7 @@
           "typeName": "SvgChartBorderOptions",
           "defaultValue": "null",
           "summary": "Defines the label border options.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -120031,6 +120329,7 @@
           "typeName": "SvgChartFontOptions",
           "defaultValue": "null",
           "summary": "Defines data label font options.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -120039,6 +120338,7 @@
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Defines whether data labels react to pointer and keyboard interactions.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -120047,6 +120347,7 @@
           "typeName": "double",
           "defaultValue": "6",
           "summary": "Defines the label offset from the point anchor.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -120055,6 +120356,7 @@
           "typeName": "double",
           "defaultValue": "1",
           "summary": "Defines the label opacity.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -120063,6 +120365,7 @@
           "typeName": "SvgChartSpacing",
           "defaultValue": "null",
           "summary": "Defines the label padding.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -120071,14 +120374,16 @@
           "typeName": "SvgChartDataLabelPosition",
           "defaultValue": "Auto",
           "summary": "Defines the data label position.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": true
         },
         {
           "name": "Visible",
           "type": "bool",
           "typeName": "bool",
-          "defaultValue": "true",
+          "defaultValue": "false",
           "summary": "Defines whether data labels are visible.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         }
       ],
@@ -120097,6 +120402,7 @@
           "typeName": "Func<SvgChartDataLabelContext, string>",
           "defaultValue": "null",
           "summary": "Defines a callback used to format label text.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -120646,6 +120952,7 @@
           "typeName": "SvgChartLegendPosition",
           "defaultValue": "Bottom",
           "summary": "Defines the legend position.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": true
         },
         {
@@ -120654,6 +120961,7 @@
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Defines whether the legend is visible.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         }
       ],
@@ -121446,6 +121754,7 @@
           "typeName": "SvgChartStreamingAnimationOptions",
           "defaultValue": "new()",
           "summary": "Defines streaming animation options.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121454,6 +121763,7 @@
           "typeName": "TimeSpan?",
           "defaultValue": "null",
           "summary": "Defines the maximum time span to keep. When null, points are not trimmed by duration and retention is unlimited unless limited by MaxDataPoints.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121462,6 +121772,7 @@
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Defines whether streaming behavior is enabled.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121470,6 +121781,7 @@
           "typeName": "SvgChartIndexAxis",
           "defaultValue": "X",
           "summary": "Defines the axis used for the streaming index.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": true
         },
         {
@@ -121478,6 +121790,7 @@
           "typeName": "int?",
           "defaultValue": "null",
           "summary": "Defines the maximum number of data points to keep. When null, points are not trimmed by count.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121486,6 +121799,7 @@
           "typeName": "TimeSpan",
           "defaultValue": "TimeSpan.Zero",
           "summary": "Defines the minimum time between chart redraws while streaming.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121494,6 +121808,7 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Defines whether the streaming index axis is reversed.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121502,6 +121817,7 @@
           "typeName": "int?",
           "defaultValue": "null",
           "summary": "Defines the number of data points visible in the streaming viewport. When null, all retained points are visible.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         }
       ],
@@ -121741,8 +122057,9 @@
           "name": "GridLines",
           "type": "global::Blazorise.Charts.Svg.SvgChartGridLinesOptions",
           "typeName": "SvgChartGridLinesOptions",
-          "defaultValue": "null",
+          "defaultValue": "Chart options",
           "summary": "Defines grid line options for this category axis.",
+          "remarks": "When omitted, inherits the corresponding axis options.",
           "isBlazoriseEnum": false
         },
         {
@@ -121751,6 +122068,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Defines the axis identifier used by series to target this category axis.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121765,8 +122083,9 @@
           "name": "LabelsOptions",
           "type": "global::Blazorise.Charts.Svg.SvgChartAxisLabelsOptions",
           "typeName": "SvgChartAxisLabelsOptions",
-          "defaultValue": "null",
+          "defaultValue": "Chart options",
           "summary": "Defines label options for this category axis.",
+          "remarks": "When omitted, inherits the corresponding axis options.",
           "isBlazoriseEnum": false
         },
         {
@@ -121775,6 +122094,7 @@
           "typeName": "SvgChartAxisPosition",
           "defaultValue": "Auto",
           "summary": "Defines the axis position.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": true
         },
         {
@@ -121800,6 +122120,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Defines the axis title.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121818,6 +122139,7 @@
           "typeName": "Func<SvgChartAxisTickContext, string>",
           "defaultValue": "null",
           "summary": "Defines a callback used to format category axis labels.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121884,6 +122206,7 @@
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Defines whether SVG chart tooltips are shown for points.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121892,6 +122215,7 @@
           "typeName": "double",
           "defaultValue": "56",
           "summary": "Defines the tooltip height in SVG viewport units at the unscaled chart size. The rendered height is unaffected by chart scaling.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121900,6 +122224,7 @@
           "typeName": "SvgChartInteractionMode",
           "defaultValue": "Nearest",
           "summary": "Defines how related points are resolved for tooltip content.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": true
         },
         {
@@ -121908,6 +122233,7 @@
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Defines whether the pointer must intersect a rendered data point to show the tooltip.     When false, the nearest category is resolved from the plot area for cartesian charts.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121916,6 +122242,7 @@
           "typeName": "double",
           "defaultValue": "8",
           "summary": "Defines the horizontal tooltip offset from the point anchor in SVG viewport units at the unscaled chart size. The rendered offset is unaffected by chart scaling.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121924,6 +122251,7 @@
           "typeName": "double",
           "defaultValue": "8",
           "summary": "Defines the vertical tooltip offset from the point anchor in SVG viewport units at the unscaled chart size. The rendered offset is unaffected by chart scaling.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121932,6 +122260,7 @@
           "typeName": "RenderFragment<SvgChartTooltipContext>",
           "defaultValue": "null",
           "summary": "Defines custom tooltip content.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -121940,6 +122269,7 @@
           "typeName": "double",
           "defaultValue": "180",
           "summary": "Defines the tooltip width in SVG viewport units at the unscaled chart size. The rendered width is unaffected by chart scaling.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         }
       ],
@@ -121950,6 +122280,7 @@
           "typeName": "Func<SvgChartTooltipContext, string>",
           "defaultValue": "null",
           "summary": "Defines a callback used to format default tooltip text.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         }
       ],
@@ -122255,14 +122586,16 @@
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Defines whether the value axis includes zero.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
           "name": "GridLines",
           "type": "global::Blazorise.Charts.Svg.SvgChartGridLinesOptions",
           "typeName": "SvgChartGridLinesOptions",
-          "defaultValue": "new()",
+          "defaultValue": "Chart options",
           "summary": "Defines grid line options for this value axis.",
+          "remarks": "When omitted, inherits the corresponding axis options.",
           "isBlazoriseEnum": false
         },
         {
@@ -122271,14 +122604,16 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Defines the axis identifier used by series to target this value axis.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
           "name": "LabelsOptions",
           "type": "global::Blazorise.Charts.Svg.SvgChartAxisLabelsOptions",
           "typeName": "SvgChartAxisLabelsOptions",
-          "defaultValue": "null",
+          "defaultValue": "Chart options",
           "summary": "Defines label options for this value axis.",
+          "remarks": "When omitted, inherits the corresponding axis options.",
           "isBlazoriseEnum": false
         },
         {
@@ -122287,6 +122622,7 @@
           "typeName": "double?",
           "defaultValue": "null",
           "summary": "Defines a custom maximum value.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -122295,6 +122631,7 @@
           "typeName": "double?",
           "defaultValue": "null",
           "summary": "Defines a custom minimum value.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -122303,6 +122640,7 @@
           "typeName": "SvgChartAxisPosition",
           "defaultValue": "Auto",
           "summary": "Defines the axis position.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": true
         },
         {
@@ -122311,6 +122649,7 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Defines whether compatible series are stacked on this axis.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -122319,6 +122658,7 @@
           "typeName": "int",
           "defaultValue": "5",
           "summary": "Defines the number of axis ticks.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -122327,6 +122667,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Defines the axis title.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         }
       ],
@@ -122337,6 +122678,7 @@
           "typeName": "Func<SvgChartAxisTickContext, string>",
           "defaultValue": "null",
           "summary": "Defines a callback used to format value axis tick labels.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         }
       ],
@@ -122353,6 +122695,7 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Defines whether zoom and pan behavior is enabled.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -122361,6 +122704,7 @@
           "typeName": "double",
           "defaultValue": "20",
           "summary": "Defines the maximum zoom factor relative to the full data range.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -122369,6 +122713,7 @@
           "typeName": "double",
           "defaultValue": "1",
           "summary": "Defines the minimum zoom factor relative to the full data range.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -122377,6 +122722,7 @@
           "typeName": "SvgChartZoomMode",
           "defaultValue": "X",
           "summary": "Defines which chart axis can be zoomed or panned.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": true
         },
         {
@@ -122385,6 +122731,7 @@
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Defines whether drag panning is enabled.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -122393,6 +122740,7 @@
           "typeName": "SvgChartViewport",
           "defaultValue": "null",
           "summary": "Defines the current visible viewport.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         },
         {
@@ -122401,6 +122749,7 @@
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Defines whether mouse wheel zoom is enabled.",
+          "remarks": "When omitted, inherits the corresponding chart option.",
           "isBlazoriseEnum": false
         }
       ],
@@ -128313,8 +128662,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -134004,8 +134354,9 @@
           "name": "VerticalItemsColumnSize",
           "type": "global::Blazorise.IFluentColumn",
           "typeName": "IFluentColumn",
-          "defaultValue": "null",
-          "summary": "Controls the size of the items bar when in vertical mode. If left undefined it will default to the <code>ColumnSize.IsAuto</code>.",
+          "defaultValue": "Auto",
+          "summary": "Controls the size of the items bar when in vertical mode.",
+          "remarks": "When omitted, uses <code>ColumnSize.IsAuto</code>.",
           "isBlazoriseEnum": false
         },
         {
@@ -134773,16 +135124,18 @@
           "name": "Debounce",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "false",
           "summary": "If true the entered text will be slightly delayed before submitting it to the internal value.",
+          "remarks": "When unspecified, uses BlazoriseOptions.Debounce, falling back to false.",
           "isBlazoriseEnum": false
         },
         {
           "name": "DebounceInterval",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "300",
           "summary": "Interval in milliseconds that entered text will be delayed from submitting to the internal value.",
+          "remarks": "When unspecified, uses BlazoriseOptions.DebounceInterval, falling back to 300.",
           "isBlazoriseEnum": false
         },
         {
@@ -134862,9 +135215,9 @@
           "name": "Immediate",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "null",
+          "defaultValue": "true",
           "summary": "If true the text in will be changed after each key press.",
-          "remarks": "Note that setting this will override global settings in <strong>Immediate</strong>.",
+          "remarks": "Note that setting this will override global settings in <strong>Immediate</strong>.     <p>When unspecified, uses BlazoriseOptions.Immediate, falling back to true.</p>",
           "isBlazoriseEnum": false
         },
         {
@@ -134921,30 +135274,34 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global accessibility setting and enabled input types.",
           "isBlazoriseEnum": false
         },
         {
           "name": "OnScreenKeyboardEnterKeyBehavior",
           "type": "global::Blazorise.OnScreenKeyboardEnterKeyBehavior",
           "typeName": "OnScreenKeyboardEnterKeyBehavior",
-          "defaultValue": "OnScreenKeyboardEnterKeyBehavior.Default",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies how the on-screen keyboard enter key should behave for this input component.",
+          "remarks": "When omitted, uses the cascading override, then the global option, then the input component's behavior.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardLayout",
           "type": "global::Blazorise.OnScreenKeyboardLayout",
           "typeName": "OnScreenKeyboardLayout",
-          "defaultValue": "OnScreenKeyboardLayout.Text",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global default layout, then the input component's layout.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardShowMode",
           "type": "global::Blazorise.OnScreenKeyboardShowMode",
           "typeName": "OnScreenKeyboardShowMode",
-          "defaultValue": "OnScreenKeyboardShowMode.Default",
+          "defaultValue": "Focus",
           "summary": "Gets or sets how the on-screen keyboard is shown for this input.",
+          "remarks": "When omitted, uses the global show mode; Default resolves to Focus.",
           "isBlazoriseEnum": true
         },
         {
@@ -135023,8 +135380,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -140953,30 +141311,34 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global accessibility setting and enabled input types.",
           "isBlazoriseEnum": false
         },
         {
           "name": "OnScreenKeyboardEnterKeyBehavior",
           "type": "global::Blazorise.OnScreenKeyboardEnterKeyBehavior",
           "typeName": "OnScreenKeyboardEnterKeyBehavior",
-          "defaultValue": "OnScreenKeyboardEnterKeyBehavior.Default",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies how the on-screen keyboard enter key should behave for this input component.",
+          "remarks": "When omitted, uses the cascading override, then the global option, then the input component's behavior.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardLayout",
           "type": "global::Blazorise.OnScreenKeyboardLayout",
           "typeName": "OnScreenKeyboardLayout",
-          "defaultValue": "OnScreenKeyboardLayout.Text",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global default layout, then the input component's layout.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardShowMode",
           "type": "global::Blazorise.OnScreenKeyboardShowMode",
           "typeName": "OnScreenKeyboardShowMode",
-          "defaultValue": "OnScreenKeyboardShowMode.Default",
+          "defaultValue": "Focus",
           "summary": "Gets or sets how the on-screen keyboard is shown for this input.",
+          "remarks": "When omitted, uses the global show mode; Default resolves to Focus.",
           "isBlazoriseEnum": true
         },
         {
@@ -141047,8 +141409,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -141487,8 +141850,9 @@
           "name": "DisplayFormat",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "HH:mm",
           "summary": "Specifies the display format of the time input using the picker format syntax supported by earlier versions.",
+          "remarks": "When omitted, uses HH:mm:ss when Seconds is true and HH:mm otherwise.",
           "isBlazoriseEnum": false
         },
         {
@@ -141610,30 +141974,34 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global accessibility setting and enabled input types.",
           "isBlazoriseEnum": false
         },
         {
           "name": "OnScreenKeyboardEnterKeyBehavior",
           "type": "global::Blazorise.OnScreenKeyboardEnterKeyBehavior",
           "typeName": "OnScreenKeyboardEnterKeyBehavior",
-          "defaultValue": "OnScreenKeyboardEnterKeyBehavior.Default",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies how the on-screen keyboard enter key should behave for this input component.",
+          "remarks": "When omitted, uses the cascading override, then the global option, then the input component's behavior.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardLayout",
           "type": "global::Blazorise.OnScreenKeyboardLayout",
           "typeName": "OnScreenKeyboardLayout",
-          "defaultValue": "OnScreenKeyboardLayout.Text",
+          "defaultValue": "Input-dependent",
           "summary": "Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.",
+          "remarks": "When omitted, uses the global default layout, then the input component's layout.",
           "isBlazoriseEnum": true
         },
         {
           "name": "OnScreenKeyboardShowMode",
           "type": "global::Blazorise.OnScreenKeyboardShowMode",
           "typeName": "OnScreenKeyboardShowMode",
-          "defaultValue": "OnScreenKeyboardShowMode.Default",
+          "defaultValue": "Focus",
           "summary": "Gets or sets how the on-screen keyboard is shown for this input.",
+          "remarks": "When omitted, uses the global show mode; Default resolves to Focus.",
           "isBlazoriseEnum": true
         },
         {
@@ -141720,8 +142088,9 @@
           "name": "Size",
           "type": "global::Blazorise.Size?",
           "typeName": "Size?",
-          "defaultValue": "null",
+          "defaultValue": "Default",
           "summary": "Sets the size of the input control.",
+          "remarks": "When omitted, uses the parent Addons size, then the theme input size, then Size.Default.",
           "isBlazoriseEnum": false
         },
         {
@@ -143777,9 +144146,9 @@
           "name": "Animation",
           "type": "global::Blazorise.TooltipAnimation",
           "typeName": "TooltipAnimation",
-          "defaultValue": "default(TooltipAnimation)",
+          "defaultValue": "None",
           "summary": "Specifies the visual effect used when the tooltip is shown or hidden.",
-          "remarks": "Effects can be combined. When supplied, this parameter takes precedence over <strong>Fade</strong>.     <strong>Auto</strong> is provider-controlled and takes precedence when combined with another effect.",
+          "remarks": "Effects can be combined. When supplied, this parameter takes precedence over <strong>Fade</strong>.     <strong>Auto</strong> is provider-controlled and takes precedence when combined with another effect.     <p>When omitted, uses Auto when Fade is true and None otherwise.</p>",
           "isBlazoriseEnum": true
         },
         {
@@ -143918,8 +144287,9 @@
           "name": "HideDelay",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "0",
           "summary": "Specifies the delay in ms once a trigger event is fired before a Tooltip hides.",
+          "remarks": "When omitted, uses BlazoriseOptions.TooltipOptions.HideDelay, falling back to 0 ms.",
           "isBlazoriseEnum": false
         },
         {
@@ -144015,8 +144385,9 @@
           "name": "ShowDelay",
           "type": "int?",
           "typeName": "int?",
-          "defaultValue": "null",
+          "defaultValue": "0",
           "summary": "Specifies the delay in ms once a trigger event is fired before a Tooltip shows.",
+          "remarks": "When omitted, uses BlazoriseOptions.TooltipOptions.ShowDelay, falling back to 0 ms.",
           "isBlazoriseEnum": false
         },
         {
@@ -144881,6 +145252,7 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Controls if the child nodes, which are currently not expanded, are visible.     This is useful for optimizing large TreeViews. See <a href=\\\"https://learn.microsoft.com/en-us/aspnet/core/blazor/components/virtualization\\\">Docs for virtualization</a> for more info.",
+          "remarks": "When virtualization is enabled after rendering, an omitted Height becomes 300px and an omitted Overflow becomes Auto.",
           "isBlazoriseEnum": false
         },
         {
@@ -147641,7 +148013,7 @@
           "name": "MissingFieldsErrorMessage",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "One or more fields have an error. Please check and try again.",
           "summary": "Message that will be displayed if any of the validations does not have defined error message.",
           "isBlazoriseEnum": false
         },
@@ -148035,7 +148407,7 @@
           "name": "Poster",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "Source.Poster",
           "summary": "Specifies the poster image shown before playback begins.",
           "isBlazoriseEnum": false
         },

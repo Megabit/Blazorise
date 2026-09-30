@@ -86,8 +86,9 @@ public partial class Pagination : BaseComponent, IDisposable
     protected string AriaLabelAttribute => string.IsNullOrWhiteSpace( AriaLabel ) ? null : AriaLabel;
 
     /// <summary>
-    /// Specifies the pagination size.
+    /// Specifies the pagination size. Defaults to <c>Default</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the theme pagination size, falling back to Size.Default.</remarks>
     [Parameter]
     public Size? Size
     {

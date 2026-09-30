@@ -312,7 +312,7 @@ public partial class Validations : ComponentBase
     [Parameter] public object Model { get; set; }
 
     /// <summary>
-    /// Message that will be displayed if any of the validations does not have defined error message.
+    /// Message that will be displayed if any of the validations does not have defined error message. Defaults to <c>One or more fields have an error. Please check and try again.</c>.
     /// </summary>
     [Parameter] public string MissingFieldsErrorMessage { get; set; }
 

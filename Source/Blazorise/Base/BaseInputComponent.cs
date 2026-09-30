@@ -961,8 +961,9 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     [Parameter] public virtual Expression<Func<TValue>> ValueExpression { get; set; }
 
     /// <summary>
-    /// Sets the size of the input control.
+    /// Sets the size of the input control. Defaults to <c>Default</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the parent Addons size, then the theme input size, then Size.Default.</remarks>
     [Parameter]
     public Size? Size
     {

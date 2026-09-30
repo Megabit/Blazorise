@@ -555,6 +555,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     /// Controls if the child nodes, which are currently not expanded, are visible.
     /// This is useful for optimizing large TreeViews. See <see href="https://learn.microsoft.com/en-us/aspnet/core/blazor/components/virtualization">Docs for virtualization</see> for more info.
     /// </summary>
+    /// <remarks>When virtualization is enabled after rendering, an omitted Height becomes 300px and an omitted Overflow becomes Auto.</remarks>
     [Parameter] public bool Virtualize { get; set; }
 
     /// <summary>

@@ -134,8 +134,9 @@ public partial class Radio<TValue> : BaseRadioComponent<TValue, RadioClasses, Ra
         : CurrentValue.IsEqual( Value );
 
     /// <summary>
-    /// Sets the radio group name.
+    /// Sets the radio group name. Defaults to <c>RadioGroup.Name</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the parent RadioGroup name when available.</remarks>
     [Parameter]
     public string Group
     {
@@ -149,8 +150,9 @@ public partial class Radio<TValue> : BaseRadioComponent<TValue, RadioClasses, Ra
     }
 
     /// <summary>
-    /// Specifies the color of a radio button(only when <see cref="RadioGroup{TValue}.Buttons"/> is true).
+    /// Specifies the color of a radio button(only when <see cref="RadioGroup{TValue}.Buttons"/> is true). Defaults to <c>Secondary</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the parent RadioGroup color, falling back to Color.Secondary.</remarks>
     [Parameter]
     public Color Color
     {

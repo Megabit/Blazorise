@@ -61,11 +61,13 @@ public class SvgChartLegend : SvgChartComponentBase
     /// <summary>
     /// Defines whether the legend is visible.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public bool Visible { get; set; } = true;
 
     /// <summary>
     /// Defines the legend position.
     /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public SvgChartLegendPosition Position { get; set; } = SvgChartLegendPosition.Bottom;
 
     #endregion

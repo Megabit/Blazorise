@@ -95,8 +95,9 @@ public abstract class MapLayer : ComponentBase, IDisposable
     [CascadingParameter] protected Map ParentMap { get; set; }
 
     /// <summary>
-    /// Identifies this layer for updates, events, and removal. Changing the value after initialization removes the previous provider layer and registers a new one.
+    /// Identifies this layer for updates, events, and removal. Changing the value after initialization removes the previous provider layer and registers a new one. Defaults to <c>Generated</c>.
     /// </summary>
+    /// <remarks>When omitted, generates a GUID in N format.</remarks>
     [Parameter] public string Id { get; set; }
 
     /// <summary>

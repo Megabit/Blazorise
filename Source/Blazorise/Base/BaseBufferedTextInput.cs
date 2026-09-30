@@ -158,21 +158,24 @@ public abstract class BaseBufferedTextInput<TValue, TClasses, TStyles> : BaseTex
     protected ValueDebouncer InputValueDebouncer => inputValueDebouncer;
 
     /// <summary>
-    /// If true the text in will be changed after each key press.
+    /// If true the text in will be changed after each key press. Defaults to <c>true</c>.
     /// </summary>
     /// <remarks>
     /// Note that setting this will override global settings in <see cref="BlazoriseOptions.Immediate"/>.
+    /// <para>When unspecified, uses BlazoriseOptions.Immediate, falling back to true.</para>
     /// </remarks>
     [Parameter] public bool? Immediate { get; set; }
 
     /// <summary>
-    /// If true the entered text will be slightly delayed before submitting it to the internal value.
+    /// If true the entered text will be slightly delayed before submitting it to the internal value. Defaults to <c>false</c>.
     /// </summary>
+    /// <remarks>When unspecified, uses BlazoriseOptions.Debounce, falling back to false.</remarks>
     [Parameter] public bool? Debounce { get; set; }
 
     /// <summary>
-    /// Interval in milliseconds that entered text will be delayed from submitting to the internal value.
+    /// Interval in milliseconds that entered text will be delayed from submitting to the internal value. Defaults to <c>300</c>.
     /// </summary>
+    /// <remarks>When unspecified, uses BlazoriseOptions.DebounceInterval, falling back to 300.</remarks>
     [Parameter] public int? DebounceInterval { get; set; }
 
     #endregion

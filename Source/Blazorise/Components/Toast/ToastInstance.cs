@@ -129,8 +129,7 @@ public class ToastInstance
     public string Style => ToastInstanceOptions?.Style;
 
     /// <summary>
-    /// Indicates whether an icon should be displayed in the toast.
-    /// Defaults to <c>true</c>.
+    /// Indicates whether an icon should be displayed in the toast. Defaults to <c>true</c>.
     /// </summary>
     public bool? ShowIcon => ToastInstanceOptions?.ShowIcon;
 

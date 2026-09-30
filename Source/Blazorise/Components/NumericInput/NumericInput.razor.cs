@@ -300,18 +300,20 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
     [Parameter] public decimal? Step { get; set; } = 1;
 
     /// <summary>
-    /// Helps define the language of an element. See <see href="https://www.w3schools.com/tags/ref_language_codes.asp">w3schools.com</see>.
+    /// Helps define the language of an element. See <see href="https://www.w3schools.com/tags/ref_language_codes.asp">w3schools.com</see>. Defaults to <c>CultureInfo.InvariantCulture</c>.
     /// </summary>
     [Parameter] public string Culture { get; set; }
 
     /// <summary>
-    /// The minimum value to accept for this input.
+    /// The minimum value to accept for this input. Defaults to <c>Unrestricted</c>.
     /// </summary>
+    /// <remarks>When omitted, no minimum constraint is applied.</remarks>
     [Parameter] public TValue Min { get; set; }
 
     /// <summary>
-    /// The maximum value to accept for this input.
+    /// The maximum value to accept for this input. Defaults to <c>Unrestricted</c>.
     /// </summary>
+    /// <remarks>When omitted, no maximum constraint is applied.</remarks>
     [Parameter] public TValue Max { get; set; }
 
     /// <summary>
