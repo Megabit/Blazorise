@@ -1,4 +1,4 @@
-import { getRequiredElement } from "../Blazorise/utilities.js?v=2.3.2.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=2.3.3.0";
 
 const QUERYSELECTOR_ALL_COLUMNS = "tbody tr td";
 const QUERYSELECTOR_ALL_TABLE_HEAD_INPUT = "tbody tr td";
@@ -159,7 +159,7 @@ export function blurActiveCellEditor(element, elementId) {
 }
 
 export async function focusNumericCellEditor(elementId, selectText) {
-    const numericPicker = await import("../Blazorise/numericPicker.js?v=2.3.2.0");
+    const numericPicker = await import("../Blazorise/numericPicker.js?v=2.3.3.0");
     numericPicker.focus(null, elementId, selectText);
 }
 

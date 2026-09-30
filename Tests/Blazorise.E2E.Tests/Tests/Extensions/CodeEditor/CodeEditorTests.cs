@@ -7,6 +7,7 @@ public class CodeEditorTests : BlazorisePageTest
     [SetUp]
     public async Task Init()
     {
+        await Page.Clock.InstallAsync();
         await SelectTestComponent<CodeEditorComponent>();
         await WaitForEditor( "#code-editor-immediate" );
     }
@@ -33,13 +34,25 @@ public class CodeEditorTests : BlazorisePageTest
     [Test]
     public async Task DebouncesBoundValueUpdates()
     {
-        await ReplaceEditorValue( "#code-editor-debounce", "debounced value" );
-        await Page.WaitForTimeoutAsync( 250 );
-        await Expect( Page.Locator( "#code-editor-debounce-result" ) ).ToHaveTextAsync( string.Empty );
+        await WaitForEditor( "#code-editor-debounce" );
+        await Page.Locator( "#code-editor-debounce" ).ClickAsync();
+        await Page.Keyboard.PressAsync( "Control+A" );
 
-        await Expect( Page.Locator( "#code-editor-debounce-result" ) ).ToHaveTextAsync(
-            "debounced value",
-            new LocatorAssertionsToHaveTextOptions { Timeout = 2000 } );
+        // Keep CI scheduling delays from advancing the debounce timer between assertions.
+        await Page.Clock.PauseAtAsync( DateTime.UtcNow.AddMinutes( 1 ) );
+        await Page.Keyboard.InsertTextAsync( "debounced" );
+
+        var result = Page.Locator( "#code-editor-debounce-result" );
+
+        await Page.Clock.RunForAsync( 750 );
+        await Expect( result ).ToHaveTextAsync( string.Empty );
+
+        await Page.Keyboard.InsertTextAsync( " value" );
+        await Page.Clock.RunForAsync( 500 );
+        await Expect( result ).ToHaveTextAsync( string.Empty );
+
+        await Page.Clock.RunForAsync( 500 );
+        await Expect( result ).ToHaveTextAsync( "debounced value" );
     }
 
     [Test]
