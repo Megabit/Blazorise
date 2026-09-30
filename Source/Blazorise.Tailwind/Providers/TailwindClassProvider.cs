@@ -1123,31 +1123,63 @@ public class TailwindClassProvider : ClassProvider
                 + "[&>.tw-step]:flex-[1_0_7rem] [&>.tw-step:first-child]:flex-none [&>.tw-step:first-child]:w-28 "
                 + "[&>.tw-step>.tw-step-container]:ms-auto [&>.tw-step>.tw-step-container]:w-28 "
                 + "[&>.tw-step:last-child:not(:first-child)]:basis-10 [&>.tw-step:last-child:not(:first-child)]:min-w-28 "
-                + "[&>.tw-step:last-child:not(:first-child)]:after:end-14 "
+                + "[&>.tw-step:last-child:not(:first-child)>.tw-step-connector]:end-14 "
+                + "[&>.tw-step:last-child:not(:first-child)>.tw-step-connector]:before:ms-0 "
                 + "[&>.tw-step:last-child:not(:first-child)>.tw-step-container]:items-end "
                 + "[&>.tw-step:last-child:not(:first-child)>.tw-step-container>.tw-step-caption]:pe-0 [&>.tw-step:last-child:not(:first-child)>.tw-step-container>.tw-step-caption]:text-end";
         }
 
-        var classes = "tw-steps-vertical grid grid-cols-[minmax(0,1fr)] auto-rows-fr items-stretch gap-6 overflow-visible "
+        var classes = "tw-steps-vertical grid grid-cols-[minmax(0,1fr)] auto-rows-fr items-stretch [:where(&)]:gap-y-6 overflow-visible "
             + "[&>.tw-step]:w-full "
-            + "[&>.tw-step]:after:top-[calc(1.5rem-100%)] "
-            + "[&>.tw-step]:after:h-[calc(100%-2rem)] [&>.tw-step]:after:w-1 [&>.tw-step]:after:translate-y-0 "
+            + "[&>.tw-step>.tw-step-connector]:-top-full "
+            + "[&>.tw-step>.tw-step-connector]:h-full [&>.tw-step>.tw-step-connector]:w-1 [&>.tw-step>.tw-step-connector]:translate-y-0 "
+            + "[&>.tw-step>.tw-step-connector]:grid-cols-[100%] [&>.tw-step>.tw-step-connector]:grid-rows-[0_100%] "
+            + "[&>.tw-step>.tw-step-connector]:content-end [&>.tw-step>.tw-step-connector]:[gap:inherit] "
+            + "[&>.tw-step>.tw-step-connector]:before:ms-0 [&>.tw-step>.tw-step-connector]:before:mt-12 [&>.tw-step>.tw-step-connector]:before:mb-2 "
             + "[&>.tw-step>.tw-step-container]:gap-3 "
             + "[&>.tw-step>.tw-step-container>.tw-step-caption]:mt-0 [&>.tw-step>.tw-step-container>.tw-step-caption]:min-w-0 "
             + "[&>.tw-step>.tw-step-container>.tw-step-caption]:flex-1 [&>.tw-step>.tw-step-container>.tw-step-caption]:pt-2 "
             + "[&>.tw-step>.tw-step-container>.tw-step-caption]:pe-0 ";
 
         return stepPosition == StepPosition.End
-            ? classes + "tw-steps-end [&>.tw-step]:after:start-auto [&>.tw-step]:after:end-4.5 [&>.tw-step>.tw-step-container]:flex-row-reverse [&>.tw-step>.tw-step-container>.tw-step-caption]:text-end"
-            : classes + "[&>.tw-step]:after:start-4.5 [&>.tw-step]:after:end-auto [&>.tw-step>.tw-step-container]:flex-row [&>.tw-step>.tw-step-container>.tw-step-caption]:text-start";
+            ? classes + "tw-steps-end [&>.tw-step>.tw-step-connector]:start-auto [&>.tw-step>.tw-step-connector]:end-4.5 [&>.tw-step>.tw-step-container]:flex-row-reverse [&>.tw-step>.tw-step-container>.tw-step-caption]:text-end"
+            : classes + "[&>.tw-step>.tw-step-connector]:start-4.5 [&>.tw-step>.tw-step-connector]:end-auto [&>.tw-step>.tw-step-container]:flex-row [&>.tw-step>.tw-step-container>.tw-step-caption]:text-start";
+    }
+
+    public override string StepsLayout( StepPosition stepPosition, StepAlignment stepAlignment )
+    {
+        if ( stepAlignment is StepAlignment.Default or StepAlignment.SpaceBetween
+            || stepPosition is StepPosition.Start or StepPosition.End )
+        {
+            return StepsPosition( stepPosition );
+        }
+
+        var sb = new StringBuilder( "flex items-start overflow-x-auto [&>.tw-step>.tw-step-container]:w-28" );
+
+        if ( stepAlignment == StepAlignment.Justified )
+        {
+            sb.Append( " [&>.tw-step]:flex-[1_0_7rem] [&>.tw-step>.tw-step-container]:mx-auto" );
+            sb.Append( " [&>.tw-step>.tw-step-connector]:end-[calc(50%+4.5rem)]" );
+
+            return sb.ToString();
+        }
+
+        sb.Append( stepAlignment switch
+        {
+            StepAlignment.Center => " [justify-content:safe_center]",
+            StepAlignment.End => " [justify-content:safe_flex-end]",
+            _ => " justify-start",
+        } );
+        sb.Append( " [&>.tw-step]:flex-none [&>.tw-step]:w-28 [&>.tw-step>.tw-step-container]:ms-auto" );
+
+        return sb.ToString();
     }
 
     public override string StepItem()
-        => "tw-step group/step relative min-w-0 cursor-pointer focus-visible:outline-none "
-            + "after:pointer-events-none after:absolute after:-start-14 after:end-32 after:top-5 after:h-1 after:-translate-y-1/2 after:rounded-full after:bg-gray-200 after:content-[''] first:after:hidden "
-            + "dark:after:bg-gray-700 "
-            + "[&:is(.tw-step-active,.tw-step-completed)]:after:bg-[color:color-mix(in_srgb,var(--tw-step-bg)_25%,white)] "
-            + "dark:[&:is(.tw-step-active,.tw-step-completed)]:after:bg-[color:color-mix(in_srgb,var(--tw-step-bg)_45%,var(--color-gray-900))]";
+        => "tw-step group/step relative min-w-0 cursor-pointer [gap:inherit] focus-visible:outline-none "
+            + "[&:first-child>.tw-step-connector]:hidden "
+            + "[&:is(.tw-step-active,.tw-step-completed)>.tw-step-connector]:before:bg-[color:color-mix(in_srgb,var(--tw-step-bg)_25%,white)] "
+            + "dark:[&:is(.tw-step-active,.tw-step-completed)>.tw-step-connector]:before:bg-[color:color-mix(in_srgb,var(--tw-step-bg)_45%,var(--color-gray-900))]";
 
     public override string StepItemActive( bool active ) => active ? "tw-step-active" : null;
 

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-29T19:13:03.3030544Z",
+  "generatedUtc": "2026-09-30T08:21:34.4021909Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -114907,6 +114907,14 @@
           "typeName": "Shadow",
           "defaultValue": "None",
           "summary": "Configures the shadow effect of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "StepAlignment",
+          "type": "global::Blazorise.StepAlignment",
+          "typeName": "StepAlignment",
+          "defaultValue": "StepAlignment.Default",
+          "summary": "Specifies how horizontal steps are distributed across the available width.     Defaults to <strong>Default</strong>, preserving the provider's layout.",
           "isBlazoriseEnum": true
         },
         {

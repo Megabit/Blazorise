@@ -1,6 +1,7 @@
 ﻿@inherits Blazorise.Step
 <CascadingValue Value="@this" IsFixed>
     <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tab" tabindex="@TabIndex" aria-labelledby="@AriaLabelledBy" aria-controls="@AriaControls" aria-selected="@AriaSelectedString" @onclick="@OnClickHandler" @attributes="@Attributes">
+        <span class="fui-Step__connector" aria-hidden="true"></span>
         @if ( Marker is not null || Caption is not null )
         {
             @if ( Marker is not null )

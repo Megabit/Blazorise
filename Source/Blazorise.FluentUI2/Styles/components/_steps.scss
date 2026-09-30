@@ -20,9 +20,14 @@
         text-align: center;
         min-inline-size: 0;
         cursor: pointer;
+        column-gap: inherit;
 
         &:first-child {
             flex: 0 0 var(--fluent-wizard-content-size);
+
+            > .fui-Step__connector {
+                display: none;
+            }
         }
 
         &.fui-Step-active .fui-Step__circle > svg {
@@ -100,22 +105,34 @@
         }
 
         &:not(:first-child) {
-            &::after {
-                content: "";
+            & > .fui-Step__connector {
+                // The zero-sized track adds the inherited gap to the incoming line.
+                display: grid;
+                grid-template-columns: 0 100%;
+                grid-template-rows: 100%;
+                justify-content: end;
+                column-gap: inherit;
                 position: absolute;
-                inset-inline-start: calc((1.2 * var(--fluent-wizard-circle-size) - var(--fluent-wizard-content-size)) * 0.5 + var(--fluent-wizard-spacing));
+                inline-size: 100%;
                 inset-inline-end: calc((var(--fluent-wizard-content-size) + 1.2 * var(--fluent-wizard-circle-size)) * 0.5 + var(--fluent-wizard-spacing));
                 top: calc(var(--fluent-wizard-circle-size) * 0.6);
                 height: var(--strokeWidthThick);
                 transform: translateY(-50%);
-                background-color: var(--colorNeutralStroke1);
                 pointer-events: none;
+
+                &::before {
+                    content: '';
+                    grid-area: 1 / 1 / -1 / -1;
+                    margin-inline-start: calc(1.2 * var(--fluent-wizard-circle-size) + 2 * var(--fluent-wizard-spacing));
+                    background-color: var(--colorNeutralStroke1);
+                    border-radius: inherit;
+                }
             }
         }
 
         &.fui-Step-active,
         &.fui-Step-completed {
-            &::after {
+            & > .fui-Step__connector::before {
                 background-color: var(--colorBrandBackground);
             }
         }
@@ -136,7 +153,7 @@
 
                 &.fui-Step-active,
                 &.fui-Step-completed {
-                    &::after {
+                    & > .fui-Step__connector::before {
                         background-color: $value;
                     }
 
@@ -161,7 +178,8 @@
 
     > .fui-Step {
         flex-direction: row;
-        gap: var(--spacingHorizontalM);
+        column-gap: var(--spacingHorizontalM);
+        row-gap: inherit;
         inline-size: 100%;
 
         .fui-Step__circle {
@@ -178,26 +196,69 @@
             text-align: start;
         }
 
-        &:not(:first-child)::after {
+        &:not(:first-child) > .fui-Step__connector {
             inset-inline-start: calc((1.2 * var(--fluent-wizard-circle-size) - var(--strokeWidthThick)) * .5);
             inset-inline-end: auto;
-            top: calc(1.2 * var(--fluent-wizard-circle-size) + var(--fluent-wizard-spacing) - 100% - var(--spacingVerticalXXL));
-            width: var(--strokeWidthThick);
-            height: calc(100% + var(--spacingVerticalXXL) - 1.2 * var(--fluent-wizard-circle-size) - 2 * var(--fluent-wizard-spacing));
+            grid-template-columns: 100%;
+            grid-template-rows: 0 100%;
+            align-content: end;
+            gap: inherit;
+            top: -100%;
+            inline-size: var(--strokeWidthThick);
+            height: 100%;
             transform: none;
+
+            &::before {
+                margin-inline-start: 0;
+                margin-block-start: calc(1.2 * var(--fluent-wizard-circle-size) + var(--fluent-wizard-spacing));
+                margin-block-end: var(--fluent-wizard-spacing);
+            }
         }
     }
 
     &.fui-Steps-end > .fui-Step {
         flex-direction: row-reverse;
 
-        &:not(:first-child)::after {
+        &:not(:first-child) > .fui-Step__connector {
             inset-inline-start: auto;
             inset-inline-end: calc((1.2 * var(--fluent-wizard-circle-size) - var(--strokeWidthThick)) * .5);
         }
 
         .fui-Step__text {
             text-align: end;
+        }
+    }
+}
+
+.fui-Steps.fui-Steps-layout:not(.fui-Steps-vertical) {
+    &.fui-Steps-alignment-center {
+        justify-content: safe center;
+    }
+
+    &.fui-Steps-alignment-end {
+        justify-content: safe flex-end;
+    }
+
+    > .fui-Step {
+        flex: 0 0 var(--fluent-wizard-content-size);
+    }
+
+    &.fui-Steps-alignment-space-between > .fui-Step:not(:first-child),
+    &.fui-Steps-alignment-justified > .fui-Step {
+        flex: 1 0 var(--fluent-wizard-content-size);
+    }
+
+    &.fui-Steps-alignment-justified > .fui-Step {
+        > .fui-Step__circle {
+            margin-inline-start: calc((100% - 1.2 * var(--fluent-wizard-circle-size)) * .5);
+        }
+
+        > .fui-Step__text {
+            margin-inline: auto;
+        }
+
+        &:not(:first-child) > .fui-Step__connector {
+            inset-inline-end: calc((100% + 1.2 * var(--fluent-wizard-circle-size)) * .5 + var(--fluent-wizard-spacing));
         }
     }
 }
@@ -240,8 +301,8 @@
         }
     }
 
-    &.fui-Step-active::after,
-    &.fui-Step-completed::after {
+    &.fui-Step-active > .fui-Step__connector::before,
+    &.fui-Step-completed > .fui-Step__connector::before {
         background-color: var(--colorStepBackground);
     }
 }

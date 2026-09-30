@@ -745,14 +745,14 @@ public class BulmaThemeGenerator : ThemeGenerator
         var textColor = $"var(--bulma-text-strong, {Var( ThemeVariables.BodyTextColor )})";
 
         sb
-            .Append( ".steps .step-item.is-completed::before" ).Append( "{" )
+            .Append( ".steps .step-item.is-completed > .step-connector::before" ).Append( "{" )
             .Append( $"background-color: {completedColor};" )
             .AppendLine( "}" )
             .Append( ".steps .step-item.is-completed .step-marker" ).Append( "{" )
             .Append( $"color: {Var( ThemeVariables.StepsItemIconCompletedYiq, Var( ThemeVariables.White ) )};" )
             .Append( $"background-color: {completedColor};" )
             .AppendLine( "}" )
-            .Append( ".steps .step-item.is-active::before" ).Append( "{" )
+            .Append( ".steps .step-item.is-active > .step-connector::before" ).Append( "{" )
             .Append( $"background-color: {activeColor};" )
             .AppendLine( "}" )
             .Append( ".steps .step-item.is-active .step-marker" ).Append( "{" )
@@ -783,7 +783,7 @@ public class BulmaThemeGenerator : ThemeGenerator
             .Append( $"background-color: {backgroundColor};" )
             .Append( $"border-color: {color};" )
             .AppendLine( "}" )
-            .Append( $".steps .step-item.is-{variant}.is-completed::before, .steps .step-item.is-{variant}.is-active::before" ).Append( "{" )
+            .Append( $".steps .step-item.is-{variant}.is-completed > .step-connector::before, .steps .step-item.is-{variant}.is-active > .step-connector::before" ).Append( "{" )
             .Append( $"background-color: {color};" )
             .AppendLine( "}" );
     }

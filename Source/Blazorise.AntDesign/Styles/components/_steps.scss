@@ -83,14 +83,29 @@
     .ant-steps-item-rail {
         flex: 1 1 auto;
         height: var(--ant-line-width);
-        background: var(--ant-color-text-disabled);
+        background: transparent;
         border-style: none;
         border-radius: var(--ant-line-width);
         pointer-events: none;
         transition: none;
+        display: grid;
+        // Span both the inherited item gap and the gap before the current marker.
+        grid-template-columns: 0 100% 0;
+        grid-template-rows: 100%;
+        justify-content: center;
+        column-gap: inherit;
+
+        &::before {
+            content: '';
+            grid-area: 1 / 1 / -1 / -1;
+            margin-inline-start: var(--ant-cmp-steps-title-horizontal-rail-margin);
+            margin-inline-end: var(--ant-cmp-steps-title-horizontal-item-margin);
+            background: var(--ant-color-text-disabled);
+            border-radius: inherit;
+        }
     }
 
-    .ant-steps-item-rail-process {
+    .ant-steps-item-rail-process::before {
         background: var(--ant-color-primary);
     }
 
@@ -132,13 +147,15 @@
     }
 }
 
-.ant-steps.ant-steps-horizontal {
+:where(.ant-steps.ant-steps-horizontal) {
     column-gap: var(--ant-cmp-steps-title-horizontal-rail-margin);
+}
 
+.ant-steps.ant-steps-horizontal {
     > .ant-steps-item {
         display: flex;
         align-items: flex-start;
-        gap: var(--ant-cmp-steps-title-horizontal-item-margin);
+        column-gap: inherit;
         padding-inline-start: 0;
 
         &:first-child {
@@ -181,14 +198,14 @@
                 color: #{$color};
             }
 
-            .ant-steps-item-rail {
+            .ant-steps-item-rail::before {
                 background: #{$color};
             }
         }
 
         &.ant-steps-item-finish {
             .ant-steps-item-icon,
-            .ant-steps-item-rail-process {
+            .ant-steps-item-rail-process::before {
                 background: #{$color};
                 border-color: #{$color};
             }
@@ -215,16 +232,20 @@
     @include ant-steps-variant($name, $color);
 }
 
+:where(.ant-steps.ant-steps-vertical) {
+    row-gap: var(--ant-padding-lg);
+}
+
 .ant-steps.ant-steps-vertical {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     // Equal rows let incoming connectors span the previous row when captions wrap.
     grid-auto-rows: 1fr;
-    row-gap: var(--ant-padding-lg);
     align-items: stretch;
 
     > .ant-steps-item {
         position: relative;
+        row-gap: inherit;
         width: 100%;
         margin-inline-start: 0;
         padding-inline-start: 0;
@@ -241,11 +262,21 @@
         .ant-steps-item-rail {
             position: absolute;
             inset-inline-start: calc((var(--ant-steps-icon-size) - var(--ant-line-width)) / 2);
-            top: calc(var(--ant-steps-icon-size) + var(--ant-margin-xxs) - 100% - var(--ant-padding-lg));
+            grid-template-columns: 100%;
+            grid-template-rows: 0 100%;
+            align-content: end;
+            gap: inherit;
+            top: -100%;
             bottom: auto;
             width: var(--ant-line-width);
-            height: calc(100% + var(--ant-padding-lg) - var(--ant-steps-icon-size) - 2 * var(--ant-margin-xxs));
+            height: 100%;
             margin-inline-start: 0;
+
+            &::before {
+                margin-inline: 0;
+                margin-block-start: calc(var(--ant-steps-icon-size) + var(--ant-margin-xxs));
+                margin-block-end: var(--ant-margin-xxs);
+            }
         }
 
         .ant-steps-item-title::after {
@@ -270,6 +301,29 @@
             inset-inline-start: auto;
             inset-inline-end: calc((var(--ant-steps-icon-size) - var(--ant-line-width)) / 2);
         }
+    }
+}
+
+.ant-steps.ant-steps-layout.ant-steps-title-horizontal.ant-steps-horizontal {
+    &.ant-steps-alignment-center {
+        justify-content: safe center;
+    }
+
+    &.ant-steps-alignment-end {
+        justify-content: safe flex-end;
+    }
+
+    > .ant-steps-item {
+        flex: 0 1 auto;
+    }
+
+    &.ant-steps-alignment-space-between > .ant-steps-item:not(:first-child),
+    &.ant-steps-alignment-justified > .ant-steps-item {
+        flex: 1 1 0;
+    }
+
+    &.ant-steps-alignment-justified > .ant-steps-item:first-child {
+        justify-content: flex-end;
     }
 }
 
@@ -307,7 +361,7 @@
         box-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, var(--ant-steps-item-color) 25%, transparent);
     }
 
-    .ant-steps-item-rail-process {
+    .ant-steps-item-rail-process::before {
         background-color: var(--ant-steps-item-color);
     }
 }

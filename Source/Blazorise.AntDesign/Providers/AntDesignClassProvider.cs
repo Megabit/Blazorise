@@ -782,6 +782,27 @@ public class AntDesignClassProvider : ClassProvider
         _ => "ant-steps-horizontal",
     };
 
+    public override string StepsLayout( StepPosition stepPosition, StepAlignment stepAlignment )
+    {
+        var positionClassNames = StepsPosition( stepPosition );
+
+        if ( stepAlignment == StepAlignment.Default )
+        {
+            return positionClassNames;
+        }
+
+        var sb = new StringBuilder();
+
+        if ( !string.IsNullOrEmpty( positionClassNames ) )
+        {
+            sb.Append( positionClassNames ).Append( ' ' );
+        }
+
+        sb.Append( "ant-steps-layout ant-steps-alignment-" ).Append( ToStepAlignment( stepAlignment ) );
+
+        return sb.ToString();
+    }
+
     public override string StepItem() => "ant-steps-item";
 
     public override string StepItemActive( bool active ) => active ? "ant-steps-item-process ant-steps-item-active" : null;

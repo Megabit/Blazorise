@@ -779,6 +779,27 @@ public class BootstrapClassProvider : ClassProvider
         _ => null,
     };
 
+    public override string StepsLayout( StepPosition stepPosition, StepAlignment stepAlignment )
+    {
+        var positionClassNames = StepsPosition( stepPosition );
+
+        if ( stepAlignment == StepAlignment.Default )
+        {
+            return positionClassNames;
+        }
+
+        var sb = new StringBuilder();
+
+        if ( !string.IsNullOrEmpty( positionClassNames ) )
+        {
+            sb.Append( positionClassNames ).Append( ' ' );
+        }
+
+        sb.Append( "steps-layout steps-alignment-" ).Append( ToStepAlignment( stepAlignment ) );
+
+        return sb.ToString();
+    }
+
     public override string StepItem() => "step";
 
     public override string StepItemActive( bool active ) => active ? "step-active" : null;

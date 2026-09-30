@@ -205,6 +205,26 @@
     </Column>
 </Row>
 
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Step alignment</CardTitle>
+            </CardHeader>
+            @foreach ( var alignment in Enum.GetValues<StepAlignment>() )
+            {
+                <CardBody>
+                    <Heading Size="HeadingSize.Is6">@alignment</Heading>
+                    <Steps @key="alignment" StepAlignment="alignment" SelectedStep="payment" AriaLabel="@($"{alignment} checkout progress")">
+                        <Step Name="delivery" Completed>Delivery details</Step>
+                        <Step Name="payment">Payment</Step>
+                        <Step Name="review">Review your order before placing it</Step>
+                    </Steps>
+                </CardBody>
+            }
+        </Card>
+    </Column>
+</Row>
 @code {
     private Steps stepsRef;
     private string email;

@@ -5983,6 +5983,27 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <Step Name=""publish"" Color=""@CssColor.Variable(""--accent"", ""#7C3AED"")"">Publish</Step>
 </Steps>";
 
+        public const string StepAlignmentExample = @"<Heading Size=""HeadingSize.Is6"">Grouped at the start</Heading>
+<Steps StepAlignment=""StepAlignment.Start"" SelectedStep=""payment"" AriaLabel=""Compact checkout progress"">
+    <Step Name=""delivery"" Completed>Delivery details</Step>
+    <Step Name=""payment"">Payment</Step>
+    <Step Name=""review"">Review order</Step>
+</Steps>
+
+<Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is4.FromTop"">Space between items</Heading>
+<Steps StepAlignment=""StepAlignment.SpaceBetween"" SelectedStep=""payment"" AriaLabel=""Spread checkout progress"">
+    <Step Name=""delivery"" Completed>Delivery details</Step>
+    <Step Name=""payment"">Payment</Step>
+    <Step Name=""review"">Review order</Step>
+</Steps>
+
+<Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is4.FromTop"">Equal space for each item</Heading>
+<Steps StepAlignment=""StepAlignment.Justified"" SelectedStep=""payment"" AriaLabel=""Equal-width checkout progress"">
+    <Step Name=""delivery"" Completed>Delivery details</Step>
+    <Step Name=""payment"">Payment</Step>
+    <Step Name=""review"">Review order</Step>
+</Steps>";
+
         public const string StepLazyLoadStepExample = @"<Steps RenderMode=""StepsRenderMode.LazyLoad"" SelectedStep=""contact"" AriaLabel=""Contact details with lazy loading"">
     <Items>
         <Step Name=""contact"">Contact</Step>

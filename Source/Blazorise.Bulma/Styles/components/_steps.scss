@@ -19,23 +19,36 @@
         min-width: 0;
         margin-top: 0;
         cursor: pointer;
+        column-gap: inherit;
 
-        &::before {
-            content: '';
+        & > .step-connector {
+            // The zero-sized track adds the inherited gap to the incoming line.
+            display: grid;
+            grid-template-columns: 0 100%;
+            grid-template-rows: 100%;
+            justify-content: end;
+            column-gap: inherit;
             position: absolute;
             inset-inline-end: calc((#{$steps-content-width} + #{$steps-marker-size}) / 2);
             top: calc(#{$steps-marker-size} / 2);
-            width: calc(100% - #{$steps-marker-size});
+            width: 100%;
             height: $steps-divider-height;
             transform: translateY(-50%);
-            background-color: var(--bulma-border, #{$steps-default-color});
             pointer-events: none;
+
+            &::before {
+                content: '';
+                grid-area: 1 / 1 / -1 / -1;
+                margin-inline-start: $steps-marker-size;
+                background-color: var(--bulma-border, #{$steps-default-color});
+                border-radius: inherit;
+            }
         }
 
         &:first-child {
             flex: 0 0 $steps-content-width;
 
-            &::before {
+            & > .step-connector {
                 display: none;
             }
         }
@@ -58,7 +71,7 @@
         }
 
         &.is-completed {
-            &::before {
+            & > .step-connector::before {
                 background-color: var(--bulma-primary, #{$steps-completed-color});
             }
 
@@ -69,7 +82,7 @@
         }
 
         &.is-active {
-            &::before {
+            & > .step-connector::before {
                 background-color: var(--bulma-primary, #{$steps-active-color});
             }
 
@@ -112,7 +125,7 @@
 
                 &.is-completed,
                 &.is-active {
-                    &::before {
+                    & > .step-connector::before {
                         background-color: $color;
                     }
                 }
@@ -160,7 +173,7 @@
 
     &.is-animated {
         @media (prefers-reduced-motion: no-preference) {
-            .step-item::before {
+            .step-item > .step-connector::before {
                 transition: background-color $speed-slow ease;
             }
 
@@ -194,7 +207,7 @@
 
     &.is-completed,
     &.is-active {
-        &::before {
+        & > .step-connector::before {
             background-color: var(--bulma-step-color);
         }
     }
@@ -213,21 +226,31 @@
     > .step-item {
         display: flex;
         align-items: flex-start;
-        gap: .75em;
+        column-gap: .75em;
+        row-gap: inherit;
         width: 100%;
 
-        &::before {
-            display: block;
+        & > .step-connector {
+            grid-template-columns: 100%;
+            grid-template-rows: 0 100%;
+            align-content: end;
+            gap: inherit;
             inset-inline-start: calc((#{$steps-marker-size} - #{$steps-divider-height}) / 2);
             inset-inline-end: auto;
-            top: calc(#{$steps-marker-size} - 100% - 1.25em);
+            top: -100%;
             width: $steps-divider-height;
-            height: calc(100% - #{$steps-marker-size} + 1em);
+            height: 100%;
             transform: none;
+
+            &::before {
+                margin-inline-start: 0;
+                margin-block-start: calc(#{$steps-marker-size} + .25em);
+                margin-block-end: .25em;
+            }
         }
 
         &:first-child {
-            &::before {
+            & > .step-connector {
                 display: none;
             }
         }
@@ -250,13 +273,43 @@
     &.is-end > .step-item {
         flex-direction: row-reverse;
 
-        &::before {
+        & > .step-connector {
             inset-inline-start: auto;
             inset-inline-end: calc((#{$steps-marker-size} - #{$steps-divider-height}) / 2);
         }
 
         .step-details {
             text-align: end;
+        }
+    }
+}
+
+.steps.is-layout:not(.is-vertical) {
+    &.is-alignment-center {
+        justify-content: safe center;
+    }
+
+    &.is-alignment-end {
+        justify-content: safe flex-end;
+    }
+
+    > .step-item {
+        flex: 0 0 $steps-content-width;
+    }
+
+    &.is-alignment-space-between > .step-item:not(:first-child),
+    &.is-alignment-justified > .step-item {
+        flex: 1 0 $steps-content-width;
+    }
+
+    &.is-alignment-justified > .step-item {
+        .step-marker,
+        .step-details {
+            margin-inline: auto;
+        }
+
+        & > .step-connector {
+            inset-inline-end: calc((100% + #{$steps-marker-size}) / 2);
         }
     }
 }

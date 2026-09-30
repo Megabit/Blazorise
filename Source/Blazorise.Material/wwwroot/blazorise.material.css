@@ -9427,22 +9427,33 @@ body.modal-open {
   min-inline-size: 0;
   color: var(--mui-step-label);
   cursor: pointer;
+  column-gap: inherit;
 }
 .mui-steps > .mui-step-item:first-child {
   flex: 0 0 var(--mui-step-content-size);
 }
-.mui-steps > .mui-step-item::after {
-  content: "";
+.mui-steps > .mui-step-item > .mui-step-connector {
+  display: grid;
+  grid-template-columns: 0 100%;
+  grid-template-rows: 100%;
+  justify-content: end;
+  column-gap: inherit;
   position: absolute;
   inset-block-start: calc((var(--mui-step-marker-size) - var(--mui-step-connector-size)) * 0.5);
-  inset-inline-start: calc((var(--mui-step-marker-size) - var(--mui-step-content-size)) * 0.5 + 0.5rem);
+  inline-size: 100%;
   inset-inline-end: calc((var(--mui-step-content-size) + var(--mui-step-marker-size)) * 0.5 + 0.5rem);
   block-size: var(--mui-step-connector-size);
   border-radius: 999rem;
-  background-color: var(--mui-step-line);
   pointer-events: none;
 }
-.mui-steps > .mui-step-item:first-child::after {
+.mui-steps > .mui-step-item > .mui-step-connector::before {
+  content: "";
+  grid-area: 1/1/-1/-1;
+  margin-inline-start: calc(var(--mui-step-marker-size) + 1rem);
+  background-color: var(--mui-step-line);
+  border-radius: inherit;
+}
+.mui-steps > .mui-step-item:first-child > .mui-step-connector {
   display: none;
 }
 
@@ -9518,7 +9529,7 @@ body.modal-open {
 .mui-step-item.mui-step-item-completed {
   color: var(--mui-step-accent);
 }
-.mui-step-item.mui-step-item-active::after, .mui-step-item.mui-step-item-completed::after {
+.mui-step-item.mui-step-item-active > .mui-step-connector::before, .mui-step-item.mui-step-item-completed > .mui-step-connector::before {
   background-color: var(--mui-step-accent);
 }
 .mui-step-item.mui-step-item-completed > .mui-step-marker {
@@ -9633,15 +9644,25 @@ body.modal-open {
 }
 .mui-steps.mui-steps-vertical > .mui-step-item {
   flex-direction: row;
-  gap: 1rem;
+  column-gap: 1rem;
+  row-gap: inherit;
   inline-size: 100%;
 }
-.mui-steps.mui-steps-vertical > .mui-step-item::after {
+.mui-steps.mui-steps-vertical > .mui-step-item > .mui-step-connector {
   inset-inline-start: calc((var(--mui-step-marker-size) - var(--mui-step-connector-size)) * 0.5);
   inset-inline-end: auto;
-  inset-block-start: calc(var(--mui-step-marker-size) - 100% - 1rem);
+  grid-template-columns: 100%;
+  grid-template-rows: 0 100%;
+  align-content: end;
+  gap: inherit;
+  inset-block-start: -100%;
   inline-size: var(--mui-step-connector-size);
-  block-size: calc(100% - var(--mui-step-marker-size) + 0.5rem);
+  block-size: 100%;
+}
+.mui-steps.mui-steps-vertical > .mui-step-item > .mui-step-connector::before {
+  margin-inline-start: 0;
+  margin-block-start: calc(var(--mui-step-marker-size) + 0.5rem);
+  margin-block-end: 0.5rem;
 }
 .mui-steps.mui-steps-vertical > .mui-step-item > .mui-step-marker {
   flex: none;
@@ -9658,12 +9679,34 @@ body.modal-open {
 .mui-steps.mui-steps-vertical.mui-steps-end > .mui-step-item {
   flex-direction: row-reverse;
 }
-.mui-steps.mui-steps-vertical.mui-steps-end > .mui-step-item::after {
+.mui-steps.mui-steps-vertical.mui-steps-end > .mui-step-item > .mui-step-connector {
   inset-inline-start: auto;
   inset-inline-end: calc((var(--mui-step-marker-size) - var(--mui-step-connector-size)) * 0.5);
 }
 .mui-steps.mui-steps-vertical.mui-steps-end > .mui-step-item > .mui-step-description {
   text-align: end;
+}
+
+.mui-steps.mui-steps-layout:not(.mui-steps-vertical).mui-steps-alignment-center {
+  justify-content: safe center;
+}
+.mui-steps.mui-steps-layout:not(.mui-steps-vertical).mui-steps-alignment-end {
+  justify-content: safe flex-end;
+}
+.mui-steps.mui-steps-layout:not(.mui-steps-vertical) > .mui-step-item {
+  flex: 0 0 var(--mui-step-content-size);
+}
+.mui-steps.mui-steps-layout:not(.mui-steps-vertical).mui-steps-alignment-space-between > .mui-step-item:not(:first-child), .mui-steps.mui-steps-layout:not(.mui-steps-vertical).mui-steps-alignment-justified > .mui-step-item {
+  flex: 1 0 var(--mui-step-content-size);
+}
+.mui-steps.mui-steps-layout:not(.mui-steps-vertical).mui-steps-alignment-justified > .mui-step-item > .mui-step-marker {
+  margin-inline-start: calc((100% - var(--mui-step-marker-size)) * 0.5);
+}
+.mui-steps.mui-steps-layout:not(.mui-steps-vertical).mui-steps-alignment-justified > .mui-step-item > .mui-step-description {
+  margin-inline: auto;
+}
+.mui-steps.mui-steps-layout:not(.mui-steps-vertical).mui-steps-alignment-justified > .mui-step-item > .mui-step-connector {
+  inset-inline-end: calc((100% + var(--mui-step-marker-size)) * 0.5 + 0.5rem);
 }
 
 @keyframes mui-step-panel-fade-in {

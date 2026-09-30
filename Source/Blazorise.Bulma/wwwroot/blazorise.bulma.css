@@ -5091,22 +5091,33 @@ li.list-group-item-action {
   min-width: 0;
   margin-top: 0;
   cursor: pointer;
+  column-gap: inherit;
 }
-.steps .step-item::before {
-  content: "";
+.steps .step-item > .step-connector {
+  display: grid;
+  grid-template-columns: 0 100%;
+  grid-template-rows: 100%;
+  justify-content: end;
+  column-gap: inherit;
   position: absolute;
   inset-inline-end: calc((7em + 2em) / 2);
   top: calc(2em / 2);
-  width: calc(100% - 2em);
+  width: 100%;
   height: 0.4em;
   transform: translateY(-50%);
-  background-color: var(--bulma-border, hsl(221, 14%, 86%));
   pointer-events: none;
+}
+.steps .step-item > .step-connector::before {
+  content: "";
+  grid-area: 1/1/-1/-1;
+  margin-inline-start: 2em;
+  background-color: var(--bulma-border, hsl(221, 14%, 86%));
+  border-radius: inherit;
 }
 .steps .step-item:first-child {
   flex: 0 0 7em;
 }
-.steps .step-item:first-child::before {
+.steps .step-item:first-child > .step-connector {
   display: none;
 }
 .steps .step-item:focus-visible {
@@ -5123,14 +5134,14 @@ li.list-group-item-action {
     box-shadow: none;
   }
 }
-.steps .step-item.is-completed::before {
+.steps .step-item.is-completed > .step-connector::before {
   background-color: var(--bulma-primary, hsl(171, 100%, 41%));
 }
 .steps .step-item.is-completed .step-marker {
   background-color: var(--bulma-primary, hsl(171, 100%, 41%));
   color: var(--bulma-primary-invert, #fff);
 }
-.steps .step-item.is-active::before {
+.steps .step-item.is-active > .step-connector::before {
   background-color: var(--bulma-primary, hsl(171, 100%, 41%));
 }
 .steps .step-item.is-active .step-marker {
@@ -5155,7 +5166,7 @@ li.list-group-item-action {
   border-color: var(--bulma-primary, hsl(171, 100%, 41%));
   color: var(--bulma-primary-on-scheme, color-mix(in srgb, var(--bulma-primary, hsl(171, 100%, 41%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-primary.is-completed::before, .steps .step-item.is-primary.is-active::before {
+.steps .step-item.is-primary.is-completed > .step-connector::before, .steps .step-item.is-primary.is-active > .step-connector::before {
   background-color: var(--bulma-primary, hsl(171, 100%, 41%));
 }
 .steps .step-item.is-secondary .step-marker {
@@ -5171,7 +5182,7 @@ li.list-group-item-action {
   border-color: var(--bulma-secondary, hsl(221, 14%, 48%));
   color: var(--bulma-secondary-on-scheme, color-mix(in srgb, var(--bulma-secondary, hsl(221, 14%, 48%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-secondary.is-completed::before, .steps .step-item.is-secondary.is-active::before {
+.steps .step-item.is-secondary.is-completed > .step-connector::before, .steps .step-item.is-secondary.is-active > .step-connector::before {
   background-color: var(--bulma-secondary, hsl(221, 14%, 48%));
 }
 .steps .step-item.is-success .step-marker {
@@ -5187,7 +5198,7 @@ li.list-group-item-action {
   border-color: var(--bulma-success, hsl(153, 53%, 53%));
   color: var(--bulma-success-on-scheme, color-mix(in srgb, var(--bulma-success, hsl(153, 53%, 53%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-success.is-completed::before, .steps .step-item.is-success.is-active::before {
+.steps .step-item.is-success.is-completed > .step-connector::before, .steps .step-item.is-success.is-active > .step-connector::before {
   background-color: var(--bulma-success, hsl(153, 53%, 53%));
 }
 .steps .step-item.is-info .step-marker {
@@ -5203,7 +5214,7 @@ li.list-group-item-action {
   border-color: var(--bulma-info, hsl(198, 100%, 70%));
   color: var(--bulma-info-on-scheme, color-mix(in srgb, var(--bulma-info, hsl(198, 100%, 70%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-info.is-completed::before, .steps .step-item.is-info.is-active::before {
+.steps .step-item.is-info.is-completed > .step-connector::before, .steps .step-item.is-info.is-active > .step-connector::before {
   background-color: var(--bulma-info, hsl(198, 100%, 70%));
 }
 .steps .step-item.is-warning .step-marker {
@@ -5219,7 +5230,7 @@ li.list-group-item-action {
   border-color: var(--bulma-warning, hsl(42, 100%, 53%));
   color: var(--bulma-warning-on-scheme, color-mix(in srgb, var(--bulma-warning, hsl(42, 100%, 53%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-warning.is-completed::before, .steps .step-item.is-warning.is-active::before {
+.steps .step-item.is-warning.is-completed > .step-connector::before, .steps .step-item.is-warning.is-active > .step-connector::before {
   background-color: var(--bulma-warning, hsl(42, 100%, 53%));
 }
 .steps .step-item.is-danger .step-marker {
@@ -5235,7 +5246,7 @@ li.list-group-item-action {
   border-color: var(--bulma-danger, hsl(348, 100%, 70%));
   color: var(--bulma-danger-on-scheme, color-mix(in srgb, var(--bulma-danger, hsl(348, 100%, 70%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-danger.is-completed::before, .steps .step-item.is-danger.is-active::before {
+.steps .step-item.is-danger.is-completed > .step-connector::before, .steps .step-item.is-danger.is-active > .step-connector::before {
   background-color: var(--bulma-danger, hsl(348, 100%, 70%));
 }
 .steps .step-item.is-light .step-marker {
@@ -5251,7 +5262,7 @@ li.list-group-item-action {
   border-color: var(--bulma-light, hsl(221, 14%, 96%));
   color: var(--bulma-light-on-scheme, color-mix(in srgb, var(--bulma-light, hsl(221, 14%, 96%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-light.is-completed::before, .steps .step-item.is-light.is-active::before {
+.steps .step-item.is-light.is-completed > .step-connector::before, .steps .step-item.is-light.is-active > .step-connector::before {
   background-color: var(--bulma-light, hsl(221, 14%, 96%));
 }
 .steps .step-item.is-dark .step-marker {
@@ -5267,7 +5278,7 @@ li.list-group-item-action {
   border-color: var(--bulma-dark, hsl(221, 14%, 21%));
   color: var(--bulma-dark-on-scheme, color-mix(in srgb, var(--bulma-dark, hsl(221, 14%, 21%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-dark.is-completed::before, .steps .step-item.is-dark.is-active::before {
+.steps .step-item.is-dark.is-completed > .step-connector::before, .steps .step-item.is-dark.is-active > .step-connector::before {
   background-color: var(--bulma-dark, hsl(221, 14%, 21%));
 }
 .steps .step-item.is-link .step-marker {
@@ -5283,7 +5294,7 @@ li.list-group-item-action {
   border-color: var(--bulma-link, hsl(233, 100%, 63%));
   color: var(--bulma-link-on-scheme, color-mix(in srgb, var(--bulma-link, hsl(233, 100%, 63%)) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%))));
 }
-.steps .step-item.is-link.is-completed::before, .steps .step-item.is-link.is-active::before {
+.steps .step-item.is-link.is-completed > .step-connector::before, .steps .step-item.is-link.is-active > .step-connector::before {
   background-color: var(--bulma-link, hsl(233, 100%, 63%));
 }
 .steps .step-marker {
@@ -5321,7 +5332,7 @@ li.list-group-item-action {
   color: var(--bulma-text, hsl(221, 14%, 29%));
 }
 @media (prefers-reduced-motion: no-preference) {
-  .steps.is-animated .step-item::before {
+  .steps.is-animated .step-item > .step-connector::before {
     transition: background-color 150ms ease;
   }
   .steps.is-animated .step-marker {
@@ -5347,7 +5358,7 @@ li.list-group-item-action {
   border-color: var(--bulma-step-color);
   color: color-mix(in srgb, var(--bulma-step-color) 40%, var(--bulma-text-strong, hsl(221, 14%, 21%)));
 }
-.steps .step-item.is-custom.is-completed::before, .steps .step-item.is-custom.is-active::before {
+.steps .step-item.is-custom.is-completed > .step-connector::before, .steps .step-item.is-custom.is-active > .step-connector::before {
   background-color: var(--bulma-step-color);
 }
 
@@ -5363,19 +5374,28 @@ li.list-group-item-action {
 .steps.is-vertical > .step-item {
   display: flex;
   align-items: flex-start;
-  gap: 0.75em;
+  column-gap: 0.75em;
+  row-gap: inherit;
   width: 100%;
 }
-.steps.is-vertical > .step-item::before {
-  display: block;
+.steps.is-vertical > .step-item > .step-connector {
+  grid-template-columns: 100%;
+  grid-template-rows: 0 100%;
+  align-content: end;
+  gap: inherit;
   inset-inline-start: calc((2em - 0.4em) / 2);
   inset-inline-end: auto;
-  top: calc(2em - 100% - 1.25em);
+  top: -100%;
   width: 0.4em;
-  height: calc(100% - 2em + 1em);
+  height: 100%;
   transform: none;
 }
-.steps.is-vertical > .step-item:first-child::before {
+.steps.is-vertical > .step-item > .step-connector::before {
+  margin-inline-start: 0;
+  margin-block-start: calc(2em + 0.25em);
+  margin-block-end: 0.25em;
+}
+.steps.is-vertical > .step-item:first-child > .step-connector {
   display: none;
 }
 .steps.is-vertical > .step-item .step-marker {
@@ -5393,12 +5413,32 @@ li.list-group-item-action {
 .steps.is-vertical.is-end > .step-item {
   flex-direction: row-reverse;
 }
-.steps.is-vertical.is-end > .step-item::before {
+.steps.is-vertical.is-end > .step-item > .step-connector {
   inset-inline-start: auto;
   inset-inline-end: calc((2em - 0.4em) / 2);
 }
 .steps.is-vertical.is-end > .step-item .step-details {
   text-align: end;
+}
+
+.steps.is-layout:not(.is-vertical).is-alignment-center {
+  justify-content: safe center;
+}
+.steps.is-layout:not(.is-vertical).is-alignment-end {
+  justify-content: safe flex-end;
+}
+.steps.is-layout:not(.is-vertical) > .step-item {
+  flex: 0 0 7em;
+}
+.steps.is-layout:not(.is-vertical).is-alignment-space-between > .step-item:not(:first-child), .steps.is-layout:not(.is-vertical).is-alignment-justified > .step-item {
+  flex: 1 0 7em;
+}
+.steps.is-layout:not(.is-vertical).is-alignment-justified > .step-item .step-marker,
+.steps.is-layout:not(.is-vertical).is-alignment-justified > .step-item .step-details {
+  margin-inline: auto;
+}
+.steps.is-layout:not(.is-vertical).is-alignment-justified > .step-item > .step-connector {
+  inset-inline-end: calc((100% + 2em) / 2);
 }
 
 .steps-content {

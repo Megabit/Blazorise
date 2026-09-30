@@ -13,24 +13,37 @@
     flex: 1 0 $step-container-width;
     min-width: 0;
     cursor: pointer;
+    column-gap: inherit;
 
-    &::before {
-        content: '';
+    & > .step-connector {
+        // The zero-sized track adds the inherited gap to the incoming line.
+        display: grid;
+        grid-template-columns: 0 100%;
+        grid-template-rows: 100%;
+        justify-content: end;
+        column-gap: inherit;
         position: absolute;
         inset-inline-end: calc((#{$step-container-width} + #{$step-circle-size} + #{$step-gutter}) / 2);
         top: calc(#{$step-circle-size} / 2);
-        width: calc(100% - #{$step-circle-size} - #{$step-gutter});
+        width: 100%;
         height: $step-circle-border-width;
         transform: translateY(-50%);
-        background-color: var(--bs-border-color, #{$border-color});
         border-radius: $step-circle-border-width;
         pointer-events: none;
+
+        &::before {
+            content: '';
+            grid-area: 1 / 1 / -1 / -1;
+            margin-inline-start: calc(#{$step-circle-size} + #{$step-gutter});
+            background-color: var(--bs-border-color, #{$border-color});
+            border-radius: inherit;
+        }
     }
 
     &:first-child {
         flex: 0 0 $step-container-width;
 
-        &::before {
+        & > .step-connector {
             display: none;
         }
     }
@@ -96,7 +109,7 @@
 }
 
 .step-completed {
-    &::before {
+    & > .step-connector::before {
         background-color: var(--bs-success, #{$step-icon-completed-color});
     }
 
@@ -112,7 +125,7 @@
 }
 
 .step-active {
-    &::before {
+    & > .step-connector::before {
         background-color: var(--bs-primary, #{$step-icon-active-color});
     }
 
@@ -124,7 +137,6 @@
 
     .step-text {
         color: var(--bs-primary-text-emphasis, color-mix(in srgb, #{$step-text-active-color} 40%, var(--bs-body-color, #{$body-color})));
-        font-weight: $font-weight-bold;
     }
 }
 
@@ -176,7 +188,7 @@
 
         &.step-completed,
         &.step-active {
-            &::before {
+            & > .step-connector::before {
                 background-color: $color;
             }
         }
@@ -215,7 +227,7 @@
 
     &.step-completed,
     &.step-active {
-        &::before {
+        & > .step-connector::before {
             background-color: var(--bs-step-color);
         }
 
@@ -237,19 +249,29 @@
 
     > .step {
         width: 100%;
+        row-gap: inherit;
 
-        &::before {
-            display: block;
+        & > .step-connector {
+            grid-template-columns: 100%;
+            grid-template-rows: 0 100%;
+            align-content: end;
+            gap: inherit;
             inset-inline-start: calc((#{$step-circle-size} - #{$step-circle-border-width}) / 2);
             inset-inline-end: auto;
-            top: calc(#{$step-circle-size} - 100% - #{$step-gutter} * 1.25);
+            top: -100%;
             width: $step-circle-border-width;
-            height: calc(100% - #{$step-circle-size} + #{$step-gutter});
+            height: 100%;
             transform: none;
+
+            &::before {
+                margin-inline-start: 0;
+                margin-block-start: calc(#{$step-circle-size} + #{$step-gutter} * .25);
+                margin-block-end: $step-gutter * .25;
+            }
         }
 
         &:first-child {
-            &::before {
+            & > .step-connector {
                 display: none;
             }
         }
@@ -274,7 +296,7 @@
     }
 
     &.steps-end > .step {
-        &::before {
+        & > .step-connector {
             inset-inline-start: auto;
             inset-inline-end: calc((#{$step-circle-size} - #{$step-circle-border-width}) / 2);
         }
@@ -285,6 +307,35 @@
 
         .step-text {
             text-align: end;
+        }
+    }
+}
+
+.steps.steps-layout:not(.steps-vertical) {
+    &.steps-alignment-center {
+        justify-content: safe center;
+    }
+
+    &.steps-alignment-end {
+        justify-content: safe flex-end;
+    }
+
+    > .step {
+        flex: 0 0 $step-container-width;
+    }
+
+    &.steps-alignment-space-between > .step:not(:first-child),
+    &.steps-alignment-justified > .step {
+        flex: 1 0 $step-container-width;
+    }
+
+    &.steps-alignment-justified > .step {
+        .step-container {
+            margin-inline: auto;
+        }
+
+        & > .step-connector {
+            inset-inline-end: calc((100% + #{$step-circle-size} + #{$step-gutter}) / 2);
         }
     }
 }

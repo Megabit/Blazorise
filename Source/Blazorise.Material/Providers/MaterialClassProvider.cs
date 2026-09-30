@@ -811,6 +811,27 @@ public class MaterialClassProvider : ClassProvider
         _ => null,
     };
 
+    public override string StepsLayout( StepPosition stepPosition, StepAlignment stepAlignment )
+    {
+        var positionClassNames = StepsPosition( stepPosition );
+
+        if ( stepAlignment == StepAlignment.Default )
+        {
+            return positionClassNames;
+        }
+
+        var sb = new StringBuilder();
+
+        if ( !string.IsNullOrEmpty( positionClassNames ) )
+        {
+            sb.Append( positionClassNames ).Append( ' ' );
+        }
+
+        sb.Append( "mui-steps-layout mui-steps-alignment-" ).Append( ToStepAlignment( stepAlignment ) );
+
+        return sb.ToString();
+    }
+
     public override string StepItem() => "mui-step-item";
 
     public override string StepItemActive( bool active ) => active ? "mui-step-item-active" : null;

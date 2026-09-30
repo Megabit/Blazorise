@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-09-29T19:13:06.2815839Z",
+  "generatedUtc": "2026-09-30T10:39:56.0532255Z",
   "pages": [
     {
       "route": "/docs",
@@ -3889,6 +3889,14 @@
           "sourcePath": "Pages/Docs/Components/Steps/Examples/BasicStepExample.razor",
           "content": "<Steps SelectedStep=\"@selectedStep\" SelectedStepChanged=\"@OnSelectedStepChanged\">\r\n    <Items>\r\n        <Step Name=\"step1\">Create campaign settings</Step>\r\n        <Step Name=\"step2\">Create an ad group</Step>\r\n        <Step Name=\"step3\">Create an add</Step>\r\n        <Step Name=\"step4\">\r\n            <Marker>\r\n                <Icon Name=\"IconName.Flag\" />\r\n            </Marker>\r\n            <Caption>\r\n                Finish\r\n            </Caption>\r\n        </Step>\r\n    </Items>\r\n    <Content>\r\n        <StepPanel Name=\"step1\">\r\n            Content for step 1.\r\n        </StepPanel>\r\n        <StepPanel Name=\"step2\">\r\n            Content for step 2.\r\n        </StepPanel>\r\n        <StepPanel Name=\"step3\">\r\n            Content for step 3.\r\n        </StepPanel>\r\n        <StepPanel Name=\"step4\">\r\n            Content for finish.\r\n        </StepPanel>\r\n    </Content>\r\n</Steps>\r\n@code{\r\n    string selectedStep = \"step1\";\r\n\r\n    private Task OnSelectedStepChanged( string name )\r\n    {\r\n        selectedStep = name;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
           "title": "Basic"
+        },
+        {
+          "code": "StepAlignmentExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Steps/Examples/StepAlignmentExample.razor",
+          "content": "<Heading Size=\"HeadingSize.Is6\">Grouped at the start</Heading>\r\n<Steps StepAlignment=\"StepAlignment.Start\" SelectedStep=\"payment\" AriaLabel=\"Compact checkout progress\">\r\n    <Step Name=\"delivery\" Completed>Delivery details</Step>\r\n    <Step Name=\"payment\">Payment</Step>\r\n    <Step Name=\"review\">Review order</Step>\r\n</Steps>\r\n\r\n<Heading Size=\"HeadingSize.Is6\" Margin=\"Margin.Is4.FromTop\">Space between items</Heading>\r\n<Steps StepAlignment=\"StepAlignment.SpaceBetween\" SelectedStep=\"payment\" AriaLabel=\"Spread checkout progress\">\r\n    <Step Name=\"delivery\" Completed>Delivery details</Step>\r\n    <Step Name=\"payment\">Payment</Step>\r\n    <Step Name=\"review\">Review order</Step>\r\n</Steps>\r\n\r\n<Heading Size=\"HeadingSize.Is6\" Margin=\"Margin.Is4.FromTop\">Equal space for each item</Heading>\r\n<Steps StepAlignment=\"StepAlignment.Justified\" SelectedStep=\"payment\" AriaLabel=\"Equal-width checkout progress\">\r\n    <Step Name=\"delivery\" Completed>Delivery details</Step>\r\n    <Step Name=\"payment\">Payment</Step>\r\n    <Step Name=\"review\">Review order</Step>\r\n</Steps>",
+          "title": "Alignment",
+          "description": "Use StepAlignment.Start , Center , or End to group horizontal steps together. Choose SpaceBetween to spread the steps out, or Justified to distribute equal space around each step. The markers and captions keep their usual sizes. Default keeps the provider's usual layout."
         },
         {
           "code": "VerticalStepExample",

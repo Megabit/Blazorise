@@ -44,6 +44,19 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>, IAsyncDis
     #region Methods
 
     /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( StepAlignment, out var paramStepAlignment );
+
+        if ( paramStepAlignment.Changed )
+        {
+            DirtyClasses();
+        }
+
+        await base.SetParametersAsync( parameters );
+    }
+
+    /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         await JSModule.Initialize( ElementRef, ElementId );
@@ -81,7 +94,7 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>, IAsyncDis
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Steps() );
-        builder.Append( ClassProvider.StepsPosition( StepPosition ) );
+        builder.Append( ClassProvider.StepsLayout( StepPosition, StepAlignment ) );
 
         base.BuildClasses( builder );
     }
@@ -290,6 +303,12 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>, IAsyncDis
     /// Specifies the currently selected step name.
     /// </summary>
     [Parameter] public string SelectedStep { get; set; }
+
+    /// <summary>
+    /// Specifies how horizontal steps are distributed across the available width.
+    /// Defaults to <see cref="StepAlignment.Default"/>, preserving the provider's layout.
+    /// </summary>
+    [Parameter] public StepAlignment StepAlignment { get; set; }
 
     /// <summary>
     /// Specifies the placement of the steps relative to their content.
