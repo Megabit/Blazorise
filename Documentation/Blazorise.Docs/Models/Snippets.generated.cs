@@ -4866,6 +4866,16 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string ProgressWithTooltipExample = @"<Progress>
+    <ProgressBar Value=""15"" />
+    <ProgressBar Color=""Color.Success"" Value=""30"">
+        <Tooltip Text=""hello"" Width=""Width.Is100.OnWrapper"" Height=""Height.Is100.OnWrapper"">
+            30
+        </Tooltip>
+    </ProgressBar>
+    <ProgressBar Color=""Color.Info"" Value=""20"" />
+</Progress>";
+
         public const string PropertyGridBasicExample = @"<PropertyGrid Width=""Width.Px( 360 )"">
     <Toolbar>
         <PropertyGridToolbar>
