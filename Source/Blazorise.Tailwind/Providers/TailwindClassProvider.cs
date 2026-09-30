@@ -2455,7 +2455,11 @@ public class TailwindClassProvider : ClassProvider
 
     #region Kbd
 
-    public override string Kbd() => "tw-kbd";
+    public override string Kbd()
+        => "px-2 py-1.5 font-mono text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg whitespace-nowrap "
+        + "dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500 "
+        + "[&_kbd]:p-0 [&_kbd]:text-[1em] [&_kbd]:text-inherit [&_kbd]:bg-transparent [&_kbd]:border-0 [&_kbd]:rounded-none [&_kbd]:shadow-none "
+        + "dark:[&_kbd]:text-inherit dark:[&_kbd]:bg-transparent";
 
     #endregion
 
