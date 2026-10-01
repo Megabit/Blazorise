@@ -25392,6 +25392,14 @@ body .b-report {
   z-index: var(--zIndexFixed);
 }
 
+.fui-ZIndex-sidebar-backdrop.fui-ZIndex-sidebar-backdrop {
+  z-index: calc(var(--zIndexFixed) + 4);
+}
+
+.fui-ZIndex-sidebar.fui-ZIndex-sidebar {
+  z-index: calc(var(--zIndexFixed) + 5);
+}
+
 .fui-ZIndex-offcanvas-backdrop.fui-ZIndex-offcanvas-backdrop {
   z-index: var(--zIndexDrawerBackdrop);
 }

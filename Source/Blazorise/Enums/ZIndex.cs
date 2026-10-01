@@ -90,6 +90,16 @@ public sealed record ZIndex
     public static readonly ZIndex Fixed = new( "fixed" );
 
     /// <summary>
+    /// Uses the provider's sidebar backdrop layer.
+    /// </summary>
+    public static readonly ZIndex SidebarBackdrop = new( "sidebar-backdrop" );
+
+    /// <summary>
+    /// Uses the provider's sidebar layer for application navigation.
+    /// </summary>
+    public static readonly ZIndex Sidebar = new( "sidebar" );
+
+    /// <summary>
     /// Uses the provider's offcanvas backdrop layer.
     /// </summary>
     public static readonly ZIndex OffcanvasBackdrop = new( "offcanvas-backdrop" );

@@ -196,8 +196,10 @@ $pagination-padding-y-xl: 1rem !default;
 $pagination-padding-x-xl: 2rem !default;
 
 
-// Offcanvas
+// Sidebar and offcanvas
 
+$zindex-sidebar-backdrop: $zindex-fixed + 4 !default;
+$zindex-sidebar: $zindex-fixed + 5 !default;
 $zindex-offcanvas-backdrop: 1040 !default;
 $zindex-offcanvas: 1045 !default;
 $offcanvas-padding-y: $modal-inner-padding !default;
@@ -266,6 +268,8 @@ $z-index-values: (
     dropdown: $zindex-dropdown,
     sticky: $zindex-sticky,
     fixed: $zindex-fixed,
+    sidebar-backdrop: $zindex-sidebar-backdrop,
+    sidebar: $zindex-sidebar,
     offcanvas-backdrop: $zindex-offcanvas-backdrop,
     offcanvas: var(--offcanvas-zindex, #{$zindex-offcanvas}),
     modal-backdrop: $zindex-modal-backdrop,

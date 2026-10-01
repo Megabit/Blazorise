@@ -23204,6 +23204,14 @@ pre:has(> .mui-code) {
   z-index: var(--mui-zindex-fixed);
 }
 
+.mui-z-index-sidebar-backdrop.mui-z-index-sidebar-backdrop {
+  z-index: calc(var(--mui-zindex-fixed) + 4);
+}
+
+.mui-z-index-sidebar.mui-z-index-sidebar {
+  z-index: calc(var(--mui-zindex-fixed) + 5);
+}
+
 .mui-z-index-offcanvas-backdrop.mui-z-index-offcanvas-backdrop {
   z-index: var(--mui-zindex-drawerbackdrop);
 }

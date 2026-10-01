@@ -1070,6 +1070,8 @@ $z-index-values: (
     dropdown: var(--zIndexDropdown),
     sticky: var(--zIndexSticky),
     fixed: var(--zIndexFixed),
+    sidebar-backdrop: calc(var(--zIndexFixed) + 4),
+    sidebar: calc(var(--zIndexFixed) + 5),
     offcanvas-backdrop: var(--zIndexDrawerBackdrop),
     offcanvas: var(--zIndexDrawer),
     modal-backdrop: var(--zIndexModalBackdrop),

@@ -17,6 +17,7 @@
 <DocsPageParagraph>
     Choose a layer that matches your use case, and Blazorise selects the appropriate stacking value.
     Available layers are <Code>ZIndex.Dropdown</Code>, <Code>ZIndex.Sticky</Code>, <Code>ZIndex.Fixed</Code>,
+    <Code>ZIndex.SidebarBackdrop</Code>, <Code>ZIndex.Sidebar</Code>,
     <Code>ZIndex.OffcanvasBackdrop</Code>, <Code>ZIndex.Offcanvas</Code>, <Code>ZIndex.ModalBackdrop</Code>, <Code>ZIndex.Modal</Code>,
     <Code>ZIndex.Popover</Code>, <Code>ZIndex.Tooltip</Code>, <Code>ZIndex.Toast</Code>, <Code>ZIndex.Snackbar</Code>, or <Code>ZIndex.OnScreenKeyboard</Code>.
 </DocsPageParagraph>
@@ -24,6 +25,12 @@
 <DocsPageParagraph>
     For a floating toolbar, use <Code>&lt;Div Position="Position.Fixed" ZIndex="ZIndex.Fixed" /&gt;</Code>.
     Use <Code>Position</Code> to control placement and <Code>ZIndex</Code> to control stacking order.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Use <Code>ZIndex.Sidebar</Code> for application navigation and <Code>ZIndex.SidebarBackdrop</Code> for an overlay behind it.
+    Use <Code>ZIndex.Offcanvas</Code> and <Code>ZIndex.OffcanvasBackdrop</Code> for temporary slide-in panels.
+    Named layers use provider-specific values, and some layers can share the same value.
 </DocsPageParagraph>
 
 <DocsPageSection>

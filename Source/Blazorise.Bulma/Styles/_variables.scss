@@ -195,6 +195,8 @@ $z-index-values: (
     dropdown: var(--bulma-dropdown-content-z, 20),
     sticky: 20,
     fixed: 30,
+    sidebar-backdrop: 34,
+    sidebar: 35,
     offcanvas-backdrop: 1040,
     offcanvas: 1050,
     modal-backdrop: 0,

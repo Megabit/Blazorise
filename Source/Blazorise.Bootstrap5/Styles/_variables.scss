@@ -947,6 +947,8 @@ $print-body-min-width: map-get($grid-breakpoints, "lg") !default;
 $zindex-dropdown: 1000 !default;
 $zindex-sticky: 1020 !default;
 $zindex-fixed: 1030 !default;
+$zindex-sidebar-backdrop: $zindex-fixed + 4 !default;
+$zindex-sidebar: $zindex-fixed + 5 !default;
 $zindex-offcanvas-backdrop: 1040 !default;
 $zindex-offcanvas: 1045 !default;
 $zindex-modal-backdrop: 1050 !default;
@@ -963,6 +965,8 @@ $z-index-values: (
     dropdown: var(--bs-dropdown-zindex, #{$zindex-dropdown}),
     sticky: $zindex-sticky,
     fixed: $zindex-fixed,
+    sidebar-backdrop: $zindex-sidebar-backdrop,
+    sidebar: $zindex-sidebar,
     offcanvas-backdrop: var(--bs-backdrop-zindex, #{$zindex-offcanvas-backdrop}),
     offcanvas: var(--bs-offcanvas-zindex, #{$zindex-offcanvas}),
     modal-backdrop: var(--bs-backdrop-zindex, #{$zindex-modal-backdrop}),

@@ -9908,6 +9908,14 @@ ol.ordered-list-upper-roman {
   z-index: 1030;
 }
 
+.z-sidebar-backdrop.z-sidebar-backdrop {
+  z-index: 1034;
+}
+
+.z-sidebar.z-sidebar {
+  z-index: 1035;
+}
+
 .z-offcanvas-backdrop.z-offcanvas-backdrop {
   z-index: 1040;
 }

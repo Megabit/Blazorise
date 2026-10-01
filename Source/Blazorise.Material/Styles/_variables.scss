@@ -197,6 +197,8 @@ $z-index-values: (
     dropdown: var(--mui-zindex-dropdown),
     sticky: var(--mui-zindex-sticky),
     fixed: var(--mui-zindex-fixed),
+    sidebar-backdrop: calc(var(--mui-zindex-fixed) + 4),
+    sidebar: calc(var(--mui-zindex-fixed) + 5),
     offcanvas-backdrop: var(--mui-zindex-drawerbackdrop),
     offcanvas: var(--mui-zindex-drawer),
     modal-backdrop: var(--mui-zindex-modalbackdrop),

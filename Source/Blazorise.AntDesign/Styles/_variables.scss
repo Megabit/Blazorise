@@ -1305,6 +1305,8 @@ $z-index-values: (
     dropdown: var(--ant-dropdown-z-index-popup),
     sticky: calc(var(--ant-z-index-base) + 2),
     fixed: calc(var(--ant-z-index-base) + 3),
+    sidebar-backdrop: calc(var(--ant-z-index-base) + 4),
+    sidebar: calc(var(--ant-z-index-base) + 5),
     offcanvas-backdrop: var(--ant-drawer-z-index-popup),
     offcanvas: var(--ant-drawer-z-index-popup),
     modal-backdrop: var(--ant-z-index-popup-base),

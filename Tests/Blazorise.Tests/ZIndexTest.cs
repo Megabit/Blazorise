@@ -64,6 +64,8 @@ public class ZIndexTest
             ("z-dropdown", ZIndex.Dropdown),
             ("z-sticky", ZIndex.Sticky),
             ("z-fixed", ZIndex.Fixed),
+            ("z-sidebar-backdrop", ZIndex.SidebarBackdrop),
+            ("z-sidebar", ZIndex.Sidebar),
             ("z-offcanvas-backdrop", ZIndex.OffcanvasBackdrop),
             ("z-offcanvas", ZIndex.Offcanvas),
             ("z-modal-backdrop", ZIndex.ModalBackdrop),

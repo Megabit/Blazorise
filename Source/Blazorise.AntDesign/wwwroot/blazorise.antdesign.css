@@ -20367,6 +20367,14 @@ ol.ant-ordered-list-upper-roman {
   z-index: calc(var(--ant-z-index-base) + 3);
 }
 
+.ant-z-index-sidebar-backdrop.ant-z-index-sidebar-backdrop {
+  z-index: calc(var(--ant-z-index-base) + 4);
+}
+
+.ant-z-index-sidebar.ant-z-index-sidebar {
+  z-index: calc(var(--ant-z-index-base) + 5);
+}
+
 .ant-z-index-offcanvas-backdrop.ant-z-index-offcanvas-backdrop {
   z-index: var(--ant-drawer-z-index-popup);
 }

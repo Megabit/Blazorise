@@ -485,6 +485,15 @@
   .\!z-30 {
     z-index: 30 !important;
   }
+  .\!z-34 {
+    z-index: 34 !important;
+  }
+  .\!z-35 {
+    z-index: 35 !important;
+  }
+  .\!z-39 {
+    z-index: 39 !important;
+  }
   .\!z-40 {
     z-index: 40 !important;
   }
@@ -508,6 +517,9 @@
   }
   .z-30 {
     z-index: 30;
+  }
+  .z-39 {
+    z-index: 39;
   }
   .z-40 {
     z-index: 40;

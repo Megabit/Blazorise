@@ -12155,6 +12155,14 @@ ol.is-ordered-list-upper-roman {
   z-index: 30;
 }
 
+.is-z-index-sidebar-backdrop.is-z-index-sidebar-backdrop {
+  z-index: 34;
+}
+
+.is-z-index-sidebar.is-z-index-sidebar {
+  z-index: 35;
+}
+
 .is-z-index-offcanvas-backdrop.is-z-index-offcanvas-backdrop {
   z-index: 1040;
 }

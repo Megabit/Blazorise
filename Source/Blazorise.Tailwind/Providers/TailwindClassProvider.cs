@@ -1921,7 +1921,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string OffcanvasBody() => "grow overflow-y-auto text-sm text-gray-500 dark:text-gray-400 p-4";
 
-    public override string OffcanvasBackdrop() => "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-30";
+    public override string OffcanvasBackdrop() => "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-39";
 
     public override string OffcanvasBackdropFade( bool showing, bool hiding ) => "fade";
 
@@ -2904,7 +2904,10 @@ public class TailwindClassProvider : ClassProvider
         "3" => "!z-3",
         "dropdown" => "!z-10",
         "sticky" => "!z-20",
-        "fixed" or "offcanvas-backdrop" => "!z-30",
+        "fixed" => "!z-30",
+        "sidebar-backdrop" => "!z-34",
+        "sidebar" => "!z-35",
+        "offcanvas-backdrop" => "!z-39",
         "offcanvas" or "modal-backdrop" => "!z-40",
         "modal" or "popover" or "toast" => "!z-50",
         "tooltip" => "!z-[var(--tw-tooltip-z-index,10)]",
