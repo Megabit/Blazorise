@@ -4195,8 +4195,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     internal bool IsClientMacintoshOS { get; private set; }
 
     /// <summary>
-    /// Gets template for title of popup modal.
+    /// Gets template for title of popup modal. Defaults to <c>Built-in template</c>.
     /// </summary>
+    /// <remarks>Displays "Row Edit" when editing and "Row Create" when creating.</remarks>
     [Parameter]
     public RenderFragment<PopupTitleContext<TItem>> PopupTitleTemplate { get; set; } = context =>
     {

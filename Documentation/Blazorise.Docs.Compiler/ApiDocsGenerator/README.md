@@ -82,6 +82,8 @@ The documented value overrides the Default column and the API search index witho
 
 Use the exact sentence form `Defaults to <c>value</c>.`, either directly in `<summary>` or in a summary's `<para>`. The inline code element identifies the complete value, including decimal points, enum names, quoted strings, or comma-separated lists. Use XML entities such as `&lt;` and `&amp;` for special characters. Whitespace is collapsed to a single line.
 
+For template or delegate defaults, use a short descriptive label instead of the lambda implementation. Use `Built-in template` for a supplied template or a behavior label such as `Always true` for a predicate, and explain the default behavior in `<remarks>`.
+
 Only this sentence form overrides inference: plain prose, code examples, remarks, empty values, and conditional phrases such as `Defaults to <c>10</c> when enabled.` do not. For properties using `<inheritdoc/>`, a local documented default takes precedence over defaults inherited from an overridden property or an implemented interface.
 
 Do not add property initializers solely to fix documentation: they can bypass theme, parent, or global-option fallbacks. Existing `<remarks>Default: ...</remarks>` comments remain explanatory text and do not override the Default column.

@@ -1,12 +1,30 @@
-﻿@if ( !string.IsNullOrEmpty( Value ) )
+﻿@if ( !string.IsNullOrWhiteSpace( Value ) )
 {
-    <details>
-        <summary style="list-style: none; display: inline; cursor: pointer;">
-            <Badge Color="Color.Info">Remarks</Badge>
-        </summary>
-        <Paragraph> @((MarkupString)Value)</Paragraph>
-    </details>
+    <Div>
+        <Button Color="Color.Link" Size="Size.Small" Clicked="@OnToggleRemarksHandler"
+                Display="Display.InlineFlex" Flex="Flex.AlignItems.Center" Gap="Gap.Is2"
+                Padding="Padding.Is0" Margin="Margin.Is1.FromTop" Height="Height.Px( 44 )"
+                TextDecoration="TextDecoration.None"
+                aria-expanded="@(isExpanded ? "true" : "false")" aria-controls="@remarksElementId">
+            <Icon Name="@(isExpanded ? IconName.ChevronDown : IconName.ChevronRight)" aria-hidden="true" />
+            <Span>Remarks</Span>
+        </Button>
+        <Div ElementId="@remarksElementId" Display="@(isExpanded ? Display.Block : Display.None)"
+             Border="Border.Is2.OnStart" Padding="Padding.Is3.FromStart" Margin="Margin.Is2.FromBottom">
+            @((MarkupString)Value)
+        </Div>
+    </Div>
 }
+
 @code {
+    private readonly string remarksElementId = $"api-remarks-{Guid.NewGuid():N}";
+
+    private bool isExpanded;
+
+    private void OnToggleRemarksHandler()
+    {
+        isExpanded = !isExpanded;
+    }
+
     [Parameter] public string Value { get; set; } = "";
 }

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-10-01T08:26:47.4203274Z",
+  "generatedUtc": "2026-10-01T08:49:21.0918994Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -31750,8 +31750,9 @@
           "name": "PopupTitleTemplate",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<PopupTitleContext<TItem>>",
-          "defaultValue": "context =>\r\n    {\r\n        return builder =>\r\n        {\r\n            builder.AddContent( 0, context.EditState == DataGridEditState.Edit ? \"Row Edit\" : \"Row Create\" );\r\n        };\r\n    }",
+          "defaultValue": "Built-in template",
           "summary": "Gets template for title of popup modal.",
+          "remarks": "Displays \\\"Row Edit\\\" when editing and \\\"Row Create\\\" when creating.",
           "isBlazoriseEnum": false
         },
         {
@@ -145285,16 +145286,18 @@
           "name": "CanDragNode",
           "type": "Func<,>",
           "typeName": "Func<TNode, bool>",
-          "defaultValue": "_ => true",
+          "defaultValue": "Always true",
           "summary": "Determines whether the specified node can be dragged.",
+          "remarks": "The default predicate returns true for every node. Dragging must still be enabled with <strong>Draggable</strong>.",
           "isBlazoriseEnum": false
         },
         {
           "name": "CanDropNode",
           "type": "Func<,>",
           "typeName": "Func<TreeViewNodeDragEventArgs<TNode>, bool>",
-          "defaultValue": "_ => true",
+          "defaultValue": "Always true",
           "summary": "Determines whether a proposed drop operation is allowed.",
+          "remarks": "The default predicate returns true for every drop. The tree's drag-and-drop restrictions still apply.",
           "isBlazoriseEnum": false
         },
         {
