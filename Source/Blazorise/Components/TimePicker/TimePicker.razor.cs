@@ -1093,14 +1093,6 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     internal ITextLocalizer PickerLocalizer => Localizer;
 
     /// <summary>
-    /// Gets or sets the legacy TimePicker JavaScript module.
-    /// </summary>
-    /// <remarks>
-    /// Retained for source compatibility. The native TimePicker implementation does not use this module.
-    /// </remarks>
-    [Inject] public IJSTimePickerModule JSModule { get; set; }
-
-    /// <summary>
     /// Specifies the DI registered <see cref="ITextLocalizerService"/>.
     /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }

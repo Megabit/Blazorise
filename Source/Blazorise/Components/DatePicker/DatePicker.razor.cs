@@ -1970,14 +1970,6 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     protected string ProviderPickerContainerClassNames => CalendarContext.ContainerClassNames;
 
     /// <summary>
-    /// Gets or sets the legacy DatePicker JavaScript module.
-    /// </summary>
-    /// <remarks>
-    /// Retained for source compatibility. The native DatePicker implementation does not use this module.
-    /// </remarks>
-    [Inject] public IJSDatePickerModule JSModule { get; set; }
-
-    /// <summary>
     /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
     /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
