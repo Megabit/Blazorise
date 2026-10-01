@@ -9,55 +9,69 @@
 
 @if ( Title != null )
 {
-    <Heading Size="HeadingSize.Is4">
+    <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">
         @Title
     </Heading>
 }
 
-<Table Responsive Margin="Margin.Is4.FromBottom">
-    <TableHeader ThemeContrast="@ThemeContrast">
-        <TableRow>
-            <TableHeaderCell>@Name</TableHeaderCell>
-            <TableHeaderCell>Description</TableHeaderCell>
-            @if ( ShowReturnType )
-            {
-                <TableHeaderCell>Return</TableHeaderCell>
-            }
-            @if ( ShowParameters )
-            {
-                <TableHeaderCell>Parameters</TableHeaderCell>
-            }
-        </TableRow>
-    </TableHeader>
-    <TableBody>
-        @foreach ( var docsMethodsItem in DocsMethodsItems )
-        {
+<Div Border="Border.Is1.Rounded" Overflow="Overflow.Hidden" Margin="Margin.Is4.FromBottom">
+    <Table Responsive Borderless Margin="Margin.Is0">
+        <TableHeader ThemeContrast="@ThemeContrast">
             <TableRow>
-                <TableRowCell>
-                    <Code>@docsMethodsItem.Name</Code>
-                </TableRowCell>
-                <TableRowCell>
-                    @docsMethodsItem.ChildContent
-                </TableRowCell>
+                <TableHeaderCell Width="Width.Is33" Padding="Padding.Is3" TextSize="TextSize.Small" TextWeight="TextWeight.SemiBold" scope="col">@Name</TableHeaderCell>
                 @if ( ShowReturnType )
                 {
-                    <TableRowCell>
-                        @if ( !string.IsNullOrWhiteSpace( docsMethodsItem.ReturnType ) )
-                        {
-                            <Code Tag="@docsMethodsItem.ReturnTypeTag">@docsMethodsItem.ReturnType</Code>
-                        }
-                    </TableRowCell>
+                    <TableHeaderCell Width="Width.Is25" Padding="Padding.Is3" TextSize="TextSize.Small" TextWeight="TextWeight.SemiBold" scope="col">Return</TableHeaderCell>
                 }
                 @if ( ShowParameters )
                 {
-                    <TableRowCell>
-                        @if ( !string.IsNullOrWhiteSpace( docsMethodsItem.Parameters ) )
-                        {
-                            <Code TextColor="@docsMethodsItem.ParametersTextColor">@docsMethodsItem.Parameters</Code>
-                        }
-                    </TableRowCell>
+                    <TableHeaderCell Padding="Padding.Is3" TextSize="TextSize.Small" TextWeight="TextWeight.SemiBold" scope="col">Parameters</TableHeaderCell>
                 }
             </TableRow>
+        </TableHeader>
+        @foreach ( var docsMethodsItem in DocsMethodsItems )
+        {
+            <TableBody @key="@docsMethodsItem" Border="Border.Is1.OnTop">
+                <TableRow>
+                    <TableRowHeader Padding="Padding.Is3" VerticalAlignment="VerticalAlignment.Top" scope="rowgroup">
+                        <Code TextWeight="TextWeight.SemiBold">@docsMethodsItem.Name</Code>
+                    </TableRowHeader>
+                    @if ( ShowReturnType )
+                    {
+                        <TableRowCell Padding="Padding.Is3" VerticalAlignment="VerticalAlignment.Top">
+                            @if ( !string.IsNullOrWhiteSpace( docsMethodsItem.ReturnType ) )
+                            {
+                                <Code Tag="@docsMethodsItem.ReturnTypeTag">@docsMethodsItem.ReturnType</Code>
+                            }
+                            else
+                            {
+                                <Span TextColor="TextColor.Secondary" aria-label="Return type not specified">—</Span>
+                            }
+                        </TableRowCell>
+                    }
+                    @if ( ShowParameters )
+                    {
+                        <TableRowCell Padding="Padding.Is3" VerticalAlignment="VerticalAlignment.Top">
+                            @if ( !string.IsNullOrWhiteSpace( docsMethodsItem.Parameters ) )
+                            {
+                                <Code TextColor="@docsMethodsItem.ParametersTextColor">@docsMethodsItem.Parameters</Code>
+                            }
+                            else
+                            {
+                                <Span TextColor="TextColor.Secondary" aria-label="Parameters not specified">—</Span>
+                            }
+                        </TableRowCell>
+                    }
+                </TableRow>
+                <TableRow>
+                    <TableRowCell ColumnSpan="@(1 + (ShowReturnType ? 1 : 0) + (ShowParameters ? 1 : 0))" Padding="Padding.Is0">
+                        <Divider DividerType="DividerType.Dashed" Margin="Margin.Is0" />
+                        <Div Padding="Padding.Is3">
+                            @docsMethodsItem.ChildContent
+                        </Div>
+                    </TableRowCell>
+                </TableRow>
+            </TableBody>
         }
-    </TableBody>
-</Table>
+    </Table>
+</Div>

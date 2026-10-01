@@ -317,8 +317,9 @@ public partial class Addons : BaseComponent, IDisposable
     protected Size ThemeSize => Size.GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
 
     /// <summary>
-    /// Changes the size of the elements placed inside of this <see cref="Addons"/>.
+    /// Changes the size of the elements placed inside of this <see cref="Addons"/>. Defaults to <c>Default</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the theme input size, falling back to Size.Default.</remarks>
     [Parameter]
     public Size? Size
     {

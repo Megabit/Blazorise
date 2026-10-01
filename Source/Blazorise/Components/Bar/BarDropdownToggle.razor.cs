@@ -533,12 +533,12 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     }
 
     /// <summary>
-    /// Specifies a value indicating whether the dropdown toggle icon is visible.
+    /// Specifies a value indicating whether the dropdown toggle icon is visible. Defaults to <c>true</c>.
     /// </summary>
     /// <value>
     /// <c>true</c> if [show toggle]; otherwise, <c>false</c>.
     /// </value>
-    /// <remarks>Default: True</remarks>
+    /// <remarks>When unspecified, uses the theme setting, falling back to true.</remarks>
     [Parameter]
     public bool? ShowToggleIcon
     {
@@ -555,10 +555,11 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     }
 
     /// <summary>
-    /// Specifies a value indicating whether the dropdown toggle icon is visible.
+    /// Specifies a value indicating whether the dropdown toggle icon is visible. Defaults to <c>true</c>.
     /// </summary>
     /// <remarks>
     /// This parameter is retained for source compatibility. Use <see cref="ShowToggleIcon"/> instead.
+    /// <para>When unspecified, uses the theme setting, falling back to true.</para>
     /// </remarks>
     [Obsolete( "Use ShowToggleIcon instead." )]
     [Parameter]

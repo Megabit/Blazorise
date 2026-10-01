@@ -302,7 +302,7 @@ public partial class Bar : BaseComponent, IAsyncDisposable
     [Inject] protected NavigationManager NavigationManager { get; set; }
 
     /// <summary>
-    /// Controls the state of toggler and the menu.
+    /// Controls the state of toggler and the menu. Defaults to <c>true</c>.
     /// </summary>
     [Parameter]
     public virtual bool Visible
@@ -328,7 +328,7 @@ public partial class Bar : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
     /// <summary>
-    /// Used for responsive collapsing.
+    /// Used for responsive collapsing. Defaults to <c>None</c>.
     /// </summary>
     [Parameter]
     public Breakpoint Breakpoint
@@ -344,7 +344,7 @@ public partial class Bar : BaseComponent, IAsyncDisposable
 
 
     /// <summary>
-    /// Used for responsive collapsing after Navigation.
+    /// Used for responsive collapsing after Navigation. Defaults to <c>None</c>.
     /// </summary>
     [Parameter]
     public Breakpoint NavigationBreakpoint
@@ -359,7 +359,7 @@ public partial class Bar : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Specifies the preferred theme contrast for this <see cref="Bar"/> component.
+    /// Specifies the preferred theme contrast for this <see cref="Bar"/> component. Defaults to <c>Light</c>.
     /// </summary>
     [Parameter]
     public ThemeContrast ThemeContrast

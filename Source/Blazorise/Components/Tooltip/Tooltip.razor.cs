@@ -540,11 +540,12 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     [Parameter] public bool Fade { get; set; }
 
     /// <summary>
-    /// Specifies the visual effect used when the tooltip is shown or hidden.
+    /// Specifies the visual effect used when the tooltip is shown or hidden. Defaults to <c>None</c>.
     /// </summary>
     /// <remarks>
     /// Effects can be combined. When supplied, this parameter takes precedence over <see cref="Fade"/>.
     /// <see cref="TooltipAnimation.Auto"/> is provider-controlled and takes precedence when combined with another effect.
+    /// <para>When omitted, uses Auto when Fade is true and None otherwise.</para>
     /// </remarks>
     [Parameter] public TooltipAnimation Animation { get; set; }
 
@@ -591,13 +592,15 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Specifies the delay in ms once a trigger event is fired before a Tooltip shows.
+    /// Specifies the delay in ms once a trigger event is fired before a Tooltip shows. Defaults to <c>0</c>.
     /// </summary>
+    /// <remarks>When omitted, uses BlazoriseOptions.TooltipOptions.ShowDelay, falling back to 0 ms.</remarks>
     [Parameter] public int? ShowDelay { get; set; }
 
     /// <summary>
-    /// Specifies the delay in ms once a trigger event is fired before a Tooltip hides.
+    /// Specifies the delay in ms once a trigger event is fired before a Tooltip hides. Defaults to <c>0</c>.
     /// </summary>
+    /// <remarks>When omitted, uses BlazoriseOptions.TooltipOptions.HideDelay, falling back to 0 ms.</remarks>
     [Parameter] public int? HideDelay { get; set; }
 
     /// <summary>

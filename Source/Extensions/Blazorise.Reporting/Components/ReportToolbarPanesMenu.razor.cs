@@ -18,8 +18,9 @@ public partial class ReportToolbarPanesMenu
     [CascadingParameter] internal ReportToolbarContext ToolbarContext { get; set; }
 
     /// <summary>
-    /// Text shown for the pane menu.
+    /// Text shown for the pane menu. Defaults to <c>Panes</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the localized "Panes" caption.</remarks>
     [Parameter] public string Caption { get; set; } = "Panes";
 
     /// <summary>

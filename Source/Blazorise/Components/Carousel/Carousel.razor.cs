@@ -922,11 +922,13 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     /// <summary>
     /// Overrides the provider's animation duration, in milliseconds. Null preserves the provider's default.
     /// Zero or a negative value disables transitions.
+    /// Defaults to <c>Provider default</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the provider CSS transition duration. Animation is disabled when Animated is false.</remarks>
     [Parameter] public int? AnimationDuration { get; set; }
 
     /// <summary>
-    /// Determines whether playback starts automatically.
+    /// Determines whether playback starts automatically. Defaults to <c>true</c>.
     /// </summary>
     [Parameter]
     public bool Autoplay
@@ -941,7 +943,7 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     }
 
     /// <summary>
-    /// Auto-repeats the carousel slides once they reach the end.
+    /// Auto-repeats the carousel slides once they reach the end. Defaults to <c>true</c>.
     /// </summary>
     [Parameter]
     public bool AutoRepeat

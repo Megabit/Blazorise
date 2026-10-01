@@ -2019,8 +2019,9 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     [Parameter] public DateInputSelectionMode SelectionMode { get; set; } = DateInputSelectionMode.Single;
 
     /// <summary>
-    /// Overrides the range separator that is used to separate date values when <see cref="SelectionMode"/> is set to <see cref="DateInputSelectionMode.Range"/>.
+    /// Overrides the range separator that is used to separate date values when <see cref="SelectionMode"/> is set to <see cref="DateInputSelectionMode.Range"/>. Defaults to <c>" to "</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the localized range separator, falling back to " to ".</remarks>
     [Parameter] public string RangeSeparator { get; set; }
 
     /// <summary>
@@ -2042,10 +2043,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Monday;
 
     /// <summary>
-    /// Specifies the display format of the date input using the picker format syntax supported by earlier versions.
+    /// Specifies the display format of the date input using the picker format syntax supported by earlier versions. Defaults to <c>yyyy-MM-dd</c>.
     /// </summary>
     /// <remarks>
     /// Week mode additionally supports <c>w</c>, <c>ww</c>, and <c>wo</c> for the week number and its English ordinal form.
+    /// <para>When omitted, resolves the display format from InputMode and DateFormat.</para>
     /// </remarks>
     [Parameter] public string DisplayFormat { get; set; }
 

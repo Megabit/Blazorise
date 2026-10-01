@@ -349,8 +349,9 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     }
 
     /// <summary>
-    /// Specifies the dropdown size.
+    /// Specifies the dropdown size. Defaults to <c>Default</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the theme dropdown size, falling back to Size.Default.</remarks>
     [Parameter] public Size? Size { get; set; }
 
     /// <summary>
@@ -417,19 +418,20 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     }
 
     /// <summary>
-    /// Specifies a value indicating whether the dropdown toggle icon is visible.
+    /// Specifies a value indicating whether the dropdown toggle icon is visible. Defaults to <c>true</c>.
     /// </summary>
     /// <value>
     /// <c>true</c> if [show toggle]; otherwise, <c>false</c>.
     /// </value>
-    /// <remarks>Default: True</remarks>
+    /// <remarks>When unspecified, uses the theme setting, falling back to true.</remarks>
     [Parameter] public bool? ShowToggleIcon { get; set; }
 
     /// <summary>
-    /// Specifies a value indicating whether the dropdown toggle icon is visible.
+    /// Specifies a value indicating whether the dropdown toggle icon is visible. Defaults to <c>true</c>.
     /// </summary>
     /// <remarks>
     /// This parameter is retained for source compatibility. Use <see cref="ShowToggleIcon"/> instead.
+    /// <para>When unspecified, uses the theme setting, falling back to true.</para>
     /// </remarks>
     [Obsolete( "Use ShowToggleIcon instead." )]
     [Parameter]

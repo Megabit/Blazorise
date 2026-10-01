@@ -815,7 +815,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Parameter] public VideoSource Source { get; set; }
 
     /// <summary>
-    /// Specifies the poster image shown before playback begins.
+    /// Specifies the poster image shown before playback begins. Defaults to <c>Source.Poster</c>.
     /// </summary>
     [Parameter] public string Poster { get; set; }
 

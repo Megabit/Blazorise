@@ -722,26 +722,29 @@ public partial class CodeEditor : BaseInputComponent<string>, IAsyncDisposable
     [Parameter] public CodeEditorOptions EditorOptions { get; set; }
 
     /// <summary>
-    /// Gets or sets whether user-originated value updates are sent to .NET while typing.
+    /// Gets or sets whether user-originated value updates are sent to .NET while typing. Defaults to <c>true</c>.
     /// </summary>
     /// <remarks>
     /// When supplied, this value overrides the global Blazorise immediate option. When disabled, the value is sent on blur.
+    /// <para>When unspecified, uses BlazoriseOptions.Immediate, falling back to true.</para>
     /// </remarks>
     [Parameter] public bool Immediate { get; set; }
 
     /// <summary>
-    /// Gets or sets whether user-originated value updates are debounced before being sent to .NET.
+    /// Gets or sets whether user-originated value updates are debounced before being sent to .NET. Defaults to <c>false</c>.
     /// </summary>
     /// <remarks>
     /// When supplied, this value overrides the global Blazorise debounce option.
+    /// <para>When unspecified, uses BlazoriseOptions.Debounce, falling back to false.</para>
     /// </remarks>
     [Parameter] public bool Debounce { get; set; }
 
     /// <summary>
-    /// Gets or sets the debounce interval in milliseconds.
+    /// Gets or sets the debounce interval in milliseconds. Defaults to <c>300</c>.
     /// </summary>
     /// <remarks>
     /// When set, this value overrides the global Blazorise debounce interval.
+    /// <para>When unspecified, uses BlazoriseOptions.DebounceInterval, falling back to 300.</para>
     /// </remarks>
     [Parameter] public int? DebounceInterval { get; set; }
 

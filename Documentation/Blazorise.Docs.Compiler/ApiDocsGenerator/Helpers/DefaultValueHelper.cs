@@ -1,6 +1,9 @@
 ﻿#region Using directives
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -10,6 +13,136 @@ namespace Blazorise.Docs.Compiler.ApiDocsGenerator.Helpers;
 
 public static class DefaultValueHelper
 {
+    /// <summary>
+    /// Reads a "Defaults to" sentence with an inline code value from the property summary.
+    /// </summary>
+    public static string GetDocumentedDefaultValue( IPropertySymbol property )
+    {
+        var xmlComment = property.GetDocumentationCommentXml();
+
+        if ( string.IsNullOrWhiteSpace( xmlComment ) )
+        {
+            return null;
+        }
+
+        XElement comment;
+
+        try
+        {
+            comment = XElement.Parse( xmlComment );
+        }
+        catch ( XmlException )
+        {
+            return null;
+        }
+
+        var valueElement = FindDocumentedDefaultElement( comment.Element( "summary" ) );
+
+        if ( valueElement is not null )
+        {
+            return Regex.Replace( valueElement.Value.Trim(), @"\s+", " " );
+        }
+
+        if ( comment.Element( "inheritdoc" ) is null )
+        {
+            return null;
+        }
+
+        if ( property.OverriddenProperty is not null )
+        {
+            return GetDocumentedDefaultValue( property.OverriddenProperty );
+        }
+
+        foreach ( var interfaceType in property.ContainingType.AllInterfaces.OrderBy( type => type.ToDisplayString(), StringComparer.Ordinal ) )
+        {
+            foreach ( var interfaceProperty in interfaceType.GetMembers().OfType<IPropertySymbol>() )
+            {
+                if ( SymbolEqualityComparer.Default.Equals( property.ContainingType.FindImplementationForInterfaceMember( interfaceProperty ), property ) )
+                {
+                    var inheritedDefault = GetDocumentedDefaultValue( interfaceProperty );
+
+                    if ( inheritedDefault is not null )
+                    {
+                        return inheritedDefault;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Removes the default sentence displayed in the API Default column from a summary fragment.
+    /// </summary>
+    internal static string RemoveDocumentedDefault( string summaryXml )
+    {
+        XElement summary;
+
+        try
+        {
+            summary = XElement.Parse( $"<summary>{summaryXml}</summary>" );
+        }
+        catch ( XmlException )
+        {
+            return summaryXml;
+        }
+
+        var valueElement = FindDocumentedDefaultElement( summary );
+
+        if ( valueElement is null )
+        {
+            return summaryXml;
+        }
+
+        var precedingText = (XText)valueElement.PreviousNode;
+        var followingText = (XText)valueElement.NextNode;
+        precedingText.Value = Regex.Replace( precedingText.Value, @"Defaults\s+to\s+$", string.Empty );
+        followingText.Value = Regex.Replace( followingText.Value, @"^\s*\.\s*", string.Empty );
+
+        if ( followingText.NextNode is null && string.IsNullOrWhiteSpace( followingText.Value ) )
+        {
+            precedingText.Value = precedingText.Value.TrimEnd();
+        }
+
+        var parent = valueElement.Parent;
+        valueElement.Remove();
+
+        while ( parent != summary && !parent.HasElements && string.IsNullOrWhiteSpace( parent.Value ) )
+        {
+            var emptyParagraph = parent;
+            parent = parent.Parent;
+            emptyParagraph.Remove();
+        }
+
+        return string.Concat( summary.Nodes().Select( node => node.ToString( SaveOptions.DisableFormatting ) ) ).Trim();
+    }
+
+    private static XElement FindDocumentedDefaultElement( XElement summary )
+    {
+        if ( summary is null )
+        {
+            return null;
+        }
+
+        foreach ( var valueElement in summary.Descendants( "c" ) )
+        {
+            if ( valueElement.Ancestors().TakeWhile( ancestor => ancestor != summary ).Any( ancestor => ancestor.Name != "para" )
+                || valueElement.PreviousNode is not XText precedingText
+                || valueElement.NextNode is not XText followingText
+                || !Regex.IsMatch( precedingText.Value, @"(?:^\s*|[.!?]\s+)Defaults\s+to\s+$" )
+                || !Regex.IsMatch( followingText.Value, @"^\s*\.(?:\s|$)" )
+                || string.IsNullOrWhiteSpace( valueElement.Value ) )
+            {
+                continue;
+            }
+
+            return valueElement;
+        }
+
+        return null;
+    }
+
     public static object GetDefaultValue( Compilation compilation, IPropertySymbol property )
     {
         object defaultValue = null;

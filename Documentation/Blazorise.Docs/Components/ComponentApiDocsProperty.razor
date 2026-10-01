@@ -19,25 +19,23 @@
         {
             <DocsAttributesItem @key="@property.Name" Name="@property.Name" Type="@property.TypeName"
                                 Default="@property.DefaultValueString">
-                <Paragraph Margin="Margin.Is0.FromBottom">
+                <Div>
                     @((MarkupString)property.Summary)
-                </Paragraph>
+                </Div>
 
                 @if ( property.IsBlazoriseEnum )
                 {
-                    var enumNames = Enum.GetNames(property.Type);
+                    var enumNames = Enum.GetNames( property.Type );
 
-                    @if ( enumNames.Count() <= 30 )
+                    @if ( enumNames.Length <= 30 )
                     {
-                        <Paragraph Margin="Margin.Is3.FromTop.Is0.FromBottom">
+                        <Div Flex="Flex.Wrap.AlignItems.Baseline" Gap="Gap.Is2" Margin="Margin.Is2.FromTop" TextSize="TextSize.Small">
                             <Text>Possible values:</Text>
-                            @for ( var i = 0; i < enumNames.Length; i++ )
+                            @foreach ( var enumName in enumNames )
                             {
-                                int enumIndex = i;
-                                <Code>@enumNames[enumIndex]</Code>
-                                @(i < @enumNames.Length - 1 ? ", " : "")
+                                <Code>@enumName</Code>
                             }
-                        </Paragraph>
+                        </Div>
                     }
                 }
                 <ComponentApiDocsRemarks Value="@property.Remarks" />

@@ -1884,8 +1884,9 @@ public partial class PivotGrid<TItem> : BaseComponent
     [Parameter] public int MaxPaginationLinks { get; set; } = 5;
 
     /// <summary>
-    /// Pager control size.
+    /// Pager control size. Defaults to <c>Default</c>.
     /// </summary>
+    /// <remarks>When omitted, uses Size.Default.</remarks>
     [Parameter] public Size? PagerSize { get; set; }
 
     /// <summary>

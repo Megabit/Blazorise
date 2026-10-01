@@ -162,8 +162,9 @@ public partial class RatingItem : BaseComponent
     }
 
     /// <summary>
-    /// Specifies the item intent.
+    /// Specifies the item intent. Defaults to <c>Warning</c>.
     /// </summary>
+    /// <remarks>Derived from Color.</remarks>
     [Parameter]
     public Intent Intent
     {

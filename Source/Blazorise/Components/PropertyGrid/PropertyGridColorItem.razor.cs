@@ -97,8 +97,9 @@ public partial class PropertyGridColorItem : BasePropertyGridEditorItem
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
 
     /// <summary>
-    /// Defines the named colors available in the select editor.
+    /// Defines the named colors available in the select editor. Defaults to <c>Built-in colors</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the built-in named color options.</remarks>
     [Parameter] public IReadOnlyList<PropertyGridSelectOption<string>> NamedColors { get; set; }
 
     /// <summary>

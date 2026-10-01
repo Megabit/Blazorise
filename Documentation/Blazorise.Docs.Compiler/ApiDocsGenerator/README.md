@@ -57,7 +57,38 @@ how to debug it
 
 ## Default Values
 
-The source generator (SG) is designed to pick up almost any default value.
+The generator reads property initializers and simple getters backed by initialized fields. It does not evaluate constructors, lifecycle methods, nested state objects, theme settings, or other runtime logic.
+
+When the effective default cannot be inferred from the property declaration, add a `Defaults to <c>value</c>.` sentence to the property's `<summary>`:
+
+```csharp
+/// <summary>
+/// Specifies the maximum number of items per page. Defaults to <c>10</c>.
+/// </summary>
+[Parameter] public int PageSize { get => paginationContext.PageSize; set => paginationContext.PageSize = value; }
+```
+
+The documented value overrides the Default column and the API search index without changing runtime behavior. The generator omits the sentence from the API description, while XML documentation and IntelliSense retain it. Keep the default sentence on the same comment line when the existing summary text fits on one line. Use a simple value, and explain inheritance or conditions in `<remarks>`. If there is no single default, use a short label such as `Provider default`:
+
+```csharp
+/// <summary>
+/// Specifies whether the dropdown toggle icon is visible. Defaults to <c>true</c>.
+/// </summary>
+/// <remarks>
+/// When unspecified, uses the theme setting, falling back to true.
+/// </remarks>
+[Parameter] public bool? ShowToggleIcon { get; set; }
+```
+
+Use the exact sentence form `Defaults to <c>value</c>.`, either directly in `<summary>` or in a summary's `<para>`. The inline code element identifies the complete value, including decimal points, enum names, quoted strings, or comma-separated lists. Use XML entities such as `&lt;` and `&amp;` for special characters. Whitespace is collapsed to a single line.
+
+For template or delegate defaults, use a short descriptive label instead of the lambda implementation. Use `Built-in template` for a supplied template or a behavior label such as `Always true` for a predicate, and explain the default behavior in `<remarks>`.
+
+Only this sentence form overrides inference: plain prose, code examples, remarks, empty values, and conditional phrases such as `Defaults to <c>10</c> when enabled.` do not. For properties using `<inheritdoc/>`, a local documented default takes precedence over defaults inherited from an overridden property or an implemented interface.
+
+Do not add property initializers solely to fix documentation: they can bypass theme, parent, or global-option fallbacks. Existing `<remarks>Default: ...</remarks>` comments remain explanatory text and do not override the Default column.
+
+For ordinary property initializers, no default sentence is needed:
 
 ```csharp
 [Parameter] public string SomeValue { get; set; } = "some string value";

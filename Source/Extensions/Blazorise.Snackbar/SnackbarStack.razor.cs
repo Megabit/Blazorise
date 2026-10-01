@@ -244,7 +244,7 @@ public partial class SnackbarStack : BaseComponent
     [Parameter] public string CloseButtonText { get; set; }
 
     /// <summary>
-    /// Specifies an icon to show for snackbar close button. Leave as null to not show it!
+    /// Specifies an icon to show for snackbar close button. Leave as null to not show it! Defaults to <c>Times</c>.
     /// </summary>
     [Parameter] public object CloseButtonIcon { get; set; }
 

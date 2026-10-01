@@ -511,23 +511,27 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     [CascadingParameter] protected Validations ParentValidations { get; set; }
 
     /// <summary>
-    /// Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.
+    /// Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used. Defaults to <c>false</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the global accessibility setting and enabled input types.</remarks>
     [Parameter] public bool OnScreenKeyboard { get; set; }
 
     /// <summary>
-    /// Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.
+    /// Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used. Defaults to <c>Input-dependent</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the global default layout, then the input component's layout.</remarks>
     [Parameter] public OnScreenKeyboardLayout OnScreenKeyboardLayout { get; set; }
 
     /// <summary>
-    /// Specifies how the on-screen keyboard enter key should behave for this input component.
+    /// Specifies how the on-screen keyboard enter key should behave for this input component. Defaults to <c>Input-dependent</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the cascading override, then the global option, then the input component's behavior.</remarks>
     [Parameter] public OnScreenKeyboardEnterKeyBehavior OnScreenKeyboardEnterKeyBehavior { get; set; }
 
     /// <summary>
-    /// Gets or sets how the on-screen keyboard is shown for this input.
+    /// Gets or sets how the on-screen keyboard is shown for this input. Defaults to <c>Focus</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the global show mode; Default resolves to Focus.</remarks>
     [Parameter] public OnScreenKeyboardShowMode OnScreenKeyboardShowMode { get; set; }
 
     #endregion

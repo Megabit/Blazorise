@@ -431,8 +431,9 @@ public partial class Button : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Changes the size of a button.
+    /// Changes the size of a button. Defaults to <c>Default</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the parent Addons size, then the theme input size, then Size.Default.</remarks>
     [Parameter]
     public Size? Size
     {

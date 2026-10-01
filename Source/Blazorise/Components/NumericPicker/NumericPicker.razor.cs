@@ -656,7 +656,7 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
     [Parameter] public bool AlwaysAllowDecimalSeparator { get; set; }
 
     /// <summary>
-    /// Helps define the language of an element. See <see href="https://www.w3schools.com/tags/ref_language_codes.asp">w3schools.com</see>.
+    /// Helps define the language of an element. See <see href="https://www.w3schools.com/tags/ref_language_codes.asp">w3schools.com</see>. Defaults to <c>CultureInfo.InvariantCulture</c>.
     /// </summary>
     [Parameter] public string Culture { get; set; }
 
@@ -681,13 +681,15 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
     [Parameter] public int? VisibleCharacters { get; set; }
 
     /// <summary>
-    /// If true, step buttons will be visible.
+    /// If true, step buttons will be visible. Defaults to <c>true</c>.
     /// </summary>
+    /// <remarks>When omitted, uses BlazoriseOptions.ShowNumericStepButtons. Step buttons are hidden when stepping is disabled.</remarks>
     [Parameter] public bool? ShowStepButtons { get; set; }
 
     /// <summary>
-    /// If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys.
+    /// If true, enables change of numeric value by pressing on step buttons or by keyboard up/down keys. Defaults to <c>true</c>.
     /// </summary>
+    /// <remarks>When unspecified, uses BlazoriseOptions.EnableNumericStep, falling back to true.</remarks>
     [Parameter] public bool? EnableStep { get; set; }
 
     /// <summary>

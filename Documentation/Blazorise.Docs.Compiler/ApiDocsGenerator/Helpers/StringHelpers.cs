@@ -90,6 +90,11 @@ public class StringHelpers
             return part.GetDefault();
         var text = match.Groups[1].Value.Trim();
 
+        if ( iSymbol is IPropertySymbol && part == ExtractorParts.Summary )
+        {
+            text = DefaultValueHelper.RemoveDocumentedDefault( text );
+        }
+
         XmlCommentToHtmlConverter converter = new();
         text = converter.Convert( text );
         return text;

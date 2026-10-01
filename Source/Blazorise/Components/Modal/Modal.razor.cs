@@ -689,9 +689,9 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     [Parameter] public ModalRenderMode RenderMode { get; set; }
 
     /// <summary>
-    /// Specifies if the modal should keep the input focus at all times.
-    /// When not defined, the global <see cref="BlazoriseOptions.ModalFocusTrap"/> option is used, which defaults to <c>true</c>.
+    /// Specifies if the modal should keep the input focus at all times. Defaults to <c>true</c>.
     /// </summary>
+    /// <remarks>When unspecified, uses BlazoriseOptions.ModalFocusTrap, falling back to true.</remarks>
     [Parameter] public bool FocusTrap { get; set; } = true;
 
     /// <summary>

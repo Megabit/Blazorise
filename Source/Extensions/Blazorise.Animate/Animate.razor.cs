@@ -330,61 +330,69 @@ public partial class Animate : BaseComponent, IAsyncDisposable
     protected JSAnimateModule JSModule { get; private set; }
 
     /// <summary>
-    /// Specifies the animation effect.
+    /// Specifies the animation effect. Defaults to <c>Fade</c>.
     /// </summary>
     /// <remarks>
     /// The list of all supported animations can be found in <see cref="Animations"/> class.
+    /// <para>When omitted, uses AnimateOptions.Animation, falling back to Fade.</para>
     /// </remarks>
     [Parameter] public IAnimation Animation { get; set; }
 
     /// <summary>
-    /// Specifies the easing effect.
+    /// Specifies the easing effect. Defaults to <c>Ease</c>.
     /// </summary>
     /// <remarks>
     /// The list of all supported easings can be found in <see cref="Easings"/> class.
+    /// <para>When omitted, uses AnimateOptions.Easing, falling back to Easings.Ease.</para>
     /// </remarks>
     [Parameter] public IEasing Easing { get; set; }
 
     /// <summary>
-    /// Gets os sets the total duration of the animation.
+    /// Gets os sets the total duration of the animation. Defaults to <c>400 ms</c>.
     /// </summary>
     /// <remarks>
     /// Values from 0 to 3000, with step 50ms.
+    /// <para>When omitted, uses DurationMilliseconds, then a positive AnimateOptions.Duration, then 400 ms.</para>
     /// </remarks>
     [Parameter] public TimeSpan? Duration { get; set; }
 
     /// <summary>
-    /// Gets os sets the total duration of the animation, in milliseconds.
+    /// Gets os sets the total duration of the animation, in milliseconds. Defaults to <c>400</c>.
     /// </summary>
     /// <remarks>
     /// Values from 0 to 3000, with step 50ms.
+    /// <para>When omitted, uses a positive AnimateOptions.Duration, then 400 ms. Duration takes precedence when supplied.</para>
     /// </remarks>
     [Parameter] public int? DurationMilliseconds { get; set; }
 
     /// <summary>
-    /// Gets os sets the delay of the animation before it runs automatically, or manually.
+    /// Gets os sets the delay of the animation before it runs automatically, or manually. Defaults to <c>0 ms</c>.
     /// </summary>
     /// <remarks>
     /// Values from 0 to 3000, with step 50ms.
+    /// <para>When omitted, uses DelayMilliseconds, then a positive AnimateOptions.Delay, then 0 ms.</para>
     /// </remarks>
     [Parameter] public TimeSpan? Delay { get; set; }
 
     /// <summary>
-    /// Gets os sets the delay in milliseconds of the animation before it runs automatically, or manually.
+    /// Gets os sets the delay in milliseconds of the animation before it runs automatically, or manually. Defaults to <c>0</c>.
     /// </summary>
     /// <remarks>
     /// Values from 0 to 3000, with step 50ms.
+    /// <para>When omitted, uses a positive AnimateOptions.Delay, then 0 ms. Delay takes precedence when supplied.</para>
     /// </remarks>
     [Parameter] public int? DelayMilliseconds { get; set; }
 
     /// <summary>
-    /// Whether elements should animate out while scrolling past them.
+    /// Whether elements should animate out while scrolling past them. Defaults to <c>false</c>.
     /// </summary>
+    /// <remarks>When omitted, uses AnimateOptions.Mirror, falling back to false.</remarks>
     [Parameter] public bool Mirror { get; set; }
 
     /// <summary>
-    /// Whether animation should happen only once - while scrolling down.
+    /// Whether animation should happen only once - while scrolling down. Defaults to <c>false</c>.
     /// </summary>
+    /// <remarks>When omitted, uses AnimateOptions.Once, falling back to false.</remarks>
     [Parameter] public bool Once { get; set; }
 
     /// <summary>

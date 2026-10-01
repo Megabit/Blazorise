@@ -223,7 +223,7 @@ public partial class Progress : BaseComponent<ProgressClasses, ProgressStyles>, 
     protected StyleBuilder ProgressBarStyleBuilder { get; private set; }
 
     /// <summary>
-    /// Specifies the contextual or explicit CSS color of the progress bar.
+    /// Specifies the contextual or explicit CSS color of the progress bar. Defaults to <c>Primary</c>.
     /// </summary>
     [Parameter]
     public Color Color
@@ -239,8 +239,9 @@ public partial class Progress : BaseComponent<ProgressClasses, ProgressStyles>, 
     }
 
     /// <summary>
-    /// Specifies the progress bar intent.
+    /// Specifies the progress bar intent. Defaults to <c>Primary</c>.
     /// </summary>
+    /// <remarks>Derived from Color.</remarks>
     [Parameter]
     public Intent Intent
     {
@@ -249,8 +250,9 @@ public partial class Progress : BaseComponent<ProgressClasses, ProgressStyles>, 
     }
 
     /// <summary>
-    /// Size of the progress bar.
+    /// Size of the progress bar. Defaults to <c>Default</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the theme progress size, falling back to Size.Default.</remarks>
     [Parameter]
     public Size? Size
     {
@@ -324,7 +326,7 @@ public partial class Progress : BaseComponent<ProgressClasses, ProgressStyles>, 
     }
 
     /// <summary>
-    /// Maximum value of the progress bar.
+    /// Maximum value of the progress bar. Defaults to <c>100</c>.
     /// </summary>
     [Parameter]
     public int Max

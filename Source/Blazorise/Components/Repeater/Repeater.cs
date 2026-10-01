@@ -164,12 +164,13 @@ public class Repeater<TItem> : IComponent, IDisposable
     [Parameter] public IEnumerable<TItem> Items { get; set; }
 
     /// <summary>
-    /// [Optional] The number of items to take.
+    /// [Optional] The number of items to take. Defaults to <c>long.MaxValue</c>.
     /// </summary>
+    /// <remarks>When omitted, takes all remaining items using long.MaxValue.</remarks>
     [Parameter] public long? Take { get; set; }
 
     /// <summary>
-    /// [Optional] The number of items to skip.
+    /// [Optional] The number of items to skip. Defaults to <c>0</c>.
     /// </summary>
     [Parameter] public long? Skip { get; set; }
 

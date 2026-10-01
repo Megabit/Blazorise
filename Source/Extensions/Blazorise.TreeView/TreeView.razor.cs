@@ -555,6 +555,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     /// Controls if the child nodes, which are currently not expanded, are visible.
     /// This is useful for optimizing large TreeViews. See <see href="https://learn.microsoft.com/en-us/aspnet/core/blazor/components/virtualization">Docs for virtualization</see> for more info.
     /// </summary>
+    /// <remarks>When virtualization is enabled after rendering, an omitted Height becomes 300px and an omitted Overflow becomes Auto.</remarks>
     [Parameter] public bool Virtualize { get; set; }
 
     /// <summary>
@@ -633,13 +634,15 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     [Parameter] public bool Reorderable { get; set; }
 
     /// <summary>
-    /// Determines whether the specified node can be dragged.
+    /// Determines whether the specified node can be dragged. Defaults to <c>Always true</c>.
     /// </summary>
+    /// <remarks>The default predicate returns true for every node. Dragging must still be enabled with <see cref="Draggable"/>.</remarks>
     [Parameter] public Func<TNode, bool> CanDragNode { get; set; } = _ => true;
 
     /// <summary>
-    /// Determines whether a proposed drop operation is allowed.
+    /// Determines whether a proposed drop operation is allowed. Defaults to <c>Always true</c>.
     /// </summary>
+    /// <remarks>The default predicate returns true for every drop. The tree's drag-and-drop restrictions still apply.</remarks>
     [Parameter] public Func<TreeViewNodeDragEventArgs<TNode>, bool> CanDropNode { get; set; } = _ => true;
 
     /// <summary>

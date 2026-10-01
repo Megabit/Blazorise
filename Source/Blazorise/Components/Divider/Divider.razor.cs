@@ -81,8 +81,9 @@ public partial class Divider : BaseComponent, IDisposable
         => DividerType.GetValueOrDefault( Theme?.DividerOptions?.DividerType ?? Blazorise.DividerType.Solid );
 
     /// <summary>
-    /// Specifies the type and style of the divider.
+    /// Specifies the type and style of the divider. Defaults to <c>Solid</c>.
     /// </summary>
+    /// <remarks>When unspecified, uses the theme setting, falling back to Solid.</remarks>
     [Parameter]
     public DividerType? DividerType
     {

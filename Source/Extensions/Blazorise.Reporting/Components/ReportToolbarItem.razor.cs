@@ -80,13 +80,15 @@ public partial class ReportToolbarItem
     [Parameter] public ReportCommand Command { get; set; }
 
     /// <summary>
-    /// Text shown for the toolbar item instead of the command name.
+    /// Text shown for the toolbar item instead of the command name. Defaults to <c>Command</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the command name.</remarks>
     [Parameter] public string Caption { get; set; }
 
     /// <summary>
-    /// Icon shown for the toolbar item instead of the default command icon.
+    /// Icon shown for the toolbar item instead of the default command icon. Defaults to <c>Command icon</c>.
     /// </summary>
+    /// <remarks>When omitted, uses the default icon for Command.</remarks>
     [Parameter] public IconName? Icon { get; set; }
 
     /// <summary>
@@ -105,8 +107,9 @@ public partial class ReportToolbarItem
     [Parameter] public RenderFragment<ReportToolbarItemContext> ButtonTemplate { get; set; }
 
     /// <summary>
-    /// Explicit button color applied regardless of active state.
+    /// Explicit button color applied regardless of active state. Defaults to <c>Secondary</c>.
     /// </summary>
+    /// <remarks>When omitted, uses ActiveColor when active and InactiveColor otherwise.</remarks>
     [Parameter] public Color Color { get; set; }
 
     /// <summary>

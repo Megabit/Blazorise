@@ -109,8 +109,9 @@ public partial class ProgressBar : BaseComponent
     }
 
     /// <summary>
-    /// Specifies the progress bar intent.
+    /// Specifies the progress bar intent. Defaults to <c>Primary</c>.
     /// </summary>
+    /// <remarks>Derived from Color.</remarks>
     [Parameter]
     public Intent Intent
     {

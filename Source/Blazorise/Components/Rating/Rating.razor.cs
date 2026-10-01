@@ -184,8 +184,9 @@ public partial class Rating : BaseComponent
     }
 
     /// <summary>
-    /// Specifies the intent of the rating icons.
+    /// Specifies the intent of the rating icons. Defaults to <c>Warning</c>.
     /// </summary>
+    /// <remarks>Derived from Color.</remarks>
     [Parameter]
     public Intent Intent
     {
