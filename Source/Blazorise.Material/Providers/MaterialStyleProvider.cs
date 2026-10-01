@@ -2,6 +2,12 @@ namespace Blazorise.Material.Providers;
 
 public class MaterialStyleProvider : StyleProvider
 {
+    #region DockLayout
+
+    public override string DockLayoutVariable( string name ) => $"--mui-dock-{name}";
+
+    #endregion
+
     #region Component colors
 
     public override string TextInputColor( Color color ) => ColorStyle( color, "--mui-input-border-color" );

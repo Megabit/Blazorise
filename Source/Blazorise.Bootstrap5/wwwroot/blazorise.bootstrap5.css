@@ -2109,7 +2109,7 @@ hr.divider.divider-text::before {
 }
 
 .dock-layout {
-  --dock-split-gap: .25rem;
+  --bs-dock-split-gap: .25rem;
   display: block;
   min-height: 0;
   min-width: 0;
@@ -2131,9 +2131,9 @@ hr.divider.divider-text::before {
   padding-bottom: 2rem;
 }
 .dock-pane {
-  --dock-pane-size: 16rem;
-  --dock-pane-min-size: 0;
-  --dock-pane-max-size: none;
+  --bs-dock-pane-size: 16rem;
+  --bs-dock-pane-min-size: 0;
+  --bs-dock-pane-max-size: none;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -2150,7 +2150,7 @@ hr.divider.divider-text::before {
 }
 .dock-split {
   display: grid;
-  gap: var(--dock-split-gap);
+  gap: var(--bs-dock-split-gap);
   height: 100%;
   min-height: 0;
   min-width: 0;
@@ -2177,28 +2177,28 @@ hr.divider.divider-text::before {
   border-width: 1px;
 }
 .dock-pane-start {
-  width: var(--dock-pane-size);
-  min-width: var(--dock-pane-min-size);
-  max-width: var(--dock-pane-max-size);
+  width: var(--bs-dock-pane-size);
+  min-width: var(--bs-dock-pane-min-size);
+  max-width: var(--bs-dock-pane-max-size);
   border-right-width: 1px;
 }
 .dock-pane-end {
-  width: var(--dock-pane-size);
-  min-width: var(--dock-pane-min-size);
-  max-width: var(--dock-pane-max-size);
+  width: var(--bs-dock-pane-size);
+  min-width: var(--bs-dock-pane-min-size);
+  max-width: var(--bs-dock-pane-max-size);
   border-left-width: 1px;
   justify-self: end;
 }
 .dock-pane-top {
-  height: var(--dock-pane-size);
-  min-height: var(--dock-pane-min-size);
-  max-height: var(--dock-pane-max-size);
+  height: var(--bs-dock-pane-size);
+  min-height: var(--bs-dock-pane-min-size);
+  max-height: var(--bs-dock-pane-max-size);
   border-bottom-width: 1px;
 }
 .dock-pane-bottom {
-  height: var(--dock-pane-size);
-  min-height: var(--dock-pane-min-size);
-  max-height: var(--dock-pane-max-size);
+  height: var(--bs-dock-pane-size);
+  min-height: var(--bs-dock-pane-min-size);
+  max-height: var(--bs-dock-pane-max-size);
   border-top-width: 1px;
   align-self: end;
 }
@@ -2227,10 +2227,10 @@ hr.divider.divider-text::before {
   align-self: stretch;
 }
 .dock-pane-collapsed {
-  --dock-pane-size: 2.5rem;
+  --bs-dock-pane-size: 2.5rem;
 }
 .dock-pane-autohide {
-  --dock-pane-size: 2rem;
+  --bs-dock-pane-size: 2rem;
   align-items: stretch;
   justify-content: flex-end;
   overflow: hidden;
@@ -2288,33 +2288,33 @@ hr.divider.divider-text::before {
   left: 2rem;
   top: 0;
   bottom: 0;
-  width: var(--dock-pane-size);
-  min-width: var(--dock-pane-min-size);
-  max-width: var(--dock-pane-max-size);
+  width: var(--bs-dock-pane-size);
+  min-width: var(--bs-dock-pane-min-size);
+  max-width: var(--bs-dock-pane-max-size);
 }
 .dock-auto-hide-flyout-end {
   right: 2rem;
   top: 0;
   bottom: 0;
-  width: var(--dock-pane-size);
-  min-width: var(--dock-pane-min-size);
-  max-width: var(--dock-pane-max-size);
+  width: var(--bs-dock-pane-size);
+  min-width: var(--bs-dock-pane-min-size);
+  max-width: var(--bs-dock-pane-max-size);
 }
 .dock-auto-hide-flyout-top {
   top: 2rem;
   left: 0;
   right: 0;
-  height: var(--dock-pane-size);
-  min-height: var(--dock-pane-min-size);
-  max-height: var(--dock-pane-max-size);
+  height: var(--bs-dock-pane-size);
+  min-height: var(--bs-dock-pane-min-size);
+  max-height: var(--bs-dock-pane-max-size);
 }
 .dock-auto-hide-flyout-bottom {
   bottom: 2rem;
   left: 0;
   right: 0;
-  height: var(--dock-pane-size);
-  min-height: var(--dock-pane-min-size);
-  max-height: var(--dock-pane-max-size);
+  height: var(--bs-dock-pane-size);
+  min-height: var(--bs-dock-pane-min-size);
+  max-height: var(--bs-dock-pane-max-size);
 }
 .dock-pane-collapsed .dock-pane-body, .dock-pane-collapsed .dock-pane-footer {
   display: none;
@@ -2500,9 +2500,9 @@ hr.divider.divider-text::before {
 .dock-compass {
   position: absolute;
   z-index: 20;
-  --dock-compass-gap: .125rem;
-  width: calc(8rem + var(--dock-compass-gap) * 4);
-  height: calc(8rem + var(--dock-compass-gap) * 4);
+  --bs-dock-compass-gap: .125rem;
+  width: calc(8rem + var(--bs-dock-compass-gap) * 4);
+  height: calc(8rem + var(--bs-dock-compass-gap) * 4);
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
@@ -2527,43 +2527,43 @@ hr.divider.divider-text::before {
   background: var(--bs-dock-compass-zone-active-background, rgba(var(--bs-primary-rgb, 13, 110, 253), 0.08));
 }
 .dock-compass-zone-center {
-  left: calc(3rem + var(--dock-compass-gap) * 2);
-  top: calc(3rem + var(--dock-compass-gap) * 2);
+  left: calc(3rem + var(--bs-dock-compass-gap) * 2);
+  top: calc(3rem + var(--bs-dock-compass-gap) * 2);
 }
 .dock-compass-zone-start-outer {
   left: 0;
-  top: calc(3rem + var(--dock-compass-gap) * 2);
+  top: calc(3rem + var(--bs-dock-compass-gap) * 2);
   width: 1rem;
 }
 .dock-compass-zone-start-inner {
-  left: calc(1rem + var(--dock-compass-gap));
-  top: calc(3rem + var(--dock-compass-gap) * 2);
+  left: calc(1rem + var(--bs-dock-compass-gap));
+  top: calc(3rem + var(--bs-dock-compass-gap) * 2);
 }
 .dock-compass-zone-end-inner {
-  left: calc(5rem + var(--dock-compass-gap) * 3);
-  top: calc(3rem + var(--dock-compass-gap) * 2);
+  left: calc(5rem + var(--bs-dock-compass-gap) * 3);
+  top: calc(3rem + var(--bs-dock-compass-gap) * 2);
 }
 .dock-compass-zone-end-outer {
-  left: calc(7rem + var(--dock-compass-gap) * 4);
-  top: calc(3rem + var(--dock-compass-gap) * 2);
+  left: calc(7rem + var(--bs-dock-compass-gap) * 4);
+  top: calc(3rem + var(--bs-dock-compass-gap) * 2);
   width: 1rem;
 }
 .dock-compass-zone-top-outer {
-  left: calc(3rem + var(--dock-compass-gap) * 2);
+  left: calc(3rem + var(--bs-dock-compass-gap) * 2);
   top: 0;
   height: 1rem;
 }
 .dock-compass-zone-top-inner {
-  left: calc(3rem + var(--dock-compass-gap) * 2);
-  top: calc(1rem + var(--dock-compass-gap));
+  left: calc(3rem + var(--bs-dock-compass-gap) * 2);
+  top: calc(1rem + var(--bs-dock-compass-gap));
 }
 .dock-compass-zone-bottom-inner {
-  left: calc(3rem + var(--dock-compass-gap) * 2);
-  top: calc(5rem + var(--dock-compass-gap) * 3);
+  left: calc(3rem + var(--bs-dock-compass-gap) * 2);
+  top: calc(5rem + var(--bs-dock-compass-gap) * 3);
 }
 .dock-compass-zone-bottom-outer {
-  left: calc(3rem + var(--dock-compass-gap) * 2);
-  top: calc(7rem + var(--dock-compass-gap) * 4);
+  left: calc(3rem + var(--bs-dock-compass-gap) * 2);
+  top: calc(7rem + var(--bs-dock-compass-gap) * 4);
   height: 1rem;
 }
 

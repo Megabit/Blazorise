@@ -76,18 +76,6 @@ public class SvgChart<TItem> : SvgChartBase
 
     private IReadOnlyDictionary<string, string> previousAnimationPathValues = new Dictionary<string, string>();
 
-    private ComponentParameterInfo<SvgChartType> paramType;
-
-    private ComponentParameterInfo<IEnumerable<TItem>> paramItems;
-
-    private ComponentParameterInfo<SvgChartData<double?>> paramData;
-
-    private ComponentParameterInfo<SvgChartOptions> paramOptions;
-
-    private ComponentParameterInfo<SvgChartStreamingOptions> paramStreaming;
-
-    private ComponentParameterInfo<SvgChartAnimationOptions> paramAnimation;
-
     private bool activeTooltipPinned;
 
     private bool renderedOnce;
@@ -184,15 +172,15 @@ public class SvgChart<TItem> : SvgChartBase
     /// <inheritdoc/>
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        parameters.TryGetParameter( Type, out paramType );
-        parameters.TryGetParameter( Items, out paramItems );
-        parameters.TryGetParameter( Data, out paramData );
-        parameters.TryGetParameter( Options, out paramOptions );
-        parameters.TryGetParameter( Streaming, out paramStreaming );
-        parameters.TryGetParameter( Animation, out paramAnimation );
+        parameters.TryGetParameter( Type, out var paramType );
+        parameters.TryGetParameter( Items, out var paramItems );
+        parameters.TryGetParameter( Data, out var paramData );
+        parameters.TryGetParameter( Animation, out var paramAnimation );
 
         if ( paramType.Changed || paramItems.Changed || paramData.Changed || paramAnimation.Changed )
+        {
             ClearTooltip();
+        }
 
         if ( paramType.Changed || paramItems.Changed || paramData.Changed )
         {
@@ -208,7 +196,9 @@ public class SvgChart<TItem> : SvgChartBase
         }
 
         if ( paramData.Changed )
+        {
             internalChartData = null;
+        }
 
         return base.SetParametersAsync( parameters );
     }

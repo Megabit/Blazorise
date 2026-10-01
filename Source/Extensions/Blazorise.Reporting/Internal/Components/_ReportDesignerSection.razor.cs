@@ -223,10 +223,6 @@ public partial class _ReportDesignerSection
 
     private Func<DragEventArgs, Task> NonRenderingDragOver => EventUtil.AsNonRenderingEventHandler<DragEventArgs>( OnDragOver );
 
-    private string SectionClass => ClassNames;
-
-    private string SectionStyle => StyleNames;
-
     private string SectionOffsetYValue => FormattableString.Invariant( $"{SectionOffsetY:0.###}" );
 
     /// <summary>

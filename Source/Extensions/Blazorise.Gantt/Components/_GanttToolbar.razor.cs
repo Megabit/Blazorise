@@ -19,8 +19,6 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
 {
     #region Members
 
-    private bool dropdownColumnChooserVisible;
-
     #endregion
 
     #region Methods

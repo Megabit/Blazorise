@@ -274,12 +274,6 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     }
 
     /// <inheritdoc/>
-    protected override Task OnBeforeSetParametersAsync( ParameterView parameters )
-    {
-        return base.OnBeforeSetParametersAsync( parameters );
-    }
-
-    /// <inheritdoc/>
     protected override async Task OnAfterSetParametersAsync( ParameterView parameters )
     {
         await base.OnAfterSetParametersAsync( parameters );

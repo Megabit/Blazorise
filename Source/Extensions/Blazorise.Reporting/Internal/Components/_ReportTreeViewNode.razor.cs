@@ -155,10 +155,6 @@ public partial class _ReportTreeViewNode
             _ => IconName.TextHeight,
         };
 
-    private string RowClass => ClassNames;
-
-    private string RowStyle => StyleNames;
-
     private int? TabIndex => Node?.Selectable == true && NodeClicked.HasDelegate ? 0 : null;
 
     private bool? AriaSelected => Node?.Selectable == true ? Node.Selected : null;

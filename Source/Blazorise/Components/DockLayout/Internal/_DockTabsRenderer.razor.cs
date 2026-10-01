@@ -123,9 +123,9 @@ public partial class _DockTabsRenderer : _BaseDockRenderer
     {
         if ( ActivePane is not null )
         {
-            builder.Append( $"--dock-pane-size:{PaneSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
-            builder.Append( $"--dock-pane-min-size:{ActivePane.MinSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( ActivePane.MinSize ) );
-            builder.Append( $"--dock-pane-max-size:{ActivePane.MaxSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( ActivePane.MaxSize ) );
+            builder.Append( $"{StyleProvider.DockLayoutVariable( "pane-size" )}:{PaneSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
+            builder.Append( $"{StyleProvider.DockLayoutVariable( "pane-min-size" )}:{ActivePane.MinSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( ActivePane.MinSize ) );
+            builder.Append( $"{StyleProvider.DockLayoutVariable( "pane-max-size" )}:{ActivePane.MaxSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( ActivePane.MaxSize ) );
         }
 
         base.BuildStyles( builder );

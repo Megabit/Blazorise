@@ -28,6 +28,12 @@ public abstract class StyleProvider : IStyleProvider
 
     #endregion
 
+    #region DockLayout
+
+    public virtual string DockLayoutVariable( string name ) => $"--dock-{name}";
+
+    #endregion
+
     #region ZIndex
 
     public virtual string ZIndex( int? zIndex ) => zIndex is int value

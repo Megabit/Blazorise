@@ -1,3 +1,4 @@
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -5,6 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+#endregion
 
 namespace Blazorise.Analyzers.Migration.Rules;
 
@@ -12,7 +14,8 @@ namespace Blazorise.Analyzers.Migration.Rules;
 public sealed class TypeRenameAnalyzer : DiagnosticAnalyzer
 {
     private static readonly IReadOnlyDictionary<string, TypeMapping> Map = CreateMap();
-    private static readonly HashSet<string> CandidateSimpleNames = CreateCandidateSimpleNames( Map.Keys );
+
+    private static readonly HashSet<string> CandidateSimpleNames = TypeMigrationCandidates.CreateSimpleNames( Map.Keys );
 
     private static readonly DiagnosticDescriptor Rule = new(
         id: "BLZTYP001",
@@ -37,27 +40,17 @@ public sealed class TypeRenameAnalyzer : DiagnosticAnalyzer
 
     private static IReadOnlyDictionary<string, TypeMapping> CreateMap()
     {
-        Dictionary<string, TypeMapping> map = new( StringComparer.Ordinal );
-        foreach ( TypeMapping mapping in BlazoriseMigrationMappings.Types )
+        var map = new Dictionary<string, TypeMapping>( StringComparer.Ordinal );
+
+        foreach ( var mapping in BlazoriseMigrationMappings.Types )
         {
             if ( mapping.NewFullName is not null )
+            {
                 map[mapping.OldFullName] = mapping;
+            }
         }
 
         return map;
-    }
-
-    private static HashSet<string> CreateCandidateSimpleNames( IEnumerable<string> fullNames )
-    {
-        HashSet<string> names = new( StringComparer.Ordinal );
-        foreach ( string fullName in fullNames )
-        {
-            string? simpleName = RenderTreeMigrationEngine.GetSimpleName( fullName );
-            if ( simpleName is not null )
-                names.Add( simpleName );
-        }
-
-        return names;
     }
 
     private static void Analyze(
@@ -65,42 +58,41 @@ public sealed class TypeRenameAnalyzer : DiagnosticAnalyzer
         IReadOnlyDictionary<string, TypeMapping> map,
         ISet<string> candidateSimpleNames )
     {
-        SyntaxNode node = context.Node;
+        var node = context.Node;
 
         if ( node is QualifiedNameSyntax qualified && qualified.Right != node )
+        {
             return;
+        }
 
         if ( node.Parent is MemberAccessExpressionSyntax )
+        {
             return;
+        }
 
-        if ( !ShouldAnalyzeNode( node, candidateSimpleNames ) )
+        if ( !TypeMigrationCandidates.ShouldAnalyze( node, candidateSimpleNames ) )
+        {
             return;
+        }
 
-        ISymbol? symbol = context.SemanticModel.GetSymbolInfo( node ).Symbol;
+        var symbol = context.SemanticModel.GetSymbolInfo( node ).Symbol;
+
         if ( symbol is not INamedTypeSymbol namedType )
+        {
             return;
+        }
 
-        string metadataName = RenderTreeMigrationEngine.GetMetadataName( namedType.ConstructedFrom );
+        var metadataName = RenderTreeMigrationEngine.GetMetadataName( namedType.ConstructedFrom );
 
-        if ( !map.TryGetValue( metadataName, out TypeMapping mapping ) )
+        if ( !map.TryGetValue( metadataName, out var mapping ) )
+        {
             return;
+        }
 
         context.ReportDiagnostic( Diagnostic.Create(
             Rule,
             node.GetLocation(),
             mapping.OldFullName,
             mapping.NewFullName ) );
-    }
-
-    private static bool ShouldAnalyzeNode( SyntaxNode node, ISet<string> candidateSimpleNames )
-    {
-        string? simpleName = node switch
-        {
-            IdentifierNameSyntax identifierName => identifierName.Identifier.ValueText,
-            GenericNameSyntax genericName => genericName.Identifier.ValueText,
-            _ => null,
-        };
-
-        return simpleName is not null && candidateSimpleNames.Contains( simpleName );
     }
 }

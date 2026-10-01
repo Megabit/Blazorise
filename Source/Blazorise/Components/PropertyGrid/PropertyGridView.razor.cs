@@ -1,6 +1,7 @@
 #region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -15,9 +16,23 @@ public partial class PropertyGridView : BaseComponent
 {
     #region Members
 
+    private readonly ClassBuilder emptyClassBuilder;
+
     private PropertyGridToolbarContext toolbarContext;
 
     private readonly Dictionary<string, bool> groupExpandedStates = [];
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Creates a new <see cref="PropertyGridView"/> component.
+    /// </summary>
+    public PropertyGridView()
+    {
+        emptyClassBuilder = new( BuildEmptyClasses );
+    }
 
     #endregion
 
@@ -197,6 +212,19 @@ public partial class PropertyGridView : BaseComponent
             && selectedProperty is not null
             && string.Equals( property.Key, selectedProperty.Key, System.StringComparison.Ordinal );
 
+    private void BuildEmptyClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.PropertyGridEmpty() );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        emptyClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
     #endregion
 
     #region Properties
@@ -207,7 +235,7 @@ public partial class PropertyGridView : BaseComponent
     /// <summary>
     /// Gets the provider class for empty search results.
     /// </summary>
-    protected string EmptyClassNames => ClassProvider.PropertyGridEmpty();
+    protected string EmptyClassNames => emptyClassBuilder.Class;
 
     /// <summary>
     /// Gets the stable help element id.

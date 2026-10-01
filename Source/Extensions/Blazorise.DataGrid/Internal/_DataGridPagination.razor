@@ -120,7 +120,7 @@
             var columnChooserString = Localizer.Localize( ParentDataGrid.Localizers?.ColumnChooserLocalizer, "Columns" );
 
             <Field Display="DisplayInlineBlock" Margin="ColumnChooserMargin">
-                <Dropdown @bind-Visible="@dropdownColumnChooserVisible">
+                <Dropdown>
                     <DropdownToggle @onclick:stopPropagation>
                         <Icon Name="@IconName.Table" Margin="MarginIs1FromStart" Clicked="() => { }" /> @columnChooserString
                     </DropdownToggle>

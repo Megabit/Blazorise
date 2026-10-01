@@ -13,47 +13,48 @@ namespace Blazorise.Reporting;
 /// </summary>
 public class ReportFont : ComponentBase, IDisposable
 {
-    #region Members
-
-    private ReportContext registeredReportContext;
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool definitionChanged = registeredReportContext is null
-            || parameters.IsParameterChanged( Font )
-            || parameters.IsParameterChanged( Name )
-            || parameters.IsParameterChanged( DisplayName )
-            || parameters.IsParameterChanged( CssFamily )
-            || parameters.IsParameterChanged( Regular )
-            || parameters.IsParameterChanged( Bold )
-            || parameters.IsParameterChanged( Italic )
-            || parameters.IsParameterChanged( BoldItalic )
-            || parameters.IsParameterChanged( Visible );
+        var definitionChanged = ReportContext is not null
+            && ( parameters.IsParameterChanged( Font )
+                || parameters.IsParameterChanged( Name )
+                || parameters.IsParameterChanged( DisplayName )
+                || parameters.IsParameterChanged( CssFamily )
+                || parameters.IsParameterChanged( Regular )
+                || parameters.IsParameterChanged( Bold )
+                || parameters.IsParameterChanged( Italic )
+                || parameters.IsParameterChanged( BoldItalic )
+                || parameters.IsParameterChanged( Visible ) );
 
         await base.SetParametersAsync( parameters );
 
-        bool contextChanged = !ReferenceEquals( registeredReportContext, ReportContext );
-
-        if ( contextChanged )
+        if ( definitionChanged )
         {
-            registeredReportContext?.UnregisterFont( this );
-            registeredReportContext = ReportContext;
+            UpdateDefinition();
         }
+    }
 
-        if ( definitionChanged || contextChanged )
-            registeredReportContext?.RegisterFont( this, CreateFontFamily() );
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        UpdateDefinition();
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        registeredReportContext?.UnregisterFont( this );
-        registeredReportContext = null;
+        ReportContext?.UnregisterFont( this );
+        ReportContext = null;
+    }
+
+    private void UpdateDefinition()
+    {
+        ReportContext?.RegisterFont( this, CreateFontFamily() );
     }
 
     private FontFamily CreateFontFamily()

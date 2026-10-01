@@ -74,7 +74,7 @@ public partial class DockLayout : BaseComponent
     {
         context = new( this );
         treeQuery = new( registry, stateManager, () => CurrentState );
-        sizer = new( registry, stateManager, treeQuery, () => CurrentState );
+        sizer = new( registry, stateManager, treeQuery, () => CurrentState, name => StyleProvider.DockLayoutVariable( name ) );
         treeBuilder = new( registry, stateManager, treeQuery, sizer );
         treeMutator = new( treeQuery, sizer );
     }
@@ -315,8 +315,8 @@ public partial class DockLayout : BaseComponent
 
         return new()
         {
-            Start = CreateDockResizeTarget( node.First, node.Orientation, resizeElementId, "--dock-split-start-size" ),
-            End = CreateDockResizeTarget( node.Second, node.Orientation, resizeElementId, "--dock-split-end-size" ),
+            Start = CreateDockResizeTarget( node.First, node.Orientation, resizeElementId, StyleProvider.DockLayoutVariable( "split-start-size" ) ),
+            End = CreateDockResizeTarget( node.Second, node.Orientation, resizeElementId, StyleProvider.DockLayoutVariable( "split-end-size" ) ),
         };
     }
 

@@ -79,9 +79,9 @@ public partial class _DockPaneRenderer : _BaseDockRenderer
     {
         if ( Pane is not null )
         {
-            builder.Append( $"--dock-pane-size:{PaneSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
-            builder.Append( $"--dock-pane-min-size:{Pane.MinSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MinSize ) );
-            builder.Append( $"--dock-pane-max-size:{Pane.MaxSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MaxSize ) );
+            builder.Append( $"{StyleProvider.DockLayoutVariable( "pane-size" )}:{PaneSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
+            builder.Append( $"{StyleProvider.DockLayoutVariable( "pane-min-size" )}:{Pane.MinSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MinSize ) );
+            builder.Append( $"{StyleProvider.DockLayoutVariable( "pane-max-size" )}:{Pane.MaxSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MaxSize ) );
             builder.Append( $"width:{PaneSize}", Flyout && IsHorizontalFlyout && !string.IsNullOrWhiteSpace( PaneSize ) );
             builder.Append( $"height:{PaneSize}", Flyout && IsVerticalFlyout && !string.IsNullOrWhiteSpace( PaneSize ) );
         }

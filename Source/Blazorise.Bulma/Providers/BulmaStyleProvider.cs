@@ -5,6 +5,12 @@ namespace Blazorise.Bulma.Providers;
 
 public class BulmaStyleProvider : StyleProvider
 {
+    #region DockLayout
+
+    public override string DockLayoutVariable( string name ) => $"--bulma-dock-{name}";
+
+    #endregion
+
     #region Component colors
 
     public override string TextInputColor( Color color ) => ColorStyle( color, "--bulma-input-custom-color" );

@@ -19,28 +19,6 @@ public partial class DocsLayout
 
     private bool topBarVisible;
 
-    private bool sideBarGuidesMenuVisible;
-
-    private bool sideBarUiProvidersMenuVisible;
-
-    private bool sideBarComponentsMenuVisible;
-
-    private bool sideBarDataGridMenuVisible;
-
-    private bool sideBarReportingMenuVisible;
-
-    private bool sideBarSvgChartMenuVisible;
-
-    private bool sideBarServicesMenuVisible;
-
-    private bool sideBarSpecificationsMenuVisible;
-
-    private bool sideBarExtensionsMenuVisible;
-
-    private bool sideBarHelpersMenuVisible;
-
-    private bool sideBarMetaMenuVisible;
-
     public string selectedSearchText { get; set; }
 
     private bool isRouterTabsExample;

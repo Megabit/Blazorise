@@ -1,10 +1,12 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components.Forms;
+#endregion
 
 namespace Blazorise.DataGrid.Utils;
 /// <summary>
@@ -436,71 +438,19 @@ public static class ExpressionCompiler
     /// <param name="propertyOrFieldName">Item field name.</param>
     /// <returns>Returns the requested field if it exists.</returns>
     public static Expression GetSafePropertyOrFieldExpression( Expression item, string propertyOrFieldName )
-    {
-        if ( string.IsNullOrEmpty( propertyOrFieldName ) )
-            throw new ArgumentException( $"{nameof( propertyOrFieldName )} is not specified." );
-
-        var parts = propertyOrFieldName.Split( new char[] { '.' }, 2 );
-
-        Expression field = null;
-
-        MemberInfo memberInfo = GetSafeMember( item.Type, parts[0] );
-
-        if ( memberInfo is PropertyInfo propertyInfo )
-            field = Expression.Property( item, propertyInfo );
-        else if ( memberInfo is FieldInfo fieldInfo )
-            field = Expression.Field( item, fieldInfo );
-
-        if ( field == null )
-            throw new ArgumentException( $"Cannot detect the member of {item.Type}", propertyOrFieldName );
-
-        field = Expression.Condition( Expression.Equal( item, Expression.Default( item.Type ) ),
-            IsNullable( field.Type ) ? Expression.Constant( null, field.Type ) : Expression.Default( field.Type ),
-            field );
-
-        if ( parts.Length > 1 )
-            field = GetSafePropertyOrFieldExpression( field, parts[1] );
-
-        return field;
-    }
+        => MemberExpressionCompiler.GetSafePropertyOrFieldExpression( item, propertyOrFieldName );
 
     /// <summary>
     /// Returns property or field expression.
     /// </summary>
     public static MemberExpression GetPropertyOrFieldExpression( Expression item, string propertyOrFieldName )
-    {
-        if ( string.IsNullOrEmpty( propertyOrFieldName ) )
-            throw new ArgumentException( $"{nameof( propertyOrFieldName )} is not specified." );
-
-        var parts = propertyOrFieldName.Split( new char[] { '.' }, 2 );
-
-        MemberExpression field = null;
-
-        MemberInfo memberInfo = GetSafeMember( item.Type, parts[0] );
-
-        if ( memberInfo is PropertyInfo propertyInfo )
-            field = Expression.Property( item, propertyInfo );
-        else if ( memberInfo is FieldInfo fieldInfo )
-            field = Expression.Field( item, fieldInfo );
-
-        if ( field == null )
-            throw new ArgumentException( $"Cannot detect the member of {item.Type}", propertyOrFieldName );
-
-        if ( parts.Length > 1 )
-            field = GetPropertyOrFieldExpression( field, parts[1] );
-
-        return field;
-    }
+        => MemberExpressionCompiler.GetPropertyOrFieldExpression( item, propertyOrFieldName );
 
     /// <summary>
     /// Compiles the expression into an executable delegate.
     /// </summary>
     public static Expression<Func<TItem, object>> CreateValueGetterExpression<TItem>( string fieldName )
-    {
-        var item = Expression.Parameter( typeof( TItem ), "item" );
-        var property = GetSafePropertyOrFieldExpression( item, fieldName );
-        return Expression.Lambda<Func<TItem, object>>( Expression.Convert( property, typeof( object ) ), item );
-    }
+        => MemberExpressionCompiler.CreateValueGetterExpression<TItem>( fieldName );
 
     private static Expression ConvertToStringExpression( Expression property )
     {
@@ -796,35 +746,6 @@ public static class ExpressionCompiler
             return true;
 
         return type.IsGenericType && type.GetGenericTypeDefinition() == typeof( Nullable<> );
-    }
-
-    // inspired by: https://stackoverflow.com/questions/2496256/expression-tree-with-property-inheritance-causes-an-argument-exception
-    private static MemberInfo GetSafeMember( Type type, string fieldName )
-    {
-        MemberInfo memberInfo = (MemberInfo)type.GetProperty( fieldName )
-                                ?? type.GetField( fieldName );
-
-        if ( memberInfo == null )
-        {
-            var baseTypesAndInterfaces = new List<Type>();
-
-            if ( type.BaseType != null )
-            {
-                baseTypesAndInterfaces.Add( type.BaseType );
-            }
-
-            baseTypesAndInterfaces.AddRange( type.GetInterfaces() );
-
-            foreach ( var baseType in baseTypesAndInterfaces )
-            {
-                memberInfo = GetSafeMember( baseType, fieldName );
-
-                if ( memberInfo != null )
-                    break;
-            }
-        }
-
-        return memberInfo;
     }
 
     private static ParameterExpression GetParameterExpression<TItem>()

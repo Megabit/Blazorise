@@ -12,52 +12,51 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportViewer : ComponentBase, IDisposable
 {
-    #region Members
-
-    private ReportContext registeredReportContext;
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool optionsChanged = registeredReportContext is null
-            || parameters.IsParameterChanged( PreviewFormat )
-            || parameters.IsParameterChanged( DefaultPreviewFormat )
-            || parameters.IsParameterChanged( AllowPrint )
-            || parameters.IsParameterChanged( AllowDownload )
-            || parameters.IsParameterChanged( PdfPreviewTemplate );
+        var optionsChanged = ReportContext is not null
+            && ( parameters.IsParameterChanged( PreviewFormat )
+                || parameters.IsParameterChanged( DefaultPreviewFormat )
+                || parameters.IsParameterChanged( AllowPrint )
+                || parameters.IsParameterChanged( AllowDownload )
+                || parameters.IsParameterChanged( PdfPreviewTemplate ) );
 
         await base.SetParametersAsync( parameters );
 
-        bool contextChanged = !ReferenceEquals( registeredReportContext, ReportContext );
-
-        if ( contextChanged )
+        if ( optionsChanged )
         {
-            registeredReportContext?.UnregisterViewer( this );
-            registeredReportContext = ReportContext;
+            UpdateOptions();
         }
+    }
 
-        if ( optionsChanged || contextChanged )
-        {
-            registeredReportContext?.RegisterViewer( this, new()
-            {
-                PreviewFormats = PreviewFormat,
-                DefaultFormat = DefaultPreviewFormat,
-                AllowPrint = AllowPrint,
-                AllowDownload = AllowDownload,
-                PdfPreviewTemplate = PdfPreviewTemplate,
-            } );
-        }
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        UpdateOptions();
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        registeredReportContext?.UnregisterViewer( this );
-        registeredReportContext = null;
+        ReportContext?.UnregisterViewer( this );
+        ReportContext = null;
+    }
+
+    private void UpdateOptions()
+    {
+        ReportContext?.RegisterViewer( this, new()
+        {
+            PreviewFormats = PreviewFormat,
+            DefaultFormat = DefaultPreviewFormat,
+            AllowPrint = AllowPrint,
+            AllowDownload = AllowDownload,
+            PdfPreviewTemplate = PdfPreviewTemplate,
+        } );
     }
 
     #endregion

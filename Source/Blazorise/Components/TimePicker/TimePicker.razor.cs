@@ -124,6 +124,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
 
     private TimePickerMenuContext<TValue> menuContext;
 
+    private readonly ClassBuilder providerPickerContainerClassBuilder;
+
     private readonly ClassBuilder pickerContainerClassBuilder;
 
     private readonly StyleBuilder pickerContainerStyleBuilder;
@@ -137,6 +139,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// </summary>
     public TimePicker()
     {
+        providerPickerContainerClassBuilder = new( BuildProviderPickerContainerClasses );
         pickerContainerClassBuilder = new( BuildPickerContainerClasses, builder => builder.Append( Classes?.Wrapper ) );
         pickerContainerStyleBuilder = new( BuildPickerContainerStyles, builder => builder.Append( Styles?.Wrapper ) );
     }
@@ -144,40 +147,6 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     #endregion
 
     #region Methods
-
-    /// <summary>
-    /// Builds the class names for the picker container.
-    /// </summary>
-    /// <param name="builder">Class builder used to append the class names.</param>
-    private void BuildPickerContainerClasses( ClassBuilder builder )
-    {
-        AppendWrapperUtilities( builder );
-    }
-
-    /// <summary>
-    /// Builds the styles for the picker container.
-    /// </summary>
-    /// <param name="builder">Style builder used to append the styles.</param>
-    private void BuildPickerContainerStyles( StyleBuilder builder )
-    {
-        AppendWrapperUtilities( builder );
-    }
-
-    /// <inheritdoc/>
-    protected internal override void DirtyClasses()
-    {
-        pickerContainerClassBuilder.Dirty();
-
-        base.DirtyClasses();
-    }
-
-    /// <inheritdoc/>
-    protected internal override void DirtyStyles()
-    {
-        pickerContainerStyleBuilder.Dirty();
-
-        base.DirtyStyles();
-    }
 
     /// <inheritdoc/>
     protected override void CaptureParameters( ParameterView parameters )
@@ -199,12 +168,6 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         parameters.TryGetParameter( MinuteIncrement, out paramMinuteIncrement );
         parameters.TryGetParameter( DefaultHour, out paramDefaultHour );
         parameters.TryGetParameter( DefaultMinute, out paramDefaultMinute );
-    }
-
-    /// <inheritdoc/>
-    protected override Task OnBeforeSetParametersAsync( ParameterView parameters )
-    {
-        return base.OnBeforeSetParametersAsync( parameters );
     }
 
     /// <inheritdoc/>
@@ -302,6 +265,47 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         builder.Append( StyleProvider.TimePickerColor( Color ) );
 
         base.BuildStyles( builder );
+    }
+
+    /// <summary>
+    /// Builds the class names for the picker container.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the class names.</param>
+    private void BuildProviderPickerContainerClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.TimePickerContainer( Inline, MenuVisible ) );
+    }
+
+    private void BuildPickerContainerClasses( ClassBuilder builder )
+    {
+        builder.Append( ProviderPickerContainerClassNames );
+        AppendWrapperUtilities( builder );
+    }
+
+    /// <summary>
+    /// Builds the styles for the picker container.
+    /// </summary>
+    /// <param name="builder">Style builder used to append the styles.</param>
+    private void BuildPickerContainerStyles( StyleBuilder builder )
+    {
+        AppendWrapperUtilities( builder );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        providerPickerContainerClassBuilder.Dirty();
+        pickerContainerClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyStyles()
+    {
+        pickerContainerStyleBuilder.Dirty();
+
+        base.DirtyStyles();
     }
 
     /// <inheritdoc/>
@@ -948,7 +952,10 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     }
 
     private void NotifyMenuStateChanged()
-        => MenuStateChanged?.Invoke();
+    {
+        DirtyClasses();
+        MenuStateChanged?.Invoke();
+    }
 
     #endregion
 
@@ -1036,16 +1043,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// <summary>
     /// Gets the wrapper classes supplied by the active provider and component configuration.
     /// </summary>
-    protected string PickerContainerClassNames
-    {
-        get
-        {
-            return string.Join(
-                " ",
-                new[] { ProviderPickerContainerClassNames, pickerContainerClassBuilder.Class }
-                    .Where( value => !string.IsNullOrWhiteSpace( value ) ) );
-        }
-    }
+    protected string PickerContainerClassNames => pickerContainerClassBuilder.Class;
 
     /// <summary>
     /// Gets the wrapper styles supplied by the component configuration.
@@ -1055,7 +1053,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// <summary>
     /// Gets only the active provider's TimePicker container classes.
     /// </summary>
-    protected string ProviderPickerContainerClassNames => ClassProvider.TimePickerContainer( Inline, MenuVisible );
+    protected string ProviderPickerContainerClassNames => providerPickerContainerClassBuilder.Class;
 
     /// <summary>
     /// Gets whether the custom picker menu is visible.

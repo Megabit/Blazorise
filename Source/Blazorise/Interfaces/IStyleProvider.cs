@@ -2,6 +2,12 @@
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public interface IStyleProvider
 {
+    #region DockLayout
+
+    string DockLayoutVariable( string name ) => $"--dock-{name}";
+
+    #endregion
+
     #region ZIndex
 
     string ZIndex( int? zIndex ) => zIndex is int value

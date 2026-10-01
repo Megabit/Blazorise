@@ -11,6 +11,30 @@ namespace Blazorise;
 /// </summary>
 public partial class PropertyGridGroup : BaseComponent
 {
+    #region Members
+
+    private readonly ClassBuilder headerClassBuilder;
+
+    private readonly ClassBuilder toggleClassBuilder;
+
+    private readonly ClassBuilder bodyClassBuilder;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Creates a new <see cref="PropertyGridGroup"/> component.
+    /// </summary>
+    public PropertyGridGroup()
+    {
+        headerClassBuilder = new( BuildHeaderClasses );
+        toggleClassBuilder = new( BuildToggleClasses );
+        bodyClassBuilder = new( BuildBodyClasses );
+    }
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -21,10 +45,37 @@ public partial class PropertyGridGroup : BaseComponent
         base.BuildClasses( builder );
     }
 
-    private async Task ToggleExpanded()
+    private void BuildHeaderClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.PropertyGridGroupHeader() );
+    }
+
+    private void BuildToggleClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.PropertyGridGroupToggle() );
+    }
+
+    private void BuildBodyClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.PropertyGridGroupBody() );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        headerClassBuilder.Dirty();
+        toggleClassBuilder.Dirty();
+        bodyClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    private async Task OnToggleExpandedHandler()
     {
         if ( !Expandable )
+        {
             return;
+        }
 
         Expanded = !Expanded;
 
@@ -38,17 +89,17 @@ public partial class PropertyGridGroup : BaseComponent
     /// <summary>
     /// Gets the provider class for the group header.
     /// </summary>
-    protected string HeaderClassNames => ClassProvider.PropertyGridGroupHeader();
+    protected string HeaderClassNames => headerClassBuilder.Class;
 
     /// <summary>
     /// Gets the provider class for the group header toggle.
     /// </summary>
-    protected string ToggleClassNames => ClassProvider.PropertyGridGroupToggle();
+    protected string ToggleClassNames => toggleClassBuilder.Class;
 
     /// <summary>
     /// Gets the provider class for the group body.
     /// </summary>
-    protected string BodyClassNames => ClassProvider.PropertyGridGroupBody();
+    protected string BodyClassNames => bodyClassBuilder.Class;
 
     /// <summary>
     /// Defines the group title.
