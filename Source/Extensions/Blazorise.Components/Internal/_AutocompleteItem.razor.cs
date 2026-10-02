@@ -17,8 +17,6 @@ public partial class _AutocompleteItem<TItem, TValue> : ComponentBase
 {
     #region Members
 
-    private bool rendered;
-
     private bool shouldRender = true;
 
     #endregion
@@ -28,17 +26,16 @@ public partial class _AutocompleteItem<TItem, TValue> : ComponentBase
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        var contextChanged = parameters.TryGetValue<ItemContext<TItem, TValue>>( nameof( Context ), out ItemContext<TItem, TValue> newContext ) && !AreEqual( Context, newContext );
-        var elementIdChanged = parameters.TryGetValue<string>( nameof( ElementId ), out string newElementId ) && ElementId != newElementId;
-        var classChanged = parameters.TryGetValue<string>( nameof( Class ), out string newClass ) && Class != newClass;
-        var styleChanged = parameters.TryGetValue<string>( nameof( Style ), out string newStyle ) && Style != newStyle;
-        var closeParentDropdownsChanged = parameters.TryGetValue<bool>( nameof( CloseParentDropdowns ), out bool newCloseParentDropdowns ) && CloseParentDropdowns != newCloseParentDropdowns;
-        var highlightSearchChanged = parameters.TryGetValue<bool>( nameof( HighlightSearch ), out bool newHighlightSearch ) && HighlightSearch != newHighlightSearch;
-        var searchChanged = parameters.TryGetValue<string>( nameof( Search ), out string newSearch ) && Search != newSearch;
-        var itemContentChanged = parameters.TryGetValue<RenderFragment<ItemContext<TItem, TValue>>>( nameof( ItemContent ), out RenderFragment<ItemContext<TItem, TValue>> newItemContent ) && !Equals( ItemContent, newItemContent );
+        var contextChanged = parameters.TryGetValue<ItemContext<TItem, TValue>>( nameof( Context ), out var paramContext ) && !AreEqual( Context, paramContext );
+        var elementIdChanged = parameters.TryGetValue<string>( nameof( ElementId ), out var paramElementId ) && ElementId != paramElementId;
+        var classChanged = parameters.TryGetValue<string>( nameof( Class ), out var paramClass ) && Class != paramClass;
+        var styleChanged = parameters.TryGetValue<string>( nameof( Style ), out var paramStyle ) && Style != paramStyle;
+        var closeParentDropdownsChanged = parameters.TryGetValue<bool>( nameof( CloseParentDropdowns ), out var paramCloseParentDropdowns ) && CloseParentDropdowns != paramCloseParentDropdowns;
+        var highlightSearchChanged = parameters.TryGetValue<bool>( nameof( HighlightSearch ), out var paramHighlightSearch ) && HighlightSearch != paramHighlightSearch;
+        var searchChanged = parameters.TryGetValue<string>( nameof( Search ), out var paramSearch ) && Search != paramSearch;
+        var itemContentChanged = parameters.TryGetValue<RenderFragment<ItemContext<TItem, TValue>>>( nameof( ItemContent ), out var paramItemContent ) && !Equals( ItemContent, paramItemContent );
 
         shouldRender = shouldRender
-            || !rendered
             || contextChanged
             || elementIdChanged
             || classChanged
@@ -58,7 +55,6 @@ public partial class _AutocompleteItem<TItem, TValue> : ComponentBase
     /// <inheritdoc />
     protected override Task OnAfterRenderAsync( bool firstRender )
     {
-        rendered = true;
         shouldRender = false;
         return base.OnAfterRenderAsync( firstRender );
     }
@@ -79,10 +75,14 @@ public partial class _AutocompleteItem<TItem, TValue> : ComponentBase
     private static bool AreEqual( ItemContext<TItem, TValue> first, ItemContext<TItem, TValue> second )
     {
         if ( ReferenceEquals( first, second ) )
+        {
             return true;
+        }
 
         if ( first is null || second is null )
+        {
             return false;
+        }
 
         return EqualityComparer<TItem>.Default.Equals( first.Item, second.Item )
             && EqualityComparer<TValue>.Default.Equals( first.Value, second.Value )
