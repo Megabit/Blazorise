@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System.IO;
-using System.Linq;
 #endregion
 
 namespace Blazorise.Docs.Compiler;
@@ -13,32 +12,40 @@ public static class Paths
     {
         get
         {
-            var workingPath = Path.GetFullPath( "." );
+            var directory = new DirectoryInfo( Directory.GetCurrentDirectory() );
 
-            do
+            while ( directory is not null )
             {
-                workingPath = Path.GetDirectoryName( workingPath );
-            }
-            while ( Path.GetFileName( workingPath ) != "Documentation" && !string.IsNullOrWhiteSpace( workingPath ) );
+                var candidate = directory.Name == "Documentation" ? directory.FullName : Path.Combine( directory.FullName, "Documentation" );
 
-            return workingPath;
+                if ( Directory.Exists( Path.Combine( candidate, "Blazorise.Docs" ) ) )
+                {
+                    return candidate;
+                }
+
+                directory = directory.Parent;
+            }
+
+            throw new DirectoryNotFoundException( "Cannot locate the Blazorise documentation sources." );
         }
     }
 
 
     public static string BlazoriseLibRoot => Path.Combine( RootDirPath, "..", "Source", "Blazorise" );
     public static string BlazoriseExtensionsRoot => Path.Combine( RootDirPath, "..", "Source", "Extensions" );
-    public static string ApiDocsPath => Path.Join( DirPath(), "ApiDocs" );
-    public static string DirPath() => Directory.EnumerateDirectories( RootDirPath, $"Blazorise.Docs" ).FirstOrDefault();
+    public static string GeneratedOutputPath { get; set; } = Path.Combine( DirPath(), "obj", "DocsGenerated" );
 
-    public static string DocsStringSnippetsDirPath() => Path.Join( DirPath(), "Models" );
+    public static string ApiDocsPath => Path.Join( GeneratedOutputPath, "ApiDocs" );
+    public static string DirPath() => Path.Combine( RootDirPath, "Blazorise.Docs" );
+
+    public static string DocsStringSnippetsDirPath() => Path.Join( GeneratedOutputPath, "Models" );
 
     public static string DocStringsFilePath() => Path.Join( DocsStringSnippetsDirPath(), "Strings.generated.cs" );
 
     public static string SnippetsFilePath() => Path.Join( DocsStringSnippetsDirPath(), "Snippets.generated.cs" );
 
-    public static string DocsIndexFilePath() => Path.Join( DirPath(), "Resources", "docs-index.json" );
-    public static string DocsApiIndexFilePath() => Path.Join( DirPath(), "Resources", "docs-api-index.json" );
+    public static string DocsIndexFilePath() => Path.Join( GeneratedOutputPath, "Resources", "docs-index.json" );
+    public static string DocsApiIndexFilePath() => Path.Join( GeneratedOutputPath, "Resources", "docs-api-index.json" );
 
-    public static string NewFilesToBuildPath() => Path.Join( DirPath(), "NewFilesToBuild.txt" );
+    public static string ExampleCodeFilesPath() => Path.Join( GeneratedOutputPath, "ExampleCodeFiles.txt" );
 }

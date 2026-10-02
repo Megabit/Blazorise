@@ -1,4 +1,4 @@
-import { computePosition, autoUpdate, flip, shift, limitShift, hide } from './vendors/floating-ui.js?v=2.3.3.0';
+import { computePosition, autoUpdate, flip, shift, limitShift, hide } from './vendors/floating-ui.js?v=__BLAZORISE_VERSION__';
 
 const DIRECTION_DEFAULT = 'Default'
 const DIRECTION_DOWN = 'Down'

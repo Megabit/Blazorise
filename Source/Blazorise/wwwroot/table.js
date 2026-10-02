@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=2.3.3.0";
+import { getRequiredElement } from "./utilities.js?v=__BLAZORISE_VERSION__";
 
 export function initializeTableFixedHeader(element, elementId) {
     element = getRequiredElement(element, elementId);

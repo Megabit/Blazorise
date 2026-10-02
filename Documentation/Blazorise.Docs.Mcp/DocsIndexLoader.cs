@@ -32,20 +32,6 @@ internal static class DocsIndexLoader
             return localPath;
         }
 
-        var current = new DirectoryInfo( Directory.GetCurrentDirectory() );
-
-        while ( current is not null )
-        {
-            var candidate = Path.Combine( current.FullName, "Documentation", "Blazorise.Docs", "Resources", fileName );
-
-            if ( File.Exists( candidate ) )
-            {
-                return candidate;
-            }
-
-            current = current.Parent;
-        }
-
-        throw new FileNotFoundException( $"{fileName} not found. Run Blazorise.Docs.Compiler to generate it.", localPath );
+        throw new FileNotFoundException( $"{fileName} not found. Build Blazorise.Docs.Mcp with GenerateDocs=true to generate and copy the documentation indexes.", localPath );
     }
 }

@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=2.3.3.0";
+import { getRequiredElement } from "./utilities.js?v=__BLAZORISE_VERSION__";
 
 const _instances = [];
 const supportsNativeFieldSizing = typeof CSS !== "undefined"
@@ -104,7 +104,7 @@ async function updateBehave(instance) {
     if (!instance.replaceTab)
         return;
 
-    behaveModulePromise ??= import("./vendors/Behave.js?v=2.3.3.0");
+    behaveModulePromise ??= import("./vendors/Behave.js?v=__BLAZORISE_VERSION__");
 
     const { Behave } = await behaveModulePromise;
 

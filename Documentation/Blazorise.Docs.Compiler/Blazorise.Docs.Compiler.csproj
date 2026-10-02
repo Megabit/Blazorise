@@ -1,6 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="../../Build/Blazorise.Version.props" />
+
   <PropertyGroup>
+    <Version>$(BlazoriseVersion)</Version>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>

@@ -1,4 +1,4 @@
-import "./vendors/qr-code-styling.js?v=2.3.3.0";
+import "./vendors/qr-code-styling.js?v=__BLAZORISE_VERSION__";
 
 let _instances = [];
 

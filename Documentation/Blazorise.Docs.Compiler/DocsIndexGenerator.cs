@@ -569,9 +569,10 @@ internal sealed class DocsIndexGenerator
 
     private static string ReadExampleContent( string filePath )
     {
-        string content = File.ReadAllText( filePath, Encoding.UTF8 );
-        string cleaned = RazorDirectiveRegex.Replace( content, string.Empty );
-        string trimmed = cleaned.Trim();
+        var content = AssetVersioning.ReplaceVersionToken( File.ReadAllText( filePath, Encoding.UTF8 ) );
+        var cleaned = RazorDirectiveRegex.Replace( content, string.Empty );
+        var trimmed = cleaned.Trim();
+
         return NormalizeLineEndingsToCrLf( trimmed );
     }
 

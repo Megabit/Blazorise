@@ -1,6 +1,9 @@
-﻿using System;
+#region Using directives
+using System;
 using System.Diagnostics;
+using System.IO;
 using Blazorise.Docs.Compiler.ApiDocsGenerator;
+#endregion
 
 namespace Blazorise.Docs.Compiler;
 
@@ -9,6 +12,15 @@ class Program
     static int Main( string[] args )
     {
         var stopWatch = Stopwatch.StartNew();
+
+        var outputPath = GetArgValue( args, "--output-path" );
+
+        if ( !string.IsNullOrWhiteSpace( outputPath ) )
+        {
+            Paths.GeneratedOutputPath = Path.GetFullPath( outputPath );
+        }
+
+        Directory.CreateDirectory( Paths.DocsStringSnippetsDirPath() );
 
         var apiDocsOutputPath = GetArgValue( args, "--api-docs-path" );
         var regenerateExamples = bool.TryParse( GetArgValue( args, "--regenerate-examples" ), out var regenerateAll ) && regenerateAll;

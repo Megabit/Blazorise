@@ -1,5 +1,5 @@
-import "./vendors/Pickr.js?v=2.3.3.0";
-import * as utilities from "./utilities.js?v=2.3.3.0";
+import "./vendors/Pickr.js?v=__BLAZORISE_VERSION__";
+import * as utilities from "./utilities.js?v=__BLAZORISE_VERSION__";
 
 const _instancesInfos = [];
 

@@ -1,0 +1,47 @@
+<Project>
+  <Import Project="Blazorise.Version.props" Condition="'$(BlazoriseVersion)' == ''" />
+
+  <UsingTask TaskName="Blazorise.Build.GenerateVersionedAssets"
+             TaskFactory="RoslynCodeTaskFactory"
+             AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
+    <Task>
+      <Code Type="Class" Language="cs" Source="$(MSBuildThisFileDirectory)Tasks/GenerateVersionedAssets.cs" />
+    </Task>
+  </UsingTask>
+
+  <ItemGroup>
+    <UpToDateCheckInput Include="$(MSBuildThisFileDirectory)Blazorise.Version.props;$(MSBuildThisFileFullPath);$(MSBuildThisFileDirectory)Tasks/GenerateVersionedAssets.cs" />
+    <Watch Include="$(MSBuildThisFileDirectory)Blazorise.Version.props" />
+  </ItemGroup>
+
+  <!-- Replace Content items before the SDK discovers, fingerprints, compresses, or packs them.
+       Run on every build so command-line version changes and removed tokens are respected;
+       the task writes an output only when its contents change. -->
+  <Target Name="GenerateBlazoriseVersionedAssets"
+          BeforeTargets="ResolveProjectStaticWebAssets"
+          Condition="'$(DesignTimeBuild)' != 'true' and '$(NoBuild)' != 'true' and '$(TargetFramework)' != '' and Exists('$(MSBuildProjectDirectory)/wwwroot')">
+    <GetAssemblyVersion NuGetVersion="$(BlazoriseVersion)">
+      <Output TaskParameter="AssemblyVersion" PropertyName="BlazoriseAssetVersion" />
+    </GetAssemblyVersion>
+
+    <PropertyGroup>
+      <BlazoriseAssetVersion Condition="$([System.Version]::Parse('$(BlazoriseAssetVersion)').Revision) == -1">$(BlazoriseAssetVersion).0</BlazoriseAssetVersion>
+      <_BlazoriseAssetOutputPath>$([MSBuild]::NormalizeDirectory('$(MSBuildProjectDirectory)', '$(IntermediateOutputPath)', 'blazorise-assets', '$(BlazoriseAssetVersion)', 'wwwroot'))</_BlazoriseAssetOutputPath>
+    </PropertyGroup>
+
+    <Blazorise.Build.GenerateVersionedAssets Condition="'@(Content)' != ''"
+                                            SourceFiles="@(Content)"
+                                            SourceRoot="$(MSBuildProjectDirectory)/wwwroot"
+                                            OutputRoot="$(_BlazoriseAssetOutputPath)"
+                                            AssetVersion="$(BlazoriseAssetVersion)">
+      <Output TaskParameter="OriginalFiles" ItemName="_BlazoriseAssetOriginalFiles" />
+      <Output TaskParameter="GeneratedFiles" ItemName="_BlazoriseAssetGeneratedFiles" />
+    </Blazorise.Build.GenerateVersionedAssets>
+
+    <ItemGroup>
+      <Content Remove="@(_BlazoriseAssetOriginalFiles)" />
+      <Content Include="@(_BlazoriseAssetGeneratedFiles)" />
+      <FileWrites Include="@(_BlazoriseAssetGeneratedFiles)" />
+    </ItemGroup>
+  </Target>
+</Project>

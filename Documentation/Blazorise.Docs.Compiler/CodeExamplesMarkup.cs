@@ -12,7 +12,7 @@ public class CodeExamplesMarkup
 {
     public bool Execute( bool regenerateAll = false )
     {
-        var newFiles = new StringBuilder();
+        var generatedFiles = new StringBuilder();
         var success = true;
         var noOfFilesUpdated = 0;
         var noOfFilesCreated = 0;
@@ -20,7 +20,7 @@ public class CodeExamplesMarkup
         try
         {
             var startedUtc = DateTime.UtcNow;
-            var timestampPath = Paths.NewFilesToBuildPath();
+            var timestampPath = Paths.ExampleCodeFilesPath();
 
             var lastCheckedUtc = File.Exists( timestampPath )
                 ? File.GetLastWriteTimeUtc( timestampPath )
@@ -49,13 +49,20 @@ public class CodeExamplesMarkup
                     continue;
                 }
 
-                var markupPath = entry.FullName
+                var markupRelativePath = Path.GetRelativePath( dirPath, entry.FullName )
                     .Replace( "Examples", "Code" )
                     .Replace( ".razor", "Code.html" )
                     .Replace( ".snippet", "Code.html" )
                     .Replace( ".csharp", "Code.html" );
 
-                if ( !regenerateAll && entry.LastWriteTimeUtc < lastCheckedUtc && File.Exists( markupPath ) )
+                var markupPath = Path.Combine( Paths.GeneratedOutputPath, markupRelativePath );
+                generatedFiles.AppendLine( markupRelativePath.Replace( '\\', '/' ) );
+
+                var source = File.ReadAllText( entry.FullName, Encoding.UTF8 );
+
+                // Versioned examples must also refresh when only Blazorise.Version.props changes.
+                if ( !regenerateAll && entry.LastWriteTimeUtc < lastCheckedUtc && File.Exists( markupPath )
+                    && !source.Contains( AssetVersioning.VersionToken, StringComparison.Ordinal ) )
                 {
                     continue;
                 }
@@ -67,7 +74,6 @@ public class CodeExamplesMarkup
                 }
 
                 var currentCode = string.Empty;
-                var source = File.ReadAllText( entry.FullName, Encoding.UTF8 );
                 source = CodeSnippets.PrepareSourceForDisplay( entry.FullName, source );
 
                 if ( File.Exists( markupPath ) )
@@ -83,7 +89,6 @@ public class CodeExamplesMarkup
 
                     if ( currentCode == string.Empty )
                     {
-                        newFiles.AppendLine( markupPath );
                         noOfFilesCreated++;
                     }
                     else
@@ -93,7 +98,7 @@ public class CodeExamplesMarkup
                 }
             }
 
-            File.WriteAllText( timestampPath, newFiles.ToString() );
+            File.WriteAllText( timestampPath, generatedFiles.ToString() );
 
             // Preserve edits made while the generator was running for the next build.
             File.SetLastWriteTimeUtc( timestampPath, startedUtc );

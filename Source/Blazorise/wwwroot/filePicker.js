@@ -1,5 +1,5 @@
-import { getRequiredElement } from "./utilities.js?v=2.3.3.0";
-import { getFilesAsync } from "./fileInput.js?v=2.3.3.0";
+import { getRequiredElement } from "./utilities.js?v=__BLAZORISE_VERSION__";
+import { getFilesAsync } from "./fileInput.js?v=__BLAZORISE_VERSION__";
 
 const _instances = [];
 export function initialize(element, elementId) {

@@ -1,0 +1,30 @@
+<Project>
+  <Import Project="Blazorise.Version.props" Condition="'$(BlazoriseVersion)' == ''" />
+
+  <PropertyGroup>
+    <GenerateDocs Condition="'$(GenerateDocs)' == ''">true</GenerateDocs>
+    <RegenerateDocsExamples Condition="'$(RegenerateDocsExamples)' == ''">false</RegenerateDocsExamples>
+    <_DocsCompilerProject>$(MSBuildThisFileDirectory)../Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj</_DocsCompilerProject>
+    <_DocsSourceDirectory>$(MSBuildThisFileDirectory)../Documentation/Blazorise.Docs</_DocsSourceDirectory>
+    <ProjectDocsCompiler Condition="'$(ProjectDocsCompiler)' == ''">dotnet run --configuration $(Configuration) --property:BlazoriseVersion=$(BlazoriseVersion) --project "$(_DocsCompilerProject)" --</ProjectDocsCompiler>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Include="$(MSBuildThisFileDirectory)Blazorise.Version.props;$(MSBuildThisFileFullPath);$(_DocsSourceDirectory)/Pages/**/*.razor;$(_DocsSourceDirectory)/Pages/**/*.snippet;$(_DocsSourceDirectory)/Pages/**/*.csharp" />
+  </ItemGroup>
+
+  <!-- Resolve this during target execution, after the SDK has added the framework and RID. -->
+  <Target Name="InitializeDocsGeneration">
+    <PropertyGroup>
+      <DocsGeneratedOutputPath Condition="'$(DocsGeneratedOutputPath)' == ''">$([MSBuild]::NormalizePath('$(MSBuildProjectDirectory)', '$(IntermediateOutputPath)', 'DocsGenerated'))</DocsGeneratedOutputPath>
+      <ApiDocsIntermediatePath Condition="'$(ApiDocsIntermediatePath)' == ''">$(DocsGeneratedOutputPath)/ApiDocs</ApiDocsIntermediatePath>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="CompileDocs" BeforeTargets="BeforeBuild" DependsOnTargets="InitializeDocsGeneration"
+          Condition="'$(DesignTimeBuild)' != 'true' and '$(NoBuild)' != 'true' and '$(GenerateDocs)' == 'true'">
+    <Message Text="Generating documentation in $(DocsGeneratedOutputPath)" Importance="high" />
+    <Exec WorkingDirectory="$(_DocsSourceDirectory)"
+          Command="$(ProjectDocsCompiler) --output-path &quot;$(DocsGeneratedOutputPath)&quot; --api-docs-path &quot;$(ApiDocsIntermediatePath)&quot; --regenerate-examples &quot;$(RegenerateDocsExamples)&quot;" />
+  </Target>
+</Project>
