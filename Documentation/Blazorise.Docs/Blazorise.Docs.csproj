@@ -3,7 +3,7 @@
   <Import Project="..\..\Build\Blazorise.Docs.props" />
 
   <PropertyGroup>
-    <LangVersion>14.0</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

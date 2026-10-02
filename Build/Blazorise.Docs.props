@@ -2,10 +2,10 @@
   <Import Project="Blazorise.Version.props" />
 
 	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
+		<TargetFramework>net11.0</TargetFramework>
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>
-		<LangVersion>14.0</LangVersion>
+		<LangVersion>latest</LangVersion>
     	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 
