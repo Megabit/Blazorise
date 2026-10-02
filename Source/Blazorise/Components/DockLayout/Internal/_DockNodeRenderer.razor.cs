@@ -10,28 +10,7 @@ namespace Blazorise;
 /// </summary>
 public partial class _DockNodeRenderer : _BaseDockRenderer
 {
-    #region Members
-
-    private int version;
-
-    #endregion
-
     #region Methods
-
-    /// <inheritdoc/>
-    private protected override bool IsAffected( DockLayoutChange change )
-        => change.Kind == DockLayoutChangeKind.Tree
-            || change.Kind == DockLayoutChangeKind.Node
-                && DockLayoutTreeQuery.FindNodeById( Node, change.NodeId ) is not null;
-
-    /// <inheritdoc/>
-    private protected override void OnDockLayoutChanged( DockLayoutChange change )
-    {
-        version++;
-
-        if ( change.Kind == DockLayoutChangeKind.Tree )
-            DirtyClasses();
-    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -43,6 +22,21 @@ public partial class _DockNodeRenderer : _BaseDockRenderer
         }
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    private protected override bool IsAffected( DockLayoutChange change )
+        => change.Kind == DockLayoutChangeKind.Tree
+            || change.Kind == DockLayoutChangeKind.Node
+                && DockLayoutTreeQuery.FindNodeById( Node, change.NodeId ) is not null;
+
+    /// <inheritdoc/>
+    private protected override void OnDockLayoutChanged( DockLayoutChange change )
+    {
+        if ( change.Kind == DockLayoutChangeKind.Tree )
+        {
+            DirtyClasses();
+        }
     }
 
     #endregion
@@ -61,8 +55,6 @@ public partial class _DockNodeRenderer : _BaseDockRenderer
         => ( Node?.Id, Node?.First?.Id, Node?.Second?.Id );
 
     private DockNodeState Node => Context?.GetNode( NodeId );
-
-    private int Version => version;
 
     /// <summary>
     /// Gets or sets the rendered node id.

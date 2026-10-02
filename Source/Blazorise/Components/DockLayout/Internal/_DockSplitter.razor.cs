@@ -8,18 +8,22 @@ namespace Blazorise;
 /// <summary>
 /// Visual splitter used by resizable dock panes.
 /// </summary>
-public partial class _DockSplitter : ComponentBase
+public partial class _DockSplitter : _BaseDockRenderer
 {
     #region Methods
 
-    private Task OnResizeEnded( ResizerEventArgs eventArgs )
+    /// <inheritdoc/>
+    private protected override bool IsAffected( DockLayoutChange change )
+        => change.Kind == DockLayoutChangeKind.Tree
+            || change.Kind == DockLayoutChangeKind.Node
+                && DockLayoutTreeQuery.FindNodeById( Context?.GetNode( NodeId ), change.NodeId ) is not null;
+
+    private Task OnResizeEndedHandler( ResizerEventArgs eventArgs )
         => Context?.ResizeDockSplit( NodeId, eventArgs ) ?? Task.CompletedTask;
 
     #endregion
 
     #region Properties
-
-    [CascadingParameter] internal DockLayoutContext Context { get; set; }
 
     private double SplitterThickness => Context?.SplitterThickness ?? 6;
 
@@ -60,11 +64,6 @@ public partial class _DockSplitter : ComponentBase
     /// Identifies the split node whose start and end tracks are resized.
     /// </summary>
     [Parameter] public string NodeId { get; set; }
-
-    /// <summary>
-    /// Carries targeted dock updates that require the splitter constraints to be recalculated.
-    /// </summary>
-    [Parameter] public int Version { get; set; }
 
     #endregion
 }
