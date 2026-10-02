@@ -81,6 +81,28 @@ public partial class PivotGrid<TItem> : BaseComponent
         parameters.TryGetParameter( paramInitiallyExpanded.GetValueOrDefault( InitiallyExpanded ), out var nextParamInitiallyExpanded, nameof( InitiallyExpanded ) );
         parameters.TryGetParameter( paramReadData.GetValueOrDefault( ReadData ), out var nextParamReadData, nameof( ReadData ) );
 
+        // Supplied data may contain in-place changes even when its reference is unchanged.
+        var shouldRebuildPivot = !Rendered
+            || parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out _ )
+            || parameters.IsParameterChanged( ShowRowSubtotals )
+            || parameters.IsParameterChanged( ShowColumnSubtotals )
+            || parameters.IsParameterChanged( ShowRowTotals )
+            || parameters.IsParameterChanged( ShowColumnTotals )
+            || parameters.IsParameterChanged( RowTotalPosition )
+            || parameters.IsParameterChanged( ColumnTotalPosition )
+            || parameters.IsParameterChanged( ExpandableRows )
+            || parameters.IsParameterChanged( ExpandableColumns )
+            || parameters.IsParameterChanged( FieldChooser )
+            || nextParamReadData.Changed;
+
+        var shouldRefreshVirtualizedRows = nextParamInitiallyExpanded.Changed
+            || nextParamPageSize.Changed
+            || parameters.IsParameterChanged( Page )
+            || parameters.IsParameterChanged( PageByGroups )
+            || parameters.IsParameterChanged( ShowPager )
+            || parameters.IsParameterChanged( Virtualize )
+            || parameters.TryGetValue<PivotGridVirtualizeOptions>( nameof( VirtualizeOptions ), out _ );
+
         await base.SetParametersAsync( parameters );
 
         if ( nextParamPageSize.Defined && !nextParamPageSize.Changed )
@@ -110,21 +132,33 @@ public partial class PivotGrid<TItem> : BaseComponent
         if ( !ReferenceEquals( previousDataProvider, DataProvider ) )
         {
             previousDataProvider = DataProvider;
+            shouldRebuildPivot = true;
+
             InvalidateExternalDataRead();
         }
 
         if ( UsesExternalData )
         {
             if ( IsExternalVirtualizeActive )
+            {
                 PrepareExternalVirtualizedData();
+            }
             else if ( fields.Count > 0 || ChildContent is null )
+            {
                 await ReadExternalDataAsync();
-            else
+            }
+            else if ( shouldRebuildPivot )
+            {
                 RefreshLocalPivot();
+            }
         }
-        else
+        else if ( shouldRebuildPivot )
         {
             RefreshLocalPivot();
+        }
+        else if ( shouldRefreshVirtualizedRows )
+        {
+            QueueVirtualizedRowsRefresh();
         }
     }
 
