@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Localization;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -44,7 +45,7 @@ public partial class PasswordStrength : BaseTextInput<string>
 
     private readonly List<PasswordRuleState> ruleStates = new();
 
-    private readonly HashSet<string> effectiveBlockedPasswords = new( StringComparer.OrdinalIgnoreCase );
+    private HashSet<string> effectiveBlockedPasswords = new( StringComparer.OrdinalIgnoreCase );
 
     private TextInput textInputRef;
 
@@ -52,15 +53,9 @@ public partial class PasswordStrength : BaseTextInput<string>
 
     private int strengthScore;
 
-    private int totalRulesCount;
-
-    private int passedRulesCount;
-
     private bool isValid;
 
     private PasswordStrengthLevel strengthLevel;
-
-    private int? rulesSignature;
 
     private PasswordStrengthClasses passwordStrengthClasses;
 
@@ -71,6 +66,43 @@ public partial class PasswordStrength : BaseTextInput<string>
     #region Methods
 
     /// <inheritdoc />
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        var wasRendered = Rendered;
+        var shouldEvaluate = !Rendered || parameters.IsParameterChanged( Value );
+
+        var rulesChanged = parameters.IsParameterChanged( MinimumLength )
+            || parameters.IsParameterChanged( RequireUppercase )
+            || parameters.IsParameterChanged( RequireLowercase )
+            || parameters.IsParameterChanged( RequireNumber )
+            || parameters.IsParameterChanged( RequireSpecialCharacter )
+            || parameters.IsParameterChanged( RequireNotCompromisedPassword );
+
+        var shouldUpdateBlockedPasswords = !Rendered
+            || parameters.IsParameterChanged( UseDefaultBlockedPasswordList )
+            || parameters.TryGetValue<IEnumerable<string>>( nameof( BlockedPasswords ), out _ );
+
+        await base.SetParametersAsync( parameters );
+
+        if ( shouldUpdateBlockedPasswords )
+        {
+            rulesChanged |= UpdateBlockedPasswordsLookup();
+        }
+
+        if ( shouldEvaluate || rulesChanged )
+        {
+            EvaluatePassword();
+
+            if ( wasRendered && rulesChanged )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+
+            await InvokeAsync( StateHasChanged );
+        }
+    }
+
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if ( LocalizerService is not null )
@@ -79,24 +111,6 @@ public partial class PasswordStrength : BaseTextInput<string>
         }
 
         base.OnInitialized();
-    }
-
-    /// <inheritdoc />
-    protected override void OnParametersSet()
-    {
-        BuildBlockedPasswordsLookup();
-        EvaluatePassword();
-
-        int currentRulesSignature = BuildRulesSignature();
-
-        if ( Rendered && rulesSignature.HasValue && rulesSignature.Value != currentRulesSignature )
-        {
-            ExecuteAfterRender( Revalidate );
-        }
-
-        rulesSignature = currentRulesSignature;
-
-        base.OnParametersSet();
     }
 
     /// <inheritdoc/>
@@ -132,85 +146,86 @@ public partial class PasswordStrength : BaseTextInput<string>
         await InvokeAsync( StateHasChanged );
     }
 
-    private void BuildBlockedPasswordsLookup()
+    private bool UpdateBlockedPasswordsLookup()
     {
-        effectiveBlockedPasswords.Clear();
+        var blockedPasswords = UseDefaultBlockedPasswordList
+            ? new HashSet<string>( DefaultBlockedPasswords, StringComparer.OrdinalIgnoreCase )
+            : new HashSet<string>( StringComparer.OrdinalIgnoreCase );
 
-        if ( UseDefaultBlockedPasswordList )
+        if ( BlockedPasswords is not null )
         {
-            foreach ( string blockedPassword in DefaultBlockedPasswords )
+            foreach ( var blockedPassword in BlockedPasswords )
             {
-                effectiveBlockedPasswords.Add( blockedPassword );
+                if ( !string.IsNullOrWhiteSpace( blockedPassword ) )
+                {
+                    blockedPasswords.Add( blockedPassword.Trim() );
+                }
             }
         }
 
-        if ( BlockedPasswords is null )
-            return;
-
-        foreach ( string blockedPassword in BlockedPasswords )
+        if ( effectiveBlockedPasswords.SetEquals( blockedPasswords ) )
         {
-            if ( string.IsNullOrWhiteSpace( blockedPassword ) )
-                continue;
-
-            effectiveBlockedPasswords.Add( blockedPassword.Trim() );
+            return false;
         }
+
+        effectiveBlockedPasswords = blockedPasswords;
+
+        return true;
     }
 
     private void EvaluatePassword( string passwordValue = null )
     {
         ruleStates.Clear();
 
-        string password = passwordValue ?? Value ?? string.Empty;
+        var password = passwordValue ?? Value ?? string.Empty;
 
         if ( MinimumLength > 0 )
         {
-            bool hasMinimumLength = password.Length >= MinimumLength;
+            var hasMinimumLength = password.Length >= MinimumLength;
             ruleStates.Add( new( "At least {0} characters", hasMinimumLength, 3, MinimumLength ) );
         }
 
         if ( RequireUppercase )
         {
-            bool hasUppercase = password.Any( char.IsUpper );
+            var hasUppercase = password.Any( char.IsUpper );
             ruleStates.Add( new( "One uppercase letter", hasUppercase, 1 ) );
         }
 
         if ( RequireLowercase )
         {
-            bool hasLowercase = password.Any( char.IsLower );
+            var hasLowercase = password.Any( char.IsLower );
             ruleStates.Add( new( "One lowercase letter", hasLowercase, 1 ) );
         }
 
         if ( RequireNumber )
         {
-            bool hasNumber = password.Any( char.IsDigit );
+            var hasNumber = password.Any( char.IsDigit );
             ruleStates.Add( new( "One number", hasNumber, 1 ) );
         }
 
         if ( RequireSpecialCharacter )
         {
-            bool hasSpecialCharacter = password.Any( c => char.IsPunctuation( c ) || char.IsSymbol( c ) );
+            var hasSpecialCharacter = password.Any( c => char.IsPunctuation( c ) || char.IsSymbol( c ) );
             ruleStates.Add( new( "One special character", hasSpecialCharacter, 1 ) );
         }
 
         if ( RequireNotCompromisedPassword && effectiveBlockedPasswords.Count > 0 )
         {
-            bool isNotCompromised = IsNotCompromisedPassword( password );
+            var isNotCompromised = IsNotCompromisedPassword( password );
             ruleStates.Add( new( "Not a common or breached password", isNotCompromised, 2 ) );
         }
-
-        totalRulesCount = ruleStates.Count;
-        passedRulesCount = ruleStates.Count( x => x.IsSatisfied );
 
         if ( string.IsNullOrWhiteSpace( password ) )
         {
             strengthScore = 0;
             strengthLevel = PasswordStrengthLevel.None;
             isValid = false;
+
             return;
         }
 
-        int totalWeight = ruleStates.Sum( x => x.Weight );
-        int passedWeight = ruleStates.Where( x => x.IsSatisfied ).Sum( x => x.Weight );
+        var totalWeight = ruleStates.Sum( x => x.Weight );
+        var passedWeight = ruleStates.Where( x => x.IsSatisfied ).Sum( x => x.Weight );
 
         if ( totalWeight > 0 )
         {
@@ -229,9 +244,7 @@ public partial class PasswordStrength : BaseTextInput<string>
             _ => PasswordStrengthLevel.Weak,
         };
 
-        isValid = totalRulesCount > 0
-            ? ruleStates.All( x => x.IsSatisfied )
-            : true;
+        isValid = ruleStates.All( x => x.IsSatisfied );
     }
 
     private bool IsNotCompromisedPassword( string password )
@@ -240,26 +253,6 @@ public partial class PasswordStrength : BaseTextInput<string>
             return false;
 
         return !effectiveBlockedPasswords.Contains( password.Trim() );
-    }
-
-    private int BuildRulesSignature()
-    {
-        HashCode hashCode = new();
-
-        hashCode.Add( MinimumLength );
-        hashCode.Add( RequireUppercase );
-        hashCode.Add( RequireLowercase );
-        hashCode.Add( RequireNumber );
-        hashCode.Add( RequireSpecialCharacter );
-        hashCode.Add( RequireNotCompromisedPassword );
-        hashCode.Add( UseDefaultBlockedPasswordList );
-
-        foreach ( string blockedPassword in effectiveBlockedPasswords.OrderBy( x => x, StringComparer.OrdinalIgnoreCase ) )
-        {
-            hashCode.Add( blockedPassword, StringComparer.OrdinalIgnoreCase );
-        }
-
-        return hashCode.ToHashCode();
     }
 
     private static int CalculateLengthOnlyScore( string password )
@@ -280,15 +273,13 @@ public partial class PasswordStrength : BaseTextInput<string>
     }
 
     private PasswordStrengthChangedEventArgs CreateStrengthChangedEventArgs()
-    {
-        return new PasswordStrengthChangedEventArgs(
+        => new(
             Value,
             strengthLevel,
             strengthScore,
-            passedRulesCount,
-            totalRulesCount,
+            ruleStates.Count( x => x.IsSatisfied ),
+            ruleStates.Count,
             isValid );
-    }
 
     private Task TogglePasswordVisibility()
     {
