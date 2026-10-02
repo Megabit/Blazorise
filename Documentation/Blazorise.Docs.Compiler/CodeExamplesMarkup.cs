@@ -62,7 +62,7 @@ public class CodeExamplesMarkup
 
                 // Versioned examples must also refresh when only Blazorise.Version.props changes.
                 if ( !regenerateAll && entry.LastWriteTimeUtc < lastCheckedUtc && File.Exists( markupPath )
-                    && !source.Contains( AssetVersioning.VersionToken, StringComparison.Ordinal ) )
+                    && !AssetVersioning.HasVersionToken( source ) )
                 {
                     continue;
                 }

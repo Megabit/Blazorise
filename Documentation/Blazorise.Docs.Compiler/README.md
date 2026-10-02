@@ -4,6 +4,8 @@ Building `Blazorise.Docs` or `Blazorise.Docs.Server` runs the docs compiler befo
 
 Generated HTML, copyable snippet constants, API documentation, and search indexes are written beneath the consuming project's `obj/<configuration>/<framework>/DocsGenerated/` directory (including the runtime identifier when applicable). The docs assembly embeds examples from there, and the MCP project generates and copies its indexes from its own intermediate output. These generated files should not be committed.
 
+Use `__BLAZORISE_VERSION__` for four-part CSS/JS cache query versions and `__BLAZORISE_PACKAGE_VERSION__` for the exact NuGet version in package references. Both come from `Build/Blazorise.Version.props` and are resolved for displayed examples, copied snippets, and search indexes.
+
 IDE design-time builds do not run the compiler. Editing or opening a file does not regenerate documentation through those builds. Starting the server with a build refreshes the generated documentation; starting without a build uses the existing assembly.
 
 Normal builds refresh example HTML only when its source has changed since the last successful markup generation or its generated HTML is missing. Versioned examples also refresh when the release version changes. The last run and current example list are tracked by `ExampleCodeFiles.txt` in the generated output directory.

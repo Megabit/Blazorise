@@ -50,6 +50,14 @@ try {
         Assert-Version ([System.IO.File]::ReadAllText((Join-Path $generatedRoot $examplePath))) $case.Asset
         Assert-Version ([System.IO.File]::ReadAllText((Join-Path $generatedRoot 'Models/Snippets.generated.cs'))) $case.Asset
         Assert-Version ([System.IO.File]::ReadAllText((Join-Path $generatedRoot 'Resources/docs-index.json'))) $case.Asset
+
+        $packageHtml = [System.IO.File]::ReadAllText((Join-Path $generatedRoot 'Pages/Docs/Code/AnalyzerPackageReferenceExampleCode.html'))
+        $packageExample = [System.Net.WebUtility]::HtmlDecode([regex]::Replace($packageHtml, '<[^>]*>', ''))
+        $expectedPackageAttribute = 'Version="' + $case.Package + '"'
+        if (!$packageExample.Contains($expectedPackageAttribute) -or $packageExample.Contains('__BLAZORISE_PACKAGE_VERSION__')) {
+            throw "Expected the exact NuGet version $($case.Package) in the package reference example."
+        }
+
         if (!(Get-Content (Join-Path $generatedRoot 'ExampleCodeFiles.txt')).Contains($examplePath)) {
             throw 'The example is missing from the generated resource manifest.'
         }
@@ -92,6 +100,11 @@ try {
     }
     $snippet = $assembly.GetType('Blazorise.Docs.Models.Snippets').GetField('AntDesignScriptsExample').GetRawConstantValue()
     Assert-Version $snippet '2.3.3.1'
+
+    $packageSnippet = $assembly.GetType('Blazorise.Docs.Models.Snippets').GetField('AnalyzerPackageReferenceExample').GetRawConstantValue()
+    if (!$packageSnippet.Contains('Version="2.3.3.1"') -or $packageSnippet.Contains('__BLAZORISE_PACKAGE_VERSION__')) {
+        throw 'The copyable package reference does not contain the resolved NuGet version.'
+    }
 
     $after = Get-SourceSnapshot
     if ($before.Count -ne $after.Count) {

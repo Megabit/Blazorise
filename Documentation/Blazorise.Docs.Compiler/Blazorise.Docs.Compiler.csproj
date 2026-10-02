@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AssemblyMetadata Include="BlazorisePackageVersion" Value="$(BlazoriseVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ColorCode.HTML" />
     <PackageReference Include="Markdig" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
