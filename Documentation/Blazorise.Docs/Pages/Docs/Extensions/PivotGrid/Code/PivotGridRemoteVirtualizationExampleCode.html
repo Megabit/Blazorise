@@ -43,9 +43,11 @@
     <span class="keyword">private</span> Task ReadRemotePivotData( PivotGridReadDataEventArgs&lt;RemotePivotSale&gt; eventArgs )
     {
         PivotGridDataRequest request = eventArgs.Request;
+
         <span class="keyword">int</span> offset = request.ReadDataMode == PivotGridReadDataMode.Virtualize
             ? Math.Max( <span class="number">0</span>, request.VirtualizeOffset )
             : <span class="number">0</span>;
+
         <span class="keyword">int</span> count = request.ReadDataMode == PivotGridReadDataMode.Virtualize &amp;&amp; request.VirtualizeCount &gt; <span class="number">0</span>
             ? request.VirtualizeCount
             : <span class="number">40</span>;
@@ -109,6 +111,7 @@
             .Select( <span class="keyword">group</span> =&gt;
             {
                 List&lt;RemotePivotSale&gt; rowItems = <span class="keyword">group</span>.ToList();
+
                 PivotGridAxisItem&lt;RemotePivotSale&gt; row = <span class="keyword">new</span>(
                     [<span class="keyword">group</span>.Key],
                     rowItems,
@@ -120,9 +123,11 @@
                     .Select( dataColumn =&gt;
                     {
                         <span class="keyword">string</span> quarter = dataColumn.Column.Values[<span class="number">0</span>]?.ToString();
+
                         List&lt;RemotePivotSale&gt; cellItems = rowItems
                             .Where( sale =&gt; sale.Quarter == quarter )
                             .ToList();
+
                         <span class="keyword">object</span> value = aggregate.Calculate( cellItems );
 
                         <span class="keyword">return</span> <span class="keyword">new</span> PivotGridCell&lt;RemotePivotSale&gt;(

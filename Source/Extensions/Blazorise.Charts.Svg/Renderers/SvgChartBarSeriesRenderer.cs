@@ -23,9 +23,7 @@ internal sealed class SvgChartBarSeriesContent : SvgChartSeriesContentBase
     {
         var resolvedState = new SvgChartRectangleSeriesState( Series.BorderRadius, Context.CategoryFormatterKey );
         var resolvedBars = ResolveBars( Context, Series );
-        var shouldRender = Context.Animation.Enabled
-            || resolvedState != state
-            || !resolvedBars.SequenceEqual( bars );
+        var shouldRender = Context.Animation.Enabled || resolvedState != state || !resolvedBars.SequenceEqual( bars );
         bars = resolvedBars;
         state = resolvedState;
 

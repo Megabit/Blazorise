@@ -96,6 +96,7 @@ internal static class TimePickerInputParser
             return false;
 
         string cultureSeparator = CultureInfo.CurrentCulture.DateTimeFormat.TimeSeparator;
+
         bool hasTimeSyntax = trimmedValue.Contains( ":", StringComparison.Ordinal )
             || ( !string.IsNullOrEmpty( cultureSeparator ) && trimmedValue.Contains( cultureSeparator, StringComparison.Ordinal ) )
             || ( !string.IsNullOrEmpty( CultureInfo.CurrentCulture.DateTimeFormat.AMDesignator ) && trimmedValue.Contains( CultureInfo.CurrentCulture.DateTimeFormat.AMDesignator, StringComparison.OrdinalIgnoreCase ) )
@@ -141,10 +142,13 @@ internal static class TimePickerInputParser
         int hourDigits = value.Length <= 2
             ? value.Length
             : 2 - value.Length % 2;
+
         int hour = int.Parse( value.AsSpan( 0, hourDigits ), NumberStyles.None, CultureInfo.InvariantCulture );
+
         int minute = value.Length >= hourDigits + 2
             ? int.Parse( value.AsSpan( hourDigits, 2 ), NumberStyles.None, CultureInfo.InvariantCulture )
             : 0;
+
         int second = value.Length >= hourDigits + 4
             ? int.Parse( value.AsSpan( hourDigits + 2, 2 ), NumberStyles.None, CultureInfo.InvariantCulture )
             : 0;

@@ -225,6 +225,7 @@ internal static class ReportDesignerTreeBuilder
     private static ReportTreeNode BuildReportElementNode( ReportElementDefinition element, string selectedCellKey, Func<string, bool> isElementSelected, IReportElementPluginRegistry pluginRegistry, bool allowSubreport = true, TextLocalizerHandler localizer = null )
     {
         var elementKey = ReportDefinitionHelper.EnsureElementId( element );
+
         IReportElementPlugin plugin = element is ReportCustomElementDefinition customElement
             ? pluginRegistry?.Find( customElement.TypeName )
             : null;
@@ -305,6 +306,7 @@ internal static class ReportDesignerTreeBuilder
     private static List<ReportTreeNode> BuildTableChildNodes( ReportTableElementDefinition table, string tableKey, string selectedCellKey, Func<string, bool> isElementSelected, IReportElementPluginRegistry pluginRegistry, bool allowSubreport, TextLocalizerHandler localizer )
     {
         List<ReportTreeNode> rows = [];
+
         int rowCount = Math.Max(
             table.Rows?.Count ?? 0,
             table.Cells?.Count > 0 ? table.Cells.Max( cell => cell.RowIndex + Math.Max( 1, cell.RowSpan ) ) : 0 );

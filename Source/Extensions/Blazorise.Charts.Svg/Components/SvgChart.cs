@@ -253,6 +253,7 @@ public class SvgChart<TItem> : SvgChartBase
             dataDrag,
             ResolveCategoryFormatterKey( model ),
             ( value, index ) => FormatCategory( model, value, index ) );
+
         var zoom = model.Zoom;
 
         UpdateSurfaceClasses( zoom?.Enabled == true && zoom.Pan, dataDrag.Enabled );
@@ -706,6 +707,7 @@ public class SvgChart<TItem> : SvgChartBase
     private void RenderSeriesCore( RenderTreeBuilder builder, ref int sequence, SvgChartSeriesRendererContext context, Func<SvgChartPluginSeries, bool> filter )
     {
         var renderers = ResolveSeriesRenderers();
+
         var rendererItems = context.Chart.Series
             .Where( filter )
             .Select( series => new { Series = series, Renderer = ResolveSeriesRenderer( renderers, series ) } )
@@ -840,9 +842,11 @@ public class SvgChart<TItem> : SvgChartBase
     private static List<SvgChartTooltipHitPoint> ResolveTooltipHitPoints( SvgChartRenderModel model, SvgChartPlotArea plot )
     {
         var horizontal = !IsBarChart( model );
+
         var categoryScale = horizontal && model.CategoryScaleKind == SvgChartAxisScaleKind.Continuous
             ? ResolvePointXScale( model )
             : null;
+
         var result = new List<SvgChartTooltipHitPoint>();
 
         for ( var pointIndex = 0; pointIndex < model.CategorySlotCount; pointIndex++ )
@@ -856,9 +860,11 @@ public class SvgChart<TItem> : SvgChartBase
             var value = values[pointIndex].Value;
             var category = ResolveTooltipCategory( model, pointIndex, null );
             var seriesIndex = model.Series.IndexOf( series );
+
             var renderedValue = pointIndex < series.StackEndValues.Count && series.StackEndValues[pointIndex].HasValue
                 ? series.StackEndValues[pointIndex].Value
                 : value;
+
             double position;
             double anchorX;
             double anchorY;
@@ -868,6 +874,7 @@ public class SvgChart<TItem> : SvgChartBase
                 position = categoryScale is not null && pointIndex < series.XValues.Count && series.XValues[pointIndex].HasValue
                     ? GetX( series.XValues[pointIndex].Value, plot, categoryScale.Min, categoryScale.Max )
                     : GetCategoryX( pointIndex, plot, model );
+
                 anchorX = position;
                 anchorY = GetY( renderedValue, plot, model, series );
             }
@@ -1512,9 +1519,11 @@ public class SvgChart<TItem> : SvgChartBase
     {
         var timeAxes = categoryAxisComponents.OfType<SvgChartTimeAxis<TItem>>();
         var axisId = model.CategoryAxis?.Id;
+
         var timeAxis = !string.IsNullOrWhiteSpace( axisId )
             ? timeAxes.LastOrDefault( x => string.Equals( x.Id, axisId, StringComparison.Ordinal ) )
             : null;
+
         timeAxis ??= timeAxes.LastOrDefault();
 
         if ( timeAxis is null )
@@ -1541,12 +1550,15 @@ public class SvgChart<TItem> : SvgChartBase
     private static string ResolveTooltipStyle( SvgChartOptions options, SvgChartTooltipContext context )
     {
         var font = options?.Font;
+
         var color = SvgChartRenderHelpers.IsDefaultColor( font?.Color )
             ? "var(--b-tooltip-color,#fff)"
             : SvgChartRenderHelpers.ResolveFontColor( font );
+
         var fontSize = font?.Size is null
             ? "var(--b-tooltip-font-size,.875rem)"
             : $"{Format( font.Size.Value )}px";
+
         var fontFamily = string.IsNullOrWhiteSpace( font?.Family )
             ? null
             : $"font-family:{font.Family};";
@@ -1606,6 +1618,7 @@ public class SvgChart<TItem> : SvgChartBase
             return new( false, 0, TimeSpan.Zero, streamingAnimationVersion, null );
 
         var categoryWidth = GetCategoryWidth( plot, model );
+
         var offsetX = SvgChartStreamingResolver.IsReversed( streaming )
             ? categoryWidth
             : -categoryWidth;
@@ -1859,6 +1872,7 @@ public class SvgChart<TItem> : SvgChartBase
         var radialPoint = isRadial
             ? ResolveRadialDataDragPoint( plot, series.Type, value, valueAxis.Max, radialAngle )
             : (X: 0d, Y: 0d);
+
         var radialPointerOffset = 0d;
         var angularPointerOffset = 0d;
 
@@ -1886,20 +1900,24 @@ public class SvgChart<TItem> : SvgChartBase
             : isValueAxisHorizontal
                 ? GetX( renderedValue, plot, valueAxis.Min, valueAxis.Max )
                 : ResolveDataDragPointX( model, plot, series, pointIndex, xValue, xScale );
+
         var y = isRadial
             ? radialPoint.Y
             : isValueAxisHorizontal
                 ? plot.Top + plot.Height * ( pointIndex + 0.5 ) / Math.Max( model.CategorySlotCount, 1 )
                 : GetY( renderedValue, plot, valueAxis );
+
         var markerRadius = ResolveDataDragMarkerRadius( series );
         var pointBounds = ResolveDataDragPointBounds( series, pointIndex, x, y, markerRadius );
 
         var hasCategoryLabel = model.CategoryScaleKind == SvgChartAxisScaleKind.Continuous && pointIndex < model.Labels.Count;
+
         var category = hasCategoryLabel
             ? model.Labels[pointIndex]
             : series.Type is SvgChartType.Scatter or SvgChartType.Bubble
                 ? xValue
                 : pointIndex < model.Labels.Count ? model.Labels[pointIndex] : pointIndex;
+
         var point = new SvgChartPointEventArgs
         {
             SeriesName = series.Name,
@@ -1992,6 +2010,7 @@ public class SvgChart<TItem> : SvgChartBase
                 ? ResolveDataDragStackValue( UnprojectX( x, state.Plot, state.ValueAxis.Min, state.ValueAxis.Max ), state )
                 : UnprojectX( x, state.Plot, state.XScale.Min, state.XScale.Max )
             : state.XValue;
+
         var yValue = state.CanDragY
             ? IsRadialChart( state.SeriesType )
                 ? ResolveRadialDataDragValue( x, y, state )
@@ -2041,12 +2060,15 @@ public class SvgChart<TItem> : SvgChartBase
             return;
 
         var series = model.Series[state.SeriesIndex];
+
         var sourceXValue = state.IsValueAxisHorizontal
             ? state.PointIndex >= 0 && state.PointIndex < series.Values.Count ? series.Values[state.PointIndex] : null
             : state.PointIndex >= 0 && state.PointIndex < series.XValues.Count ? series.XValues[state.PointIndex] : null;
+
         var sourceYValue = series.Type is SvgChartType.Scatter or SvgChartType.Bubble
             ? state.PointIndex >= 0 && state.PointIndex < series.YValues.Count ? series.YValues[state.PointIndex] : null
             : state.PointIndex >= 0 && state.PointIndex < series.Values.Count ? series.Values[state.PointIndex] : null;
+
         var hasPersistedXValue = state.CanDragX && AreDataDragValuesEqual( sourceXValue, state.XValue );
         var hasPersistedYValue = state.CanDragY && AreDataDragValuesEqual( sourceYValue, state.YValue );
 
@@ -2113,11 +2135,13 @@ public class SvgChart<TItem> : SvgChartBase
             return;
 
         var dataDrag = ResolveDataDrag( ResolveOptions() );
+
         var nextXValue = state.CanDragX
             ? state.IsValueAxisHorizontal
                 ? SnapAndClampDataDragStackValue( xValue.Value, dataDrag.XStep, state )
                 : SnapAndClampDataDragValue( xValue.Value, dataDrag.XStep, state.XScale.Min, state.XScale.Max )
             : state.XValue;
+
         var nextYValue = state.CanDragY
             ? SnapAndClampDataDragStackValue( yValue.Value, dataDrag.YStep, state )
             : state.YValue;
@@ -2155,6 +2179,7 @@ public class SvgChart<TItem> : SvgChartBase
 
         var pointSeries = series.Type is SvgChartType.Scatter or SvgChartType.Bubble;
         var horizontalValueSeries = series.Type == SvgChartType.Bar;
+
         var verticalValueSeries = series.Type is SvgChartType.Line or SvgChartType.Area or SvgChartType.Column
             or SvgChartType.Pie or SvgChartType.Doughnut or SvgChartType.PolarArea or SvgChartType.Radar;
 
@@ -2300,6 +2325,7 @@ public class SvgChart<TItem> : SvgChartBase
         var centerY = plot.Top + plot.Height / 2;
         var radius = Math.Max( 1, Math.Min( plot.Width, plot.Height ) * ( seriesType is SvgChartType.Pie or SvgChartType.Doughnut ? 0.5 : 0.42 ) );
         var resolvedMaximum = Math.Max( maximumValue, 1 );
+
         var renderedRadius = seriesType switch
         {
             SvgChartType.Radar => radius * Math.Clamp( value / resolvedMaximum, 0, 1 ),
@@ -2534,6 +2560,7 @@ public class SvgChart<TItem> : SvgChartBase
         var radialPoint = isRadial
             ? ResolveRadialDataDragPoint( plot, series.Type, value, state.ValueAxis.Max, radialAngle )
             : (X: 0d, Y: 0d);
+
         var x = isRadial
             ? radialPoint.X
             : state.IsValueAxisHorizontal
@@ -2541,12 +2568,15 @@ public class SvgChart<TItem> : SvgChartBase
                 : series.Type == SvgChartType.Column
                     ? state.CrossAxisCoordinate
                     : ResolveDataDragPointX( model, plot, series, state.PointIndex, state.XValue, state.XScale );
+
         var y = isRadial
             ? radialPoint.Y
             : state.IsValueAxisHorizontal
                 ? state.CrossAxisCoordinate
                 : GetY( renderedValue, plot, state.ValueAxis );
+
         var radius = ResolveDataDragMarkerRadius( series );
+
         var point = new SvgChartPointEventArgs
         {
             SeriesName = state.SeriesName,
@@ -3265,6 +3295,7 @@ public class SvgChart<TItem> : SvgChartBase
                 dateTimeOffset = dateTime.Kind == DateTimeKind.Unspecified
                     ? new DateTimeOffset( DateTime.SpecifyKind( dateTime, DateTimeKind.Local ) )
                     : new DateTimeOffset( dateTime );
+
                 return true;
             default:
                 dateTimeOffset = default;

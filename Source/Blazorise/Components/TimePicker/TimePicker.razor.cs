@@ -178,8 +178,10 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         bool formatChanged = ( paramDisplayFormat.Defined && paramDisplayFormat.Changed )
             || ( paramTimeAs24hr.Defined && paramTimeAs24hr.Changed )
             || ( paramSeconds.Defined && paramSeconds.Changed );
+
         bool defaultChanged = ( paramDefaultHour.Defined && paramDefaultHour.Changed )
             || ( paramDefaultMinute.Defined && paramDefaultMinute.Changed );
+
         bool limitsChanged = ( paramMin.Defined && paramMin.Changed )
             || ( paramMax.Defined && paramMax.Changed );
 

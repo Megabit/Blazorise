@@ -14,9 +14,11 @@ public class InfoExtractor
     {
         ApiDocsForComponentProperty propertyDetails = new();
         propertyDetails.Name = property.Name;
+
         propertyDetails.Type = property.Type.TypeKind == TypeKind.TypeParameter//with generic arguments:  
             ? "object"//typeof(TValue) is invalid => typeof(object)
             : property.Type.ToStringWithGenerics();//e.g.: typeof(EventCallback<TValue>) => typeof(EventCallback<>) 
+
         propertyDetails.TypeName = StringHelpers.GetSimplifiedTypeName( property.Type );
         propertyDetails.Summary = StringHelpers.ExtractFromXmlComment( property, ExtractorParts.Summary );
         propertyDetails.Remarks = StringHelpers.ExtractFromXmlComment( property, ExtractorParts.Remarks );
@@ -47,11 +49,13 @@ public class InfoExtractor
                              """",
                 _ => StringHelpers.FormatProperly( defaultValue )
             };
+
         string defaultValueAsString = property.Type.Name == "String" ? defaultValueString : $""""
                                                                                              $$"""
                                                                                              {StringHelpers.TypeToStringDetails( defaultValueString, propertyDetails.Type )}
                                                                                              """
                                                                                              """";
+
         propertyDetails.DefaultValueString = defaultValueAsString;
         propertyDetails.DefaultValue = BuildDefaultValueDisplay( defaultValue, propertyDetails.Type );
         return propertyDetails;

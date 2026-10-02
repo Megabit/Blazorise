@@ -889,12 +889,14 @@ public static class PayloadGenerator
         public override string ToString()
         {
             string text = null;
+
             KeyValuePair<string, string>[] source = new KeyValuePair<string, string>[3]
             {
                 new KeyValuePair<string, string>("label", label),
                 new KeyValuePair<string, string>("message", message),
                 new KeyValuePair<string, string>("amount", amount.HasValue ? amount.Value.ToString("#.########", CultureInfo.InvariantCulture) : null)
             };
+
             if ( source.Any( ( KeyValuePair<string, string> keyPair ) => !string.IsNullOrEmpty( keyPair.Value ) ) )
             {
                 text = "?" + string.Join( "&", ( from keyPair in source
@@ -3565,8 +3567,10 @@ public static class PayloadGenerator
             }
 
             string s2 = methodStr + ":" + password;
+
             string text2 = Convert.ToBase64String( Encoding.UTF8.GetBytes( s2 ) ).Replace( '+', '-' ).Replace( '/', '_' )
                 .TrimEnd( '=' );
+
             return string.Format( "ss://{0}@{1}:{2}/?{3}{4}", text2, hostname, port, parameter, ( !string.IsNullOrEmpty( tag ) ) ? ( "#" + tag ) : string.Empty );
         }
     }
@@ -4362,11 +4366,13 @@ public static class PayloadGenerator
         public byte[] ToBytes()
         {
             separator = DetermineSeparator();
+
             string[] obj = new string[17]
             {
                 "ST0001", null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null
             };
+
             int num = (int)characterSet;
             obj[1] = num.ToString();
             obj[2] = separator;
@@ -4411,12 +4417,14 @@ public static class PayloadGenerator
         {
             List<string> mandatoryFieldsAsList = GetMandatoryFieldsAsList();
             List<string> optionalFieldsAsList = GetOptionalFieldsAsList();
+
             string[] array = new string[21]
             {
                 "|", "#", ";", ":", "^", "_", "~", "{", "}", "!",
                 "#", "$", "%", "&", "(", ")", "*", "+", ",", "/",
                 "@"
             };
+
             foreach ( string sepCandidate in array )
             {
                 if ( !mandatoryFieldsAsList.Any( ( string x ) => x.Contains( sepCandidate ) ) && !optionalFieldsAsList.Any( ( string x ) => x.Contains( sepCandidate ) ) )
@@ -4530,6 +4538,7 @@ public static class PayloadGenerator
         {
             int num = Convert.ToInt32( iban.ToUpper().Replace( " ", "" ).Replace( "-", "" )
                 .Substring( 4, 5 ) );
+
             flag = num >= 30000 && num <= 31999;
         }
         catch

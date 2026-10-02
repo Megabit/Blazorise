@@ -223,6 +223,7 @@ internal sealed class OnScreenKeyboardTimeInputComposer
     private OnScreenKeyboardInputComposition CreateComposition( Func<string, bool> canParse )
     {
         string value = Value;
+
         bool canCommit = string.IsNullOrEmpty( value )
             || ( IsComplete && canParse( value ) );
 

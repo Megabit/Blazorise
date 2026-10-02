@@ -42,6 +42,7 @@ internal static class ReportDataResolver
             return currentItem ?? definition?.DataSources.FirstOrDefault()?.Data ?? defaultData;
 
         var trimmedDataSource = dataSource.Trim();
+
         var namedDataSource = definition?.DataSources.FirstOrDefault( x =>
             string.Equals( x.Name, trimmedDataSource, StringComparison.OrdinalIgnoreCase ) );
 
@@ -54,6 +55,7 @@ internal static class ReportDataResolver
         {
             var dataSourceName = trimmedDataSource[..pathSeparatorIndex];
             var dataSourcePath = trimmedDataSource[( pathSeparatorIndex + 1 )..];
+
             namedDataSource = definition?.DataSources.FirstOrDefault( x =>
                 string.Equals( x.Name, dataSourceName, StringComparison.OrdinalIgnoreCase ) );
 

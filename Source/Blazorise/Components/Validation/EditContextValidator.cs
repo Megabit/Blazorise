@@ -97,6 +97,7 @@ public class EditContextValidator : IEditContextValidator
         if ( TryGetValidatableProperty( fieldIdentifier, out var validationPropertyInfo, messageLocalizer is not null ) )
         {
             var propertyValue = validationPropertyInfo.PropertyInfo.GetValue( fieldIdentifier.Model );
+
             var validationContext = new ValidationContext( fieldIdentifier.Model, serviceProvider, null )
             {
                 MemberName = validationPropertyInfo.PropertyInfo.Name,

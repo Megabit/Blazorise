@@ -85,7 +85,8 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        var shouldUpdateAnimation = parameters.IsParameterChanged( Animated ) || parameters.IsParameterChanged( AnimationDuration );
+        var shouldUpdateAnimation = parameters.IsParameterChanged( Animated )
+            || parameters.IsParameterChanged( AnimationDuration );
 
         if ( shouldUpdateAnimation )
             DirtyStyles();

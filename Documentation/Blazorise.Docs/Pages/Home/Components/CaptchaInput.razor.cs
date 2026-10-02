@@ -95,6 +95,7 @@ public partial class CaptchaInput : BaseInputComponent<bool>
         var response = await httpClient.PostAsync( "https://www.google.com/recaptcha/api/siteverify", content );
 
         var result = await response.Content.ReadAsStringAsync();
+
         var googleResponse = JsonSerializer.Deserialize<GoogleResponse>( result, new JsonSerializerOptions()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase

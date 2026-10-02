@@ -233,6 +233,7 @@ internal static class ReportDesignerInteractionService
                 targetSectionIndex = sourceSectionIndex;
 
             var targetSection = definition.Bands[targetSectionIndex];
+
             var targetLocalY = activeCrossedSections
                 ? item.OriginalPageY + deltaPageY - getSectionOffsetY( targetSectionIndex )
                 : item.OriginalSectionY + deltaLocalY;
@@ -469,6 +470,7 @@ internal static class ReportDesignerInteractionService
 
         state.SelectionBox.CurrentX = ReportLayoutGeometry.Clamp( state.SelectionBox.StartX + ReportMeasurementConverter.FromCssPixelValue( clientX - state.SelectionBox.StartClientX ), 0, definition.Page.Width );
         state.SelectionBox.CurrentY = ReportLayoutGeometry.Clamp( state.SelectionBox.StartY + ReportMeasurementConverter.FromCssPixelValue( clientY - state.SelectionBox.StartClientY ), 0, contentHeight );
+
         state.SelectionBox.HasMoved = state.SelectionBox.HasMoved
             || Math.Abs( ReportMeasurementConverter.ToCssPixelValue( state.SelectionBox.CurrentX - state.SelectionBox.StartX ) ) > 2
             || Math.Abs( ReportMeasurementConverter.ToCssPixelValue( state.SelectionBox.CurrentY - state.SelectionBox.StartY ) ) > 2;
@@ -589,6 +591,7 @@ internal static class ReportDesignerInteractionService
         for ( var sectionIndex = 0; sectionIndex < definition.Bands.Count; sectionIndex++ )
         {
             var sectionTop = getSectionOffsetY( sectionIndex );
+
             var nextSectionTop = sectionIndex + 1 < definition.Bands.Count
                 ? getSectionOffsetY( sectionIndex + 1 )
                 : sectionTop + Math.Max( 0, definition.Bands[sectionIndex].Height );

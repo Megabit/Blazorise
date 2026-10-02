@@ -417,9 +417,11 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         {
             var normalizedSearchText = ganttState.SearchText ?? string.Empty;
             var targetDate = ganttState.Date == default ? currentDate : ganttState.Date;
+
             var targetView = Enum.IsDefined( typeof( GanttView ), ganttState.SelectedView )
                 ? ganttState.SelectedView
                 : SelectedView;
+
             var dateChanged = currentDate != targetDate;
             var viewChanged = SelectedView != targetView;
             var searchChanged = !string.Equals( searchText, normalizedSearchText, StringComparison.Ordinal );
@@ -459,9 +461,11 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             editState = ganttState.EditState;
 
             var resolvedSelectedRow = ResolveStateItemReference( ganttState.SelectedRow );
+
             var resolvedEditItem = ganttState.EditState == GanttEditState.None
                 ? default
                 : ResolveStateItemReference( ganttState.EditItem );
+
             var resolvedEditParentItem = ganttState.EditState == GanttEditState.New
                 ? ResolveStateItemReference( ganttState.EditParentItem )
                 : default;
@@ -1265,6 +1269,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         for ( int i = 0; i < defaultLegacyOrder.Count; i++ )
         {
             var key = defaultLegacyOrder[i];
+
             var visible = key switch
             {
                 var x when StringUtils.IsMatch( x, WbsPseudoField ) => showWbsColumn,
@@ -2331,11 +2336,14 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private GanttColumnHeaderContext<TItem> GetColumnHeaderContext( GanttRenderColumn column, bool showHeaderNewButton = false )
     {
         var showSortIcon = ShowSortIcon( column );
+
         var sortDirection = showSortIcon
             ? ganttSortDirection
             : SortDirection.Default;
+
         var isCommandColumn = column?.IsCommand ?? false;
         var canAddTask = isCommandColumn && showHeaderNewButton && IsCommandAllowed( GanttCommandType.New );
+
         Func<Task> addTask = canAddTask
             ? NotifyNewItemClicked
             : NoopAsync;
@@ -2355,6 +2363,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private GanttTreeCommandCellContext<TItem> GetTreeCommandCellContext( GanttTreeRow row )
     {
         var canAddChild = CanShowAddChildButton( row.Item );
+
         Func<Task> addChild = canAddChild
             ? () => NotifyAddChildItemClicked( row.Item )
             : NoopAsync;
@@ -2408,15 +2417,21 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         Func<Task> toggleNode = row.HasChildren
             ? () => ToggleNodeFromPointer( row )
             : NoopAsync;
+
         var canAddChild = CanShowAddChildButton( row.Item );
+
         Func<Task> addChild = canAddChild
             ? () => NotifyAddChildItemClicked( row.Item )
             : NoopAsync;
+
         var canEdit = IsCommandAllowed( GanttCommandType.Edit, row.Item );
+
         Func<Task> edit = canEdit
             ? () => NotifyEditItemClicked( row.Item )
             : NoopAsync;
+
         var canDelete = IsCommandAllowed( GanttCommandType.Delete, row.Item );
+
         Func<Task> delete = canDelete
             ? () => NotifyDeleteItemClicked( row.Item )
             : NoopAsync;
@@ -3326,6 +3341,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private string CreateUniqueNodeKey( TItem item, int index, HashSet<string> usedKeys )
     {
         var idKey = ValueUtils.NormalizeIdentifier( propertyMapper.HasId ? propertyMapper.GetId( item ) : null );
+
         var stableKey = !string.IsNullOrEmpty( idKey )
             ? idKey
             : $"idx-{index.ToString( CultureInfo.InvariantCulture )}";
@@ -3448,6 +3464,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         var width = NormalizeTreeListWidth( treeListWidthOverride )
             ?? new FluentUnitValue( "px", GetTreePaneWidth( treeColumns ) );
+
         var widthText = width.ToCssValue();
 
         if ( string.IsNullOrWhiteSpace( widthText ) )
@@ -3501,6 +3518,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private string GetTreeColumnStyle( double width, bool sortable = false, TextAlignment textAlignment = TextAlignment.Default )
     {
         var widthText = width.ToString( "0.###", CultureInfo.InvariantCulture );
+
         var textAlign = textAlignment switch
         {
             TextAlignment.Center => "center",
@@ -3818,6 +3836,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             GanttMilestoneLineStyle.Dotted => "dotted",
             _ => "dashed",
         };
+
         var lineWidth = Math.Max( 1d, milestoneStyling.LineWidth ).ToString( "0.###", CultureInfo.InvariantCulture );
 
         return $"height: 100%; border-left: {lineWidth}px {lineStyle} currentColor;";
@@ -3923,7 +3942,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private bool ShouldApplyAutoExpandViewPadding()
         => AutoExpandView
-           && TryGetTimelineItemsAnchorRange( out _ );
+            && TryGetTimelineItemsAnchorRange( out _ );
 
     private bool TryGetTimelineItemsAnchorRange( out GanttViewRange viewRange )
     {
@@ -4377,6 +4396,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             foreach ( var dataItem in dataSnapshot )
             {
                 var dataItemId = ValueUtils.NormalizeIdentifier( propertyMapper.GetId( dataItem ) );
+
                 var dataItemParentId = propertyMapper.HasParentId
                     ? ValueUtils.NormalizeIdentifier( propertyMapper.GetParentId( dataItem ) )
                     : null;
@@ -4629,7 +4649,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private bool UseHierarchicalData
         => propertyMapper?.HasItems == true
-           && ( HierarchicalData || !propertyMapper.HasParentId );
+            && ( HierarchicalData || !propertyMapper.HasParentId );
 
     private DayOfWeek EffectiveFirstDayOfWeek
         => SelectedView == GanttView.Week
@@ -4645,7 +4665,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private bool IsYearViewTimelineScaleWeek
         => SelectedView == GanttView.Year
-           && EffectiveYearViewTimelineScale == GanttYearViewTimelineScale.Week;
+            && EffectiveYearViewTimelineScale == GanttYearViewTimelineScale.Week;
 
     private bool ShowToolbarAddTaskButton
         => IsCommandAllowed( GanttCommandType.New );
@@ -4658,7 +4678,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private bool ProgressColumnAvailable
         => propertyMapper?.HasProgress == true
-           && !string.IsNullOrWhiteSpace( ProgressField );
+            && !string.IsNullOrWhiteSpace( ProgressField );
 
     private bool CanShowActionColumn( IReadOnlyCollection<GanttTreeRow> visibleRows )
         => showCommandColumn

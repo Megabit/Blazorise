@@ -44,8 +44,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
             var currentFrameDelegateChanged = parameters.TryGetValue<EventCallback<double>>( nameof( CurrentFrameChanged ), out var currentFrameChanged ) && ( currentFrameChanged.HasDelegate != CurrentFrameChanged.HasDelegate );
 
             // Frame synchronization is required whenever the user manually changes the value of the CurrentFrame
-            frameSyncRequired = parameters.TryGetValue<double>( nameof( CurrentFrame ), out var currentFrame )
-                                 && ( lastReportedFrame.HasValue && Math.Abs( currentFrame - lastReportedFrame.Value ) > .001 );
+            frameSyncRequired = parameters.TryGetValue<double>( nameof( CurrentFrame ), out var currentFrame ) && ( lastReportedFrame.HasValue && Math.Abs( currentFrame - lastReportedFrame.Value ) > .001 );
 
             // Changing the path or renderer requires us to fully reinitialize the animation
             var reinitializationRequired = pathChanged || rendererChanged;
@@ -156,6 +155,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     protected virtual async Task SynchronizeAnimation()
     {
         await DisposeAnimation();
+
         JSAnimationReference = await JSModule.InitializeAnimation( DotNetObjectRef, ElementRef, ElementId, new()
         {
             Path = Path,

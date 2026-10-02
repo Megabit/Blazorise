@@ -87,6 +87,7 @@ internal sealed class ReportRenderService
         ReportPageDefinitionHelper.ResolvePage( definition.Page );
 
         double footerHeight = renderPage.FooterSections.Sum( renderSection => getSectionHeight( renderSection.SectionIndex, renderSection.Section ) );
+
         var styleBuilder = new StyleBuilder( builder =>
         {
             builder.Append( $"left:{ReportMeasurementConverter.ToCssPixelString( definition.Page.Margins.Left )}" );

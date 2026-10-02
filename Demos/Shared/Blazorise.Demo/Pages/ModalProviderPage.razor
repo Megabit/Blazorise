@@ -142,6 +142,7 @@
         if ( statefulModalInstance is null )
         {
             lastAction = "Stateful modal created for the first time.";
+
             statefulModalInstance = await ModalService.Show<Counter>( "My Stateful content", new ModalInstanceOptions()
             {
                 Stateful = true,

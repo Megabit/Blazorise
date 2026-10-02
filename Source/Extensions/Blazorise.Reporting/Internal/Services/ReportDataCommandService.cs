@@ -158,6 +158,7 @@ internal sealed class ReportDataCommandService
 
         ReportBandDefinition section = definition.Bands[sectionIndex];
         (string DataSourceName, string FieldName) fieldBinding = ReportDefinitionHelper.NormalizeFieldBindingForSection( definition, section, dataSourceName, fieldName );
+
         ReportElementDefinition element = new ReportFieldElementDefinition
         {
             Name = fieldBinding.FieldName,

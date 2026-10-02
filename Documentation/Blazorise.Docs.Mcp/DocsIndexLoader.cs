@@ -13,6 +13,7 @@ internal static class DocsIndexLoader
     {
         var indexPath = FindIndexPath( fileName );
         var json = File.ReadAllText( indexPath, Encoding.UTF8 );
+
         var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,

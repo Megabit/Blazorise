@@ -1160,6 +1160,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                                                                           .Select( x => new GroupContext<TItem>( x, nextGroupableColumn.GroupTemplate ) )
                                                                           .OrderBy( x => x.Key )
                                                                           .ToList();
+
                 group.SetNestedGroup( nestedGroup );
 
                 RecursiveGroup( iteration + 1, (List<GroupContext<TItem>>)oldGroup?.NestedGroup, nestedGroup );
@@ -1782,6 +1783,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return;
 
         var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
+
         var editedCellValues = EditableColumns
             .Where( x => !string.IsNullOrEmpty( x.Field ) )
             .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
@@ -3798,6 +3800,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return templateColumn;
 
         var minimumRecommendedWidth = ( SelfReferenceIndentSize * 4 * 16d ) + 16d;
+
         var preferredColumn = regularColumns.FirstOrDefault( x =>
         {
             var fixedWidth = x.Width?.FixedSize;
@@ -3901,14 +3904,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     internal bool IsExpandByRowClick
         => ExpandTrigger == DataGridExpandTrigger.RowClick
-           || ExpandTrigger == DataGridExpandTrigger.RowAndToggleClick;
+            || ExpandTrigger == DataGridExpandTrigger.RowAndToggleClick;
 
     /// <summary>
     /// Gets whether toggle icon click should toggle row expansion.
     /// </summary>
     internal bool IsExpandByToggleClick
         => ExpandTrigger == DataGridExpandTrigger.ToggleClick
-           || ExpandTrigger == DataGridExpandTrigger.RowAndToggleClick;
+            || ExpandTrigger == DataGridExpandTrigger.RowAndToggleClick;
 
     /// <summary>
     /// Gets self-reference indentation size in rem.
@@ -4256,8 +4259,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private bool IsMultiSelectAllChecked
         => ( !SelectedRows.IsNullOrEmpty() )
-           && DisplayData.Any()
-           && !DisplayData.Except( SelectedRows ).Any();
+            && DisplayData.Any()
+            && !DisplayData.Except( SelectedRows ).Any();
 
     /// <summary>
     /// Checks if the MultiSelectAll is indeterminate, meaning that only some of the current view rows are selected.

@@ -62,6 +62,7 @@ internal sealed class DataGridExampleSourceComposer : IExampleSourceComposer
         source = AddRequiredUsings( path, source, RequiredUsings );
 
         string examplesDirectory = Path.GetDirectoryName( path );
+
         string supportTypes = string.Join(
             Environment.NewLine + Environment.NewLine,
             SupportFiles.Select( file => ExtractSupportTypes( Path.Combine( examplesDirectory, file ) ) ) );

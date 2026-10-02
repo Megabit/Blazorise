@@ -658,6 +658,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         var rowAxisItems = BuildAxisItems( sourceItems, rowFields, ShowRowSubtotals || ExpandableRows, showColumnTotalsRow, ExpandableRows ? PivotGridTotalPosition.Before : RowTotalPosition );
         var columnAxisItems = BuildAxisItems( sourceItems, columnFields, ShowColumnSubtotals || ExpandableColumns, showRowTotalsColumn, ExpandableColumns ? PivotGridTotalPosition.Before : ColumnTotalPosition );
+
         var dataColumns = columnAxisItems
             .SelectMany( column => aggregateInfos.Select( aggregate => new PivotGridDataColumn<TItem>( column, aggregate ) ) )
             .ToList();
@@ -820,6 +821,7 @@ public partial class PivotGrid<TItem> : BaseComponent
                 var virtualizedResult = PivotGridResultNormalizer.NormalizeVirtualized(
                     dataResult.Result,
                     externalVirtualizedResultInitialized ? pivotResult : null );
+
                 virtualizedResult = LimitPivotResultRows( virtualizedResult );
 
                 ApplyInitialExternalVirtualizedResult( requestKey, virtualizedResult );
@@ -1082,12 +1084,15 @@ public partial class PivotGrid<TItem> : BaseComponent
         var availableFields = fields
             .Where( x => !string.IsNullOrWhiteSpace( x.Field ) && x.FieldArea == PivotGridFieldArea.Available )
             .ToList();
+
         var visibleAvailableFields = availableFields
             .Where( x => x.Visible )
             .ToList();
+
         var declaredFields = fields
             .Where( x => x.Visible && !string.IsNullOrWhiteSpace( x.Field ) && x.FieldArea is PivotGridFieldArea.Row or PivotGridFieldArea.Column or PivotGridFieldArea.Aggregate )
             .ToList();
+
         var catalog = new Dictionary<string, PivotGridFieldState>( StringComparer.Ordinal );
 
         if ( availableFields.Count == 0 )
@@ -1195,6 +1200,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     private void BuildAxisItems( List<PivotGridAxisItem<TItem>> result, IReadOnlyList<TItem> items, IReadOnlyList<BasePivotGridField<TItem>> axisFields, int level, IReadOnlyList<object> parentValues, bool showSubtotals, PivotGridTotalPosition totalPosition )
     {
         var field = axisFields[level];
+
         var groups = items
             .GroupBy( field.GetValue, PivotGridObjectEqualityComparer.Instance )
             .OrderBy( group => field.FormatValue( group.Key ), StringComparer.CurrentCultureIgnoreCase )
@@ -1446,9 +1452,11 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         var expandedRows = GetExpandedRows( result );
         var expandedDataColumnIndexes = GetExpandedDataColumnIndexes( result );
+
         var dataColumns = expandedDataColumnIndexes
             .Select( index => result.DataColumns[index] )
             .ToList();
+
         var rows = expandedRows
             .Select( row => new PivotGridResultRow<TItem>(
                 row.Row,
@@ -1601,6 +1609,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             if ( IsGroupPagingActive )
             {
                 var pageRootGroupKeys = GetCurrentPageRootGroupKeys().ToHashSet( StringComparer.Ordinal );
+
                 var groupRows = expandedPivotResult.Rows
                     .Where( row => PivotGridAxisItemUtilities.IsInGroupPage( row.Row, pageRootGroupKeys ) )
                     .ToList();

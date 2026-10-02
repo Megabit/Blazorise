@@ -26,6 +26,7 @@ internal static class MarkdownFrontMatter
         if ( markdownText.StartsWith( "---", StringComparison.Ordinal ) )
         {
             var end = markdownText.IndexOf( "---", 3, StringComparison.Ordinal );
+
             var fmBlock = markdownText.Substring( 3, end - 3 )
                                       .Trim()
                                       .Split( '\n', StringSplitOptions.RemoveEmptyEntries );

@@ -104,6 +104,7 @@ public static class ExpressionConverter
             string stringValue => $"'{stringValue}'",
             _ => value.ToString(),
         };
+
         return Build( result, interpolateVariable );
     }
 

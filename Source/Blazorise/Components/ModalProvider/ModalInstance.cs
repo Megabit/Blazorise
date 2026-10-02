@@ -27,6 +27,7 @@ public class ModalInstance
         ModalId = string.IsNullOrWhiteSpace( modalInstanceOptions?.ElementId )
             ? id
             : modalInstanceOptions.ElementId;
+
         ModalProvider = modalProvider;
         Title = title;
         ChildContent = childContent;

@@ -77,8 +77,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         checkChildrenLoaded = true;
-        nodeStatesChanged = parameters.TryGetValue<IEnumerable<TreeViewNodeState<TNode>>>( nameof( NodeStates ), out var paramNodeStates )
-            && !ReferenceEquals( paramNodeStates, NodeStates );
+        nodeStatesChanged = parameters.TryGetValue<IEnumerable<TreeViewNodeState<TNode>>>( nameof( NodeStates ), out var paramNodeStates ) && !ReferenceEquals( paramNodeStates, NodeStates );
 
         await base.SetParametersAsync( parameters );
     }

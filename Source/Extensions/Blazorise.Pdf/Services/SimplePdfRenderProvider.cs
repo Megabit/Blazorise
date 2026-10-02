@@ -387,6 +387,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
             for ( int i = 0; i < baseFonts.Length; i++ )
             {
                 cancellationToken.ThrowIfCancellationRequested();
+
                 PdfEmbeddedFont embeddedFont = customFont is not null
                     ? CreateEmbeddedFontResource( objects, customFont, resolvedResources.Fonts[customFont.ResolveSource( i is 1 or 3, i is 2 or 3 )], i, fontResources.All.Count + i + 1, cancellationToken )
                     : null;
@@ -828,9 +829,11 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         PdfFontDefinition font = element.Font ?? new();
         double fontSize = Math.Max( 1, font.Size );
         PdfFontResource fontResource = ResolveFontResource( context.FontResources, context.FontProvider, font );
+
         IReadOnlyList<PdfTextLine> lines = element.Wrap
             ? WrapText( element.Text, fontResource, fontSize, element.Width, context.CancellationToken )
             : SplitTextLines( element.Text, context.CancellationToken );
+
         double lineHeight = ResolveLineHeight( fontSize );
         double textY = ResolveTextY( page, element, y, fontSize, lines.Count, lineHeight );
 
@@ -933,6 +936,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         PdfFontDefinition font = element.Font ?? new();
         double textBlockHeight = ResolveTextBlockHeight( fontSize, lineCount, lineHeight );
         double availableHeight = Math.Max( 0, element.Height - textBlockHeight );
+
         double offsetY = font.VerticalAlignment switch
         {
             VerticalAlignment.Middle => availableHeight / 2,
@@ -995,6 +999,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         string[] lines = text.Replace( "\r\n", "\n", StringComparison.Ordinal )
             .Replace( '\r', '\n' )
             .Split( '\n' );
+
         PdfTextLine[] result = new PdfTextLine[lines.Length];
 
         for ( int i = 0; i < lines.Length; i++ )
@@ -1480,6 +1485,7 @@ public sealed class SimplePdfRenderProvider : IPdfRenderProvider
         int alphaMaskId = imageData.AlphaData is null
             ? 0
             : AddObject( context.Objects, CreateStreamObject( FormattableString.Invariant( $"<< /Type /XObject /Subtype /Image /Width {imageData.Width} /Height {imageData.Height} /ColorSpace /DeviceGray /BitsPerComponent 8 /Filter /FlateDecode /Length {imageData.AlphaData.Length} >>" ), imageData.AlphaData, context.CancellationToken ) );
+
         string alphaMaskReference = alphaMaskId > 0 ? FormattableString.Invariant( $" /SMask {alphaMaskId} 0 R" ) : string.Empty;
         string dictionary = FormattableString.Invariant( $"<< /Type /XObject /Subtype /Image /Width {imageData.Width} /Height {imageData.Height} /ColorSpace {imageData.ColorSpace} /BitsPerComponent {imageData.BitsPerComponent} /Filter {imageData.Filter}{alphaMaskReference} /Length {imageData.Data.Length} >>" );
         int objectId = AddObject( context.Objects, CreateStreamObject( dictionary, imageData.Data, context.CancellationToken ) );

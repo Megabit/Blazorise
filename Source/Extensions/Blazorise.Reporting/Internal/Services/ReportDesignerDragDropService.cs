@@ -313,6 +313,7 @@ internal sealed class ReportDesignerDragDropService
         ReportBandDefinition targetSection = targetSectionIndex >= 0 && targetSectionIndex < definition.Bands.Count
             ? definition.Bands[targetSectionIndex]
             : null;
+
         (string DataSourceName, string FieldName) fieldBinding = ReportDefinitionHelper.NormalizeFieldBindingForSection( definition, targetSection, state.DraggedDataSourceName, state.DraggedFieldName );
 
         return new()

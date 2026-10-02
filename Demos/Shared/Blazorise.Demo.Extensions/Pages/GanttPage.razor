@@ -320,6 +320,7 @@
     private static List<GanttTask> CreateTasks()
     {
         var baseDate = DateTime.Today.AddDays( -3 );
+
         var tasks = new List<GanttTask>
         {
             new() { Id = "1", Title = "Project Atlas", Description = "Root node", Start = baseDate, End = baseDate.AddDays( 45 ), Progress = 55 },
@@ -349,6 +350,7 @@
     private static List<HierarchicalGanttTask> CreateHierarchicalTasks()
     {
         var baseDate = DateTime.Today.AddDays( -3 );
+
         var tasks = new List<HierarchicalGanttTask>
         {
             new()

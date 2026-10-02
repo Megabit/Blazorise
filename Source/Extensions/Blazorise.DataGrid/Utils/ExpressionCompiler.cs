@@ -474,6 +474,7 @@ public static class ExpressionCompiler
         else if ( propInfo.PropertyType.IsEnum )
         {
             var convertToInt = Expression.Convert( property, typeof( int ) );
+
             convert = Expression.Call(
                 typeof( Convert ).GetMethod( nameof( Convert.ToString ), new[] { typeof( int ) } ),
                 convertToInt );
@@ -495,6 +496,7 @@ public static class ExpressionCompiler
             typeof( string ).GetMethod( nameof( string.Contains ), new[] { typeof( string ) } )!,
             Expression.Constant( searchValue )
         );
+
         return body;
     }
 
@@ -505,6 +507,7 @@ public static class ExpressionCompiler
             typeof( string ).GetMethod( nameof( string.StartsWith ), new[] { typeof( string ) } )!,
             Expression.Constant( searchValue )
         );
+
         return body;
     }
 
@@ -515,6 +518,7 @@ public static class ExpressionCompiler
             typeof( string ).GetMethod( nameof( string.EndsWith ), new[] { typeof( string ) } )!,
             Expression.Constant( searchValue )
         );
+
         return body;
     }
 
@@ -525,6 +529,7 @@ public static class ExpressionCompiler
             typeof( string ).GetMethod( nameof( string.Equals ), new[] { typeof( string ) } )!,
             Expression.Constant( searchValue )
         );
+
         return body;
     }
 

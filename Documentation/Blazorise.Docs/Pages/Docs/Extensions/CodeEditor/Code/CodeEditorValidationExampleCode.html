@@ -63,6 +63,7 @@
         eventArgs.Status = error <span class="keyword">is</span> <span class="keyword">null</span>
             ? ValidationStatus.Success
             : ValidationStatus.Error;
+
         eventArgs.ErrorText = error?.Message;
     }
 }

@@ -75,6 +75,7 @@ internal static class SvgChartLegendRenderer
         {
             var row = rows[rowIndex];
             var x = Math.Max( LegendHorizontalPadding, ( options.Width - row.Width ) / 2 );
+
             var rowY = position == SvgChartLegendPosition.Bottom
                 ? y - ( rows.Count - 1 - rowIndex ) * rowHeight
                 : y + rowIndex * rowHeight;

@@ -229,6 +229,7 @@ public sealed class GithubBlogProvider : IBlogProvider
                 PermalinkToDir = p2d,
                 MarkdownByDir = mdByDir
             };
+
             pageCache = new( StringComparer.OrdinalIgnoreCase );
         }
         finally

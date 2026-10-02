@@ -23,6 +23,7 @@ public class SearchEntriesProvider
         var eligibleApiDocs = ComponentsApiDocsSource.Instance.Components
                                                      .Where( x => x.Value.SearchUrl is not null )
                                                      .Select( x => x.Value );
+
         foreach ( var comp in eligibleApiDocs )
         {
             //add component if not already in manualPageEntries. eg UnorderedList

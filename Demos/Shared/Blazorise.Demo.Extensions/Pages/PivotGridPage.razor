@@ -497,6 +497,7 @@
             request.ShowColumnSubtotals || request.ExpandableColumns,
             request.ShowRowTotals,
             request.ExpandableColumns ? PivotGridTotalPosition.Before : request.ColumnTotalPosition );
+
         columnItems = GetVisibleAxisItems( columnItems, columnFields, request.ExpandableColumns, request.IsColumnGroupExpanded );
 
         List<PivotGridDataColumn<PivotSale>> dataColumns = columnItems
@@ -509,6 +510,7 @@
             request.ShowRowSubtotals || request.ExpandableRows,
             request.ShowColumnTotals,
             request.ExpandableRows ? PivotGridTotalPosition.Before : request.RowTotalPosition );
+
         rowItems = GetVisibleAxisItems( rowItems, rowFields, request.ExpandableRows, request.IsRowGroupExpanded );
 
         List<PivotGridResultRow<PivotSale>> allRows = rowItems
@@ -516,16 +518,19 @@
             .ToList();
 
         int totalRows = allRows.Count;
+
         int skip = request.ReadDataMode == PivotGridReadDataMode.Virtualize
             ? request.VirtualizeOffset
             : request.ReadDataMode == PivotGridReadDataMode.Paging
                 ? ( request.Page - 1 ) * request.PageSize
                 : 0;
+
         int take = request.ReadDataMode == PivotGridReadDataMode.Virtualize
             ? request.VirtualizeCount
             : request.ReadDataMode == PivotGridReadDataMode.Paging
                 ? request.PageSize
                 : totalRows;
+
         List<PivotGridResultRow<PivotSale>> rows = allRows
             .Skip( Math.Max( 0, skip ) )
             .Take( Math.Max( 0, take ) )
@@ -585,6 +590,7 @@
     private static void BuildAxisItems( List<PivotGridAxisItem<PivotSale>> result, IReadOnlyList<PivotSale> source, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields, int level, IReadOnlyList<object> parentValues, bool showSubtotals, PivotGridTotalPosition totalPosition )
     {
         PivotGridFieldInfo<PivotSale> field = fields[level];
+
         List<IGrouping<object, PivotSale>> groups = source
             .GroupBy( field.GetValue )
             .OrderBy( group => field.FormatValue( group.Key ), StringComparer.CurrentCultureIgnoreCase )
@@ -666,9 +672,11 @@
             .Select( dataColumn =>
             {
                 PivotGridAggregateInfo<PivotSale> aggregate = dataColumn.Aggregate;
+
                 List<PivotSale> cellItems = dataColumn.Column.IsGrandTotal
                     ? row.Items.ToList()
                     : row.Items.Where( item => MatchesAxis( item, dataColumn.Column, columnFields ) ).ToList();
+
                 object value = aggregate.Calculate( cellItems );
 
                 return new PivotGridCell<PivotSale>(

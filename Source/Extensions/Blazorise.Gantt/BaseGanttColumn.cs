@@ -31,6 +31,7 @@ public abstract class BaseGanttColumn<TItem> : ComponentBase, IDisposable
         valueGetter = new( () => string.IsNullOrWhiteSpace( Field )
             ? null
             : GanttFunctionCompiler.CreateValueGetter<TItem>( Field ) );
+
         sortValueGetter = new( () =>
         {
             var fieldToSort = GetSortField();

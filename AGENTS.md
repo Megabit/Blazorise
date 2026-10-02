@@ -77,6 +77,8 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 - Use a block body when a member validates input, changes state, performs multiple operations, or benefits from named intermediate values. Do not compress stateful behavior merely to reduce line count.
 - There is no fixed maximum line length. Wrap code when its structure becomes easier to understand, not solely because it crosses an arbitrary column. Keep short signatures on one line; for long signatures, inheritance lists, argument lists, initializers, and fluent chains, place one structural item or operation on each continuation line.
 - Keep short Boolean expressions on one line when they remain easy to scan, including a method call followed by a simple comparison, for example `var valueChanged = parameters.TryGetValue<int>( nameof( Value ), out var paramValue ) && paramValue != Value;`. Do not wrap solely because an expression contains `&&` or `||`.
+- Prefer multiline Boolean declarations when they combine distinct method-call checks whose purpose or arguments are easier to scan separately, such as a presence check followed by a string comparison. The short-expression preference does not require flattening every two-operand declaration.
+- Multiline Boolean conditions remain appropriate when their operands represent distinct checks or validation steps, including two related method calls such as an exact string comparison followed by a suffix check. Existing multiline `if` and `while` conditions, Boolean `return` expressions, and expression-bodied Boolean members may keep one operand per line even when short; the compact-expression preference does not require flattening them. Preserve readable grouping and do not mechanically collapse conditions based on length or operand count.
 - When a Boolean condition spans multiple lines, keep the first operand on the opening line and begin continuation lines with `&&` or `||`. Indent nested condition groups one additional level.
 - Always use braces for `if`, `else`, `for`, `foreach`, `while`, and `using` bodies in new or substantially edited code, including single-statement bodies. Put `else`, `catch`, and `finally` on a new line after the preceding closing brace.
 - Prefer guard clauses and early returns to reduce nesting. Do not add an `else` after a branch that unconditionally returns, throws, continues, or breaks.
@@ -112,6 +114,165 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 - Reserve `Value` for an actual component or domain value, `Name` for an actual name or identifier, and `State` for aggregate state. Do not use these suffixes for serialized attribute strings or individual boolean conditions.
 - Keep private names context-aware and avoid repeating the component type unless needed to remove ambiguity.
 - Dependency versions are centrally managed in `Directory.Packages.props` (don’t hardcode `Version=` in `PackageReference`).
+
+### Formatting examples
+
+Use these examples alongside the rules above. Readability determines wrapping; there is no fixed line-length limit.
+
+#### Short Boolean declarations
+
+Good: keep a short lookup and comparison together.
+
+```csharp
+var valueChanged = parameters.TryGetValue<int>( nameof( Value ), out var paramValue ) && paramValue != Value;
+```
+
+Bad: wrapping a short declaration solely at the Boolean operator.
+
+```csharp
+var valueChanged = parameters.TryGetValue<int>( nameof( Value ), out var paramValue )
+    && paramValue != Value;
+```
+
+#### Multiline Boolean declarations
+
+Good: separate distinct method-call checks when that makes their purpose and arguments easier to scan. This also applies to local declarations, not only to `if` and `return` expressions.
+
+```csharp
+bool selectedPanelChanged = !string.IsNullOrWhiteSpace( selectedPanelTab )
+    && !string.Equals( selectedPanelTab, SelectedPanelTab, StringComparison.Ordinal );
+```
+
+Bad: flattening the two checks solely because there are only two operands.
+
+```csharp
+bool selectedPanelChanged = !string.IsNullOrWhiteSpace( selectedPanelTab ) && !string.Equals( selectedPanelTab, SelectedPanelTab, StringComparison.Ordinal );
+```
+
+The short lookup-and-comparison example above is one tightly related operation. A presence check followed by a separate comparison or validation call can benefit from multiline formatting. Neither operand count nor line length alone decides the layout.
+
+#### Multiline conditions
+
+Good: keep distinct checks on separate lines when that makes an `if` condition easier to scan. Both of these forms are allowed, even if they could fit on one line.
+
+```csharp
+if ( parts.Length == 2
+    && int.TryParse( parts[0], out var width )
+    && int.TryParse( parts[1], out var height ) )
+{
+    return (double)width / height;
+}
+
+if ( string.Equals( host, "localhost", StringComparison.OrdinalIgnoreCase )
+    || host.EndsWith( ".localhost", StringComparison.OrdinalIgnoreCase ) )
+{
+    throw new InvalidOperationException( "Localhost is not allowed." );
+}
+```
+
+Bad: placing continuation operators at the end of the preceding line.
+
+```csharp
+if ( parts.Length == 2 &&
+    int.TryParse( parts[0], out var width ) &&
+    int.TryParse( parts[1], out var height ) )
+{
+    return (double)width / height;
+}
+```
+
+Do not mechanically flatten existing multiline conditions to match the short-declaration example. Single-line `if` conditions are also allowed when they read clearly.
+
+#### Boolean return expressions
+
+Good: keep a series of related comparisons on separate lines, with continuation operators indented one level (four spaces) from the `return` statement, not aligned under its first operand.
+
+```csharp
+return left < otherLeft + otherWidth
+    && left + width > otherLeft
+    && top < otherTop + otherHeight
+    && top + height > otherTop;
+```
+
+Bad: flattening the comparison group into a single line merely because it fits.
+
+```csharp
+return left < otherLeft + otherWidth && left + width > otherLeft && top < otherTop + otherHeight && top + height > otherTop;
+```
+
+Short, direct return expressions may still stay on one line. Preserve multiline grouping when it makes the individual checks easier to compare.
+
+#### Expression-bodied Boolean members
+
+Good: keep distinct checks on separate lines and indent `=>` one level from the declaration.
+
+```csharp
+private static bool IsPaneSizeValue( string size )
+    => size.IndexOf( "fr", StringComparison.Ordinal ) < 0
+        && !size.StartsWith( "minmax(", StringComparison.OrdinalIgnoreCase );
+```
+
+Bad: flattening the checks just because the member uses an expression body.
+
+```csharp
+private static bool IsPaneSizeValue( string size )
+    => size.IndexOf( "fr", StringComparison.Ordinal ) < 0 && !size.StartsWith( "minmax(", StringComparison.OrdinalIgnoreCase );
+```
+
+For this multiline Boolean property layout, align continuation operators under the first operand after `=>` (three spaces beyond the arrow's indentation).
+
+Good:
+
+```csharp
+private bool IsTabbableWithoutHref
+    => ParentDropdownState?.Mode == BarMode.Horizontal
+       && !Disabled
+       && string.IsNullOrEmpty( To );
+```
+
+Bad: shifting the continuation operators one space farther right.
+
+```csharp
+private bool IsTabbableWithoutHref
+    => ParentDropdownState?.Mode == BarMode.Horizontal
+        && !Disabled
+        && string.IsNullOrEmpty( To );
+```
+
+Expression bodies do not require single-line expressions. Apply the same readability rules as for Boolean declarations and return statements.
+
+#### Spacing around multiline declarations
+
+Good: keep related single-line declarations together and separate each multiline declaration with a blank line.
+
+```csharp
+var wasRendered = Rendered;
+var shouldEvaluate = !Rendered || parameters.IsParameterChanged( Value );
+
+var rulesChanged = parameters.IsParameterChanged( MinimumLength )
+    || parameters.IsParameterChanged( RequireUppercase )
+    || parameters.IsParameterChanged( RequireLowercase );
+
+var shouldUpdateBlockedPasswords = !Rendered
+    || parameters.IsParameterChanged( UseDefaultBlockedPasswordList )
+    || parameters.TryGetValue<IEnumerable<string>>( nameof( BlockedPasswords ), out _ );
+
+await base.SetParametersAsync( parameters );
+```
+
+Bad: running multiline declarations into adjacent statements.
+
+```csharp
+var wasRendered = Rendered;
+var shouldEvaluate = !Rendered || parameters.IsParameterChanged( Value );
+var rulesChanged = parameters.IsParameterChanged( MinimumLength )
+    || parameters.IsParameterChanged( RequireUppercase )
+    || parameters.IsParameterChanged( RequireLowercase );
+var shouldUpdateBlockedPasswords = !Rendered
+    || parameters.IsParameterChanged( UseDefaultBlockedPasswordList )
+    || parameters.TryGetValue<IEnumerable<string>>( nameof( BlockedPasswords ), out _ );
+await base.SetParametersAsync( parameters );
+```
 
 ## Documentation Guidelines
 

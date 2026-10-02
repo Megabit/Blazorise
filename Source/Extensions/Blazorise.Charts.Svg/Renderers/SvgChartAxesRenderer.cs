@@ -94,6 +94,7 @@ internal static class SvgChartAxesRenderer
             return;
 
         var labelCount = Math.Max( model.Labels.Count, model.CategorySlotCount );
+
         var labelPlacement = ResolveHorizontalAxisLabelPlacement( model, plot, labels, labelCount, index =>
         {
             var labelIndex = index < model.CategoryLabelIndexes.Count ? model.CategoryLabelIndexes[index] : index;
@@ -229,6 +230,7 @@ internal static class SvgChartAxesRenderer
 
         var labels = model.CategoryAxis.Labels ?? new();
         var labelCount = Math.Max( model.Labels.Count, model.CategorySlotCount );
+
         var labelPlacement = labels.Visible != false
             ? ResolveHorizontalAxisLabelPlacement( model, plot, labels, labelCount, index =>
             {
@@ -360,10 +362,12 @@ internal static class SvgChartAxesRenderer
             return (baseStep, 0, "middle");
 
         var fontSize = SvgChartTextRenderer.ResolveFontSize( model.Options, labels?.Font );
+
         var labelWidth = Enumerable.Range( 0, labelCount )
             .Select( labelFormatter )
             .DefaultIfEmpty( string.Empty )
             .Max( label => EstimateAxisLabelWidth( label, labels, fontSize ) );
+
         var padding = Math.Max( 0, labels.AutoSkipPadding );
         var unrotatedStep = Math.Max( baseStep, ResolveCollisionLabelStep( labelCount, plot.Width, labelWidth + padding ) );
 
@@ -508,9 +512,11 @@ internal static class SvgChartAxesRenderer
 
         var options = model.Options ?? new();
         var axisTitleSize = SvgChartTextRenderer.ResolveAxisTitleReservedSize( options );
+
         var x = right
             ? plot.Right + SvgChartTextRenderer.ResolveEndPadding( options.PlotAreaPadding?.End ) + axisTitleSize / 2
             : plot.Left - SvgChartTextRenderer.ResolveStartPadding( options, model, options.PlotAreaPadding?.Start ) - axisTitleSize / 2;
+
         var y = plot.Top + plot.Height / 2;
         var rotation = right ? 90 : -90;
 

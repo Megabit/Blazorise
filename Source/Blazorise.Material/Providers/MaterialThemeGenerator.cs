@@ -286,18 +286,23 @@ public class MaterialThemeGenerator : ThemeGenerator
         var border = ToHex( borderColor );
         var text = ToHex( textColor );
         var alertLink = ToHex( alertLinkColor );
+
         var alertVariant = variant == "danger"
             ? "error"
             : variant;
+
         var alertSelector = variant == "danger"
             ? ".mui-alert.mui-alert-danger,.mui-alert.mui-alert-error"
             : $".mui-alert.mui-alert-{variant}";
+
         var closeButtonSelector = variant == "danger"
             ? ".mui-alert.mui-alert-danger.mui-alert-closable .mui-button-close,.mui-alert.mui-alert-error.mui-alert-closable .mui-button-close"
             : $".mui-alert.mui-alert-{variant}.mui-alert-closable .mui-button-close";
+
         var closeButtonHoverSelector = variant == "danger"
             ? ".mui-alert.mui-alert-danger.mui-alert-closable .mui-button-close:hover,.mui-alert.mui-alert-error.mui-alert-closable .mui-button-close:hover"
             : $".mui-alert.mui-alert-{variant}.mui-alert-closable .mui-button-close:hover";
+
         var alertLinkSelector = variant == "danger"
             ? ".mui-alert.mui-alert-danger .mui-alert-link,.mui-alert.mui-alert-error .mui-alert-link,.mui-alert.mui-alert-danger .alert-link,.mui-alert.mui-alert-error .alert-link"
             : $".mui-alert.mui-alert-{variant} .mui-alert-link,.mui-alert.mui-alert-{variant} .alert-link";

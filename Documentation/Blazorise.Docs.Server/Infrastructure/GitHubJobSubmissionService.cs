@@ -69,6 +69,7 @@ internal sealed class GitHubJobSubmissionService : IJobSubmissionService
         ValidateSubmission( submission );
 
         string requestUrl = $"https://api.github.com/repos/{Uri.EscapeDataString( options.GitHubOwner )}/{Uri.EscapeDataString( options.GitHubRepository )}/issues";
+
         GitHubIssueRequest payload = new GitHubIssueRequest
         {
             Title = $"[JOB] {submission.RoleTitle.Trim()}",

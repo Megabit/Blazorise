@@ -33,7 +33,9 @@ internal sealed class SvgChartLineSeriesContent : SvgChartSeriesContentBase
             Series.Interpolation,
             Series.Tension,
             Context.PassThroughSeriesPaths );
+
         var projectionState = Context.GetProjectionState( Series, false );
+
         var shouldResolvePoints = Context.Animation.Enabled
             || !pointsProjectionState.HasValue
             || projectionState != pointsProjectionState.Value
@@ -117,6 +119,7 @@ internal sealed class SvgChartLineSeriesContent : SvgChartSeriesContentBase
                     Width = Series.MarkerRadius * 2,
                     Height = Series.MarkerRadius * 2
                 };
+
                 var point = new SvgChartPointEventArgs
                 {
                     SeriesName = Series.Name,
@@ -126,6 +129,7 @@ internal sealed class SvgChartLineSeriesContent : SvgChartSeriesContentBase
                     Value = renderedPoint.Value,
                     Bounds = bounds
                 };
+
                 var animationKey = Context.TrackPointBounds( Series, renderedPoint.PointIndex, bounds );
                 var xString = SvgChartRenderHelpers.Format( renderedPoint.X );
                 var yString = SvgChartRenderHelpers.Format( renderedPoint.Y );
@@ -202,9 +206,11 @@ internal sealed class SvgChartLineSeriesContent : SvgChartSeriesContentBase
 
             var renderedPoint = renderedPoints[renderedPointIndex++];
             var category = hasMarkers ? chart.Labels[pointIndex] : null;
+
             var xValue = chart.ContinuousCategoryAxis && pointIndex < series.XValues.Count && series.XValues[pointIndex].HasValue
                 ? series.XValues[pointIndex].Value
                 : pointIndex;
+
             var color = hasMarkers ? series.GetPointColor( pointIndex ) : null;
 
             if ( renderedPoint.PointIndex != pointIndex

@@ -1001,10 +1001,7 @@ public partial class Autocomplete<TItem, TValue>
             {
                 cancellationTokenSource = null;
                 Loading = false;
-                shouldReload = source.IsCancellationRequested
-                    && !cancellationToken.IsCancellationRequested
-                    && !Disposed
-                    && !AsyncDisposed;
+                shouldReload = source.IsCancellationRequested && !cancellationToken.IsCancellationRequested && !Disposed && !AsyncDisposed;
             }
 
             source.Dispose();

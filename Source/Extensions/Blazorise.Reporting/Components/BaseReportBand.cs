@@ -100,10 +100,12 @@ public abstract class BaseReportBand : ComponentBase, IDisposable
         definition.KeepTogether = KeepTogether;
         definition.NewPageBefore = NewPageBefore;
         definition.NewPageAfter = NewPageAfter;
+
         definition.Appearance = new()
         {
             BackgroundColor = BackgroundColor,
         };
+
         definition.Border = new()
         {
             Color = BorderColor,

@@ -678,6 +678,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     private string BuildAriaDescribedBy()
     {
         var helpTextId = ParentField?.HelpTextElementId;
+
         var validationTextId = ParentValidation?.Status is ValidationStatus.Error or ValidationStatus.Warning
             ? ParentValidation?.ValidationMessageElementId
             : null;

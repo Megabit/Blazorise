@@ -31,6 +31,7 @@ public static class TypeSymbolExtensions
                     return x.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat.WithGenericsOptions( SymbolDisplayGenericsOptions.IncludeTypeParameters ) );
                 }
                 ); 
+
                 return $"{nonGenericTypeName}<{string.Join(", ", typeArguments)}>";
             }
         }

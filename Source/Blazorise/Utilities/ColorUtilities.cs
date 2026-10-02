@@ -282,6 +282,7 @@ public static class ColorUtilities
             System.Drawing.Color.FromArgb( foreground.R, foreground.G, foreground.B ),
             System.Drawing.Color.FromArgb( background.R, background.G, background.B ),
             foreground.A / 255d * 100 );
+
         // LuminanceFromColor uses a 0..100 scale.
         double backgroundLuminance = LuminanceFromColor( background ) / 100d;
         double foregroundLuminance = LuminanceFromColor( opaque ) / 100d;

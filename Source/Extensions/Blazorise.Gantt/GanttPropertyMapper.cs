@@ -275,9 +275,11 @@ public class GanttPropertyMapper<TItem>
 
         var normalizedPercentage = Math.Max( 0d, Math.Min( 100d, percentage ) );
         var effectiveFractionScale = useFractionScale && IsFractionCompatibleProgressType( progressType );
+
         var rawValue = effectiveFractionScale
             ? normalizedPercentage / 100d
             : normalizedPercentage;
+
         var convertedValue = ConvertProgressToTargetType( rawValue, progressType );
 
         setProgressFunc.Invoke( item, convertedValue );

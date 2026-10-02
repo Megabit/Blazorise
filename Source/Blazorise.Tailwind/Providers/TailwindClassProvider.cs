@@ -1695,6 +1695,7 @@ public class TailwindClassProvider : ClassProvider
     public override string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
         var columnWidthNumber = ToColumnWidthNumber( columnWidth );
+
         var breakpointPart = breakpoint != Blazorise.Breakpoint.None && breakpoint >= Blazorise.Breakpoint.Tablet
             ? $"{ToBreakpoint( breakpoint )}:"
             : null;

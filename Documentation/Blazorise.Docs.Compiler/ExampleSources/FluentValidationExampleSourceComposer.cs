@@ -28,6 +28,7 @@ internal sealed class FluentValidationExampleSourceComposer : IExampleSourceComp
         source = AddRequiredUsings( path, source, ["@using FluentValidation"] );
 
         string examplesDirectory = Path.GetDirectoryName( path );
+
         string supportTypes = string.Join(
             Environment.NewLine + Environment.NewLine,
             ExtractSupportTypes( Path.Combine( examplesDirectory, "Person.csharp" ) ),

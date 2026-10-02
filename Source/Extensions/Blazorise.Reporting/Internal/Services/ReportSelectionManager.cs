@@ -182,6 +182,7 @@ internal sealed class ReportSelectionManager
             .Where( key => !string.IsNullOrWhiteSpace( key ) )
             .Distinct( StringComparer.Ordinal )
             .ToList();
+
         if ( !string.IsNullOrWhiteSpace( primaryElementKey ) && nextElementKeys.Remove( primaryElementKey ) )
             nextElementKeys.Insert( 0, primaryElementKey );
 

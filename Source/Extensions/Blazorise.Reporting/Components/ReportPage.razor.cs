@@ -82,6 +82,7 @@ public partial class ReportPage : ComponentBase, IDisposable
         definition.Orientation = Orientation;
         definition.Width = ReportMeasurementConverter.ToPoints( Width, MeasurementUnit );
         definition.Height = ReportMeasurementConverter.ToPoints( Height, MeasurementUnit );
+
         definition.Margins = new()
         {
             Left = ReportMeasurementConverter.ToPoints( MarginLeft, MeasurementUnit ),

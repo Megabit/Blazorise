@@ -340,8 +340,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                     var linkUrl = RewriteLinkUrl( link.Url );
 
                     // Heuristic: treat absolute http(s) URLs as external
-                    bool isExternal = Uri.TryCreate( linkUrl, UriKind.Absolute, out var uri ) &&
-                                      ( uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps );
+                    bool isExternal = Uri.TryCreate( linkUrl, UriKind.Absolute, out var uri ) && ( uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps );
 
                     // Map to Blazorise target
                     var target = targetAttr?.ToLowerInvariant() switch
@@ -405,6 +404,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
     {
         // Preserve your naming scheme so legacy "Code" lookup keeps working if needed
         var info = code.Info ?? string.Empty;
+
         var codeName = ( info.Contains( '|' )
             ? $"{blogName}_{info[( info.IndexOf( '|' ) + 1 )..]}"
             : $"{blogName}{++codeIndex}" ).Replace( ".razor", "" );

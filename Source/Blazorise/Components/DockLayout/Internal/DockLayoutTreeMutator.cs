@@ -77,7 +77,10 @@ internal sealed class DockLayoutTreeMutator
     public void MovePaneToZone( DockLayoutState state, string paneName, string targetName, string targetNodeId, DockZone zone, bool mergeWithTargetTabs )
     {
         DockNodeState originalRoot = state.Root;
-        bool targetExists = !string.IsNullOrWhiteSpace( targetName ) && targetName != paneName && DockLayoutTreeQuery.ContainsPane( state.Root, targetName );
+
+        bool targetExists = !string.IsNullOrWhiteSpace( targetName )
+            && targetName != paneName
+            && DockLayoutTreeQuery.ContainsPane( state.Root, targetName );
 
         state.Root = RemovePaneNode( state.Root, paneName );
 
@@ -198,6 +201,7 @@ internal sealed class DockLayoutTreeMutator
         if ( node.Kind == DockNodeKind.Pane && node.PaneName == targetName )
         {
             string targetSize = sizer.GetResolvedDockNodeSize( state, node );
+
             DockNodeState tabsNode = new()
             {
                 Kind = DockNodeKind.Tabs,
@@ -325,6 +329,7 @@ internal sealed class DockLayoutTreeMutator
     private DockNodeState CreateTargetSplitNode( DockLayoutState state, DockNodeState targetNode, DockNodeState paneNode, DockZone zone, double? ratio = null, bool? useRatio = null )
     {
         string targetSize = sizer.GetDockNodeSize( state, targetNode );
+
         DockNodeState splitNode = zone switch
         {
             DockZone.Left => DockLayoutTreeBuilder.CreateSplitNode( paneNode, targetNode, Orientation.Horizontal, 0.32 ),
