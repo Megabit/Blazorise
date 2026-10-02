@@ -21,9 +21,9 @@ using System.Xml.Linq;
 //    </summary>
 //</member>
 var blzSrcPath = @"..\..\..\..\..\Source\Blazorise";
-var file = @$"{blzSrcPath}\obj\Debug\net10.0\Blazorise.xml";
+var file = @$"{blzSrcPath}\obj\Debug\net11.0\Blazorise.xml";
 var enumsFolder = @$"{blzSrcPath}\Enums";
-string outputPath = @$"{blzSrcPath}\obj\Debug\net10.0\EnumsOutput.txt";
+var outputPath = @$"{blzSrcPath}\obj\Debug\net11.0\EnumsOutput.txt";
 
 var enumsFolderDirectory = new DirectoryInfo( enumsFolder );
 var enumFileNames = enumsFolderDirectory.GetFiles().Select( x => x.Name.Split( ".cs" )[0] );
@@ -79,4 +79,3 @@ sw.Close();
 Console.WriteLine( "Success!" );
 Console.WriteLine( outputFileInfo.FullName );
 Console.ReadKey();
-
