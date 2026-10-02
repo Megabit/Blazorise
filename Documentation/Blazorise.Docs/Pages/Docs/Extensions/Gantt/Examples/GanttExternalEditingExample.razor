@@ -141,6 +141,7 @@
             editorDraft.Id ??= $"task-{nextId++}";
             editorDraft.ParentId = editorParentId;
             tasks.Add( editorDraft.Clone() );
+
             lastAction = editorParentId is null
                 ? $"Created {editorDraft.Title}"
                 : $"Created child {editorDraft.Title}";

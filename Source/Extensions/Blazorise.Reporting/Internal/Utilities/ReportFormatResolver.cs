@@ -155,6 +155,7 @@ internal static class ReportFormatResolver
         string decimals = decimalPlaces is > 0
             ? "." + new string( '0', decimalPlaces.Value )
             : string.Empty;
+
         string suffix = percent ? "%" : string.Empty;
         string positive = $"{integerPattern}{decimals}{suffix}";
         string negative = $"({positive})";

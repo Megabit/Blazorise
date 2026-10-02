@@ -248,6 +248,7 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
         if ( multiCharacterInput )
         {
             int lastFilledSlotIndex = Math.Min( nextSlotIndex - 1, slotValues.Count - 1 );
+
             int focusSlotIndex = nextSlotIndex < slotValues.Count
                 ? nextSlotIndex
                 : lastFilledSlotIndex;
@@ -385,7 +386,7 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
 
     private static bool IsKey( KeyboardEventArgs eventArgs, string key )
         => string.Equals( eventArgs?.Key, key, StringComparison.OrdinalIgnoreCase )
-           || string.Equals( eventArgs?.Code, key, StringComparison.OrdinalIgnoreCase );
+            || string.Equals( eventArgs?.Code, key, StringComparison.OrdinalIgnoreCase );
 
     private static int NormalizeDigits( int digits )
         => digits > 0 ? digits : 1;

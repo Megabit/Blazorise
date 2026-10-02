@@ -21,6 +21,7 @@ public sealed class PropertyGridGroupDefinition
         Key = key;
         Title = title;
         Properties = properties?.ToArray() ?? [];
+
         VisibleProperties = Properties
             .Where( property => property.Visible )
             .ToArray();

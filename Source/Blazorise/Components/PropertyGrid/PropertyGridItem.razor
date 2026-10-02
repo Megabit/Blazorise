@@ -9,8 +9,8 @@
      tabindex="@TabIndexValue"
      aria-selected="@AriaSelected"
      aria-describedby="@AriaDescribedBy"
-     @onclick="@Select"
-     @onfocusin="@Select"
+     @onclick="@OnSelectHandler"
+     @onfocusin="@OnSelectHandler"
      @attributes="@Attributes">
     <div class="@LabelClassNames" role="gridcell" title="@Label">
         @if ( LabelContent is not null )

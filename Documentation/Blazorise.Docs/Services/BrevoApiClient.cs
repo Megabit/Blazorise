@@ -60,6 +60,7 @@ public class BrevoApiClient : IBrevoApiClient
         {
             ["email"] = email
         };
+
         if ( attributes is not null )
             body["attributes"] = attributes;
         if ( listIds is not null )

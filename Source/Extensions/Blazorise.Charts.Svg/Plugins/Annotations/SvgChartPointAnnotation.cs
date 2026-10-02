@@ -75,6 +75,7 @@ public class SvgChartPointAnnotation : SvgChartPluginBase
 
         var point = SvgChartAnnotationRenderHelpers.ResolvePoint( context, X, Y, ValueAxisId );
         var radius = System.Math.Max( 0, Radius );
+
         var bounds = new SvgChartPointBounds
         {
             X = point.X - radius,

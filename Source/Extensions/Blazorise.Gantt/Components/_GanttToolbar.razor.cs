@@ -19,8 +19,6 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
 {
     #region Members
 
-    private bool dropdownColumnChooserVisible;
-
     #endregion
 
     #region Methods
@@ -135,9 +133,11 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
                     ? rangeEnd.AddDays( -7 )
                     : rangeEnd.AddMonths( -1 )
                 : rangeEnd;
+
             var rangeStartYear = YearViewTimelineScale == GanttYearViewTimelineScale.Week
                 ? GetWeekYear( rangeStart )
                 : rangeStart.Year;
+
             var displayEndYear = YearViewTimelineScale == GanttYearViewTimelineScale.Week
                 ? GetWeekYear( displayEnd )
                 : displayEnd.Year;

@@ -12,12 +12,6 @@ namespace Blazorise.DataGrid.Internal;
 /// </summary>
 partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
 {
-    #region Members 
-
-    private bool dropdownColumnChooserVisible;
-
-    #endregion
-
     #region Methods
 
     private bool ShowButtonRow

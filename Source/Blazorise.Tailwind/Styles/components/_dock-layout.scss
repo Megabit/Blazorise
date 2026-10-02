@@ -1,6 +1,6 @@
 .tw-dock {
     &-layout {
-        --dock-split-gap: .25rem;
+        --tw-dock-split-gap: .25rem;
         display: block;
         min-height: 0;
         min-width: 0;
@@ -30,7 +30,7 @@
 
     &-split {
         display: grid;
-        gap: var(--dock-split-gap);
+        gap: var(--tw-dock-split-gap);
         height: 100%;
         min-height: 0;
         min-width: 0;
@@ -47,9 +47,9 @@
     }
 
     &-pane {
-        --dock-pane-size: 16rem;
-        --dock-pane-min-size: 0;
-        --dock-pane-max-size: none;
+        --tw-dock-pane-size: 16rem;
+        --tw-dock-pane-min-size: 0;
+        --tw-dock-pane-max-size: none;
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -82,31 +82,31 @@
     }
 
     &-pane-left {
-        width: var(--dock-pane-size);
-        min-width: var(--dock-pane-min-size);
-        max-width: var(--dock-pane-max-size);
+        width: var(--tw-dock-pane-size);
+        min-width: var(--tw-dock-pane-min-size);
+        max-width: var(--tw-dock-pane-max-size);
         border-right-width: 1px;
     }
 
     &-pane-right {
-        width: var(--dock-pane-size);
-        min-width: var(--dock-pane-min-size);
-        max-width: var(--dock-pane-max-size);
+        width: var(--tw-dock-pane-size);
+        min-width: var(--tw-dock-pane-min-size);
+        max-width: var(--tw-dock-pane-max-size);
         border-left-width: 1px;
         justify-self: end;
     }
 
     &-pane-top {
-        height: var(--dock-pane-size);
-        min-height: var(--dock-pane-min-size);
-        max-height: var(--dock-pane-max-size);
+        height: var(--tw-dock-pane-size);
+        min-height: var(--tw-dock-pane-min-size);
+        max-height: var(--tw-dock-pane-max-size);
         border-bottom-width: 1px;
     }
 
     &-pane-bottom {
-        height: var(--dock-pane-size);
-        min-height: var(--dock-pane-min-size);
-        max-height: var(--dock-pane-max-size);
+        height: var(--tw-dock-pane-size);
+        min-height: var(--tw-dock-pane-min-size);
+        max-height: var(--tw-dock-pane-max-size);
         border-top-width: 1px;
         align-self: end;
     }
@@ -138,11 +138,11 @@
     }
 
     &-pane-collapsed {
-        --dock-pane-size: 2.5rem;
+        --tw-dock-pane-size: 2.5rem;
     }
 
     &-pane-autohide {
-        --dock-pane-size: 2rem;
+        --tw-dock-pane-size: 2rem;
         align-items: stretch;
         justify-content: flex-end;
         overflow: hidden;
@@ -207,36 +207,36 @@
         left: 2rem;
         top: 0;
         bottom: 0;
-        width: var(--dock-pane-size);
-        min-width: var(--dock-pane-min-size);
-        max-width: var(--dock-pane-max-size);
+        width: var(--tw-dock-pane-size);
+        min-width: var(--tw-dock-pane-min-size);
+        max-width: var(--tw-dock-pane-max-size);
     }
 
     &-auto-hide-flyout-right {
         right: 2rem;
         top: 0;
         bottom: 0;
-        width: var(--dock-pane-size);
-        min-width: var(--dock-pane-min-size);
-        max-width: var(--dock-pane-max-size);
+        width: var(--tw-dock-pane-size);
+        min-width: var(--tw-dock-pane-min-size);
+        max-width: var(--tw-dock-pane-max-size);
     }
 
     &-auto-hide-flyout-top {
         top: 2rem;
         left: 0;
         right: 0;
-        height: var(--dock-pane-size);
-        min-height: var(--dock-pane-min-size);
-        max-height: var(--dock-pane-max-size);
+        height: var(--tw-dock-pane-size);
+        min-height: var(--tw-dock-pane-min-size);
+        max-height: var(--tw-dock-pane-max-size);
     }
 
     &-auto-hide-flyout-bottom {
         bottom: 2rem;
         left: 0;
         right: 0;
-        height: var(--dock-pane-size);
-        min-height: var(--dock-pane-min-size);
-        max-height: var(--dock-pane-max-size);
+        height: var(--tw-dock-pane-size);
+        min-height: var(--tw-dock-pane-min-size);
+        max-height: var(--tw-dock-pane-max-size);
     }
 
     &-pane-collapsed .tw-dock-pane-body,
@@ -461,9 +461,9 @@
     &-compass {
         position: absolute;
         z-index: 20;
-        --dock-compass-gap: .25rem;
-        width: calc(8rem + var(--dock-compass-gap) * 4);
-        height: calc(8rem + var(--dock-compass-gap) * 4);
+        --tw-dock-compass-gap: .25rem;
+        width: calc(8rem + var(--tw-dock-compass-gap) * 4);
+        height: calc(8rem + var(--tw-dock-compass-gap) * 4);
         transform: translate(-50%, -50%);
         pointer-events: none;
     }
@@ -494,51 +494,51 @@
     }
 
     &-compass-zone-center {
-        left: calc(3rem + var(--dock-compass-gap) * 2);
-        top: calc(3rem + var(--dock-compass-gap) * 2);
+        left: calc(3rem + var(--tw-dock-compass-gap) * 2);
+        top: calc(3rem + var(--tw-dock-compass-gap) * 2);
     }
 
     &-compass-zone-left-outer {
         left: 0;
-        top: calc(3rem + var(--dock-compass-gap) * 2);
+        top: calc(3rem + var(--tw-dock-compass-gap) * 2);
         width: 1rem;
     }
 
     &-compass-zone-left-inner {
-        left: calc(1rem + var(--dock-compass-gap));
-        top: calc(3rem + var(--dock-compass-gap) * 2);
+        left: calc(1rem + var(--tw-dock-compass-gap));
+        top: calc(3rem + var(--tw-dock-compass-gap) * 2);
     }
 
     &-compass-zone-right-inner {
-        left: calc(5rem + var(--dock-compass-gap) * 3);
-        top: calc(3rem + var(--dock-compass-gap) * 2);
+        left: calc(5rem + var(--tw-dock-compass-gap) * 3);
+        top: calc(3rem + var(--tw-dock-compass-gap) * 2);
     }
 
     &-compass-zone-right-outer {
-        left: calc(7rem + var(--dock-compass-gap) * 4);
-        top: calc(3rem + var(--dock-compass-gap) * 2);
+        left: calc(7rem + var(--tw-dock-compass-gap) * 4);
+        top: calc(3rem + var(--tw-dock-compass-gap) * 2);
         width: 1rem;
     }
 
     &-compass-zone-top-outer {
-        left: calc(3rem + var(--dock-compass-gap) * 2);
+        left: calc(3rem + var(--tw-dock-compass-gap) * 2);
         top: 0;
         height: 1rem;
     }
 
     &-compass-zone-top-inner {
-        left: calc(3rem + var(--dock-compass-gap) * 2);
-        top: calc(1rem + var(--dock-compass-gap));
+        left: calc(3rem + var(--tw-dock-compass-gap) * 2);
+        top: calc(1rem + var(--tw-dock-compass-gap));
     }
 
     &-compass-zone-bottom-inner {
-        left: calc(3rem + var(--dock-compass-gap) * 2);
-        top: calc(5rem + var(--dock-compass-gap) * 3);
+        left: calc(3rem + var(--tw-dock-compass-gap) * 2);
+        top: calc(5rem + var(--tw-dock-compass-gap) * 3);
     }
 
     &-compass-zone-bottom-outer {
-        left: calc(3rem + var(--dock-compass-gap) * 2);
-        top: calc(7rem + var(--dock-compass-gap) * 4);
+        left: calc(3rem + var(--tw-dock-compass-gap) * 2);
+        top: calc(7rem + var(--tw-dock-compass-gap) * 4);
         height: 1rem;
     }
 }

@@ -108,9 +108,11 @@
             .ToList();
 
         int totalRows = customerGroups.Count;
+
         int skip = request.ReadDataMode == PivotGridReadDataMode.Paging
             ? Math.Max( 0, ( request.Page - 1 ) * request.PageSize )
             : 0;
+
         int take = request.ReadDataMode == PivotGridReadDataMode.Paging
             ? request.PageSize
             : totalRows;
@@ -129,6 +131,7 @@
                         List<RemoteSale> cellItems = dataColumn.Column.IsGrandTotal
                             ? rowItems
                             : rowItems.Where( sale => sale.Quarter == dataColumn.Column.Values[0]?.ToString() ).ToList();
+
                         object value = aggregate.Calculate( cellItems );
 
                         return new PivotGridCell<RemoteSale>(

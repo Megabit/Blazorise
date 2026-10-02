@@ -12,60 +12,59 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportRunningTotal : ComponentBase, IDisposable
 {
-    #region Members
-
-    private ReportContext registeredReportContext;
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool definitionChanged = registeredReportContext is null
-            || parameters.IsParameterChanged( Id )
-            || parameters.IsParameterChanged( Name )
-            || parameters.IsParameterChanged( DataSource )
-            || parameters.IsParameterChanged( Field )
-            || parameters.IsParameterChanged( AggregateFunction )
-            || parameters.IsParameterChanged( EvaluateMode )
-            || parameters.IsParameterChanged( EvaluateFormula )
-            || parameters.IsParameterChanged( ResetMode )
-            || parameters.IsParameterChanged( ResetGroupId );
+        var definitionChanged = ReportContext is not null
+            && ( parameters.IsParameterChanged( Id )
+                || parameters.IsParameterChanged( Name )
+                || parameters.IsParameterChanged( DataSource )
+                || parameters.IsParameterChanged( Field )
+                || parameters.IsParameterChanged( AggregateFunction )
+                || parameters.IsParameterChanged( EvaluateMode )
+                || parameters.IsParameterChanged( EvaluateFormula )
+                || parameters.IsParameterChanged( ResetMode )
+                || parameters.IsParameterChanged( ResetGroupId ) );
 
         await base.SetParametersAsync( parameters );
 
-        bool contextChanged = !ReferenceEquals( registeredReportContext, ReportContext );
-
-        if ( contextChanged )
+        if ( definitionChanged )
         {
-            registeredReportContext?.UnregisterRunningTotal( this );
-            registeredReportContext = ReportContext;
+            UpdateDefinition();
         }
+    }
 
-        if ( definitionChanged || contextChanged )
-        {
-            registeredReportContext?.RegisterRunningTotal( this, new()
-            {
-                Id = Id,
-                Name = Name,
-                DataSource = DataSource,
-                Field = Field,
-                AggregateFunction = AggregateFunction,
-                EvaluateMode = EvaluateMode,
-                EvaluateFormula = EvaluateFormula,
-                ResetMode = ResetMode,
-                ResetGroupId = ResetGroupId,
-            } );
-        }
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        UpdateDefinition();
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        registeredReportContext?.UnregisterRunningTotal( this );
-        registeredReportContext = null;
+        ReportContext?.UnregisterRunningTotal( this );
+        ReportContext = null;
+    }
+
+    private void UpdateDefinition()
+    {
+        ReportContext?.RegisterRunningTotal( this, new()
+        {
+            Id = Id,
+            Name = Name,
+            DataSource = DataSource,
+            Field = Field,
+            AggregateFunction = AggregateFunction,
+            EvaluateMode = EvaluateMode,
+            EvaluateFormula = EvaluateFormula,
+            ResetMode = ResetMode,
+            ResetGroupId = ResetGroupId,
+        } );
     }
 
     #endregion

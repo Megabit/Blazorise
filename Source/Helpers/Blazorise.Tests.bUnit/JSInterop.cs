@@ -114,19 +114,6 @@ public static class JSInterop
         AddBlazoriseUtilities( jsInterop );
         AddBlazoriseDocumentObserver( jsInterop );
 
-        var module = jsInterop.SetupModule( new JSDatePickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
-        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
-        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
-        module.SetupVoid( "updateValue", _ => true ).SetVoidResult();
-        module.SetupVoid( "updateTextValue", _ => true ).SetVoidResult();
-        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
-        module.SetupVoid( "open", _ => true ).SetVoidResult();
-        module.SetupVoid( "close", _ => true ).SetVoidResult();
-        module.SetupVoid( "toggle", _ => true ).SetVoidResult();
-        module.SetupVoid( "updateLocalization", _ => true ).SetVoidResult();
-        module.SetupVoid( "focus", _ => true ).SetVoidResult();
-        module.SetupVoid( "select", _ => true ).SetVoidResult();
-
         return jsInterop;
     }
 
@@ -144,19 +131,6 @@ public static class JSInterop
     {
         AddBlazoriseUtilities( jsInterop );
         AddBlazoriseDocumentObserver( jsInterop );
-
-        var module = jsInterop.SetupModule( new JSTimePickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
-        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
-        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
-        module.SetupVoid( "updateValue", _ => true ).SetVoidResult();
-        module.SetupVoid( "updateTextValue", _ => true ).SetVoidResult();
-        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
-        module.SetupVoid( "open", _ => true ).SetVoidResult();
-        module.SetupVoid( "close", _ => true ).SetVoidResult();
-        module.SetupVoid( "toggle", _ => true ).SetVoidResult();
-        module.SetupVoid( "updateLocalization", _ => true ).SetVoidResult();
-        module.SetupVoid( "focus", _ => true ).SetVoidResult();
-        module.SetupVoid( "select", _ => true ).SetVoidResult();
 
         return jsInterop;
     }

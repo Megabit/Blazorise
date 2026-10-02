@@ -11,38 +11,39 @@ namespace Blazorise.Reporting;
 /// </summary>
 public abstract class BaseReportDataSourceComponent : ComponentBase, IDisposable
 {
-    #region Members
-
-    private ReportContext registeredReportContext;
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool definitionChanged = registeredReportContext is null || HasDefinitionChanged( parameters );
+        var definitionChanged = ReportContext is not null && HasDefinitionChanged( parameters );
 
         await base.SetParametersAsync( parameters );
 
-        bool contextChanged = !ReferenceEquals( registeredReportContext, ReportContext );
-
-        if ( contextChanged )
+        if ( definitionChanged )
         {
-            registeredReportContext?.UnregisterDataSource( this );
-            registeredReportContext = ReportContext;
+            UpdateDefinition();
         }
+    }
 
-        if ( definitionChanged || contextChanged )
-            registeredReportContext?.RegisterDataSource( this, CreateDataSourceDefinition() );
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        UpdateDefinition();
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        registeredReportContext?.UnregisterDataSource( this );
-        registeredReportContext = null;
+        ReportContext?.UnregisterDataSource( this );
+        ReportContext = null;
+    }
+
+    private void UpdateDefinition()
+    {
+        ReportContext?.RegisterDataSource( this, CreateDataSourceDefinition() );
     }
 
     /// <summary>

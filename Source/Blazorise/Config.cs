@@ -119,8 +119,6 @@ public static class Config
         { typeof( IJSResizerModule ), typeof( JSResizerModule ) },
         { typeof( IJSMemoInputModule ), typeof( JSMemoInputModule ) },
         { typeof( IJSNumericPickerModule ), typeof( JSNumericPickerModule ) },
-        { typeof( IJSDatePickerModule ), typeof( JSDatePickerModule ) },
-        { typeof( IJSTimePickerModule ), typeof( JSTimePickerModule ) },
         { typeof( IJSColorPickerModule ), typeof( JSColorPickerModule ) },
         { typeof( IJSFileInputModule ), typeof( JSFileInputModule ) },
         { typeof( IJSFilePickerModule ), typeof( JSFilePickerModule ) },

@@ -28,6 +28,7 @@ public class MarkupBuilder
 
             string html = Format( strippedSource, Languages.CSharp )
                 .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
+
             html = PreserveIndentation( html, strippedSource );
 
             cb.AddLine( html.ToCrLfLineEndings() );
@@ -40,6 +41,7 @@ public class MarkupBuilder
 
             string html = Format( strippedSource, Languages.Css )
                 .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
+
             html = PreserveIndentation( html, strippedSource );
 
             cb.AddLine( html.ToCrLfLineEndings() );
@@ -52,6 +54,7 @@ public class MarkupBuilder
 
             string html = Format( strippedSource, Languages.PowerShell )
                 .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
+
             html = PreserveIndentation( html, strippedSource );
 
             cb.AddLine( html.ToCrLfLineEndings() );
@@ -77,8 +80,10 @@ public class MarkupBuilder
             if ( blocks.Length == 2 )
             {
                 string codeSource = "@code" + blocks[1];
+
                 string codeHtml = Format( codeSource, Languages.CSharp )
                     .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
+
                 codeHtml = PreserveIndentation( codeHtml, codeSource );
 
                 cb.AddLine( codeHtml.ToCrLfLineEndings() );

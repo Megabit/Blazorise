@@ -47,6 +47,7 @@
         <span class="keyword">var</span> response = <span class="keyword">await</span> httpClient.PostAsync( <span class="string">&quot;https://www.google.com/recaptcha/api/siteverify&quot;</span>, content );
 
         <span class="keyword">var</span> result = <span class="keyword">await</span> response.Content.ReadAsStringAsync();
+
         <span class="keyword">var</span> googleResponse = JsonSerializer.Deserialize&lt;GoogleResponse&gt;( result, <span class="keyword">new</span> JsonSerializerOptions()
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase

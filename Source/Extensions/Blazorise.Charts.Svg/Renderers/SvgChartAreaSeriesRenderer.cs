@@ -33,7 +33,9 @@ internal sealed class SvgChartAreaSeriesContent : SvgChartSeriesContentBase
             Series.Interpolation,
             Series.Tension,
             Context.PassThroughSeriesPaths );
+
         var projectionState = Context.GetProjectionState( Series, false );
+
         var canTransformPoints = !Context.Animation.Enabled
             && pointsProjectionState.HasValue
             && projectionState.CanTransformFrom( pointsProjectionState.Value )
@@ -107,9 +109,11 @@ internal sealed class SvgChartAreaSeriesContent : SvgChartSeriesContentBase
 
             var startValue = ResolveStackValue( series.StackBaseValues, pointIndex, 0 );
             var endValue = ResolveStackValue( series.StackEndValues, pointIndex, value.Value );
+
             var xValue = chart.ContinuousCategoryAxis && pointIndex < series.XValues.Count && series.XValues[pointIndex].HasValue
                 ? series.XValues[pointIndex].Value
                 : pointIndex;
+
             var x = ResolveX( chart, series, pointIndex );
 
             result.Add( new(
@@ -150,6 +154,7 @@ internal sealed class SvgChartAreaSeriesContent : SvgChartSeriesContentBase
             var renderedPoint = renderedPoints[renderedPointIndex++];
             var startValue = ResolveStackValue( series.StackBaseValues, pointIndex, 0 );
             var endValue = ResolveStackValue( series.StackEndValues, pointIndex, value.Value );
+
             var xValue = chart.ContinuousCategoryAxis && pointIndex < series.XValues.Count && series.XValues[pointIndex].HasValue
                 ? series.XValues[pointIndex].Value
                 : pointIndex;

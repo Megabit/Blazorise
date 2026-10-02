@@ -14,52 +14,53 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportToolbar : ComponentBase, IDisposable
 {
-    #region Members
-
-    private ReportContext registeredReportContext;
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool optionsChanged = registeredReportContext is null
-            || parameters.IsParameterChanged( ChildContent )
-            || parameters.IsParameterChanged( ButtonTemplate )
-            || parameters.TryGetParameter( HiddenCommands,
-                value => value is null
-                    ? HiddenCommands is null
-                    : HiddenCommands is not null && value.SequenceEqual( HiddenCommands ),
-                out ComponentParameterInfo<IReadOnlyCollection<ReportCommand>> hiddenCommandsParameter ) && hiddenCommandsParameter.Changed
-            || parameters.IsParameterChanged( ShowPanesMenu )
-            || parameters.IsParameterChanged( ShowPersistenceButtons )
-            || parameters.IsParameterChanged( ShowEditButtons )
-            || parameters.IsParameterChanged( ShowHistoryButtons )
-            || parameters.IsParameterChanged( ShowDataSourceButtons )
-            || parameters.IsParameterChanged( ShowExportButtons )
-            || parameters.IsParameterChanged( ShowModeButtons );
+        var optionsChanged = ReportContext is not null
+            && ( parameters.IsParameterChanged( ChildContent )
+                || parameters.IsParameterChanged( ButtonTemplate )
+                || parameters.TryGetParameter( HiddenCommands,
+                    value => value is null
+                        ? HiddenCommands is null
+                        : HiddenCommands is not null && value.SequenceEqual( HiddenCommands ),
+                    out var paramHiddenCommands ) && paramHiddenCommands.Changed
+                || parameters.IsParameterChanged( ShowPanesMenu )
+                || parameters.IsParameterChanged( ShowPersistenceButtons )
+                || parameters.IsParameterChanged( ShowEditButtons )
+                || parameters.IsParameterChanged( ShowHistoryButtons )
+                || parameters.IsParameterChanged( ShowDataSourceButtons )
+                || parameters.IsParameterChanged( ShowExportButtons )
+                || parameters.IsParameterChanged( ShowModeButtons ) );
 
         await base.SetParametersAsync( parameters );
 
-        bool contextChanged = !ReferenceEquals( registeredReportContext, ReportContext );
-
-        if ( contextChanged )
+        if ( optionsChanged )
         {
-            registeredReportContext?.UnregisterToolbar( this );
-            registeredReportContext = ReportContext;
+            UpdateOptions();
         }
+    }
 
-        if ( optionsChanged || contextChanged )
-            registeredReportContext?.RegisterToolbar( this, this );
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        UpdateOptions();
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        registeredReportContext?.UnregisterToolbar( this );
-        registeredReportContext = null;
+        ReportContext?.UnregisterToolbar( this );
+        ReportContext = null;
+    }
+
+    private void UpdateOptions()
+    {
+        ReportContext?.RegisterToolbar( this, this );
     }
 
     #endregion

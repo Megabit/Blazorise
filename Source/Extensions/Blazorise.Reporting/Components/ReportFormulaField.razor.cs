@@ -12,46 +12,45 @@ namespace Blazorise.Reporting;
 /// </summary>
 public partial class ReportFormulaField : ComponentBase, IDisposable
 {
-    #region Members
-
-    private ReportContext registeredReportContext;
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool definitionChanged = registeredReportContext is null
-            || parameters.IsParameterChanged( Name )
-            || parameters.IsParameterChanged( Formula );
+        var definitionChanged = ReportContext is not null
+            && ( parameters.IsParameterChanged( Name )
+                || parameters.IsParameterChanged( Formula ) );
 
         await base.SetParametersAsync( parameters );
 
-        bool contextChanged = !ReferenceEquals( registeredReportContext, ReportContext );
-
-        if ( contextChanged )
+        if ( definitionChanged )
         {
-            registeredReportContext?.UnregisterFormulaField( this );
-            registeredReportContext = ReportContext;
+            UpdateDefinition();
         }
+    }
 
-        if ( definitionChanged || contextChanged )
-        {
-            registeredReportContext?.RegisterFormulaField( this, new()
-            {
-                Name = Name,
-                Formula = Formula,
-            } );
-        }
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        UpdateDefinition();
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        registeredReportContext?.UnregisterFormulaField( this );
-        registeredReportContext = null;
+        ReportContext?.UnregisterFormulaField( this );
+        ReportContext = null;
+    }
+
+    private void UpdateDefinition()
+    {
+        ReportContext?.RegisterFormulaField( this, new()
+        {
+            Name = Name,
+            Formula = Formula,
+        } );
     }
 
     #endregion

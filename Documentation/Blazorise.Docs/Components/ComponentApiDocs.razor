@@ -67,6 +67,7 @@
         : Category is not null
             ? ComponentsApiDocsSource.Instance.Components.Where( x => x.Value.Category == Category && x.Value.Subcategory == Subcategory ).Select( x => x.Value ).ToList()
             : ComponentTypes.Select( x => ComponentsApiDocsSource.Instance.Components.GetValueOrDefault( x ) ).Where( x => x is not null ).ToList();
+
         hasComponentTypes = apiDocsForComponents.Any();
         multipleComponentTypes = apiDocsForComponents.Count > 1;
         apiDocsForComponentsMethods = apiDocsForComponents.Where( x => x.Methods.Any() ).ToList();

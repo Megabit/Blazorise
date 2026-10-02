@@ -115,18 +115,18 @@ public partial class Carousel : Blazorise.Carousel
 
     private bool ShouldUseSlickWraparoundTransition
         => carouselSlides.Count > 1
-           && !Crossfade
-           && ( ShouldUseSlickWrapToFirstPosition || ShouldUseSlickWrapToLastPosition );
+            && !Crossfade
+            && ( ShouldUseSlickWrapToFirstPosition || ShouldUseSlickWrapToLastPosition );
 
     private bool ShouldUseSlickWrapToFirstPosition
         => AnimationRunning
-           && PreviouslySelectedSlideIndex == carouselSlides.Count - 1
-           && SelectedSlideIndex == 0;
+            && PreviouslySelectedSlideIndex == carouselSlides.Count - 1
+            && SelectedSlideIndex == 0;
 
     private bool ShouldUseSlickWrapToLastPosition
         => AnimationRunning
-           && PreviouslySelectedSlideIndex == 0
-           && SelectedSlideIndex == carouselSlides.Count - 1;
+            && PreviouslySelectedSlideIndex == 0
+            && SelectedSlideIndex == carouselSlides.Count - 1;
 
     #endregion
 }

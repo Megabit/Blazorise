@@ -17,8 +17,6 @@ public abstract class BaseReportElement : ComponentBase, IDisposable
 
     private readonly string definitionId = Guid.NewGuid().ToString( "N" );
 
-    private IReportElementContainerContext registeredContainerContext;
-
     #endregion
 
     #region Methods
@@ -26,30 +24,31 @@ public abstract class BaseReportElement : ComponentBase, IDisposable
     /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool definitionChanged = Definition is null || HasDefinitionChanged( parameters );
+        var definitionChanged = Definition is not null && HasDefinitionChanged( parameters );
 
         await base.SetParametersAsync( parameters );
 
-        bool containerChanged = !ReferenceEquals( registeredContainerContext, ContainerContext );
-
-        if ( containerChanged )
+        if ( definitionChanged )
         {
-            registeredContainerContext?.UnregisterElement( this );
-            registeredContainerContext = ContainerContext;
-        }
-
-        if ( definitionChanged || containerChanged )
             Definition = BuildDefinition();
+            ContainerContext?.RegisterElement( this, Definition );
+        }
+    }
 
-        if ( definitionChanged || containerChanged )
-            registeredContainerContext?.RegisterElement( this, Definition );
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Definition = BuildDefinition();
+        ContainerContext?.RegisterElement( this, Definition );
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        registeredContainerContext?.UnregisterElement( this );
-        registeredContainerContext = null;
+        ContainerContext?.UnregisterElement( this );
+        ContainerContext = null;
     }
 
     /// <summary>
@@ -138,7 +137,7 @@ public abstract class BaseReportElement : ComponentBase, IDisposable
     /// </summary>
     protected ReportElementDefinition Definition { get; private set; }
 
-    private protected IReportElementContainerContext RegisteredContainerContext => registeredContainerContext;
+    private protected IReportElementContainerContext RegisteredContainerContext => ContainerContext;
 
     [CascadingParameter] internal IReportElementContainerContext ContainerContext { get; set; }
 

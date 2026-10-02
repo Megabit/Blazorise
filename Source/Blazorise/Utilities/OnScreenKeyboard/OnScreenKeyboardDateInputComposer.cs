@@ -283,6 +283,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
     private OnScreenKeyboardInputComposition CreateComposition( Func<string, bool> canParse )
     {
         string value = Value;
+
         bool canCommit = string.IsNullOrEmpty( value )
             || ( IsComplete && canParse( value ) );
 
@@ -360,6 +361,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
     private string FormatDateTimePreview()
     {
         string datePreview = FormatPatternPreview( CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, GetPreviewSegments(), true );
+
         string timePattern = RequireSeconds || GetSegment( 's' ).HasDigits
             ? CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern
             : CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern;

@@ -38,6 +38,7 @@ internal static class ReportPdfDocumentBuilder
 
             ReportDefinition pageDefinition = renderPage.Definition;
             ReportPageDefinition pageDefinitionSettings = pageDefinition.Page;
+
             PdfPageDefinition page = new()
             {
                 Size = ResolvePageSize( pageDefinitionSettings.Size ),

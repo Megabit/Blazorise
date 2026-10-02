@@ -58,8 +58,7 @@
 
     private string GetElementId( ApiDocsForComponent apiDocsForComponent )
     {
-        bool isFirstApiSection = PropertyType == PropertyTypes.Parameters
-                                 || ( PropertyType == PropertyTypes.Events && apiDocsForComponent.Parameters.Count == 0 );
+        bool isFirstApiSection = PropertyType == PropertyTypes.Parameters || ( PropertyType == PropertyTypes.Events && apiDocsForComponent.Parameters.Count == 0 );
 
         return isFirstApiSection
             ? DocsApiNavigation.CreateElementId( apiDocsForComponent.TypeName )

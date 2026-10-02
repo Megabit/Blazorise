@@ -46,6 +46,7 @@ public static class DataGridReadDataEventArgsExtensions
                     DataGridColumnFilterMethod.NotEquals => "ne",
                     _ => null,
                 };
+
                 if ( searchOperator is not null )
                 {
                     filters.Add( $"{field} {searchOperator} '{column.SearchValue}'" );

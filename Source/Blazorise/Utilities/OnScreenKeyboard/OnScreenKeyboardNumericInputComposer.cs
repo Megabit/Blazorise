@@ -111,6 +111,7 @@ internal sealed class OnScreenKeyboardNumericInputComposer
     private OnScreenKeyboardInputComposition CreateComposition( Func<string, bool> canParse )
     {
         string currentValue = Value;
+
         bool canCommit = string.IsNullOrEmpty( currentValue )
             || ( !IsIncompleteNumber( currentValue ) && canParse( currentValue ) );
 

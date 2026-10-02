@@ -98,6 +98,7 @@ public class TextLocalizer<T> : ITextLocalizer<T>
         {
             PropertyNameCaseInsensitive = true,
         };
+
         return JsonSerializer.Deserialize<TextLocalizationResource>( ReadResourceAsString( assembly, resourceName ), options );
     }
 

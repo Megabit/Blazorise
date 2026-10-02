@@ -84,6 +84,7 @@ public partial class JobsSubmitPage
     private static void ValidateApplyUrl( ValidatorEventArgs eventArgs )
     {
         string value = eventArgs.Value?.ToString();
+
         bool valid = Uri.TryCreate( value, UriKind.Absolute, out Uri uri )
                      && ( string.Equals( uri.Scheme, Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase )
                           || string.Equals( uri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase ) );
@@ -95,7 +96,9 @@ public partial class JobsSubmitPage
     private static void ValidateOptionalEmail( ValidatorEventArgs eventArgs )
     {
         string value = eventArgs.Value?.ToString();
-        bool valid = string.IsNullOrWhiteSpace( value ) || MailAddress.TryCreate( value, out _ );
+
+        bool valid = string.IsNullOrWhiteSpace( value )
+            || MailAddress.TryCreate( value, out _ );
 
         eventArgs.Status = valid ? ValidationStatus.Success : ValidationStatus.Error;
         eventArgs.ErrorText = valid ? null : "Enter a valid email address.";

@@ -107,11 +107,13 @@ internal static class ReportPreviewRenderPlanner
 
             page.Definition = definition;
             page.PageNumber = pageNumber;
+
             page.HeaderSections = pageNumber == 1
                 ? []
                 : pageHeaderSections
                     .Where( renderSection => ShouldRenderSection( definition, data, renderSection.Section, renderSection.Item, pageNumber, totalPages ) )
                     .ToList();
+
             page.FooterSections = pageFooterSections
                 .Where( renderSection => ShouldRenderSection( definition, data, renderSection.Section, renderSection.Item, pageNumber, totalPages ) )
                 .ToList();

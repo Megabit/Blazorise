@@ -263,6 +263,7 @@ public sealed class CsvReportDataSourceProvider : IReportDataSourceProvider
     private static List<string> ResolveHeaders( List<List<string>> records, bool hasHeaderRow )
     {
         int columnCount = records.Max( record => record.Count );
+
         List<string> headers = hasHeaderRow
             ? records[0].Select( NormalizeHeader ).ToList()
             : [];

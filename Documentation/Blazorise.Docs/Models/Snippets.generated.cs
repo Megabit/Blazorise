@@ -4028,8 +4028,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     private Task OnModalClosing( ModalClosingEventArgs e )
     {
         // just set Cancel to prevent modal from closing
-        e.Cancel = cancelClose 
-            || e.CloseReason != CloseReason.UserClosing;
+        e.Cancel = cancelClose || e.CloseReason != CloseReason.UserClosing;
 
         return Task.CompletedTask;
     }
@@ -4259,8 +4258,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     private Task OnOffcanvasClosing( OffcanvasClosingEventArgs e )
     {
         // just set Cancel to prevent offcanvas from closing
-        e.Cancel = cancelClose
-            || e.CloseReason != CloseReason.UserClosing;
+        e.Cancel = cancelClose || e.CloseReason != CloseReason.UserClosing;
 
         return Task.CompletedTask;
     }
@@ -9394,6 +9392,7 @@ public class CountryData
         var response = await httpClient.PostAsync( ""https://www.google.com/recaptcha/api/siteverify"", content );
 
         var result = await response.Content.ReadAsStringAsync();
+
         var googleResponse = JsonSerializer.Deserialize<GoogleResponse>( result, new JsonSerializerOptions()
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -10843,6 +10842,7 @@ run ""dotnet build""
                 EndColumn = 16,
             },
         ];
+
         status = ""Application warning added."";
 
         return Task.CompletedTask;
@@ -11064,6 +11064,7 @@ console.log(greeting(""Blazorise""));
         eventArgs.Status = error is null
             ? ValidationStatus.Success
             : ValidationStatus.Error;
+
         eventArgs.ErrorText = error?.Message;
     }
 }";
@@ -25773,6 +25774,7 @@ public class PersonValidator : AbstractValidator<Person>
             editorDraft.Id ??= $""task-{nextId++}"";
             editorDraft.ParentId = editorParentId;
             tasks.Add( editorDraft.Clone() );
+
             lastAction = editorParentId is null
                 ? $""Created {editorDraft.Title}""
                 : $""Created child {editorDraft.Title}"";
@@ -27557,11 +27559,7 @@ dotnet add package Blazorise.Icons.Material";
         bool hasNumber = currentPassword.Any( char.IsDigit );
         bool hasSpecialCharacter = currentPassword.Any( c => char.IsPunctuation( c ) || char.IsSymbol( c ) );
 
-        bool isValid = hasMinimumLength
-            && hasUppercase
-            && hasLowercase
-            && hasNumber
-            && hasSpecialCharacter;
+        bool isValid = hasMinimumLength && hasUppercase && hasLowercase && hasNumber && hasSpecialCharacter;
 
         eventArgs.Status = isValid
             ? ValidationStatus.Success
@@ -28434,9 +28432,11 @@ builder.Services
             .ToList();
 
         int totalRows = customerGroups.Count;
+
         int skip = request.ReadDataMode == PivotGridReadDataMode.Paging
             ? Math.Max( 0, ( request.Page - 1 ) * request.PageSize )
             : 0;
+
         int take = request.ReadDataMode == PivotGridReadDataMode.Paging
             ? request.PageSize
             : totalRows;
@@ -28455,6 +28455,7 @@ builder.Services
                         List<RemoteSale> cellItems = dataColumn.Column.IsGrandTotal
                             ? rowItems
                             : rowItems.Where( sale => sale.Quarter == dataColumn.Column.Values[0]?.ToString() ).ToList();
+
                         object value = aggregate.Calculate( cellItems );
 
                         return new PivotGridCell<RemoteSale>(
@@ -28571,9 +28572,11 @@ builder.Services
     private Task ReadRemotePivotData( PivotGridReadDataEventArgs<RemotePivotSale> eventArgs )
     {
         PivotGridDataRequest request = eventArgs.Request;
+
         int offset = request.ReadDataMode == PivotGridReadDataMode.Virtualize
             ? Math.Max( 0, request.VirtualizeOffset )
             : 0;
+
         int count = request.ReadDataMode == PivotGridReadDataMode.Virtualize && request.VirtualizeCount > 0
             ? request.VirtualizeCount
             : 40;
@@ -28637,6 +28640,7 @@ builder.Services
             .Select( group =>
             {
                 List<RemotePivotSale> rowItems = group.ToList();
+
                 PivotGridAxisItem<RemotePivotSale> row = new(
                     [group.Key],
                     rowItems,
@@ -28648,9 +28652,11 @@ builder.Services
                     .Select( dataColumn =>
                     {
                         string quarter = dataColumn.Column.Values[0]?.ToString();
+
                         List<RemotePivotSale> cellItems = rowItems
                             .Where( sale => sale.Quarter == quarter )
                             .ToList();
+
                         object value = aggregate.Calculate( cellItems );
 
                         return new PivotGridCell<RemotePivotSale>(

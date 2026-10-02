@@ -506,6 +506,7 @@ public static class HtmlColorCodeParser
             ( hue % 360 + 360 ) % 360,
             Math.Clamp( saturation, 0, 1 ) * 100,
             Math.Clamp( lightness, 0, 1 ) * 100 );
+
         color = System.Drawing.Color.FromArgb( alphaChannel, hsl.ToColor() );
         return true;
     }

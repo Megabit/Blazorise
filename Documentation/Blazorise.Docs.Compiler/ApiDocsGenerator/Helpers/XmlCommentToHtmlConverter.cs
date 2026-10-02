@@ -40,6 +40,7 @@ public class XmlCommentToHtmlConverter
             .Replace( "\r", "" )
             .Replace( "\"", "\\\"" ) //escape quotes
             .ToString();
+
         return text;
     }
 

@@ -107,6 +107,7 @@ public partial class _ReportDesignerFieldsExplorerPanel
             await CloseDataSourceContextMenu();
 
             selectedFormulaFieldName = eventArgs.Node.Kind == ReportTreeNodeKind.FormulaField ? eventArgs.Node.Text : selectedFormulaFieldName;
+
             formulaFieldContextMenu = new()
             {
                 Visible = true,
@@ -127,6 +128,7 @@ public partial class _ReportDesignerFieldsExplorerPanel
             await CloseDataSourceContextMenu();
 
             selectedRunningTotalName = eventArgs.Node.Kind == ReportTreeNodeKind.RunningTotalField ? eventArgs.Node.Text : selectedRunningTotalName;
+
             runningTotalContextMenu = new()
             {
                 Visible = true,

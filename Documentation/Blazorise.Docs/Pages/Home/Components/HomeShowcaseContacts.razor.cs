@@ -40,6 +40,7 @@ public partial class HomeShowcaseContacts
         get
         {
             string term = search.Trim();
+
             IEnumerable<Contact> filtered = contacts.Where( contact =>
                 ( string.IsNullOrEmpty( status ) || contact.Status == status )
                 && ( string.IsNullOrEmpty( role ) || contact.Role == role )
@@ -105,12 +106,14 @@ public partial class HomeShowcaseContacts
 
         string name = newName.Trim();
         string initials = string.Concat( name.Split( ' ', StringSplitOptions.RemoveEmptyEntries ).Take( 2 ).Select( part => part[0] ) ).ToUpperInvariant();
+
         Color color = newStatus switch
         {
             "Customer" => Color.Success,
             "Subscriber" => Color.Primary,
             _ => Color.Warning,
         };
+
         Contact contact = new( nextContactId++, name, initials, newLocation.Trim(), newRole, newStatus, color );
         contacts.Add( contact );
         ResetFilters();

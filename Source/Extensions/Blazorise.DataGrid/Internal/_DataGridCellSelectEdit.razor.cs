@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,22 +17,6 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
 {
     #region Members
 
-    private System.Collections.Generic.List<SelectItem> selectItems;
-
-    private class SelectItem
-    {
-        public string Text { get; private set; }
-        public object Value { get; private set; }
-        public bool Disabled { get; private set; }
-
-        public SelectItem( string text, object value, bool disabled )
-        {
-            Text = text;
-            Value = value;
-            Disabled = disabled;
-        }
-    }
-
     /// <summary>
     /// Element Id identifying content in the data grid cell select edit.
     /// </summary>
@@ -45,42 +30,31 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
     protected override void OnInitialized()
     {
         elementId = IdGenerator.Generate;
+
         base.OnInitialized();
     }
 
-    /// <inheritdoc />
-    protected override void OnParametersSet()
+    private Task OnSelectedValueChangedHandler( object value )
     {
-        if ( Column?.Data is not null && selectItems?.Count != Column.Data.Count() )
+        if ( Column?.Data is null )
         {
-            selectItems = new();
-            foreach ( var item in Column.Data )
+            return CellValueChanged.InvokeAsync( value );
+        }
+
+        // Select<object> returns a string; resolve it to the original option value.
+        var valueString = value?.ToString() ?? string.Empty;
+
+        foreach ( var item in Column.Data )
+        {
+            var itemValue = Column.ValueField?.Invoke( item );
+
+            if ( string.Equals( itemValue?.ToString() ?? string.Empty, valueString, StringComparison.Ordinal ) )
             {
-                var text = Column.TextField?.Invoke( item );
-                var value = Column.ValueField != null ? Column.ValueField.Invoke( item ) : default;
-                var disabled = Column.ItemDisabled != null && Column.ItemDisabled.Invoke( item );
-                selectItems.Add( new( text, value, disabled ) );
+                return CellValueChanged.InvokeAsync( itemValue );
             }
         }
-        base.OnParametersSet();
-    }
 
-    private void OnSelectedValueChanged( object value )
-    {
-        if ( selectItems is not null )
-        {
-            //Using a Select<object> makes it so the internal value representation is always a string instead of the actual Value type from ValueField.
-            //This is a problem, because when the value is passed back to the DataGrid internal item setter, it is passed as a string instead of the actual Value type.
-            //This workaround, resolves the string value back to the actual Value type by matching the string representation back to the pre-generated list of select items which contain the actual Value type.
-            var selectItem = selectItems
-                .FirstOrDefault( x => ( x.Value?.ToString() ?? string.Empty ).Equals( value?.ToString() ?? string.Empty, System.StringComparison.Ordinal ) );
-
-            CellValueChanged.InvokeAsync( selectItem?.Value );
-        }
-        else
-        {
-            CellValueChanged.InvokeAsync( value );
-        }
+        return CellValueChanged.InvokeAsync( null );
     }
 
     private async Task OnSelectedValuesChanged( IReadOnlyList<object> values )

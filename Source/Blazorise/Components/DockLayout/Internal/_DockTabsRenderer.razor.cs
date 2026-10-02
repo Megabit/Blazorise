@@ -1,4 +1,6 @@
 #region Using directives
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -10,22 +12,6 @@ namespace Blazorise;
 /// </summary>
 public partial class _DockTabsRenderer : _BaseDockRenderer
 {
-    #region Members
-
-    private string activePaneName;
-
-    private DockPane activePane;
-
-    private DockPaneState activePaneState;
-
-    private DockPanePosition groupPosition;
-
-    private DockPaneTabPosition tabPosition;
-
-    private int version;
-
-    #endregion
-
     #region Constructors
 
     /// <summary>
@@ -41,47 +27,15 @@ public partial class _DockTabsRenderer : _BaseDockRenderer
     #region Methods
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
+    public override Task SetParametersAsync( ParameterView parameters )
     {
-        base.OnInitialized();
-
-        RefreshState();
-    }
-
-    private void RefreshState()
-    {
-
-        activePaneName = Context?.GetActiveTabPaneName( Node );
-
-        if ( string.IsNullOrWhiteSpace( activePaneName ) )
+        if ( parameters.IsParameterChanged( NodeId ) || parameters.IsParameterChanged( Resizable ) )
         {
-            activePane = null;
-            activePaneState = null;
-            groupPosition = DockPanePosition.Center;
-            tabPosition = DockPaneTabPosition.Top;
+            DirtyClasses();
+            DirtyStyles();
         }
 
-        else
-        {
-            if ( Context is null || !Context.TryGetPane( activePaneName, out activePane ) )
-                activePane = null;
-
-            activePaneState = Context?.GetPaneState( activePaneName );
-            groupPosition = Context?.GetDockNodePosition( Node ) ?? activePane?.EffectivePosition ?? DockPanePosition.Center;
-            tabPosition = Context?.GetDockNodeTabPosition( Node, groupPosition ) ?? DockPaneTabPosition.Top;
-        }
-    }
-
-    /// <inheritdoc/>
-    private protected override bool IsAffected( DockLayoutChange change )
-        => change.Kind == DockLayoutChangeKind.Pane && Node?.Panes?.Contains( change.PaneName ) == true;
-
-    /// <inheritdoc/>
-    private protected override void OnDockLayoutChanged( DockLayoutChange change )
-    {
-        RefreshState();
-        DirtyClasses();
-        DirtyStyles();
+        return base.SetParametersAsync( parameters );
     }
 
     /// <inheritdoc/>
@@ -107,8 +61,18 @@ public partial class _DockTabsRenderer : _BaseDockRenderer
         builder.Append( ClassProvider.DockPaneTabPosition( TabPosition ) );
     }
 
-    private string GetTabElementId( string paneName )
-        => $"{Context.GetDockNodeElementId( NodeId )}-tab-{Node.Panes.IndexOf( paneName )}";
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        if ( ActivePane is not null )
+        {
+            builder.Append( $"{StyleProvider.DockLayoutVariable( "pane-size" )}:{PaneSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
+            builder.Append( $"{StyleProvider.DockLayoutVariable( "pane-min-size" )}:{ActivePane.MinSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( ActivePane.MinSize ) );
+            builder.Append( $"{StyleProvider.DockLayoutVariable( "pane-max-size" )}:{ActivePane.MaxSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( ActivePane.MaxSize ) );
+        }
+
+        base.BuildStyles( builder );
+    }
 
     /// <inheritdoc/>
     protected internal override void DirtyClasses()
@@ -119,43 +83,56 @@ public partial class _DockTabsRenderer : _BaseDockRenderer
     }
 
     /// <inheritdoc/>
-    protected override void BuildStyles( StyleBuilder builder )
-    {
-        if ( ActivePane is not null )
-        {
-            builder.Append( $"--dock-pane-size:{PaneSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
-            builder.Append( $"--dock-pane-min-size:{ActivePane.MinSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( ActivePane.MinSize ) );
-            builder.Append( $"--dock-pane-max-size:{ActivePane.MaxSize}", GroupPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( ActivePane.MaxSize ) );
-        }
+    private protected override bool IsAffected( DockLayoutChange change )
+        => change.Kind == DockLayoutChangeKind.Tree
+            || change.Kind == DockLayoutChangeKind.Pane && Node?.Panes?.Contains( change.PaneName ) == true
+            || change.Kind == DockLayoutChangeKind.Node
+                && DockLayoutTreeQuery.FindNodeById( Context?.GetNode( change.NodeId ), NodeId ) is not null;
 
-        base.BuildStyles( builder );
+    /// <inheritdoc/>
+    private protected override void OnDockLayoutChanged( DockLayoutChange change )
+    {
+        DirtyClasses();
+        DirtyStyles();
     }
+
+    private string GetTabElementId( string paneName )
+        => $"{Context.GetDockNodeElementId( NodeId )}-tab-{Node.Panes.IndexOf( paneName )}";
 
     #endregion
 
     #region Properties
 
-    private string ActivePaneName => activePaneName;
+    private string ActivePaneName => Context?.GetActiveTabPaneName( Node );
 
     private string ActiveTabElementId => TabsVisible ? GetTabElementId( ActivePaneName ) : null;
 
-    private DockPane ActivePane => activePane;
+    private DockPane ActivePane
+        => !string.IsNullOrWhiteSpace( ActivePaneName ) && Context?.TryGetPane( ActivePaneName, out var pane ) == true ? pane : null;
 
-    private bool Visible => Node is not null && ActivePane is not null && activePaneState?.Visible != false && activePaneState?.AutoHide != true;
+    private DockPaneState ActivePaneState => string.IsNullOrWhiteSpace( ActivePaneName ) ? null : Context?.GetPaneState( ActivePaneName );
+
+    private bool Visible => Node is not null && ActivePane is not null && ActivePaneState?.Visible != false && ActivePaneState?.AutoHide != true;
 
     private string TabsClassNames => TabsClassBuilder.Class;
 
     private bool TabsVisible => Node?.Panes?.Count > 1 || ActivePane?.EffectiveShowTab == true;
 
-    private DockPanePosition GroupPosition => groupPosition;
+    private DockPanePosition GroupPosition
+        => string.IsNullOrWhiteSpace( ActivePaneName )
+            ? DockPanePosition.Center
+            : Context?.GetDockNodePosition( Node ) ?? ActivePane?.EffectivePosition ?? DockPanePosition.Center;
 
-    private DockPaneTabPosition TabPosition => tabPosition;
+    private DockPaneTabPosition TabPosition
+        => string.IsNullOrWhiteSpace( ActivePaneName )
+            ? DockPaneTabPosition.Top
+            : Context?.GetDockNodeTabPosition( Node, GroupPosition ) ?? DockPaneTabPosition.Top;
 
     private bool TabsOnTop => TabPosition == DockPaneTabPosition.Top;
 
-    private bool Collapsed => activePaneState?.Collapsed == true;
+    private bool Collapsed => ActivePaneState?.Collapsed == true;
 
-    private string PaneSize => Node?.Size ?? ( activePaneState is not null ? activePaneState.Size : ActivePane?.Size );
+    private string PaneSize => Node?.Size ?? ( ActivePaneState is not null ? ActivePaneState.Size : ActivePane?.Size );
 
     private bool CanResize => Resizable;
 
@@ -174,25 +151,6 @@ public partial class _DockTabsRenderer : _BaseDockRenderer
     /// Indicates whether the rendered tab group belongs to a resizable split track.
     /// </summary>
     [Parameter] public bool Resizable { get; set; }
-
-    /// <summary>
-    /// Gets or sets the node render version.
-    /// </summary>
-    [Parameter]
-    public int Version
-    {
-        get => version;
-        set
-        {
-            if ( version == value )
-                return;
-
-            version = value;
-            RefreshState();
-            DirtyClasses();
-            DirtyStyles();
-        }
-    }
 
     #endregion
 }

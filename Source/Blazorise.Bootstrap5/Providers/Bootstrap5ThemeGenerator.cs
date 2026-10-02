@@ -1194,6 +1194,7 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
         var background = ToHex( backgroundColor );
         var hoverBackground = ToHex( hoverBackgroundColor );
         var color = ToHex( ParseColor( inColor ) );
+
         var border = ToHex( TintColor(
             ParseColor( NormalizeBootstrapColorOption( variant, theme.ColorOptions[variant].Invoke() ) ),
             theme.BorderOptions?.SubtleTintWeight ?? 60 ) );

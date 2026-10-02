@@ -59,6 +59,7 @@ public class Employee
             source,
             $"return {serviceName}[.]Show<CounterExample>\\(\\s*(?<title>\"[^\"]*\"),\\s*x => x[.]Add\\( x => x[.]Value, newValue \\)\\s*\\);",
             $"Value = newValue;{Environment.NewLine}        return {serviceName}.Show( ${{title}}, CounterExample );" );
+
         source = Regex.Replace(
             source,
             $"{serviceName}[.]Show<CounterExample>\\(\\s*(?<title>\"[^\"]*\"),\\s*new",
@@ -68,6 +69,7 @@ public class Employee
             code,
             @"(?m)^\s*\[Parameter\][ \t]+public long Value \{ get; set; \}\r?\n?",
             "private long Value { get; set; }" + Environment.NewLine );
+
         source = AddRequiredUsings( path, source, RequiredUsings );
         source = AppendFragment( path, source, "CounterExample", markup, code );
         ValidateComposedSource( path, source, ["Show<CounterExample>", "[Parameter]"] );
@@ -99,10 +101,12 @@ public class Employee
         }
 
         markup = Regex.Replace( markup, "@UserName\\b", "@userName" );
+
         code = Regex.Replace(
             code,
             $@"(?m)^\s*\[Inject\][ \t]+public I(?:Modal|Offcanvas)Service {serviceName} \{{ get; set; \}}\r?\n?",
             string.Empty );
+
         code = Regex.Replace(
             code,
             @"(?m)^\s*\[Parameter\][ \t]+public string UserName \{ get; set; \}\r?\n?",
@@ -133,14 +137,17 @@ public class Employee
             code,
             $@"(?m)^\s*\[Inject\][ \t]+public I(?:Modal|Offcanvas)Service {serviceName} \{{ get; set; \}}\r?\n?",
             string.Empty );
+
         code = Regex.Replace(
             code,
             @"(?m)^\s*\[Parameter\][ \t]+public Func<Employee, Task(?:<bool>)?> On(?:Validate|Success) \{ get; set; \}\r?\n?",
             string.Empty );
+
         code = Regex.Replace(
             code,
             @"if \( OnValidate is not null \)\s*isValid = await OnValidate\( model \);",
             "isValid = await FormularyValidate( model );" );
+
         code = code.Replace( "await OnSuccess( model );", "await FormularySuccess( model );", StringComparison.Ordinal );
         code = $"{code.Trim()}{Environment.NewLine}{Environment.NewLine}{EmployeeSource.Trim()}";
 

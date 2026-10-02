@@ -22,9 +22,11 @@ internal sealed class SvgChartRadialSeriesContent : SvgChartSeriesContentBase
     protected override bool UpdateRenderState()
     {
         var resolvedSegments = ResolveSegments( Context, Series, segments );
+
         var shouldRender = Context.Animation.Enabled
             || !Equals( Context.CategoryFormatterKey, categoryFormatterKey )
             || !resolvedSegments.SequenceEqual( segments );
+
         segments = resolvedSegments;
         categoryFormatterKey = Context.CategoryFormatterKey;
 
@@ -80,6 +82,7 @@ internal sealed class SvgChartRadialSeriesContent : SvgChartSeriesContentBase
         IReadOnlyList<SvgChartRenderedRadialSegment> renderedSegments )
     {
         var chart = context.Chart;
+
         var values = series.Values
             .Select( ( value, index ) => new
             {
@@ -89,6 +92,7 @@ internal sealed class SvgChartRadialSeriesContent : SvgChartSeriesContentBase
             } )
             .Where( x => x.Value.HasValue && x.Value.Value >= 0 )
             .ToList();
+
         var visibleValues = values.Where( x => !x.Hidden ).ToList();
 
         var renderedSegmentsByIndex = renderedSegments.ToDictionary( x => x.PointIndex );
@@ -124,6 +128,7 @@ internal sealed class SvgChartRadialSeriesContent : SvgChartSeriesContentBase
                 SvgChartType.Doughnut => radius * 0.79,
                 _ => radius * 0.67,
             };
+
             var interactionPoint = SvgChartSeriesRenderHelpers.PolarToCartesian( centerX, centerY, interactionRadius, ( startAngle + endAngle ) / 2 );
 
             result.Add( new(

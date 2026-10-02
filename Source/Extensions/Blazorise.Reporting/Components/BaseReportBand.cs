@@ -16,8 +16,6 @@ public abstract class BaseReportBand : ComponentBase, IDisposable
 
     private readonly ReportBandDefinition definition = new();
 
-    private ReportPageContext registeredPageContext;
-
     #endregion
 
     #region Constructors
@@ -37,51 +35,50 @@ public abstract class BaseReportBand : ComponentBase, IDisposable
     /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool definitionChanged = registeredPageContext is null
-            || parameters.IsParameterChanged( Id )
-            || parameters.IsParameterChanged( Name )
-            || parameters.IsParameterChanged( Height )
-            || parameters.IsParameterChanged( DataSource )
-            || parameters.IsParameterChanged( GroupBy )
-            || parameters.IsParameterChanged( Class )
-            || parameters.IsParameterChanged( Style )
-            || parameters.IsReportValueChanged( Suppress )
-            || parameters.IsParameterChanged( ReserveSpaceWhenSuppressed )
-            || parameters.IsParameterChanged( PrintOnFirstPage )
-            || parameters.IsParameterChanged( PrintOnLastPage )
-            || parameters.IsParameterChanged( RepeatOnEveryPage )
-            || parameters.IsReportValueChanged( KeepTogether )
-            || parameters.IsReportValueChanged( NewPageBefore )
-            || parameters.IsReportValueChanged( NewPageAfter )
-            || parameters.IsParameterChanged( BackgroundColor )
-            || parameters.IsParameterChanged( BorderColor )
-            || parameters.IsParameterChanged( BorderWidth );
+        var definitionChanged = PageContext is not null
+            && ( parameters.IsParameterChanged( Id )
+                || parameters.IsParameterChanged( Name )
+                || parameters.IsParameterChanged( Height )
+                || parameters.IsParameterChanged( DataSource )
+                || parameters.IsParameterChanged( GroupBy )
+                || parameters.IsParameterChanged( Class )
+                || parameters.IsParameterChanged( Style )
+                || parameters.IsReportValueChanged( Suppress )
+                || parameters.IsParameterChanged( ReserveSpaceWhenSuppressed )
+                || parameters.IsParameterChanged( PrintOnFirstPage )
+                || parameters.IsParameterChanged( PrintOnLastPage )
+                || parameters.IsParameterChanged( RepeatOnEveryPage )
+                || parameters.IsReportValueChanged( KeepTogether )
+                || parameters.IsReportValueChanged( NewPageBefore )
+                || parameters.IsReportValueChanged( NewPageAfter )
+                || parameters.IsParameterChanged( BackgroundColor )
+                || parameters.IsParameterChanged( BorderColor )
+                || parameters.IsParameterChanged( BorderWidth ) );
 
         await base.SetParametersAsync( parameters );
 
-        bool pageChanged = !ReferenceEquals( registeredPageContext, PageContext );
-
-        if ( pageChanged )
-        {
-            registeredPageContext?.UnregisterBand( this );
-            registeredPageContext = PageContext;
-            SectionContext.DefinitionChanged = registeredPageContext is null
-                ? null
-                : new Action( registeredPageContext.NotifyDefinitionChanged );
-        }
-
         if ( definitionChanged )
+        {
             UpdateDefinition();
+            PageContext?.RegisterBand( this, definition );
+        }
+    }
 
-        if ( definitionChanged || pageChanged )
-            registeredPageContext?.RegisterBand( this, definition );
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        SectionContext.DefinitionChanged = PageContext is null ? null : new Action( PageContext.NotifyDefinitionChanged );
+        UpdateDefinition();
+        PageContext?.RegisterBand( this, definition );
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        registeredPageContext?.UnregisterBand( this );
-        registeredPageContext = null;
+        PageContext?.UnregisterBand( this );
+        PageContext = null;
     }
 
     private void UpdateDefinition()
@@ -103,10 +100,12 @@ public abstract class BaseReportBand : ComponentBase, IDisposable
         definition.KeepTogether = KeepTogether;
         definition.NewPageBefore = NewPageBefore;
         definition.NewPageAfter = NewPageAfter;
+
         definition.Appearance = new()
         {
             BackgroundColor = BackgroundColor,
         };
+
         definition.Border = new()
         {
             Color = BorderColor,

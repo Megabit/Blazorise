@@ -25,6 +25,7 @@ internal sealed class SvgChartPointSeriesContent : SvgChartSeriesContentBase
     protected override bool UpdateRenderState()
     {
         var projectionState = Context.GetProjectionState( Series, true );
+
         var canTransformPoints = !Context.Animation.Enabled
             && pointsProjectionState.HasValue
             && projectionState.CanTransformFrom( pointsProjectionState.Value )
@@ -95,9 +96,11 @@ internal sealed class SvgChartPointSeriesContent : SvgChartSeriesContentBase
 
             var x = chart.ProjectX( xValue.Value );
             var y = chart.ProjectY( yValue.Value, series.ValueAxisId );
+
             var radius = series.Type == SvgChartType.Bubble
                 ? Math.Max( 2, pointIndex < series.RadiusValues.Count && series.RadiusValues[pointIndex].HasValue ? series.RadiusValues[pointIndex].Value : series.MarkerRadius )
                 : series.MarkerRadius;
+
             var category = chart.ContinuousCategoryAxis && pointIndex < chart.Labels.Count
                 ? chart.Labels[pointIndex]
                 : xValue.Value;
@@ -138,9 +141,11 @@ internal sealed class SvgChartPointSeriesContent : SvgChartSeriesContentBase
             }
 
             var renderedPoint = renderedPoints[renderedPointIndex++];
+
             var radius = series.Type == SvgChartType.Bubble
                 ? Math.Max( 2, pointIndex < series.RadiusValues.Count && series.RadiusValues[pointIndex].HasValue ? series.RadiusValues[pointIndex].Value : series.MarkerRadius )
                 : series.MarkerRadius;
+
             var category = chart.ContinuousCategoryAxis && pointIndex < chart.Labels.Count
                 ? chart.Labels[pointIndex]
                 : xValue.Value;

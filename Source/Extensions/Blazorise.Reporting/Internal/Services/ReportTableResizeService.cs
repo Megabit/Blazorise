@@ -51,12 +51,14 @@ internal sealed class ReportTableResizeService
         double delta = pointerResize.Kind == ReportTableResizeKind.Column
             ? ReportMeasurementConverter.FromCssPixelValue( clientX - pointerResize.StartClientX )
             : ReportMeasurementConverter.FromCssPixelValue( clientY - pointerResize.StartClientY );
+
         double size = pointerResize.OriginalSize + delta;
 
         if ( pointerResize.SnapToGrid )
             size = applyGrid( size );
 
         double minimumSize = ReportLayoutGeometry.DefaultMinimumElementSize;
+
         double maximumSize = pointerResize.ResizesTable
             ? double.MaxValue
             : Math.Max( minimumSize, pointerResize.OriginalSize + pointerResize.AdjacentOriginalSize - minimumSize );

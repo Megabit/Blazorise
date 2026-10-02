@@ -101,6 +101,7 @@ public static class RecurringRuleCalculators
         // Define a sensible maximum to avoid infinite loops
         int maxIterations = 99;
         int occurrencesInView = 0;
+
         int remainingOccurrences = rule.Count.HasValue
             ? rule.Count.Value - occurrencesBeforeView
             : int.MaxValue;
@@ -161,6 +162,7 @@ public static class RecurringRuleCalculators
         {
             // Use the first defined day to anchor the month logic, like before
             var firstDay = rule.ByMonthDay.First();
+
             int firstDayResolved = firstDay > 0
                 ? firstDay
                 : DateTime.DaysInMonth( itemStart.Year, itemStart.Month ) + firstDay + 1;

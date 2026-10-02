@@ -42,9 +42,11 @@
     private Task ReadRemotePivotData( PivotGridReadDataEventArgs<RemotePivotSale> eventArgs )
     {
         PivotGridDataRequest request = eventArgs.Request;
+
         int offset = request.ReadDataMode == PivotGridReadDataMode.Virtualize
             ? Math.Max( 0, request.VirtualizeOffset )
             : 0;
+
         int count = request.ReadDataMode == PivotGridReadDataMode.Virtualize && request.VirtualizeCount > 0
             ? request.VirtualizeCount
             : 40;
@@ -108,6 +110,7 @@
             .Select( group =>
             {
                 List<RemotePivotSale> rowItems = group.ToList();
+
                 PivotGridAxisItem<RemotePivotSale> row = new(
                     [group.Key],
                     rowItems,
@@ -119,9 +122,11 @@
                     .Select( dataColumn =>
                     {
                         string quarter = dataColumn.Column.Values[0]?.ToString();
+
                         List<RemotePivotSale> cellItems = rowItems
                             .Where( sale => sale.Quarter == quarter )
                             .ToList();
+
                         object value = aggregate.Calculate( cellItems );
 
                         return new PivotGridCell<RemotePivotSale>(

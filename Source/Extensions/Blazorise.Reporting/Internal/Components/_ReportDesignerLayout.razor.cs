@@ -172,6 +172,7 @@ public partial class _ReportDesignerLayout
     private async Task OnDockLayoutStateChanged( DockLayoutState state )
     {
         string selectedPanelTab = ResolveSelectedPanelTab( state );
+
         bool selectedPanelChanged = !string.IsNullOrWhiteSpace( selectedPanelTab )
             && !string.Equals( selectedPanelTab, SelectedPanelTab, StringComparison.Ordinal );
 
@@ -232,6 +233,7 @@ public partial class _ReportDesignerLayout
     {
         bool toolbarVisible = ShowToolbar && Toolbar is not null;
         bool toolbarInTree = DockTreeContainsPane( State.Root, ToolbarPaneName );
+
         bool workspaceInitialized = State.Root is not null
             && DockStateContainsPane( ToolboxPaneName )
             && DockStateContainsPane( FieldsExplorerPaneName )
@@ -323,6 +325,7 @@ public partial class _ReportDesignerLayout
             return;
 
         string selector = GetPaneScrollSelector( paneName );
+
         double[] position = selector is null
             ? await reportingModule.GetScrollPosition( element.Value )
             : await reportingModule.GetScrollPosition( element.Value, selector );

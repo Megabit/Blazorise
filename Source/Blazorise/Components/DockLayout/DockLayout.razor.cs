@@ -74,7 +74,7 @@ public partial class DockLayout : BaseComponent
     {
         context = new( this );
         treeQuery = new( registry, stateManager, () => CurrentState );
-        sizer = new( registry, stateManager, treeQuery, () => CurrentState );
+        sizer = new( registry, stateManager, treeQuery, () => CurrentState, name => StyleProvider.DockLayoutVariable( name ) );
         treeBuilder = new( registry, stateManager, treeQuery, sizer );
         treeMutator = new( treeQuery, sizer );
     }
@@ -315,8 +315,8 @@ public partial class DockLayout : BaseComponent
 
         return new()
         {
-            Start = CreateDockResizeTarget( node.First, node.Orientation, resizeElementId, "--dock-split-start-size" ),
-            End = CreateDockResizeTarget( node.Second, node.Orientation, resizeElementId, "--dock-split-end-size" ),
+            Start = CreateDockResizeTarget( node.First, node.Orientation, resizeElementId, StyleProvider.DockLayoutVariable( "split-start-size" ) ),
+            End = CreateDockResizeTarget( node.Second, node.Orientation, resizeElementId, StyleProvider.DockLayoutVariable( "split-end-size" ) ),
         };
     }
 
@@ -569,6 +569,7 @@ public partial class DockLayout : BaseComponent
         paneState.RestorePlacement = railItem is not null
             ? CreateRestorePlacement( railItem )
             : CapturePaneRestorePlacement( paneState );
+
         paneState.Visible = false;
         paneState.AutoHide = false;
 
@@ -658,9 +659,11 @@ public partial class DockLayout : BaseComponent
         if ( paneState is not null && targetZone is not null )
         {
             DockNodeState sourceTabsNode = moveGroup ? treeQuery.FindTabsNode( paneName ) : null;
+
             IReadOnlyList<string> movedPaneNames = sourceTabsNode?.Panes.Count > 1
                 ? sourceTabsNode.Panes.ToArray()
                 : new[] { paneName };
+
             targetName = ResolveDropTargetName( paneName, targetName, targetNodeId, moveGroup );
 
             if ( !movedPaneNames.Contains( targetName ) && TryGetPane( targetName, out DockPane targetPane ) && !targetPane.AcceptPaneDrops )
@@ -670,7 +673,11 @@ public partial class DockLayout : BaseComponent
             }
 
             DockPaneState targetState = FindPaneState( targetName );
-            bool targetExists = !string.IsNullOrWhiteSpace( targetName ) && !movedPaneNames.Contains( targetName ) && DockLayoutTreeQuery.ContainsPane( CurrentState.Root, targetName );
+
+            bool targetExists = !string.IsNullOrWhiteSpace( targetName )
+                && !movedPaneNames.Contains( targetName )
+                && DockLayoutTreeQuery.ContainsPane( CurrentState.Root, targetName );
+
             bool mergeWithTargetTabs = targetExists && targetZone.Value == DockZone.Center;
             DockPanePosition? targetPosition = treeMutator.GetDropPanePosition( targetState, targetZone.Value, mergeWithTargetTabs );
 
@@ -767,15 +774,19 @@ public partial class DockLayout : BaseComponent
     private DockPaneRestoreState CapturePaneRestorePlacement( DockPaneState paneState )
     {
         DockNodeState tabsNode = treeQuery.FindTabsNode( paneState.Name );
+
         DockPaneRestoreReference relatedTabRestore = tabsNode is null
             ? FindRestoreReferenceBySourceTabPaneName( paneState.Name )
             : null;
+
         DockPaneRestoreReference relatedSplitRestore = tabsNode is null && relatedTabRestore is null
             ? FindRestoreReferenceBySourceTargetPaneName( paneState.Name )
             : null;
+
         DockPaneRestoreReference relatedRestore = relatedTabRestore ?? relatedSplitRestore;
         bool relatedToHiddenSplitTarget = relatedSplitRestore is not null;
         DockLayoutTreeQuery.DockNodePlacement sourcePlacement = treeQuery.FindPanePlacement( paneState.Name );
+
         DockLayoutTreeQuery.DockNodePlacement sourceGroupPlacement = sourcePlacement?.Parent is null
             ? null
             : treeQuery.FindDockNodePlacement( sourcePlacement.Parent );

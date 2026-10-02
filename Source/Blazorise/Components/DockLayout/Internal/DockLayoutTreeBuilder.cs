@@ -41,6 +41,7 @@ internal sealed class DockLayoutTreeBuilder
         DockNodeState center = BuildSimpleDockNode( state, DockPanePosition.Center )
             ?? CloneNode( registry.RootCollector.Nodes.FirstOrDefault( x => x.Kind == DockNodeKind.Content ) )
             ?? new() { Kind = DockNodeKind.Content };
+
         DockNodeState left = BuildSimpleDockNode( state, DockPanePosition.Left );
         DockNodeState right = BuildSimpleDockNode( state, DockPanePosition.Right );
         DockNodeState top = BuildSimpleDockNode( state, DockPanePosition.Top );

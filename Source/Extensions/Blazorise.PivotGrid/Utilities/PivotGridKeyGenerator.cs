@@ -116,6 +116,7 @@ internal static class PivotGridKeyGenerator
 
         Type valueType = value.GetType();
         string typeName = valueType.AssemblyQualifiedName ?? valueType.FullName ?? valueType.Name;
+
         string text = value is IFormattable formattable
             ? formattable.ToString( null, CultureInfo.InvariantCulture )
             : value.ToString() ?? string.Empty;

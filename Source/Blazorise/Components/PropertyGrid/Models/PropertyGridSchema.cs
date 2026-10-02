@@ -36,6 +36,7 @@ public sealed class PropertyGridSchema
     public PropertyGridSchema( IReadOnlyList<PropertyGridGroupDefinition> groups )
     {
         Groups = groups?.ToArray() ?? [];
+
         categorizedGroups = Groups
             .Where( group => group.Visible )
             .ToArray();

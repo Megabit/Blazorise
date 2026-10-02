@@ -59,6 +59,7 @@ internal sealed class ReportContextMenuService
         state.ElementCollisionWarnings = element.ShowCollisionWarnings;
         state.CanOrderSelectedElements = state.SelectedElementCount > 0;
         state.CanAlignOrSizeSelectedElements = state.SelectedElementCount >= ReportDesignerConstants.MinimumBatchElementCount;
+
         state.CanInsertAggregate = sectionIndex >= 0
             && sectionIndex < definition.Bands.Count
             && definition.Bands[sectionIndex].Type == ReportBandType.Detail

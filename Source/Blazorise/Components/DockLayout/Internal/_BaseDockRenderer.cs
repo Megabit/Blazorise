@@ -18,13 +18,28 @@ public abstract class _BaseDockRenderer : BaseComponent, IDisposable
         base.OnInitialized();
 
         if ( Context is not null )
+        {
             Context.Changed += OnContextChanged;
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing && Context is not null )
+        {
+            Context.Changed -= OnContextChanged;
+        }
+
+        base.Dispose( disposing );
     }
 
     private void OnContextChanged( DockLayoutChange change )
     {
         if ( !IsAffected( change ) )
+        {
             return;
+        }
 
         OnDockLayoutChanged( change );
         StateHasChanged();
@@ -38,15 +53,8 @@ public abstract class _BaseDockRenderer : BaseComponent, IDisposable
     /// <summary>
     /// Updates component state before rendering a dock layout change.
     /// </summary>
-    private protected abstract void OnDockLayoutChanged( DockLayoutChange change );
-
-    /// <inheritdoc/>
-    protected override void Dispose( bool disposing )
+    private protected virtual void OnDockLayoutChanged( DockLayoutChange change )
     {
-        if ( disposing && Context is not null )
-            Context.Changed -= OnContextChanged;
-
-        base.Dispose( disposing );
     }
 
     #endregion

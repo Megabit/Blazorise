@@ -190,6 +190,7 @@ internal sealed class SvgChartModelBuilder<TItem>
                 var name = string.IsNullOrWhiteSpace( dataSeries.Name ) ? $"Series {i + 1}" : dataSeries.Name;
                 var values = dataSeries.Values?.ToList() ?? [];
                 var yValues = dataSeries.YValues?.Count > 0 ? dataSeries.YValues.ToList() : values.ToList();
+
                 var xValues = dataSeries.XValues?.Count > 0
                     ? dataSeries.XValues.ToList()
                     : ( categoryXValues?.Count > 0
@@ -227,13 +228,16 @@ internal sealed class SvgChartModelBuilder<TItem>
         {
             var child = childSeries[i];
             var name = string.IsNullOrWhiteSpace( child.Name ) ? $"Series {series.Count + 1}" : child.Name;
+
             var values = child.Values?.ToList()
                 ?? ( child.Value is null ? [] : items.Select( child.Value ).ToList() );
+
             var xValues = child.XValue is null
                 ? ( categoryXValues?.Count > 0
                     ? NormalizeValues( categoryXValues.ToList(), values.Count )
                     : Enumerable.Range( 0, values.Count ).Select( x => (double?)x ).ToList() )
                 : items.Select( child.XValue ).ToList();
+
             var yValues = child.YValue is null ? values.ToList() : items.Select( child.YValue ).ToList();
             var radiusValues = child.RadiusValue is null ? [] : items.Select( child.RadiusValue ).ToList();
             SvgChartLineOutlineOptions lineOutline = ( child as SvgLineSeries<TItem> )?.Outline;
@@ -409,6 +413,7 @@ internal sealed class SvgChartModelBuilder<TItem>
     private HashSet<string> ResolveStackedValueAxisIds( List<SvgChartRenderSeries> series )
     {
         var valueAxisOptions = ResolveOptions().YAxis ?? new();
+
         var axes = valueAxisComponents.Count == 0
             ? new List<SvgChartAxisOptions> { CreateValueAxisOptions( valueAxisOptions ) }
             : valueAxisComponents.Select( axis => axis.ResolveOptions( valueAxisOptions ) ).ToList();
@@ -539,6 +544,7 @@ internal sealed class SvgChartModelBuilder<TItem>
             return null;
 
         var timeZone = ResolveTimeZone( timeAxis.TimeZone );
+
         List<double> values = visibleSeries
             .SelectMany( GetPlottedXValues )
             .ToList();
@@ -664,6 +670,7 @@ internal sealed class SvgChartModelBuilder<TItem>
     private static int ResolveTimeStep( SvgChartTimeUnit unit, TimeSpan range, int tickCount )
     {
         var intervals = Math.Max( 1, tickCount - 1 );
+
         var rawStep = unit switch
         {
             SvgChartTimeUnit.Millisecond => range.TotalMilliseconds / intervals,
@@ -855,9 +862,11 @@ internal sealed class SvgChartModelBuilder<TItem>
     private List<SvgChartRenderValueAxis> ResolveValueAxes( SvgChartOptions options, List<SvgChartRenderSeries> series, SvgChartZoomOptions zoom, SvgChartViewport viewport )
     {
         var valueAxisOptions = options.YAxis ?? new();
+
         var axes = valueAxisComponents.Count == 0
             ? new List<SvgChartAxisOptions> { CreateValueAxisOptions( valueAxisOptions ) }
             : valueAxisComponents.Select( axis => axis.ResolveOptions( valueAxisOptions ) ).ToList();
+
         var referencedAxisIds = series.Select( x => x.ValueAxisId )
             .Where( x => !string.IsNullOrWhiteSpace( x ) )
             .Distinct( StringComparer.Ordinal )
@@ -882,6 +891,7 @@ internal sealed class SvgChartModelBuilder<TItem>
                 .Where( x => x.HasValue )
                 .Select( x => x.Value )
                 .ToList();
+
             var scale = BuildScale( values, ApplyValueAxisViewport( axis, zoom, viewport, series.Any( x => x.Type == SvgChartType.Bar ) ) );
 
             return new SvgChartRenderValueAxis

@@ -188,6 +188,7 @@ internal sealed class ReportAggregateService
         string dataSourceName = section.DataSource;
         object dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, data, dataSourceName );
         var fields = ReportDataSourceExplorer.ResolveDataSourceFields( dataSourceValue ).ToList();
+
         var fieldOptions = FlattenFieldOptions( sectionIndex, dataSourceName, fields )
             .OrderBy( field => field.DisplayName )
             .ToList();

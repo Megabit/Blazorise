@@ -299,6 +299,7 @@ internal sealed class SvgChartSeriesRendererContext
 
         var canDragX = series.Type is ( SvgChartType.Bar or SvgChartType.Scatter or SvgChartType.Bubble )
             && DataDrag.Mode is SvgChartDataDragMode.X or SvgChartDataDragMode.XY;
+
         var canDragY = series.Type is ( SvgChartType.Column or SvgChartType.Line or SvgChartType.Area
             or SvgChartType.Pie or SvgChartType.Doughnut or SvgChartType.PolarArea or SvgChartType.Radar
             or SvgChartType.Scatter or SvgChartType.Bubble )
@@ -396,9 +397,11 @@ internal sealed class SvgChartSeriesRendererContext
     public SvgChartSeriesProjectionState GetProjectionState( SvgChartPluginSeries series, bool useValueCategoryProjection )
     {
         var chart = Chart;
+
         var categoryStart = useValueCategoryProjection || chart.ContinuousCategoryAxis
             ? chart.ProjectX( 0, series.CategoryAxisId )
             : chart.ProjectCategory( 0, series.CategoryAxisId );
+
         var categoryEnd = useValueCategoryProjection || chart.ContinuousCategoryAxis
             ? chart.ProjectX( 1, series.CategoryAxisId )
             : chart.ProjectCategory( 1, series.CategoryAxisId );

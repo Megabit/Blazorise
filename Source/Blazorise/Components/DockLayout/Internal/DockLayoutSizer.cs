@@ -19,8 +19,6 @@ internal sealed class DockLayoutSizer
 
     private const string DefaultMinimumPaneSize = "2rem";
 
-    private const string SplitGapSize = "var(--dock-split-gap, 0px)";
-
     private const string FlexibleFillTrack = "minmax(0,1fr)";
 
     private readonly DockLayoutRegistry registry;
@@ -31,16 +29,19 @@ internal sealed class DockLayoutSizer
 
     private readonly Func<DockLayoutState> getState;
 
+    private readonly Func<string, string> getVariableName;
+
     #endregion
 
     #region Constructors
 
-    public DockLayoutSizer( DockLayoutRegistry registry, DockLayoutStateManager stateManager, DockLayoutTreeQuery query, Func<DockLayoutState> getState )
+    public DockLayoutSizer( DockLayoutRegistry registry, DockLayoutStateManager stateManager, DockLayoutTreeQuery query, Func<DockLayoutState> getState, Func<string, string> getVariableName = null )
     {
         this.registry = registry;
         this.stateManager = stateManager;
         this.query = query;
         this.getState = getState;
+        this.getVariableName = getVariableName ?? ( name => $"--dock-{name}" );
     }
 
     #endregion
@@ -50,16 +51,20 @@ internal sealed class DockLayoutSizer
     public string GetDockSplitStyle( DockNodeState node )
     {
         if ( node is null || node.Kind != DockNodeKind.Split )
+        {
             return null;
+        }
 
-        string firstFixedTrack = node.UseRatio ? null : GetDockNodeTrackSize( node.First, node.Orientation );
-        string secondFixedTrack = node.UseRatio ? null : GetDockNodeTrackSize( node.Second, node.Orientation );
-        string firstTrack = firstFixedTrack ?? ( secondFixedTrack is not null ? FlexibleFillTrack : GetFlexibleSplitTrack( node.Ratio ) );
-        string secondTrack = secondFixedTrack ?? ( firstFixedTrack is not null ? FlexibleFillTrack : GetFlexibleSplitTrack( 1d - node.Ratio ) );
+        var firstFixedTrack = node.UseRatio ? null : GetDockNodeTrackSize( node.First, node.Orientation );
+        var secondFixedTrack = node.UseRatio ? null : GetDockNodeTrackSize( node.Second, node.Orientation );
+        var firstTrack = firstFixedTrack ?? ( secondFixedTrack is not null ? FlexibleFillTrack : GetFlexibleSplitTrack( node.Ratio ) );
+        var secondTrack = secondFixedTrack ?? ( firstFixedTrack is not null ? FlexibleFillTrack : GetFlexibleSplitTrack( 1d - node.Ratio ) );
 
-        return node.Orientation == Orientation.Vertical
-            ? $"--dock-split-start-size:{firstTrack};--dock-split-end-size:{secondTrack};grid-template-rows:var(--dock-split-start-size) var(--dock-split-end-size);"
-            : $"--dock-split-start-size:{firstTrack};--dock-split-end-size:{secondTrack};grid-template-columns:var(--dock-split-start-size) var(--dock-split-end-size);";
+        var startVariable = getVariableName( "split-start-size" );
+        var endVariable = getVariableName( "split-end-size" );
+        var gridProperty = node.Orientation == Orientation.Vertical ? "grid-template-rows" : "grid-template-columns";
+
+        return $"{startVariable}:{firstTrack};{endVariable}:{secondTrack};{gridProperty}:var({startVariable}) var({endVariable});";
     }
 
     public string GetDockGroupSize( DockLayoutState state, IEnumerable<string> paneNames )
@@ -78,13 +83,17 @@ internal sealed class DockLayoutSizer
     public string GetDockNodeMinimumSize( DockNodeState node, Orientation resizeOrientation )
     {
         if ( node?.Kind != DockNodeKind.Split )
+        {
             return GetDockPaneMinimumSize( node, resizeOrientation );
+        }
 
-        string firstMinimum = GetDockChildMinimumSize( node, node.First, resizeOrientation );
-        string secondMinimum = GetDockChildMinimumSize( node, node.Second, resizeOrientation );
+        var firstMinimum = GetDockChildMinimumSize( node, node.First, resizeOrientation );
+        var secondMinimum = GetDockChildMinimumSize( node, node.Second, resizeOrientation );
+
+        var splitGap = $"var({getVariableName( "split-gap" )}, 0px)";
 
         return node.Orientation == resizeOrientation
-            ? $"calc({firstMinimum} + {secondMinimum} + {SplitGapSize})"
+            ? $"calc({firstMinimum} + {secondMinimum} + {splitGap})"
             : $"max({firstMinimum}, {secondMinimum})";
     }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Localization;
-using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 using Moq;
 
@@ -13,14 +12,6 @@ internal class MockDatePicker<T> : DatePicker<T>
 {
     public MockDatePicker( Validation validation = null, Expression<Func<T>> dateExpression = null )
     {
-        var mockModuleRunner = new Mock<IJSDatePickerModule>();
-
-        mockModuleRunner
-            .Setup( r => r.Activate( It.IsAny<ElementReference>(), It.IsAny<string>(), It.IsAny<object>() ) )
-            .Callback( ( ElementReference reference, string id, object o ) => this.OnActivateDatePicker( reference, id, o ) );
-
-        JSModule = mockModuleRunner.Object;
-
         var mockLocalizerService = new Mock<ITextLocalizerService>();
         LocalizerService = mockLocalizerService.Object;
 
@@ -46,8 +37,6 @@ internal class MockDatePicker<T> : DatePicker<T>
         get { return base.CurrentValueAsString; }
     }
 
-    public string ClickedId { get; private set; }
-
     public async Task<ParseValue<T>> ParseValueAsync( string value )
     {
         return await base.ParseValueFromStringAsync( value );
@@ -56,11 +45,5 @@ internal class MockDatePicker<T> : DatePicker<T>
     public void OnChange( ChangeEventArgs e )
     {
         base.OnChangeHandler( e );
-    }
-
-    private bool OnActivateDatePicker( ElementReference elementRef, string elementId, object options )
-    {
-        this.ClickedId = elementId;
-        return true;
     }
 }

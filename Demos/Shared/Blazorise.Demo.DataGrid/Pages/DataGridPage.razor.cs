@@ -248,6 +248,7 @@ public partial class DataGridPage
         var sort = string.Equals( eventArgs.ColumnFieldName, eventArgs.FieldName, StringComparison.Ordinal )
             ? string.Empty
             : $" (SortField: {eventArgs.FieldName})";
+
         Console.WriteLine( $"Sort changed > Field: {eventArgs.ColumnFieldName}{sort}; Direction: {eventArgs.SortDirection};" );
     }
 

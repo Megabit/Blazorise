@@ -388,11 +388,13 @@ public partial class _ReportDesignerFormulaDialog
         title = string.IsNullOrWhiteSpace( InitialPropertyName )
             ? Localize( "Edit formula" )
             : Localize( "Edit {0} formula", InitialPropertyName );
+
         formula = InitialValue;
         selectedFieldExpression = null;
         selectedHelpItem = null;
         selectedHelpDescription = null;
         formulaFieldCompletionItems = CreateFormulaFieldCompletionItems();
+
         formulaCompletionProvider = new()
         {
             Language = FormulaLanguageId,
@@ -400,6 +402,7 @@ public partial class _ReportDesignerFormulaDialog
             Items = CreateFormulaSyntaxCompletionItems(),
             ItemsProvider = ProvideFormulaCompletionItems,
         };
+
         ClearValidation();
         formulaDiagnostics = [];
     }

@@ -274,12 +274,6 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     }
 
     /// <inheritdoc/>
-    protected override Task OnBeforeSetParametersAsync( ParameterView parameters )
-    {
-        return base.OnBeforeSetParametersAsync( parameters );
-    }
-
-    /// <inheritdoc/>
     protected override async Task OnAfterSetParametersAsync( ParameterView parameters )
     {
         await base.OnAfterSetParametersAsync( parameters );
@@ -289,10 +283,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             || ( paramSelectionMode.Defined && paramSelectionMode.Changed )
             || ( paramInputMode.Defined && paramInputMode.Changed )
             || ( paramRangeSeparator.Defined && paramRangeSeparator.Changed );
+
         bool navigationDefaultsChanged = ( paramMin.Defined && paramMin.Changed )
             || ( paramMax.Defined && paramMax.Changed )
             || ( paramDefaultHour.Defined && paramDefaultHour.Changed )
             || ( paramDefaultMinute.Defined && paramDefaultMinute.Changed );
+
         bool resetEmptyNavigation = navigationDefaultsChanged && GetSelectedDates().Count == 0;
 
         if ( !stateInitialized || paramValue.Changed || formatChanged || resetEmptyNavigation )
@@ -1000,6 +996,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         }
 
         string delimiter = SelectionMode == DateInputSelectionMode.Multiple ? MULTIPLE_DELIMITER : CurrentRangeSeparator;
+
         string normalizedValue = string.Join(
             delimiter,
             dates.Select( date => date.ToString( DateFormat, CultureInfo.InvariantCulture ) ) );
@@ -1020,6 +1017,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         DateTime date = ApplyCurrentTime( InputMode == DateInputMode.Week
             ? WeekDateFormat.GetWeekStart( selectedDate )
             : selectedDate );
+
         focusedDate = date;
         visibleMonth = new DateTime( selectedDate.Year, selectedDate.Month, 1 );
 
@@ -1338,6 +1336,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
                         visibleMonth.Year,
                         visibleMonth.Month,
                         DateTime.DaysInMonth( visibleMonth.Year, visibleMonth.Month ) );
+
                     focusedDate = WeekDateFormat.GetWeekStart( monthEnd );
                     NotifyCalendarStateChanged();
                 }
@@ -1441,9 +1440,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     private void MoveFocusToWeekBoundary( bool beginning )
     {
         int offset = ( 7 + (int)focusedDate.DayOfWeek - (int)CalendarFirstDayOfWeek ) % 7;
+
         focusedDate = beginning
             ? focusedDate.AddDays( -offset )
             : focusedDate.AddDays( 6 - offset );
+
         visibleMonth = new DateTime( focusedDate.Year, focusedDate.Month, 1 );
         NotifyCalendarStateChanged();
     }
@@ -1974,14 +1975,6 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// Gets only the active provider's DatePicker container classes.
     /// </summary>
     protected string ProviderPickerContainerClassNames => CalendarContext.ContainerClassNames;
-
-    /// <summary>
-    /// Gets or sets the legacy DatePicker JavaScript module.
-    /// </summary>
-    /// <remarks>
-    /// Retained for source compatibility. The native DatePicker implementation does not use this module.
-    /// </remarks>
-    [Inject] public IJSDatePickerModule JSModule { get; set; }
 
     /// <summary>
     /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.

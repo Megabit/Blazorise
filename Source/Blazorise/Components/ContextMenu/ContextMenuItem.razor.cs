@@ -15,11 +15,31 @@ public partial class ContextMenuItem : BaseComponent
 {
     #region Members
 
+    private readonly ClassBuilder contentClassBuilder;
+
+    private readonly ClassBuilder checkClassBuilder;
+
+    private readonly ClassBuilder shortcutClassBuilder;
+
     private bool active;
 
     private bool disabled;
 
     private bool @checked;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Creates a new <see cref="ContextMenuItem"/> component.
+    /// </summary>
+    public ContextMenuItem()
+    {
+        contentClassBuilder = new( BuildContentClasses );
+        checkClassBuilder = new( BuildCheckClasses );
+        shortcutClassBuilder = new( BuildShortcutClasses );
+    }
 
     #endregion
 
@@ -29,7 +49,9 @@ public partial class ContextMenuItem : BaseComponent
     public override Task SetParametersAsync( ParameterView parameters )
     {
         if ( parameters.TryGetValue<bool>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( @checked ) )
+        {
             @checked = paramChecked;
+        }
 
         return base.SetParametersAsync( parameters );
     }
@@ -44,14 +66,41 @@ public partial class ContextMenuItem : BaseComponent
         base.BuildClasses( builder );
     }
 
+    private void BuildContentClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.ContextMenuItemContent() );
+    }
+
+    private void BuildCheckClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.ContextMenuItemCheck() );
+    }
+
+    private void BuildShortcutClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.ContextMenuItemShortcut() );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        contentClassBuilder.Dirty();
+        checkClassBuilder.Dirty();
+        shortcutClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
     /// <summary>
     /// Handles the onclick event, if not disabled.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    protected async Task ClickHandler()
+    protected async Task OnClickHandler()
     {
         if ( Disabled )
+        {
             return;
+        }
 
         if ( ParentGroup?.CheckMode == ContextMenuCheckMode.Radio )
         {
@@ -59,13 +108,15 @@ public partial class ContextMenuItem : BaseComponent
         }
         else if ( ShowCheckbox )
         {
-            await CheckedChangedHandler( !@checked );
+            await OnCheckedChangedHandler( !@checked );
         }
 
         await Clicked.InvokeAsync( Value );
 
         if ( ParentContextMenu?.EffectiveCloseOnClick == true && !EffectiveShowCheckbox )
+        {
             await ParentContextMenu.Hide();
+        }
     }
 
     /// <summary>
@@ -73,15 +124,27 @@ public partial class ContextMenuItem : BaseComponent
     /// </summary>
     /// <param name="isChecked">The new checked state.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    protected async Task CheckedChangedHandler( bool isChecked )
+    protected async Task OnCheckedChangedHandler( bool isChecked )
     {
         if ( Disabled )
+        {
             return;
+        }
 
         @checked = isChecked;
 
         await CheckedChanged.InvokeAsync( isChecked );
     }
+
+    /// <summary>
+    /// Handles a click using the legacy entry point.
+    /// </summary>
+    protected Task ClickHandler() => OnClickHandler();
+
+    /// <summary>
+    /// Handles a checked state change using the legacy entry point.
+    /// </summary>
+    protected Task CheckedChangedHandler( bool isChecked ) => OnCheckedChangedHandler( isChecked );
 
     #endregion
 
@@ -101,11 +164,11 @@ public partial class ContextMenuItem : BaseComponent
 
     private string AriaChecked => EffectiveShowCheckbox ? ( IsChecked ? "true" : "false" ) : null;
 
-    private string ContentClassNames => ClassProvider.ContextMenuItemContent();
+    private string ContentClassNames => contentClassBuilder.Class;
 
-    private string CheckClassNames => ClassProvider.ContextMenuItemCheck();
+    private string CheckClassNames => checkClassBuilder.Class;
 
-    private string ShortcutClassNames => ClassProvider.ContextMenuItemShortcut();
+    private string ShortcutClassNames => shortcutClassBuilder.Class;
 
     /// <summary>
     /// Provides the reference to the parent <see cref="ContextMenu"/> component.
@@ -142,7 +205,9 @@ public partial class ContextMenuItem : BaseComponent
         set
         {
             if ( active == value )
+            {
                 return;
+            }
 
             active = value;
             DirtyClasses();
@@ -159,7 +224,9 @@ public partial class ContextMenuItem : BaseComponent
         set
         {
             if ( disabled == value )
+            {
                 return;
+            }
 
             disabled = value;
             DirtyClasses();

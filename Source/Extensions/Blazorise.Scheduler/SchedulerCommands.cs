@@ -20,6 +20,7 @@ public class SchedulerCommands<TItem> : ComponentBase, IAsyncDisposable
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         Scheduler<TItem> previousScheduler = Scheduler;
+
         bool commandsChanged = parameters.IsParameterChanged( DeleteCommandAllowed )
             || parameters.IsParameterChanged( SaveCommandAllowed )
             || parameters.IsParameterChanged( CancelCommandAllowed )

@@ -130,6 +130,7 @@ internal static class SvgChartTextRenderer
         var fontSize = font.Size ?? 12;
         var x = ResolveTextX( options, text, start, end, fontSize );
         var y = ResolveTextY( options, text, top, bottom, fontSize );
+
         var transform = text.Position is SvgChartTextPosition.Start or SvgChartTextPosition.End
             ? $"rotate(-90 {SvgChartRenderHelpers.Format( x )} {SvgChartRenderHelpers.Format( y )})"
             : null;
@@ -244,6 +245,7 @@ internal static class SvgChartTextRenderer
             return fallback;
 
         var fontSize = ResolveFontSize( options, model.CategoryAxis?.Labels?.Font );
+
         var maxLabelWidth = model.Labels
             .Select( ( label, index ) => FormatCategoryLabel( model, label, index ) )
             .DefaultIfEmpty( string.Empty )
@@ -271,6 +273,7 @@ internal static class SvgChartTextRenderer
             return fallback;
 
         var fontSize = ResolveFontSize( options, labels?.Font );
+
         var maxLabelWidth = model.Labels
             .Select( ( label, index ) => FormatCategoryLabel( model, label, index ) )
             .DefaultIfEmpty( string.Empty )

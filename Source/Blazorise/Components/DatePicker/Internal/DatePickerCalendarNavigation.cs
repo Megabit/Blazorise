@@ -103,6 +103,7 @@ internal sealed class DatePickerCalendarNavigation
         {
             int year = (int)candidateYear;
             int decadeStart = DatePickerCalendarBuilder.GetDecadeStart( year );
+
             bool disabled = View == DatePickerCalendarView.Year
                 ? isYearDisabled( year )
                 : isPeriodDisabled( decadeStart, Math.Min( decadeStart + 9, DateTime.MaxValue.Year ) );

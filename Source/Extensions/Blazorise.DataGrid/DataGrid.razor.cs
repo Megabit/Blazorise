@@ -201,11 +201,34 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private readonly List<DataGridExpandItemInfo<TItem>> selfReferenceViewInfos = new();
 
+    /// <summary>
+    /// Builds and caches the grid's CSS classes.
+    /// </summary>
     private ClassBuilder classBuilder;
+
+    /// <summary>
+    /// Builds and caches the grid's inline styles.
+    /// </summary>
     private StyleBuilder styleBuilder;
+
+    /// <summary>
+    /// Backing field for the <see cref="Class"/> parameter.
+    /// </summary>
     private string classValue;
+
+    /// <summary>
+    /// Backing field for the <see cref="Style"/> parameter.
+    /// </summary>
     private string styleValue;
+
+    /// <summary>
+    /// Backing field for the <see cref="Classes"/> parameter.
+    /// </summary>
     private DataGridClasses classesValue;
+
+    /// <summary>
+    /// Backing field for the <see cref="Styles"/> parameter.
+    /// </summary>
     private DataGridStyles stylesValue;
 
     #endregion
@@ -1137,6 +1160,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                                                                           .Select( x => new GroupContext<TItem>( x, nextGroupableColumn.GroupTemplate ) )
                                                                           .OrderBy( x => x.Key )
                                                                           .ToList();
+
                 group.SetNestedGroup( nestedGroup );
 
                 RecursiveGroup( iteration + 1, (List<GroupContext<TItem>>)oldGroup?.NestedGroup, nestedGroup );
@@ -1759,6 +1783,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return;
 
         var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
+
         var editedCellValues = EditableColumns
             .Where( x => !string.IsNullOrEmpty( x.Field ) )
             .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
@@ -2265,7 +2290,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <param name="item">Row item.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task ExpandRow( TItem item )
-        => ExpandRowInternal( item, refresh: true, notifyEvents: true );
+        => ExpandRowInternal( item, refresh: true );
 
     /// <summary>
     /// Collapses a row.
@@ -2273,7 +2298,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <param name="item">Row item.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task CollapseRow( TItem item )
-        => CollapseRowInternal( item, refresh: true, notifyEvents: true );
+        => CollapseRowInternal( item );
 
     /// <summary>
     /// Toggles a row.
@@ -2286,9 +2311,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return;
 
         if ( IsSelfReferenceRowExpanded( item ) )
-            await CollapseRowInternal( item, refresh: true, notifyEvents: true );
+        {
+            await CollapseRowInternal( item );
+        }
         else
-            await ExpandRowInternal( item, refresh: true, notifyEvents: true );
+        {
+            await ExpandRowInternal( item, refresh: true );
+        }
     }
 
     /// <summary>
@@ -2305,7 +2334,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         var changed = false;
 
-        foreach ( var rootItem in GetSelfReferenceRootViewData() )
+        foreach ( var rootItem in GetRootViewData().ToList() )
         {
             changed |= await ExpandAllRowsInternal( rootItem, CancellationToken.None, new List<TItem>() );
         }
@@ -3375,24 +3404,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( dirtyFilter )
             FilterData();
 
-        IEnumerable<TItem> sourceData;
-
-        // only use pagination if the custom data loading is not used
-        if ( !ManualReadMode && !Virtualize )
-        {
-            var skipElements = ( Page - 1 ) * PageSize;
-            if ( skipElements > filteredData.Count )
-            {
-                Page = paginationContext.LastPage;
-                skipElements = ( Page - 1 ) * PageSize;
-            }
-
-            sourceData = filteredData.Skip( skipElements ).Take( PageSize );
-        }
-        else
-        {
-            sourceData = filteredData;
-        }
+        var sourceData = GetRootViewData();
 
         if ( !IsSelfReferenceEnabled )
         {
@@ -3547,7 +3559,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         try
         {
-            var changed = await ExpandRowInternal( item, refresh: false, notifyEvents: true, notifyExpandedRowsChanged: false, cancellationToken );
+            var changed = await ExpandRowInternal( item, refresh: false, notifyExpandedRowsChanged: false, cancellationToken );
             var state = GetSelfReferenceNodeState( item, false );
 
             if ( state is null || !state.ChildrenLoaded || state.Children.IsNullOrEmpty() )
@@ -3566,94 +3578,96 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
-    private async Task<bool> ExpandRowInternal( TItem item, bool refresh, bool notifyEvents, bool notifyExpandedRowsChanged = true, CancellationToken cancellationToken = default )
+    private async Task<bool> ExpandRowInternal( TItem item, bool refresh, bool notifyExpandedRowsChanged = true, CancellationToken cancellationToken = default )
     {
         if ( !IsSelfReferenceEnabled )
+        {
             return false;
+        }
 
         var rowState = GetSelfReferenceNodeState( item );
 
         if ( !ResolveSelfReferenceRowExpandable( item, rowState ) )
+        {
             return false;
+        }
 
         await EnsureSelfReferenceChildrenLoaded( item, rowState, cancellationToken );
 
         if ( !rowState.Expandable || rowState.Expanded )
+        {
             return false;
-
-        var changed = false;
+        }
 
         if ( ExpandMode == DataGridExpandMode.Single )
         {
             foreach ( var expandedState in selfReferenceNodeStates.Where( x => x.Expanded && !x.Item.IsEqual( item ) ).ToList() )
             {
                 expandedState.Expanded = false;
-                changed = true;
 
-                if ( notifyEvents )
-                    await RowCollapsed.InvokeAsync( new DataGridExpandRowEventArgs<TItem>( expandedState.Item ) );
+                await RowCollapsed.InvokeAsync( new DataGridExpandRowEventArgs<TItem>( expandedState.Item ) );
             }
         }
 
         rowState.Expanded = true;
-        changed = true;
 
-        if ( notifyEvents )
-            await RowExpanded.InvokeAsync( new DataGridExpandRowEventArgs<TItem>( item ) );
+        await RowExpanded.InvokeAsync( new DataGridExpandRowEventArgs<TItem>( item ) );
 
-        if ( changed )
+        if ( notifyExpandedRowsChanged )
         {
-            if ( notifyExpandedRowsChanged )
-                await NotifyExpandedRowsChanged();
-
-            SetDirty();
-
-            if ( refresh )
-                await Refresh();
+            await NotifyExpandedRowsChanged();
         }
 
-        return changed;
-    }
-
-    private async Task<bool> CollapseRowInternal( TItem item, bool refresh, bool notifyEvents )
-    {
-        if ( !IsSelfReferenceEnabled )
-            return false;
-
-        var rowState = GetSelfReferenceNodeState( item, false );
-
-        if ( rowState is null || !rowState.Expanded )
-            return false;
-
-        rowState.Expanded = false;
-
-        if ( notifyEvents )
-            await RowCollapsed.InvokeAsync( new DataGridExpandRowEventArgs<TItem>( item ) );
-
-        await NotifyExpandedRowsChanged();
         SetDirty();
 
         if ( refresh )
+        {
             await Refresh();
+        }
 
         return true;
     }
 
-    private IEnumerable<TItem> GetSelfReferenceRootViewData()
+    private async Task CollapseRowInternal( TItem item )
     {
-        if ( !ManualReadMode && !Virtualize )
+        if ( !IsSelfReferenceEnabled )
         {
-            var skipElements = ( Page - 1 ) * PageSize;
-            if ( skipElements > filteredData.Count )
-            {
-                Page = paginationContext.LastPage;
-                skipElements = ( Page - 1 ) * PageSize;
-            }
-
-            return filteredData.Skip( skipElements ).Take( PageSize ).ToList();
+            return;
         }
 
-        return filteredData.ToList();
+        var rowState = GetSelfReferenceNodeState( item, false );
+
+        if ( rowState is null || !rowState.Expanded )
+        {
+            return;
+        }
+
+        rowState.Expanded = false;
+
+        await RowCollapsed.InvokeAsync( new DataGridExpandRowEventArgs<TItem>( item ) );
+        await NotifyExpandedRowsChanged();
+
+        SetDirty();
+
+        await Refresh();
+    }
+
+    private IEnumerable<TItem> GetRootViewData()
+    {
+        if ( ManualReadMode || Virtualize )
+        {
+            return filteredData;
+        }
+
+        var skipElements = ( Page - 1 ) * PageSize;
+
+        if ( skipElements > filteredData.Count )
+        {
+            Page = paginationContext.LastPage;
+            skipElements = ( Page - 1 ) * PageSize;
+        }
+
+        return filteredData.Skip( skipElements ).Take( PageSize );
     }
 
     private async Task EnsureSelfReferenceChildrenLoaded( TItem item, DataGridExpandNodeState<TItem> rowState, CancellationToken cancellationToken )
@@ -3786,6 +3800,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return templateColumn;
 
         var minimumRecommendedWidth = ( SelfReferenceIndentSize * 4 * 16d ) + 16d;
+
         var preferredColumn = regularColumns.FirstOrDefault( x =>
         {
             var fixedWidth = x.Width?.FixedSize;
@@ -3889,14 +3904,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     internal bool IsExpandByRowClick
         => ExpandTrigger == DataGridExpandTrigger.RowClick
-           || ExpandTrigger == DataGridExpandTrigger.RowAndToggleClick;
+            || ExpandTrigger == DataGridExpandTrigger.RowAndToggleClick;
 
     /// <summary>
     /// Gets whether toggle icon click should toggle row expansion.
     /// </summary>
     internal bool IsExpandByToggleClick
         => ExpandTrigger == DataGridExpandTrigger.ToggleClick
-           || ExpandTrigger == DataGridExpandTrigger.RowAndToggleClick;
+            || ExpandTrigger == DataGridExpandTrigger.RowAndToggleClick;
 
     /// <summary>
     /// Gets self-reference indentation size in rem.
@@ -4244,8 +4259,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private bool IsMultiSelectAllChecked
         => ( !SelectedRows.IsNullOrEmpty() )
-           && DisplayData.Any()
-           && !DisplayData.Except( SelectedRows ).Any();
+            && DisplayData.Any()
+            && !DisplayData.Except( SelectedRows ).Any();
 
     /// <summary>
     /// Checks if the MultiSelectAll is indeterminate, meaning that only some of the current view rows are selected.

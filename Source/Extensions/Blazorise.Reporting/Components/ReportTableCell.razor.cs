@@ -16,8 +16,6 @@ public partial class ReportTableCell : ComponentBase, IDisposable
 
     private readonly ReportTableCellContext cellContext = new();
 
-    private ReportTableRowContext registeredRowContext;
-
     #endregion
 
     #region Methods
@@ -25,34 +23,40 @@ public partial class ReportTableCell : ComponentBase, IDisposable
     /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool definitionChanged = registeredRowContext is null
-            || parameters.IsParameterChanged( RowSpan )
-            || parameters.IsParameterChanged( ColumnSpan );
+        var definitionChanged = RowContext is not null
+            && ( parameters.IsParameterChanged( RowSpan ) || parameters.IsParameterChanged( ColumnSpan ) );
 
         await base.SetParametersAsync( parameters );
 
-        bool contextChanged = !ReferenceEquals( registeredRowContext, RowContext );
-
-        if ( contextChanged )
+        if ( definitionChanged )
         {
-            registeredRowContext?.UnregisterCell( this );
-            registeredRowContext = RowContext;
+            UpdateDefinition();
         }
+    }
 
-        if ( definitionChanged || contextChanged )
-        {
-            ReportTableCellDefinition definition = registeredRowContext?.RegisterCell( this, RowSpan, ColumnSpan );
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
 
-            if ( definition is not null )
-                cellContext.Attach( registeredRowContext, definition );
-        }
+        UpdateDefinition();
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        registeredRowContext?.UnregisterCell( this );
-        registeredRowContext = null;
+        RowContext?.UnregisterCell( this );
+        RowContext = null;
+    }
+
+    private void UpdateDefinition()
+    {
+        var definition = RowContext?.RegisterCell( this, RowSpan, ColumnSpan );
+
+        if ( definition is not null )
+        {
+            cellContext.Attach( RowContext, definition );
+        }
     }
 
     #endregion

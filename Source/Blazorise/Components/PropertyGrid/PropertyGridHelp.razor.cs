@@ -10,6 +10,27 @@ namespace Blazorise;
 /// </summary>
 public partial class PropertyGridHelp : BaseComponent
 {
+    #region Members
+
+    private readonly ClassBuilder titleClassBuilder;
+
+    private readonly ClassBuilder descriptionClassBuilder;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Creates a new <see cref="PropertyGridHelp"/> component.
+    /// </summary>
+    public PropertyGridHelp()
+    {
+        titleClassBuilder = new( BuildTitleClasses );
+        descriptionClassBuilder = new( BuildDescriptionClasses );
+    }
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -20,6 +41,25 @@ public partial class PropertyGridHelp : BaseComponent
         base.BuildClasses( builder );
     }
 
+    private void BuildTitleClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.PropertyGridHelpTitle() );
+    }
+
+    private void BuildDescriptionClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.PropertyGridHelpDescription() );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        titleClassBuilder.Dirty();
+        descriptionClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
     #endregion
 
     #region Properties
@@ -27,12 +67,12 @@ public partial class PropertyGridHelp : BaseComponent
     /// <summary>
     /// Gets the provider class for the help title.
     /// </summary>
-    protected string TitleClassNames => ClassProvider.PropertyGridHelpTitle();
+    protected string TitleClassNames => titleClassBuilder.Class;
 
     /// <summary>
     /// Gets the provider class for the help description.
     /// </summary>
-    protected string DescriptionClassNames => ClassProvider.PropertyGridHelpDescription();
+    protected string DescriptionClassNames => descriptionClassBuilder.Class;
 
     /// <summary>
     /// Defines the help title.

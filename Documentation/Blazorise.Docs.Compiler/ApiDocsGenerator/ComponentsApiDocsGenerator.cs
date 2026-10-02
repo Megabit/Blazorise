@@ -53,6 +53,7 @@ public class ComponentsApiDocsGenerator
         this.apiDocsOutputPath = apiDocsOutputPath;
         searchHelper = new SearchHelper();
         var aspnetCoreAssemblyName = typeof( Microsoft.AspNetCore.Components.ParameterAttribute ).Assembly.GetName().Name;
+
         aspNetCoreComponentsAssembly = AppDomain.CurrentDomain
             .GetAssemblies()
             .FirstOrDefault( a => a.GetName().Name == aspnetCoreAssemblyName );
@@ -112,6 +113,7 @@ public class ComponentsApiDocsGenerator
         string[] extensionLocations = Directory.GetDirectories( Paths.BlazoriseExtensionsRoot )
             .OrderBy( path => NormalizePathForOrdering( path ), StringComparer.Ordinal )
             .ToArray();
+
         string[] inputLocations = [Paths.BlazoriseLibRoot, .. extensionLocations];
 
         foreach ( var inputLocation in inputLocations )
@@ -128,10 +130,12 @@ public class ComponentsApiDocsGenerator
                 continue;
 
             ImmutableArray<ComponentInfo> componentInfo = [.. GetComponentsInfo( compilation, namespaceToSearch )];
+
             List<ApiDocsForComponent> componentsData = BuildComponentsData( compilation, componentInfo )
                 .OrderBy( component => component.TypeName, StringComparer.Ordinal )
                 .ThenBy( component => component.Type, StringComparer.Ordinal )
                 .ToList();
+
             allComponentsData.AddRange( componentsData );
             string sourceText = GenerateComponentsApiSource( componentsData, assemblyName );
 
@@ -183,6 +187,7 @@ public class ComponentsApiDocsGenerator
             MetadataReference.CreateFromFile( systemRuntimeAssembly.Location, documentation:systemRuntimeDocumentationProvider ), // Microsoft.AspNetCore.Components
             MetadataReference.CreateFromFile( aspNetCoreComponentsAssembly.Location, documentation:aspnetCoreDocumentationProvider ), // Microsoft.AspNetCore.Components
         ];
+
         if ( !isBlazoriseAssembly ) //get Blazorise assembly as reference (for extensions)
             references.Add( blazoriseCompilation.ToMetadataReference() );
 
@@ -195,6 +200,7 @@ public class ComponentsApiDocsGenerator
         references.ToImmutableArray(),
         new CSharpCompilationOptions( OutputKind.DynamicallyLinkedLibrary )
         );
+
         return compilation;
     }
 
@@ -688,6 +694,7 @@ public class ComponentsApiDocsGenerator
                     Name = parameter.Name,
                     TypeName = parameter.TypeName
                 };
+
                 parameters.Add( docsParameter );
             }
         }

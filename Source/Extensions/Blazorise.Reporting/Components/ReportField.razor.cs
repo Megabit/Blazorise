@@ -27,6 +27,7 @@ public partial class ReportField : BaseReportTextElement
         ReportFieldElementDefinition definition = (ReportFieldElementDefinition)base.BuildDefinition();
         definition.Field = Field;
         definition.Format = Format;
+
         definition.Aggregate = AggregateFunction is null
             ? null
             : new()

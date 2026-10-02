@@ -782,6 +782,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                         options.ShowCloseButton = true;
                         options.ShowMessageIcon = false;
                         options.BackgroundCancel = false;
+
                         options.Choices = new List<MessageOptionsChoice>
                         {
                             new MessageOptionsChoice
@@ -845,6 +846,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                         options.ShowCloseButton = true;
                         options.ShowMessageIcon = false;
                         options.BackgroundCancel = false;
+
                         options.Choices = new List<MessageOptionsChoice>
                         {
                             new MessageOptionsChoice
@@ -1055,6 +1057,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                         options.ShowCloseButton = true;
                         options.ShowMessageIcon = false;
                         options.BackgroundCancel = false;
+
                         options.Choices = new List<MessageOptionsChoice>
                         {
                             new MessageOptionsChoice

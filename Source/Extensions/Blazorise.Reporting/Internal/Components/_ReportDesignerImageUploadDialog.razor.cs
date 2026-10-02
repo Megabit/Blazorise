@@ -19,8 +19,6 @@ public partial class _ReportDesignerImageUploadDialog
 
     private const int DefaultMaxUploadImageChunkSize = 20 * 1024;
 
-    private FileInput fileInputRef;
-
     private IFileEntry selectedFile;
 
     private string previewSource;

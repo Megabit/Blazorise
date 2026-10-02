@@ -7,8 +7,7 @@
 </ModalHeader>
 <ModalBody>
     <Field>
-        <FileInput @ref="fileInputRef"
-                   Filter="@ImageAccept"
+        <FileInput Filter="@ImageAccept"
                    MaxFileSize="@EffectiveImageMaxSize"
                    MaxChunkSize="@EffectiveMaxUploadImageChunkSize"
                    SegmentFetchTimeout="@SegmentFetchTimeout"

@@ -65,16 +65,19 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
     {
         TrackClassBuilder = new( BuildTrackClasses, builder => builder.Append( Classes?.Track ) );
         RangeClassBuilder = new( BuildRangeClasses, builder => builder.Append( Classes?.Range ) );
+
         StartInputClassBuilder = new( BuildStartInputClasses, builder =>
         {
             builder.Append( Classes?.Input );
             builder.Append( Classes?.StartInput );
         } );
+
         EndInputClassBuilder = new( BuildEndInputClasses, builder =>
         {
             builder.Append( Classes?.Input );
             builder.Append( Classes?.EndInput );
         } );
+
         TooltipClassBuilder = new( BuildTooltipClasses, builder => builder.Append( Classes?.Tooltip ) );
     }
 

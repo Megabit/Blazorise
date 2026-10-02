@@ -58,6 +58,7 @@ else
     {
         apiDocsForComponent = ComponentsApiDocsSource.Instance.Components
                                                        .Where( x => string.Equals( x.Value.TypeName, PageName, StringComparison.OrdinalIgnoreCase ) ).Select( x => x.Value ).FirstOrDefault();
+
         if ( apiDocsForComponent is null )
         {
             const int maxDistance = 5;

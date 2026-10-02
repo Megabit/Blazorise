@@ -1,4 +1,6 @@
 #region Using directives
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -10,52 +12,21 @@ namespace Blazorise;
 /// </summary>
 public partial class _DockPaneRenderer : _BaseDockRenderer
 {
-    #region Members
-
-    private DockPane pane;
-
-    private DockPaneState paneState;
-
-    private DockPanePosition renderPosition;
-
-    private int version;
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
+    public override Task SetParametersAsync( ParameterView parameters )
     {
-        base.OnInitialized();
+        if ( parameters.IsParameterChanged( PaneName )
+            || parameters.IsParameterChanged( NodeId )
+            || parameters.IsParameterChanged( Flyout )
+            || parameters.IsParameterChanged( Resizable ) )
+        {
+            DirtyClasses();
+            DirtyStyles();
+        }
 
-        RefreshState();
-    }
-
-    private void RefreshState()
-    {
-
-        if ( Context is null || !Context.TryGetPane( PaneName, out pane ) )
-            pane = null;
-
-        paneState = Context?.GetPaneState( PaneName );
-        renderPosition = Pane is null
-            ? DockPanePosition.Center
-            : Flyout
-                ? GetFlyoutPosition( paneState?.Position ?? Pane.EffectivePosition )
-                : Context?.GetPanePosition( Pane ) ?? Pane.EffectivePosition;
-    }
-
-    /// <inheritdoc/>
-    private protected override bool IsAffected( DockLayoutChange change )
-        => change.Kind == DockLayoutChangeKind.Pane && change.PaneName == PaneName;
-
-    /// <inheritdoc/>
-    private protected override void OnDockLayoutChanged( DockLayoutChange change )
-    {
-        RefreshState();
-        DirtyClasses();
-        DirtyStyles();
+        return base.SetParametersAsync( parameters );
     }
 
     /// <inheritdoc/>
@@ -79,14 +50,28 @@ public partial class _DockPaneRenderer : _BaseDockRenderer
     {
         if ( Pane is not null )
         {
-            builder.Append( $"--dock-pane-size:{PaneSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
-            builder.Append( $"--dock-pane-min-size:{Pane.MinSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MinSize ) );
-            builder.Append( $"--dock-pane-max-size:{Pane.MaxSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MaxSize ) );
+            builder.Append( $"{StyleProvider.DockLayoutVariable( "pane-size" )}:{PaneSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( PaneSize ) );
+            builder.Append( $"{StyleProvider.DockLayoutVariable( "pane-min-size" )}:{Pane.MinSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MinSize ) );
+            builder.Append( $"{StyleProvider.DockLayoutVariable( "pane-max-size" )}:{Pane.MaxSize}", RenderPosition != DockPanePosition.Center && !string.IsNullOrWhiteSpace( Pane.MaxSize ) );
             builder.Append( $"width:{PaneSize}", Flyout && IsHorizontalFlyout && !string.IsNullOrWhiteSpace( PaneSize ) );
             builder.Append( $"height:{PaneSize}", Flyout && IsVerticalFlyout && !string.IsNullOrWhiteSpace( PaneSize ) );
         }
 
         base.BuildStyles( builder );
+    }
+
+    /// <inheritdoc/>
+    private protected override bool IsAffected( DockLayoutChange change )
+        => change.Kind == DockLayoutChangeKind.Tree
+            || change.Kind == DockLayoutChangeKind.Pane && change.PaneName == PaneName
+            || change.Kind == DockLayoutChangeKind.Node
+                && DockLayoutTreeQuery.FindNodeById( Context?.GetNode( change.NodeId ), NodeId ) is not null;
+
+    /// <inheritdoc/>
+    private protected override void OnDockLayoutChanged( DockLayoutChange change )
+    {
+        DirtyClasses();
+        DirtyStyles();
     }
 
     private static DockPanePosition GetFlyoutPosition( DockPanePosition position )
@@ -96,19 +81,26 @@ public partial class _DockPaneRenderer : _BaseDockRenderer
 
     #region Properties
 
-    private DockPane Pane => pane;
+    private DockPane Pane => Context?.TryGetPane( PaneName, out var pane ) == true ? pane : null;
 
-    private bool Visible => Pane is not null && paneState?.Visible != false && ( Flyout || paneState?.AutoHide != true );
+    private DockPaneState PaneState => Context?.GetPaneState( PaneName );
 
-    private bool Collapsed => paneState?.Collapsed == true;
+    private bool Visible => Pane is not null && PaneState?.Visible != false && ( Flyout || PaneState?.AutoHide != true );
 
-    private string PaneSize => paneState is not null ? paneState.Size : Pane?.Size;
+    private bool Collapsed => PaneState?.Collapsed == true;
+
+    private string PaneSize => PaneState is not null ? PaneState.Size : Pane?.Size;
 
     private bool CanResize => !Flyout && Resizable;
 
     private bool Bordered => Context?.IsDockPaneBordered( RenderPosition ) == true;
 
-    private DockPanePosition RenderPosition => renderPosition;
+    private DockPanePosition RenderPosition
+        => Pane is null
+            ? DockPanePosition.Center
+            : Flyout
+                ? GetFlyoutPosition( PaneState?.Position ?? Pane.EffectivePosition )
+                : Context?.GetPanePosition( Pane ) ?? Pane.EffectivePosition;
 
     private string AutoHideFlyoutPosition => Flyout ? RenderPosition.ToString() : null;
 
@@ -135,25 +127,6 @@ public partial class _DockPaneRenderer : _BaseDockRenderer
     /// Indicates whether the rendered pane belongs to a resizable split track.
     /// </summary>
     [Parameter] public bool Resizable { get; set; }
-
-    /// <summary>
-    /// Gets or sets the node render version.
-    /// </summary>
-    [Parameter]
-    public int Version
-    {
-        get => version;
-        set
-        {
-            if ( version == value )
-                return;
-
-            version = value;
-            RefreshState();
-            DirtyClasses();
-            DirtyStyles();
-        }
-    }
 
     #endregion
 }

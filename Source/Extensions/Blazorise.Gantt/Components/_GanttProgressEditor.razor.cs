@@ -12,7 +12,6 @@ public partial class _GanttProgressEditor : BaseComponent
 {
     #region Members
 
-    private bool rendered;
     private bool shouldRender = true;
 
     #endregion
@@ -22,12 +21,10 @@ public partial class _GanttProgressEditor : BaseComponent
     /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        var valueChanged = parameters.TryGetValue<int>( nameof( Value ), out var newValue )
-            && newValue != Value;
-        var disabledChanged = parameters.TryGetValue<bool>( nameof( Disabled ), out var newDisabled )
-            && newDisabled != Disabled;
+        var valueChanged = parameters.TryGetValue<int>( nameof( Value ), out var paramValue ) && paramValue != Value;
+        var disabledChanged = parameters.TryGetValue<bool>( nameof( Disabled ), out var paramDisabled ) && paramDisabled != Disabled;
 
-        shouldRender = !rendered || valueChanged || disabledChanged;
+        shouldRender = shouldRender || valueChanged || disabledChanged;
 
         return base.SetParametersAsync( parameters );
     }
@@ -39,11 +36,12 @@ public partial class _GanttProgressEditor : BaseComponent
     /// <inheritdoc />
     protected override Task OnAfterRenderAsync( bool firstRender )
     {
-        rendered = true;
+        shouldRender = false;
+
         return base.OnAfterRenderAsync( firstRender );
     }
 
-    private Task OnValueChanged( int value )
+    private Task OnValueChangedHandler( int value )
         => ValueChanged.InvokeAsync( value );
 
     #endregion

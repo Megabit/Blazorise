@@ -58,6 +58,7 @@ internal static class ReportFunctionCompiler
             var typedItem = Expression.Convert( item, key.ItemType );
             var memberExpression = CreateMemberExpression( typedItem, member );
             var value = Expression.Convert( memberExpression, typeof( object ) );
+
             var body = Expression.Condition(
                 Expression.Equal( item, Expression.Constant( null ) ),
                 Expression.Constant( null, typeof( object ) ),
