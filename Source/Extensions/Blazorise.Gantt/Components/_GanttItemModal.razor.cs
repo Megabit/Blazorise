@@ -342,9 +342,11 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
         if ( DurationEditable )
         {
             var mappedDuration = Gantt.PropertyMapper.GetDuration( EditItem );
+
             DurationDays = mappedDuration > 0
                 ? mappedDuration
                 : NormalizeDurationDays( CalculateDurationInDays( start, end ) );
+
             end = start.AddDays( DurationDays );
         }
         else
@@ -356,6 +358,7 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
         {
             ProgressUsesFractionScale = ResolveProgressUsesFractionScale();
             var progress = Gantt.PropertyMapper.GetProgressPercentage( EditItem );
+
             ProgressPercentage = NormalizeProgressPercentage( progress is null
                 ? 0
                 : (int)Math.Round( progress.Value, MidpointRounding.AwayFromZero ) );
@@ -696,7 +699,7 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private bool DeleteCommandVisible
         => EditItem is not null
-           && Gantt?.IsCommandAllowed( GanttCommandType.Delete, EditItem ) == true;
+            && Gantt?.IsCommandAllowed( GanttCommandType.Delete, EditItem ) == true;
 
     private bool ShowParentDetails
         => EditState == GanttEditState.New && ParentItem is not null;

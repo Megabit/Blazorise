@@ -86,6 +86,7 @@ internal sealed class ReportElementCommandService
         ReportSelectedElementContext anchor = selectedElements[0];
         List<string> selectedElementKeys = selectedElements.Select( item => item.ElementKey ).ToList();
         HashSet<int> affectedSectionIndexes = [];
+
         IEnumerable<ReportSelectedElementContext> elementsToAlign = alignment == ReportElementAlignment.ToGrid
             ? selectedElements
             : selectedElements.Skip( 1 );

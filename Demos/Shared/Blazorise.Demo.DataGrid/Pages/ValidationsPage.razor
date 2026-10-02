@@ -127,6 +127,7 @@
     {
         e.ErrorText = $"Field Active must be true";
         var value = e.Value?.ToString();
+
         e.Status = bool.TryParse( value, out bool result ) && result
                     ? ValidationStatus.Success
                     : ValidationStatus.Error;
@@ -138,6 +139,7 @@
         var validValues = new[] { "M", "F", "D" };
         e.ErrorText = $"Gender must be: {string.Join( ", ", validValues )} ";
         var value = e.Value?.ToString();
+
         e.Status = validValues.Contains( value )
                     ? ValidationStatus.Success
                     : ValidationStatus.Error;

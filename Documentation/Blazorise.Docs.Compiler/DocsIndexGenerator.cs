@@ -158,6 +158,7 @@ internal sealed class DocsIndexGenerator
         {
             string url = UnescapeCSharpString( match.Groups["url"].Value );
             string name = UnescapeCSharpString( match.Groups["name"].Value );
+
             string description = match.Groups["description"].Success
                 ? UnescapeCSharpString( match.Groups["description"].Value )
                 : null;

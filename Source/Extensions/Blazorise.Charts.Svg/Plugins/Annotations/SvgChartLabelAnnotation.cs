@@ -54,6 +54,7 @@ public class SvgChartLabelAnnotation : SvgChartPluginBase
             return;
 
         var point = SvgChartAnnotationRenderHelpers.ResolvePoint( context, X, Y, ValueAxisId );
+
         var bounds = new SvgChartPointBounds
         {
             X = point.X,

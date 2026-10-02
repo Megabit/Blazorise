@@ -33,6 +33,7 @@ internal static class ExampleSourceComposerPipeline
         if ( source.Contains( ExampleSourceComposerHelpers.CopyPasteReadyMarker, StringComparison.Ordinal ) )
         {
             ValidateCopyPasteReadySource( path, source );
+
             source = Regex.Replace(
                 source,
                 $"{Regex.Escape( ExampleSourceComposerHelpers.CopyPasteReadyMarker )}\\r?\\n",

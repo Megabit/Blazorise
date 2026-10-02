@@ -13,9 +13,11 @@ internal static class DocsApiNavigation
             return null;
 
         int genericMarkerIndex = apiName.IndexOfAny( ['<', '`'] );
+
         string normalizedName = genericMarkerIndex >= 0
             ? apiName[..genericMarkerIndex]
             : apiName;
+
         StringBuilder elementId = new( "api-" );
 
         foreach ( char character in normalizedName )

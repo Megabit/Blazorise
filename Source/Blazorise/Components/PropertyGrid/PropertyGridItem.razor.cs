@@ -1,5 +1,6 @@
 #region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -11,7 +12,42 @@ namespace Blazorise;
 /// </summary>
 public partial class PropertyGridItem : BaseComponent
 {
+    #region Members
+
+    private readonly ClassBuilder labelClassBuilder;
+
+    private readonly ClassBuilder bodyClassBuilder;
+
+    private readonly ClassBuilder selectedClassBuilder;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Creates a new <see cref="PropertyGridItem"/> component.
+    /// </summary>
+    public PropertyGridItem()
+    {
+        labelClassBuilder = new( BuildLabelClasses );
+        bodyClassBuilder = new( BuildBodyClasses );
+        selectedClassBuilder = new( BuildSelectedClasses );
+    }
+
+    #endregion
+
     #region Methods
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.IsParameterChanged( Selected ) )
+        {
+            DirtyClasses();
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -21,12 +57,40 @@ public partial class PropertyGridItem : BaseComponent
         base.BuildClasses( builder );
     }
 
-    private async Task Select()
+    private void BuildLabelClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.PropertyGridItemLabel() );
+    }
+
+    private void BuildBodyClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.PropertyGridItemBody() );
+    }
+
+    private void BuildSelectedClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.PropertyGridItemSelected( Selected ) );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        labelClassBuilder.Dirty();
+        bodyClassBuilder.Dirty();
+        selectedClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    private async Task OnSelectHandler()
     {
         if ( !Selectable || Selected )
+        {
             return;
+        }
 
         Selected = true;
+        DirtyClasses();
 
         await SelectedChanged.InvokeAsync( true );
     }
@@ -38,17 +102,17 @@ public partial class PropertyGridItem : BaseComponent
     /// <summary>
     /// Gets the provider class for the item label.
     /// </summary>
-    protected string LabelClassNames => ClassProvider.PropertyGridItemLabel();
+    protected string LabelClassNames => labelClassBuilder.Class;
 
     /// <summary>
     /// Gets the provider class for the item body.
     /// </summary>
-    protected string BodyClassNames => ClassProvider.PropertyGridItemBody();
+    protected string BodyClassNames => bodyClassBuilder.Class;
 
     /// <summary>
     /// Gets the provider class for the selected item state.
     /// </summary>
-    protected string SelectedClassNames => ClassProvider.PropertyGridItemSelected( Selected );
+    protected string SelectedClassNames => selectedClassBuilder.Class;
 
     /// <summary>
     /// Indicates whether trailing content is rendered after the property editor.

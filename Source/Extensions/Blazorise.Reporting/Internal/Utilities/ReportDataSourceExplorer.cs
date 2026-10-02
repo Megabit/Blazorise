@@ -148,6 +148,7 @@ internal static class ReportDataSourceExplorer
             return true;
 
         string normalizedFieldName = fieldName.Trim();
+
         ReportDataSourceDefinition qualifiedDataSource = definition?.DataSources?
             .Where( dataSource => !string.IsNullOrWhiteSpace( dataSource?.Name )
                 && normalizedFieldName.StartsWith( $"{dataSource.Name.Trim()}.", StringComparison.OrdinalIgnoreCase ) )
@@ -272,6 +273,7 @@ internal static class ReportDataSourceExplorer
             }
 
             string prefix = $"{dataSource.Name}.";
+
             string schemaPath = normalizedDataSourceName.StartsWith( prefix, StringComparison.OrdinalIgnoreCase )
                 ? normalizedDataSourceName[prefix.Length..]
                 : normalizedDataSourceName;
@@ -379,6 +381,7 @@ internal static class ReportDataSourceExplorer
     {
         var path = string.IsNullOrWhiteSpace( parentPath ) ? name : $"{parentPath}.{name}";
         var sampleValue = ResolveSampleItem( value );
+
         var node = new ReportDesignerFieldNode
         {
             Name = name,

@@ -197,6 +197,7 @@ internal static class ReportFormulaEvaluator
                 if ( Match( "+" ) )
                 {
                     var otherValue = ParseMultiplicative();
+
                     value = value is string || otherValue is string
                         ? $"{FormatValue( value )}{FormatValue( otherValue )}"
                         : ToDecimal( value ) + ToDecimal( otherValue );

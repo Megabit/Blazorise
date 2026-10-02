@@ -206,6 +206,7 @@ public partial class _ReportDesignerSurface
         bool resizesTable = kind == ReportTableResizeKind.Column
             ? index >= table.Columns.Count - 1
             : index >= table.Rows.Count - 1;
+
         double adjacentOriginalSize = !resizesTable
             ? kind == ReportTableResizeKind.Column
                 ? table.Columns[index + 1].Width
@@ -225,6 +226,7 @@ public partial class _ReportDesignerSurface
         designerState.ElementPointerDrag = null;
         designerState.ElementPointerResize = null;
         designerState.SectionPointerResize = null;
+
         designerState.TablePointerResize = new()
         {
             TableKey = tableKey,
@@ -279,6 +281,7 @@ public partial class _ReportDesignerSurface
         designerState.ElementPointerDrag = null;
         designerState.ElementPointerResize = null;
         designerState.TablePointerResize = null;
+
         designerState.SectionPointerResize = new()
         {
             SectionIndex = sectionIndex,
@@ -568,6 +571,7 @@ public partial class _ReportDesignerSurface
                 || Math.Abs( pointerDrag.TargetY - pointerDrag.OriginalY ) > .1 );
 
         var definition = EffectiveDefinition;
+
         var canMove = pointerDrag.SourceSectionIndex >= 0
             && pointerDrag.SourceSectionIndex < definition.Bands.Count
             && pointerDrag.TargetSectionIndex >= 0
@@ -860,8 +864,7 @@ public partial class _ReportDesignerSurface
         ReportTablePointerResizeState pointerResize = designerState.TablePointerResize;
         pointerResize.TargetSize = ResolveTablePointerResizeTargetSize( eventArgs );
 
-        bool resized = pointerResize.HasResized
-            && Math.Abs( pointerResize.TargetSize - pointerResize.OriginalSize ) > .1;
+        bool resized = pointerResize.HasResized && Math.Abs( pointerResize.TargetSize - pointerResize.OriginalSize ) > .1;
 
         if ( !resized
             || !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, pointerResize.TableKey, out _, out _, out ReportElementDefinition element )
@@ -1101,6 +1104,7 @@ public partial class _ReportDesignerSurface
             var resized = Math.Abs( pointerResize.TargetHeight - pointerResize.OriginalHeight ) > .1;
 
             var definition = EffectiveDefinition;
+
             var canResize = pointerResize.SectionIndex >= 0
                 && pointerResize.SectionIndex < definition.Bands.Count
                 && !ReportValueResolver.ResolveStaticSuppress( definition.Bands[pointerResize.SectionIndex] );
@@ -1468,9 +1472,11 @@ public partial class _ReportDesignerSurface
             return;
 
         var offset = await GetDesignerDragOffset( sectionBodyElement, eventArgs );
+
         bool useSnapToGrid = designerState.DraggedKind == ReportDesignerDragKind.Element
             ? IsSnapToGridEnabled( designerState.DraggedElement )
             : Designer.SnapToGrid;
+
         var preview = CreateDragPreview( targetSectionIndex, ApplyDesignerGrid( offset.X, useSnapToGrid ), ApplyDesignerGrid( offset.Y, useSnapToGrid ) );
 
         if ( preview is null )
@@ -1525,18 +1531,23 @@ public partial class _ReportDesignerSurface
         try
         {
             var offset = await GetDesignerDragOffset( sectionBodyElement, eventArgs );
+
             bool useSnapToGrid = designerState.DraggedKind == ReportDesignerDragKind.Element
                 ? IsSnapToGridEnabled( designerState.DraggedElement )
                 : Designer.SnapToGrid;
+
             var x = ApplyDesignerGrid( offset.X, useSnapToGrid );
             var y = ApplyDesignerGrid( offset.Y, useSnapToGrid );
+
             var tableDropTarget = tableEditor.TryFindCellAt( definition.Bands[targetSectionIndex], x, y, out ReportTableCellDropTarget cellDropTarget )
                 ? cellDropTarget
                 : null;
+
             ReportPanelDropTarget panelDropTarget = tableDropTarget is null
                 && dragDropService.TryFindPanelAt( definition.Bands[targetSectionIndex], x, y, designerState.DraggedElement, out ReportPanelDropTarget foundPanelDropTarget )
                     ? foundPanelDropTarget
                     : null;
+
             var fieldDropTarget = designerState.DraggedKind == ReportDesignerDragKind.Field
                 ? dragDropService.FindTextElementAt( definition.Bands[targetSectionIndex], x, y )
                 : null;
@@ -1553,10 +1564,12 @@ public partial class _ReportDesignerSurface
                 var definition = EffectiveDefinition;
                 var targetSection = definition.Bands[targetSectionIndex];
                 tableEditor.TryFindCellAt( targetSection, x, y, out ReportTableCellDropTarget tableCellDropTarget );
+
                 ReportPanelDropTarget panelDropTarget = tableCellDropTarget is null
                     && dragDropService.TryFindPanelAt( targetSection, x, y, designerState.DraggedElement, out ReportPanelDropTarget foundPanelDropTarget )
                         ? foundPanelDropTarget
                         : null;
+
                 ReportDropResult result = dragDropService.Drop( definition, designerState, targetSectionIndex, x, y, tableCellDropTarget, panelDropTarget, tableEditor, Designer.ElementPluginRegistry );
 
                 if ( !string.IsNullOrWhiteSpace( result.SelectedCellKey ) )

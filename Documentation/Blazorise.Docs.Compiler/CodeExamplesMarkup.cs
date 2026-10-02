@@ -21,6 +21,7 @@ public class CodeExamplesMarkup
         {
             var startedUtc = DateTime.UtcNow;
             var timestampPath = Paths.NewFilesToBuildPath();
+
             var lastCheckedUtc = File.Exists( timestampPath )
                 ? File.GetLastWriteTimeUtc( timestampPath )
                 : DateTime.MinValue;

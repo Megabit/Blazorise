@@ -131,7 +131,9 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
     {
         var isCellEdit = ParentDataGrid.IsCellEdit && column.CellEditing;
         if ( !isCellEdit )
+        {
             return;
+        }
 
         //most of the keydown operations (arrows,focus) are handled in datagrid.js 
         if ( args.Code == "Escape" )
@@ -149,16 +151,11 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
             await Save();
 
             if ( ParentDataGrid.EditState == DataGridEditState.Edit )
+            {
                 return;
+            }
 
-            if ( args.ShiftKey )
-            {
-                await HandleCellEditSelectPreviousRow( column, batchEditItem );
-            }
-            else
-            {
-                await HandleCellEditSelectNextRow( column, batchEditItem );
-            }
+            await HandleCellEditSelectRow( column, batchEditItem, args.ShiftKey ? -1 : 1 );
 
             return;
         }
@@ -172,66 +169,34 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
             await Save();
 
             if ( ParentDataGrid.EditState == DataGridEditState.Edit )
+            {
                 return;
+            }
 
-            if ( args.ShiftKey )
-            {
-                await HandleCellEditSelectPreviousColumn( column, batchEditItem );
-            }
-            else
-            {
-                await HandleCellEditSelectNextColumn( column, batchEditItem );
-            }
+            await HandleCellEditSelectColumn( column, batchEditItem, args.ShiftKey ? -1 : 1 );
         }
     }
 
-    private async Task HandleCellEditSelectNextColumn( DataGridColumn<TItem> currentColumn, DataGridBatchEditItem<TItem> batchEditItem )
+    private async Task HandleCellEditSelectColumn( DataGridColumn<TItem> currentColumn, DataGridBatchEditItem<TItem> batchEditItem, int direction )
     {
-        var currentIdx = OrderedColumnsForEditing?.Index( x => x.IsEqual( currentColumn ) ) ?? -1;
-        var nextColumn = OrderedColumnsForEditing.ElementAtOrDefault( currentIdx + 1 );
+        var columns = OrderedColumnsForEditing.ToList();
+        var currentIndex = columns.FindIndex( x => x.IsEqual( currentColumn ) );
+        var targetColumn = columns.ElementAtOrDefault( currentIndex + direction );
 
-        if ( nextColumn is not null )
+        if ( targetColumn is not null )
         {
-            await ParentDataGrid.HandleCellEdit( nextColumn, GetEditingItem( batchEditItem ) );
+            await ParentDataGrid.HandleCellEdit( targetColumn, GetEditingItem( batchEditItem ) );
+            return;
         }
-        else
+
+        var adjacentRowColumn = direction > 0 ? columns.FirstOrDefault() : columns.LastOrDefault();
+        var adjacentRow = GetVisibleRowByOffset( batchEditItem, direction );
+
+        if ( adjacentRow is not null && adjacentRowColumn is not null )
         {
-            var nextRowFirstColumn = OrderedColumnsForEditing.FirstOrDefault();
-            var nextVisibleRow = GetVisibleRowByOffset( batchEditItem, 1 );
-
-            if ( nextVisibleRow is not null && nextRowFirstColumn is not null )
-            {
-                await ParentDataGrid.HandleCellEdit( nextRowFirstColumn, nextVisibleRow );
-            }
-        }
-    }
-
-    private async Task HandleCellEditSelectPreviousColumn( DataGridColumn<TItem> currentColumn, DataGridBatchEditItem<TItem> batchEditItem )
-    {
-        var currentIdx = OrderedColumnsForEditing?.Index( x => x.IsEqual( currentColumn ) ) ?? -1;
-        var previousColumn = OrderedColumnsForEditing?.ElementAtOrDefault( currentIdx - 1 );
-
-        if ( previousColumn is not null )
-        {
-            await ParentDataGrid.HandleCellEdit( previousColumn, GetEditingItem( batchEditItem ) );
-        }
-        else
-        {
-            var previousRowLastColumn = OrderedColumnsForEditing.LastOrDefault();
-            var previousVisibleRow = GetVisibleRowByOffset( batchEditItem, -1 );
-
-            if ( previousVisibleRow is not null && previousRowLastColumn is not null )
-            {
-                await ParentDataGrid.HandleCellEdit( previousRowLastColumn, previousVisibleRow );
-            }
+            await ParentDataGrid.HandleCellEdit( adjacentRowColumn, adjacentRow );
         }
     }
-
-    private Task HandleCellEditSelectNextRow( DataGridColumn<TItem> currentColumn, DataGridBatchEditItem<TItem> batchEditItem )
-        => HandleCellEditSelectRow( currentColumn, batchEditItem, 1 );
-
-    private Task HandleCellEditSelectPreviousRow( DataGridColumn<TItem> currentColumn, DataGridBatchEditItem<TItem> batchEditItem )
-        => HandleCellEditSelectRow( currentColumn, batchEditItem, -1 );
 
     private async Task HandleCellEditSelectRow( DataGridColumn<TItem> currentColumn, DataGridBatchEditItem<TItem> batchEditItem, int rowOffset )
     {

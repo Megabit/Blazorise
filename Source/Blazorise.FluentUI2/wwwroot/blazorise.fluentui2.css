@@ -5439,7 +5439,7 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
 }
 
 .fui-DockLayout {
-  --dock-split-gap: .25rem;
+  --fui-dock-split-gap: .25rem;
   display: block;
   min-height: 0;
   min-width: 0;
@@ -5465,7 +5465,7 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
 
 .fui-DockSplit {
   display: grid;
-  gap: var(--dock-split-gap);
+  gap: var(--fui-dock-split-gap);
   height: 100%;
   min-height: 0;
   min-width: 0;
@@ -5481,9 +5481,9 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
 }
 
 .fui-DockPane {
-  --dock-pane-size: 16rem;
-  --dock-pane-min-size: 0;
-  --dock-pane-max-size: none;
+  --fui-dock-pane-size: 16rem;
+  --fui-dock-pane-min-size: 0;
+  --fui-dock-pane-max-size: none;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -5514,28 +5514,28 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
   border-width: 1px;
 }
 .fui-DockPane--left {
-  width: var(--dock-pane-size);
-  min-width: var(--dock-pane-min-size);
-  max-width: var(--dock-pane-max-size);
+  width: var(--fui-dock-pane-size);
+  min-width: var(--fui-dock-pane-min-size);
+  max-width: var(--fui-dock-pane-max-size);
   border-right-width: 1px;
 }
 .fui-DockPane--right {
-  width: var(--dock-pane-size);
-  min-width: var(--dock-pane-min-size);
-  max-width: var(--dock-pane-max-size);
+  width: var(--fui-dock-pane-size);
+  min-width: var(--fui-dock-pane-min-size);
+  max-width: var(--fui-dock-pane-max-size);
   border-left-width: 1px;
   justify-self: end;
 }
 .fui-DockPane--top {
-  height: var(--dock-pane-size);
-  min-height: var(--dock-pane-min-size);
-  max-height: var(--dock-pane-max-size);
+  height: var(--fui-dock-pane-size);
+  min-height: var(--fui-dock-pane-min-size);
+  max-height: var(--fui-dock-pane-max-size);
   border-bottom-width: 1px;
 }
 .fui-DockPane--bottom {
-  height: var(--dock-pane-size);
-  min-height: var(--dock-pane-min-size);
-  max-height: var(--dock-pane-max-size);
+  height: var(--fui-dock-pane-size);
+  min-height: var(--fui-dock-pane-min-size);
+  max-height: var(--fui-dock-pane-max-size);
   border-top-width: 1px;
   align-self: end;
 }
@@ -5562,10 +5562,10 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
 }
 
 .fui-DockPane--collapsed {
-  --dock-pane-size: 2.5rem;
+  --fui-dock-pane-size: 2.5rem;
 }
 .fui-DockPane--autoHide {
-  --dock-pane-size: 2rem;
+  --fui-dock-pane-size: 2rem;
   align-items: stretch;
   justify-content: flex-end;
   overflow: hidden;
@@ -5627,33 +5627,33 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
   left: 2rem;
   top: 0;
   bottom: 0;
-  width: var(--dock-pane-size);
-  min-width: var(--dock-pane-min-size);
-  max-width: var(--dock-pane-max-size);
+  width: var(--fui-dock-pane-size);
+  min-width: var(--fui-dock-pane-min-size);
+  max-width: var(--fui-dock-pane-max-size);
 }
 .fui-DockAutoHideFlyout--right {
   right: 2rem;
   top: 0;
   bottom: 0;
-  width: var(--dock-pane-size);
-  min-width: var(--dock-pane-min-size);
-  max-width: var(--dock-pane-max-size);
+  width: var(--fui-dock-pane-size);
+  min-width: var(--fui-dock-pane-min-size);
+  max-width: var(--fui-dock-pane-max-size);
 }
 .fui-DockAutoHideFlyout--top {
   top: 2rem;
   left: 0;
   right: 0;
-  height: var(--dock-pane-size);
-  min-height: var(--dock-pane-min-size);
-  max-height: var(--dock-pane-max-size);
+  height: var(--fui-dock-pane-size);
+  min-height: var(--fui-dock-pane-min-size);
+  max-height: var(--fui-dock-pane-max-size);
 }
 .fui-DockAutoHideFlyout--bottom {
   bottom: 2rem;
   left: 0;
   right: 0;
-  height: var(--dock-pane-size);
-  min-height: var(--dock-pane-min-size);
-  max-height: var(--dock-pane-max-size);
+  height: var(--fui-dock-pane-size);
+  min-height: var(--fui-dock-pane-min-size);
+  max-height: var(--fui-dock-pane-max-size);
 }
 
 .fui-DockPane--collapsed .fui-DockPaneBody, .fui-DockPane--collapsed .fui-DockPaneFooter {
@@ -5873,9 +5873,9 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
 .fui-DockCompass {
   position: absolute;
   z-index: 20;
-  --dock-compass-gap: .25rem;
-  width: calc(8rem + var(--dock-compass-gap) * 4);
-  height: calc(8rem + var(--dock-compass-gap) * 4);
+  --fui-dock-compass-gap: .25rem;
+  width: calc(8rem + var(--fui-dock-compass-gap) * 4);
+  height: calc(8rem + var(--fui-dock-compass-gap) * 4);
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
@@ -5904,43 +5904,43 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
   background: var(--fui-dock-compass-zone-active-background, var(--colorBrandBackground2, #ebf3fc));
 }
 .fui-DockCompassZone--center {
-  left: calc(3rem + var(--dock-compass-gap) * 2);
-  top: calc(3rem + var(--dock-compass-gap) * 2);
+  left: calc(3rem + var(--fui-dock-compass-gap) * 2);
+  top: calc(3rem + var(--fui-dock-compass-gap) * 2);
 }
 .fui-DockCompassZone--leftOuter {
   left: 0;
-  top: calc(3rem + var(--dock-compass-gap) * 2);
+  top: calc(3rem + var(--fui-dock-compass-gap) * 2);
   width: 1rem;
 }
 .fui-DockCompassZone--leftInner {
-  left: calc(1rem + var(--dock-compass-gap));
-  top: calc(3rem + var(--dock-compass-gap) * 2);
+  left: calc(1rem + var(--fui-dock-compass-gap));
+  top: calc(3rem + var(--fui-dock-compass-gap) * 2);
 }
 .fui-DockCompassZone--rightInner {
-  left: calc(5rem + var(--dock-compass-gap) * 3);
-  top: calc(3rem + var(--dock-compass-gap) * 2);
+  left: calc(5rem + var(--fui-dock-compass-gap) * 3);
+  top: calc(3rem + var(--fui-dock-compass-gap) * 2);
 }
 .fui-DockCompassZone--rightOuter {
-  left: calc(7rem + var(--dock-compass-gap) * 4);
-  top: calc(3rem + var(--dock-compass-gap) * 2);
+  left: calc(7rem + var(--fui-dock-compass-gap) * 4);
+  top: calc(3rem + var(--fui-dock-compass-gap) * 2);
   width: 1rem;
 }
 .fui-DockCompassZone--topOuter {
-  left: calc(3rem + var(--dock-compass-gap) * 2);
+  left: calc(3rem + var(--fui-dock-compass-gap) * 2);
   top: 0;
   height: 1rem;
 }
 .fui-DockCompassZone--topInner {
-  left: calc(3rem + var(--dock-compass-gap) * 2);
-  top: calc(1rem + var(--dock-compass-gap));
+  left: calc(3rem + var(--fui-dock-compass-gap) * 2);
+  top: calc(1rem + var(--fui-dock-compass-gap));
 }
 .fui-DockCompassZone--bottomInner {
-  left: calc(3rem + var(--dock-compass-gap) * 2);
-  top: calc(5rem + var(--dock-compass-gap) * 3);
+  left: calc(3rem + var(--fui-dock-compass-gap) * 2);
+  top: calc(5rem + var(--fui-dock-compass-gap) * 3);
 }
 .fui-DockCompassZone--bottomOuter {
-  left: calc(3rem + var(--dock-compass-gap) * 2);
-  top: calc(7rem + var(--dock-compass-gap) * 4);
+  left: calc(3rem + var(--fui-dock-compass-gap) * 2);
+  top: calc(7rem + var(--fui-dock-compass-gap) * 4);
   height: 1rem;
 }
 

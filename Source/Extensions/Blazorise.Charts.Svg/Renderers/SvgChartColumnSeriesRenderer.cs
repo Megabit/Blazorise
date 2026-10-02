@@ -23,9 +23,7 @@ internal sealed class SvgChartColumnSeriesContent : SvgChartSeriesContentBase
     {
         var resolvedState = new SvgChartRectangleSeriesState( Series.BorderRadius, Context.CategoryFormatterKey );
         var resolvedColumns = ResolveColumns( Context, Series );
-        var shouldRender = Context.Animation.Enabled
-            || resolvedState != state
-            || !resolvedColumns.SequenceEqual( columns );
+        var shouldRender = Context.Animation.Enabled || resolvedState != state || !resolvedColumns.SequenceEqual( columns );
         columns = resolvedColumns;
         state = resolvedState;
 

@@ -147,6 +147,7 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                     {
                         var cellStyle = column.BuildCellStyle( Item );
                         var isCustomEditTemplate = column.EditTemplate is not null;
+
                         var cellEditWrapperStyle = isCustomEditTemplate
                             ? "width:100%;max-width:100%;min-width:0;"
                             : "width:100%;max-width:100%;min-width:0;overflow:hidden;";

@@ -634,6 +634,7 @@ internal static class RenderTreeMigrationEngine
                     var substitutedArgs = namedType.TypeArguments
                         .Select( a => SubstituteMethodTypeParameters( a, substitution, compilation ) )
                         .ToArray();
+
                     return namedType.ConstructedFrom.Construct( substitutedArgs );
                 }
             default:

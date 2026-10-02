@@ -63,9 +63,9 @@ public static class ExtensionMethods
 
     private static bool IsGenericCollection( this Type type )
         => type.IsGenericType
-           && type.GetGenericTypeDefinition() == typeof( ICollection<> );
+            && type.GetGenericTypeDefinition() == typeof( ICollection<> );
 
     private static bool IsGenericIEnumerable( this Type type )
         => type.IsGenericType
-           && type.GetGenericTypeDefinition() == typeof( IEnumerable<> );
+            && type.GetGenericTypeDefinition() == typeof( IEnumerable<> );
 }

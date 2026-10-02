@@ -10,6 +10,24 @@ namespace Blazorise;
 /// </summary>
 public partial class PropertyGrid : BaseComponent
 {
+    #region Members
+
+    private readonly ClassBuilder viewportClassBuilder;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Creates a new <see cref="PropertyGrid"/> component.
+    /// </summary>
+    public PropertyGrid()
+    {
+        viewportClassBuilder = new( BuildViewportClasses );
+    }
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -20,6 +38,19 @@ public partial class PropertyGrid : BaseComponent
         base.BuildClasses( builder );
     }
 
+    private void BuildViewportClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.PropertyGridViewport() );
+    }
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        viewportClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
     #endregion
 
     #region Properties
@@ -27,7 +58,7 @@ public partial class PropertyGrid : BaseComponent
     /// <summary>
     /// Gets the provider class for the scrollable property viewport.
     /// </summary>
-    protected string ViewportClassNames => ClassProvider.PropertyGridViewport();
+    protected string ViewportClassNames => viewportClassBuilder.Class;
 
     /// <summary>
     /// Defines the accessible property grid label.

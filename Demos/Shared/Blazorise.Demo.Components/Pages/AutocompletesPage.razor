@@ -432,6 +432,7 @@
     private void ValidateAutocompleteSelection( ValidatorEventArgs validationArgs )
     {
         string value = validationArgs.Value as string;
+
         validationArgs.Status = string.IsNullOrEmpty( value )
             ? ValidationStatus.Error
             : ValidationStatus.Success;
@@ -440,6 +441,7 @@
     private void ValidateAutocompleteMultipleSelection( ValidatorEventArgs validationArgs )
     {
         List<string> values = validationArgs.Value as List<string>;
+
         validationArgs.Status = values != null && values.Count > 0
             ? ValidationStatus.Success
             : ValidationStatus.Error;

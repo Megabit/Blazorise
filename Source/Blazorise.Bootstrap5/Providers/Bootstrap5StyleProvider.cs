@@ -5,6 +5,12 @@ namespace Blazorise.Bootstrap5.Providers;
 
 public class Bootstrap5StyleProvider : StyleProvider
 {
+    #region DockLayout
+
+    public override string DockLayoutVariable( string name ) => $"--bs-dock-{name}";
+
+    #endregion
+
     #region Component colors
 
     public override string TextInputColor( Color color ) => ColorStyle( color, "--bs-input-border-color" );

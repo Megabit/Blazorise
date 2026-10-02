@@ -355,13 +355,17 @@ public class SvgChartDataLabels : SvgChartPluginBase
 
             var x = context.ProjectX( xValue.Value );
             var y = context.ProjectY( yValue.Value, series.ValueAxisId );
+
             var radius = series.Type == SvgChartType.Bubble
                 ? Math.Max( 2, pointIndex < series.RadiusValues.Count && series.RadiusValues[pointIndex].HasValue ? series.RadiusValues[pointIndex].Value : series.MarkerRadius )
                 : series.MarkerRadius;
+
             var bounds = new SvgChartPointBounds { X = x - radius, Y = y - radius, Width = radius * 2, Height = radius * 2 };
+
             var category = context.ContinuousCategoryAxis && pointIndex < context.Labels.Count
                 ? context.Labels[pointIndex]
                 : xValue.Value;
+
             var point = new SvgChartPointEventArgs
             {
                 SeriesName = series.Name,
@@ -416,6 +420,7 @@ public class SvgChartDataLabels : SvgChartPluginBase
             var labelCenter = PolarToCartesian( centerX, centerY, labelRadius, startAngle + sweep / 2 );
             var labelBounds = new SvgChartPointBounds { X = labelCenter.X, Y = labelCenter.Y, Width = 0, Height = 0 };
             var category = pointIndex < context.Labels.Count ? context.Labels[pointIndex] : pointIndex + 1;
+
             var point = new SvgChartPointEventArgs
             {
                 SeriesName = series.Name,
@@ -453,6 +458,7 @@ public class SvgChartDataLabels : SvgChartPluginBase
             var renderedRadius = radius * Math.Max( value.Value, 0 ) / max;
             var renderedPoint = PolarToCartesian( centerX, centerY, renderedRadius, angle );
             var markerRadius = 4d;
+
             var bounds = new SvgChartPointBounds
             {
                 X = renderedPoint.X - markerRadius,
@@ -478,6 +484,7 @@ public class SvgChartDataLabels : SvgChartPluginBase
             Color = color,
             Point = point
         };
+
         var defaultOptions = context.Options.DataLabels ?? new SvgChartDataLabelsOptions();
         var text = ( Formatter ?? defaultOptions.Formatter )?.Invoke( labelContext ) ?? SvgChartRenderHelpers.FormatDataLabelValue( point.Value );
 

@@ -63,21 +63,30 @@ public partial class Autocomplete<TItem, TValue>
     /// </summary>
     private bool canShowDropDown;
 
+    private bool textFocused;
+
+    private readonly ClassBuilder dropdownClassBuilder;
+
+    private readonly StyleBuilder dropdownStyleBuilder;
+
     private string currentSearch;
+
     private string currentSearchParam;
+
     private bool selectedValueParamChanged;
-    private bool selectedTextParamChanged;
-    private bool selectedValuesParamChanged;
-    private bool selectedTextsParamChanged;
-    private bool dataParamChanged;
+
     private bool showAllItemsOnFocus;
+
     private bool activeItemNavigatedByKeyboard;
 
     private TValue selectedValueParam;
+
     private bool selectedValueParamDefined;
 
     private List<TValue> selectedValuesParam;
+
     private List<string> selectedTextsParam;
+
     private bool autocompleteAutofocus;
 
     /// <summary>
@@ -149,6 +158,19 @@ public partial class Autocomplete<TItem, TValue>
 
     #endregion
 
+    #region Constructors
+
+    /// <summary>
+    /// Creates an autocomplete component.
+    /// </summary>
+    public Autocomplete()
+    {
+        dropdownClassBuilder = new( BuildDropdownClasses );
+        dropdownStyleBuilder = new( BuildDropdownStyles );
+    }
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -172,20 +194,44 @@ public partial class Autocomplete<TItem, TValue>
     /// <inheritdoc/>
     protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
     {
+        if ( paramSelectionMode.Changed
+            || paramSelectedValues.Changed
+            || paramSelectedTexts.Changed
+            || parameters.IsParameterChanged( Filter )
+            || parameters.IsParameterChanged( CustomFilter )
+            || parameters.IsParameterChanged( TextField )
+            || parameters.IsParameterChanged( ValueField )
+            || parameters.IsParameterChanged( SuggestSelectedItems )
+            || parameters.IsParameterChanged( ReadData ) )
+        {
+            DirtyFilter();
+        }
+
+        if ( paramSelectionMode.Changed )
+        {
+            DirtyClasses();
+        }
+
+        if ( parameters.IsParameterChanged( MaxMenuHeight ) )
+        {
+            DirtyStyles();
+        }
+
         await base.OnBeforeSetParametersAsync( parameters );
 
-        AutocompleteSelectionMode selectionMode = paramSelectionMode.Defined
+        var selectionMode = paramSelectionMode.Defined
             ? paramSelectionMode.Value
             : SelectionMode;
 
-        bool isMultiple = selectionMode == AutocompleteSelectionMode.Multiple || selectionMode == AutocompleteSelectionMode.Checkbox;
+        var isMultiple = selectionMode == AutocompleteSelectionMode.Multiple || selectionMode == AutocompleteSelectionMode.Checkbox;
 
         if ( paramSearch.Defined && currentSearchParam != paramSearch.Value )
         {
             currentSearch = null;
+            DirtyFilter();
         }
 
-        bool hasSelectedValueParam = paramSelectedValue.Defined;
+        var hasSelectedValueParam = paramSelectedValue.Defined;
 
         if ( hasSelectedValueParam )
         {
@@ -214,15 +260,7 @@ public partial class Autocomplete<TItem, TValue>
             selectedValueParamChanged = paramValue.Changed;
         }
 
-        selectedTextParamChanged = paramSelectedText.Defined && !SelectedText.IsEqual( paramSelectedText.Value );
-
-        selectedValuesParamChanged = paramSelectedValues.Defined && paramSelectedValues.Changed;
-
-        selectedTextsParamChanged = paramSelectedTexts.Defined && paramSelectedTexts.Changed;
-
-        dataParamChanged = paramData.Defined && paramData.Changed;
-
-        if ( isMultiple && Rendered && ( selectedValuesParamChanged || selectedTextsParamChanged ) )
+        if ( isMultiple && Rendered && ( paramSelectedValues.Changed || paramSelectedTexts.Changed ) )
         {
             ExecuteAfterRender( Revalidate );
         }
@@ -289,8 +327,8 @@ public partial class Autocomplete<TItem, TValue>
             }
         }
 
-        await SynchronizeSingle( selectedValueParamChanged, selectedTextParamChanged, dataParamChanged );
-        await SynchronizeMultiple( selectedValuesParamChanged, selectedTextsParamChanged, dataParamChanged );
+        await SynchronizeSingle( selectedValueParamChanged, paramSelectedText.Changed, paramData.Changed );
+        await SynchronizeMultiple( paramSelectedValues.Changed, paramSelectedTexts.Changed, paramData.Changed );
     }
 
     /// <summary>
@@ -458,6 +496,8 @@ public partial class Autocomplete<TItem, TValue>
                 var value = GetItemValue( item );
                 SelectedValue = value;
 
+                DirtyFilter();
+
                 await Task.WhenAll(
                     InvokeSearchChanged( currentSearch ),
                     SelectedTextChanged.InvokeAsync( SelectedText ),
@@ -476,6 +516,39 @@ public partial class Autocomplete<TItem, TValue>
             return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
 
         return Task.FromResult( ParseValue<TValue>.Empty );
+    }
+
+    private void BuildDropdownClasses( ClassBuilder builder )
+    {
+        builder.Append( Class, !string.IsNullOrEmpty( Class ) );
+        builder.Append( Classes?.Self, !string.IsNullOrEmpty( Classes?.Self ) );
+        builder.Append( "b-is-autocomplete" );
+        builder.Append( "b-is-autocomplete-multipleselection", IsMultiple );
+        builder.Append( "focus", TextFocused );
+        builder.Append( ClassProvider.TextInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+    }
+
+    private void BuildDropdownStyles( StyleBuilder builder )
+    {
+        builder.Append( $"--autocomplete-menu-max-height: {MaxMenuHeight}", MaxMenuHeight is not null );
+        builder.Append( Styles?.Self?.Trim().TrimEnd( ';' ), !string.IsNullOrWhiteSpace( Styles?.Self ) );
+        builder.Append( Style?.Trim().TrimEnd( ';' ), !string.IsNullOrWhiteSpace( Style ) );
+    }
+
+    /// <inheritdoc/>
+    protected override void DirtyClasses()
+    {
+        dropdownClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    /// <inheritdoc/>
+    protected override void DirtyStyles()
+    {
+        dropdownStyleBuilder.Dirty();
+
+        base.DirtyStyles();
     }
 
     /// <summary>
@@ -507,7 +580,7 @@ public partial class Autocomplete<TItem, TValue>
 
             if ( !HasFilteredData )
             {
-                await ResetActiveItemIndex();
+                ResetActiveItemIndex();
             }
 
             if ( FreeTyping )
@@ -646,11 +719,11 @@ public partial class Autocomplete<TItem, TValue>
 
         if ( eventArgs.Code == "ArrowUp" )
         {
-            await UpdateActiveFilterIndex( ActiveItemIndex - 1 );
+            UpdateActiveFilterIndex( ActiveItemIndex - 1 );
         }
         else if ( eventArgs.Code == "ArrowDown" )
         {
-            await UpdateActiveFilterIndex( ActiveItemIndex + 1 );
+            UpdateActiveFilterIndex( ActiveItemIndex + 1 );
         }
 
         await ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) );
@@ -870,10 +943,10 @@ public partial class Autocomplete<TItem, TValue>
     private async Task ResyncText()
     {
         var itemText = GetItemText( SelectedValue );
+
         if ( Search != itemText )
         {
-            currentSearch = itemText;
-            await InvokeSearchChanged( currentSearch );
+            await SetCurrentSearch( itemText );
 
             if ( SelectedText != itemText )
             {
@@ -886,60 +959,57 @@ public partial class Autocomplete<TItem, TValue>
     /// <summary>
     /// Requests suggestions for the current search text.
     /// </summary>
-    protected async Task HandleReadData( CancellationToken cancellationToken = default )
-    {
-        try
-        {
-            cancellationTokenSource?.Cancel();
-            cancellationTokenSource?.Dispose();
-            cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
-
-            Loading = true;
-
-            if ( !cancellationTokenSource.Token.IsCancellationRequested && IsTextSearchable )
-            {
-                await ReadData.InvokeAsync( new( FilterSearch, cancellationToken: cancellationTokenSource.Token ) );
-                await Task.Yield(); // rebind Data after ReadData
-            }
-        }
-        catch ( OperationCanceledException )
-        {
-            // Expected during rapid typing
-        }
-        finally
-        {
-            var wasCancelled = cancellationTokenSource?.IsCancellationRequested == true;
-
-            Loading = false;
-
-            if ( wasCancelled )
-            {
-                await InvokeAsync( () => Reload() );
-            }
-        }
-    }
+    protected Task HandleReadData( CancellationToken cancellationToken = default )
+        => ReadDataAsync( cancellationToken );
 
     /// <summary>
     /// Loads one externally supplied range for the virtualized suggestion list.
     /// </summary>
-    protected async Task HandleVirtualizeReadData( int startIdx, int count, CancellationToken cancellationToken )
+    protected Task HandleVirtualizeReadData( int startIdx, int count, CancellationToken cancellationToken )
+        => ReadDataAsync( cancellationToken, startIdx, count );
+
+    private async Task ReadDataAsync( CancellationToken cancellationToken, int? virtualizeOffset = null, int virtualizeCount = 0 )
     {
+        if ( cancellationToken.IsCancellationRequested || Disposed || AsyncDisposed )
+        {
+            return;
+        }
+
+        var previousSource = cancellationTokenSource;
+        var source = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+        cancellationTokenSource = source;
+        Loading = true;
+        var shouldReload = false;
+
         try
         {
-            cancellationTokenSource?.Cancel();
-            cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+            previousSource?.Cancel();
 
-            Loading = true;
-
-            if ( !cancellationToken.IsCancellationRequested )
+            if ( !source.IsCancellationRequested && ( virtualizeOffset.HasValue || IsTextSearchable ) )
             {
-                await ReadData.InvokeAsync( new( FilterSearch, startIdx, count, cancellationToken ) );
-                await Task.Yield(); // rebind Data after ReadData
+                await ReadData.InvokeAsync( new( FilterSearch, virtualizeOffset ?? 0, virtualizeCount, source.Token ) );
+                await Task.Yield(); // Rebind Data after ReadData.
             }
+        }
+        catch ( OperationCanceledException ) when ( source.IsCancellationRequested )
+        {
         }
         finally
         {
-            Loading = false;
+            // A superseded request must not clear the active request's loading state.
+            if ( ReferenceEquals( cancellationTokenSource, source ) )
+            {
+                cancellationTokenSource = null;
+                Loading = false;
+                shouldReload = source.IsCancellationRequested && !cancellationToken.IsCancellationRequested && !Disposed && !AsyncDisposed;
+            }
+
+            source.Dispose();
+        }
+
+        if ( shouldReload )
+        {
+            await InvokeAsync( () => Reload( cancellationToken ) );
         }
     }
 
@@ -990,16 +1060,17 @@ public partial class Autocomplete<TItem, TValue>
             await SelectedValueChanged.InvokeAsync( SelectedValue );
     }
 
-    private async Task ResetCurrentSearch()
-    {
-        currentSearch = string.Empty;
-
-        await InvokeSearchChanged( currentSearch );
-    }
+    private Task ResetCurrentSearch() => SetCurrentSearch( string.Empty );
 
     private async Task ResetSelectedValues()
     {
-        SelectedValues?.Clear();
+        if ( SelectedValues is { Count: > 0 } )
+        {
+            SelectedValues.Clear();
+
+            DirtyFilter();
+        }
+
         await SelectedValuesChanged.InvokeAsync( SelectedValues );
     }
 
@@ -1009,18 +1080,22 @@ public partial class Autocomplete<TItem, TValue>
         await SelectedTextsChanged.InvokeAsync( SelectedTexts );
     }
 
-    private async Task SetCurrentSearch( string searchValue )
+    private Task SetCurrentSearch( string searchValue )
     {
+        if ( Search != searchValue )
+        {
+            DirtyFilter();
+        }
+
         currentSearch = searchValue;
 
-        await InvokeSearchChanged( currentSearch );
+        return InvokeSearchChanged( currentSearch );
     }
 
-    private Task ResetActiveItemIndex()
+    private void ResetActiveItemIndex()
     {
         ActiveItemIndex = -1;
         activeItemNavigatedByKeyboard = false;
-        return Task.CompletedTask;
     }
 
     private static bool IsEscapeKey( KeyboardEventArgs eventArgs )
@@ -1148,21 +1223,22 @@ public partial class Autocomplete<TItem, TValue>
 
     private void FilterData( IQueryable<TItem> query )
     {
-        if ( query == null )
+        if ( query is null || TextField is null )
         {
             filteredData.Clear();
+            dirtyFilter = false;
+
             return;
         }
-
-        if ( TextField == null )
-            return;
 
         if ( !ManualReadMode )
         {
             if ( IsMultiple && !IsSuggestSelectedItems && !SelectedValues.IsNullOrEmpty() )
+            {
                 query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
+            }
 
-            if ( CustomFilter != null )
+            if ( CustomFilter is not null )
             {
                 query = from q in query
                         where q != null
@@ -1204,7 +1280,7 @@ public partial class Autocomplete<TItem, TValue>
     /// </summary>
     public async Task ResetSelected()
     {
-        await ResetActiveItemIndex();
+        ResetActiveItemIndex();
         await ResetSelectedText();
         await ResetSelectedValue();
     }
@@ -1220,17 +1296,17 @@ public partial class Autocomplete<TItem, TValue>
         await SetCurrentSearch( string.Empty );
     }
 
-    private Task UpdateActiveFilterIndex( int activeItemIndex )
+    private void UpdateActiveFilterIndex( int activeItemIndex )
     {
         if ( FilteredData.Count == 0 )
         {
             ResetActiveItemIndex();
-            return Task.CompletedTask;
+
+            return;
         }
 
         ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, activeItemIndex ) );
         activeItemNavigatedByKeyboard = true;
-        return Task.CompletedTask;
     }
 
     /// <inheritdoc/>
@@ -1238,8 +1314,10 @@ public partial class Autocomplete<TItem, TValue>
     {
         if ( disposing )
         {
-            cancellationTokenSource?.Dispose();
+            var source = cancellationTokenSource;
             cancellationTokenSource = null;
+            Loading = false;
+            source?.Cancel();
 
             if ( Rendered )
             {
@@ -1291,7 +1369,7 @@ public partial class Autocomplete<TItem, TValue>
     public async Task Close( CloseReason closeReason )
     {
         canShowDropDown = false;
-        await ResetActiveItemIndex();
+        ResetActiveItemIndex();
 
         await Closed.InvokeAsync( new AutocompleteClosedEventArgs( closeReason ) );
     }
@@ -1584,49 +1662,7 @@ public partial class Autocomplete<TItem, TValue>
     /// <summary>
     /// Gets the dropdown CSS styles.
     /// </summary>
-    protected string CssStyle
-    {
-        get
-        {
-            StringBuilder sb = new StringBuilder();
-
-            if ( MaxMenuHeight != null )
-            {
-                sb.Append( "--autocomplete-menu-max-height: " );
-                sb.Append( MaxMenuHeight );
-            }
-
-            string selfStyle = Styles?.Self;
-            if ( !string.IsNullOrWhiteSpace( selfStyle ) )
-            {
-                if ( sb.Length > 0 )
-                {
-                    if ( sb[sb.Length - 1] != ';' )
-                        sb.Append( ';' );
-
-                    sb.Append( ' ' );
-                }
-
-                sb.Append( selfStyle.Trim() );
-            }
-
-            string style = Style;
-            if ( !string.IsNullOrWhiteSpace( style ) )
-            {
-                if ( sb.Length > 0 )
-                {
-                    if ( sb[sb.Length - 1] != ';' )
-                        sb.Append( ';' );
-
-                    sb.Append( ' ' );
-                }
-
-                sb.Append( style.Trim() );
-            }
-
-            return sb.ToString();
-        }
-    }
+    protected string CssStyle => dropdownStyleBuilder.Styles;
 
     /// <summary>
     /// Gets or sets the currently active item index.
@@ -1636,7 +1672,20 @@ public partial class Autocomplete<TItem, TValue>
     /// <summary>
     /// Gets or sets the search field focus state.
     /// </summary>
-    protected bool TextFocused { get; set; }
+    protected bool TextFocused
+    {
+        get => textFocused;
+        set
+        {
+            if ( textFocused == value )
+            {
+                return;
+            }
+
+            textFocused = value;
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// True if the dropdown menu should be visible.
@@ -1680,47 +1729,7 @@ public partial class Autocomplete<TItem, TValue>
     /// <summary>
     /// Gets the custom class-names for dropdown element.
     /// </summary>
-    protected string DropdownClassNames
-    {
-        get
-        {
-            StringBuilder classBuilder = new StringBuilder();
-
-            if ( !string.IsNullOrEmpty( Class ) )
-            {
-                classBuilder.Append( Class );
-                classBuilder.Append( ' ' );
-            }
-
-            if ( !string.IsNullOrEmpty( Classes?.Self ) )
-            {
-                classBuilder.Append( Classes.Self );
-                classBuilder.Append( ' ' );
-            }
-
-            classBuilder.Append( "b-is-autocomplete" );
-
-            if ( IsMultiple )
-            {
-                classBuilder.Append( " b-is-autocomplete-multipleselection" );
-            }
-
-            if ( TextFocused )
-            {
-                classBuilder.Append( " focus" );
-            }
-
-            string validationClass = ClassProvider.TextInputValidation( ParentValidation?.Status ?? ValidationStatus.None );
-
-            if ( !string.IsNullOrEmpty( validationClass ) )
-            {
-                classBuilder.Append( ' ' );
-                classBuilder.Append( validationClass );
-            }
-
-            return classBuilder.ToString();
-        }
-    }
+    protected string DropdownClassNames => dropdownClassBuilder.Class;
 
     /// <summary>
     /// Gets the custom class-names for dropdown items.

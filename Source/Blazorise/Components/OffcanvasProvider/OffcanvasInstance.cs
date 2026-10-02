@@ -27,6 +27,7 @@ public class OffcanvasInstance
         OffcanvasId = string.IsNullOrWhiteSpace( offcanvasInstanceOptions?.ElementId )
             ? id
             : offcanvasInstanceOptions.ElementId;
+
         OffcanvasProvider = offcanvasProvider;
         Title = title;
         ChildContent = childContent;

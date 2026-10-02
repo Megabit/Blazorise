@@ -99,6 +99,7 @@ public partial class _ReportDesignerDataSourceConnectionDialog
     {
         ReportDataSourceDefinition existingDataSource = FindSelectedDataSource();
         Dictionary<string, object> settings = editorContext?.Settings?.ToDictionary( setting => setting.Key, setting => setting.Value, StringComparer.OrdinalIgnoreCase ) ?? [];
+
         bool connectionChanged = existingDataSource is null
             || !string.Equals( existingDataSource.ProviderType, selectedProviderType, StringComparison.OrdinalIgnoreCase )
             || !AreSettingsEqual( existingDataSource.Settings, settings );

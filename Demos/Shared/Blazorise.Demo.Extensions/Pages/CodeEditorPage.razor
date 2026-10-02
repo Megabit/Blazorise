@@ -164,8 +164,7 @@ public class Greeting
     };
     private async Task FormatDocument()
     {
-        bool formatted = codeEditorRef is not null
-            && await codeEditorRef.FormatDocument();
+        bool formatted = codeEditorRef is not null && await codeEditorRef.FormatDocument();
 
         editorStatus = formatted
             ? "Document formatted."
@@ -177,6 +176,7 @@ public class Greeting
         string normalizedValue = ( value ?? string.Empty )
             .Replace( "\r\n", "\n" )
             .Replace( '\r', '\n' );
+
         string formattedValue = string.Join(
             "\r\n",
             normalizedValue
@@ -221,6 +221,7 @@ public class Greeting
         eventArgs.Status = error is null
             ? ValidationStatus.Success
             : ValidationStatus.Error;
+
         eventArgs.ErrorText = error?.Message;
     }
 

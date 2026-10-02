@@ -23,8 +23,6 @@ public partial class Field : BaseColumnComponent, IDisposable
 
     private List<BaseComponent> hookables;
 
-    private Validation previousParentValidation;
-
     private ValidationStatus previousValidationStatus;
 
     private FieldHelp helpText;
@@ -53,20 +51,14 @@ public partial class Field : BaseColumnComponent, IDisposable
     #region Methods
 
     /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        if ( ParentValidation != previousParentValidation )
-        {
-            DetachValidationStatusChangedListener();
-            ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
-            previousParentValidation = ParentValidation;
-        }
-    }
-
-    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         previousValidationStatus = ParentValidation?.Status ?? ValidationStatus.None;
+
+        if ( ParentValidation is not null )
+        {
+            ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
+        }
 
         base.OnInitialized();
     }
@@ -74,28 +66,12 @@ public partial class Field : BaseColumnComponent, IDisposable
     /// <inheritdoc/>
     protected override void Dispose( bool disposing )
     {
-        if ( disposing )
+        if ( disposing && ParentValidation is not null )
         {
-            DetachValidationStatusChangedListener();
-
-            if ( ParentValidation is not null )
-            {
-                ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
-            }
+            ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
         }
 
         base.Dispose( disposing );
-    }
-
-    /// <summary>
-    /// Unsubscribe from <see cref="Validation.StatusChanged"/> event.
-    /// </summary>
-    private void DetachValidationStatusChangedListener()
-    {
-        if ( previousParentValidation is not null )
-        {
-            previousParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
-        }
     }
 
     /// <inheritdoc/>

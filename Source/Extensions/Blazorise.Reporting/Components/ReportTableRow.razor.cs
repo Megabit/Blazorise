@@ -18,8 +18,6 @@ public partial class ReportTableRow : ComponentBase, IDisposable
 
     private readonly ReportTableRowContext rowContext = new();
 
-    private ReportTableContext registeredTableContext;
-
     #endregion
 
     #region Methods
@@ -27,60 +25,67 @@ public partial class ReportTableRow : ComponentBase, IDisposable
     /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool definitionChanged = registeredTableContext is null || parameters.IsParameterChanged( Height );
+        var definitionChanged = TableContext is not null && parameters.IsParameterChanged( Height );
 
         await base.SetParametersAsync( parameters );
-
-        bool contextChanged = !ReferenceEquals( registeredTableContext, TableContext );
-
-        if ( contextChanged )
-        {
-            DetachRow();
-            registeredTableContext = TableContext;
-
-            if ( registeredTableContext?.Definition is not null )
-            {
-                registeredTableContext.Definition.Rows.Add( definition );
-                rowContext.Attach( registeredTableContext, definition );
-            }
-        }
 
         if ( definitionChanged )
         {
             definition.Height = Height;
-            registeredTableContext?.NotifyDefinitionChanged();
+            TableContext?.NotifyDefinitionChanged();
         }
+    }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        if ( TableContext?.Definition is not null )
+        {
+            TableContext.Definition.Rows.Add( definition );
+            rowContext.Attach( TableContext, definition );
+        }
+
+        definition.Height = Height;
+        TableContext?.NotifyDefinitionChanged();
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
         DetachRow();
-        registeredTableContext = null;
+        TableContext = null;
     }
 
     private void DetachRow()
     {
-        ReportTableElementDefinition tableDefinition = registeredTableContext?.Definition;
+        var tableDefinition = TableContext?.Definition;
 
         if ( tableDefinition is null )
+        {
             return;
+        }
 
-        int rowIndex = tableDefinition.Rows.IndexOf( definition );
+        var rowIndex = tableDefinition.Rows.IndexOf( definition );
         rowContext.Detach();
 
         if ( rowIndex < 0 )
+        {
             return;
+        }
 
         tableDefinition.Rows.RemoveAt( rowIndex );
 
-        foreach ( ReportTableCellDefinition cell in tableDefinition.Cells )
+        foreach ( var cell in tableDefinition.Cells )
         {
             if ( cell.RowIndex > rowIndex )
+            {
                 cell.RowIndex--;
+            }
         }
 
-        registeredTableContext.NotifyDefinitionChanged();
+        TableContext.NotifyDefinitionChanged();
     }
 
     #endregion

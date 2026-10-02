@@ -248,8 +248,7 @@ public partial class MessageProvider : BaseComponent, IDisposable
             return;
         }
 
-        eventArgs.Cancel = ( message.Options?.BackgroundCancel ?? BackgroundCancel )
-            && ( isEscapeClosing || isFocusLostClosing );
+        eventArgs.Cancel = ( message.Options?.BackgroundCancel ?? BackgroundCancel ) && ( isEscapeClosing || isFocusLostClosing );
     }
 
     /// <summary>

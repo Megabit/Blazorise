@@ -44,8 +44,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool visibilityChanged = parameters.TryGetValue<bool>( nameof( Visible ), out bool visibleResult )
-            && state.Visible != visibleResult;
+        bool visibilityChanged = parameters.TryGetValue<bool>( nameof( Visible ), out bool visibleResult ) && state.Visible != visibleResult;
 
         await base.SetParametersAsync( parameters );
 
@@ -255,6 +254,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
             ClientX = clientX,
             ClientY = clientY,
         };
+
         DirtyClasses();
 
         if ( Rendered )
@@ -322,6 +322,7 @@ public partial class ContextMenu : BaseComponent, IAsyncDisposable
             await contextMenuSubscription.DisposeAsync();
 
         subscribedTargetSelector = targetSelector;
+
         contextMenuSubscription = string.IsNullOrWhiteSpace( targetSelector )
             ? null
             : await DocumentObserver.Subscribe( new()

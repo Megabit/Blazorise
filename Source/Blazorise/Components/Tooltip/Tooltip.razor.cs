@@ -70,6 +70,7 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
                               || previousParamAnimation.Defined != paramAnimation.Defined
                               || paramInline.Changed
                               || previousParamInline.Defined != paramInline.Defined;
+
         bool stylesChanged = parameters.IsParameterChanged( Fade )
                              || paramAnimation.Changed
                              || previousParamAnimation.Defined != paramAnimation.Defined
@@ -78,8 +79,9 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
                              || paramFadeDuration.Changed
                              || previousParamFadeDuration.Defined != paramFadeDuration.Defined
                              || parameters.TryGetValue<Theme>( nameof( Theme ), out _ );
+
         bool triggerChanged = parameters.IsParameterChanged( Trigger )
-                              || parameters.IsParameterChanged( TriggerTargetId );
+            || parameters.IsParameterChanged( TriggerTargetId );
 
         await base.SetParametersAsync( parameters );
 
@@ -285,6 +287,7 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
             return;
 
         string targetSelector = CssSelectorUtilities.BuildElementIdSelector( triggerTargetId );
+
         DocumentEventTypes targetEventTypes = Trigger switch
         {
             TooltipTrigger.Click => DocumentEventTypes.Click,

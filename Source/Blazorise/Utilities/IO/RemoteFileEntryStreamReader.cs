@@ -110,6 +110,7 @@ internal class RemoteFileEntryStreamReader : FileEntryStreamReader, IDisposable,
             {
                 var success = position == FileEntry.Size;
                 var overMaxBufferChunkLength = position > FileEntry.Size;
+
                 var fileInvalidReason = success
                     ? FileInvalidReason.None
                     : overMaxBufferChunkLength

@@ -17,9 +17,22 @@ public partial class ContextMenuSubmenu : BaseComponent
 
     private bool disabled;
 
-    private ClassBuilder triggerClassBuilder;
+    private readonly ClassBuilder triggerClassBuilder;
 
-    private ClassBuilder submenuClassBuilder;
+    private readonly ClassBuilder submenuClassBuilder;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Creates a new <see cref="ContextMenuSubmenu"/> component.
+    /// </summary>
+    public ContextMenuSubmenu()
+    {
+        triggerClassBuilder = new( BuildTriggerClasses );
+        submenuClassBuilder = new( BuildSubmenuClasses );
+    }
 
     #endregion
 
@@ -33,27 +46,6 @@ public partial class ContextMenuSubmenu : BaseComponent
         base.BuildClasses( builder );
     }
 
-    /// <inheritdoc/>
-    protected internal override void DirtyClasses()
-    {
-        triggerClassBuilder?.Dirty();
-        submenuClassBuilder?.Dirty();
-
-        base.DirtyClasses();
-    }
-
-    /// <summary>
-    /// Handles submenu visibility changes from the underlying dropdown.
-    /// </summary>
-    /// <param name="visible">The new submenu visibility state.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    private Task OnVisibleChanged( bool visible )
-    {
-        Visible = visible;
-
-        return Task.CompletedTask;
-    }
-
     private void BuildTriggerClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ContextMenuSubmenuTrigger() );
@@ -65,13 +57,34 @@ public partial class ContextMenuSubmenu : BaseComponent
         builder.Append( ClassProvider.ContextMenuSubmenuBody() );
     }
 
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        triggerClassBuilder.Dirty();
+        submenuClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    /// <summary>
+    /// Handles submenu visibility changes from the underlying dropdown.
+    /// </summary>
+    /// <param name="visible">The new submenu visibility state.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private Task OnVisibleChangedHandler( bool visible )
+    {
+        Visible = visible;
+
+        return Task.CompletedTask;
+    }
+
     #endregion
 
     #region Properties
 
-    private string TriggerClassNames => ( triggerClassBuilder ??= new( BuildTriggerClasses ) ).Class;
+    private string TriggerClassNames => triggerClassBuilder.Class;
 
-    private string SubmenuClassNames => ( submenuClassBuilder ??= new( BuildSubmenuClasses ) ).Class;
+    private string SubmenuClassNames => submenuClassBuilder.Class;
 
     private DropdownTrigger EffectiveTrigger => Trigger ?? ParentContextMenu?.EffectiveSubmenuTrigger ?? DropdownTrigger.All;
 
@@ -86,7 +99,9 @@ public partial class ContextMenuSubmenu : BaseComponent
         set
         {
             if ( visible == value )
+            {
                 return;
+            }
 
             visible = value;
             DirtyClasses();
@@ -118,7 +133,9 @@ public partial class ContextMenuSubmenu : BaseComponent
         set
         {
             if ( disabled == value )
+            {
                 return;
+            }
 
             disabled = value;
             DirtyClasses();

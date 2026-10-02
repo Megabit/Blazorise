@@ -16,6 +16,7 @@ internal sealed class ReportDesignerRulerService
             return [];
 
         double minorStep = Math.Max( 1, gridSize );
+
         double tickStep = showFineTicks
             ? minorStep
             : minorStep * ReportLayoutGeometry.GridMajorDivisions;

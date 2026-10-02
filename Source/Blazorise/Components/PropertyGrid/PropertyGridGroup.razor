@@ -12,7 +12,7 @@
                             type="button"
                             aria-expanded="@Expanded"
                             title="@(Expanded ? CollapseTitle : ExpandTitle)"
-                            @onclick="@ToggleExpanded">
+                            @onclick="@OnToggleExpandedHandler">
                         <Icon Name="@(Expanded ? ExpandedIcon : CollapsedIcon)" />
                         @if ( Header is not null )
                         {

@@ -16,8 +16,6 @@ public partial class ValidationSummary : BaseComponent<ValidationSummaryClasses,
 {
     #region Members
 
-    private Validations previousParentValidations;
-
     private string[] internalErrorMessages;
 
     #endregion
@@ -36,6 +34,28 @@ public partial class ValidationSummary : BaseComponent<ValidationSummaryClasses,
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        if ( ParentValidations is not null )
+        {
+            ParentValidations.StatusChangedInternal += OnValidationsStatusChanged;
+        }
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing && ParentValidations is not null )
+        {
+            ParentValidations.StatusChangedInternal -= OnValidationsStatusChanged;
+        }
+
+        base.Dispose( disposing );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -76,38 +96,6 @@ public partial class ValidationSummary : BaseComponent<ValidationSummaryClasses,
         ErrorStyleBuilder.Dirty();
 
         base.DirtyStyles();
-    }
-
-    /// <inheritdoc/>
-    protected override void Dispose( bool disposing )
-    {
-        if ( disposing )
-        {
-            DetachAllListener();
-        }
-
-        base.Dispose( disposing );
-    }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        if ( ParentValidations != previousParentValidations )
-        {
-            DetachAllListener();
-
-            ParentValidations.StatusChangedInternal += OnValidationsStatusChanged;
-
-            previousParentValidations = ParentValidations;
-        }
-    }
-
-    private void DetachAllListener()
-    {
-        if ( previousParentValidations is not null )
-        {
-            previousParentValidations.StatusChangedInternal -= OnValidationsStatusChanged;
-        }
     }
 
     private async void OnValidationsStatusChanged( ValidationsStatusChangedEventArgs eventArgs )

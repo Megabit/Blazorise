@@ -95,9 +95,11 @@ public partial class Slider<TValue> : Blazorise.Slider<TValue>
             double minValue = TryConvertToDouble( Min, out double convertedMin )
                 ? convertedMin
                 : 0d;
+
             double maxValue = TryConvertToDouble( Max, out double convertedMax )
                 ? convertedMax
                 : 100d;
+
             double currentValue = TryConvertToDouble( Value, out double convertedValue )
                 ? convertedValue
                 : minValue;

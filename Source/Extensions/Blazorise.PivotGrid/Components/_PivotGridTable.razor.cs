@@ -245,9 +245,11 @@ public partial class _PivotGridTable<TItem> : IDisposable
     private PivotGridRowHeaderContext<TItem> GetRowHeaderContext( PivotGridResultRow<TItem> resultRow, int index )
     {
         var row = resultRow.Row;
+
         var level = UseTreeRowHeader
             ? System.Math.Min( row.Level, Result.RowFields.Count - 1 )
             : index;
+
         var field = GetRowField( level );
 
         if ( row.IsGrandTotal )
@@ -289,6 +291,7 @@ public partial class _PivotGridTable<TItem> : IDisposable
                 : null;
 
         var formattedValue = field.FormatValue( value );
+
         var text = UseTreeRowHeader
             ? GetAxisItemCaption( row, Result.RowFields, PivotGrid.RowGroupCaptionMode, false )
             : formattedValue;

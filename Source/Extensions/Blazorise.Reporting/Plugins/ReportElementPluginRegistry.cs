@@ -31,6 +31,7 @@ public sealed class ReportElementPluginRegistry : IReportElementPluginRegistry
         {
             ReportElementDescriptor descriptor = plugin.Descriptor
                 ?? throw new InvalidOperationException( $"Report element plugin '{plugin.GetType().FullName}' must define a descriptor." );
+
             string typeName = descriptor.TypeName?.Trim();
 
             if ( string.IsNullOrWhiteSpace( typeName ) )

@@ -7,17 +7,17 @@
         <_DockNodeRenderer @key="Node.Second?.Id" NodeId="@Node.Second?.Id" Resizable="@SecondTrackResizable" />
         @if ( CanResizeSplit )
         {
-            <_DockSplitter @key="SplitterKey" SplitOrientation="@Node.Orientation" NodeId="@Node.Id" Version="@Version" />
+            <_DockSplitter @key="SplitterKey" SplitOrientation="@Node.Orientation" NodeId="@Node.Id" />
         }
     </div>
 }
 else if ( Node?.Kind == DockNodeKind.Tabs )
 {
-    <_DockTabsRenderer NodeId="@Node.Id" Resizable="@Resizable" Version="@Version" />
+    <_DockTabsRenderer NodeId="@Node.Id" Resizable="@Resizable" />
 }
 else if ( Node?.Kind == DockNodeKind.Pane )
 {
-    <_DockPaneRenderer NodeId="@Node.Id" PaneName="@Node.PaneName" Resizable="@Resizable" Version="@Version" />
+    <_DockPaneRenderer NodeId="@Node.Id" PaneName="@Node.PaneName" Resizable="@Resizable" />
 }
 else if ( Node?.Kind == DockNodeKind.Content )
 {

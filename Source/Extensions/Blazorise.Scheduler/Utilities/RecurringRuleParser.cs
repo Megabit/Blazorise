@@ -45,6 +45,7 @@ public static class RecurringRuleParser
                         "YEARLY" => SchedulerRecurrencePattern.Yearly,
                         _ => SchedulerRecurrencePattern.Never,
                     };
+
                     break;
 
                 case "INTERVAL":

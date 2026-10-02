@@ -58,6 +58,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
         bool shadowDefined = parameters.TryGetValue<Shadow>( nameof( Shadow ), out _ );
         OnScreenKeyboardPlacement? placement;
         parameters.TryGetParameter( ShowSpecialCharactersKey, out paramShowSpecialCharactersKey );
+
         OnScreenKeyboardPlacement effectivePlacement = parameters.TryGetValue<OnScreenKeyboardPlacement?>( nameof( Placement ), out placement )
             ? ResolvePlacement( placement )
             : EffectivePlacement;

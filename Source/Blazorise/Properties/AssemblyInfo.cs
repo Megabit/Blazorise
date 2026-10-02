@@ -1,4 +1,6 @@
+#region Using directives
 using System.Runtime.CompilerServices;
+#endregion
 
 [assembly: InternalsVisibleTo( "Blazorise.AntDesign" )]
 [assembly: InternalsVisibleTo( "Blazorise.Bootstrap" )]
@@ -12,3 +14,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo( "Blazorise.SignaturePad" )]
 [assembly: InternalsVisibleTo( "Blazorise.Benchmark" )]
 [assembly: InternalsVisibleTo( "Blazorise.Tests" )]
+[assembly: InternalsVisibleTo( "Blazorise.DataGrid" )]
+[assembly: InternalsVisibleTo( "Blazorise.Gantt" )]
+[assembly: InternalsVisibleTo( "Blazorise.PivotGrid" )]
+[assembly: InternalsVisibleTo( "Blazorise.Scheduler" )]

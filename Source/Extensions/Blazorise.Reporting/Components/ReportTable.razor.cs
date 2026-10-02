@@ -52,6 +52,7 @@ public partial class ReportTable
             Internal.ReportDefinitionHelper.EnsureTableLayout( definition, RowCount, ColumnCount );
 
         tableContext.Definition = definition;
+
         tableContext.DefinitionChanged = RegisteredContainerContext is null
             ? null
             : new System.Action( RegisteredContainerContext.NotifyDefinitionChanged );

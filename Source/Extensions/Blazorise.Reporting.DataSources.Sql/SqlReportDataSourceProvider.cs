@@ -160,6 +160,7 @@ public sealed class SqlReportDataSourceProvider : IReportDataSourceProvider
         {
             IsCollection = true,
         };
+
         HashSet<string> usedNames = new( StringComparer.OrdinalIgnoreCase );
 
         for ( int i = 0; i < reader.FieldCount; i++ )

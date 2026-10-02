@@ -5,6 +5,12 @@ namespace Blazorise.Tailwind.Providers;
 
 public class TailwindStyleProvider : StyleProvider
 {
+    #region DockLayout
+
+    public override string DockLayoutVariable( string name ) => $"--tw-dock-{name}";
+
+    #endregion
+
     #region Component colors
 
     public override string TextInputColor( Color color ) => color?.IsCssValue == true

@@ -194,14 +194,13 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         bool definitionModeChanged = initialized && parameters.IsParameterChanged( DefinitionMode );
         bool dataChanged = initialized && parameters.IsParameterChanged( Data );
+
         bool previewOptionsChanged = initialized
             && ( previewFormatParameter.Changed
                 || parameters.IsParameterChanged( PreviewFormats )
                 || parameters.IsParameterChanged( DefaultPreviewFormat ) );
-        bool modeChanged = initialized
-            && modeParameter.Changed
-            && modeParameter.Value is ReportMode mode
-            && mode != currentMode;
+
+        bool modeChanged = initialized && modeParameter.Changed && modeParameter.Value is ReportMode mode && mode != currentMode;
 
         await base.SetParametersAsync( parameters );
 
@@ -281,6 +280,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         workingDefinition = ShouldUseDeclarativeDefinition()
             ? new()
             : ReportContext.CloneDefinition( Definition ) ?? new();
+
         workingDefinition = ReportDefinitionHelper.EnsureDefinitionIds( workingDefinition, normalizationDiagnostics );
         NotifyDefinitionNormalized( normalizationDiagnostics );
     }
@@ -401,6 +401,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
 
         foreach ( ReportPageDefinition page in definition.Pages )
             ResolvePage( page );
+
         definition.Designer = new()
         {
             BandMode = BandMode,
@@ -1233,6 +1234,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 DefaultData = Data,
                 ElementPlugins = ElementPlugins,
             }, cancellationToken );
+
             cancellationToken.ThrowIfCancellationRequested();
 
             PdfGenerationResult result = await PdfGenerator.GenerateAsync( pdfDocument, new()
@@ -1247,6 +1249,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 return null;
 
             pdfPreviewResult = result;
+
             pdfPreviewContext = new(
                 result.Content,
                 result.ContentType,
@@ -1254,6 +1257,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 context.ViewerOptions.AllowPrint,
                 context.ViewerOptions.AllowDownload,
                 EventCallback.Factory.Create( this, DownloadPdf ) );
+
             pdfPreviewMutationVersion = mutationVersion;
 
             return result;
@@ -1404,6 +1408,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         {
             ReportDefinition definition = EffectiveDefinition;
             int targetSectionIndex = ResolvePasteSectionIndex( definition );
+
             ReportClipboardResult result = clipboardService.PasteElements(
                 definition,
                 clipboardElements,
@@ -1497,9 +1502,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         currentMode = nextState.Mode;
         currentPreviewFormat = nextState.PreviewFormat;
         activePageId = nextState.ActivePageId;
+
         activeSubreportElementKey = TryFindDesignerPageOwner( definition, activePageId, out string subreportElementKey )
             ? subreportElementKey
             : ResolveActiveSubreportElementKey( definition, previousActiveSubreportElementKey );
+
         InvalidateActivePageScope();
         clipboardElements = nextState.ClipboardElements?.Select( ReportContext.CloneElement ).Where( element => element is not null ).ToList() ?? [];
 
@@ -1784,6 +1791,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     internal async Task OpenElementContextMenu( string elementKey, MouseEventArgs eventArgs )
     {
         bool selectionChanged = selectionManager.SelectElement( elementKey, preserveSelection: selectionManager.IsElementSelected( elementKey ) );
+
         ReportContextMenuState nextContextMenu = new()
         {
             Visible = true,
@@ -2095,6 +2103,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 return Task.CompletedTask;
 
             var sourceSection = definition.Bands[sourceSectionIndex];
+
             var sourceElement = aggregateService.FindDetailFieldElement( sourceSection, result.FieldName ) ?? new ReportFieldElementDefinition
             {
                 Name = result.FieldName,
@@ -2111,6 +2120,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
             var targetSectionIndex = result.TargetSectionIndex >= 0 && result.TargetSectionIndex < definition.Bands.Count
                 ? result.TargetSectionIndex
                 : aggregateService.EnsureTargetSection( definition, sourceSectionIndex );
+
             var targetSection = definition.Bands[targetSectionIndex];
             var aggregateElement = aggregateService.CreateAggregateElement( sourceSection, sourceElement, result.Function, targetSection, targetSection.Type == ReportBandType.GroupFooter );
 
@@ -2831,9 +2841,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
                 return Task.CompletedTask;
 
             string subreportName = ReportDefinitionHelper.CreateUniqueSubreportName( rootDefinition );
+
             double x = commandContextMenu?.HasPastePosition == true
                 ? ApplyDesignerGrid( commandContextMenu.PasteX )
                 : ReportDesignerConstants.PasteElementOffset;
+
             double y = commandContextMenu?.HasPastePosition == true
                 ? ApplyDesignerGrid( commandContextMenu.PasteY )
                 : ReportDesignerConstants.PasteElementOffset;
@@ -3148,9 +3160,11 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         if ( designerWarningsMutationVersion != renderMutationVersion )
         {
             designerWarnings = collisionService.FindWarnings( DesignerRootDefinition );
+
             collidingElementKeys = designerWarnings
                 .SelectMany( warning => warning.ElementKeys )
                 .ToHashSet( StringComparer.Ordinal );
+
             designerWarningsMutationVersion = renderMutationVersion;
         }
 
@@ -3461,6 +3475,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
     private ReportPageDefinition ResolveActivePage( ReportDefinition definition )
     {
         ReportPageDefinition defaultPage = definition.Page;
+
         ReportPageDefinition page = definition.Pages.FirstOrDefault( page => string.Equals( page.Id, activePageId, StringComparison.Ordinal ) )
             ?? defaultPage;
 
@@ -3645,6 +3660,7 @@ public partial class _ReportDesigner : ComponentBase, IReportCommandExecutor, IA
         await ExecuteDesignerCommand( new( "Add page", () =>
         {
             ReportDefinition reportDefinition = RootDefinition;
+
             ReportPageDefinition page = new()
             {
                 Name = CreateUniquePageName( reportDefinition, $"Page {reportDefinition.Pages.Count + 1}" ),

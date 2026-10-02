@@ -18,11 +18,11 @@
                     @defaultText
                 </SelectItem>
             }
-            @if ( Column.Data is not null && selectItems is not null )
+            @if ( Column.Data is not null )
             {
-                @foreach ( var selectItem in selectItems )
+                @foreach ( var item in Column.Data )
                 {
-                    @itemFragment( selectItem )
+                    @RenderItem( item )
                 }
             }
         </ChildContent>
@@ -36,7 +36,7 @@
 }
 else
 {
-    <Select TValue="object" ElementId="@elementId" Value="@CellValue" ValueChanged="@OnSelectedValueChanged" ValueExpression="@(() => CellValue )"
+    <Select TValue="object" ElementId="@elementId" Value="@CellValue" ValueChanged="@OnSelectedValueChangedHandler" ValueExpression="@(() => CellValue )"
             Class="@Column.Class" Style="@Column.Style" Size="@Column.Size" MaxVisibleItems="@Column.MaxVisibleItems" TabIndex="@Column.TabIndex" Disabled="@Column.Disabled" Attributes="@Column.Attributes">
         <ChildContent>
             @{
@@ -52,11 +52,11 @@ else
                     @defaultText
                 </SelectItem>
             }
-            @if ( Column.Data is not null && selectItems is not null )
+            @if ( Column.Data is not null )
             {
-                @foreach ( var selectItem in selectItems )
+                @foreach ( var item in Column.Data )
                 {
-                    @itemFragment( selectItem )
+                    @RenderItem( item )
                 }
             }
         </ChildContent>
@@ -69,8 +69,12 @@ else
     </Select>
 }
 @code {
-    private RenderFragment<SelectItem> itemFragment => item => __builder =>
+    private RenderFragment RenderItem( object item ) => __builder =>
     {
-        <SelectItem @key="@item.Value" Value="@item.Value" Disabled="@item.Disabled">@item.Text</SelectItem>
+        var text = Column.TextField?.Invoke( item );
+        var value = Column.ValueField?.Invoke( item );
+        var disabled = Column.ItemDisabled?.Invoke( item ) == true;
+
+        <SelectItem @key="@value" Value="@value" Disabled="@disabled">@text</SelectItem>
     };
 }

@@ -391,9 +391,11 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
             return null;
 
         var title = PasswordPromptOptions?.Title ?? Localizer["Password required"];
+
         var message = args.Reason == PdfPasswordRequestReason.Incorrect
             ? PasswordPromptOptions?.IncorrectPasswordMessage ?? Localizer["Incorrect password. Please try again."]
             : PasswordPromptOptions?.Message ?? Localizer["Enter the password to open this PDF."];
+
         var passwordPlaceholder = PasswordPromptOptions?.PasswordPlaceholder ?? Localizer["Password"];
         var confirmButtonText = PasswordPromptOptions?.ConfirmButtonText ?? Localizer["Open"];
         var cancelButtonText = PasswordPromptOptions?.CancelButtonText ?? Localizer["Cancel"];

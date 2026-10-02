@@ -20,6 +20,7 @@ public sealed class ReportFormatDefinitionJsonConverter : JsonConverter<ReportFo
         using JsonDocument document = JsonDocument.ParseValue( ref reader );
         JsonElement root = document.RootElement;
         ReportFormatCategory category = ReadRequiredEnum<ReportFormatCategory>( root, nameof( ReportFormatDefinition.Category ), options );
+
         ReportFormatDefinition format = category switch
         {
             ReportFormatCategory.Number => new ReportNumberFormatDefinition

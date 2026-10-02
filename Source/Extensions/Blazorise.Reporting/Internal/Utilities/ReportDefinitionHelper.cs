@@ -94,6 +94,7 @@ internal static class ReportDefinitionHelper
     {
         ReportElementDescriptor descriptor = plugin?.Descriptor
             ?? throw new ArgumentNullException( nameof( plugin ) );
+
         ReportCustomElementDefinition definition = plugin.CreateElement() ?? new();
 
         definition.TypeName = descriptor.TypeName.Trim();

@@ -61,6 +61,7 @@
         eventArgs.Status = error is null
             ? ValidationStatus.Success
             : ValidationStatus.Error;
+
         eventArgs.ErrorText = error?.Message;
     }
 }

@@ -17,8 +17,6 @@ public partial class ReportPage : ComponentBase, IDisposable
 
     private readonly ReportPageDefinition definition = new();
 
-    private ReportContext registeredReportContext;
-
     #endregion
 
     #region Constructors
@@ -38,43 +36,42 @@ public partial class ReportPage : ComponentBase, IDisposable
     /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool definitionChanged = registeredReportContext is null
-            || parameters.IsParameterChanged( Name )
-            || parameters.IsParameterChanged( Size )
-            || parameters.IsParameterChanged( MeasurementUnit )
-            || parameters.IsParameterChanged( Orientation )
-            || parameters.IsParameterChanged( Width )
-            || parameters.IsParameterChanged( Height )
-            || parameters.IsParameterChanged( MarginLeft )
-            || parameters.IsParameterChanged( MarginTop )
-            || parameters.IsParameterChanged( MarginRight )
-            || parameters.IsParameterChanged( MarginBottom );
+        var definitionChanged = ReportContext is not null
+            && ( parameters.IsParameterChanged( Name )
+                || parameters.IsParameterChanged( Size )
+                || parameters.IsParameterChanged( MeasurementUnit )
+                || parameters.IsParameterChanged( Orientation )
+                || parameters.IsParameterChanged( Width )
+                || parameters.IsParameterChanged( Height )
+                || parameters.IsParameterChanged( MarginLeft )
+                || parameters.IsParameterChanged( MarginTop )
+                || parameters.IsParameterChanged( MarginRight )
+                || parameters.IsParameterChanged( MarginBottom ) );
 
         await base.SetParametersAsync( parameters );
 
-        bool contextChanged = !ReferenceEquals( registeredReportContext, ReportContext );
-
-        if ( contextChanged )
-        {
-            registeredReportContext?.UnregisterPage( this );
-            registeredReportContext = ReportContext;
-            PageContext.DefinitionChanged = registeredReportContext is null
-                ? null
-                : new Action( registeredReportContext.NotifyDefinitionChanged );
-        }
-
         if ( definitionChanged )
+        {
             UpdateDefinition();
+            ReportContext?.RegisterPage( this, definition );
+        }
+    }
 
-        if ( definitionChanged || contextChanged )
-            registeredReportContext?.RegisterPage( this, definition );
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        PageContext.DefinitionChanged = ReportContext is null ? null : new Action( ReportContext.NotifyDefinitionChanged );
+        UpdateDefinition();
+        ReportContext?.RegisterPage( this, definition );
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        registeredReportContext?.UnregisterPage( this );
-        registeredReportContext = null;
+        ReportContext?.UnregisterPage( this );
+        ReportContext = null;
     }
 
     private void UpdateDefinition()
@@ -85,6 +82,7 @@ public partial class ReportPage : ComponentBase, IDisposable
         definition.Orientation = Orientation;
         definition.Width = ReportMeasurementConverter.ToPoints( Width, MeasurementUnit );
         definition.Height = ReportMeasurementConverter.ToPoints( Height, MeasurementUnit );
+
         definition.Margins = new()
         {
             Left = ReportMeasurementConverter.ToPoints( MarginLeft, MeasurementUnit ),

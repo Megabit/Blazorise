@@ -5,6 +5,12 @@ namespace Blazorise.FluentUI2.Providers;
 
 public class FluentUI2StyleProvider : StyleProvider
 {
+    #region DockLayout
+
+    public override string DockLayoutVariable( string name ) => $"--fui-dock-{name}";
+
+    #endregion
+
     #region Component colors
 
     public override string TextInputColor( Color color ) => ColorStyle( color, "--colorInputBorder" );

@@ -29,6 +29,7 @@ internal sealed class SvgChartRadarSeriesContent : SvgChartSeriesContentBase
     {
         var resolvedState = new SvgChartRadarSeriesState( Series.Color, Series.FillOpacity );
         var projectionState = ResolveProjectionState( Context );
+
         var canTransformPoints = !Context.Animation.Enabled
             && pointsProjectionState.HasValue
             && projectionState.CanTransformFrom( pointsProjectionState.Value )

@@ -65,12 +65,7 @@ internal static class DatePickerCalendarBuilder
             DateTime renderedWeekStart = gridStart.AddDays( weekIndex * 7 );
             int mondayOffset = ( 7 + (int)DayOfWeek.Monday - (int)firstDayOfWeek ) % 7;
             DateTime representedWeekStart = renderedWeekStart.AddDays( mondayOffset );
-            bool representedWeekSelected = weekMode && IsWeekSelected(
-                representedWeekStart,
-                selectionMode,
-                selectedDates,
-                rangeStart,
-                rangeEnd );
+            bool representedWeekSelected = weekMode && IsWeekSelected( representedWeekStart, selectionMode, selectedDates, rangeStart, rangeEnd );
 
             for ( int dayIndex = 0; dayIndex < 7; dayIndex++ )
             {
@@ -93,10 +88,8 @@ internal static class DatePickerCalendarBuilder
                 {
                     rangeStartDay = rangeStart.HasValue && date.Date == rangeStart.Value.Date;
                     rangeEndDay = rangeEnd.HasValue && date.Date == rangeEnd.Value.Date;
-                    inRange = rangeStart.HasValue
-                        && rangeEnd.HasValue
-                        && date.Date >= rangeStart.Value.Date
-                        && date.Date <= rangeEnd.Value.Date;
+                    inRange = rangeStart.HasValue && rangeEnd.HasValue && date.Date >= rangeStart.Value.Date && date.Date <= rangeEnd.Value.Date;
+
                     selected = selectionMode == DateInputSelectionMode.Multiple
                         ? selectedDates.Any( item => item.Date == date.Date )
                         : rangeStartDay || rangeEndDay || selectionMode == DateInputSelectionMode.Single
@@ -182,6 +175,7 @@ internal static class DatePickerCalendarBuilder
         List<DatePickerCalendarPeriod> years = new();
         int decadeStart = GetDecadeStart( visibleMonth.Year );
         int decadeEnd = Math.Min( decadeStart + 9, DateTime.MaxValue.Year );
+
         int firstRenderedYear = decadeStart > DateTime.MinValue.Year
             ? decadeStart - 1
             : DateTime.MinValue.Year;
@@ -221,6 +215,7 @@ internal static class DatePickerCalendarBuilder
         List<DatePickerCalendarPeriod> decades = new();
         int centuryStart = GetCenturyStart( visibleMonth.Year );
         int centuryEnd = Math.Min( centuryStart + 99, DateTime.MaxValue.Year );
+
         int firstRenderedDecade = centuryStart >= 11
             ? centuryStart - 10
             : DateTime.MinValue.Year;

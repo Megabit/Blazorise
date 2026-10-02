@@ -22,6 +22,7 @@ public partial class ReportPanel
     {
         ReportPanelElementDefinition definition = (ReportPanelElementDefinition)base.BuildDefinition();
         panelContext.Definition = definition;
+
         panelContext.DefinitionChanged = RegisteredContainerContext is null
             ? null
             : new System.Action( RegisteredContainerContext.NotifyDefinitionChanged );

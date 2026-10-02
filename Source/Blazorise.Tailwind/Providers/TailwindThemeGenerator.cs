@@ -961,6 +961,7 @@ public class TailwindThemeGenerator : ThemeGenerator
         var border = ToHex( borderColor );
         var text = ToHex( textColor );
         var alertLink = ToHex( alertLinkColor );
+
         var alertSelector = variant switch
         {
             "primary" => ".b-alert.text-primary-800.bg-primary-300",

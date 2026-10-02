@@ -11,12 +11,6 @@ namespace Blazorise;
 /// </summary>
 public abstract class BaseValidationResult : BaseComponent, IDisposable
 {
-    #region Members
-
-    private Validation previousParentValidation;
-
-    #endregion
-
     #region Constructors
 
     /// <summary>
@@ -31,38 +25,25 @@ public abstract class BaseValidationResult : BaseComponent, IDisposable
     #region Methods
 
     /// <inheritdoc/>
-    protected override void Dispose( bool disposing )
+    protected override void OnInitialized()
     {
-        if ( disposing )
+        if ( ParentValidation is not null )
         {
-            DetachValidationStatusChangedListener();
-
-            if ( ParentValidation is not null )
-            {
-                ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
-            }
+            ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
         }
 
-        base.Dispose( disposing );
+        base.OnInitialized();
     }
 
     /// <inheritdoc/>
-    protected override void OnParametersSet()
+    protected override void Dispose( bool disposing )
     {
-        if ( ParentValidation != previousParentValidation )
+        if ( disposing && ParentValidation is not null )
         {
-            DetachValidationStatusChangedListener();
-            ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
-            previousParentValidation = ParentValidation;
+            ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
         }
-    }
 
-    private void DetachValidationStatusChangedListener()
-    {
-        if ( previousParentValidation is not null )
-        {
-            previousParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
-        }
+        base.Dispose( disposing );
     }
 
     /// <inheritdoc/>

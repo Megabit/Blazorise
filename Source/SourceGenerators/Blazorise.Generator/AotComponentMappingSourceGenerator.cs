@@ -64,6 +64,7 @@ namespace Blazorise.Generator
             }
 
             string providerAssemblyName = activeProviderAssemblies.Single();
+
             ImmutableHashSet<string> genericComponentNames = providerMappings
                 .Where( x => string.Equals( x.ProviderAssemblyName, providerAssemblyName, StringComparison.Ordinal ) )
                 .Select( x => x.ComponentTypeDefinitionName )

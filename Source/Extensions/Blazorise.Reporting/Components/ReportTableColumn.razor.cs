@@ -16,8 +16,6 @@ public partial class ReportTableColumn : ComponentBase, IDisposable
 
     private readonly ReportTableColumnDefinition definition = new();
 
-    private ReportTableContext registeredTableContext;
-
     #endregion
 
     #region Methods
@@ -25,46 +23,48 @@ public partial class ReportTableColumn : ComponentBase, IDisposable
     /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool definitionChanged = registeredTableContext is null
-            || parameters.IsParameterChanged( Title )
-            || parameters.IsParameterChanged( Field )
-            || parameters.IsParameterChanged( Format )
-            || parameters.IsParameterChanged( Width );
+        var definitionChanged = TableContext is not null
+            && ( parameters.IsParameterChanged( Title )
+                || parameters.IsParameterChanged( Field )
+                || parameters.IsParameterChanged( Format )
+                || parameters.IsParameterChanged( Width ) );
 
         await base.SetParametersAsync( parameters );
 
-        bool contextChanged = !ReferenceEquals( registeredTableContext, TableContext );
-
-        if ( contextChanged )
-        {
-            if ( registeredTableContext?.Definition is not null )
-                registeredTableContext.Definition.Columns.Remove( definition );
-
-            registeredTableContext = TableContext;
-
-            if ( registeredTableContext?.Definition is not null )
-                registeredTableContext.Definition.Columns.Add( definition );
-        }
-
         if ( definitionChanged )
         {
-            definition.Title = Title;
-            definition.Field = Field;
-            definition.Format = Format;
-            definition.Width = Width;
+            UpdateDefinition();
         }
+    }
 
-        if ( definitionChanged || contextChanged )
-            registeredTableContext?.NotifyDefinitionChanged();
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        TableContext?.Definition?.Columns.Add( definition );
+        UpdateDefinition();
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
-        if ( registeredTableContext?.Definition?.Columns.Remove( definition ) == true )
-            registeredTableContext.NotifyDefinitionChanged();
+        if ( TableContext?.Definition?.Columns.Remove( definition ) == true )
+        {
+            TableContext.NotifyDefinitionChanged();
+        }
 
-        registeredTableContext = null;
+        TableContext = null;
+    }
+
+    private void UpdateDefinition()
+    {
+        definition.Title = Title;
+        definition.Field = Field;
+        definition.Format = Format;
+        definition.Width = Width;
+
+        TableContext?.NotifyDefinitionChanged();
     }
 
     #endregion
