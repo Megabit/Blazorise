@@ -2,9 +2,11 @@
 
 Building `Blazorise.Docs` or `Blazorise.Docs.Server` runs the docs compiler before compiling the docs assembly. Newly generated example HTML is included as embedded resources in that same build, along with the generated copyable snippets.
 
+Generated HTML, copyable snippet constants, API documentation, and search indexes are written beneath the consuming project's `obj/<configuration>/<framework>/DocsGenerated/` directory (including the runtime identifier when applicable). The docs assembly embeds examples from there, and the MCP project generates and copies its indexes from its own intermediate output. These generated files should not be committed.
+
 IDE design-time builds do not run the compiler. Editing or opening a file does not regenerate documentation through those builds. Starting the server with a build refreshes the generated documentation; starting without a build uses the existing assembly.
 
-Normal builds refresh example HTML only when its source has changed since the last successful markup generation or its generated HTML is missing. The last run is tracked by `NewFilesToBuild.txt`.
+Normal builds refresh example HTML only when its source has changed since the last successful markup generation or its generated HTML is missing. Versioned examples also refresh when the release version changes. The last run and current example list are tracked by `ExampleCodeFiles.txt` in the generated output directory.
 
 To build and refresh changed examples from the repository root:
 
@@ -26,6 +28,6 @@ Changes to shared source or example-processing code do not refresh otherwise unc
 dotnet build Documentation/Blazorise.Docs.Server/Blazorise.Docs.Server.csproj -p:RegenerateDocsExamples=true
 ```
 
-When invoking the docs compiler directly, the equivalent option is `--regenerate-examples true`.
+When invoking the docs compiler directly, the equivalent option is `--regenerate-examples true`. Use `--output-path <directory>` to choose the output directory; otherwise, outputs go to `Documentation/Blazorise.Docs/obj/DocsGenerated/`.
 
 Processed HTML is still compared by content before writing. Unchanged HTML and snippet files are not rewritten. The JSON writers also preserve unchanged indexes, ignoring generation timestamps. The timestamp shortcut applies only to example HTML; snippet and index generation keep their existing behavior.

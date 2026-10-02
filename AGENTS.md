@@ -8,9 +8,9 @@
 - `Demos/`: runnable sample apps for each supported UI provider.
 - `Documentation/`: docs site source, generator, and server (`Documentation/Blazorise.Docs.Server`).
 - `NuGet/`: local packaging helpers/scripts (not the source of truth for versions).
-- Docs snippets (`Documentation/Blazorise.Docs/Models/Snippets*.cs`) are generated artifacts: do not touch any snippet files during AI work (do not create new ones like `Snippets.*.cs`), and avoid incidental diffs from running the docs build.
-- `Documentation/Blazorise.Docs/ApiDocs/Blazorise.ApiDocs.cs` is generated: do not edit or touch this file with AI/Codex.
-- `Documentation/Blazorise.Docs/Models/Snippets.generated.cs`, `Documentation/Blazorise.Docs/Resources/docs-index.json`, and `Documentation/Blazorise.Docs/Resources/docs-api-index.json` are generated automatically by docs tooling; incidental changes to these files are expected and should be ignored by AI agents unless explicitly requested otherwise.
+- Generated documentation (example HTML, `Snippets.generated.cs`, API documentation, and search indexes) belongs under each project's `obj/<configuration>/<framework>/DocsGenerated/` directory, with a runtime identifier when applicable. Do not edit generated outputs or recreate the former source-tree artifacts.
+- Maintain documentation examples in their handwritten `.razor`, `.snippet`, and `.csharp` sources. `Documentation/Blazorise.Docs/Models/Snippets.cs` is the handwritten helper, not a generated artifact.
+- Blog HTML uses a separate workflow; do not remove it as part of compiler-generated example cleanup.
 
 ## Build, Test, and Development Commands
 
