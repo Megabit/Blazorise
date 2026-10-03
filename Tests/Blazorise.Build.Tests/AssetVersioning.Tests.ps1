@@ -2,7 +2,7 @@ param(
     [string]$TestRoot = (Join-Path ([System.IO.Path]::GetTempPath()) ("Blazorise.AssetVersioning." + [guid]::NewGuid().ToString('N')))
 )
 
-# Run explicitly with PowerShell 7 and the .NET 10 SDK. This builds isolated fixtures,
+# Run explicitly with PowerShell 7 and the .NET 11 SDK. This builds isolated fixtures,
 # not the Blazorise solution, and leaves their outputs available for inspection.
 $ErrorActionPreference = 'Stop'
 $repoRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
@@ -46,7 +46,7 @@ Write-Fixture (Join-Path $libraryPath 'Library.csproj') @"
 <Project Sdk="Microsoft.NET.Sdk.Razor">
   <Import Project="$targetsPath" />
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <Version>`$(BlazoriseVersion)</Version>
     <PackageId>AssetFixture</PackageId>
   </PropertyGroup>
@@ -60,7 +60,7 @@ Write-Fixture (Join-Path $hostPath 'Host.csproj') @"
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <Import Project="$targetsPath" />
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
@@ -93,7 +93,7 @@ try {
         Invoke-DotNet build (Join-Path $hostPath 'Host.csproj') $property --nologo
 
         # Inspect primary assets; compressed alternatives share their OriginalItemSpec.
-        $manifest = Get-Content (Join-Path $libraryPath 'obj/Debug/net10.0/staticwebassets.build.json') -Raw | ConvertFrom-Json
+        $manifest = Get-Content (Join-Path $libraryPath 'obj/Debug/net11.0/staticwebassets.build.json') -Raw | ConvertFrom-Json
         foreach ($entry in $sources.GetEnumerator()) {
             $asset = @($manifest.Assets | Where-Object { $_.AssetRole -eq 'Primary' -and $_.OriginalItemSpec.Replace('\', '/').EndsWith('/' + $entry.Key) })
             Assert-Equal 1 $asset.Count "Duplicate or missing manifest entry for $($entry.Key)"
@@ -102,12 +102,12 @@ try {
             Assert-Equal ([Convert]::ToBase64String($hash)) $asset[0].Integrity 'Asset integrity was computed before replacing the version'
 
             if ($entry.Value.Contains($token)) {
-                $expectedRoot = [System.IO.Path]::GetFullPath((Join-Path $libraryPath "obj/Debug/net10.0/blazorise-assets/$($case.Asset)/wwwroot"))
+                $expectedRoot = [System.IO.Path]::GetFullPath((Join-Path $libraryPath "obj/Debug/net11.0/blazorise-assets/$($case.Asset)/wwwroot"))
                 Assert-Equal $expectedRoot.Replace('\', '/') $asset[0].ContentRoot.Replace('\', '/').TrimEnd('/') 'Development content root points at source templates'
             }
         }
 
-        $generatedModule = Join-Path $libraryPath "obj/Debug/net10.0/blazorise-assets/$($case.Asset)/wwwroot/module.js"
+        $generatedModule = Join-Path $libraryPath "obj/Debug/net11.0/blazorise-assets/$($case.Asset)/wwwroot/module.js"
         $timestamp = [System.IO.File]::GetLastWriteTimeUtc($generatedModule)
         Invoke-DotNet build (Join-Path $hostPath 'Host.csproj') $property --no-restore --nologo
         Assert-Equal $timestamp ([System.IO.File]::GetLastWriteTimeUtc($generatedModule)) 'Unchanged output was rewritten'
@@ -145,7 +145,7 @@ try {
     $sources['module.js'] = 'export const value = 2;'
     Write-Fixture (Join-Path $libraryPath 'wwwroot/module.js') $sources['module.js']
     Invoke-DotNet build (Join-Path $hostPath 'Host.csproj') "-p:BlazoriseVersion=2.3.3.1" --no-restore --nologo
-    $manifest = Get-Content (Join-Path $libraryPath 'obj/Debug/net10.0/staticwebassets.build.json') -Raw | ConvertFrom-Json
+    $manifest = Get-Content (Join-Path $libraryPath 'obj/Debug/net11.0/staticwebassets.build.json') -Raw | ConvertFrom-Json
     $asset = @($manifest.Assets | Where-Object { $_.AssetRole -eq 'Primary' -and $_.OriginalItemSpec.Replace('\', '/').EndsWith('/module.js') })
     Assert-Equal 1 $asset.Count 'Removing a token left duplicate assets'
     Assert-Equal $sources['module.js'] ([System.IO.File]::ReadAllText($asset[0].Identity)) 'Removing a token left stale generated content'

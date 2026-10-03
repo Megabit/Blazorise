@@ -47,13 +47,13 @@ Blazorise is a large multi-project repository. Unsolicited command execution:
 
 ---
 
-CI builds with .NET SDK `10.0.x`. From the repo root:
+CI builds with .NET SDK `11.0.100-rc.1.26425.128`. From the repo root:
 
 ```powershell
 dotnet restore
 dotnet build -c Release --no-restore
 dotnet test .\Tests\Blazorise.Tests\Blazorise.Tests.csproj -c Release --no-build
-pwsh .\Tests\Blazorise.E2E.Tests\bin\Release\net10.0\playwright.ps1 install --with-deps
+pwsh .\Tests\Blazorise.E2E.Tests\bin\Release\net11.0\playwright.ps1 install --with-deps
 dotnet test .\Tests\Blazorise.E2E.Tests\Blazorise.E2E.Tests.csproj -c Release --no-build
 ```
 

@@ -2,7 +2,7 @@ param(
     [string]$TestRoot = (Join-Path ([System.IO.Path]::GetTempPath()) ("Blazorise.DocsGeneration." + [guid]::NewGuid().ToString('N')))
 )
 
-# Run explicitly with PowerShell 7 and the .NET 10 SDK. Outputs remain available for inspection.
+# Run explicitly with PowerShell 7 and the .NET 11 SDK. Outputs remain available for inspection.
 $ErrorActionPreference = 'Stop'
 $repoRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 $docsRoot = Join-Path $repoRoot 'Documentation/Blazorise.Docs'
@@ -73,38 +73,64 @@ try {
     [System.IO.File]::WriteAllText($fixtureProject, @"
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Blazorise.Docs</RootNamespace>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <GenerateDocs>false</GenerateDocs>
     <DocsGeneratedOutputPath>$generatedPathXml</DocsGeneratedOutputPath>
     <ApiDocsIntermediatePath>$generatedPathXml/UnusedApiDocs</ApiDocsIntermediatePath>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+  </ItemGroup>
   <Import Project="$generationTargets" />
   $resourceTarget
 </Project>
 "@)
-    Invoke-DotNet build $fixtureProject --nologo
-    $assembly = [System.Reflection.Assembly]::LoadFile((Join-Path $TestRoot 'bin/Debug/net10.0/DocsResources.dll'))
-    $resourceName = 'Blazorise.Docs.' + $examplePath.Replace('/', '.')
-    $stream = $assembly.GetManifestResourceStream($resourceName)
-    if ($null -eq $stream) {
-        throw "Missing embedded resource: $resourceName"
-    }
-    $reader = [System.IO.StreamReader]::new($stream)
-    try {
-        Assert-Version $reader.ReadToEnd() '2.3.3.1'
-    }
-    finally {
-        $reader.Dispose()
-    }
-    $snippet = $assembly.GetType('Blazorise.Docs.Models.Snippets').GetField('AntDesignScriptsExample').GetRawConstantValue()
-    Assert-Version $snippet '2.3.3.1'
+    # Run the checks on .NET 11 independently of PowerShell's own runtime.
+    [System.IO.File]::WriteAllText((Join-Path $TestRoot 'Program.cs'), @'
+#region Using directives
+using System;
+using System.IO;
+using System.Reflection;
+using Blazorise.Docs.Models;
+#endregion
 
-    $packageSnippet = $assembly.GetType('Blazorise.Docs.Models.Snippets').GetField('AnalyzerPackageReferenceExample').GetRawConstantValue()
-    if (!$packageSnippet.Contains('Version="2.3.3.1"') -or $packageSnippet.Contains('__BLAZORISE_PACKAGE_VERSION__')) {
-        throw 'The copyable package reference does not contain the resolved NuGet version.'
+var resourceName = args[0];
+var assembly = Assembly.GetExecutingAssembly();
+using ( var stream = assembly.GetManifestResourceStream( resourceName ) )
+{
+    if ( stream is null )
+    {
+        throw new InvalidOperationException( $"Missing embedded resource: {resourceName}" );
     }
+
+    using ( var reader = new StreamReader( stream ) )
+    {
+        AssertVersion( reader.ReadToEnd(), "2.3.3.1" );
+    }
+}
+
+AssertVersion( Snippets.AntDesignScriptsExample, "2.3.3.1" );
+
+var packageSnippet = Snippets.AnalyzerPackageReferenceExample;
+if ( !packageSnippet.Contains( "Version=\"2.3.3.1\"" ) || packageSnippet.Contains( "__BLAZORISE_PACKAGE_VERSION__" ) )
+{
+    throw new InvalidOperationException( "The copyable package reference does not contain the resolved NuGet version." );
+}
+
+static void AssertVersion( string text, string version )
+{
+    if ( !text.Contains( $"?v={version}" ) || text.Contains( "__BLAZORISE_VERSION__" ) )
+    {
+        throw new InvalidOperationException( $"Expected resolved asset version {version}." );
+    }
+}
+'@)
+    Invoke-DotNet build $fixtureProject --configuration Debug --nologo
+    $resourceName = 'Blazorise.Docs.' + $examplePath.Replace('/', '.')
+    Invoke-DotNet run --project $fixtureProject --configuration Debug --no-build -- $resourceName
 
     $after = Get-SourceSnapshot
     if ($before.Count -ne $after.Count) {
