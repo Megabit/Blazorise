@@ -1,6 +1,6 @@
-import './vendors/lottie.js?v=2.3.3.0';
+import './vendors/lottie.js?v=__BLAZORISE_VERSION__';
 
-import { getRequiredElement } from "../Blazorise/utilities.js?v=2.3.3.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=__BLAZORISE_VERSION__";
 
 /**
  * Initializes a new animation instance

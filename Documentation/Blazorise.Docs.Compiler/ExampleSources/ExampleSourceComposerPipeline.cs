@@ -1,6 +1,8 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+#endregion
 
 namespace Blazorise.Docs.Compiler.ExampleSources;
 
@@ -22,8 +24,8 @@ internal static class ExampleSourceComposerPipeline
 
     private static string Prepare( string path, string source, ExampleSourceMode mode )
     {
-        string normalizedPath = path.Replace( '\\', '/' );
-        IExampleSourceComposer composer = Composers.FirstOrDefault( candidate => candidate.CanHandle( normalizedPath ) );
+        var normalizedPath = path.Replace( '\\', '/' );
+        var composer = Composers.FirstOrDefault( candidate => candidate.CanHandle( normalizedPath ) );
 
         if ( composer is not null )
         {
@@ -40,7 +42,7 @@ internal static class ExampleSourceComposerPipeline
                 string.Empty );
         }
 
-        return source;
+        return AssetVersioning.ReplaceVersionToken( source );
     }
 
     private static void ValidateCopyPasteReadySource( string path, string source )

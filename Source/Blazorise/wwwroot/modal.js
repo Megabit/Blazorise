@@ -1,4 +1,4 @@
-import { registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=2.3.3.0";
+import { registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=__BLAZORISE_VERSION__";
 
 const modalDisconnectCleanupProperty = "blazoriseModalDisconnectCleanupId";
 const modalCountAttribute = "data-modals";

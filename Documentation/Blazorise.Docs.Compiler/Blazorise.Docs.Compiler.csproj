@@ -1,9 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="../../Build/Blazorise.Version.props" />
+
   <PropertyGroup>
+    <Version>$(BlazoriseVersion)</Version>
     <OutputType>Exe</OutputType>
     <TargetFramework>net11.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyMetadata Include="BlazorisePackageVersion" Value="$(BlazoriseVersion)" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="ColorCode.HTML" />

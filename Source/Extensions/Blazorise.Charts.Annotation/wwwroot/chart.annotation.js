@@ -1,4 +1,4 @@
-import { getChart } from "../Blazorise.Charts/charts.js?v=2.3.3.0";
+import { getChart } from "../Blazorise.Charts/charts.js?v=__BLAZORISE_VERSION__";
 
 export function addAnnotation(canvasId, options) {
     const chart = getChart(canvasId);

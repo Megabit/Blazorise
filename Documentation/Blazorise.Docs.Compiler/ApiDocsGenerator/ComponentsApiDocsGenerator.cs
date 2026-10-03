@@ -80,7 +80,7 @@ public class ComponentsApiDocsGenerator
 
     #region Methods
 
-    public bool Execute()
+    public bool Execute( bool searchDataOnly = false )
     {
         if ( aspNetCoreComponentsAssembly is null )
         {
@@ -98,19 +98,23 @@ public class ComponentsApiDocsGenerator
             return false;
         }
 
-        string outputRoot = GetApiDocsOutputPath();
-        if ( string.IsNullOrWhiteSpace( outputRoot ) )
+        var outputRoot = searchDataOnly ? null : GetApiDocsOutputPath();
+        if ( !searchDataOnly && string.IsNullOrWhiteSpace( outputRoot ) )
         {
             Console.WriteLine( "Error generating ApiDocs. Output path is not set." );
             return false;
         }
 
-        PrepareApiDocsOutput( outputRoot );
+        if ( !searchDataOnly )
+        {
+            Directory.CreateDirectory( outputRoot );
+        }
 
-        List<ApiDocsForComponent> allComponentsData = new List<ApiDocsForComponent>();
+        var generatedFileNames = new HashSet<string>( StringComparer.Ordinal );
+        var allComponentsData = new List<ApiDocsForComponent>();
 
         //directories where to load the source code from one by one
-        string[] extensionLocations = Directory.GetDirectories( Paths.BlazoriseExtensionsRoot )
+        var extensionLocations = Directory.GetDirectories( Paths.BlazoriseExtensionsRoot )
             .OrderBy( path => NormalizePathForOrdering( path ), StringComparer.Ordinal )
             .ToArray();
 
@@ -118,34 +122,52 @@ public class ComponentsApiDocsGenerator
 
         foreach ( var inputLocation in inputLocations )
         {
-            string assemblyName = Path.GetFileName( inputLocation ); // Use directory name as assembly name
+            var assemblyName = Path.GetFileName( inputLocation ); // Use directory name as assembly name
 
-            CSharpCompilation compilation = inputLocation.EndsWith( "Blazorise" )
+            var compilation = inputLocation.EndsWith( "Blazorise" )
                 ? blazoriseCompilation // the case for getting components from Blazorise
                 : GetCompilation( inputLocation, assemblyName );
 
-            INamespaceSymbol namespaceToSearch = FindNamespace( compilation, assemblyName ); // e.g. Blazorise.Animate
+            var namespaceToSearch = FindNamespace( compilation, assemblyName ); // e.g. Blazorise.Animate
 
             if ( namespaceToSearch is null || namespaceToSearch.ToDisplayString().Contains( "Blazorise.Icons" ) )
+            {
                 continue;
+            }
 
-            ImmutableArray<ComponentInfo> componentInfo = [.. GetComponentsInfo( compilation, namespaceToSearch )];
+            var componentInfo = GetComponentsInfo( compilation, namespaceToSearch ).ToImmutableArray();
 
-            List<ApiDocsForComponent> componentsData = BuildComponentsData( compilation, componentInfo )
+            var componentsData = BuildComponentsData( compilation, componentInfo )
                 .OrderBy( component => component.TypeName, StringComparer.Ordinal )
                 .ThenBy( component => component.Type, StringComparer.Ordinal )
                 .ToList();
 
             allComponentsData.AddRange( componentsData );
-            string sourceText = GenerateComponentsApiSource( componentsData, assemblyName );
 
-            string outputPath = Path.Join( outputRoot, $"{assemblyName}.ApiDocs.cs" );
+            if ( searchDataOnly )
+            {
+                continue;
+            }
 
-            File.WriteAllText( outputPath, sourceText );
-            Console.WriteLine( $"API Docs generated for {assemblyName} at {outputPath}. {sourceText.Length} characters." );
+            var sourceText = GenerateComponentsApiSource( componentsData, assemblyName );
+            var fileName = $"{assemblyName}.ApiDocs.cs";
+            var outputPath = Path.Join( outputRoot, fileName );
+            generatedFileNames.Add( fileName );
+
+            if ( !File.Exists( outputPath ) || File.ReadAllText( outputPath ) != sourceText )
+            {
+                File.WriteAllText( outputPath, sourceText );
+                Console.WriteLine( $"API Docs generated for {assemblyName} at {outputPath}. {sourceText.Length} characters." );
+            }
         }
 
         WriteDocsApiIndex( allComponentsData );
+
+        if ( !searchDataOnly )
+        {
+            RemoveStaleApiDocs( outputRoot, generatedFileNames );
+        }
+
         return true;
     }
 
@@ -870,19 +892,15 @@ public class ComponentsApiDocsGenerator
         return Path.GetFullPath( outputPath );
     }
 
-    private static void PrepareApiDocsOutput( string outputPath )
+    private static void RemoveStaleApiDocs( string outputPath, HashSet<string> generatedFileNames )
     {
-        if ( string.IsNullOrWhiteSpace( outputPath ) )
-            return;
-
-        if ( Directory.Exists( outputPath ) )
+        foreach ( var file in Directory.EnumerateFiles( outputPath, "*.ApiDocs.cs", SearchOption.TopDirectoryOnly ) )
         {
-            string[] existingFiles = Directory.GetFiles( outputPath, "*.ApiDocs.cs", SearchOption.TopDirectoryOnly );
-            foreach ( string file in existingFiles )
+            if ( !generatedFileNames.Contains( Path.GetFileName( file ) ) )
+            {
                 File.Delete( file );
+            }
         }
-
-        Directory.CreateDirectory( outputPath );
     }
 
     #endregion

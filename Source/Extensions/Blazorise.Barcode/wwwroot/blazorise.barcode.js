@@ -1,4 +1,4 @@
-import "./vendors/bwip-js-min.js?v=2.3.3.0";
+import "./vendors/bwip-js-min.js?v=__BLAZORISE_VERSION__";
 
 const barcodeTypeMap = {
     aztec: "azteccode",

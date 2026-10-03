@@ -122,13 +122,23 @@ Add the following to `index.html` (Blazor WebAssembly), `_Host.cshtml` (Blazor S
 
 ```html
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-<link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css" rel="stylesheet">
+<link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.3.3.0" rel="stylesheet">
 
 <link href="_content/Blazorise/blazorise.css?v=2.3.3.0" rel="stylesheet" />
 <link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.3.3.0" rel="stylesheet" />
 ```
 
-The `?v=2.3.3.0` query string matches the current Blazorise package version (2.2.3) and is used for cache busting. Update it whenever you upgrade Blazorise packages. If you use a different provider, swap the Bootstrap CSS and provider-specific Blazorise CSS file accordingly.
+The URLs above use `2.3.3.0` as an example for Blazorise package version `2.3.3`. Replace the query version with the four-part numeric version of your installed packages: append `.0` to a three-part version, or keep an existing fourth part. Update it when upgrading packages to prevent browsers from using cached assets from an older release.
+
+In Razor host files (`_Host.cshtml` or `App.razor`), inject `Blazorise.IVersionProvider` as `VersionProvider` and use `?v=@VersionProvider.Version` instead to resolve the version automatically. In `_Host.cshtml`, keep the `@page` directive first:
+
+```razor
+@inject Blazorise.IVersionProvider VersionProvider
+
+<link href="_content/Blazorise/blazorise.css?v=@VersionProvider.Version" rel="stylesheet" />
+```
+
+If you use a different provider, swap the Bootstrap CSS and provider-specific Blazorise CSS file accordingly.
 
 #### 2.1 JavaScript resources
 
