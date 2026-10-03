@@ -4,6 +4,7 @@
   <PropertyGroup>
     <GenerateDocs Condition="'$(GenerateDocs)' == ''">true</GenerateDocs>
     <RegenerateDocsExamples Condition="'$(RegenerateDocsExamples)' == ''">false</RegenerateDocsExamples>
+    <GenerateDocsSearchDataOnly Condition="'$(GenerateDocsSearchDataOnly)' == ''">false</GenerateDocsSearchDataOnly>
     <_DocsCompilerProject>$(MSBuildThisFileDirectory)../Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj</_DocsCompilerProject>
     <_DocsSourceDirectory>$(MSBuildThisFileDirectory)../Documentation/Blazorise.Docs</_DocsSourceDirectory>
     <ProjectDocsCompiler Condition="'$(ProjectDocsCompiler)' == ''">dotnet run --configuration $(Configuration) --property:BlazoriseVersion=$(BlazoriseVersion) --project "$(_DocsCompilerProject)" --</ProjectDocsCompiler>
@@ -25,6 +26,6 @@
           Condition="'$(DesignTimeBuild)' != 'true' and '$(NoBuild)' != 'true' and '$(GenerateDocs)' == 'true'">
     <Message Text="Generating documentation in $(DocsGeneratedOutputPath)" Importance="high" />
     <Exec WorkingDirectory="$(_DocsSourceDirectory)"
-          Command="$(ProjectDocsCompiler) --output-path &quot;$(DocsGeneratedOutputPath)&quot; --api-docs-path &quot;$(ApiDocsIntermediatePath)&quot; --regenerate-examples &quot;$(RegenerateDocsExamples)&quot;" />
+          Command="$(ProjectDocsCompiler) --output-path &quot;$(DocsGeneratedOutputPath)&quot; --api-docs-path &quot;$(ApiDocsIntermediatePath)&quot; --regenerate-examples &quot;$(RegenerateDocsExamples)&quot; --search-data-only &quot;$(GenerateDocsSearchDataOnly)&quot;" />
   </Target>
 </Project>

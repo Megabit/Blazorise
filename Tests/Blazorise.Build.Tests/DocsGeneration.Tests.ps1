@@ -45,7 +45,35 @@ try {
         @{ Package = '2.3.3'; Asset = '2.3.3.0' },
         @{ Package = '2.3.3.1'; Asset = '2.3.3.1' }
     )) {
+        $apiOutputPath = Join-Path $generatedRoot 'ApiDocs'
+        $apiSnapshot = @{}
+        $staleApiPath = Join-Path $apiOutputPath 'RemovedComponent.ApiDocs.cs'
+        if (Test-Path -LiteralPath $apiOutputPath) {
+            foreach ($file in Get-ChildItem -LiteralPath $apiOutputPath -Filter '*.ApiDocs.cs' -File) {
+                $apiSnapshot[$file.FullName] = @{
+                    Hash = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash
+                    Timestamp = $file.LastWriteTimeUtc
+                }
+            }
+            [System.IO.File]::WriteAllText($staleApiPath, '// Stale output from a removed component library.')
+        }
+
         Invoke-DotNet run --configuration Debug "--property:BlazoriseVersion=$($case.Package)" --project $compilerProject -- --output-path $generatedRoot
+
+        if (!(Test-Path -LiteralPath (Join-Path $apiOutputPath 'Blazorise.ApiDocs.cs'))) {
+            throw 'Full generation did not produce API documentation source.'
+        }
+        if (Test-Path -LiteralPath $staleApiPath) {
+            throw 'Generation did not remove stale API documentation source.'
+        }
+        foreach ($path in $apiSnapshot.Keys) {
+            if ($apiSnapshot[$path].Hash -cne (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash) {
+                throw "Changing only the package version changed API documentation: $path"
+            }
+            if ($apiSnapshot[$path].Timestamp -ne [System.IO.File]::GetLastWriteTimeUtc($path)) {
+                throw "Unchanged API documentation was rewritten: $path"
+            }
+        }
 
         Assert-Version ([System.IO.File]::ReadAllText((Join-Path $generatedRoot $examplePath))) $case.Asset
         Assert-Version ([System.IO.File]::ReadAllText((Join-Path $generatedRoot 'Models/Snippets.generated.cs'))) $case.Asset
@@ -61,6 +89,22 @@ try {
         if (!(Get-Content (Join-Path $generatedRoot 'ExampleCodeFiles.txt')).Contains($examplePath)) {
             throw 'The example is missing from the generated resource manifest.'
         }
+    }
+
+    # MCP needs the same indexes as full generation, without HTML or C# outputs.
+    $searchDataRoot = Join-Path $TestRoot 'search-data-only'
+    Invoke-DotNet run --configuration Debug --no-build --project $compilerProject -- --output-path $searchDataRoot --search-data-only true
+    foreach ($fileName in @('docs-index.json', 'docs-api-index.json')) {
+        $fullIndex = Get-Content -LiteralPath (Join-Path $generatedRoot "Resources/$fileName") -Raw | ConvertFrom-Json
+        $searchDataIndex = Get-Content -LiteralPath (Join-Path $searchDataRoot "Resources/$fileName") -Raw | ConvertFrom-Json
+        $fullIndex.PSObject.Properties.Remove('generatedUtc')
+        $searchDataIndex.PSObject.Properties.Remove('generatedUtc')
+        if (($fullIndex | ConvertTo-Json -Depth 100 -Compress) -cne ($searchDataIndex | ConvertTo-Json -Depth 100 -Compress)) {
+            throw "Search data generation produced different content: $fileName"
+        }
+    }
+    if (@(Get-ChildItem -LiteralPath $searchDataRoot -Recurse -File).Count -ne 2) {
+        throw 'Search data generation produced files other than the two JSON indexes.'
     }
 
     # Exercise the production resource-inclusion target in a small project. API documentation

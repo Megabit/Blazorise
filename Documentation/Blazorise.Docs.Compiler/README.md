@@ -2,7 +2,7 @@
 
 Building `Blazorise.Docs` or `Blazorise.Docs.Server` runs the docs compiler before compiling the docs assembly. Newly generated example HTML is included as embedded resources in that same build, along with the generated copyable snippets.
 
-Generated HTML, copyable snippet constants, API documentation, and search indexes are written beneath the consuming project's `obj/<configuration>/<framework>/DocsGenerated/` directory (including the runtime identifier when applicable). The docs assembly embeds examples from there, and the MCP project generates and copies its indexes from its own intermediate output. These generated files should not be committed.
+Generated HTML, copyable snippet constants, API documentation, and search indexes are written beneath the consuming project's `obj/<configuration>/<framework>/DocsGenerated/` directory (including the runtime identifier when applicable). The docs assembly embeds examples from there. The MCP project sets `GenerateDocsSearchDataOnly=true` to generate just its two JSON indexes in its own intermediate output, skipping example HTML, snippet constants, and API documentation C# files. These generated files should not be committed.
 
 Use `__BLAZORISE_VERSION__` for four-part CSS/JS cache query versions and `__BLAZORISE_PACKAGE_VERSION__` for the exact NuGet version in package references. Both come from `Build/Blazorise.Version.props` and are resolved for displayed examples, copied snippets, and search indexes.
 
@@ -30,6 +30,6 @@ Changes to shared source or example-processing code do not refresh otherwise unc
 dotnet build Documentation/Blazorise.Docs.Server/Blazorise.Docs.Server.csproj -p:RegenerateDocsExamples=true
 ```
 
-When invoking the docs compiler directly, the equivalent option is `--regenerate-examples true`. Use `--output-path <directory>` to choose the output directory; otherwise, outputs go to `Documentation/Blazorise.Docs/obj/DocsGenerated/`.
+When invoking the docs compiler directly, the equivalent option is `--regenerate-examples true`. Use `--output-path <directory>` to choose the output directory; otherwise, outputs go to `Documentation/Blazorise.Docs/obj/DocsGenerated/`. Pass `--search-data-only true` to generate only the search indexes. This mode still analyzes component sources for the API index, but does not render example HTML or generate C# files.
 
-Processed HTML is still compared by content before writing. Unchanged HTML and snippet files are not rewritten. The JSON writers also preserve unchanged indexes, ignoring generation timestamps. The timestamp shortcut applies only to example HTML; snippet and index generation keep their existing behavior.
+Processed HTML is still compared by content before writing. Unchanged HTML, snippet files, and API documentation C# files are not rewritten, preserving timestamps so they do not trigger unnecessary compilation. After successful API generation, obsolete API documentation C# files are removed. The JSON writers also preserve unchanged indexes, ignoring generation timestamps. The timestamp shortcut applies only to example HTML; snippet and index generation keep their existing behavior.
