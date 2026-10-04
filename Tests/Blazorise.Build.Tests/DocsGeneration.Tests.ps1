@@ -156,10 +156,20 @@ try {
     <TargetFramework>net11.0</TargetFramework>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <GenerateDocsSearchDataOnly>true</GenerateDocsSearchDataOnly>
+    <OutputType Condition="'`$(TestSelfContainedCompilerReference)' == 'true'">Exe</OutputType>
+    <SelfContained Condition="'`$(TestSelfContainedCompilerReference)' == 'true'">true</SelfContained>
   </PropertyGroup>
   <Import Project="$generationTargets" />
+  <Target Name="VerifySelfContainedCompilerReference" DependsOnTargets="PrepareProjectReferences">
+    <Error Condition="'`$(SelfContained)' != 'true' or '`$(_IsExecutable)' != 'true'"
+           Text="This check requires a self-contained executable consumer." />
+    <Error Condition="'@(_MSBuildProjectReferenceExistent)' == ''"
+           Text="The documentation compiler build dependency is missing." />
+  </Target>
 </Project>
 "@)
+    # Exercise the SDK's executable reference validation without downloading runtime packs.
+    Invoke-DotNet msbuild $pipelineProject '-target:VerifySelfContainedCompilerReference' '--property:TestSelfContainedCompilerReference=true' --nologo
     Invoke-DotNet build $pipelineProject --configuration Debug '--property:BlazoriseVersion=2.3.3.1' --nologo
     Assert-SearchIndexesMatch $pipelineOutput
     $pipelineLog = @(Invoke-DotNet build $pipelineProject --configuration Debug '--property:BlazoriseVersion=2.3.3.1' --no-restore --nologo)
