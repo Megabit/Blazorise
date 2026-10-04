@@ -6,12 +6,19 @@
     <RegenerateDocsExamples Condition="'$(RegenerateDocsExamples)' == ''">false</RegenerateDocsExamples>
     <GenerateDocsSearchDataOnly Condition="'$(GenerateDocsSearchDataOnly)' == ''">false</GenerateDocsSearchDataOnly>
     <_DocsCompilerProject>$(MSBuildThisFileDirectory)../Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj</_DocsCompilerProject>
+    <_DocsCompilerDirectory>$(MSBuildThisFileDirectory)../Documentation/Blazorise.Docs.Compiler</_DocsCompilerDirectory>
     <_DocsSourceDirectory>$(MSBuildThisFileDirectory)../Documentation/Blazorise.Docs</_DocsSourceDirectory>
-    <ProjectDocsCompiler Condition="'$(ProjectDocsCompiler)' == ''">dotnet run --configuration $(Configuration) --property:BlazoriseVersion=$(BlazoriseVersion) --project "$(_DocsCompilerProject)" --</ProjectDocsCompiler>
+    <_DocsCompilerGlobalPropertiesToRemove>TargetFramework;RuntimeIdentifier;RuntimeIdentifiers;SelfContained;PublishSelfContained;PublishSingleFile;PublishAot</_DocsCompilerGlobalPropertiesToRemove>
   </PropertyGroup>
 
   <ItemGroup>
     <UpToDateCheckInput Include="$(MSBuildThisFileDirectory)Blazorise.Version.props;$(MSBuildThisFileFullPath);$(_DocsSourceDirectory)/Pages/**/*.razor;$(_DocsSourceDirectory)/Pages/**/*.snippet;$(_DocsSourceDirectory)/Pages/**/*.csharp" />
+    <UpToDateCheckInput Include="$(_DocsCompilerProject);$(_DocsCompilerDirectory)/**/*.cs;$(_DocsSourceDirectory)/**/*.cs;$(MSBuildThisFileDirectory)../Source/Blazorise/**/*.cs;$(MSBuildThisFileDirectory)../Source/Extensions/Blazorise.*/**/*.cs"
+                       Exclude="**/bin/**;**/obj/**;**/__SOURCEGENERATED__/**;$(MSBuildThisFileDirectory)../Source/Extensions/Blazorise.Icons*/**/*" />
+    <!-- Restore traverses this dependency. Its build is scheduled explicitly before generation. -->
+    <ProjectReference Include="$(_DocsCompilerProject)" Condition="'$(GenerateDocs)' == 'true' and '$(ProjectDocsCompiler)' == ''"
+                      ReferenceOutputAssembly="false" BuildReference="false" PrivateAssets="all"
+                      GlobalPropertiesToRemove="$(_DocsCompilerGlobalPropertiesToRemove)" />
   </ItemGroup>
 
   <!-- Resolve this during target execution, after the SDK has added the framework and RID. -->
@@ -22,7 +29,20 @@
     </PropertyGroup>
   </Target>
 
-  <Target Name="CompileDocs" BeforeTargets="BeforeBuild" DependsOnTargets="InitializeDocsGeneration"
+  <Target Name="BuildDocsCompiler"
+          Condition="'$(DesignTimeBuild)' != 'true' and '$(NoBuild)' != 'true' and '$(GenerateDocs)' == 'true' and '$(ProjectDocsCompiler)' == ''">
+    <!-- MSBuild shares this build between Docs and MCP; no nested restore or CLI build. -->
+    <MSBuild Projects="$(_DocsCompilerProject)" Targets="Build"
+             Properties="Configuration=$(Configuration);BlazoriseVersion=$(BlazoriseVersion)" RemoveProperties="$(_DocsCompilerGlobalPropertiesToRemove)">
+      <Output TaskParameter="TargetOutputs" ItemName="_DocsCompilerOutput" />
+    </MSBuild>
+    <PropertyGroup>
+      <ProjectDocsCompiler>dotnet &quot;@(_DocsCompilerOutput->'%(FullPath)')&quot;</ProjectDocsCompiler>
+    </PropertyGroup>
+    <Error Condition="'@(_DocsCompilerOutput)' == ''" Text="The documentation compiler did not produce an assembly." />
+  </Target>
+
+  <Target Name="CompileDocs" BeforeTargets="BeforeBuild" DependsOnTargets="InitializeDocsGeneration;BuildDocsCompiler"
           Condition="'$(DesignTimeBuild)' != 'true' and '$(NoBuild)' != 'true' and '$(GenerateDocs)' == 'true'">
     <Message Text="Generating documentation in $(DocsGeneratedOutputPath)" Importance="high" />
     <Exec WorkingDirectory="$(_DocsSourceDirectory)"

@@ -52,26 +52,12 @@ public class ComponentsApiDocsGenerator
     {
         this.apiDocsOutputPath = apiDocsOutputPath;
         searchHelper = new SearchHelper();
-        var aspnetCoreAssemblyName = typeof( Microsoft.AspNetCore.Components.ParameterAttribute ).Assembly.GetName().Name;
+        aspNetCoreComponentsAssembly = typeof( Microsoft.AspNetCore.Components.ParameterAttribute ).Assembly;
+        systemRuntimeAssembly = Assembly.Load( "System.Runtime" );
 
-        aspNetCoreComponentsAssembly = AppDomain.CurrentDomain
-            .GetAssemblies()
-            .FirstOrDefault( a => a.GetName().Name == aspnetCoreAssemblyName );
+        systemRuntimeDocumentationProvider = XmlDocumentationProvider.CreateFromFile( Path.Combine( AppContext.BaseDirectory, "System.Runtime.xml" ) );
+        aspnetCoreDocumentationProvider = XmlDocumentationProvider.CreateFromFile( Path.Combine( AppContext.BaseDirectory, "Microsoft.AspNetCore.Components.xml" ) );
 
-        systemRuntimeAssembly = AppDomain.CurrentDomain
-            .GetAssemblies()
-            .FirstOrDefault( a => a.GetName().Name == "System.Runtime" );
-
-        if ( systemRuntimeAssembly is not null )
-        {
-            systemRuntimeDocumentationProvider = XmlDocumentationProvider.CreateFromFile( $"{Path.GetFullPath( "." )}/System.Runtime.xml" );
-        }
-        if ( aspNetCoreComponentsAssembly != null )
-        {
-            // Replace the .dll extension with .xml to get the documentation file path
-            string xmlDocumentationPath = Path.ChangeExtension( aspNetCoreComponentsAssembly.Location, ".xml" );
-            aspnetCoreDocumentationProvider = XmlDocumentationProvider.CreateFromFile( xmlDocumentationPath );
-        }
         //get the blazorise compilation, it's needed for every extension.
         blazoriseCompilation = GetCompilation( Paths.BlazoriseLibRoot, "Blazorise", true );
     }
@@ -114,11 +100,9 @@ public class ComponentsApiDocsGenerator
         var allComponentsData = new List<ApiDocsForComponent>();
 
         //directories where to load the source code from one by one
-        var extensionLocations = Directory.GetDirectories( Paths.BlazoriseExtensionsRoot )
+        var inputLocations = DocsSourceFiles.ApiDirectories()
             .OrderBy( path => NormalizePathForOrdering( path ), StringComparer.Ordinal )
             .ToArray();
-
-        string[] inputLocations = [Paths.BlazoriseLibRoot, .. extensionLocations];
 
         foreach ( var inputLocation in inputLocations )
         {
@@ -200,7 +184,7 @@ public class ComponentsApiDocsGenerator
 
     private CSharpCompilation GetCompilation( string inputLocation, string assemblyName, bool isBlazoriseAssembly = false )
     {
-        string[] sourceFiles = Directory.GetFiles( inputLocation, "*.cs", SearchOption.AllDirectories )
+        var sourceFiles = DocsSourceFiles.Enumerate( inputLocation, "*.cs" )
             .OrderBy( path => NormalizePathForOrdering( path ), StringComparer.Ordinal )
             .ToArray();
 

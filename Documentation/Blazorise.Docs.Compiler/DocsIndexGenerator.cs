@@ -56,7 +56,7 @@ internal sealed class DocsIndexGenerator
             Dictionary<string, List<string>> exampleIndex = BuildExampleIndex( pagesRoot );
             List<DocsPage> pages = new List<DocsPage>();
 
-            IEnumerable<string> pageFiles = Directory.EnumerateFiles( pagesRoot, "*.razor", SearchOption.AllDirectories );
+            var pageFiles = DocsSourceFiles.Enumerate( pagesRoot, "*.razor" );
 
             foreach ( string pageFile in pageFiles )
             {
@@ -179,7 +179,7 @@ internal sealed class DocsIndexGenerator
     {
         Dictionary<string, List<string>> index = new Dictionary<string, List<string>>( StringComparer.OrdinalIgnoreCase );
 
-        IEnumerable<string> exampleFiles = Directory.EnumerateFiles( pagesRoot, "*.*", SearchOption.AllDirectories )
+        var exampleFiles = DocsSourceFiles.Enumerate( pagesRoot )
             .Where( path => IsExampleFile( path ) );
 
         foreach ( string filePath in exampleFiles )

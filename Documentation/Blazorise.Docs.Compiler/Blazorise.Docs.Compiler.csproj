@@ -20,14 +20,17 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
   </ItemGroup>
 
-  <Target Name="CopyNuGetXmlDocs" AfterTargets="Build">
+  <Target Name="CopyNuGetXmlDocs" AfterTargets="CopyFilesToOutputDirectory">
     <ItemGroup>
-      <!-- Include XML documentation files for Microsoft.AspNetCore.Components and System.Runtime -->
-      <XmlDocFiles Include="$(NuGetPackageRoot)\**\Microsoft.AspNetCore.Components.xml" />
-      <XmlDocFiles Include="$(NuGetPackageRoot)\system.runtime\**\ref\netcore50\System.Runtime.xml" />
-
+      <!-- Use XML beside the exact assembly references selected by the SDK. -->
+      <_DocsXmlReference Include="@(ReferencePath)"
+                         Condition="'%(ReferencePath.Filename)' == 'Microsoft.AspNetCore.Components' or '%(ReferencePath.Filename)' == 'System.Runtime'" />
+      <_DocsReferenceXml Include="@(_DocsXmlReference->'%(RootDir)%(Directory)%(Filename).xml')" />
     </ItemGroup>
-    <Copy SourceFiles="@(XmlDocFiles)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="%(_DocsReferenceXml.Identity)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true"
+          Condition="Exists('%(_DocsReferenceXml.Identity)')">
+      <Output TaskParameter="CopiedFiles" ItemName="FileWrites" />
+    </Copy>
   </Target>
 
 </Project>

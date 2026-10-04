@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Blazorise.Docs.Compiler.ExampleSources;
+#endregion
 
 namespace Blazorise.Docs.Compiler;
 
@@ -29,19 +31,17 @@ public class CodeSnippets
             cb.AddLine( "{" );
             cb.IndentLevel++;
 
-            var dirPath = Paths.DirPath();
-            var razorFiles = Directory.EnumerateFiles( dirPath, "*.razor", SearchOption.AllDirectories );
-            var snippetFiles = Directory.EnumerateFiles( dirPath, "*.snippet", SearchOption.AllDirectories );
-            var csharpFiles = Directory.EnumerateFiles( dirPath, "*.csharp", SearchOption.AllDirectories );
-
-            foreach ( var entry in razorFiles.Concat( snippetFiles ).Concat( csharpFiles ).OrderBy( e => e.Replace( "\\", "/" ), StringComparer.Ordinal ) )
+            foreach ( var entry in DocsSourceFiles.Examples().OrderBy( e => e.Replace( "\\", "/" ), StringComparer.Ordinal ) )
             {
                 var filename = Path.GetFileName( entry );
                 var componentName = Path.GetFileNameWithoutExtension( filename );
-                bool isCSharp = entry.EndsWith( ".csharp" );
+                var isCSharp = entry.EndsWith( ".csharp" );
 
                 if ( !isCSharp && !componentName.Contains( Paths.ExampleDiscriminator ) )
+                {
                     continue;
+                }
+
                 cb.AddLine( $"public const string {componentName} = @\"{EscapeComponentSource( entry )}\";" );
                 cb.AddLine();
             }

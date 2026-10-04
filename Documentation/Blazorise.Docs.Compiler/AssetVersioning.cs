@@ -1,5 +1,4 @@
 #region Using directives
-using System;
 using System.Linq;
 using System.Reflection;
 #endregion
@@ -15,10 +14,6 @@ internal static class AssetVersioning
     private static readonly string packageVersion = typeof( AssetVersioning ).Assembly
         .GetCustomAttributes<AssemblyMetadataAttribute>()
         .Single( attribute => attribute.Key == "BlazorisePackageVersion" ).Value;
-
-    public static bool HasVersionToken( string source )
-        => source.Contains( VersionToken, StringComparison.Ordinal )
-           || source.Contains( PackageVersionToken, StringComparison.Ordinal );
 
     public static string ReplaceVersionToken( string source )
         => source.Replace( VersionToken, typeof( AssetVersioning ).Assembly.GetName().Version.ToString( 4 ) )
