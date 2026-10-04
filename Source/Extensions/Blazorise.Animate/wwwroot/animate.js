@@ -1,4 +1,4 @@
-import { animate as motionAnimate, inView as motionInView } from "./vendors/motion.js?v=2.3.3.0";
+import { animate as motionAnimate, inView as motionInView } from "./vendors/motion.js?v=__BLAZORISE_VERSION__";
 
 const _instances = new WeakMap();
 const defaultOptions = {

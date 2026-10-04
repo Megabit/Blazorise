@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,29 +13,22 @@ public class CodeExamplesMarkup
 {
     public bool Execute( bool regenerateAll = false )
     {
-        var newFiles = new StringBuilder();
+        var generatedFiles = new StringBuilder();
         var success = true;
         var noOfFilesUpdated = 0;
         var noOfFilesCreated = 0;
 
         try
         {
-            var startedUtc = DateTime.UtcNow;
-            var timestampPath = Paths.NewFilesToBuildPath();
-
-            var lastCheckedUtc = File.Exists( timestampPath )
-                ? File.GetLastWriteTimeUtc( timestampPath )
-                : DateTime.MinValue;
-
+            var cachePath = Path.Combine( Paths.GeneratedOutputPath, ".cache", "markup.json" );
+            var previousCache = GenerationCache.Read<Dictionary<string, MarkupCacheEntry>>( cachePath ) ?? new();
+            var currentCache = new Dictionary<string, MarkupCacheEntry>( StringComparer.Ordinal );
             var dirPath = Paths.DirPath();
-            var directoryInfo = new DirectoryInfo( dirPath );
 
-            var razorFiles = directoryInfo.GetFiles( "*.razor", SearchOption.AllDirectories );
-            var snippetFiles = directoryInfo.GetFiles( "*.snippet", SearchOption.AllDirectories );
-            var csharpFiles = directoryInfo.GetFiles( "*.csharp", SearchOption.AllDirectories );
-
-            foreach ( var entry in razorFiles.Concat( snippetFiles ).Concat( csharpFiles ) )
+            foreach ( var path in DocsSourceFiles.Examples().OrderBy( path => path, StringComparer.Ordinal ) )
             {
+                var entry = new FileInfo( path );
+
                 // We need to skip blog examples becaouse they are generated from markdown code block and we don't want to process them again
                 if ( entry.Name.EndsWith( "Code.razor" )
                      || ( entry.FullName.Contains( $"{Path.DirectorySeparatorChar}Blog{Path.DirectorySeparatorChar}", StringComparison.InvariantCultureIgnoreCase ) && entry.Name.EndsWith( ".snippet" ) ) )
@@ -49,14 +43,24 @@ public class CodeExamplesMarkup
                     continue;
                 }
 
-                var markupPath = entry.FullName
+                var markupRelativePath = Path.GetRelativePath( dirPath, entry.FullName )
                     .Replace( "Examples", "Code" )
                     .Replace( ".razor", "Code.html" )
                     .Replace( ".snippet", "Code.html" )
                     .Replace( ".csharp", "Code.html" );
 
-                if ( !regenerateAll && entry.LastWriteTimeUtc < lastCheckedUtc && File.Exists( markupPath ) )
+                var markupPath = Path.Combine( Paths.GeneratedOutputPath, markupRelativePath );
+                generatedFiles.AppendLine( markupRelativePath.Replace( '\\', '/' ) );
+
+                var source = File.ReadAllText( entry.FullName, Encoding.UTF8 );
+                source = CodeSnippets.PrepareSourceForDisplay( entry.FullName, source );
+                var fingerprint = GenerationCache.ContentFingerprint( ( isCSharp ? "cs" : "razor" ) + source );
+
+                if ( !regenerateAll && previousCache.TryGetValue( markupRelativePath, out var cached )
+                    && cached is not null && cached.Input == fingerprint && File.Exists( markupPath )
+                    && cached.Output == GenerationCache.FileFingerprint( markupPath ) )
                 {
+                    currentCache[markupRelativePath] = cached;
                     continue;
                 }
 
@@ -67,8 +71,6 @@ public class CodeExamplesMarkup
                 }
 
                 var currentCode = string.Empty;
-                var source = File.ReadAllText( entry.FullName, Encoding.UTF8 );
-                source = CodeSnippets.PrepareSourceForDisplay( entry.FullName, source );
 
                 if ( File.Exists( markupPath ) )
                 {
@@ -83,7 +85,6 @@ public class CodeExamplesMarkup
 
                     if ( currentCode == string.Empty )
                     {
-                        newFiles.AppendLine( markupPath );
                         noOfFilesCreated++;
                     }
                     else
@@ -91,12 +92,12 @@ public class CodeExamplesMarkup
                         noOfFilesUpdated++;
                     }
                 }
+
+                currentCache[markupRelativePath] = new MarkupCacheEntry( fingerprint, GenerationCache.FileFingerprint( markupPath ) );
             }
 
-            File.WriteAllText( timestampPath, newFiles.ToString() );
-
-            // Preserve edits made while the generator was running for the next build.
-            File.SetLastWriteTimeUtc( timestampPath, startedUtc );
+            GenerationCache.WriteTextIfChanged( Paths.ExampleCodeFilesPath(), generatedFiles.ToString() );
+            GenerationCache.Write( cachePath, currentCache );
         }
         catch ( Exception e )
         {
@@ -108,6 +109,8 @@ public class CodeExamplesMarkup
         Console.WriteLine( $"Docs.Compiler generated {noOfFilesCreated} new files" );
         return success;
     }
+
+    public sealed record MarkupCacheEntry( string Input, string Output );
 
     public static string AttributePostprocessing( string html )
     {

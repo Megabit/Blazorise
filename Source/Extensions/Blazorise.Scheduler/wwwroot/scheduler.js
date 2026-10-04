@@ -1,6 +1,6 @@
-import { getRequiredElement, insertCSSIntoDocumentHead, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.3.3.0";
+import { getRequiredElement, insertCSSIntoDocumentHead, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=__BLAZORISE_VERSION__";
 
-insertCSSIntoDocumentHead("_content/Blazorise.Scheduler/scheduler.css?v=2.3.3.0");
+insertCSSIntoDocumentHead("_content/Blazorise.Scheduler/scheduler.css?v=__BLAZORISE_VERSION__");
 
 const _instances = {};
 

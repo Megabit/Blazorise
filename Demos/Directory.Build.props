@@ -1,4 +1,6 @@
 <Project>
+  <Import Project="../Build/Blazorise.Assets.targets" />
+
   <ItemGroup>
     <ProjectReference Include="$(MSBuildThisFileDirectory)..\Source\Helpers\Blazorise.Analyzers\Blazorise.Analyzers.csproj"
                       OutputItemType="Analyzer"

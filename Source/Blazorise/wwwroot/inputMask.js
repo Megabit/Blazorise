@@ -1,5 +1,5 @@
-import Inputmask from "./vendors/inputmask.js?v=2.3.3.0";
-import { createEvent, getRequiredElement } from "./utilities.js?v=2.3.3.0";
+import Inputmask from "./vendors/inputmask.js?v=__BLAZORISE_VERSION__";
+import { createEvent, getRequiredElement } from "./utilities.js?v=__BLAZORISE_VERSION__";
 
 let _instances = [];
 

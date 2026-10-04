@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
+  <Import Project="../../Build/Blazorise.Assets.targets" />
+
   <PropertyGroup>
     <TargetFramework>net11.0</TargetFramework>
     <GenerateBlazorWebAssemblyDepsFile>true</GenerateBlazorWebAssemblyDepsFile>

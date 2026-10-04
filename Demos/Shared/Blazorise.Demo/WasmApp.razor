@@ -11,6 +11,7 @@
 @inject LazyAssemblyLoader AssemblyLoader
 @inject ILogger<WasmApp> Logger
 @inject IJSRuntime JSRuntime
+@inject IVersionProvider VersionProvider
 
 <Blazorise.ThemeProvider Theme="@theme">
     <Router AppAssembly="typeof( App ).Assembly"
@@ -163,7 +164,7 @@
                 reCaptchaLoader ??= await JSRuntime.InvokeAsync<IJSObjectReference>(
                     "import",
                     context.CancellationToken,
-                    "./_content/Blazorise.Demo/recaptcha-loader.js" );
+                    $"./_content/Blazorise.Demo/recaptcha-loader.js?v={VersionProvider.Version}" );
 
                 await reCaptchaLoader.InvokeVoidAsync( "load", context.CancellationToken );
             }

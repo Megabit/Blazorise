@@ -1,5 +1,5 @@
-import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=2.3.3.0";
-import { createFloatingUiAutoUpdate } from './floatingUi.js?v=2.3.3.0';
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=__BLAZORISE_VERSION__";
+import { createFloatingUiAutoUpdate } from './floatingUi.js?v=__BLAZORISE_VERSION__';
 
 const _instances = [];
 

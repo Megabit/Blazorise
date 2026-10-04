@@ -105,7 +105,7 @@ namespace Blazorise.SignaturePad
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise.SignaturePad/signaturepad.js";
+        public override string ModuleFileName => $"./_content/Blazorise.SignaturePad/signaturepad.js?v={VersionProvider.Version}";
 
         #endregion
     }

@@ -7,8 +7,4 @@
 		<RequiresAspNetWebAssets>true</RequiresAspNetWebAssets>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
-	</ItemGroup>
-
 </Project>
