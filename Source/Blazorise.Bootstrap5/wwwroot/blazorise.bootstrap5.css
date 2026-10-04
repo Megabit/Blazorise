@@ -3342,52 +3342,52 @@ input[readonly=readonly][type=range]::-ms-thumb {
 }
 
 input[type=color].form-control-color,
-.b-input-color-picker {
+.form-control-color-picker {
   width: 100%;
 }
 
-.b-input-color-picker.form-control-color {
+.form-control-color-picker.form-control-color {
   display: flex;
   align-items: stretch;
   padding: 0.375rem;
 }
-.b-input-color-picker.form-control-color > .b-input-color-picker-preview {
+.form-control-color-picker.form-control-color > .form-control-color-preview {
   border-radius: var(--bs-border-radius);
 }
-.b-input-color-picker.form-control-color.form-control-sm {
+.form-control-color-picker.form-control-color.form-control-sm {
   padding: 0.25rem;
 }
-.b-input-color-picker.form-control-color.form-control-sm > .b-input-color-picker-preview {
+.form-control-color-picker.form-control-color.form-control-sm > .form-control-color-preview {
   border-radius: var(--bs-border-radius-sm);
 }
-.b-input-color-picker.form-control-color.form-control-lg {
+.form-control-color-picker.form-control-color.form-control-lg {
   padding: 0.5rem;
 }
-.b-input-color-picker.form-control-color.form-control-lg > .b-input-color-picker-preview {
+.form-control-color-picker.form-control-color.form-control-lg > .form-control-color-preview {
   border-radius: var(--bs-border-radius-lg);
 }
-.b-input-color-picker.form-control-color.form-control-xs {
+.form-control-color-picker.form-control-color.form-control-xs {
   padding: 0.15rem;
 }
-.b-input-color-picker.form-control-color.form-control-xs > .b-input-color-picker-preview {
+.form-control-color-picker.form-control-color.form-control-xs > .form-control-color-preview {
   border-radius: 0.15rem;
 }
-.b-input-color-picker.form-control-color.form-control-md {
+.form-control-color-picker.form-control-color.form-control-md {
   padding: 0.47rem;
 }
-.b-input-color-picker.form-control-color.form-control-md > .b-input-color-picker-preview {
+.form-control-color-picker.form-control-color.form-control-md > .form-control-color-preview {
   border-radius: var(--bs-border-radius);
 }
-.b-input-color-picker.form-control-color.form-control-xl {
+.form-control-color-picker.form-control-color.form-control-xl {
   padding: 0.5rem;
 }
-.b-input-color-picker.form-control-color.form-control-xl > .b-input-color-picker-preview {
+.form-control-color-picker.form-control-color.form-control-xl > .form-control-color-preview {
   border-radius: var(--bs-border-radius-lg);
 }
-.b-input-color-picker.form-control-color > .b-input-color-picker-preview::before {
+.form-control-color-picker.form-control-color > .form-control-color-preview::before {
   border-radius: inherit;
 }
-.b-input-color-picker.form-control-color > .b-input-color-picker-preview > .b-input-color-picker-curent-color {
+.form-control-color-picker.form-control-color > .form-control-color-preview > .form-control-color-swatch {
   border-radius: inherit;
 }
 
@@ -3502,6 +3502,61 @@ input[type=color].form-control-color,
 }
 .form-group:not(.row) .btn-group.btn-group-toggle .btn {
   flex: 0 1 auto;
+}
+
+.form-control.form-control-color-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+.form-control.form-control-color-picker > .form-control-color-preview {
+  width: 1.25em;
+  height: 1.25em;
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  border-radius: var(--bs-border-radius);
+}
+.form-control.form-control-color-picker > .form-control-color-preview::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: url('data:image/svg+xml;utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V1H0V0Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
+  background-size: 0.5em;
+  z-index: -1;
+}
+.form-control.form-control-color-picker > .form-control-color-preview > .form-control-color-swatch {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.form-control.form-control-color-picker > .form-control-color-preview::before,
+.form-control.form-control-color-picker > .form-control-color-preview > .form-control-color-swatch {
+  border-radius: inherit;
+}
+.form-control.form-control-color-picker::after {
+  content: attr(data-color);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.form-control.form-control-color-picker[data-show-value=false], .form-control.form-control-color-picker:not([data-color]), .form-control.form-control-color-picker[data-color=""], .form-control.form-control-color-picker[data-color=null] {
+  gap: 0;
+}
+.form-control.form-control-color-picker[data-show-value=false]::after, .form-control.form-control-color-picker:not([data-color])::after, .form-control.form-control-color-picker[data-color=""]::after, .form-control.form-control-color-picker[data-color=null]::after {
+  display: none;
+}
+.form-control.form-control-color-picker[data-show-value=false] {
+  flex: 0 0 auto;
+}
+.form-control.form-control-color-picker[aria-disabled=true] {
+  opacity: 0.65;
 }
 
 .range-slider {

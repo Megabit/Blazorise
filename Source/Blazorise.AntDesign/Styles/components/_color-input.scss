@@ -13,7 +13,7 @@
             font-size: $font-size;
         }
 
-        &.ant-input-color-picker:is(:not([data-color]), [data-color=''], [data-color='null']) {
+        &.ant-input-color-picker:is([data-show-value='false'], :not([data-color]), [data-color=''], [data-color='null']) {
             width: $height;
             min-width: $height;
         }
@@ -63,6 +63,9 @@
     }
 
     .ant-color-picker-trigger-text {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
         margin-inline-start: var(--ant-margin-xs);
         margin-inline-end: calc(var(--ant-margin-xs) - (var(--ant-padding-xxs) - var(--ant-line-width)));
         font-size: var(--ant-font-size);
@@ -98,6 +101,8 @@
         position: static;
         z-index: auto;
         width: auto;
+        max-width: 100%;
+        min-width: 0;
         height: auto;
         display: inline-flex;
         align-items: flex-start;
@@ -122,6 +127,13 @@
         display: none;
     }
 
+    &.ant-input-color-picker[data-show-value='false'] {
+        .ant-input-color-picker-current-value {
+            display: none;
+        }
+    }
+
+    &.ant-input-color-picker[data-show-value='false'],
     &.ant-input-color-picker:not([data-color]),
     &.ant-input-color-picker[data-color=''],
     &.ant-input-color-picker[data-color='null'] {

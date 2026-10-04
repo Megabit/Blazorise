@@ -182,6 +182,10 @@ public class MaterialClassProvider : ClassProvider
 
     public override string ColorPicker() => "mui-input mui-color-picker";
 
+    public override string ColorPickerPreview() => "mui-color-preview";
+
+    public override string ColorPickerSwatch() => "mui-color-preview-color";
+
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
     #endregion

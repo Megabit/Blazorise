@@ -1,14 +1,14 @@
 @inherits Blazorise.ColorPicker
-<div class="@WrapperClassNames" style="@WrapperStyleNames">
-    <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-secondary-400">
+<div class="@WrapperClassNames" style="@WrapperStyleNames" data-show-value="@ShowValueString">
+    <div class="@PreviewClassNames">
         <span class="flex items-center self-center pl-1">
             <template x-if="selected.value">
-                <div class="w-4 h-4 rounded shadow border" :style="{ 'background-color': selected.value }"></div>
+                <div class="@SwatchClassNames" :style="{ 'background-color': selected.value }"></div>
             </template>
-            <div class="w-4 h-4 rounded shadow border" :style="{ 'background-color': selected.value }" style="@($"background-color: {CurrentValueAsString};")"></div>
+            <div class="@SwatchClassNames" :style="{ 'background-color': selected.value }" style="@($"background-color: {CurrentValueAsString};")"></div>
         </span>
     </div>
-    <input @ref="@ElementRef" id="@ElementId" type="text" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" value="@CurrentValueAsString" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+    <input @ref="@ElementRef" id="@ElementId" type="text" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@(ReadOnly || !ShowValue)" value="@CurrentValueAsString" data-show-value="@ShowValueString" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
     @ChildContent
     @Feedback
 </div>

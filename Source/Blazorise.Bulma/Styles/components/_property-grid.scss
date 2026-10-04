@@ -129,11 +129,11 @@
         }
 
         &[data-property-grid-editor="color"] {
-            .field.has-addons > .control:has(> .b-input-color-picker) {
+            .field.has-addons > .control:has(> .color-picker) {
                 flex: none;
             }
 
-            .b-input-color-picker {
+            .color-picker {
                 width: var(--bulma-control-height);
                 padding: $spacer * .25;
             }

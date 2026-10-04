@@ -3676,6 +3676,61 @@ fieldset.columns > legend.field-label ~ .column {
   padding-top: 0;
 }
 
+.input.color-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bulma-control-padding-horizontal);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+.input.color-picker > .color-picker-preview {
+  width: 1.25em;
+  height: 1.25em;
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  border-radius: var(--bulma-control-radius);
+}
+.input.color-picker > .color-picker-preview::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: url('data:image/svg+xml;utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V1H0V0Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
+  background-size: 0.5em;
+  z-index: -1;
+}
+.input.color-picker > .color-picker-preview > .color-picker-swatch {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.input.color-picker > .color-picker-preview::before,
+.input.color-picker > .color-picker-preview > .color-picker-swatch {
+  border-radius: inherit;
+}
+.input.color-picker::after {
+  content: attr(data-color);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.input.color-picker[data-show-value=false], .input.color-picker:not([data-color]), .input.color-picker[data-color=""], .input.color-picker[data-color=null] {
+  gap: 0;
+}
+.input.color-picker[data-show-value=false]::after, .input.color-picker:not([data-color])::after, .input.color-picker[data-color=""]::after, .input.color-picker[data-color=null]::after {
+  display: none;
+}
+.input.color-picker[data-show-value=false] {
+  flex: 0 0 auto;
+}
+.input.color-picker[aria-disabled=true] {
+  opacity: 0.65;
+}
+
 :is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit, .datepicker, .timepicker) + .help.is-success,
 :is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit, .datepicker, .timepicker) + .help.is-warning,
 :is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit, .datepicker, .timepicker) + .help.is-danger,
@@ -4736,10 +4791,10 @@ li.list-group-item-action {
   width: 100%;
   min-width: 0;
 }
-.property-grid-item[data-property-grid-editor=color] .field.has-addons > .control:has(> .b-input-color-picker) {
+.property-grid-item[data-property-grid-editor=color] .field.has-addons > .control:has(> .color-picker) {
   flex: none;
 }
-.property-grid-item[data-property-grid-editor=color] .b-input-color-picker {
+.property-grid-item[data-property-grid-editor=color] .color-picker {
   width: var(--bulma-control-height);
   padding: 0.25rem;
 }

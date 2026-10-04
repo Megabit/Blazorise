@@ -6144,6 +6144,13 @@ textarea.mui-input[data-autosize=true] {
   content: "";
 }
 
+.mui-color-picker[data-show-value=false] {
+  gap: 0;
+}
+.mui-color-picker[data-show-value=false]::after {
+  display: none;
+}
+
 .mui-color-input[aria-disabled=true], .mui-color-picker[aria-disabled=true] {
   opacity: 0.5;
   cursor: not-allowed;
