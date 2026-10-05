@@ -23,6 +23,8 @@ public class DropdownComponentTest : BunitContext
         var btnElement = comp.Find( "button" );
         var mnuElement = comp.Find( "#dropdown-menu" );
 
+        this.JSInterop.VerifyNotInvoke( "unregisterClosableComponent" );
+
         // test
         await btnElement.ClickAsync();
 
@@ -35,6 +37,7 @@ public class DropdownComponentTest : BunitContext
 
         // validate
         this.JSInterop.VerifyInvoke( "registerClosableComponent" );
+        this.JSInterop.VerifyInvoke( "unregisterClosableComponent" );
         Assert.DoesNotContain( "show", drpElement.GetAttribute( "class" ) );
         Assert.DoesNotContain( "show", mnuElement.GetAttribute( "class" ) );
     }
