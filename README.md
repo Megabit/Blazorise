@@ -230,6 +230,19 @@ builder.Services
 We release a development version of Blazorise on a regular basis. This version is available on the [MyGet](https://www.myget.org/gallery/blazorise) feed.
 This release is not recommended for production use, but it's a great way to test the latest features and bug fixes and give us feedback ahead of the next release.
 
+## Local development
+
+Select the `DebugNet11` configuration in Visual Studio to build Blazorise libraries, providers, and extensions only for `net11.0`. This configuration includes debugging symbols, disables optimization, and enables hot reload for the demo apps. Generators, analyzers, and weavers retain their existing target frameworks. The standard `Debug` and `Release` configurations continue to target .NET 8 through .NET 11.
+
+`PrimaryTargetFramework` in `Directory.Build.props` defines the development framework, currently `net11.0`. Demos, documentation, shared app code, tests, benchmarks, and the `DebugNet11` library build use this property. The supported library framework list and framework-specific dependency versions are maintained separately.
+
+From the repository root, build the solution or run an individual demo with:
+
+```powershell
+dotnet build Blazorise.slnx -c DebugNet11
+dotnet run --project Demos/Blazorise.Demo.Bootstrap5/Blazorise.Demo.Bootstrap5.csproj -c DebugNet11
+```
+
 ## Contributing
 
 We welcome contributions and any suggestions or feature requests you might have. Contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. This will be signed once you submit a PullRequest on our repository. For details about our CLA, please visit: [Contributor License Agreement](https://gist.github.com/stsrki/abfa5ce0f4a5cf1e6ac67b92f8eb5d63).

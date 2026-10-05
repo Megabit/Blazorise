@@ -5,7 +5,7 @@
   <PropertyGroup>
     <Version>$(BlazoriseVersion)</Version>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net11.0</TargetFramework>
+    <TargetFramework>$(PrimaryTargetFramework)</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
