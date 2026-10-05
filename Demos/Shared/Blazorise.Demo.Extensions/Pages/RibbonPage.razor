@@ -117,9 +117,16 @@
 
                     <RibbonGroup Text="Editing">
                         <RibbonColumn>
-                            <RibbonButton Text="Find" Icon="IconName.Search" Clicked="@OnFindHandler" />
+                            <RibbonSplitButton Text="Find" Icon="IconName.Search" Size="RibbonItemSize.Medium" Clicked="@OnFindHandler">
+                                <RibbonDropdownItem Text="Find" Icon="IconName.Search" Clicked="@OnFindHandler" />
+                                <RibbonDropdownItem Text="Advanced Find" Icon="IconName.Search" Clicked="@OnAdvancedFindHandler" />
+                                <RibbonDropdownItem Text="Go To" Icon="IconName.ArrowRight" Clicked="@OnGoToHandler" />
+                            </RibbonSplitButton>
                             <RibbonButton Text="Replace" Icon="IconName.Sync" Clicked="@OnReplaceHandler" />
-                            <RibbonButton Text="Select All" Icon="IconName.Mouse" Clicked="@OnSelectAllHandler" />
+                            <RibbonSplitButton Text="Select" Icon="IconName.Mouse" Size="RibbonItemSize.Medium" Clicked="@OnSelectAllHandler">
+                                <RibbonDropdownItem Text="Select All" Clicked="@OnSelectAllHandler" />
+                                <RibbonDropdownItem Text="Select Objects" Clicked="@OnSelectObjectsHandler" />
+                            </RibbonSplitButton>
                         </RibbonColumn>
                     </RibbonGroup>
                     <RibbonGroup Text="Voice">
@@ -140,7 +147,11 @@
                         <RibbonButton Text="Table" Icon="IconName.Table" Size="RibbonItemSize.Large" Clicked="@OnTableHandler" />
                     </RibbonGroup>
                     <RibbonGroup Text="Illustrations">
-                        <RibbonButton Text="Pictures" Icon="IconName.Image" Size="RibbonItemSize.Large" Clicked="@OnPicturesHandler" />
+                        <RibbonDropdown Text="Pictures" Icon="IconName.Image" Size="RibbonItemSize.Large">
+                            <RibbonDropdownItem Text="This Device…" Icon="IconName.Desktop" Clicked="@OnDevicePicturesHandler" />
+                            <RibbonDropdownItem Text="Stock Images…" Icon="IconName.Images" Clicked="@OnStockPicturesHandler" />
+                            <RibbonDropdownItem Text="Online Pictures…" Icon="IconName.Globe" Clicked="@OnOnlinePicturesHandler" />
+                        </RibbonDropdown>
                         <RibbonButton Text="Shapes" Icon="IconName.Shapes" Size="RibbonItemSize.Large" Clicked="@OnShapesHandler" />
                         <RibbonColumn>
                             <RibbonButton Text="Icons" Icon="IconName.Star" Clicked="@OnIconsHandler" />

@@ -252,11 +252,17 @@ public partial class RibbonPage : ComponentBase
         status = "Use the Find in document field above the ribbon";
     }
 
+    private void OnAdvancedFindHandler() => ShowCommandStatus( "Advanced Find" );
+
+    private void OnGoToHandler() => ShowCommandStatus( "Go To" );
+
     private async Task OnSelectAllHandler()
     {
         await documentInputRef.Focus();
         status = "Document focused; press Ctrl+A to select its text";
     }
+
+    private void OnSelectObjectsHandler() => ShowCommandStatus( "Select Objects" );
 
     private void OnWordCountHandler()
     {
@@ -296,7 +302,11 @@ public partial class RibbonPage : ComponentBase
 
     private void OnCoverPageHandler() => ShowCommandStatus( "Cover Page" );
 
-    private void OnPicturesHandler() => ShowCommandStatus( "Pictures" );
+    private void OnDevicePicturesHandler() => ShowCommandStatus( "Pictures from This Device" );
+
+    private void OnStockPicturesHandler() => ShowCommandStatus( "Stock Images" );
+
+    private void OnOnlinePicturesHandler() => ShowCommandStatus( "Online Pictures" );
 
     private void OnShapesHandler() => ShowCommandStatus( "Shapes" );
 
