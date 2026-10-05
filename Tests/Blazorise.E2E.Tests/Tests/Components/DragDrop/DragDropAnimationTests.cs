@@ -195,6 +195,11 @@ public class DragDropAnimationTests : BlazorisePageTest
         var placeholder = zone.Locator( "[data-index='2'] + [data-reorder-placeholder='true']" );
         await Expect( placeholder ).ToHaveCountAsync( 1 );
 
+        // Hover waits for the neighboring item to stop animating and receive pointer events.
+        // The placeholder itself can be hidden, so it cannot use that actionability check.
+        await zone.Locator( ItemSelector + "[data-index='2']" ).HoverAsync();
+        await Expect( placeholder ).ToHaveCountAsync( 1 );
+
         // Hidden placeholders still reserve space, so read their layout bounds directly.
         var position = await placeholder.EvaluateAsync<float[]>( """
             element => {
@@ -206,7 +211,7 @@ public class DragDropAnimationTests : BlazorisePageTest
         // Reordering changes the element beneath the pointer. Send dragover to the
         // final drop location before releasing, even when the layout moved instantly.
         await Page.Mouse.MoveAsync( position[0], position[1] );
-        await Page.Mouse.MoveAsync( position[0], position[1] );
+        await Page.Mouse.MoveAsync( position[0] + 1, position[1] );
         await Expect( placeholder ).ToHaveCountAsync( 1 );
         await Expect( zone ).ToHaveAttributeAsync( "data-transaction-current", "true" );
         await Page.Mouse.UpAsync();
