@@ -26,7 +26,7 @@ namespace Blazorise.Tailwind.Components
 
         private void BuildWrapperClasses( ClassBuilder builder )
         {
-            builder.Append( "relative" );
+            builder.Append( "group/color-picker relative" );
             AppendWrapperUtilities( builder );
         }
 
@@ -52,6 +52,8 @@ namespace Blazorise.Tailwind.Components
         #endregion
 
         #region Properties
+
+        protected override string ColorPreviewElementSelector => null;
 
         protected string WrapperClassNames => wrapperClassBuilder.Class;
 

@@ -179,6 +179,10 @@ class EmptyClassProvider : IClassProvider
 
     public string ColorPicker() => null;
 
+    public string ColorPickerPreview() => null;
+
+    public string ColorPickerSwatch() => null;
+
     public string ColorPickerSize( Size size ) => null;
 
     #endregion

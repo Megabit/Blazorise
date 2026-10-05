@@ -69,8 +69,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
     const hexColor = options.default ? options.default : null;
 
-    const colorPreviewElement = element.querySelector(options.colorPreviewElementSelector || ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-color");
-    const colorValueElement = element.querySelector(options.colorValueElementSelector || ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-value");
+    const colorPreviewElement = options.colorPreviewElementSelector ? element.querySelector(options.colorPreviewElementSelector) : null;
+    const colorValueElement = options.colorValueElementSelector ? element.querySelector(options.colorValueElementSelector) : null;
 
     const instanceInfo = {
         picker: picker,

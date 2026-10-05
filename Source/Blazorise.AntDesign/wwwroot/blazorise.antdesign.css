@@ -6889,6 +6889,9 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
 }
 .ant-color-input .ant-color-picker-trigger-text,
 .ant-input-color-picker.ant-color-picker-trigger .ant-color-picker-trigger-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-inline-start: var(--ant-margin-xs);
   margin-inline-end: calc(var(--ant-margin-xs) - (var(--ant-padding-xxs) - var(--ant-line-width)));
   font-size: var(--ant-font-size);
@@ -6924,6 +6927,8 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
   position: static;
   z-index: auto;
   width: auto;
+  max-width: 100%;
+  min-width: 0;
   height: auto;
   display: inline-flex;
   align-items: flex-start;
@@ -6947,7 +6952,12 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
 .ant-input-color-picker.ant-color-picker-trigger .ant-input-color-picker-current-value:empty {
   display: none;
 }
-.ant-color-input.ant-input-color-picker:not([data-color]), .ant-color-input.ant-input-color-picker[data-color=""], .ant-color-input.ant-input-color-picker[data-color=null],
+.ant-color-input.ant-input-color-picker[data-show-value=false] .ant-input-color-picker-current-value,
+.ant-input-color-picker.ant-color-picker-trigger.ant-input-color-picker[data-show-value=false] .ant-input-color-picker-current-value {
+  display: none;
+}
+.ant-color-input.ant-input-color-picker[data-show-value=false], .ant-color-input.ant-input-color-picker:not([data-color]), .ant-color-input.ant-input-color-picker[data-color=""], .ant-color-input.ant-input-color-picker[data-color=null],
+.ant-input-color-picker.ant-color-picker-trigger.ant-input-color-picker[data-show-value=false],
 .ant-input-color-picker.ant-color-picker-trigger.ant-input-color-picker:not([data-color]),
 .ant-input-color-picker.ant-color-picker-trigger.ant-input-color-picker[data-color=""],
 .ant-input-color-picker.ant-color-picker-trigger.ant-input-color-picker[data-color=null] {
@@ -6983,8 +6993,8 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
 .ant-input-color-picker.ant-color-picker-trigger.ant-input-xs .ant-color-picker-trigger-text {
   font-size: 10px;
 }
-.ant-color-input.ant-input-xs.ant-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]),
-.ant-input-color-picker.ant-color-picker-trigger.ant-input-xs.ant-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]) {
+.ant-color-input.ant-input-xs.ant-input-color-picker:is([data-show-value=false], :not([data-color]), [data-color=""], [data-color=null]),
+.ant-input-color-picker.ant-color-picker-trigger.ant-input-xs.ant-input-color-picker:is([data-show-value=false], :not([data-color]), [data-color=""], [data-color=null]) {
   width: var(--ant-control-height-xs);
   min-width: var(--ant-control-height-xs);
 }
@@ -7003,8 +7013,8 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
 .ant-input-color-picker.ant-color-picker-trigger.ant-input-sm .ant-color-picker-trigger-text {
   font-size: var(--ant-font-size-sm);
 }
-.ant-color-input.ant-input-sm.ant-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]),
-.ant-input-color-picker.ant-color-picker-trigger.ant-input-sm.ant-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]) {
+.ant-color-input.ant-input-sm.ant-input-color-picker:is([data-show-value=false], :not([data-color]), [data-color=""], [data-color=null]),
+.ant-input-color-picker.ant-color-picker-trigger.ant-input-sm.ant-input-color-picker:is([data-show-value=false], :not([data-color]), [data-color=""], [data-color=null]) {
   width: var(--ant-control-height-sm);
   min-width: var(--ant-control-height-sm);
 }
@@ -7023,8 +7033,8 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
 .ant-input-color-picker.ant-color-picker-trigger.ant-input-md .ant-color-picker-trigger-text {
   font-size: var(--ant-font-size);
 }
-.ant-color-input.ant-input-md.ant-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]),
-.ant-input-color-picker.ant-color-picker-trigger.ant-input-md.ant-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]) {
+.ant-color-input.ant-input-md.ant-input-color-picker:is([data-show-value=false], :not([data-color]), [data-color=""], [data-color=null]),
+.ant-input-color-picker.ant-color-picker-trigger.ant-input-md.ant-input-color-picker:is([data-show-value=false], :not([data-color]), [data-color=""], [data-color=null]) {
   width: calc(var(--ant-control-height) + var(--ant-size-unit));
   min-width: calc(var(--ant-control-height) + var(--ant-size-unit));
 }
@@ -7043,8 +7053,8 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
 .ant-input-color-picker.ant-color-picker-trigger.ant-input-lg .ant-color-picker-trigger-text {
   font-size: var(--ant-font-size-lg);
 }
-.ant-color-input.ant-input-lg.ant-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]),
-.ant-input-color-picker.ant-color-picker-trigger.ant-input-lg.ant-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]) {
+.ant-color-input.ant-input-lg.ant-input-color-picker:is([data-show-value=false], :not([data-color]), [data-color=""], [data-color=null]),
+.ant-input-color-picker.ant-color-picker-trigger.ant-input-lg.ant-input-color-picker:is([data-show-value=false], :not([data-color]), [data-color=""], [data-color=null]) {
   width: var(--ant-control-height-lg);
   min-width: var(--ant-control-height-lg);
 }
@@ -7063,8 +7073,8 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
 .ant-input-color-picker.ant-color-picker-trigger.ant-input-xl .ant-color-picker-trigger-text {
   font-size: var(--ant-font-size-xl);
 }
-.ant-color-input.ant-input-xl.ant-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]),
-.ant-input-color-picker.ant-color-picker-trigger.ant-input-xl.ant-input-color-picker:is(:not([data-color]), [data-color=""], [data-color=null]) {
+.ant-color-input.ant-input-xl.ant-input-color-picker:is([data-show-value=false], :not([data-color]), [data-color=""], [data-color=null]),
+.ant-input-color-picker.ant-color-picker-trigger.ant-input-xl.ant-input-color-picker:is([data-show-value=false], :not([data-color]), [data-color=""], [data-color=null]) {
   width: calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2);
   min-width: calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2);
 }

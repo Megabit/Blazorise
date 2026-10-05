@@ -131,7 +131,7 @@ textarea {
 @mixin color-picker-size($padding, $border-radius) {
     padding: $padding;
 
-    > .b-input-color-picker-preview {
+    > .form-control-color-preview {
         border-radius: $border-radius;
     }
 }
@@ -502,11 +502,11 @@ input[readonly="readonly"][type=range] {
 }
 
 input[type="color"].form-control-color,
-.b-input-color-picker {
+.form-control-color-picker {
     width: 100%;
 }
 
-.b-input-color-picker {
+.form-control-color-picker {
     &.form-control-color {
         display: flex;
         align-items: stretch;
@@ -532,12 +532,12 @@ input[type="color"].form-control-color,
             @include color-picker-size($input-padding-y-xl, $input-border-radius-xl);
         }
 
-        > .b-input-color-picker-preview {
+        > .form-control-color-preview {
             &::before {
                 border-radius: inherit;
             }
 
-            > .b-input-color-picker-curent-color {
+            > .form-control-color-swatch {
                 border-radius: inherit;
             }
         }

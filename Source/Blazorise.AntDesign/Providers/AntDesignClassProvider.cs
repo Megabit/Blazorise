@@ -184,6 +184,10 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ColorPicker() => "ant-input ant-input-color-picker";
 
+    public override string ColorPickerPreview() => "ant-input-color-picker-preview";
+
+    public override string ColorPickerSwatch() => "ant-input-color-picker-current-color";
+
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
     #endregion

@@ -177,6 +177,10 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ColorPicker();
 
+    public abstract string ColorPickerPreview();
+
+    public abstract string ColorPickerSwatch();
+
     public abstract string ColorPickerSize( Size size );
 
     #endregion

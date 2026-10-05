@@ -4375,6 +4375,41 @@
       opacity: 60%;
     }
   }
+  .data-\[show-value\=false\]\:px-0 {
+    &[data-show-value="false"] {
+      padding-inline: calc(var(--spacing) * 0);
+    }
+  }
+  .data-\[show-value\=false\]\:text-transparent {
+    &[data-show-value="false"] {
+      color: transparent;
+    }
+  }
+  .data-\[show-value\=false\]\:caret-transparent {
+    &[data-show-value="false"] {
+      caret-color: transparent;
+    }
+  }
+  .data-\[show-value\=false\]\:selection\:bg-transparent {
+    &[data-show-value="false"] {
+      & *::selection {
+        background-color: transparent;
+      }
+      &::selection {
+        background-color: transparent;
+      }
+    }
+  }
+  .data-\[show-value\=false\]\:selection\:text-transparent {
+    &[data-show-value="false"] {
+      & *::selection {
+        color: transparent;
+      }
+      &::selection {
+        color: transparent;
+      }
+    }
+  }
   .supports-\[color\:contrast-color\(red\)\]\:peer-checked\:after\:bg-\[contrast-color\(var\(--tw-switch-bg\)\)\] {
     @supports (color:contrast-color(red)) {
       &:is(:where(.peer):checked ~ *) {

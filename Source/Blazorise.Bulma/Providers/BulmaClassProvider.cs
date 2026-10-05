@@ -182,7 +182,11 @@ public class BulmaClassProvider : ClassProvider
 
     #region ColorPicker
 
-    public override string ColorPicker() => "input b-input-color-picker";
+    public override string ColorPicker() => "input color-picker";
+
+    public override string ColorPickerPreview() => "color-picker-preview";
+
+    public override string ColorPickerSwatch() => "color-picker-swatch";
 
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 

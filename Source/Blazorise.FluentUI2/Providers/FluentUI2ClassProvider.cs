@@ -184,6 +184,10 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ColorPicker() => "fui-ColorPicker fui-Input__input fui-Input__input--colorPicker";
 
+    public override string ColorPickerPreview() => "fui-ColorPicker__preview";
+
+    public override string ColorPickerSwatch() => "fui-Input__colorPreview";
+
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
     #endregion

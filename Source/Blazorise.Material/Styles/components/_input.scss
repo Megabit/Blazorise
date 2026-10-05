@@ -302,6 +302,16 @@ textarea.mui-input[data-autosize='true'] {
     }
 }
 
+.mui-color-picker {
+    &[data-show-value='false'] {
+        gap: 0;
+
+        &::after {
+            display: none;
+        }
+    }
+}
+
 .mui-color {
     &-input[aria-disabled='true'],
     &-picker[aria-disabled='true'] {

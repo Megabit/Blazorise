@@ -182,7 +182,11 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #region ColorPicker
 
-    public override string ColorPicker() => "form-control form-control-color b-input-color-picker";
+    public override string ColorPicker() => "form-control form-control-color form-control-color-picker";
+
+    public override string ColorPickerPreview() => "form-control-color-preview";
+
+    public override string ColorPickerSwatch() => "form-control-color-swatch";
 
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 

@@ -176,6 +176,10 @@ public interface IClassProvider
 
     string ColorPicker();
 
+    string ColorPickerPreview();
+
+    string ColorPickerSwatch();
+
     string ColorPickerSize( Size size );
 
     #endregion

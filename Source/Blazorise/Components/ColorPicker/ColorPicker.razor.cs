@@ -50,6 +50,19 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
 
     #endregion
 
+    #region Constructors
+
+    /// <summary>
+    /// A default constructor.
+    /// </summary>
+    public ColorPicker()
+    {
+        PreviewClassBuilder = new( BuildPreviewClasses );
+        SwatchClassBuilder = new( BuildSwatchClasses );
+    }
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -179,6 +192,27 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     }
 
     /// <summary>
+    /// Builds the classes for the preview wrapper.
+    /// </summary>
+    /// <param name="builder">Class builder.</param>
+    protected virtual void BuildPreviewClasses( ClassBuilder builder ) => builder.Append( ClassProvider.ColorPickerPreview() );
+
+    /// <summary>
+    /// Builds the classes for the color swatch.
+    /// </summary>
+    /// <param name="builder">Class builder.</param>
+    protected virtual void BuildSwatchClasses( ClassBuilder builder ) => builder.Append( ClassProvider.ColorPickerSwatch() );
+
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        PreviewClassBuilder.Dirty();
+        SwatchClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    /// <summary>
     /// Handles the input onchange event.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -211,12 +245,16 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// <param name="value">New color value.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     [JSInvokable]
-    public Task SetValue( string value )
+    public async Task SetValue( string value )
     {
         if ( Value.IsEqual( value ) )
-            return Task.CompletedTask;
+        {
+            return;
+        }
 
-        return CurrentValueHandler( value );
+        await CurrentValueHandler( value );
+
+        await InvokeAsync( StateHasChanged );
     }
 
     #endregion
@@ -235,14 +273,42 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     protected string AriaDisabledString => Disabled ? "true" : "false";
 
     /// <summary>
+    /// Gets the value visibility serialized for the data-show-value attribute.
+    /// </summary>
+    protected string ShowValueString => ShowValue ? "true" : "false";
+
+    /// <summary>
     /// Gets the CSS selector for the color preview element.
     /// </summary>
-    protected virtual string ColorPreviewElementSelector => ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-color";
+    protected virtual string ColorPreviewElementSelector
+        => string.IsNullOrEmpty( PreviewClassNames ) || string.IsNullOrEmpty( SwatchClassNames )
+            ? null
+            : $":scope > .{PreviewClassNames} > .{SwatchClassNames}";
 
     /// <summary>
     /// Gets the CSS selector for the color value element.
     /// </summary>
-    protected virtual string ColorValueElementSelector => ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-value";
+    protected virtual string ColorValueElementSelector => null;
+
+    /// <summary>
+    /// Gets the class builder for the preview wrapper.
+    /// </summary>
+    protected ClassBuilder PreviewClassBuilder { get; }
+
+    /// <summary>
+    /// Gets the class builder for the color swatch.
+    /// </summary>
+    protected ClassBuilder SwatchClassBuilder { get; }
+
+    /// <summary>
+    /// Gets the classes for the preview wrapper.
+    /// </summary>
+    protected string PreviewClassNames => PreviewClassBuilder.Class;
+
+    /// <summary>
+    /// Gets the classes for the color swatch.
+    /// </summary>
+    protected string SwatchClassNames => SwatchClassBuilder.Class;
 
     /// <summary>
     /// Specifies the <see cref="IJSColorPickerModule"/> instance.
@@ -317,6 +383,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// Controls the visibility of the textbox which shows the selected color value.
     /// </summary>
     [Parameter] public bool ShowInputField { get; set; } = true;
+
+    /// <summary>
+    /// Controls the visibility of the selected color value beside the swatch in the closed picker.
+    /// </summary>
+    [Parameter] public bool ShowValue { get; set; } = true;
 
     /// <summary>
     /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
