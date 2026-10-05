@@ -220,6 +220,9 @@ public class DragDropAnimationTests : BlazorisePageTest
 
         // Wait for the actual item to receive pointer events before starting the native drag.
         await sourceItem.HoverAsync();
+
+        // The drag module loads after rendering. Let pending module requests finish before dragging.
+        await Page.WaitForLoadStateAsync( LoadState.NetworkIdle );
         var source = await sourceItem.BoundingBoxAsync();
 
         await Page.Mouse.MoveAsync( source.X + source.Width / 2, source.Y + source.Height / 2 );
