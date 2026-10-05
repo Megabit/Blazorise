@@ -2,7 +2,7 @@
   <Import Project="Blazorise.Version.props" />
 
 	<PropertyGroup>
-		<TargetFramework>net11.0</TargetFramework>
+		<TargetFramework>$(PrimaryTargetFramework)</TargetFramework>
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>
 		<LangVersion>latest</LangVersion>

@@ -14,6 +14,10 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)' == 'DebugNet11'">
+    <TargetFrameworks>$(PrimaryTargetFramework)</TargetFrameworks>
+  </PropertyGroup>
+
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
