@@ -236,7 +236,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
                 await JSClosableModule.Register( dotNetObjectRef, ElementRef );
             } );
         }
-        else
+        else if ( jsRegistered )
         {
             jsRegistered = false;
 
