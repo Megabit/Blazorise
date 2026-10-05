@@ -1,0 +1,10 @@
+@inherits BaseComponent
+@if ( HasPage )
+{
+    <Div ElementId="@ContentElementId" Display="@(IsSelected ? null : Blazorise.Display.None)" role="region" aria-labelledby="@ElementId" aria-hidden="@(IsSelected ? "false" : "true")" hidden="@(!IsSelected)">
+        @if ( ShouldRenderContent )
+        {
+            @ChildContent
+        }
+    </Div>
+}

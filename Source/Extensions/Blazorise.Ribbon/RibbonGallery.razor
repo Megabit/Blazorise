@@ -1,0 +1,16 @@
+@inherits BaseComponent
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@SelectedValue" Name="RibbonGallerySelectedValue">
+        <CascadingValue Value="@Disabled" Name="RibbonGalleryDisabled">
+            <Div ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" role="group" aria-label="@Text" @attributes="@Attributes">
+                <Div Flex="Blazorise.Flex.Row.NoWrap.Grow.Is1" Overflow="Blazorise.Overflow.Auto.Hidden" Height="@(ParentRibbonState?.DisplayMode == RibbonDisplayMode.Simplified ? Blazorise.Height.Rem( 3 ) : Blazorise.Height.Rem( 6 ))">
+                    @ChildContent
+                </Div>
+                @if ( FooterContent is not null )
+                {
+                    <Div Flex="Blazorise.Flex.Row" Gap="Blazorise.Gap.Is1">@FooterContent</Div>
+                }
+            </Div>
+        </CascadingValue>
+    </CascadingValue>
+</CascadingValue>

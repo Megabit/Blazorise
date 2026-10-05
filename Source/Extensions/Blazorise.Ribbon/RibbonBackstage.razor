@@ -1,0 +1,24 @@
+@inherits BaseComponent
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@State">
+        <Div @ref="@containerRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Display="@(Visible ? null : Blazorise.Display.None)" role="region" aria-label="@AriaLabel" aria-hidden="@(Visible ? "false" : "true")" hidden="@(!Visible)" @onkeydown="@OnKeyDownHandler" @attributes="@Attributes">
+            <Div Flex="Blazorise.Flex.Row.NoWrap" Height="Blazorise.Height.Is100">
+                <Div Flex="Blazorise.Flex.Column.Shrink.Is0" Gap="Blazorise.Gap.Is1" Width="Blazorise.Width.Rem( 12 )" Height="Blazorise.Height.Is100" Padding="Blazorise.Padding.Is2" Overflow="Blazorise.Overflow.Auto" Background="Blazorise.Background.Primary" TextColor="Blazorise.TextColor.White" role="navigation" aria-label="@NavigationLabel">
+                    <Button @ref="@backButtonRef" ElementId="@BackElementId" Border="Blazorise.Border.Is0" Background="Blazorise.Background.Transparent" TextColor="Blazorise.TextColor.White" TextAlignment="TextAlignment.Start" Padding="Blazorise.Padding.Is2" Margin="Blazorise.Margin.Is2.FromBottom" Width="Blazorise.Width.Is100" Clicked="@OnBackHandler">
+                        <Span Flex="Blazorise.Flex.Row.AlignItems.Center" Gap="Blazorise.Gap.Is2">
+                            <Icon Name="IconName.ArrowLeft" FixedWidth />
+                            <Span>@BackLabel</Span>
+                        </Span>
+                    </Button>
+                    @foreach ( var item in items.Where( item => item.Visible ) )
+                    {
+                        <_RibbonBackstageItemButton @key="@item" Item="@item" Selected="@(State.SelectedItem == item.Name && item.HasPage)" />
+                    }
+                </Div>
+                <Div Flex="Blazorise.Flex.Grow.Is1.Basis.Is0" Width="Blazorise.Width.Px().Min( 0 )" Height="Blazorise.Height.Is100" Padding="Blazorise.Padding.Is4" Overflow="Blazorise.Overflow.Auto">
+                    @ChildContent
+                </Div>
+            </Div>
+        </Div>
+    </CascadingValue>
+</CascadingValue>

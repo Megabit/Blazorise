@@ -1,0 +1,20 @@
+@namespace Blazorise.Ribbon.Internal
+<Span Flex="Blazorise.Flex.Column">
+    <Span Padding="Blazorise.Padding.Is1.OnY.Is3.OnX">
+        @if ( ChildContent is not null )
+        {
+            @ChildContent
+        }
+        else
+        {
+            @Text
+        }
+    </Span>
+    <Span Height="Blazorise.Height.Px( 3 )" Margin="Blazorise.Margin.Is3.OnX" Background="Blazorise.Background.Transparent" />
+</Span>
+
+@code {
+    [Parameter] public string Text { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

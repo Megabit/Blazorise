@@ -1,0 +1,38 @@
+@inherits BaseComponent
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@State">
+        <Div @ref="@containerRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" @attributes="@Attributes">
+            @if ( QuickAccessContent is not null )
+            {
+                <Div Flex="Blazorise.Flex.Row.AlignItems.Center" Gap="Blazorise.Gap.Is1" Padding="Blazorise.Padding.Is1" role="group" aria-label="@QuickAccessLabel">
+                    @QuickAccessContent
+                </Div>
+            }
+            <Div Flex="Blazorise.Flex.Row.AlignItems.End" Gap="Blazorise.Gap.Is1" Width="Blazorise.Width.Px().Min( 0 )">
+                @if ( RibbonApplicationTab is not null )
+                {
+                    <Div Flex="Blazorise.Flex.Row.AlignItems.Center.Shrink.Is0">@RibbonApplicationTab</Div>
+                }
+                <Div Flex="Blazorise.Flex.Row.NoWrap.Grow.Is1" Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Auto.Hidden" role="tablist" aria-label="@AriaLabel" aria-orientation="horizontal">
+                    @foreach ( var tab in tabItems.Where( tab => tab.Visible ) )
+                    {
+                        <_RibbonTabHeader @key="@tab" Tab="@tab" Selected="@(State.SelectedTab == tab.Name)" />
+                    }
+                </Div>
+                @if ( TabStripContent is not null )
+                {
+                    <Div Flex="Blazorise.Flex.InlineFlex.Row.AlignItems.Center" Gap="Blazorise.Gap.Is1">@TabStripContent</Div>
+                }
+                @if ( ShowCollapseButton )
+                {
+                    <Button Size="Blazorise.Size.Small" Border="Blazorise.Border.Is0" Clicked="@OnCollapseHandler" aria-label="@CollapseButtonLabel" aria-expanded="@ExpandedString" aria-controls="@ContentElementId">
+                        <Icon Name="@(Collapsed ? IconName.ChevronDown : IconName.ChevronUp)" />
+                    </Button>
+                }
+            </Div>
+            <Div ElementId="@ContentElementId" Display="@(Collapsed ? Blazorise.Display.None : Blazorise.Display.Block)" Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Auto.Hidden" hidden="@Collapsed">
+                @RibbonTabs
+            </Div>
+        </Div>
+    </CascadingValue>
+</CascadingValue>

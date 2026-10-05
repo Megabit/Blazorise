@@ -1,0 +1,9 @@
+@inherits BaseRibbonItem
+<Dropdown ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Height="@(Height is null ? EffectiveHeight : null)" Disabled="@Disabled" Direction="@Direction" @attributes="@Attributes">
+    <DropdownToggle Color="@Color" Size="Blazorise.Size.Small" Border="Blazorise.Border.Is0" Flex="@(EffectiveSize == RibbonItemSize.Large ? Blazorise.Flex.InlineFlex.Column.NoWrap.AlignItems.Center.JustifyContent.Center : Blazorise.Flex.InlineFlex.Row.NoWrap.AlignItems.Center.JustifyContent.Center)" Height="@(EffectiveSize == RibbonItemSize.Large ? Blazorise.Height.Is100 : null)" Padding="Blazorise.Padding.Is1" TextSize="Blazorise.TextSize.Px( 13 )" TextOverflow="Blazorise.TextOverflow.NoWrap" aria-label="@Text" title="@Text">
+        <_RibbonCommandContent Text="@Text" Icon="@Icon" Size="@EffectiveSize" ChildContent="@HeaderContent" />
+    </DropdownToggle>
+    <DropdownMenu>
+        @ChildContent
+    </DropdownMenu>
+</Dropdown>

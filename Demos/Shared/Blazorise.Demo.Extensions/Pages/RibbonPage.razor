@@ -1,0 +1,499 @@
+@page "/tests/ribbon"
+@using Blazorise.Demo.Models
+@using Blazorise.Ribbon
+
+<Div Margin="Margin.Is4.OnY">
+    <Heading Size="HeadingSize.Is3">Word ribbon</Heading>
+    <Paragraph TextColor="TextColor.Secondary">
+        Explore grouped commands, split buttons, style previews, and contextual tabs. Formatting applies to the sample document; undo and redo restore earlier changes.
+    </Paragraph>
+</Div>
+
+<Div Border="Border.Is1.Rounded" Background="Background.Light">
+    <Div Flex="Flex.Row.Wrap.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is3" Padding="Padding.Is2.OnX.Is1.OnY">
+        <Div Flex="Flex.Row.AlignItems.Center" Gap="Gap.Is2">
+            <Icon Name="IconName.FileAlt" TextColor="TextColor.Primary" />
+            <Switch TValue="bool" Value="@autoSave" ValueChanged="@OnAutoSaveChangedHandler" Size="Size.Small">AutoSave</Switch>
+            <RibbonButton Text="Save" Icon="IconName.Save" Size="RibbonItemSize.Small" Clicked="@OnSaveHandler" />
+            <RibbonButton Text="Undo" Icon="IconName.Undo" Size="RibbonItemSize.Small" Disabled="@(!CanUndo)" Clicked="@OnUndoHandler" />
+            <RibbonButton Text="Redo" Icon="IconName.Redo" Size="RibbonItemSize.Small" Disabled="@(!CanRedo)" Clicked="@OnRedoHandler" />
+        </Div>
+        <Div Flex="Flex.Row.AlignItems.Center" Gap="Gap.Is2">
+            <Span TextWeight="TextWeight.SemiBold">@Document.Title</Span>
+            <Span TextSize="TextSize.ExtraSmall" TextColor="TextColor.Secondary">@SaveStatus</Span>
+        </Div>
+        <Div Width="Width.Px( 240 )">
+            <TextInput Value="@searchText" ValueChanged="@OnSearchChangedHandler" Immediate Placeholder="Find in document" Size="Size.Small" aria-label="Find in document" />
+        </Div>
+    </Div>
+
+    <Div Display="@(backstageVisible ? Display.None : Display.Block)" hidden="@backstageVisible">
+        <Ribbon @bind-SelectedTab="@selectedTab" @bind-Collapsed="@collapsed" DisplayMode="@displayMode" Background="Background.White" AriaLabel="Document commands">
+            <RibbonApplicationTab>
+                <RibbonApplicationButton @ref="@fileButtonRef" Text="File" Expanded="@backstageVisible" Clicked="@OnFileHandler" aria-controls="word-ribbon-backstage" />
+            </RibbonApplicationTab>
+            <TabStripContent>
+                <RibbonButton Text="Comments" Icon="IconName.Comment" Size="RibbonItemSize.Small" Clicked="@OnCommentsHandler" />
+                <RibbonDropdown Text="Share" Icon="IconName.ShareAlt" Size="RibbonItemSize.Medium">
+                    <RibbonDropdownItem Text="Share document" Clicked="@OnShareHandler" />
+                    <RibbonDropdownItem Text="Copy link" Clicked="@OnCopyLinkHandler" />
+                </RibbonDropdown>
+            </TabStripContent>
+            <RibbonTabs>
+                <RibbonTab Name="home" Text="Home">
+                    <RibbonGroup Text="Clipboard" ShowLauncher LauncherLabel="Open Clipboard" LauncherClicked="@OnClipboardLauncherHandler">
+                        <RibbonSplitButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" Clicked="@OnPasteHandler">
+                            <RibbonDropdownItem Text="Keep source formatting" Clicked="@OnPasteHandler" />
+                            <RibbonDropdownItem Text="Keep text only" Clicked="@OnPasteTextHandler" />
+                            <RibbonDropdownDivider />
+                            <RibbonDropdownItem Text="Paste special…" Clicked="@OnClipboardLauncherHandler" />
+                        </RibbonSplitButton>
+                        <RibbonColumn>
+                            <RibbonButton Text="Cut" Icon="IconName.Cut" Clicked="@OnCutHandler" />
+                            <RibbonButton Text="Copy" Icon="IconName.Copy" Clicked="@OnCopyHandler" />
+                            <RibbonButton Text="Format Painter" Icon="IconName.PaintBrush" Clicked="@OnFormatPainterHandler" />
+                        </RibbonColumn>
+                    </RibbonGroup>
+
+                    <RibbonGroup Text="Font" Layout="RibbonGroupLayout.Rows" ShowLauncher LauncherLabel="Open Font settings" LauncherClicked="@OnFontLauncherHandler">
+                        <RibbonRow>
+                            <Select TValue="string" Value="@Document.FontFamily" ValueChanged="@OnFontFamilyChangedHandler" Size="Size.Small" Width="Width.Px( 130 )" aria-label="Font family">
+                                @foreach ( var font in fonts )
+                                {
+                                    <SelectItem Value="@font">@font</SelectItem>
+                                }
+                            </Select>
+                            <Select TValue="int" Value="@Document.FontSize" ValueChanged="@OnFontSizeChangedHandler" Size="Size.Small" Width="Width.Px( 60 )" aria-label="Font size">
+                                @foreach ( var size in fontSizes.Append( Document.FontSize ).Distinct().OrderBy( size => size ) )
+                                {
+                                    <SelectItem Value="@size">@size</SelectItem>
+                                }
+                            </Select>
+                            <RibbonButton Text="Increase Font Size" Icon="IconName.Plus" Size="RibbonItemSize.Small" Clicked="@OnIncreaseFontSizeHandler" />
+                            <RibbonButton Text="Decrease Font Size" Icon="IconName.Minus" Size="RibbonItemSize.Small" Clicked="@OnDecreaseFontSizeHandler" />
+                            <RibbonButton Text="Clear Formatting" Icon="IconName.RemoveFormat" Size="RibbonItemSize.Small" Clicked="@OnClearFormattingHandler" />
+                        </RibbonRow>
+                        <RibbonRow>
+                            <RibbonToggleButton Text="Bold" Icon="IconName.Bold" Size="RibbonItemSize.Small" Checked="@Document.Bold" CheckedChanged="@OnBoldChangedHandler" />
+                            <RibbonToggleButton Text="Italic" Icon="IconName.Italic" Size="RibbonItemSize.Small" Checked="@Document.Italic" CheckedChanged="@OnItalicChangedHandler" />
+                            <RibbonToggleButton Text="Underline" Icon="IconName.Underline" Size="RibbonItemSize.Small" Checked="@Document.Underline" CheckedChanged="@OnUnderlineChangedHandler" />
+                            <RibbonToggleButton Text="Strikethrough" Icon="IconName.Strikethrough" Size="RibbonItemSize.Small" Checked="@Document.Strikethrough" CheckedChanged="@OnStrikethroughChangedHandler" />
+                            <RibbonButton Text="Subscript" Icon="IconName.Subscript" Size="RibbonItemSize.Small" Clicked="@OnSubscriptHandler" />
+                            <RibbonButton Text="Superscript" Icon="IconName.Superscript" Size="RibbonItemSize.Small" Clicked="@OnSuperscriptHandler" />
+                            <RibbonColorPicker Size="Size.Small" Value="@Document.HighlightColor" ValueChanged="@OnHighlightChangedHandler" aria-label="Text highlight color" title="Text highlight color" />
+                            <RibbonColorPicker Size="Size.Small" Value="@Document.FontColor" ValueChanged="@OnFontColorChangedHandler" aria-label="Font color" title="Font color" />
+                        </RibbonRow>
+                    </RibbonGroup>
+
+                    <RibbonGroup Text="Paragraph" Layout="RibbonGroupLayout.Rows" ShowLauncher LauncherLabel="Open Paragraph settings" LauncherClicked="@OnParagraphLauncherHandler">
+                        <RibbonRow>
+                            <RibbonButton Text="Bullets" Icon="IconName.ListUl" Size="RibbonItemSize.Small" Clicked="@OnBulletsHandler" />
+                            <RibbonButton Text="Numbering" Icon="IconName.ListOl" Size="RibbonItemSize.Small" Clicked="@OnNumberingHandler" />
+                            <RibbonButton Text="Decrease Indent" Icon="IconName.ArrowLeft" Size="RibbonItemSize.Small" Clicked="@OnDecreaseIndentHandler" />
+                            <RibbonButton Text="Increase Indent" Icon="IconName.Indent" Size="RibbonItemSize.Small" Clicked="@OnIncreaseIndentHandler" />
+                            <RibbonButton Text="Sort" Icon="IconName.SortAlphaDown" Size="RibbonItemSize.Small" Clicked="@OnSortHandler" />
+                            <RibbonToggleButton Text="Show formatting marks" Size="RibbonItemSize.Small" @bind-Checked="@showFormattingMarks">¶</RibbonToggleButton>
+                        </RibbonRow>
+                        <RibbonRow>
+                            <RibbonToggleButton Text="Align Left" Icon="IconName.AlignLeft" Size="RibbonItemSize.Small" Checked="@(Document.Alignment == TextAlignment.Start)" CheckedChanged="@OnAlignLeftHandler" />
+                            <RibbonToggleButton Text="Center" Icon="IconName.AlignCenter" Size="RibbonItemSize.Small" Checked="@(Document.Alignment == TextAlignment.Center)" CheckedChanged="@OnAlignCenterHandler" />
+                            <RibbonToggleButton Text="Align Right" Icon="IconName.AlignRight" Size="RibbonItemSize.Small" Checked="@(Document.Alignment == TextAlignment.End)" CheckedChanged="@OnAlignRightHandler" />
+                            <RibbonToggleButton Text="Justify" Icon="IconName.AlignJustify" Size="RibbonItemSize.Small" Checked="@(Document.Alignment == TextAlignment.Justified)" CheckedChanged="@OnAlignJustifyHandler" />
+                            <RibbonButton Text="Line Spacing" Icon="IconName.TextHeight" Size="RibbonItemSize.Small" Clicked="@OnParagraphLauncherHandler" />
+                            <RibbonButton Text="Borders" Icon="IconName.BorderAll" Size="RibbonItemSize.Small" Clicked="@OnBordersHandler" />
+                        </RibbonRow>
+                    </RibbonGroup>
+
+                    <RibbonGroup Text="Styles" ShowLauncher LauncherLabel="Open Styles" LauncherClicked="@OnStylesLauncherHandler">
+                        <RibbonGallery Text="Document styles" SelectedValue="@Document.Style" SelectedValueChanged="@OnStyleChangedHandler">
+                            @foreach ( var style in styles )
+                            {
+                                <RibbonGalleryItem @key="@style" Value="@style" Text="@style">
+                                    <Span TextSize="@(TextSize.Px( style == "Title" ? 28 : style.StartsWith( "Heading" ) ? 20 : 16 ))" TextColor="@(style.StartsWith( "Heading" ) ? TextColor.Primary : TextColor.Default)">AaBbCcDd</Span>
+                                </RibbonGalleryItem>
+                            }
+                        </RibbonGallery>
+                    </RibbonGroup>
+
+                    <RibbonGroup Text="Editing">
+                        <RibbonColumn>
+                            <RibbonButton Text="Find" Icon="IconName.Search" Clicked="@OnFindHandler" />
+                            <RibbonButton Text="Replace" Icon="IconName.Sync" Clicked="@OnReplaceHandler" />
+                            <RibbonButton Text="Select All" Icon="IconName.Mouse" Clicked="@OnSelectAllHandler" />
+                        </RibbonColumn>
+                    </RibbonGroup>
+                    <RibbonGroup Text="Voice">
+                        <RibbonButton Text="Dictate" Icon="IconName.Microphone" Size="RibbonItemSize.Large" Clicked="@OnDictateHandler" />
+                    </RibbonGroup>
+                    <RibbonGroup Text="Editor">
+                        <RibbonButton Text="Editor" Icon="IconName.Check" Size="RibbonItemSize.Large" Clicked="@OnEditorHandler" />
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <RibbonTab Name="insert" Text="Insert">
+                    <RibbonGroup Text="Pages">
+                        <RibbonButton Text="Cover Page" Icon="IconName.FileAlt" Size="RibbonItemSize.Large" Clicked="@OnCoverPageHandler" />
+                        <RibbonButton Text="Blank Page" Icon="IconName.File" Size="RibbonItemSize.Large" Clicked="@OnPageBreakHandler" />
+                        <RibbonButton Text="Page Break" Icon="IconName.Copy" Size="RibbonItemSize.Large" Clicked="@OnPageBreakHandler" />
+                    </RibbonGroup>
+                    <RibbonGroup Text="Tables">
+                        <RibbonButton Text="Table" Icon="IconName.Table" Size="RibbonItemSize.Large" Clicked="@OnTableHandler" />
+                    </RibbonGroup>
+                    <RibbonGroup Text="Illustrations">
+                        <RibbonButton Text="Pictures" Icon="IconName.Image" Size="RibbonItemSize.Large" Clicked="@OnPicturesHandler" />
+                        <RibbonButton Text="Shapes" Icon="IconName.Shapes" Size="RibbonItemSize.Large" Clicked="@OnShapesHandler" />
+                        <RibbonColumn>
+                            <RibbonButton Text="Icons" Icon="IconName.Star" Clicked="@OnIconsHandler" />
+                            <RibbonButton Text="Chart" Icon="IconName.ChartBar" Clicked="@OnChartHandler" />
+                            <RibbonButton Text="Screenshot" Icon="IconName.Screenshot" Clicked="@OnScreenshotHandler" />
+                        </RibbonColumn>
+                    </RibbonGroup>
+                    <RibbonGroup Text="Links">
+                        <RibbonButton Text="Link" Icon="IconName.Link" Size="RibbonItemSize.Large" Clicked="@OnLinkHandler" />
+                        <RibbonColumn>
+                            <RibbonButton Text="Bookmark" Icon="IconName.Bookmark" Clicked="@OnBookmarkHandler" />
+                        </RibbonColumn>
+                    </RibbonGroup>
+                    <RibbonGroup Text="Comments">
+                        <RibbonButton Text="New Comment" Icon="IconName.Comment" Size="RibbonItemSize.Large" Clicked="@OnCommentsHandler" />
+                    </RibbonGroup>
+                    <RibbonGroup Text="Text">
+                        <RibbonButton Text="Text Box" Icon="IconName.Edit" Size="RibbonItemSize.Large" Clicked="@OnTextBoxHandler" />
+                        <RibbonColumn>
+                            <RibbonButton Text="Date and Time" Icon="IconName.Calendar" Clicked="@OnDateAndTimeHandler" />
+                            <RibbonButton Text="Symbol" Icon="IconName.Infinity" Clicked="@OnSymbolHandler" />
+                        </RibbonColumn>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <RibbonTab Name="design" Text="Design">
+                    <RibbonGroup Text="Document Formatting">
+                        <RibbonButton Text="Themes" Icon="IconName.Palette" Size="RibbonItemSize.Large" Clicked="@OnThemesHandler" />
+                        <RibbonColumn>
+                            <RibbonButton Text="Colors" Icon="IconName.Tint" Clicked="@OnColorsHandler" />
+                            <RibbonButton Text="Fonts" Icon="IconName.Bold" Clicked="@OnFontLauncherHandler" />
+                            <RibbonButton Text="Paragraph Spacing" Icon="IconName.TextHeight" Clicked="@OnParagraphLauncherHandler" />
+                        </RibbonColumn>
+                    </RibbonGroup>
+                    <RibbonGroup Text="Page Background">
+                        <RibbonButton Text="Watermark" Icon="IconName.Image" Size="RibbonItemSize.Large" Clicked="@OnWatermarkHandler" />
+                        <RibbonButton Text="Page Color" Icon="IconName.PaintRoller" Size="RibbonItemSize.Large" Clicked="@OnPageColorHandler" />
+                        <RibbonButton Text="Page Borders" Icon="IconName.BorderAll" Size="RibbonItemSize.Large" Clicked="@OnPageBordersHandler" />
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <RibbonTab Name="layout" Text="Layout">
+                    <RibbonGroup Text="Page Setup" ShowLauncher LauncherClicked="@OnPageSetupLauncherHandler">
+                        <RibbonButton Text="Margins" Icon="IconName.BorderStyle" Size="RibbonItemSize.Large" Clicked="@OnMarginsHandler" />
+                        <RibbonButton Text="Orientation" Icon="IconName.Sync" Size="RibbonItemSize.Large" Clicked="@OnOrientationHandler" />
+                        <RibbonButton Text="Size" Icon="IconName.File" Size="RibbonItemSize.Large" Clicked="@OnSizeHandler" />
+                        <RibbonColumn>
+                            <RibbonButton Text="Columns" Icon="IconName.Table" Clicked="@OnColumnsHandler" />
+                            <RibbonButton Text="Breaks" Icon="IconName.Copy" Clicked="@OnBreaksHandler" />
+                            <RibbonButton Text="Line Numbers" Icon="IconName.ListOl" Clicked="@OnLineNumbersHandler" />
+                        </RibbonColumn>
+                    </RibbonGroup>
+                    <RibbonGroup Text="Paragraph" ShowLauncher LauncherClicked="@OnParagraphLauncherHandler">
+                        <RibbonColumn>
+                            <RibbonButton Text="Indent Left" Icon="IconName.Indent" Clicked="@OnIndentLeftHandler" />
+                            <RibbonButton Text="Indent Right" Icon="IconName.AlignRight" Clicked="@OnIndentRightHandler" />
+                            <RibbonButton Text="Spacing" Icon="IconName.TextHeight" Clicked="@OnParagraphLauncherHandler" />
+                        </RibbonColumn>
+                    </RibbonGroup>
+                    <RibbonGroup Text="Arrange">
+                        <RibbonButton Text="Position" Icon="IconName.Image" Size="RibbonItemSize.Large" Clicked="@OnPositionHandler" />
+                        <RibbonButton Text="Wrap Text" Icon="IconName.AlignLeft" Size="RibbonItemSize.Large" Clicked="@OnWrapTextHandler" />
+                        <RibbonColumn>
+                            <RibbonButton Text="Bring Forward" Icon="IconName.LayerGroup" Clicked="@OnBringForwardHandler" />
+                            <RibbonButton Text="Send Backward" Icon="IconName.Backward" Clicked="@OnSendBackwardHandler" />
+                        </RibbonColumn>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <RibbonTab Name="review" Text="Review">
+                    <RibbonGroup Text="Proofing">
+                        <RibbonButton Text="Editor" Icon="IconName.SpellCheck" Size="RibbonItemSize.Large" Clicked="@OnEditorHandler" />
+                        <RibbonColumn>
+                            <RibbonButton Text="Thesaurus" Icon="IconName.Book" Clicked="@OnThesaurusHandler" />
+                            <RibbonButton Text="Word Count" Icon="IconName.ListOl" Clicked="@OnWordCountHandler" />
+                        </RibbonColumn>
+                    </RibbonGroup>
+                    <RibbonGroup Text="Language">
+                        <RibbonButton Text="Translate" Icon="IconName.Language" Size="RibbonItemSize.Large" Clicked="@OnTranslateHandler" />
+                        <RibbonButton Text="Language" Icon="IconName.Globe" Size="RibbonItemSize.Large" Clicked="@OnLanguageHandler" />
+                    </RibbonGroup>
+                    <RibbonGroup Text="Comments">
+                        <RibbonButton Text="New Comment" Icon="IconName.Comment" Size="RibbonItemSize.Large" Clicked="@OnCommentsHandler" />
+                        <RibbonColumn>
+                            <RibbonButton Text="Delete" Icon="IconName.Delete" Clicked="@OnDeleteHandler" />
+                            <RibbonButton Text="Previous" Icon="IconName.ArrowLeft" Clicked="@OnPreviousHandler" />
+                            <RibbonButton Text="Next" Icon="IconName.ArrowRight" Clicked="@OnNextHandler" />
+                        </RibbonColumn>
+                    </RibbonGroup>
+                    <RibbonGroup Text="Tracking">
+                        <RibbonToggleButton Text="Track Changes" Icon="IconName.Edit" Size="RibbonItemSize.Large" @bind-Checked="@trackChanges" />
+                    </RibbonGroup>
+                    <RibbonGroup Text="Protect">
+                        <RibbonButton Text="Restrict Editing" Icon="IconName.Lock" Size="RibbonItemSize.Large" Clicked="@OnRestrictEditingHandler" />
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <RibbonTab Name="view" Text="View">
+                    <RibbonGroup Text="Views">
+                        <RibbonButton Text="Read Mode" Icon="IconName.BookReader" Size="RibbonItemSize.Large" Clicked="@OnReadModeHandler" />
+                        <RibbonButton Text="Print Layout" Icon="IconName.FileAlt" Size="RibbonItemSize.Large" Clicked="@OnPrintLayoutHandler" />
+                        <RibbonButton Text="Web Layout" Icon="IconName.Globe" Size="RibbonItemSize.Large" Clicked="@OnWebLayoutHandler" />
+                    </RibbonGroup>
+                    <RibbonGroup Text="Show">
+                        <RibbonColumn>
+                            <Check TValue="bool" @bind-Value="@showRuler" Size="Size.Small">Ruler</Check>
+                            <Check TValue="bool" @bind-Value="@showGridlines" Size="Size.Small">Gridlines</Check>
+                            <Check TValue="bool" @bind-Value="@showNavigation" Size="Size.Small">Navigation Pane</Check>
+                        </RibbonColumn>
+                    </RibbonGroup>
+                    <RibbonGroup Text="Zoom">
+                        <RibbonButton Text="Zoom In" Icon="IconName.SearchPlus" Size="RibbonItemSize.Large" Clicked="@OnZoomInHandler" />
+                        <RibbonButton Text="Zoom Out" Icon="IconName.SearchMinus" Size="RibbonItemSize.Large" Clicked="@OnZoomOutHandler" />
+                        <RibbonButton Text="100%" Icon="IconName.Search" Size="RibbonItemSize.Large" Clicked="@OnResetZoomHandler" />
+                    </RibbonGroup>
+                    <RibbonGroup Text="Ribbon" Layout="RibbonGroupLayout.Rows">
+                        <RibbonRow>
+                            <Select TValue="RibbonDisplayMode" @bind-Value="@displayMode" Size="Size.Small" aria-label="Ribbon layout">
+                                <SelectItem Value="RibbonDisplayMode.Classic">Classic ribbon</SelectItem>
+                                <SelectItem Value="RibbonDisplayMode.Simplified">Simplified ribbon</SelectItem>
+                            </Select>
+                        </RibbonRow>
+                        <RibbonRow>
+                            <Check TValue="bool" @bind-Value="@tableToolsVisible" Size="Size.Small">Show Table Tools</Check>
+                        </RibbonRow>
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <RibbonTab Name="help" Text="Help">
+                    <RibbonGroup Text="Help">
+                        <RibbonButton Text="Help" Icon="IconName.QuestionCircle" Size="RibbonItemSize.Large" Clicked="@OnHelpHandler" />
+                        <RibbonButton Text="Feedback" Icon="IconName.Comment" Size="RibbonItemSize.Large" Clicked="@OnFeedbackHandler" />
+                    </RibbonGroup>
+                </RibbonTab>
+
+                <RibbonTab Name="table-layout" Text="Table Layout" Visible="@tableToolsVisible">
+                    <HeaderContent><Span TextColor="TextColor.Success">Table Tools · Layout</Span></HeaderContent>
+                    <ChildContent>
+                        <RibbonGroup Text="Rows and Columns">
+                            <RibbonColumn>
+                                <RibbonButton Text="Insert Above" Icon="IconName.Plus" Clicked="@OnInsertAboveHandler" />
+                                <RibbonButton Text="Insert Below" Icon="IconName.Add" Clicked="@OnInsertBelowHandler" />
+                                <RibbonButton Text="Delete Table" Icon="IconName.Delete" Clicked="@OnDeleteTableHandler" />
+                            </RibbonColumn>
+                        </RibbonGroup>
+                        <RibbonGroup Text="Merge">
+                            <RibbonButton Text="Merge Cells" Icon="IconName.Table" Size="RibbonItemSize.Large" Clicked="@OnMergeCellsHandler" />
+                            <RibbonButton Text="Split Cells" Icon="IconName.BorderAll" Size="RibbonItemSize.Large" Clicked="@OnSplitCellsHandler" />
+                        </RibbonGroup>
+                    </ChildContent>
+                </RibbonTab>
+            </RibbonTabs>
+        </Ribbon>
+
+        <Div Padding="Padding.Is4" Overflow="Overflow.Auto">
+            @if ( showNavigation )
+            {
+                <Alert Color="Color.Light" Visible><AlertDescription>Quarterly overview · Highlights · Next steps</AlertDescription></Alert>
+            }
+            @if ( !string.IsNullOrWhiteSpace( searchText ) )
+            {
+                <Paragraph TextColor="TextColor.Secondary">@SearchStatus</Paragraph>
+            }
+            <Div Flex="Flex.Row.JustifyContent.Center">
+                <Div Background="Background.White" Border="Border.Is1" Shadow="Shadow.Small" Padding="Padding.Is5" Width="Width.Px( 760 )">
+                    @if ( showRuler )
+                    {
+                        <Div Border="Border.Is1.OnBottom" TextColor="TextColor.Secondary" TextSize="TextSize.ExtraSmall" Margin="Margin.Is3.FromBottom">0 ─── 1 ─── 2 ─── 3 ─── 4 ─── 5 ─── 6</Div>
+                    }
+                    <TextInput Value="@Document.Title" ValueChanged="@OnTitleChangedHandler" Border="Border.Is0" TextSize="TextSize.ExtraLarge" TextWeight="TextWeight.SemiBold" Margin="Margin.Is3.FromBottom" aria-label="Document title" />
+                    <MemoInput @ref="@documentInputRef" Value="@Document.Text" ValueChanged="@OnDocumentChangedHandler" Rows="14" Border="@(showGridlines ? Border.Is1 : Border.Is0)" Style="@DocumentStyleNames" aria-label="Document body" />
+                    @if ( showFormattingMarks )
+                    {
+                        <Paragraph TextSize="TextSize.ExtraSmall" TextColor="TextColor.Secondary" Margin="Margin.Is3.FromTop">@FormattingMarksText</Paragraph>
+                    }
+                </Div>
+            </Div>
+        </Div>
+    </Div>
+
+    <RibbonBackstage @ref="@backstageRef" ElementId="word-ribbon-backstage" @bind-Visible="@backstageVisible" @bind-SelectedItem="@selectedBackstageItem" Closed="@OnBackstageClosedHandler" Height="Height.Rem( 36 )" AriaLabel="Document file commands">
+        <RibbonBackstageItem Name="info" Text="Info" Icon="IconName.InfoCircle">
+            <Heading Size="HeadingSize.Is3">Document information</Heading>
+            <Paragraph TextColor="TextColor.Secondary">Review the document title, formatting, and save status.</Paragraph>
+            <Div Flex="Flex.Row.Wrap" Gap="Gap.Is4">
+                <Div Flex="Flex.Column" Gap="Gap.Is3" Width="Width.Rem( 24 )">
+                    <Field>
+                        <FieldLabel>Title</FieldLabel>
+                        <FieldBody><TextInput Value="@Document.Title" ValueChanged="@OnTitleChangedHandler" aria-label="Document title" /></FieldBody>
+                    </Field>
+                    <Div Border="Border.Is1.Rounded" Padding="Padding.Is3">
+                        <Heading Size="HeadingSize.Is5">Properties</Heading>
+                        <Paragraph>@WordCount words</Paragraph>
+                        <Paragraph>@Document.FontFamily · @Document.FontSize px · @Document.Style</Paragraph>
+                        <Span TextColor="TextColor.Secondary">@SaveStatus</Span>
+                    </Div>
+                    <Button Color="Color.Primary" Clicked="@OnBackstageSaveHandler">Save document</Button>
+                </Div>
+                <Div Width="Width.Rem( 24 )" Border="Border.Is1.Rounded" Padding="Padding.Is3">
+                    <Heading Size="HeadingSize.Is5">Document preview</Heading>
+                    <Paragraph TextWeight="TextWeight.SemiBold">@Document.Title</Paragraph>
+                    <Paragraph>@Document.Text</Paragraph>
+                </Div>
+            </Div>
+        </RibbonBackstageItem>
+
+        <RibbonBackstageItem Name="new" Text="New" Icon="IconName.File">
+            <Heading Size="HeadingSize.Is3">New document</Heading>
+            <Paragraph TextColor="TextColor.Secondary">Start with a blank document or a notes template.</Paragraph>
+            <Div Flex="Flex.Row.Wrap" Gap="Gap.Is3">
+                <Button Width="Width.Rem( 12 )" Height="Height.Rem( 12 )" Border="Border.Is1" Clicked="@OnNewDocumentHandler">
+                    <Span Flex="Flex.Column.AlignItems.Center.JustifyContent.Center" Height="Height.Is100" Gap="Gap.Is3">
+                        <Icon Name="IconName.File" IconSize="IconSize.x2" />
+                        <Span>Blank document</Span>
+                    </Span>
+                </Button>
+                <Button Width="Width.Rem( 12 )" Height="Height.Rem( 12 )" Border="Border.Is1" Clicked="@OnNewNotesHandler">
+                    <Span Flex="Flex.Column.AlignItems.Center.JustifyContent.Center" Height="Height.Is100" Gap="Gap.Is3">
+                        <Icon Name="IconName.Edit" IconSize="IconSize.x2" />
+                        <Span>Meeting notes</Span>
+                    </Span>
+                </Button>
+            </Div>
+        </RibbonBackstageItem>
+
+        <RibbonBackstageItem Name="open" Text="Open" Icon="IconName.FolderOpen">
+            <Heading Size="HeadingSize.Is3">Open document</Heading>
+            <Paragraph TextColor="TextColor.Secondary">Choose one of the sample documents.</Paragraph>
+            <Div Flex="Flex.Column.AlignItems.Start" Gap="Gap.Is3">
+                <Button Clicked="@OnOpenSampleHandler">
+                    <Span Flex="Flex.Row.AlignItems.Center" Gap="Gap.Is2">
+                        <Icon Name="IconName.FileAlt" />
+                        <Span>Quarterly overview</Span>
+                    </Span>
+                </Button>
+                <Button Clicked="@OnOpenNotesHandler">
+                    <Span Flex="Flex.Row.AlignItems.Center" Gap="Gap.Is2">
+                        <Icon Name="IconName.FileAlt" />
+                        <Span>Project notes</Span>
+                    </Span>
+                </Button>
+            </Div>
+        </RibbonBackstageItem>
+
+        <RibbonBackstageItem Name="save" Text="Save" Icon="IconName.Save" Clicked="@OnBackstageSaveHandler" />
+
+        <RibbonBackstageItem Name="save-as" Text="Save As" Icon="IconName.Save">
+            <Heading Size="HeadingSize.Is3">Save As</Heading>
+            <Paragraph TextColor="TextColor.Secondary">Give the document a new title and save it in this demo session.</Paragraph>
+            <Div Width="Width.Rem( 24 )">
+                <Field>
+                    <FieldLabel>Document title</FieldLabel>
+                    <FieldBody><TextInput @bind-Value="@saveAsTitle" Immediate aria-label="New document title" /></FieldBody>
+                </Field>
+                <Button Color="Color.Primary" Disabled="@(string.IsNullOrWhiteSpace( saveAsTitle ))" Clicked="@OnSaveAsHandler">Save</Button>
+            </Div>
+        </RibbonBackstageItem>
+
+        <RibbonBackstageItem Name="print" Text="Print" Icon="IconName.Print">
+            <Heading Size="HeadingSize.Is3">Print</Heading>
+            <Div Flex="Flex.Row.Wrap" Gap="Gap.Is4">
+                <Div Width="Width.Rem( 16 )">
+                    <Field>
+                        <FieldLabel>Copies</FieldLabel>
+                        <FieldBody><NumericPicker TValue="int" @bind-Value="@printCopies" Min="1" Max="99" aria-label="Print copies" /></FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Orientation</FieldLabel>
+                        <FieldBody>
+                            <Select TValue="string" @bind-Value="@printOrientation" aria-label="Print orientation">
+                                <SelectItem Value="@("Portrait")">Portrait</SelectItem>
+                                <SelectItem Value="@("Landscape")">Landscape</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <Button Color="Color.Primary" Clicked="@OnPrintHandler">
+                        <Icon Name="IconName.Print" /> Print
+                    </Button>
+                </Div>
+                <Div Flex="Flex.Grow.Is1" Width="Width.Rem().Min( 16 )" Background="Background.Light" Padding="Padding.Is3">
+                    <Div Background="Background.White" Border="Border.Is1" Padding="Padding.Is4">
+                        <Heading Size="HeadingSize.Is5">@Document.Title</Heading>
+                        <MemoInput Value="@Document.Text" ReadOnly Rows="12" Border="Border.Is0" Style="@DocumentStyleNames" aria-label="Print preview" />
+                    </Div>
+                </Div>
+            </Div>
+        </RibbonBackstageItem>
+    </RibbonBackstage>
+
+    <Div Flex="Flex.Row.Wrap.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is2" Padding="Padding.Is2.OnX.Is1.OnY" Border="Border.Is1.OnTop" role="status" aria-live="polite">
+        <Span TextSize="TextSize.ExtraSmall">@status</Span>
+        <Span TextSize="TextSize.ExtraSmall">@WordCount words · @(trackChanges ? "Tracking changes · " : string.Empty)@zoom% zoom</Span>
+    </Div>
+</Div>
+
+<Div Margin="Margin.Is4.FromTop">
+    <Heading Size="HeadingSize.Is4">Simple File menu</Heading>
+    <Paragraph TextColor="TextColor.Secondary">This ribbon uses a dropdown File menu with nested Save As commands. New, Open, and Save update the Word sample above; format commands report their invocation.</Paragraph>
+    <Ribbon SelectedTab="home" ShowCollapseButton="false" Border="Border.Is1.Rounded" Background="Background.White" AriaLabel="Simple document commands">
+        <RibbonApplicationTab>
+            <RibbonApplicationMenu Text="File">
+                <RibbonApplicationMenuItem Text="New" Icon="IconName.File">
+                    <RibbonApplicationMenuItem Text="Blank document" Clicked="@OnNewDocumentHandler" />
+                    <RibbonApplicationMenuItem Text="Meeting notes" Clicked="@OnNewNotesHandler" />
+                </RibbonApplicationMenuItem>
+                <RibbonApplicationMenuItem Text="Open" Icon="IconName.FolderOpen" Clicked="@OnOpenSampleHandler" />
+                <RibbonApplicationMenuItem Text="Save" Icon="IconName.Save" Clicked="@OnSaveHandler" />
+                <RibbonApplicationMenuItem Text="Save As" Icon="IconName.Save">
+                    <RibbonApplicationMenuItem Text="Word Document" Clicked="@OnSaveWordHandler" />
+                    <RibbonApplicationMenuItem Text="PDF" Clicked="@OnSavePdfHandler" />
+                    <RibbonApplicationMenuItem Text="Other formats">
+                        <RibbonApplicationMenuItem Text="Plain Text" Clicked="@OnSaveTextHandler" />
+                    </RibbonApplicationMenuItem>
+                </RibbonApplicationMenuItem>
+                <RibbonApplicationMenuDivider />
+                <RibbonApplicationMenuItem Text="Print" Icon="IconName.Print" Clicked="@OnPrintHandler" />
+                <RibbonApplicationMenuItem Text="Share" Icon="IconName.ShareAlt" Disabled />
+            </RibbonApplicationMenu>
+        </RibbonApplicationTab>
+        <RibbonTabs>
+            <RibbonTab Name="home" Text="Home">
+                <RibbonGroup Text="Clipboard" ShowLauncher LauncherLabel="Open Clipboard">
+                    <RibbonSplitButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large">
+                        <RibbonDropdownItem Text="Keep source formatting" />
+                        <RibbonDropdownItem Text="Keep text only" />
+                        <RibbonDropdownDivider />
+                        <RibbonDropdownItem Text="Paste special…" />
+                    </RibbonSplitButton>
+                    <RibbonColumn>
+                        <RibbonButton Text="Cut" Icon="IconName.Cut" />
+                        <RibbonButton Text="Copy" Icon="IconName.Copy" />
+                        <RibbonButton Text="Format Painter" Icon="IconName.PaintBrush" />
+                    </RibbonColumn>
+                </RibbonGroup>
+            </RibbonTab>
+        </RibbonTabs>
+    </Ribbon>
+    <Paragraph TextColor="TextColor.Secondary" TextSize="TextSize.Small" Margin="Margin.Is2.FromTop" role="status" aria-live="polite">@status</Paragraph>
+</Div>
+
+<Modal @ref="@launcherModalRef">
+    <ModalContent>
+        <ModalHeader><ModalTitle>@launcherTitle</ModalTitle><CloseButton Clicked="@OnCloseLauncherHandler" /></ModalHeader>
+        <ModalBody>
+            <Paragraph>@launcherDescription</Paragraph>
+            @if ( launcherTitle == "Font" )
+            {
+                <Field>
+                    <FieldLabel>Font size</FieldLabel>
+                    <FieldBody><NumericPicker TValue="int" Value="@Document.FontSize" ValueChanged="@OnFontSizeChangedHandler" Min="8" Max="72" /></FieldBody>
+                </Field>
+            }
+        </ModalBody>
+        <ModalFooter><Button Color="Color.Primary" Clicked="@OnCloseLauncherHandler">Done</Button></ModalFooter>
+    </ModalContent>
+</Modal>
