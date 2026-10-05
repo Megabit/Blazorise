@@ -40,7 +40,7 @@ function findClosableComponentIndex(elementId) {
             return index;
     }
 
-    return null;
+    return -1;
 }
 
 function findClosableLightComponentIndex(elementId) {
@@ -51,7 +51,7 @@ function findClosableLightComponentIndex(elementId) {
             return index;
     }
 
-    return null;
+    return -1;
 }
 
 function tryClose(closable, targetElementId, isEscapeKey, isChildClicked) {
