@@ -46,6 +46,7 @@ public partial class RibbonTab : BaseComponent
         var nameChanged = parameters.IsParameterChanged( Name );
         var disabledChanged = parameters.IsParameterChanged( Disabled );
         var visibleChanged = parameters.IsParameterChanged( Visible );
+        var contextualTabsChanged = parameters.IsParameterChanged( ParentContextualTabsState );
         var elementIdChanged = parameters.IsParameterChanged( ElementId );
 
         var headerChanged = parameters.TryGetValue<RenderFragment>( nameof( HeaderContent ), out var paramHeaderContent )
@@ -55,12 +56,12 @@ public partial class RibbonTab : BaseComponent
 
         ParentRibbon.ValidateTab( this );
 
-        if ( headingChanged || nameChanged || disabledChanged || visibleChanged )
+        if ( headingChanged || nameChanged || disabledChanged || visibleChanged || contextualTabsChanged )
         {
             ParentRibbon.Refresh();
         }
 
-        if ( headingChanged || nameChanged || disabledChanged || elementIdChanged || headerChanged )
+        if ( headingChanged || nameChanged || disabledChanged || contextualTabsChanged || elementIdChanged || headerChanged )
         {
             HeadingChanged?.Invoke();
         }
@@ -94,7 +95,13 @@ public partial class RibbonTab : BaseComponent
 
     internal string TabElementId => $"{ElementId}-tab";
 
-    internal bool CanSelect => Visible && !Disabled;
+    internal bool IsVisible => Visible && ( ParentContextualTabsState?.IsActive ?? true );
+
+    internal bool IsContextual => ParentContextualTabsState is not null;
+
+    internal Color EffectiveColor => ParentContextualTabsState?.Color ?? Blazorise.Color.Primary;
+
+    internal bool CanSelect => IsVisible && !Disabled;
 
     /// <summary>
     /// Indicates whether this enabled, visible tab is the ribbon's selected tab.
@@ -138,7 +145,7 @@ public partial class RibbonTab : BaseComponent
     /// Controls whether the tab heading is shown and the tab can be selected.
     /// </summary>
     /// <remarks>
-    /// Use this to show contextual tabs when needed. Defaults to <c>true</c>.
+    /// Contextual groups also control whether their member tabs are available. Defaults to <c>true</c>.
     /// </remarks>
     [Parameter] public bool Visible { get; set; } = true;
 
@@ -153,6 +160,8 @@ public partial class RibbonTab : BaseComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     [CascadingParameter] internal Ribbon ParentRibbon { get; set; }
+
+    [CascadingParameter] internal RibbonContextualTabsState ParentContextualTabsState { get; set; }
 
     /// <summary>
     /// Shares the containing ribbon's selection, display mode, and rendering policy with this component.

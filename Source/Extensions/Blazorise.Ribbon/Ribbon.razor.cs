@@ -20,6 +20,12 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
 
     private readonly List<RibbonTab> tabItems = new();
 
+    private readonly List<RibbonContextualTabs> contextualTabsItems = new();
+
+    private IReadOnlyList<string> previousActiveContextualGroups = Array.Empty<string>();
+
+    private string lastRegularTab;
+
     private Div containerRef;
 
     private Blazorise.Animate.Animate contentAnimationRef;
@@ -70,7 +76,23 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
             contentAnimationRef?.Run();
         }
 
-        await HandleSelectTab( EffectiveSelectedTab );
+        var contextualTabToSelect = contextualTabsItems
+            .Where( group => group.SelectOnShow
+                && State.ActiveContextualGroups.Contains( group.Name, StringComparer.Ordinal )
+                && !previousActiveContextualGroups.Contains( group.Name, StringComparer.Ordinal ) )
+            .SelectMany( group => tabItems.Where( tab => tab.ParentContextualTabsState?.Name == group.Name && tab.CanSelect ) )
+            .FirstOrDefault();
+
+        previousActiveContextualGroups = State.ActiveContextualGroups
+            .Where( name => contextualTabsItems.Any( group => string.Equals( group.Name, name, StringComparison.Ordinal ) ) )
+            .ToArray();
+
+        await HandleSelectTab( contextualTabToSelect?.Name ?? EffectiveSelectedTab );
+
+        if ( contextualTabToSelect is not null )
+        {
+            await SetCollapsed( false );
+        }
 
         await JSModule.Initialize( ElementRef, ElementId );
 
@@ -86,6 +108,33 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
         }
 
         await base.DisposeAsync( disposing );
+    }
+
+    internal void RegisterContextualTabs( RibbonContextualTabs group )
+    {
+        ValidateContextualTabs( group );
+
+        contextualTabsItems.Add( group );
+        Refresh();
+    }
+
+    internal void ValidateContextualTabs( RibbonContextualTabs group )
+    {
+        if ( string.IsNullOrWhiteSpace( group.Name ) )
+        {
+            throw new InvalidOperationException( "RibbonContextualTabs requires a non-empty Name." );
+        }
+
+        if ( contextualTabsItems.Any( item => !ReferenceEquals( item, group ) && string.Equals( item.Name, group.Name, StringComparison.Ordinal ) ) )
+        {
+            throw new InvalidOperationException( $"Ribbon contextual group names must be unique. The name '{group.Name}' is already registered." );
+        }
+    }
+
+    internal void UnregisterContextualTabs( RibbonContextualTabs group )
+    {
+        contextualTabsItems.Remove( group );
+        Refresh();
     }
 
     internal void RegisterTab( RibbonTab tab )
@@ -143,6 +192,31 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Activates the named contextual groups and hides the others.
+    /// </summary>
+    /// <param name="names">
+    /// Names of the contexts to activate. Pass no names to hide all contextual groups.
+    /// </param>
+    /// <remarks>
+    /// Updates <see cref="ActiveContextualGroups"/> and invokes <see cref="ActiveContextualGroupsChanged"/> so bound application state stays synchronized.
+    /// </remarks>
+    public async Task SetActiveContextualGroups( params string[] names )
+    {
+        var activeContextualGroups = ResolveActiveContextualGroups( names );
+
+        if ( State.ActiveContextualGroups.SequenceEqual( activeContextualGroups, StringComparer.Ordinal ) )
+        {
+            return;
+        }
+
+        ActiveContextualGroups = activeContextualGroups;
+        SynchronizeState();
+
+        await ActiveContextualGroupsChanged.InvokeAsync( ActiveContextualGroups );
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
     /// Sets the collapsed state and notifies the bound application.
     /// </summary>
     /// <param name="collapsed">
@@ -186,9 +260,21 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
 
     private void SynchronizeState()
     {
+        var regularTab = tabItems.FirstOrDefault( tab => tab.Name == SelectedTab && tab.CanSelect && !tab.IsContextual );
+
+        if ( regularTab is not null )
+        {
+            lastRegularTab = regularTab.Name;
+        }
+
+        var activeContextualGroups = ResolveActiveContextualGroups( ActiveContextualGroups );
+
         var nextState = new RibbonState
         {
             SelectedTab = EffectiveSelectedTab,
+            ActiveContextualGroups = State.ActiveContextualGroups.SequenceEqual( activeContextualGroups, StringComparer.Ordinal )
+                ? State.ActiveContextualGroups
+                : activeContextualGroups,
             Collapsed = Collapsed,
             DisplayMode = DisplayMode,
             RenderMode = RenderMode,
@@ -199,6 +285,12 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
             State = nextState;
         }
     }
+
+    private static IReadOnlyList<string> ResolveActiveContextualGroups( IEnumerable<string> names )
+        => ( names ?? Array.Empty<string>() )
+            .Where( name => !string.IsNullOrWhiteSpace( name ) )
+            .Distinct( StringComparer.Ordinal )
+            .ToArray();
 
     #endregion
 
@@ -213,10 +305,11 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     protected RibbonState State { get; private set; } = new();
 
     /// <summary>
-    /// Resolves the selected tab, falling back to the first enabled, visible tab when <see cref="SelectedTab"/> is unavailable.
+    /// Resolves the selected tab, restoring the last available regular tab before falling back to the first enabled, visible tab.
     /// </summary>
     protected string EffectiveSelectedTab
         => ( tabItems.FirstOrDefault( tab => tab.Name == SelectedTab && tab.CanSelect )
+            ?? tabItems.FirstOrDefault( tab => tab.Name == lastRegularTab && tab.CanSelect && !tab.IsContextual )
             ?? tabItems.FirstOrDefault( tab => tab.CanSelect ) )?.Name;
 
     /// <summary>
@@ -256,7 +349,7 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     /// Specifies the <see cref="RibbonTab.Name"/> of the selected tab.
     /// </summary>
     /// <remarks>
-    /// If unavailable, the first enabled, visible tab is selected.
+    /// If unavailable, the last available regular tab is restored, or the first enabled, visible tab is selected.
     /// </remarks>
     [Parameter] public string SelectedTab { get; set; }
 
@@ -264,6 +357,20 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     /// Occurs when the selected tab changes.
     /// </summary>
     [Parameter] public EventCallback<string> SelectedTabChanged { get; set; }
+
+    /// <summary>
+    /// Identifies the contextual groups whose tabs are currently available.
+    /// </summary>
+    /// <remarks>
+    /// Bind this collection to the application's current editing context. Multiple groups may be active together.
+    /// Defaults to an empty collection, leaving all contextual groups hidden.
+    /// </remarks>
+    [Parameter] public IReadOnlyList<string> ActiveContextualGroups { get; set; } = Array.Empty<string>();
+
+    /// <summary>
+    /// Occurs when an imperative context change updates the active group names.
+    /// </summary>
+    [Parameter] public EventCallback<IReadOnlyList<string>> ActiveContextualGroupsChanged { get; set; }
 
     /// <summary>
     /// Hides the command panels while keeping the tab strip available.
@@ -355,7 +462,7 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     [Parameter] public RenderFragment TabStripContent { get; set; }
 
     /// <summary>
-    /// Defines the <see cref="RibbonTab"/> components containing tab headings and their command groups.
+    /// Defines ordinary <see cref="RibbonTab"/> components and named <see cref="RibbonContextualTabs"/> collections.
     /// </summary>
     [Parameter] public RenderFragment RibbonTabs { get; set; }
 

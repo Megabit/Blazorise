@@ -539,6 +539,8 @@ public partial class RibbonPage : ComponentBase
 
     #region Properties
 
+    private IReadOnlyList<string> ActiveContextualGroups => tableToolsVisible ? ["table"] : [];
+
     private WordRibbonDocument Document => history[historyIndex];
 
     private bool CanUndo => historyIndex > 0;

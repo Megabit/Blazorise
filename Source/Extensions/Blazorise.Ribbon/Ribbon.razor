@@ -14,7 +14,7 @@
                     <Div Flex="Blazorise.Flex.Row.AlignItems.Center.Shrink.Is0">@RibbonApplicationTab</Div>
                 }
                 <Div Flex="Blazorise.Flex.Row.NoWrap.Grow.Is1" Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Auto.Hidden" role="tablist" aria-label="@AriaLabel" aria-orientation="horizontal">
-                    @foreach ( var tab in tabItems.Where( tab => tab.Visible ) )
+                    @foreach ( var tab in tabItems.Where( tab => tab.IsVisible ) )
                     {
                         <_RibbonTabHeader @key="@tab" Tab="@tab" Selected="@(State.SelectedTab == tab.Name)" />
                     }

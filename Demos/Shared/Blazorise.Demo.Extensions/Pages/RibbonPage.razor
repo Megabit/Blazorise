@@ -28,7 +28,7 @@
     </Div>
 
     <Div Display="@(backstageVisible ? Display.None : Display.Block)" hidden="@backstageVisible">
-        <Ribbon @bind-SelectedTab="@selectedTab" @bind-Collapsed="@collapsed" DisplayMode="@displayMode" Background="Background.White" AriaLabel="Document commands">
+        <Ribbon @bind-SelectedTab="@selectedTab" @bind-Collapsed="@collapsed" DisplayMode="@displayMode" ActiveContextualGroups="@ActiveContextualGroups" Background="Background.White" AriaLabel="Document commands">
             <RibbonApplicationTab>
                 <RibbonApplicationButton @ref="@fileButtonRef" Text="File" Expanded="@backstageVisible" Clicked="@OnFileHandler" aria-controls="word-ribbon-backstage" />
             </RibbonApplicationTab>
@@ -287,9 +287,8 @@
                     </RibbonGroup>
                 </RibbonTab>
 
-                <RibbonTab Name="table-layout" Text="Table Layout" Visible="@tableToolsVisible">
-                    <HeaderContent><Span TextColor="TextColor.Success">Table Tools · Layout</Span></HeaderContent>
-                    <ChildContent>
+                <RibbonContextualTabs Name="table" Color="Color.Success">
+                    <RibbonTab Name="table-layout" Text="Table Tools · Layout">
                         <RibbonGroup Text="Rows and Columns">
                             <RibbonColumn>
                                 <RibbonButton Text="Insert Above" Icon="IconName.Plus" Clicked="@OnInsertAboveHandler" />
@@ -301,8 +300,8 @@
                             <RibbonButton Text="Merge Cells" Icon="IconName.Table" Size="RibbonItemSize.Large" Clicked="@OnMergeCellsHandler" />
                             <RibbonButton Text="Split Cells" Icon="IconName.BorderAll" Size="RibbonItemSize.Large" Clicked="@OnSplitCellsHandler" />
                         </RibbonGroup>
-                    </ChildContent>
-                </RibbonTab>
+                    </RibbonTab>
+                </RibbonContextualTabs>
             </RibbonTabs>
         </Ribbon>
 

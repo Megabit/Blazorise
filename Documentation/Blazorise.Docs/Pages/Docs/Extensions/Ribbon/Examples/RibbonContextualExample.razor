@@ -1,0 +1,87 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Flex="Flex.Row.Wrap.AlignItems.Center" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
+    <Switch TValue="bool" Value="@activeContextualGroups.Contains( "table" )" ValueChanged="@OnTableSelectionChangedHandler">Table selected</Switch>
+    <Switch TValue="bool" Value="@activeContextualGroups.Contains( "picture" )" ValueChanged="@OnPictureSelectionChangedHandler">Picture selected</Switch>
+    <Select TValue="Color" @bind-Value="@contextualColor" Width="Width.Rem( 9 )" aria-label="Table tools color">
+        <SelectItem Value="Color.Primary">Primary</SelectItem>
+        <SelectItem Value="Color.Success">Success</SelectItem>
+        <SelectItem Value="Color.Danger">Danger</SelectItem>
+    </Select>
+    <Button Ghost Color="Color.Secondary" Clicked="@OnClearContextsHandler">Clear contexts</Button>
+</Div>
+
+<Ribbon @ref="@ribbonRef" @bind-SelectedTab="@selectedTab" @bind-ActiveContextualGroups="@activeContextualGroups" Border="Border.Is1.Rounded" ShowCollapseButton="false">
+    <RibbonTabs>
+        <RibbonTab Name="home" Text="Home">
+            <RibbonGroup Text="Clipboard">
+                <RibbonButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" />
+                <RibbonButton Text="Copy" Icon="IconName.Copy" />
+            </RibbonGroup>
+        </RibbonTab>
+        <RibbonContextualTabs Name="table" Color="@contextualColor" SelectOnShow>
+            <RibbonTab Name="table-design" Text="Table Design">
+                <RibbonGroup Text="Table Style Options">
+                    <RibbonColumn>
+                        <RibbonToggleButton Text="Header Row" Icon="IconName.Table" @bind-Checked="@showHeaderRow" />
+                        <RibbonToggleButton Text="Banded Rows" Icon="IconName.ListUl" @bind-Checked="@bandedRows" />
+                    </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Borders">
+                    <RibbonDropdown Text="Borders" Icon="IconName.BorderAll" Size="RibbonItemSize.Large">
+                        <RibbonDropdownItem Text="All borders" />
+                        <RibbonDropdownItem Text="Outside borders" />
+                        <RibbonDropdownItem Text="No borders" />
+                    </RibbonDropdown>
+                    <RibbonButton Text="Shading" Icon="IconName.PaintBrush" Size="RibbonItemSize.Large" />
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Name="table-layout" Text="Table Layout">
+                <RibbonGroup Text="Rows and Columns">
+                    <RibbonColumn>
+                        <RibbonButton Text="Insert Above" Icon="IconName.ArrowUp" />
+                        <RibbonButton Text="Insert Below" Icon="IconName.ArrowDown" />
+                    </RibbonColumn>
+                    <RibbonButton Text="Merge Cells" Icon="IconName.Table" Size="RibbonItemSize.Large" />
+                </RibbonGroup>
+            </RibbonTab>
+        </RibbonContextualTabs>
+        <RibbonContextualTabs Name="picture" Color="Color.Success" SelectOnShow>
+            <RibbonTab Name="picture-format" Text="Picture Format">
+                <RibbonGroup Text="Picture">
+                    <RibbonButton Text="Crop" Icon="IconName.Crop" Size="RibbonItemSize.Large" />
+                    <RibbonButton Text="Rotate" Icon="IconName.Sync" Size="RibbonItemSize.Large" />
+                </RibbonGroup>
+            </RibbonTab>
+        </RibbonContextualTabs>
+    </RibbonTabs>
+</Ribbon>
+
+@code {
+    private Blazorise.Ribbon.Ribbon ribbonRef;
+
+    private string selectedTab = "home";
+
+    private IReadOnlyList<string> activeContextualGroups = ["table"];
+
+    private Color contextualColor = Color.Primary;
+
+    private bool showHeaderRow = true;
+
+    private bool bandedRows;
+
+    private void OnTableSelectionChangedHandler( bool selected ) => SetContextActive( "table", selected );
+
+    private void OnPictureSelectionChangedHandler( bool selected ) => SetContextActive( "picture", selected );
+
+    private Task OnClearContextsHandler() => ribbonRef.SetActiveContextualGroups();
+
+    private void SetContextActive( string name, bool active )
+    {
+        var groups = activeContextualGroups.Where( group => group != name );
+
+        activeContextualGroups = active
+            ? groups.Append( name ).ToArray()
+            : groups.ToArray();
+    }
+}

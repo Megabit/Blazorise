@@ -61,10 +61,19 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Layout">
-        A full ribbon works well for grouped editing tools, but users may want more room for their document. Let them switch <Code>DisplayMode</Code> or collapse the commands to keep the workspace clear. In this example, enabling table tools also reveals a contextual tab through <Code>Visible</Code>.
+        A full ribbon works well for grouped editing tools, but users may want more room for their document. Let them switch <Code>DisplayMode</Code> or collapse the commands to keep the workspace clear. Enable table tools to reveal commands for the selected table.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="RibbonLayoutExample" Outlined FullWidth>
         <RibbonLayoutExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Contextual tabs">
+        When selecting an object should reveal several tabs, place them in a named <Code>RibbonContextualTabs</Code> group. Bind <Code>ActiveContextualGroups</Code> to your editor's selection and enable <Code>SelectOnShow</Code> to open its first tab automatically. The switches use declarative state; Clear contexts demonstrates imperative updates to the same binding.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonContextualExample" Outlined FullWidth>
+        <RibbonContextualExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
@@ -113,6 +122,7 @@
 <DocsPageApi>
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<Ribbon />" />
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonTab />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonContextualTabs />" />
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonGroup />" />
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonButton />" />
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonToggleButton />" />

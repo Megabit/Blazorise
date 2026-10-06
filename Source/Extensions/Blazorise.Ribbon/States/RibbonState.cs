@@ -1,3 +1,8 @@
+#region Using directives
+using System;
+using System.Collections.Generic;
+#endregion
+
 namespace Blazorise.Ribbon;
 
 /// <summary>
@@ -9,6 +14,11 @@ public record RibbonState
     /// Identifies the tab whose command panel is selected.
     /// </summary>
     public string SelectedTab { get; init; }
+
+    /// <summary>
+    /// Identifies the editing contexts whose tabs are available.
+    /// </summary>
+    public IReadOnlyList<string> ActiveContextualGroups { get; init; } = Array.Empty<string>();
 
     /// <summary>
     /// Indicates whether the command surface is hidden while the tab strip remains available.

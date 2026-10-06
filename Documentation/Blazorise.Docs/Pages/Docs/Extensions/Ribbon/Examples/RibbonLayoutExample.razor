@@ -9,7 +9,7 @@
     <Switch TValue="bool" @bind-Value="@collapsed">Collapse ribbon</Switch>
 </Div>
 
-<Ribbon @bind-SelectedTab="@selectedTab" @bind-Collapsed="@collapsed" DisplayMode="@displayMode" Border="Border.Is1.Rounded">
+<Ribbon @bind-SelectedTab="@selectedTab" @bind-Collapsed="@collapsed" DisplayMode="@displayMode" ActiveContextualGroups="@ActiveContextualGroups" Border="Border.Is1.Rounded">
     <TabStripContent>
         <RibbonDropdown Text="Share" Icon="IconName.ShareAlt" Size="RibbonItemSize.Medium">
             <RibbonDropdownItem Text="Share document" Clicked="@OnShareHandler" />
@@ -29,12 +29,14 @@
                 <RibbonButton Text="Align left" Icon="IconName.AlignLeft" Size="RibbonItemSize.Large" Clicked="@OnAlignLeftHandler" />
             </RibbonGroup>
         </RibbonTab>
-        <RibbonTab Name="table" Text="Table Layout" Visible="@showTableTools">
-            <RibbonGroup Text="Table">
-                <RibbonButton Text="Insert row" Icon="IconName.Plus" Clicked="@OnInsertRowHandler" />
-                <RibbonButton Text="Delete table" Icon="IconName.Delete" Clicked="@OnDeleteTableHandler" />
-            </RibbonGroup>
-        </RibbonTab>
+        <RibbonContextualTabs Name="table">
+            <RibbonTab Name="table" Text="Table Layout">
+                <RibbonGroup Text="Table">
+                    <RibbonButton Text="Insert row" Icon="IconName.Plus" Clicked="@OnInsertRowHandler" />
+                    <RibbonButton Text="Delete table" Icon="IconName.Delete" Clicked="@OnDeleteTableHandler" />
+                </RibbonGroup>
+            </RibbonTab>
+        </RibbonContextualTabs>
     </RibbonTabs>
 </Ribbon>
 
@@ -52,6 +54,8 @@
     private bool collapsed;
 
     private string status = "Switch layouts or enable the contextual tab.";
+
+    private IReadOnlyList<string> ActiveContextualGroups => showTableTools ? ["table"] : [];
 
     private void OnShareHandler()
     {
