@@ -4,7 +4,7 @@
         <Div @ref="@containerRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" @attributes="@Attributes">
             @if ( QuickAccessContent is not null )
             {
-                <Div Flex="Blazorise.Flex.Row.AlignItems.Center" Gap="Blazorise.Gap.Is1" Padding="Blazorise.Padding.Is1" role="group" aria-label="@QuickAccessLabel">
+                <Div Flex="Blazorise.Flex.Row.AlignItems.Center" Gap="Blazorise.Gap.Is1" Padding="Blazorise.Padding.Is1" role="group" aria-label="@QuickAccessAriaLabel">
                     @QuickAccessContent
                 </Div>
             }
@@ -25,7 +25,7 @@
                 }
                 @if ( ShowCollapseButton )
                 {
-                    <Button Ghost Size="Blazorise.Size.Small" Border="Blazorise.Border.Is0" Clicked="@OnCollapseHandler" aria-label="@CollapseButtonLabel" aria-expanded="@ExpandedString" aria-controls="@ContentElementId">
+                    <Button Ghost Size="Blazorise.Size.Small" Border="Blazorise.Border.Is0" Clicked="@OnCollapseHandler" aria-label="@EffectiveCollapseButtonAriaLabel" aria-expanded="@ExpandedString" aria-controls="@ContentElementId">
                         <Icon Name="@(Collapsed ? IconName.ChevronDown : IconName.ChevronUp)" />
                     </Button>
                 }

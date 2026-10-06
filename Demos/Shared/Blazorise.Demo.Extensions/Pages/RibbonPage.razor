@@ -41,7 +41,7 @@
             </TabStripContent>
             <RibbonTabs>
                 <RibbonTab Name="home" Text="Home">
-                    <RibbonGroup Text="Clipboard" ShowLauncher LauncherLabel="Open Clipboard" LauncherClicked="@OnClipboardLauncherHandler">
+                    <RibbonGroup Text="Clipboard" ShowLauncher LauncherAriaLabel="Open Clipboard" LauncherClicked="@OnClipboardLauncherHandler">
                         <RibbonSplitButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" Clicked="@OnPasteHandler">
                             <RibbonDropdownItem Text="Keep source formatting" Clicked="@OnPasteHandler" />
                             <RibbonDropdownItem Text="Keep text only" Clicked="@OnPasteTextHandler" />
@@ -55,7 +55,7 @@
                         </RibbonColumn>
                     </RibbonGroup>
 
-                    <RibbonGroup Text="Font" Layout="RibbonGroupLayout.Rows" ShowLauncher LauncherLabel="Open Font settings" LauncherClicked="@OnFontLauncherHandler">
+                    <RibbonGroup Text="Font" Layout="RibbonGroupLayout.Rows" ShowLauncher LauncherAriaLabel="Open Font settings" LauncherClicked="@OnFontLauncherHandler">
                         <RibbonRow>
                             <Select TValue="string" Value="@Document.FontFamily" ValueChanged="@OnFontFamilyChangedHandler" Size="Size.Small" Width="Width.Px( 130 )" aria-label="Font family">
                                 @foreach ( var font in fonts )
@@ -85,7 +85,7 @@
                         </RibbonRow>
                     </RibbonGroup>
 
-                    <RibbonGroup Text="Paragraph" Layout="RibbonGroupLayout.Rows" ShowLauncher LauncherLabel="Open Paragraph settings" LauncherClicked="@OnParagraphLauncherHandler">
+                    <RibbonGroup Text="Paragraph" Layout="RibbonGroupLayout.Rows" ShowLauncher LauncherAriaLabel="Open Paragraph settings" LauncherClicked="@OnParagraphLauncherHandler">
                         <RibbonRow>
                             <RibbonButton Text="Bullets" Icon="IconName.ListUl" Size="RibbonItemSize.Small" Clicked="@OnBulletsHandler" />
                             <RibbonButton Text="Numbering" Icon="IconName.ListOl" Size="RibbonItemSize.Small" Clicked="@OnNumberingHandler" />
@@ -104,7 +104,7 @@
                         </RibbonRow>
                     </RibbonGroup>
 
-                    <RibbonGroup Text="Styles" ShowLauncher LauncherLabel="Open Styles" LauncherClicked="@OnStylesLauncherHandler">
+                    <RibbonGroup Text="Styles" ShowLauncher LauncherAriaLabel="Open Styles" LauncherClicked="@OnStylesLauncherHandler">
                         <RibbonGallery Text="Document styles" SelectedValue="@Document.Style" SelectedValueChanged="@OnStyleChangedHandler">
                             @foreach ( var style in styles )
                             {
@@ -472,7 +472,7 @@
         </RibbonApplicationTab>
         <RibbonTabs>
             <RibbonTab Name="home" Text="Home">
-                <RibbonGroup Text="Clipboard" ShowLauncher LauncherLabel="Open Clipboard">
+                <RibbonGroup Text="Clipboard" ShowLauncher LauncherAriaLabel="Open Clipboard">
                     <RibbonSplitButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large">
                         <RibbonDropdownItem Text="Keep source formatting" />
                         <RibbonDropdownItem Text="Keep text only" />

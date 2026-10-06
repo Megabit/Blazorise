@@ -62,9 +62,9 @@ public partial class RibbonGroup : BaseComponent
     protected string CaptionElementId => $"{ElementId}-caption";
 
     /// <summary>
-    /// Uses <see cref="LauncherLabel"/> as the launcher accessible name, falling back to the group caption.
+    /// Uses <see cref="LauncherAriaLabel"/> as the launcher accessible name, falling back to the group caption.
     /// </summary>
-    protected string EffectiveLauncherLabel => LauncherLabel ?? Text;
+    protected string EffectiveLauncherAriaLabel => LauncherAriaLabel ?? Text;
 
     /// <summary>
     /// Specifies the group caption displayed below its commands in classic mode and used as the group's accessible name.
@@ -93,7 +93,7 @@ public partial class RibbonGroup : BaseComponent
     /// <summary>
     /// Specifies the accessible name of the group launcher. When omitted, uses <see cref="Text"/>.
     /// </summary>
-    [Parameter] public string LauncherLabel { get; set; }
+    [Parameter] public string LauncherAriaLabel { get; set; }
 
     /// <summary>
     /// Occurs when the group launcher is activated. Use this callback to display a dialog or additional options.

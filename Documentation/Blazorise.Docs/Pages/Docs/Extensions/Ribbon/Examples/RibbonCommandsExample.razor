@@ -1,10 +1,15 @@
 @namespace Blazorise.Docs.Docs.Examples
 
+<Div Flex="Flex.Row.Wrap.AlignItems.Center" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
+    <Switch TValue="bool" @bind-Value="@pasteMenuVisible">Paste menu open</Switch>
+    <Switch TValue="bool" @bind-Value="@tableMenuVisible">Table menu open</Switch>
+</Div>
+
 <Ribbon SelectedTab="home" ShowCollapseButton="false" Border="Border.Is1.Rounded">
     <RibbonTabs>
         <RibbonTab Name="home" Text="Home">
             <RibbonGroup Text="Clipboard">
-                <RibbonSplitButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" Clicked="@OnPasteHandler">
+                <RibbonSplitButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" @bind-Visible="@pasteMenuVisible" Clicked="@OnPasteHandler">
                     <RibbonDropdownItem Text="Keep source formatting" Clicked="@OnPasteFormattingHandler" />
                     <RibbonDropdownItem Text="Keep text only" Clicked="@OnPasteTextHandler" />
                     <RibbonDropdownDivider />
@@ -16,7 +21,7 @@
                 </RibbonColumn>
             </RibbonGroup>
             <RibbonGroup Text="Insert">
-                <RibbonDropdown Text="Table" Icon="IconName.Table" Size="RibbonItemSize.Large">
+                <RibbonDropdown Text="Table" Icon="IconName.Table" Size="RibbonItemSize.Large" @bind-Visible="@tableMenuVisible">
                     <RibbonDropdownItem Text="Insert table" Icon="IconName.Table" Clicked="@OnTableHandler" />
                     <RibbonDropdownItem Text="Draw table" Clicked="@OnDrawTableHandler" />
                 </RibbonDropdown>
@@ -39,6 +44,10 @@
 </Paragraph>
 
 @code {
+    private bool pasteMenuVisible;
+
+    private bool tableMenuVisible;
+
     private string status = "Use Paste for its default action or open its menu for alternatives.";
 
     private void OnPasteHandler()

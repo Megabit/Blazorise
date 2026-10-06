@@ -275,12 +275,12 @@ public partial class RibbonBackstage : BaseComponent
     /// <summary>
     /// Specifies the accessible name announced for backstage navigation. Defaults to <c>File navigation</c>.
     /// </summary>
-    [Parameter] public string NavigationLabel { get; set; } = "File navigation";
+    [Parameter] public string NavigationAriaLabel { get; set; } = "File navigation";
 
     /// <summary>
     /// Specifies the Back button text and accessible name. Defaults to <c>Back to document</c>.
     /// </summary>
-    [Parameter] public string BackLabel { get; set; } = "Back to document";
+    [Parameter] public string BackText { get; set; } = "Back to document";
 
     /// <summary>
     /// Defines backstage pages and commands using <see cref="RibbonBackstageItem"/> components.
