@@ -1,4 +1,5 @@
 #region Using directives
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -38,6 +39,11 @@ public abstract class BaseRibbonItem : BaseComponent
     protected IFluentSizing EffectiveHeight => Height ?? ( EffectiveSize == RibbonItemSize.Large ? Blazorise.Height.Rem( 6 ) : Blazorise.Height.Auto );
 
     /// <summary>
+    /// Uses an explicit text color when supplied, otherwise keeping default commands neutral and colored commands in their selected color.
+    /// </summary>
+    protected TextColor EffectiveTextColor => TextColor.IsNotNullOrDefault() ? TextColor : Color.IsNullOrDefault() ? Blazorise.TextColor.Body : Blazorise.TextColor.Default;
+
+    /// <summary>
     /// Specifies the command label and accessible name.
     /// </summary>
     /// <remarks>
@@ -59,7 +65,7 @@ public abstract class BaseRibbonItem : BaseComponent
     [Parameter] public RibbonItemSize Size { get; set; } = RibbonItemSize.Medium;
 
     /// <summary>
-    /// Selects the color used for the command and its interaction states. Defaults to <see cref="Color.Default"/>.
+    /// Selects the color used for the command and its interaction states. Default commands use the body text color.
     /// </summary>
     [Parameter] public Color Color { get; set; } = Color.Default;
 

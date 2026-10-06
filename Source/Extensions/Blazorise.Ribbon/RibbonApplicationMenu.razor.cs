@@ -30,7 +30,8 @@ public partial class RibbonApplicationMenu : BaseComponent
         TextOverflow = Blazorise.TextOverflow.NoWrap;
         TextSize = Blazorise.TextSize.Px( 13 );
         Padding = Blazorise.Padding.Is0;
-        TextColor = Blazorise.TextColor.Default;
+        Height = Blazorise.Height.Auto;
+        TextColor = Blazorise.TextColor.Body;
     }
 
     #endregion

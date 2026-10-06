@@ -8,7 +8,7 @@ else
     <Span Flex="@(Size == RibbonItemSize.Large ? Flex.Column.AlignItems.Center.JustifyContent.Center : Flex.Row.AlignItems.Center)" Height="@(Size == RibbonItemSize.Large ? Height.Is100 : null)" Gap="Gap.Is1">
         @if ( Icon is not null )
         {
-            <Icon Name="@Icon" IconSize="@(Size == RibbonItemSize.Large ? IconSize.x2 : IconSize.Default)" FixedWidth />
+            <Icon Name="@Icon" IconSize="@(Size == RibbonItemSize.Large ? IconSize.x2 : IconSize.Default)" TextSize="@(Size == RibbonItemSize.Large ? TextSize.Em( 2 ) : TextSize.Em( 1 ))" FixedWidth />
         }
         @if ( ShowText && ( Size != RibbonItemSize.Small || Icon is null ) )
         {

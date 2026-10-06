@@ -25,8 +25,8 @@
                 }
                 @if ( ShowCollapseButton )
                 {
-                    <Button Ghost Size="Blazorise.Size.Small" Border="Blazorise.Border.Is0" Clicked="@OnCollapseHandler" aria-label="@EffectiveCollapseButtonAriaLabel" aria-expanded="@ExpandedString" aria-controls="@ContentElementId">
-                        <Icon Name="@(Collapsed ? IconName.ChevronDown : IconName.ChevronUp)" />
+                    <Button Ghost Size="Blazorise.Size.Small" Height="Blazorise.Height.Auto" Padding="Blazorise.Padding.Is1" TextSize="Blazorise.TextSize.Px( 13 )" TextColor="Blazorise.TextColor.Body" Border="Blazorise.Border.Is0" Clicked="@OnCollapseHandler" aria-label="@EffectiveCollapseButtonAriaLabel" aria-expanded="@ExpandedString" aria-controls="@ContentElementId">
+                        <Icon Name="@(Collapsed ? IconName.ChevronDown : IconName.ChevronUp)" TextSize="Blazorise.TextSize.Em( 1 )" />
                     </Button>
                 }
             </Div>

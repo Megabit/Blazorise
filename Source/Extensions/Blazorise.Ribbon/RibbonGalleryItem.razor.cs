@@ -22,6 +22,7 @@ public partial class RibbonGalleryItem : BaseComponent
         Height = Blazorise.Height.Is100;
         Width = Blazorise.Width.Rem().Min( 5 );
         Padding = Blazorise.Padding.Is1.OnY.Is2.OnX;
+        TextColor = Blazorise.TextColor.Body;
     }
 
     #endregion
