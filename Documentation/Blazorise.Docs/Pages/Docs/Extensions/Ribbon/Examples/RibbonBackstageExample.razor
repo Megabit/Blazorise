@@ -9,7 +9,25 @@
             <RibbonTabs>
                 <RibbonTab Name="home" Text="Home">
                     <RibbonGroup Text="Clipboard">
-                        <RibbonButton Text="Copy" Icon="IconName.Copy" Clicked="@OnCopyHandler" />
+                        <RibbonButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" />
+                        <RibbonColumn>
+                            <RibbonButton Text="Cut" Icon="IconName.Cut" />
+                            <RibbonButton Text="Copy" Icon="IconName.Copy" Clicked="@OnCopyHandler" />
+                            <RibbonButton Text="Format Painter" Icon="IconName.PaintBrush" />
+                        </RibbonColumn>
+                    </RibbonGroup>
+                    <RibbonGroup Text="Paragraph">
+                        <RibbonButton Text="Align left" Icon="IconName.AlignLeft" Size="RibbonItemSize.Large" />
+                        <RibbonColumn>
+                            <RibbonButton Text="Center" Icon="IconName.AlignCenter" />
+                            <RibbonButton Text="Align right" Icon="IconName.AlignRight" />
+                        </RibbonColumn>
+                    </RibbonGroup>
+                    <RibbonGroup Text="Editing">
+                        <RibbonColumn>
+                            <RibbonButton Text="Find" Icon="IconName.Search" />
+                            <RibbonButton Text="Replace" Icon="IconName.Sync" />
+                        </RibbonColumn>
                     </RibbonGroup>
                 </RibbonTab>
             </RibbonTabs>

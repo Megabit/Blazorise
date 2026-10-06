@@ -13,10 +13,30 @@
                     <RibbonButton Text="Copy" Icon="IconName.Copy" Clicked="@OnCopyHandler" />
                 </RibbonColumn>
             </RibbonGroup>
+            <RibbonGroup Text="Paragraph">
+                <RibbonButton Text="Align left" Icon="IconName.AlignLeft" Size="RibbonItemSize.Large" />
+                <RibbonColumn>
+                    <RibbonButton Text="Center" Icon="IconName.AlignCenter" />
+                    <RibbonButton Text="Align right" Icon="IconName.AlignRight" />
+                </RibbonColumn>
+            </RibbonGroup>
         </RibbonTab>
         <RibbonTab Name="insert" Text="Insert">
             <RibbonGroup Text="Illustrations">
                 <RibbonButton Text="Picture" Icon="IconName.Image" Size="RibbonItemSize.Large" Clicked="@OnPictureHandler" />
+                <RibbonColumn>
+                    <RibbonButton Text="Chart" Icon="IconName.ChartBar" />
+                    <RibbonButton Text="Screenshot" Icon="IconName.Camera" />
+                </RibbonColumn>
+            </RibbonGroup>
+            <RibbonGroup Text="Tables">
+                <RibbonButton Text="Table" Icon="IconName.Table" Size="RibbonItemSize.Large" />
+            </RibbonGroup>
+            <RibbonGroup Text="Links">
+                <RibbonColumn>
+                    <RibbonButton Text="Link" Icon="IconName.Link" />
+                    <RibbonButton Text="Bookmark" Icon="IconName.Bookmark" />
+                </RibbonColumn>
             </RibbonGroup>
         </RibbonTab>
     </RibbonTabs>

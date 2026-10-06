@@ -27,13 +27,37 @@
             </RibbonGroup>
             <RibbonGroup Text="Paragraph">
                 <RibbonButton Text="Align left" Icon="IconName.AlignLeft" Size="RibbonItemSize.Large" Clicked="@OnAlignLeftHandler" />
+                <RibbonColumn>
+                    <RibbonButton Text="Center" Icon="IconName.AlignCenter" />
+                    <RibbonButton Text="Align right" Icon="IconName.AlignRight" />
+                </RibbonColumn>
+            </RibbonGroup>
+            <RibbonGroup Text="Editing">
+                <RibbonColumn>
+                    <RibbonButton Text="Find" Icon="IconName.Search" />
+                    <RibbonButton Text="Replace" Icon="IconName.Sync" />
+                </RibbonColumn>
             </RibbonGroup>
         </RibbonTab>
         <RibbonContextualTabs Name="table">
             <RibbonTab Name="table" Text="Table Layout">
-                <RibbonGroup Text="Table">
-                    <RibbonButton Text="Insert row" Icon="IconName.Plus" Clicked="@OnInsertRowHandler" />
-                    <RibbonButton Text="Delete table" Icon="IconName.Delete" Clicked="@OnDeleteTableHandler" />
+                <RibbonGroup Text="Rows and Columns">
+                    <RibbonColumn>
+                        <RibbonButton Text="Insert row" Icon="IconName.Plus" Clicked="@OnInsertRowHandler" />
+                        <RibbonButton Text="Insert column" Icon="IconName.Add" />
+                        <RibbonButton Text="Delete table" Icon="IconName.Delete" Clicked="@OnDeleteTableHandler" />
+                    </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Merge">
+                    <RibbonButton Text="Merge cells" Icon="IconName.Table" Size="RibbonItemSize.Large" />
+                    <RibbonButton Text="Split cells" Icon="IconName.BorderAll" Size="RibbonItemSize.Large" />
+                </RibbonGroup>
+                <RibbonGroup Text="Alignment">
+                    <RibbonColumn>
+                        <RibbonButton Text="Align top" Icon="IconName.ArrowUp" />
+                        <RibbonButton Text="Center" Icon="IconName.AlignCenter" />
+                        <RibbonButton Text="Align bottom" Icon="IconName.ArrowDown" />
+                    </RibbonColumn>
                 </RibbonGroup>
             </RibbonTab>
         </RibbonContextualTabs>

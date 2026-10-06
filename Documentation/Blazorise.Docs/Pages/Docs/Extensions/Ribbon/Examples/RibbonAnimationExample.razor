@@ -5,16 +5,61 @@
         <RibbonTab Name="home" Text="Home">
             <RibbonGroup Text="Clipboard">
                 <RibbonButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" Clicked="@OnPasteHandler" />
+                <RibbonColumn>
+                    <RibbonButton Text="Cut" Icon="IconName.Cut" />
+                    <RibbonButton Text="Copy" Icon="IconName.Copy" />
+                    <RibbonButton Text="Format Painter" Icon="IconName.PaintBrush" />
+                </RibbonColumn>
+            </RibbonGroup>
+            <RibbonGroup Text="Paragraph">
+                <RibbonButton Text="Align left" Icon="IconName.AlignLeft" Size="RibbonItemSize.Large" />
+                <RibbonColumn>
+                    <RibbonButton Text="Center" Icon="IconName.AlignCenter" />
+                    <RibbonButton Text="Align right" Icon="IconName.AlignRight" />
+                </RibbonColumn>
+            </RibbonGroup>
+            <RibbonGroup Text="Editing">
+                <RibbonColumn>
+                    <RibbonButton Text="Find" Icon="IconName.Search" />
+                    <RibbonButton Text="Replace" Icon="IconName.Sync" />
+                </RibbonColumn>
             </RibbonGroup>
         </RibbonTab>
         <RibbonTab Name="insert" Text="Insert">
             <RibbonGroup Text="Illustrations">
                 <RibbonButton Text="Picture" Icon="IconName.Image" Size="RibbonItemSize.Large" Clicked="@OnPictureHandler" />
+                <RibbonColumn>
+                    <RibbonButton Text="Chart" Icon="IconName.ChartBar" />
+                    <RibbonButton Text="Screenshot" Icon="IconName.Camera" />
+                </RibbonColumn>
+            </RibbonGroup>
+            <RibbonGroup Text="Tables">
+                <RibbonButton Text="Table" Icon="IconName.Table" Size="RibbonItemSize.Large" />
+            </RibbonGroup>
+            <RibbonGroup Text="Links">
+                <RibbonColumn>
+                    <RibbonButton Text="Link" Icon="IconName.Link" />
+                    <RibbonButton Text="Bookmark" Icon="IconName.Bookmark" />
+                </RibbonColumn>
             </RibbonGroup>
         </RibbonTab>
         <RibbonTab Name="view" Text="View">
+            <RibbonGroup Text="Views">
+                <RibbonButton Text="Print layout" Icon="IconName.Print" Size="RibbonItemSize.Large" />
+                <RibbonButton Text="Web layout" Icon="IconName.Globe" Size="RibbonItemSize.Large" />
+            </RibbonGroup>
             <RibbonGroup Text="Zoom">
                 <RibbonButton Text="Zoom in" Icon="IconName.SearchPlus" Size="RibbonItemSize.Large" Clicked="@OnZoomHandler" />
+                <RibbonColumn>
+                    <RibbonButton Text="Zoom out" Icon="IconName.SearchMinus" />
+                    <RibbonButton Text="100%" Icon="IconName.Search" />
+                </RibbonColumn>
+            </RibbonGroup>
+            <RibbonGroup Text="Window">
+                <RibbonColumn>
+                    <RibbonButton Text="New window" Icon="IconName.Copy" />
+                    <RibbonButton Text="Reset view" Icon="IconName.Sync" />
+                </RibbonColumn>
             </RibbonGroup>
         </RibbonTab>
     </RibbonTabs>

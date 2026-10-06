@@ -16,7 +16,18 @@
         <RibbonTab Name="home" Text="Home">
             <RibbonGroup Text="Clipboard">
                 <RibbonButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" />
-                <RibbonButton Text="Copy" Icon="IconName.Copy" />
+                <RibbonColumn>
+                    <RibbonButton Text="Cut" Icon="IconName.Cut" />
+                    <RibbonButton Text="Copy" Icon="IconName.Copy" />
+                    <RibbonButton Text="Format Painter" Icon="IconName.PaintBrush" />
+                </RibbonColumn>
+            </RibbonGroup>
+            <RibbonGroup Text="Paragraph">
+                <RibbonButton Text="Align left" Icon="IconName.AlignLeft" Size="RibbonItemSize.Large" />
+                <RibbonColumn>
+                    <RibbonButton Text="Center" Icon="IconName.AlignCenter" />
+                    <RibbonButton Text="Align right" Icon="IconName.AlignRight" />
+                </RibbonColumn>
             </RibbonGroup>
         </RibbonTab>
         <RibbonContextualTabs Name="table" Color="@contextualColor" SelectOnShow>
@@ -34,6 +45,7 @@
                         <RibbonDropdownItem Text="No borders" />
                     </RibbonDropdown>
                     <RibbonButton Text="Shading" Icon="IconName.PaintBrush" Size="RibbonItemSize.Large" />
+                    <RibbonButton Text="Draw borders" Icon="IconName.Edit" />
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Name="table-layout" Text="Table Layout">
@@ -41,8 +53,19 @@
                     <RibbonColumn>
                         <RibbonButton Text="Insert Above" Icon="IconName.ArrowUp" />
                         <RibbonButton Text="Insert Below" Icon="IconName.ArrowDown" />
+                        <RibbonButton Text="Delete row" Icon="IconName.Delete" />
                     </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Merge">
                     <RibbonButton Text="Merge Cells" Icon="IconName.Table" Size="RibbonItemSize.Large" />
+                    <RibbonButton Text="Split Cells" Icon="IconName.BorderAll" Size="RibbonItemSize.Large" />
+                </RibbonGroup>
+                <RibbonGroup Text="Alignment">
+                    <RibbonColumn>
+                        <RibbonButton Text="Align top" Icon="IconName.ArrowUp" />
+                        <RibbonButton Text="Center" Icon="IconName.AlignCenter" />
+                        <RibbonButton Text="Align bottom" Icon="IconName.ArrowDown" />
+                    </RibbonColumn>
                 </RibbonGroup>
             </RibbonTab>
         </RibbonContextualTabs>
@@ -51,6 +74,18 @@
                 <RibbonGroup Text="Picture">
                     <RibbonButton Text="Crop" Icon="IconName.Crop" Size="RibbonItemSize.Large" />
                     <RibbonButton Text="Rotate" Icon="IconName.Sync" Size="RibbonItemSize.Large" />
+                </RibbonGroup>
+                <RibbonGroup Text="Adjust">
+                    <RibbonColumn>
+                        <RibbonButton Text="Change picture" Icon="IconName.Image" />
+                        <RibbonButton Text="Reset picture" Icon="IconName.Sync" />
+                    </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Arrange">
+                    <RibbonColumn>
+                        <RibbonButton Text="Bring forward" Icon="IconName.ArrowUp" />
+                        <RibbonButton Text="Send backward" Icon="IconName.ArrowDown" />
+                    </RibbonColumn>
                 </RibbonGroup>
             </RibbonTab>
         </RibbonContextualTabs>
