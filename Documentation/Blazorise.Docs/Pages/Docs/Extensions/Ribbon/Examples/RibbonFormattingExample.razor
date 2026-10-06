@@ -1,0 +1,64 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Ribbon SelectedTab="home" ShowCollapseButton="false" Border="Border.Is1.Rounded">
+    <RibbonTabs>
+        <RibbonTab Name="home" Text="Home">
+            <RibbonGroup Text="Font" Layout="RibbonGroupLayout.Rows">
+                <RibbonRow>
+                    <Select TValue="string" @bind-Value="@fontFamily" Size="Size.Small" Width="Width.Rem( 9 )" aria-label="Font family">
+                        <SelectItem Value="@("Arial")">Arial</SelectItem>
+                        <SelectItem Value="@("Calibri")">Calibri</SelectItem>
+                        <SelectItem Value="@("Georgia")">Georgia</SelectItem>
+                    </Select>
+                    <Select TValue="int" @bind-Value="@fontSize" Size="Size.Small" Width="Width.Rem( 5 )" aria-label="Font size">
+                        <SelectItem Value="12">12</SelectItem>
+                        <SelectItem Value="16">16</SelectItem>
+                        <SelectItem Value="24">24</SelectItem>
+                    </Select>
+                </RibbonRow>
+                <RibbonRow>
+                    <RibbonToggleButton Text="Bold" Icon="IconName.Bold" Size="RibbonItemSize.Small" @bind-Checked="@bold" />
+                    <RibbonToggleButton Text="Italic" Icon="IconName.Italic" Size="RibbonItemSize.Small" @bind-Checked="@italic" />
+                    <RibbonToggleButton Text="Underline" Icon="IconName.Underline" Size="RibbonItemSize.Small" @bind-Checked="@underline" />
+                    <RibbonColorPicker @bind-Value="@textColor" Size="Size.Small" title="Text color" aria-label="Text color" />
+                </RibbonRow>
+            </RibbonGroup>
+            <RibbonGroup Text="Styles">
+                <RibbonGallery Text="Document styles" @bind-SelectedValue="@selectedStyle">
+                    <RibbonGalleryItem Value="normal" Text="Normal">
+                        <Span>AaBbCc</Span>
+                    </RibbonGalleryItem>
+                    <RibbonGalleryItem Value="heading" Text="Heading">
+                        <Span TextSize="TextSize.Large" TextWeight="TextWeight.Bold">AaBbCc</Span>
+                    </RibbonGalleryItem>
+                    <RibbonGalleryItem Value="title" Text="Title">
+                        <Span TextSize="TextSize.ExtraLarge" TextColor="TextColor.Primary">AaBbCc</Span>
+                    </RibbonGalleryItem>
+                </RibbonGallery>
+            </RibbonGroup>
+        </RibbonTab>
+    </RibbonTabs>
+</Ribbon>
+
+<Paragraph Margin="Margin.Is2.FromTop" TextColor="TextColor.Secondary">
+    Font: @fontFamily, @fontSize pt. Style: @selectedStyle. Color: @textColor.
+</Paragraph>
+<Paragraph TextWeight="@(bold ? TextWeight.Bold : TextWeight.Normal)" Italic="@italic" TextDecoration="@(underline ? TextDecoration.Underline : TextDecoration.None)">
+    Formatting controls can share the same ribbon rows as ordinary Blazorise inputs.
+</Paragraph>
+
+@code {
+    private string fontFamily = "Calibri";
+
+    private int fontSize = 16;
+
+    private bool bold;
+
+    private bool italic;
+
+    private bool underline;
+
+    private string textColor = "#212121";
+
+    private string selectedStyle = "normal";
+}

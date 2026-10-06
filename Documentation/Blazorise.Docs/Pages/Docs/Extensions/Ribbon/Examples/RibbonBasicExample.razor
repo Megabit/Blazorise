@@ -1,0 +1,58 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Ribbon @bind-SelectedTab="@selectedTab" Border="Border.Is1.Rounded" AriaLabel="Document commands">
+    <QuickAccessContent>
+        <RibbonButton Text="Save" Icon="IconName.Save" Size="RibbonItemSize.Small" Clicked="@OnSaveHandler" />
+    </QuickAccessContent>
+    <RibbonTabs>
+        <RibbonTab Name="home" Text="Home">
+            <RibbonGroup Text="Clipboard">
+                <RibbonButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" Clicked="@OnPasteHandler" />
+                <RibbonColumn>
+                    <RibbonButton Text="Cut" Icon="IconName.Cut" Clicked="@OnCutHandler" />
+                    <RibbonButton Text="Copy" Icon="IconName.Copy" Clicked="@OnCopyHandler" />
+                </RibbonColumn>
+            </RibbonGroup>
+        </RibbonTab>
+        <RibbonTab Name="insert" Text="Insert">
+            <RibbonGroup Text="Illustrations">
+                <RibbonButton Text="Picture" Icon="IconName.Image" Size="RibbonItemSize.Large" Clicked="@OnPictureHandler" />
+            </RibbonGroup>
+        </RibbonTab>
+    </RibbonTabs>
+</Ribbon>
+
+<Paragraph Margin="Margin.Is2.FromTop" TextColor="TextColor.Secondary">
+    @status
+</Paragraph>
+
+@code {
+    private string selectedTab = "home";
+
+    private string status = "Select a tab and activate a command.";
+
+    private void OnSaveHandler()
+    {
+        status = "Save selected.";
+    }
+
+    private void OnPasteHandler()
+    {
+        status = "Paste selected.";
+    }
+
+    private void OnCutHandler()
+    {
+        status = "Cut selected.";
+    }
+
+    private void OnCopyHandler()
+    {
+        status = "Copy selected.";
+    }
+
+    private void OnPictureHandler()
+    {
+        status = "Insert picture selected.";
+    }
+}

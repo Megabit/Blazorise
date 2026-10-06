@@ -1,0 +1,46 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Ribbon @bind-SelectedTab="@selectedTab" Animated AnimationDuration="200" Border="Border.Is1.Rounded">
+    <RibbonTabs>
+        <RibbonTab Name="home" Text="Home">
+            <RibbonGroup Text="Clipboard">
+                <RibbonButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" Clicked="@OnPasteHandler" />
+            </RibbonGroup>
+        </RibbonTab>
+        <RibbonTab Name="insert" Text="Insert">
+            <RibbonGroup Text="Illustrations">
+                <RibbonButton Text="Picture" Icon="IconName.Image" Size="RibbonItemSize.Large" Clicked="@OnPictureHandler" />
+            </RibbonGroup>
+        </RibbonTab>
+        <RibbonTab Name="view" Text="View">
+            <RibbonGroup Text="Zoom">
+                <RibbonButton Text="Zoom in" Icon="IconName.SearchPlus" Size="RibbonItemSize.Large" Clicked="@OnZoomHandler" />
+            </RibbonGroup>
+        </RibbonTab>
+    </RibbonTabs>
+</Ribbon>
+
+<Paragraph Margin="Margin.Is2.FromTop" TextColor="TextColor.Secondary">
+    Switch tabs in either direction. @status
+</Paragraph>
+
+@code {
+    private string selectedTab = "home";
+
+    private string status;
+
+    private void OnPasteHandler()
+    {
+        status = "Paste selected.";
+    }
+
+    private void OnPictureHandler()
+    {
+        status = "Picture selected.";
+    }
+
+    private void OnZoomHandler()
+    {
+        status = "Zoom in selected.";
+    }
+}

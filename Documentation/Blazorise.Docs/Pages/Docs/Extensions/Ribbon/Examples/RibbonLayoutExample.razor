@@ -1,0 +1,95 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Flex="Flex.Row.Wrap.AlignItems.Center" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
+    <Select TValue="RibbonDisplayMode" @bind-Value="@displayMode" Width="Width.Rem( 12 )" aria-label="Ribbon layout">
+        <SelectItem Value="RibbonDisplayMode.Classic">Classic</SelectItem>
+        <SelectItem Value="RibbonDisplayMode.Simplified">Simplified</SelectItem>
+    </Select>
+    <Switch TValue="bool" @bind-Value="@showTableTools">Show table tools</Switch>
+    <Switch TValue="bool" @bind-Value="@collapsed">Collapse ribbon</Switch>
+</Div>
+
+<Ribbon @bind-SelectedTab="@selectedTab" @bind-Collapsed="@collapsed" DisplayMode="@displayMode" Border="Border.Is1.Rounded">
+    <TabStripContent>
+        <RibbonDropdown Text="Share" Icon="IconName.ShareAlt" Size="RibbonItemSize.Medium">
+            <RibbonDropdownItem Text="Share document" Clicked="@OnShareHandler" />
+            <RibbonDropdownItem Text="Copy link" Clicked="@OnCopyLinkHandler" />
+        </RibbonDropdown>
+    </TabStripContent>
+    <RibbonTabs>
+        <RibbonTab Name="home" Text="Home">
+            <RibbonGroup Text="Clipboard">
+                <RibbonButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" Clicked="@OnPasteHandler" />
+                <RibbonColumn>
+                    <RibbonButton Text="Cut" Icon="IconName.Cut" Clicked="@OnCutHandler" />
+                    <RibbonButton Text="Copy" Icon="IconName.Copy" Clicked="@OnCopyHandler" />
+                </RibbonColumn>
+            </RibbonGroup>
+            <RibbonGroup Text="Paragraph">
+                <RibbonButton Text="Align left" Icon="IconName.AlignLeft" Size="RibbonItemSize.Large" Clicked="@OnAlignLeftHandler" />
+            </RibbonGroup>
+        </RibbonTab>
+        <RibbonTab Name="table" Text="Table Layout" Visible="@showTableTools">
+            <RibbonGroup Text="Table">
+                <RibbonButton Text="Insert row" Icon="IconName.Plus" Clicked="@OnInsertRowHandler" />
+                <RibbonButton Text="Delete table" Icon="IconName.Delete" Clicked="@OnDeleteTableHandler" />
+            </RibbonGroup>
+        </RibbonTab>
+    </RibbonTabs>
+</Ribbon>
+
+<Paragraph Margin="Margin.Is2.FromTop" TextColor="TextColor.Secondary">
+    Selected tab: @selectedTab. @status
+</Paragraph>
+
+@code {
+    private RibbonDisplayMode displayMode;
+
+    private string selectedTab = "home";
+
+    private bool showTableTools;
+
+    private bool collapsed;
+
+    private string status = "Switch layouts or enable the contextual tab.";
+
+    private void OnShareHandler()
+    {
+        status = "Share document selected.";
+    }
+
+    private void OnCopyLinkHandler()
+    {
+        status = "Copy link selected.";
+    }
+
+    private void OnPasteHandler()
+    {
+        status = "Paste selected.";
+    }
+
+    private void OnCutHandler()
+    {
+        status = "Cut selected.";
+    }
+
+    private void OnCopyHandler()
+    {
+        status = "Copy selected.";
+    }
+
+    private void OnAlignLeftHandler()
+    {
+        status = "Align left selected.";
+    }
+
+    private void OnInsertRowHandler()
+    {
+        status = "Insert row selected.";
+    }
+
+    private void OnDeleteTableHandler()
+    {
+        showTableTools = false;
+    }
+}

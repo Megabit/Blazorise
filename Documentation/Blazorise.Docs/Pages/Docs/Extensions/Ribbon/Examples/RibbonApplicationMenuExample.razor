@@ -1,0 +1,70 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Ribbon SelectedTab="home" ShowCollapseButton="false" Border="Border.Is1.Rounded">
+    <RibbonApplicationTab>
+        <RibbonApplicationMenu Text="File">
+            <RibbonApplicationMenuItem Text="New" Icon="IconName.File" Clicked="@OnNewHandler" />
+            <RibbonApplicationMenuItem Text="Open" Icon="IconName.FolderOpen" Clicked="@OnOpenHandler" />
+            <RibbonApplicationMenuItem Text="Save As" Icon="IconName.Save">
+                <RibbonApplicationMenuItem Text="Word document" Clicked="@OnSaveWordHandler" />
+                <RibbonApplicationMenuItem Text="PDF" Clicked="@OnSavePdfHandler" />
+                <RibbonApplicationMenuDivider />
+                <RibbonApplicationMenuItem Text="Other formats">
+                    <RibbonApplicationMenuItem Text="Plain text" Clicked="@OnSaveTextHandler" />
+                </RibbonApplicationMenuItem>
+            </RibbonApplicationMenuItem>
+            <RibbonApplicationMenuDivider />
+            <RibbonApplicationMenuItem Text="Print" Icon="IconName.Print" Clicked="@OnPrintHandler" />
+        </RibbonApplicationMenu>
+    </RibbonApplicationTab>
+    <RibbonTabs>
+        <RibbonTab Name="home" Text="Home">
+            <RibbonGroup Text="Clipboard">
+                <RibbonButton Text="Copy" Icon="IconName.Copy" Clicked="@OnCopyHandler" />
+            </RibbonGroup>
+        </RibbonTab>
+    </RibbonTabs>
+</Ribbon>
+
+<Paragraph Margin="Margin.Is2.FromTop" TextColor="TextColor.Secondary">
+    @status
+</Paragraph>
+
+@code {
+    private string status = "Open File, then Save As to explore nested menus.";
+
+    private void OnNewHandler()
+    {
+        status = "New document selected.";
+    }
+
+    private void OnOpenHandler()
+    {
+        status = "Open document selected.";
+    }
+
+    private void OnSaveWordHandler()
+    {
+        status = "Save as Word document selected.";
+    }
+
+    private void OnSavePdfHandler()
+    {
+        status = "Save as PDF selected.";
+    }
+
+    private void OnSaveTextHandler()
+    {
+        status = "Save as plain text selected.";
+    }
+
+    private void OnPrintHandler()
+    {
+        status = "Print selected.";
+    }
+
+    private void OnCopyHandler()
+    {
+        status = "Copy selected.";
+    }
+}
