@@ -5,17 +5,17 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Ribbon;
 
 /// <summary>
-/// Displays a ribbon menu using the existing dropdown behavior.
+/// Opens a menu of related ribbon commands from an icon and label.
 /// </summary>
 public partial class RibbonDropdown : BaseRibbonItem
 {
     /// <summary>
-    /// Gets or sets the direction in which the menu opens.
+    /// Controls the direction in which the menu opens. Defaults to <see cref="Direction.Down"/>.
     /// </summary>
     [Parameter] public Direction Direction { get; set; } = Direction.Down;
 
     /// <summary>
-    /// Gets or sets content replacing the default dropdown icon and text.
+    /// Defines custom content for the menu trigger, replacing its default icon and label.
     /// </summary>
     [Parameter] public RenderFragment HeaderContent { get; set; }
 }

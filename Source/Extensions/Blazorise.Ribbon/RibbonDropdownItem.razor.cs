@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Ribbon;
 
 /// <summary>
-/// Displays a ribbon menu command using a provider-native dropdown item.
+/// Displays an actionable menu entry inside a ribbon dropdown or split button.
 /// </summary>
 public partial class RibbonDropdownItem : BaseComponent
 {
@@ -47,37 +47,38 @@ public partial class RibbonDropdownItem : BaseComponent
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets or sets the command text.
+    /// Specifies the menu command label displayed when <see cref="ChildContent"/> is not supplied.
     /// </summary>
     [Parameter] public string Text { get; set; }
 
     /// <summary>
-    /// Gets or sets an icon name supported by the configured icon provider.
+    /// Specifies the icon displayed beside the label. Accepts an icon name supported by the configured icon provider.
     /// </summary>
     [Parameter] public object Icon { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the command is disabled.
+    /// Prevents selecting the menu command while keeping it visible. Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the command is active.
+    /// Highlights the menu command as active without invoking it. Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool Active { get; set; }
 
     /// <summary>
-    /// Gets or sets whether selecting the command closes the entire dropdown hierarchy.
+    /// Closes the containing dropdown and its ancestor dropdowns when the command is selected.
+    /// Defaults to <c>true</c>.
     /// </summary>
     [Parameter] public bool CloseParentDropdowns { get; set; } = true;
 
     /// <summary>
-    /// Occurs when the command is selected.
+    /// Occurs when the enabled menu command is selected.
     /// </summary>
     [Parameter] public EventCallback Clicked { get; set; }
 
     /// <summary>
-    /// Gets or sets content replacing the default icon and text.
+    /// Defines custom menu command content, replacing the default icon and label.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

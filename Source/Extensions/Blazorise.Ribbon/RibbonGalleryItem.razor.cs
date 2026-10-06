@@ -49,47 +49,50 @@ public partial class RibbonGalleryItem : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets whether the gallery selected this preview.
+    /// Indicates whether this preview's value matches the containing gallery's selection.
     /// </summary>
     protected bool IsSelected => Value is not null && string.Equals( SelectedValue, Value, StringComparison.Ordinal );
 
     /// <summary>
-    /// Gets whether selection is disabled by this item or its gallery.
+    /// Indicates whether selection is disabled by this preview or the containing gallery.
     /// </summary>
     protected bool IsDisabled => Disabled || ParentDisabled;
 
     /// <summary>
-    /// Gets or sets the actual value represented by this preview.
+    /// Identifies the value selected when this preview is activated and compared with <see cref="RibbonGallery.SelectedValue"/>.
     /// </summary>
     [Parameter] public string Value { get; set; }
 
     /// <summary>
-    /// Gets or sets the caption and accessible name.
+    /// Specifies the caption displayed below the preview and used as its accessible name and tooltip.
     /// </summary>
     [Parameter] public string Text { get; set; }
 
     /// <summary>
-    /// Gets or sets whether this preview is disabled.
+    /// Prevents selecting this preview.
     /// </summary>
+    /// <remarks>
+    /// The containing gallery can also disable all previews. Defaults to <c>false</c>.
+    /// </remarks>
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Gets or sets preview content.
+    /// Defines the visual preview displayed above the caption, such as formatted sample text.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets the fixed gallery that owns selection.
+    /// Provides the containing gallery that owns this preview's selection.
     /// </summary>
     [CascadingParameter] protected RibbonGallery ParentGallery { get; set; }
 
     /// <summary>
-    /// Gets the current gallery selection.
+    /// Shares the selected value from the containing gallery for determining the preview's active appearance.
     /// </summary>
     [CascadingParameter( Name = "RibbonGallerySelectedValue" )] protected string SelectedValue { get; set; }
 
     /// <summary>
-    /// Gets whether the containing gallery is disabled.
+    /// Shares the containing gallery's disabled state so that all previews respect it.
     /// </summary>
     [CascadingParameter( Name = "RibbonGalleryDisabled" )] protected bool ParentDisabled { get; set; }
 

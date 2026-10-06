@@ -18,17 +18,17 @@ public partial class RibbonColumn : BaseComponent
     }
 
     /// <summary>
-    /// Gets the column layout after resolving the display mode.
+    /// Stacks commands vertically in classic mode and arranges them horizontally in simplified mode.
     /// </summary>
     protected IFluentFlex EffectiveFlex => ParentRibbonState?.DisplayMode == RibbonDisplayMode.Simplified ? Blazorise.Flex.Row.NoWrap.AlignItems.Center.Shrink.Is0 : Blazorise.Flex.Column.JustifyContent.Center.Shrink.Is0;
 
     /// <summary>
-    /// Gets or sets the commands in this column.
+    /// Defines commands stacked beside large commands in classic mode. These commands form a horizontal row in simplified mode.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets the containing ribbon state.
+    /// Shares the containing ribbon's selection, display mode, and rendering policy with this component.
     /// </summary>
     [CascadingParameter] protected RibbonState ParentRibbonState { get; set; }
 }

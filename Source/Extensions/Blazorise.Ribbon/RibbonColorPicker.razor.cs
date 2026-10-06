@@ -71,82 +71,88 @@ public partial class RibbonColorPicker : BaseComponent
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets or sets the selected color.
+    /// Specifies the selected color as a string supported by <see cref="ColorPicker"/>.
     /// </summary>
     [Parameter] public string Value { get; set; }
 
     /// <summary>
-    /// Occurs when the selected color changes.
+    /// Occurs when the selected color changes. Supplies the new color value for two-way binding.
     /// </summary>
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets whether to show the color value beside the swatch. Hidden by default.
+    /// Displays the selected color value beside the swatch when the picker is closed.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <c>false</c> to keep ribbon commands compact.
+    /// </remarks>
     [Parameter] public bool ShowValue { get; set; }
 
     /// <summary>
-    /// Gets or sets the native color picker size.
+    /// Controls the size of the color picker rather than the ribbon command layout. Defaults to <see cref="Size.Default"/>.
     /// </summary>
     [Parameter] public Size Size { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the picker is disabled.
+    /// Disables interaction with the color picker. Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the color is read-only.
+    /// Prevents changing the selected color. Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool ReadOnly { get; set; }
 
     /// <summary>
-    /// Gets or sets the palette colors, using the native palette by default.
+    /// Defines preset colors for quick selection in the popup.
     /// </summary>
+    /// <remarks>
+    /// Use this for frequently used document colors. Defaults to the palette supplied by <see cref="ColorPicker"/>.
+    /// </remarks>
     [Parameter] public string[] Palette { get; set; } = new ColorPicker().Palette;
 
     /// <summary>
-    /// Gets or sets whether to show palette colors in the popup.
+    /// Displays the preset palette colors in the popup. Defaults to <c>true</c>.
     /// </summary>
     [Parameter] public bool ShowPalette { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether selecting a palette color closes the popup.
+    /// Automatically closes the popup after selecting a palette color. Defaults to <c>true</c>.
     /// </summary>
     [Parameter] public bool HideAfterPaletteSelect { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether to show the clear button.
+    /// Displays the clear button in the popup. Defaults to <c>true</c>.
     /// </summary>
     [Parameter] public bool ShowClearButton { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether to show the cancel button.
+    /// Displays the cancel button in the popup. Defaults to <c>true</c>.
     /// </summary>
     [Parameter] public bool ShowCancelButton { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether to show the opacity slider.
+    /// Displays the opacity slider for adjusting color transparency. Defaults to <c>true</c>.
     /// </summary>
     [Parameter] public bool ShowOpacitySlider { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether to show the hue slider.
+    /// Displays the hue slider for choosing the base color. Defaults to <c>true</c>.
     /// </summary>
     [Parameter] public bool ShowHueSlider { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether to show the color input field inside the popup.
+    /// Displays the color value input field inside the popup. Defaults to <c>true</c>.
     /// </summary>
     [Parameter] public bool ShowInputField { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets custom localization for the color picker.
+    /// Provides custom localization for color picker text, overriding the default translations.
     /// </summary>
     [Parameter] public TextLocalizerHandler PickerLocalizer { get; set; }
 
     /// <summary>
-    /// Gets or sets content passed to the color picker.
+    /// Defines additional content passed to the underlying <see cref="ColorPicker"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

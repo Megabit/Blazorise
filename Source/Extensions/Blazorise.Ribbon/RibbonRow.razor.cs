@@ -19,17 +19,17 @@ public partial class RibbonRow : BaseComponent
     }
 
     /// <summary>
-    /// Gets the row layout after resolving the display mode.
+    /// Arranges commands horizontally, sharing the group's height with other rows in classic mode and using content height in simplified mode.
     /// </summary>
     protected IFluentFlex EffectiveFlex => ParentRibbonState?.DisplayMode == RibbonDisplayMode.Simplified ? Blazorise.Flex.Row.NoWrap.AlignItems.Center.Shrink.Is0 : Blazorise.Flex.Row.NoWrap.AlignItems.Center.Grow.Is1.Basis.Is0;
 
     /// <summary>
-    /// Gets or sets row content.
+    /// Defines commands and inputs arranged horizontally within this row.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets the containing ribbon state.
+    /// Shares the containing ribbon's selection, display mode, and rendering policy with this component.
     /// </summary>
     [CascadingParameter] protected RibbonState ParentRibbonState { get; set; }
 }

@@ -6,22 +6,22 @@ namespace Blazorise.Ribbon;
 public record RibbonState
 {
     /// <summary>
-    /// Gets the selected tab name.
+    /// Identifies the tab whose command panel is selected.
     /// </summary>
     public string SelectedTab { get; init; }
 
     /// <summary>
-    /// Gets whether the command surface is collapsed.
+    /// Indicates whether the command surface is hidden while the tab strip remains available.
     /// </summary>
     public bool Collapsed { get; init; }
 
     /// <summary>
-    /// Gets the command surface layout.
+    /// Determines whether descendant commands use the classic group layout or a compact single row.
     /// </summary>
     public RibbonDisplayMode DisplayMode { get; init; }
 
     /// <summary>
-    /// Gets the panel content rendering policy.
+    /// Determines when tab panels create and retain their content.
     /// </summary>
     public TabsRenderMode RenderMode { get; init; }
 }

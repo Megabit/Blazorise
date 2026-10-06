@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Blazorise.Ribbon;
 
 /// <summary>
-/// Separates application menu commands using a provider-native dropdown divider.
+/// Visually separates related application commands inside a menu or submenu.
 /// </summary>
 public partial class RibbonApplicationMenuDivider : BaseComponent
 {

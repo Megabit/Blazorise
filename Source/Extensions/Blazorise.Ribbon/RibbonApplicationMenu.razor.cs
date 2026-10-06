@@ -91,43 +91,47 @@ public partial class RibbonApplicationMenu : BaseComponent
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets or sets the application menu text and accessible name.
+    /// Specifies the application menu label and accessible name, such as File.
     /// </summary>
     [Parameter] public string Text { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the application menu is disabled.
+    /// Prevents opening the application menu. Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the application menu is open.
+    /// Controls whether the application menu is open. Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool Visible { get; set; }
 
     /// <summary>
-    /// Occurs when application menu visibility changes.
+    /// Occurs when the application menu opens or closes. Supplies the open state for two-way binding.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the direction in which the application menu opens.
+    /// Controls the direction in which the application menu opens. Defaults to <see cref="Direction.Down"/>.
     /// </summary>
     [Parameter] public Direction Direction { get; set; } = Direction.Down;
 
     /// <summary>
-    /// Gets or sets whether to show the dropdown indicator. Hidden by default.
+    /// Displays the dropdown indicator beside the application menu heading. Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool ShowToggleIcon { get; set; }
 
     /// <summary>
-    /// Gets or sets content replacing the default application menu heading.
+    /// Defines custom application menu heading content, replacing the visible <see cref="Text"/> label.
     /// </summary>
     [Parameter] public RenderFragment HeaderContent { get; set; }
 
     /// <summary>
-    /// Gets or sets application menu items, dividers, and other dropdown content.
+    /// Defines the application menu content.
     /// </summary>
+    /// <remarks>
+    /// Use <see cref="RibbonApplicationMenuItem"/> for commands and <see cref="RibbonApplicationMenuDivider"/> for separators.
+    /// Nest menu items to create submenus, such as Save As.
+    /// </remarks>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion

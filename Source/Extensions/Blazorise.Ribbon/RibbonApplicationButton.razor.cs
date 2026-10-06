@@ -71,7 +71,7 @@ public partial class RibbonApplicationButton : BaseComponent
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets the expanded state for accessibility markup, or null for a command without expandable content.
+    /// Serializes the expanded state for aria-expanded, omitting the attribute when the command has no expandable content.
     /// </summary>
     protected string ExpandedString => Expanded switch
     {
@@ -81,27 +81,30 @@ public partial class RibbonApplicationButton : BaseComponent
     };
 
     /// <summary>
-    /// Gets or sets the application command text and accessible name.
+    /// Specifies the application command label and accessible name, such as File.
     /// </summary>
     [Parameter] public string Text { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the application command is disabled.
+    /// Prevents activating the application command. Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the associated menu or backstage is expanded. Leave unset for a command without expandable content.
+    /// Reflects whether the associated backstage or menu is expanded for assistive technology.
     /// </summary>
+    /// <remarks>
+    /// Leave unset for a command without expandable content.
+    /// </remarks>
     [Parameter] public bool? Expanded { get; set; }
 
     /// <summary>
-    /// Occurs when the application command is activated.
+    /// Occurs when the application button is activated. Use this callback to open backstage or perform an application command.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     /// <summary>
-    /// Gets or sets content replacing the default application command text.
+    /// Defines custom application button content, replacing the default label.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

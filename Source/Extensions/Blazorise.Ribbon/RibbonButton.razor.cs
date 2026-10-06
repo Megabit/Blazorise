@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components.Web;
 namespace Blazorise.Ribbon;
 
 /// <summary>
-/// Displays a ribbon command using a provider-native button.
+/// Displays an actionable ribbon command with an icon, label, and size-dependent layout.
 /// </summary>
 public partial class RibbonButton : BaseRibbonItem
 {
@@ -66,12 +66,12 @@ public partial class RibbonButton : BaseRibbonItem
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets the command's pressed state.
+    /// Indicates whether the command is displayed as pressed. Toggle buttons use their checked state to determine this value.
     /// </summary>
     protected virtual bool IsPressed => false;
 
     /// <summary>
-    /// Occurs when the command is activated.
+    /// Occurs when the enabled command is activated. Use this callback to perform the command's action.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 

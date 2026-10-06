@@ -206,39 +206,45 @@ public partial class RibbonBackstage : BaseComponent
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets the state shared with backstage items.
+    /// Shares backstage visibility, page selection, and rendering policy with its navigation entries.
     /// </summary>
     protected RibbonBackstageState State { get; private set; } = new();
 
     /// <summary>
-    /// Gets the requested page or the first available page.
+    /// Resolves the selected page, falling back to the first enabled, visible entry with page content.
     /// </summary>
     protected string EffectiveSelectedItem
         => ( items.FirstOrDefault( item => item.Name == SelectedItem && item.CanSelect )
             ?? items.FirstOrDefault( item => item.CanSelect ) )?.Name;
 
     /// <summary>
-    /// Gets the Back button identifier.
+    /// Identifies the Back button that closes backstage.
     /// </summary>
     protected string BackElementId => $"{ElementId}-back";
 
     /// <summary>
-    /// Gets or sets whether backstage is visible.
+    /// Controls whether backstage is shown.
     /// </summary>
+    /// <remarks>
+    /// Opening backstage moves keyboard focus to the Back button. Defaults to <c>false</c>.
+    /// </remarks>
     [Parameter] public bool Visible { get; set; }
 
     /// <summary>
-    /// Occurs when backstage visibility changes.
+    /// Occurs when backstage is opened or closed through its controls or public methods. Supplies the visible state for two-way binding.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the selected page name.
+    /// Specifies the <see cref="RibbonBackstageItem.Name"/> of the selected page.
     /// </summary>
+    /// <remarks>
+    /// If unavailable, the first enabled, visible entry with page content is selected.
+    /// </remarks>
     [Parameter] public string SelectedItem { get; set; }
 
     /// <summary>
-    /// Occurs when the selected page changes.
+    /// Occurs when a different backstage page is selected. Supplies the page name for two-way binding.
     /// </summary>
     [Parameter] public EventCallback<string> SelectedItemChanged { get; set; }
 
@@ -253,27 +259,31 @@ public partial class RibbonBackstage : BaseComponent
     [Parameter] public EventCallback Closed { get; set; }
 
     /// <summary>
-    /// Gets or sets the page rendering policy. Visited pages are preserved by default.
+    /// Controls when backstage page content is created and retained.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <see cref="TabsRenderMode.LazyLoad"/>, which preserves visited pages.
+    /// Use <see cref="TabsRenderMode.Default"/> to render all pages or <see cref="TabsRenderMode.LazyReload"/> to retain only the selected page content.
+    /// </remarks>
     [Parameter] public TabsRenderMode RenderMode { get; set; } = TabsRenderMode.LazyLoad;
 
     /// <summary>
-    /// Gets or sets the accessible name of the backstage surface.
+    /// Specifies the accessible name announced for the backstage surface. Defaults to <c>File backstage</c>.
     /// </summary>
     [Parameter] public string AriaLabel { get; set; } = "File backstage";
 
     /// <summary>
-    /// Gets or sets the accessible name of the navigation area.
+    /// Specifies the accessible name announced for backstage navigation. Defaults to <c>File navigation</c>.
     /// </summary>
     [Parameter] public string NavigationLabel { get; set; } = "File navigation";
 
     /// <summary>
-    /// Gets or sets the Back button text.
+    /// Specifies the Back button text and accessible name. Defaults to <c>Back to document</c>.
     /// </summary>
     [Parameter] public string BackLabel { get; set; } = "Back to document";
 
     /// <summary>
-    /// Gets or sets the nested backstage page and command declarations.
+    /// Defines backstage pages and commands using <see cref="RibbonBackstageItem"/> components.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

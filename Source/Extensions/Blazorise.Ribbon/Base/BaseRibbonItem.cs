@@ -28,47 +28,57 @@ public abstract class BaseRibbonItem : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets the size after applying the ribbon display mode.
+    /// Resolves the command layout, reducing <see cref="RibbonItemSize.Large"/> to <see cref="RibbonItemSize.Medium"/> in simplified mode.
     /// </summary>
     protected RibbonItemSize EffectiveSize => ParentRibbonState?.DisplayMode == RibbonDisplayMode.Simplified && Size == RibbonItemSize.Large ? RibbonItemSize.Medium : Size;
 
     /// <summary>
-    /// Gets the command height after applying explicit sizing and the display mode.
+    /// Uses the explicit height when supplied; otherwise, large commands fill the group height and other commands size to their content.
     /// </summary>
     protected IFluentSizing EffectiveHeight => Height ?? ( EffectiveSize == RibbonItemSize.Large ? Blazorise.Height.Rem( 6 ) : Blazorise.Height.Auto );
 
     /// <summary>
-    /// Gets or sets the command text and accessible name.
+    /// Specifies the command label and accessible name.
     /// </summary>
+    /// <remarks>
+    /// Small commands with an icon omit the visible label.
+    /// </remarks>
     [Parameter] public string Text { get; set; }
 
     /// <summary>
-    /// Gets or sets an icon name supported by the configured icon provider.
+    /// Specifies the command icon. Accepts an icon name supported by the configured icon provider.
     /// </summary>
     [Parameter] public object Icon { get; set; }
 
     /// <summary>
-    /// Gets or sets the command layout, independently of font size.
+    /// Controls the placement of the command icon and label, independently of font size.
     /// </summary>
+    /// <remarks>
+    /// Large commands become medium commands in simplified mode. Defaults to <see cref="RibbonItemSize.Medium"/>.
+    /// </remarks>
     [Parameter] public RibbonItemSize Size { get; set; } = RibbonItemSize.Medium;
 
     /// <summary>
-    /// Gets or sets the provider-native command color.
+    /// Selects the color used for the command and its interaction states. Defaults to <see cref="Color.Default"/>.
     /// </summary>
     [Parameter] public Color Color { get; set; } = Color.Default;
 
     /// <summary>
-    /// Gets or sets whether the command is disabled.
+    /// Prevents activating the command or opening its menu. Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Gets or sets child content for the command. Dropdown and split commands render this content as menu items; other commands use it to replace the default icon and text.
+    /// Defines the command content.
     /// </summary>
+    /// <remarks>
+    /// Buttons use this content instead of the default icon and label.
+    /// Dropdowns and split buttons use it for menu content, such as <see cref="RibbonDropdownItem"/> and <see cref="RibbonDropdownDivider"/>.
+    /// </remarks>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets the containing ribbon state.
+    /// Shares the containing ribbon's selection, display mode, and rendering policy with this component.
     /// </summary>
     [CascadingParameter] protected RibbonState ParentRibbonState { get; set; }
 

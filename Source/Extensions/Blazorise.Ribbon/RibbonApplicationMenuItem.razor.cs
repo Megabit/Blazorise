@@ -33,33 +33,37 @@ public partial class RibbonApplicationMenuItem : BaseComponent
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets whether the item opens a submenu.
+    /// Indicates whether child content makes this entry a submenu instead of a command.
     /// </summary>
     protected bool HasSubmenu => ChildContent is not null;
 
     /// <summary>
-    /// Gets or sets the command or submenu text.
+    /// Specifies the label of the application command or submenu.
     /// </summary>
     [Parameter] public string Text { get; set; }
 
     /// <summary>
-    /// Gets or sets an icon name supported by the configured icon provider.
+    /// Specifies the icon displayed beside the label. Accepts an icon name supported by the configured icon provider.
     /// </summary>
     [Parameter] public object Icon { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the command or submenu is disabled.
+    /// Prevents activating the command or opening its submenu. Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Occurs when a leaf command is selected. Items with children open their submenu instead.
+    /// Occurs when an enabled command without children is selected. Entries with children open their submenu instead.
     /// </summary>
     [Parameter] public EventCallback Clicked { get; set; }
 
     /// <summary>
-    /// Gets or sets nested items and other submenu content.
+    /// Defines the submenu content.
     /// </summary>
+    /// <remarks>
+    /// Use nested <see cref="RibbonApplicationMenuItem"/> components to define submenu commands.
+    /// When supplied, this entry opens a submenu instead of invoking its click callback.
+    /// </remarks>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion

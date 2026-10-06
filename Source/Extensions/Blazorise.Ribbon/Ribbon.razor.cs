@@ -208,19 +208,19 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets the state shared with descendants.
+    /// Shares the current selection, collapse state, and command layout with ribbon descendants.
     /// </summary>
     protected RibbonState State { get; private set; } = new();
 
     /// <summary>
-    /// Gets the requested tab or the first available fallback.
+    /// Resolves the selected tab, falling back to the first enabled, visible tab when <see cref="SelectedTab"/> is unavailable.
     /// </summary>
     protected string EffectiveSelectedTab
         => ( tabItems.FirstOrDefault( tab => tab.Name == SelectedTab && tab.CanSelect )
             ?? tabItems.FirstOrDefault( tab => tab.CanSelect ) )?.Name;
 
     /// <summary>
-    /// Gets the slide animation relative to the previously displayed tab.
+    /// Selects the slide direction from the new tab's position relative to the previously displayed tab.
     /// </summary>
     protected IAnimation EffectiveTabAnimation
         => tabItems.FindIndex( tab => tab.Name == State.SelectedTab ) > tabItems.FindIndex( tab => tab.Name == previousSelectedTab )
@@ -228,33 +228,36 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
             : Animations.SlideRight;
 
     /// <summary>
-    /// Gets the tab transition duration in milliseconds.
+    /// Resolves the transition duration, returning zero when animation is disabled or <see cref="AnimationDuration"/> is negative.
     /// </summary>
     protected int EffectiveAnimationDuration => Animated ? Math.Max( 0, AnimationDuration ) : 0;
 
     /// <summary>
-    /// Gets the command surface element identifier.
+    /// Identifies the command panel container referenced by the collapse button.
     /// </summary>
     protected string ContentElementId => $"{ElementId}-content";
 
     /// <summary>
-    /// Gets the expanded state for accessibility markup.
+    /// Serializes the command surface's expanded state for the collapse button's aria-expanded attribute.
     /// </summary>
     protected string ExpandedString => Collapsed ? "false" : "true";
 
     /// <summary>
-    /// Gets the label of the current collapse or expand action.
+    /// Selects the accessible label for the action that the collapse button will perform.
     /// </summary>
     protected string CollapseButtonLabel => Collapsed ? ExpandLabel : CollapseLabel;
 
     /// <summary>
-    /// Gets the existing provider-independent tab keyboard module.
+    /// Provides keyboard navigation and focus management for the ribbon tab strip.
     /// </summary>
     [Inject] protected IJSTabsModule JSModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the selected tab name.
+    /// Specifies the <see cref="RibbonTab.Name"/> of the selected tab.
     /// </summary>
+    /// <remarks>
+    /// If unavailable, the first enabled, visible tab is selected.
+    /// </remarks>
     [Parameter] public string SelectedTab { get; set; }
 
     /// <summary>
@@ -263,8 +266,11 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<string> SelectedTabChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the command surface is hidden.
+    /// Hides the command panels while keeping the tab strip available.
     /// </summary>
+    /// <remarks>
+    /// Selecting a tab expands the ribbon. Defaults to <c>false</c>.
+    /// </remarks>
     [Parameter] public bool Collapsed { get; set; }
 
     /// <summary>
@@ -273,67 +279,83 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<bool> CollapsedChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets whether to show the collapse button.
+    /// Displays a button for collapsing or expanding the command panels. Defaults to <c>true</c>.
     /// </summary>
     [Parameter] public bool ShowCollapseButton { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the command layout.
+    /// Controls whether commands use the full group layout or a single compact row.
+    /// Defaults to <see cref="RibbonDisplayMode.Classic"/>.
     /// </summary>
     [Parameter] public RibbonDisplayMode DisplayMode { get; set; }
 
     /// <summary>
-    /// Gets or sets the panel rendering policy. The default preserves panel content.
+    /// Controls when tab content is created and whether it is retained after switching tabs.
     /// </summary>
+    /// <remarks>
+    /// Defaults to <see cref="TabsRenderMode.Default"/>, which renders all panels.
+    /// Use <see cref="TabsRenderMode.LazyLoad"/> to retain visited panels or <see cref="TabsRenderMode.LazyReload"/> to render only the active panel.
+    /// </remarks>
     [Parameter] public TabsRenderMode RenderMode { get; set; }
 
     /// <summary>
-    /// Gets or sets whether changing the selected tab animates the command panel.
+    /// Enables slide transitions when switching tabs.
     /// </summary>
+    /// <remarks>
+    /// The direction follows the new tab's position relative to the current tab.
+    /// The initial render is not animated. Defaults to <c>false</c>.
+    /// </remarks>
     [Parameter] public bool Animated { get; set; }
 
     /// <summary>
-    /// Gets or sets the tab transition duration in milliseconds. Zero or a negative value disables transitions.
+    /// Controls the tab transition duration in milliseconds.
     /// </summary>
+    /// <remarks>
+    /// Applies when <see cref="Animated"/> is enabled. Zero or a negative value disables transitions.
+    /// Defaults to <c>200</c>.
+    /// </remarks>
     [Parameter] public int AnimationDuration { get; set; } = 200;
 
     /// <summary>
-    /// Gets or sets the accessible name of the tab strip.
+    /// Specifies the accessible name announced for the tab strip. Defaults to <c>Ribbon tabs</c>.
     /// </summary>
     [Parameter] public string AriaLabel { get; set; } = "Ribbon tabs";
 
     /// <summary>
-    /// Gets or sets the accessible name of the quick access area.
+    /// Specifies the accessible name announced for the quick access commands. Defaults to <c>Quick access</c>.
     /// </summary>
     [Parameter] public string QuickAccessLabel { get; set; } = "Quick access";
 
     /// <summary>
-    /// Gets or sets the expand action label.
+    /// Specifies the accessible label of the collapse button when it will expand the ribbon. Defaults to <c>Expand ribbon</c>.
     /// </summary>
     [Parameter] public string ExpandLabel { get; set; } = "Expand ribbon";
 
     /// <summary>
-    /// Gets or sets the collapse action label.
+    /// Specifies the accessible label of the collapse button when it will collapse the ribbon. Defaults to <c>Collapse ribbon</c>.
     /// </summary>
     [Parameter] public string CollapseLabel { get; set; } = "Collapse ribbon";
 
     /// <summary>
-    /// Gets or sets quick access commands.
+    /// Defines frequently used commands displayed above the tab strip, such as Save, Undo, and Redo.
     /// </summary>
     [Parameter] public RenderFragment QuickAccessContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the application menu or button preceding the tabs, such as File.
+    /// Defines the application entry preceding the tab headings, such as File.
     /// </summary>
+    /// <remarks>
+    /// Use <see cref="RibbonApplicationMenu"/> for a dropdown menu or <see cref="RibbonApplicationButton"/> to open backstage or invoke a command.
+    /// </remarks>
     [Parameter] public RenderFragment RibbonApplicationTab { get; set; }
 
     /// <summary>
-    /// Gets or sets actions following the tab strip, such as Share.
+    /// Defines commands displayed after the tab headings, such as Share or Comments.
     /// </summary>
     [Parameter] public RenderFragment TabStripContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the nested ribbon tab declarations.
+    /// Defines the <see cref="RibbonTab"/> components containing tab headings and their command groups.
     /// </summary>
     [Parameter] public RenderFragment RibbonTabs { get; set; }
 

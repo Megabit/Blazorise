@@ -97,17 +97,17 @@ public partial class RibbonTab : BaseComponent
     internal bool CanSelect => Visible && !Disabled;
 
     /// <summary>
-    /// Gets whether this tab owns the selected command panel.
+    /// Indicates whether this enabled, visible tab is the ribbon's selected tab.
     /// </summary>
     protected bool IsActive => CanSelect && ParentRibbonState?.SelectedTab == Name;
 
     /// <summary>
-    /// Gets the panel's hidden state for accessibility markup.
+    /// Serializes whether the command panel is hidden for its aria-hidden attribute.
     /// </summary>
     protected string HiddenString => IsActive ? "false" : "true";
 
     /// <summary>
-    /// Gets whether to instantiate panel content under the current render policy.
+    /// Determines whether to create or retain the command panel according to the ribbon's rendering policy and this tab's selection history.
     /// </summary>
     protected bool ShouldRenderContent => ParentRibbonState?.RenderMode switch
     {
@@ -117,39 +117,45 @@ public partial class RibbonTab : BaseComponent
     };
 
     /// <summary>
-    /// Gets or sets the unique tab name.
+    /// Identifies the tab for selection and binding through <see cref="Ribbon.SelectedTab"/>.
     /// </summary>
+    /// <remarks>
+    /// Must be non-empty and unique within the containing ribbon.
+    /// </remarks>
     [Parameter] public string Name { get; set; }
 
     /// <summary>
-    /// Gets or sets the tab heading.
+    /// Specifies the tab heading displayed when <see cref="HeaderContent"/> is not supplied.
     /// </summary>
     [Parameter] public string Text { get; set; }
 
     /// <summary>
-    /// Gets or sets whether selection is disabled.
+    /// Prevents selecting the tab while keeping its heading visible. Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the tab is available, including contextual tabs.
+    /// Controls whether the tab heading is shown and the tab can be selected.
     /// </summary>
+    /// <remarks>
+    /// Use this to show contextual tabs when needed. Defaults to <c>true</c>.
+    /// </remarks>
     [Parameter] public bool Visible { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets custom heading content.
+    /// Defines custom content for the tab heading, replacing <see cref="Text"/>.
     /// </summary>
     [Parameter] public RenderFragment HeaderContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the command groups belonging to the tab.
+    /// Defines the command panel displayed when this tab is selected, typically containing <see cref="RibbonGroup"/> components.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     [CascadingParameter] internal Ribbon ParentRibbon { get; set; }
 
     /// <summary>
-    /// Gets the containing ribbon state.
+    /// Shares the containing ribbon's selection, display mode, and rendering policy with this component.
     /// </summary>
     [CascadingParameter] protected RibbonState ParentRibbonState { get; set; }
 

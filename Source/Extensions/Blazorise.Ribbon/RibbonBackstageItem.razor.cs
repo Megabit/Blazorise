@@ -113,12 +113,12 @@ public partial class RibbonBackstageItem : BaseComponent
     internal string ContentElementId => $"{ElementId}-content";
 
     /// <summary>
-    /// Gets whether this item owns the selected page.
+    /// Indicates whether this enabled, visible entry owns the selected backstage page.
     /// </summary>
     protected bool IsSelected => CanSelect && ParentBackstageState?.SelectedItem == Name;
 
     /// <summary>
-    /// Gets whether to create page content under the rendering policy.
+    /// Determines whether to create or retain this page according to the backstage rendering policy and its selection history.
     /// </summary>
     protected bool ShouldRenderContent => ParentBackstageState?.RenderMode switch
     {
@@ -128,44 +128,51 @@ public partial class RibbonBackstageItem : BaseComponent
     };
 
     /// <summary>
-    /// Gets or sets the unique item name.
+    /// Identifies the entry for page selection through <see cref="RibbonBackstage.SelectedItem"/>.
     /// </summary>
+    /// <remarks>
+    /// Must be non-empty and unique within the containing backstage.
+    /// </remarks>
     [Parameter] public string Name { get; set; }
 
     /// <summary>
-    /// Gets or sets the navigation label.
+    /// Specifies the label displayed in backstage navigation.
     /// </summary>
     [Parameter] public string Text { get; set; }
 
     /// <summary>
-    /// Gets or sets an icon supported by the configured icon provider.
+    /// Specifies the icon displayed beside the label. Accepts an icon name supported by the configured icon provider.
     /// </summary>
     [Parameter] public object Icon { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the item is disabled.
+    /// Prevents selecting the page or activating the command while keeping the navigation entry visible.
+    /// Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the item is available.
+    /// Controls whether the navigation entry is shown and can be activated. Defaults to <c>true</c>.
     /// </summary>
     [Parameter] public bool Visible { get; set; } = true;
 
     /// <summary>
-    /// Occurs when the entry is activated. Commands do not close backstage automatically.
+    /// Occurs when the entry is activated, after selecting its page when present.
     /// </summary>
+    /// <remarks>
+    /// Commands do not close backstage automatically; close it from this callback when needed.
+    /// </remarks>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     /// <summary>
-    /// Gets or sets the page content. An item without content invokes its command only.
+    /// Defines the page displayed when this entry is selected. Without content, the entry invokes its command without selecting a page.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     [CascadingParameter] internal RibbonBackstage ParentBackstage { get; set; }
 
     /// <summary>
-    /// Gets the containing backstage state.
+    /// Shares the containing backstage's visibility, selection, and rendering policy with this entry.
     /// </summary>
     [CascadingParameter] protected RibbonBackstageState ParentBackstageState { get; set; }
 

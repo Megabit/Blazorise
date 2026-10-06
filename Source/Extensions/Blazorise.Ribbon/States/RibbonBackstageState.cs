@@ -6,17 +6,17 @@ namespace Blazorise.Ribbon;
 public record RibbonBackstageState
 {
     /// <summary>
-    /// Gets whether backstage is visible.
+    /// Indicates whether backstage is currently shown.
     /// </summary>
     public bool Visible { get; init; }
 
     /// <summary>
-    /// Gets the selected page name.
+    /// Identifies the selected backstage page.
     /// </summary>
     public string SelectedItem { get; init; }
 
     /// <summary>
-    /// Gets the page rendering policy.
+    /// Determines when backstage pages create and retain their content.
     /// </summary>
     public TabsRenderMode RenderMode { get; init; }
 }

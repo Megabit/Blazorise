@@ -47,62 +47,66 @@ public partial class RibbonGroup : BaseComponent
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets whether the ribbon uses a single command row.
+    /// Indicates whether the containing ribbon displays commands in a single compact row.
     /// </summary>
     protected bool IsSimplified => ParentRibbonState?.DisplayMode == RibbonDisplayMode.Simplified;
 
     /// <summary>
-    /// Gets the command arrangement after resolving the display mode.
+    /// Resolves the command arrangement, stacking explicit rows in classic mode and arranging commands horizontally in simplified mode.
     /// </summary>
     protected IFluentFlex EffectiveItemsFlex => Layout == RibbonGroupLayout.Rows && !IsSimplified ? Blazorise.Flex.Column.JustifyContent.Center : Blazorise.Flex.Row.NoWrap.AlignItems.Stretch;
 
     /// <summary>
-    /// Gets the group caption element identifier.
+    /// Identifies the caption used to label the command group for assistive technology.
     /// </summary>
     protected string CaptionElementId => $"{ElementId}-caption";
 
     /// <summary>
-    /// Gets the launcher label after falling back to the group text.
+    /// Uses <see cref="LauncherLabel"/> as the launcher accessible name, falling back to the group caption.
     /// </summary>
     protected string EffectiveLauncherLabel => LauncherLabel ?? Text;
 
     /// <summary>
-    /// Gets or sets the group caption.
+    /// Specifies the group caption displayed below its commands in classic mode and used as the group's accessible name.
     /// </summary>
     [Parameter] public string Text { get; set; }
 
     /// <summary>
-    /// Gets or sets the command arrangement.
+    /// Controls how commands, columns, and rows are arranged in classic mode.
     /// </summary>
+    /// <remarks>
+    /// Simplified mode always arranges commands horizontally. Defaults to <see cref="RibbonGroupLayout.Columns"/>.
+    /// </remarks>
     [Parameter] public RibbonGroupLayout Layout { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the group dialog launcher is shown.
+    /// Displays a launcher beside the group caption in classic mode, allowing access to additional options.
+    /// Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool ShowLauncher { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the launcher is disabled.
+    /// Prevents activating the group launcher. Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool LauncherDisabled { get; set; }
 
     /// <summary>
-    /// Gets or sets the accessible name of the launcher.
+    /// Specifies the accessible name of the group launcher. When omitted, uses <see cref="Text"/>.
     /// </summary>
     [Parameter] public string LauncherLabel { get; set; }
 
     /// <summary>
-    /// Occurs when the group dialog launcher is activated.
+    /// Occurs when the group launcher is activated. Use this callback to display a dialog or additional options.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> LauncherClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets commands, explicit ribbon columns, or ribbon rows.
+    /// Defines the grouped commands. Use <see cref="RibbonColumn"/> to stack commands or <see cref="RibbonRow"/> for rows of commands and inputs.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets the containing ribbon state.
+    /// Shares the containing ribbon's selection, display mode, and rendering policy with this component.
     /// </summary>
     [CascadingParameter] protected RibbonState ParentRibbonState { get; set; }
 

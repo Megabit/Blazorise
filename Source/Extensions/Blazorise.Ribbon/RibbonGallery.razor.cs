@@ -50,37 +50,37 @@ public partial class RibbonGallery : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the gallery's accessible name.
+    /// Specifies the accessible name of the gallery, such as Document styles.
     /// </summary>
     [Parameter] public string Text { get; set; }
 
     /// <summary>
-    /// Gets or sets the selected preview value.
+    /// Specifies the <see cref="RibbonGalleryItem.Value"/> of the selected preview.
     /// </summary>
     [Parameter] public string SelectedValue { get; set; }
 
     /// <summary>
-    /// Occurs when a preview is selected.
+    /// Occurs when a different gallery value is selected. Supplies the selected value for two-way binding.
     /// </summary>
     [Parameter] public EventCallback<string> SelectedValueChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets whether selection is disabled.
+    /// Prevents selecting any preview in the gallery. Defaults to <c>false</c>.
     /// </summary>
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Gets or sets the gallery items.
+    /// Defines the selectable previews using <see cref="RibbonGalleryItem"/> components.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets optional gallery footer actions.
+    /// Defines optional actions displayed below the previews, such as managing or creating styles.
     /// </summary>
     [Parameter] public RenderFragment FooterContent { get; set; }
 
     /// <summary>
-    /// Gets the containing ribbon state.
+    /// Shares the containing ribbon's selection, display mode, and rendering policy with this component.
     /// </summary>
     [CascadingParameter] protected RibbonState ParentRibbonState { get; set; }
 
