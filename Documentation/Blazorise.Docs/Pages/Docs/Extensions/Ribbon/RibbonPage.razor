@@ -51,8 +51,17 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Rows and columns">
+        Keep supporting commands beside a large action by stacking them in <Code>RibbonColumn</Code>, as Clipboard does here. To arrange commands into horizontal rows, set the group's <Code>Layout</Code> to <Code>RibbonGroupLayout.Rows</Code> and wrap each row in <Code>RibbonRow</Code>. Groups use <Code>Columns</Code> by default.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonRowsColumnsExample" Outlined FullWidth>
+        <RibbonRowsColumnsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Formatting">
-        For formatting options such as Bold or text color, bind the controls so the ribbon remembers the user's choices. Arrange them in <Code>RibbonRow</Code> alongside font selectors, then add a gallery when users would benefit from seeing a style preview before selecting it.
+        For formatting options such as Bold or text color, bind the controls so the ribbon remembers the user's choices. Use <Code>Layout="RibbonGroupLayout.Rows"</Code> to place font selectors and formatting controls in separate <Code>RibbonRow</Code> components. Add a gallery when users would benefit from seeing a style preview before selecting it.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="RibbonFormattingExample" Outlined FullWidth>
         <RibbonFormattingExample />
@@ -65,6 +74,15 @@
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="RibbonLayoutExample" Outlined FullWidth>
         <RibbonLayoutExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Toolbars">
+        When commands such as Save or Share should stay within reach across every tab, place them outside <Code>RibbonTabs</Code>. Use <Code>QuickAccessContent</Code> for the toolbar above the tabs and <Code>TabStripContent</Code> for commands beside the tab headings. Switch tabs or collapse the ribbon to see both strips stay available.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonToolbarsExample" Outlined FullWidth>
+        <RibbonToolbarsExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
@@ -124,6 +142,8 @@
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonTab />" />
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonContextualTabs />" />
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonGroup />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonColumn />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonRow />" />
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonButton />" />
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonToggleButton />" />
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonSplitButton />" />
