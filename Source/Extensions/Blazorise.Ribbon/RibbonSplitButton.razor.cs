@@ -28,6 +28,9 @@ public partial class RibbonSplitButton : BaseRibbonItem
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
     /// <summary>
     /// Gets the menu label after falling back to the command text.
     /// </summary>

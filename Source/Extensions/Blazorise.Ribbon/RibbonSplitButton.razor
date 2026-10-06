@@ -1,5 +1,5 @@
 @inherits BaseRibbonItem
-<Dropdown ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Height="@(Height is null ? EffectiveHeight : null)" Disabled="@Disabled" Direction="@Direction" @attributes="@Attributes">
+<Dropdown ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Height="@(Height is null ? EffectiveHeight : null)" Disabled="@Disabled" Direction="@Direction" DropdownMenuTargetId="@ElementId" @attributes="@Attributes">
     <Div Flex="@(EffectiveSize == RibbonItemSize.Large ? Blazorise.Flex.InlineFlex.Column.NoWrap.AlignItems.Stretch : Blazorise.Flex.InlineFlex.Row.NoWrap.AlignItems.Stretch)" Height="Blazorise.Height.Is100">
         <Button Color="@Color" Ghost Size="Blazorise.Size.Small" Border="Blazorise.Border.Is0" Flex="@(EffectiveSize == RibbonItemSize.Large ? Blazorise.Flex.Grow.Is1.Basis.Is0 : Blazorise.Flex.Grow.Is1)" Padding="Blazorise.Padding.Is1" TextSize="Blazorise.TextSize.Px( 13 )" TextOverflow="Blazorise.TextOverflow.NoWrap" Disabled="@Disabled" Clicked="@OnClickHandler" aria-label="@Text" title="@Text">
             <_RibbonCommandContent Text="@Text" Icon="@Icon" Size="@EffectiveSize" ShowText="@(EffectiveSize != RibbonItemSize.Large)" ChildContent="@HeaderContent" />
