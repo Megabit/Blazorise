@@ -30,8 +30,21 @@
                     </Button>
                 }
             </Div>
-            <Div ElementId="@ContentElementId" Display="@(Collapsed ? Blazorise.Display.None : Blazorise.Display.Block)" Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Auto.Hidden" hidden="@Collapsed">
-                @RibbonTabs
+            <Div ElementId="@ContentElementId" Display="@(Collapsed ? Blazorise.Display.None : Blazorise.Display.Block)" Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Hidden" hidden="@Collapsed">
+                @if ( Animated )
+                {
+                    <Animate @ref="@contentAnimationRef" Animation="@EffectiveTabAnimation" Easing="Easings.EaseOut" DurationMilliseconds="@EffectiveAnimationDuration" DelayMilliseconds="0" Trigger="AnimationTrigger.Render" AnimateOnInitialRender="false">
+                        <Div Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Auto.Hidden">
+                            @RibbonTabs
+                        </Div>
+                    </Animate>
+                }
+                else
+                {
+                    <Div Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Auto.Hidden">
+                        @RibbonTabs
+                    </Div>
+                }
             </Div>
         </Div>
     </CascadingValue>

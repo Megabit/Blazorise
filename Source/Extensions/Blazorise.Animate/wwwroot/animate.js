@@ -563,11 +563,16 @@ export function animate(element, options) {
         return true;
     }
 
+    const settings = normalizeOptions(options);
+    const previousInstance = _instances.get(element);
+    const original = previousInstance && !previousInstance.animated
+        ? previousInstance.original
+        : readOriginalStyles(element);
+
     cleanup(element);
 
-    const settings = normalizeOptions(options);
-    const original = readOriginalStyles(element);
     const instance = {
+        original: original,
         animation: null,
         stop: null,
         animated: false,

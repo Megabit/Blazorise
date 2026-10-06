@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Animate;
 using Blazorise.Extensions;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
@@ -20,6 +21,10 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     private readonly List<RibbonTab> tabItems = new();
 
     private Div containerRef;
+
+    private Blazorise.Animate.Animate contentAnimationRef;
+
+    private string previousSelectedTab;
 
     #endregion
 
@@ -49,6 +54,21 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         ElementRef = containerRef.ElementRef;
+
+        var shouldAnimateSelection = !firstRender
+            && EffectiveAnimationDuration > 0
+            && !Collapsed
+            && previousSelectedTab is not null
+            && State.SelectedTab is not null
+            && tabItems.Any( tab => tab.Name == previousSelectedTab )
+            && !string.Equals( previousSelectedTab, State.SelectedTab, StringComparison.Ordinal );
+
+        previousSelectedTab = State.SelectedTab;
+
+        if ( shouldAnimateSelection )
+        {
+            contentAnimationRef?.Run();
+        }
 
         await HandleSelectTab( EffectiveSelectedTab );
 
@@ -200,6 +220,19 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
             ?? tabItems.FirstOrDefault( tab => tab.CanSelect ) )?.Name;
 
     /// <summary>
+    /// Gets the slide animation relative to the previously displayed tab.
+    /// </summary>
+    protected IAnimation EffectiveTabAnimation
+        => tabItems.FindIndex( tab => tab.Name == State.SelectedTab ) > tabItems.FindIndex( tab => tab.Name == previousSelectedTab )
+            ? Animations.SlideLeft
+            : Animations.SlideRight;
+
+    /// <summary>
+    /// Gets the tab transition duration in milliseconds.
+    /// </summary>
+    protected int EffectiveAnimationDuration => Animated ? Math.Max( 0, AnimationDuration ) : 0;
+
+    /// <summary>
     /// Gets the command surface element identifier.
     /// </summary>
     protected string ContentElementId => $"{ElementId}-content";
@@ -253,6 +286,16 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     /// Gets or sets the panel rendering policy. The default preserves panel content.
     /// </summary>
     [Parameter] public TabsRenderMode RenderMode { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether changing the selected tab animates the command panel.
+    /// </summary>
+    [Parameter] public bool Animated { get; set; }
+
+    /// <summary>
+    /// Gets or sets the tab transition duration in milliseconds. Zero or a negative value disables transitions.
+    /// </summary>
+    [Parameter] public int AnimationDuration { get; set; } = 200;
 
     /// <summary>
     /// Gets or sets the accessible name of the tab strip.

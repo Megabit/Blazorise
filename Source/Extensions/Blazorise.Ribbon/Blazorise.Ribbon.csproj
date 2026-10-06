@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\Blazorise.Animate\Blazorise.Animate.csproj" />
   </ItemGroup>
 
 </Project>
