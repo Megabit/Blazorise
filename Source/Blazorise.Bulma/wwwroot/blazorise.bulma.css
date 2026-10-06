@@ -559,6 +559,242 @@ label.button.is-custom:has(input:focus-visible) {
   box-shadow: 0 0 0 0.125em color-mix(in srgb, var(--bulma-button-custom-color) 25%, transparent);
 }
 
+.button.is-ghost,
+.dropdown-item.is-ghost {
+  --bulma-button-ghost-color: inherit;
+  --bulma-button-ghost-decoration: none;
+  --bulma-button-ghost-hover-decoration: none;
+  color: var(--bulma-button-ghost-color, inherit);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  text-decoration: none;
+}
+.button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover, .button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered,
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover,
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered {
+  background-color: var(--bulma-button-text-hover-background-color, var(--bulma-background));
+}
+.button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active, .button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active, .button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true], .button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active,
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active,
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: var(--bulma-scheme-main-ter);
+}
+.button.is-ghost.is-ghost-primary,
+.dropdown-item.is-ghost.is-ghost-primary {
+  --bulma-button-ghost-color: var(--bulma-primary);
+  --bulma-button-ghost-hover-color: var(--bulma-primary);
+  --bulma-button-focus-box-shadow-color: color-mix(in srgb, var(--bulma-primary) 25%, transparent);
+}
+.button.is-ghost.is-ghost-primary:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover, .button.is-ghost.is-ghost-primary:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered,
+.dropdown-item.is-ghost.is-ghost-primary:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover,
+.dropdown-item.is-ghost.is-ghost-primary:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered {
+  background-color: var(--bulma-primary-soft, color-mix(in srgb, var(--bulma-primary) 12%, var(--bulma-scheme-main)));
+}
+.button.is-ghost.is-ghost-primary:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active, .button.is-ghost.is-ghost-primary:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active, .button.is-ghost.is-ghost-primary:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true], .button.is-ghost.is-ghost-primary:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.is-ghost.is-ghost-primary:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active,
+.dropdown-item.is-ghost.is-ghost-primary:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active,
+.dropdown-item.is-ghost.is-ghost-primary:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.is-ghost.is-ghost-primary:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, var(--bulma-primary) 15%, var(--bulma-primary-soft, color-mix(in srgb, var(--bulma-primary) 12%, var(--bulma-scheme-main))));
+}
+.button.is-ghost.is-ghost-secondary,
+.dropdown-item.is-ghost.is-ghost-secondary {
+  --bulma-button-ghost-color: var(--b-theme-secondary, hsl(221, 14%, 48%));
+  --bulma-button-ghost-hover-color: var(--b-theme-secondary, hsl(221, 14%, 48%));
+  --bulma-button-focus-box-shadow-color: color-mix(in srgb, var(--b-theme-secondary, hsl(221, 14%, 48%)) 25%, transparent);
+}
+.button.is-ghost.is-ghost-secondary:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover, .button.is-ghost.is-ghost-secondary:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered,
+.dropdown-item.is-ghost.is-ghost-secondary:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover,
+.dropdown-item.is-ghost.is-ghost-secondary:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered {
+  background-color: color-mix(in srgb, var(--b-theme-secondary, hsl(221, 14%, 48%)) 12%, var(--bulma-scheme-main));
+}
+.button.is-ghost.is-ghost-secondary:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active, .button.is-ghost.is-ghost-secondary:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active, .button.is-ghost.is-ghost-secondary:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true], .button.is-ghost.is-ghost-secondary:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.is-ghost.is-ghost-secondary:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active,
+.dropdown-item.is-ghost.is-ghost-secondary:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active,
+.dropdown-item.is-ghost.is-ghost-secondary:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.is-ghost.is-ghost-secondary:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, var(--b-theme-secondary, hsl(221, 14%, 48%)) 25%, var(--bulma-scheme-main));
+}
+.button.is-ghost.is-ghost-success,
+.dropdown-item.is-ghost.is-ghost-success {
+  --bulma-button-ghost-color: var(--bulma-success);
+  --bulma-button-ghost-hover-color: var(--bulma-success);
+  --bulma-button-focus-box-shadow-color: color-mix(in srgb, var(--bulma-success) 25%, transparent);
+}
+.button.is-ghost.is-ghost-success:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover, .button.is-ghost.is-ghost-success:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered,
+.dropdown-item.is-ghost.is-ghost-success:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover,
+.dropdown-item.is-ghost.is-ghost-success:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered {
+  background-color: var(--bulma-success-soft, color-mix(in srgb, var(--bulma-success) 12%, var(--bulma-scheme-main)));
+}
+.button.is-ghost.is-ghost-success:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active, .button.is-ghost.is-ghost-success:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active, .button.is-ghost.is-ghost-success:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true], .button.is-ghost.is-ghost-success:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.is-ghost.is-ghost-success:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active,
+.dropdown-item.is-ghost.is-ghost-success:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active,
+.dropdown-item.is-ghost.is-ghost-success:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.is-ghost.is-ghost-success:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, var(--bulma-success) 15%, var(--bulma-success-soft, color-mix(in srgb, var(--bulma-success) 12%, var(--bulma-scheme-main))));
+}
+.button.is-ghost.is-ghost-danger,
+.dropdown-item.is-ghost.is-ghost-danger {
+  --bulma-button-ghost-color: var(--bulma-danger);
+  --bulma-button-ghost-hover-color: var(--bulma-danger);
+  --bulma-button-focus-box-shadow-color: color-mix(in srgb, var(--bulma-danger) 25%, transparent);
+}
+.button.is-ghost.is-ghost-danger:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover, .button.is-ghost.is-ghost-danger:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered,
+.dropdown-item.is-ghost.is-ghost-danger:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover,
+.dropdown-item.is-ghost.is-ghost-danger:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered {
+  background-color: var(--bulma-danger-soft, color-mix(in srgb, var(--bulma-danger) 12%, var(--bulma-scheme-main)));
+}
+.button.is-ghost.is-ghost-danger:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active, .button.is-ghost.is-ghost-danger:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active, .button.is-ghost.is-ghost-danger:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true], .button.is-ghost.is-ghost-danger:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.is-ghost.is-ghost-danger:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active,
+.dropdown-item.is-ghost.is-ghost-danger:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active,
+.dropdown-item.is-ghost.is-ghost-danger:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.is-ghost.is-ghost-danger:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, var(--bulma-danger) 15%, var(--bulma-danger-soft, color-mix(in srgb, var(--bulma-danger) 12%, var(--bulma-scheme-main))));
+}
+.button.is-ghost.is-ghost-warning,
+.dropdown-item.is-ghost.is-ghost-warning {
+  --bulma-button-ghost-color: var(--bulma-warning);
+  --bulma-button-ghost-hover-color: var(--bulma-warning);
+  --bulma-button-focus-box-shadow-color: color-mix(in srgb, var(--bulma-warning) 25%, transparent);
+}
+.button.is-ghost.is-ghost-warning:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover, .button.is-ghost.is-ghost-warning:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered,
+.dropdown-item.is-ghost.is-ghost-warning:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover,
+.dropdown-item.is-ghost.is-ghost-warning:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered {
+  background-color: var(--bulma-warning-soft, color-mix(in srgb, var(--bulma-warning) 12%, var(--bulma-scheme-main)));
+}
+.button.is-ghost.is-ghost-warning:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active, .button.is-ghost.is-ghost-warning:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active, .button.is-ghost.is-ghost-warning:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true], .button.is-ghost.is-ghost-warning:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.is-ghost.is-ghost-warning:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active,
+.dropdown-item.is-ghost.is-ghost-warning:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active,
+.dropdown-item.is-ghost.is-ghost-warning:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.is-ghost.is-ghost-warning:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, var(--bulma-warning) 15%, var(--bulma-warning-soft, color-mix(in srgb, var(--bulma-warning) 12%, var(--bulma-scheme-main))));
+}
+.button.is-ghost.is-ghost-info,
+.dropdown-item.is-ghost.is-ghost-info {
+  --bulma-button-ghost-color: var(--bulma-info);
+  --bulma-button-ghost-hover-color: var(--bulma-info);
+  --bulma-button-focus-box-shadow-color: color-mix(in srgb, var(--bulma-info) 25%, transparent);
+}
+.button.is-ghost.is-ghost-info:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover, .button.is-ghost.is-ghost-info:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered,
+.dropdown-item.is-ghost.is-ghost-info:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover,
+.dropdown-item.is-ghost.is-ghost-info:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered {
+  background-color: var(--bulma-info-soft, color-mix(in srgb, var(--bulma-info) 12%, var(--bulma-scheme-main)));
+}
+.button.is-ghost.is-ghost-info:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active, .button.is-ghost.is-ghost-info:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active, .button.is-ghost.is-ghost-info:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true], .button.is-ghost.is-ghost-info:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.is-ghost.is-ghost-info:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active,
+.dropdown-item.is-ghost.is-ghost-info:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active,
+.dropdown-item.is-ghost.is-ghost-info:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.is-ghost.is-ghost-info:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, var(--bulma-info) 15%, var(--bulma-info-soft, color-mix(in srgb, var(--bulma-info) 12%, var(--bulma-scheme-main))));
+}
+.button.is-ghost.is-ghost-light,
+.dropdown-item.is-ghost.is-ghost-light {
+  --bulma-button-ghost-color: var(--bulma-light);
+  --bulma-button-ghost-hover-color: var(--bulma-light);
+  --bulma-button-focus-box-shadow-color: color-mix(in srgb, var(--bulma-light) 25%, transparent);
+}
+.button.is-ghost.is-ghost-light:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover, .button.is-ghost.is-ghost-light:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered,
+.dropdown-item.is-ghost.is-ghost-light:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover,
+.dropdown-item.is-ghost.is-ghost-light:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered {
+  background-color: var(--bulma-light-soft, color-mix(in srgb, var(--bulma-light) 12%, var(--bulma-scheme-main)));
+}
+.button.is-ghost.is-ghost-light:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active, .button.is-ghost.is-ghost-light:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active, .button.is-ghost.is-ghost-light:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true], .button.is-ghost.is-ghost-light:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.is-ghost.is-ghost-light:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active,
+.dropdown-item.is-ghost.is-ghost-light:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active,
+.dropdown-item.is-ghost.is-ghost-light:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.is-ghost.is-ghost-light:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, var(--bulma-light) 15%, var(--bulma-light-soft, color-mix(in srgb, var(--bulma-light) 12%, var(--bulma-scheme-main))));
+}
+.button.is-ghost.is-ghost-dark,
+.dropdown-item.is-ghost.is-ghost-dark {
+  --bulma-button-ghost-color: var(--bulma-dark);
+  --bulma-button-ghost-hover-color: var(--bulma-dark);
+  --bulma-button-focus-box-shadow-color: color-mix(in srgb, var(--bulma-dark) 25%, transparent);
+}
+.button.is-ghost.is-ghost-dark:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover, .button.is-ghost.is-ghost-dark:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered,
+.dropdown-item.is-ghost.is-ghost-dark:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover,
+.dropdown-item.is-ghost.is-ghost-dark:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered {
+  background-color: var(--bulma-dark-soft, color-mix(in srgb, var(--bulma-dark) 12%, var(--bulma-scheme-main)));
+}
+.button.is-ghost.is-ghost-dark:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active, .button.is-ghost.is-ghost-dark:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active, .button.is-ghost.is-ghost-dark:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true], .button.is-ghost.is-ghost-dark:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.is-ghost.is-ghost-dark:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active,
+.dropdown-item.is-ghost.is-ghost-dark:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active,
+.dropdown-item.is-ghost.is-ghost-dark:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.is-ghost.is-ghost-dark:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, var(--bulma-dark) 15%, var(--bulma-dark-soft, color-mix(in srgb, var(--bulma-dark) 12%, var(--bulma-scheme-main))));
+}
+.button.is-ghost.is-ghost-link,
+.dropdown-item.is-ghost.is-ghost-link {
+  --bulma-button-ghost-color: var(--bulma-link);
+  --bulma-button-ghost-hover-color: var(--bulma-link);
+  --bulma-button-focus-box-shadow-color: color-mix(in srgb, var(--bulma-link) 25%, transparent);
+}
+.button.is-ghost.is-ghost-link:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover, .button.is-ghost.is-ghost-link:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered,
+.dropdown-item.is-ghost.is-ghost-link:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover,
+.dropdown-item.is-ghost.is-ghost-link:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered {
+  background-color: var(--bulma-link-soft, color-mix(in srgb, var(--bulma-link) 12%, var(--bulma-scheme-main)));
+}
+.button.is-ghost.is-ghost-link:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active, .button.is-ghost.is-ghost-link:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active, .button.is-ghost.is-ghost-link:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true], .button.is-ghost.is-ghost-link:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.is-ghost.is-ghost-link:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active,
+.dropdown-item.is-ghost.is-ghost-link:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active,
+.dropdown-item.is-ghost.is-ghost-link:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.is-ghost.is-ghost-link:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, var(--bulma-link) 15%, var(--bulma-link-soft, color-mix(in srgb, var(--bulma-link) 12%, var(--bulma-scheme-main))));
+}
+.button.is-ghost.is-ghost-custom,
+.dropdown-item.is-ghost.is-ghost-custom {
+  --bulma-button-ghost-color: var(--bulma-button-custom-color);
+  --bulma-button-ghost-hover-color: var(--bulma-button-custom-color);
+  --bulma-button-focus-box-shadow-color: color-mix(in srgb, var(--bulma-button-custom-color) 25%, transparent);
+}
+.button.is-ghost.is-ghost-custom:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover, .button.is-ghost.is-ghost-custom:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered,
+.dropdown-item.is-ghost.is-ghost-custom:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover,
+.dropdown-item.is-ghost.is-ghost-custom:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered {
+  background-color: color-mix(in srgb, var(--bulma-button-custom-color) 12%, var(--bulma-scheme-main));
+}
+.button.is-ghost.is-ghost-custom:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active, .button.is-ghost.is-ghost-custom:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active, .button.is-ghost.is-ghost-custom:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true], .button.is-ghost.is-ghost-custom:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.is-ghost.is-ghost-custom:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active,
+.dropdown-item.is-ghost.is-ghost-custom:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active,
+.dropdown-item.is-ghost.is-ghost-custom:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.is-ghost.is-ghost-custom:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, var(--bulma-button-custom-color) 25%, var(--bulma-scheme-main));
+}
+.button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]),
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]) {
+  color: var(--bulma-button-ghost-color, inherit);
+}
+.button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover, .button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered, .button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active, .button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active, .button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true], .button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]):hover,
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-hovered,
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]):active,
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-active,
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  color: var(--bulma-button-ghost-color, inherit);
+  border-color: transparent;
+  text-decoration: none;
+}
+.button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]):focus-visible, .button.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-focused,
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]):focus-visible,
+.dropdown-item.is-ghost:not(:disabled):not(.is-disabled):not([aria-disabled=true]).is-focused {
+  outline: 0;
+  box-shadow: var(--bulma-button-focus-box-shadow-size, 0 0 0 0.125em) var(--bulma-button-focus-box-shadow-color, color-mix(in srgb, var(--bulma-link) 25%, transparent));
+}
+.button.is-ghost:disabled, .button.is-ghost.is-disabled, .button.is-ghost[aria-disabled=true],
+.dropdown-item.is-ghost:disabled,
+.dropdown-item.is-ghost.is-disabled,
+.dropdown-item.is-ghost[aria-disabled=true] {
+  color: var(--bulma-button-ghost-color, inherit);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: var(--bulma-button-disabled-shadow, none);
+  opacity: var(--bulma-button-disabled-opacity, 0.5);
+  text-decoration: none;
+}
+
 .card {
   overflow: initial;
 }

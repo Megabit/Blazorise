@@ -1317,3 +1317,16 @@ $z-index-values: (
     snackbar: 1010,
     on-screen-keyboard: calc(var(--ant-z-index-popup-base) + 100),
 ) !default;
+
+$button-ghost-variants: (
+    primary: (var(--ant-color-primary), var(--ant-color-primary-hover), var(--ant-color-primary-active), var(--ant-color-primary-bg), var(--ant-color-primary-border)),
+    secondary: (var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--ant-color-fill-tertiary), var(--ant-color-fill-secondary)),
+    success: (var(--b-theme-success, var(--ant-color-success)), var(--ant-color-success-hover), var(--ant-color-success-active), var(--ant-color-success-bg), var(--ant-color-success-border)),
+    danger: (var(--ant-color-error), var(--ant-color-error-hover), var(--ant-color-error-active), var(--ant-color-error-bg), var(--ant-color-error-bg-active)),
+    warning: (var(--b-theme-warning, var(--ant-color-warning)), var(--ant-color-warning-hover), var(--ant-color-warning-active), var(--ant-color-warning-bg), var(--ant-color-warning-border)),
+    info: (var(--b-theme-info, var(--ant-color-info)), var(--ant-color-info-hover), var(--ant-color-info-active), var(--ant-color-info-bg), var(--ant-color-info-border)),
+    light: (var(--b-theme-light, var(--ant-color-fill-quaternary)), var(--ant-color-text), var(--ant-color-text), var(--ant-color-fill-tertiary), var(--ant-color-fill-secondary)),
+    dark: (var(--b-theme-dark, var(--ant-color-text)), var(--ant-color-text), var(--ant-color-text), var(--ant-color-fill-tertiary), var(--ant-color-fill-secondary)),
+    link: (var(--ant-color-link), var(--ant-color-link-hover), var(--ant-color-link-active), var(--ant-color-primary-bg), var(--ant-color-primary-border)),
+    custom: (var(--ant-color-primary), color-mix(in srgb, var(--ant-color-primary) 85%, white), color-mix(in srgb, var(--ant-color-primary) 85%, black), color-mix(in srgb, var(--ant-color-primary) 15%, var(--ant-color-bg-container)), color-mix(in srgb, var(--ant-color-primary) 20%, var(--ant-color-bg-container))),
+) !default;

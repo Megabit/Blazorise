@@ -340,3 +340,167 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
     outline: var(--strokeWidthThick) solid var(--colorStrokeFocus2);
     outline-offset: var(--strokeWidthThick);
 }
+
+@mixin fui-button-ghost-icon($color) {
+    > :is(i, svg),
+    > .fui-Button__icon,
+    > .fui-ToggleButton__icon,
+    > .fui-MenuItem__content > :is(i, svg) {
+        color: $color;
+    }
+}
+
+@mixin fui-button-ghost-variant(
+    $color,
+    $hover-color,
+    $pressed-color,
+    $hover-background,
+    $pressed-background,
+    $selected-color,
+    $selected-background,
+    $hover-icon-color: $hover-color,
+    $pressed-icon-color: $pressed-color,
+    $selected-icon-color: $selected-color
+) {
+    color: $color;
+
+    &:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled="true"]) {
+        color: $color;
+
+        &.fui-Button-active,
+        &[aria-pressed="true"] {
+            color: $selected-color;
+            background-color: $selected-background;
+
+            @include fui-button-ghost-icon($selected-icon-color);
+        }
+
+        &:hover {
+            color: $hover-color;
+            background-color: $hover-background;
+
+            @include fui-button-ghost-icon($hover-icon-color);
+        }
+
+        &:active,
+        &[aria-expanded="true"] {
+            color: $pressed-color;
+            background-color: $pressed-background;
+
+            @include fui-button-ghost-icon($pressed-icon-color);
+        }
+
+        @media (forced-colors: active) {
+            color: ButtonText;
+            background-color: transparent;
+            forced-color-adjust: none;
+
+            @include fui-button-ghost-icon(ButtonText);
+
+            &.fui-Button-active,
+            &[aria-pressed="true"] {
+                color: HighlightText;
+                background-color: Highlight;
+                border-color: Highlight;
+
+                @include fui-button-ghost-icon(HighlightText);
+
+                &:hover,
+                &:active {
+                    color: Highlight;
+                    background-color: HighlightText;
+
+                    @include fui-button-ghost-icon(Highlight);
+                }
+
+                &:focus-visible {
+                    outline-color: Highlight;
+                    border-color: HighlightText;
+                    box-shadow: none;
+                }
+            }
+
+            &:hover,
+            &:active,
+            &[aria-expanded="true"] {
+                color: Highlight;
+                background-color: HighlightText;
+                border-color: Highlight;
+
+                @include fui-button-ghost-icon(Highlight);
+            }
+
+            &:focus-visible {
+                outline: var(--strokeWidthThick) solid ButtonText;
+                border-color: ButtonText;
+                box-shadow: none;
+            }
+        }
+    }
+}
+
+.fui-Button.fui-Button-ghost,
+.fui-MenuItem.fui-Button-ghost,
+.fui-Menu .fui-MenuPopover .fui-MenuList .fui-MenuItem.fui-Button-ghost {
+    background-color: var(--colorSubtleBackground);
+    background-image: none;
+    border-color: transparent;
+    box-shadow: none;
+
+    &:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled="true"]):focus-visible {
+        outline: var(--strokeWidthThick) solid var(--colorTransparentStroke);
+        outline-offset: var(--strokeWidthThick);
+        border-color: var(--colorStrokeFocus2);
+        box-shadow: inset 0 0 0 var(--strokeWidthThin) var(--colorStrokeFocus2);
+        z-index: 1;
+
+        @supports (-moz-appearance: button) {
+            box-shadow: inset 0 0 0 calc(var(--strokeWidthThin) + .25px) var(--colorStrokeFocus2);
+        }
+    }
+
+    @include fui-button-ghost-variant(
+        var(--colorNeutralForeground2),
+        var(--colorNeutralForeground2Hover),
+        var(--colorNeutralForeground2Pressed),
+        var(--colorSubtleBackgroundHover),
+        var(--colorSubtleBackgroundPressed),
+        var(--colorNeutralForeground2Selected),
+        var(--colorSubtleBackgroundSelected),
+        var(--colorNeutralForeground2BrandHover),
+        var(--colorNeutralForeground2BrandPressed),
+        var(--colorNeutralForeground2BrandSelected)
+    );
+
+    @each $name, $colors in $fui-button-ghost-variants {
+        &.fui-Button-ghost-#{$name} {
+            @include fui-button-ghost-variant(nth($colors, 1), nth($colors, 2), nth($colors, 3), nth($colors, 4), nth($colors, 5), nth($colors, 6), nth($colors, 7));
+        }
+    }
+
+    &:disabled,
+    &.fui-Button-disabled,
+    &.fui-MenuButton-disabled,
+    &[aria-disabled="true"] {
+        color: var(--colorNeutralForegroundDisabled);
+        background-color: var(--colorTransparentBackground);
+        border-color: transparent;
+        box-shadow: none;
+        cursor: not-allowed;
+
+        > .fui-MenuItem__content {
+            color: inherit;
+        }
+
+        @include fui-button-ghost-icon(var(--colorNeutralForegroundDisabled));
+
+        @media (forced-colors: active) {
+            color: GrayText;
+            background-color: ButtonFace;
+            border-color: GrayText;
+            forced-color-adjust: none;
+
+            @include fui-button-ghost-icon(GrayText);
+        }
+    }
+}

@@ -563,6 +563,18 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Button( bool outline ) => "ant-btn";
 
+    public override string ButtonGhost( bool ghost, Color color )
+    {
+        if ( !ghost )
+        {
+            return null;
+        }
+
+        var colorName = color?.IsCssValue == true ? "custom" : color?.Name;
+
+        return color.IsNullOrDefault() ? "ant-btn-ghost ant-btn-variant-text" : $"ant-btn-ghost ant-btn-ghost-{colorName} ant-btn-variant-text";
+    }
+
     public override string ButtonColor( Color color, bool outline ) => ToButtonColorClass( color, outline );
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"{Button( outline )}-{ToSize( size )}";

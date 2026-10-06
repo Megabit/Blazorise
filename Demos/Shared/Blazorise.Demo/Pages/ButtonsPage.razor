@@ -51,6 +51,41 @@
     <Column>
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
+                <CardTitle>Ghost Buttons</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Ghost buttons have a transparent, borderless appearance with visible hover and focus states. Choose a theme variant, such as Primary or Danger.</CardText>
+            </CardBody>
+            <CardBody>
+                <Button Ghost Color="Color.Primary">Primary</Button>
+                <Button Ghost Color="Color.Secondary">Secondary</Button>
+                <Button Ghost Color="Color.Success">Success</Button>
+                <Button Ghost Color="Color.Danger">Danger</Button>
+                <Button Ghost Color="Color.Warning">Warning</Button>
+                <Button Ghost Color="Color.Info">Info</Button>
+                <Button Ghost Color="Color.Light">Light</Button>
+                <Button Ghost Color="Color.Dark">Dark</Button>
+                <Button Ghost Color="Color.Link">Link</Button>
+                <Button Ghost>Default</Button>
+                <Button Ghost Active>Selected</Button>
+                <Button Ghost Color="@(new Color( "#8b5cf6" ))">Custom</Button>
+                <Button Ghost Color="Color.Primary" Active>Active</Button>
+                <Button Ghost Color="Color.Danger" Disabled>Disabled</Button>
+                <Dropdown Display="Display.InlineBlock">
+                    <DropdownToggle Ghost Color="Color.Primary">Actions</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Open</DropdownItem>
+                        <DropdownItem>Save</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
                 <CardTitle>Sizes</CardTitle>
             </CardHeader>
             <CardBody>
@@ -267,14 +302,14 @@
             <CardBody>
                 <Div Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is2">
                     <Button Color="@("#DBB5E6")">Lavender</Button>
-                    <Button Color="@(new Color("#312E81"))">Indigo</Button>
+                    <Button Color="@(new Color( "#312E81" ))">Indigo</Button>
                     <Button Color="@("rgb(14, 165, 233)")" Outline>Sky outline</Button>
-                    <Button Color="@(new Color(CssColor.Variable("--accent", "#34D399")))">Accent</Button>
-                    <Button Color="@(new Color("#F97316"))" Active>Active</Button>
-                    <Button Color="@(new Color("#0F766E"))" Loading>Loading</Button>
-                    <Button Color="@(new Color("#64748B"))" Disabled>Disabled</Button>
-                    <Button Color="@(new Color("#BE123C"))" Outline Disabled>Disabled outline</Button>
-                    <Button Color="@(new Color("#FDE68A"))" TextColor="TextColor.Dark">Explicit text color</Button>
+                    <Button Color="@(new Color( CssColor.Variable( "--accent", "#34D399" ) ))">Accent</Button>
+                    <Button Color="@(new Color( "#F97316" ))" Active>Active</Button>
+                    <Button Color="@(new Color( "#0F766E" ))" Loading>Loading</Button>
+                    <Button Color="@(new Color( "#64748B" ))" Disabled>Disabled</Button>
+                    <Button Color="@(new Color( "#BE123C" ))" Outline Disabled>Disabled outline</Button>
+                    <Button Color="@(new Color( "#FDE68A" ))" TextColor="TextColor.Dark">Explicit text color</Button>
                 </Div>
             </CardBody>
         </Card>

@@ -545,6 +545,18 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Button( bool outline ) => "fui-Button";
 
+    public override string ButtonGhost( bool ghost, Color color )
+    {
+        if ( !ghost )
+        {
+            return null;
+        }
+
+        var colorName = color?.IsCssValue == true ? "custom" : color?.Name;
+
+        return color.IsNullOrDefault() ? "fui-Button-ghost" : $"fui-Button-ghost fui-Button-ghost-{colorName}";
+    }
+
     public override string ButtonColor( Color color, bool outline ) => color?.IsCssValue == true
         ? outline ? "fui-ButtonOutline-custom" : "fui-Button-custom"
         : outline

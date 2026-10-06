@@ -112,3 +112,75 @@ input[type="button"] {
         --bs-gradient: none;
     }
 }
+
+.btn.btn-ghost,
+.dropdown-item.btn-ghost {
+    --bs-btn-color: inherit;
+    --bs-btn-bg: transparent;
+    --bs-btn-border-color: transparent;
+    --bs-btn-hover-color: var(--bs-btn-color, inherit);
+    --bs-btn-hover-bg: var(--bs-tertiary-bg);
+    --bs-btn-hover-border-color: transparent;
+    --bs-btn-active-color: var(--bs-btn-color, inherit);
+    --bs-btn-active-bg: var(--bs-secondary-bg);
+    --bs-btn-active-border-color: transparent;
+    --bs-btn-disabled-color: var(--bs-btn-color, inherit);
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: transparent;
+    --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+    --bs-btn-focus-box-shadow: 0 0 0 #{$btn-focus-width} rgba(var(--bs-btn-focus-shadow-rgb), .5);
+    color: var(--bs-btn-color, inherit);
+    background-color: var(--bs-btn-bg);
+    background-image: none;
+    border-color: transparent;
+    box-shadow: none;
+
+    @each $name, $color in $button-ghost-colors {
+        &.btn-ghost-#{$name} {
+            --bs-btn-color: #{$color};
+            --bs-btn-focus-box-shadow: 0 0 0 #{$btn-focus-width} color-mix(in srgb, #{$color} 50%, transparent);
+
+            @if $name == custom {
+                --bs-btn-hover-bg: color-mix(in srgb, #{$color} 10%, transparent);
+                --bs-btn-active-bg: color-mix(in srgb, #{$color} 20%, transparent);
+            }
+            @else {
+                $variant: if($name == link, primary, $name);
+                --bs-btn-hover-bg: var(--bs-#{$variant}-bg-subtle);
+                --bs-btn-active-bg: var(--bs-#{$variant}-border-subtle);
+            }
+        }
+    }
+
+    &:not(:disabled):not(.disabled):not([aria-disabled="true"]) {
+        color: var(--bs-btn-color, inherit);
+
+        &:hover {
+            color: var(--bs-btn-hover-color);
+            background-color: var(--bs-btn-hover-bg);
+        }
+
+        &:active,
+        &.active,
+        &[aria-pressed="true"],
+        &[aria-expanded="true"] {
+            color: var(--bs-btn-active-color);
+            background-color: var(--bs-btn-active-bg);
+        }
+
+        &:focus-visible {
+            outline: 0;
+            box-shadow: var(--bs-btn-focus-box-shadow);
+        }
+    }
+
+    &:disabled,
+    &.disabled,
+    &[aria-disabled="true"] {
+        color: var(--bs-btn-disabled-color);
+        background-color: var(--bs-btn-disabled-bg);
+        border-color: transparent;
+        box-shadow: none;
+        opacity: var(--bs-btn-disabled-opacity, #{$btn-disabled-opacity});
+    }
+}

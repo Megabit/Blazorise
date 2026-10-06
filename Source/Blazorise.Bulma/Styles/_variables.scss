@@ -207,3 +207,16 @@ $z-index-values: (
     snackbar: 1090,
     on-screen-keyboard: calc(var(--bulma-modal-z, 40) + 100),
 ) !default;
+
+$button-ghost-colors: (
+    primary: var(--bulma-primary),
+    secondary: var(--b-theme-secondary, #{$secondary}),
+    success: var(--bulma-success),
+    danger: var(--bulma-danger),
+    warning: var(--bulma-warning),
+    info: var(--bulma-info),
+    light: var(--bulma-light),
+    dark: var(--bulma-dark),
+    link: var(--bulma-link),
+    custom: var(--bulma-button-custom-color),
+) !default;

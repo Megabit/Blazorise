@@ -55,7 +55,6 @@ internal static class FluentConstants
     internal static readonly IFluentTextSize TextSizeSmall = TextSize.Small;
 
     // Border
-    internal static readonly IFluentBorder BorderIs0 = Border.Is0;
     internal static readonly IFluentBorder BorderIs1 = Border.Is1;
     internal static readonly IFluentBorder BorderIs1Rounded = Border.Is1.Rounded;
     internal static readonly IFluentBorder BorderIs1OnBottom = Border.Is1.OnBottom;
@@ -70,7 +69,6 @@ internal static class FluentConstants
 
     // Background
     internal static readonly Background BackgroundBody = Background.Body;
-    internal static readonly Background BackgroundTransparent = Background.Transparent;
     internal static readonly Background BackgroundLight = Background.Light;
     internal static readonly Background BackgroundDefault = Background.Default;
     internal static readonly Background BackgroundPrimarySubtle = Background.Primary.Subtle;
@@ -83,5 +81,4 @@ internal static class FluentConstants
 
     // Shadow
     internal static readonly Shadow ShadowNone = Shadow.None;
-    internal static readonly Shadow ShadowRemove = Shadow.Remove;
 }

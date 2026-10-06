@@ -113,6 +113,11 @@ public partial class ReportToolbarItem
     [Parameter] public Color Color { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the button uses a transparent, borderless appearance.
+    /// </summary>
+    [Parameter] public bool Ghost { get; set; }
+
+    /// <summary>
     /// Button color used when the command represents the active report state.
     /// </summary>
     [Parameter] public Color ActiveColor { get; set; } = Color.Primary;

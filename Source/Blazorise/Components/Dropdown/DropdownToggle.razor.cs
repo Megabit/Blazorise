@@ -23,6 +23,8 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
 
     private bool outline;
 
+    private bool ghost;
+
     private bool split;
 
     private bool disabled;
@@ -66,9 +68,15 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.DropdownToggle( ParentDropdown?.IsDropdownSubmenu == true, Outline ) );
-        builder.Append( ClassProvider.DropdownToggleColor( Color, Outline ) );
-        builder.Append( ClassProvider.DropdownToggleSize( ThemeSize, Outline ) );
+        builder.Append( ClassProvider.DropdownToggle( ParentDropdown?.IsDropdownSubmenu == true, EffectiveOutline ) );
+        builder.Append( ClassProvider.DropdownToggleGhost( Ghost, Color ) );
+
+        if ( !Ghost )
+        {
+            builder.Append( ClassProvider.DropdownToggleColor( Color, EffectiveOutline ) );
+        }
+
+        builder.Append( ClassProvider.DropdownToggleSize( ThemeSize, EffectiveOutline ) );
         builder.Append( ClassProvider.DropdownToggleSplit( Split ) );
         builder.Append( ClassProvider.DropdownToggleIcon( IsToggleIconVisible ) );
 
@@ -271,6 +279,11 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
+    /// Gets whether to render an outline after resolving the ghost appearance.
+    /// </summary>
+    protected bool EffectiveOutline => !Ghost && Outline;
+
+    /// <summary>
     /// True if parent dropdown is part of a button group.
     /// </summary>
     protected bool IsGroup => ParentDropdown?.IsGroup == true;
@@ -365,6 +378,28 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
         {
             outline = value;
 
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets whether to use a transparent, borderless appearance with provider-specific interaction states.
+    /// </summary>
+    /// <remarks>
+    /// Color controls the foreground and interaction palette. This appearance takes precedence over Outline.
+    /// </remarks>
+    [Parameter]
+    public bool Ghost
+    {
+        get => ghost;
+        set
+        {
+            if ( ghost == value )
+            {
+                return;
+            }
+
+            ghost = value;
             DirtyClasses();
         }
     }

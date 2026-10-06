@@ -507,6 +507,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Button( bool outline );
 
+    public virtual string ButtonGhost( bool ghost, Color color ) => null;
+
     public abstract string ButtonColor( Color color, bool outline );
 
     public abstract string ButtonSize( Size size, bool outline );
@@ -576,6 +578,8 @@ public abstract class ClassProvider : IClassProvider
     public abstract string DropdownMenuEnd( bool endAligned );
 
     public abstract string DropdownToggle( bool isDropdownSubmenu, bool outline );
+
+    public virtual string DropdownToggleGhost( bool ghost, Color color ) => ButtonGhost( ghost, color );
 
     public abstract string DropdownToggleSelector( bool isDropdownSubmenu );
 

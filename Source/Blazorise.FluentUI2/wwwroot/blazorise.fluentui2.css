@@ -4096,6 +4096,281 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
   outline-offset: var(--strokeWidthThick);
 }
 
+.fui-Button.fui-Button-ghost,
+.fui-MenuItem.fui-Button-ghost {
+  background-color: var(--colorSubtleBackground);
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  color: inherit;
+}
+.fui-Button.fui-Button-ghost:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]),
+.fui-MenuItem.fui-Button-ghost:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]) {
+  color: inherit;
+}
+.fui-Button.fui-Button-ghost:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover,
+.fui-MenuItem.fui-Button-ghost:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover {
+  color: var(--colorNeutralForeground2Hover);
+  background-color: var(--colorSubtleBackgroundHover);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active, .fui-Button.fui-Button-ghost:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active, .fui-Button.fui-Button-ghost:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true], .fui-Button.fui-Button-ghost:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true],
+.fui-MenuItem.fui-Button-ghost:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active,
+.fui-MenuItem.fui-Button-ghost:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active,
+.fui-MenuItem.fui-Button-ghost:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true],
+.fui-MenuItem.fui-Button-ghost:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  color: var(--colorNeutralForeground2Pressed);
+  background-color: var(--colorSubtleBackgroundPressed);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-primary,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-primary {
+  color: var(--colorBrandForeground1);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-primary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]),
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-primary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]) {
+  color: var(--colorBrandForeground1);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-primary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-primary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover {
+  color: var(--colorBrandForegroundLinkHover);
+  background-color: var(--colorBrandBackground2Hover);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-primary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active, .fui-Button.fui-Button-ghost.fui-Button-ghost-primary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active, .fui-Button.fui-Button-ghost.fui-Button-ghost-primary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true], .fui-Button.fui-Button-ghost.fui-Button-ghost-primary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-primary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-primary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-primary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-primary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  color: var(--colorBrandForegroundLinkPressed);
+  background-color: var(--colorBrandBackground2Pressed);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-secondary,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-secondary {
+  color: var(--colorNeutralForeground3);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-secondary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]),
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-secondary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]) {
+  color: var(--colorNeutralForeground3);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-secondary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-secondary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover {
+  color: var(--colorNeutralForeground3Hover);
+  background-color: var(--colorSubtleBackgroundHover);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-secondary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active, .fui-Button.fui-Button-ghost.fui-Button-ghost-secondary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active, .fui-Button.fui-Button-ghost.fui-Button-ghost-secondary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true], .fui-Button.fui-Button-ghost.fui-Button-ghost-secondary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-secondary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-secondary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-secondary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-secondary:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  color: var(--colorNeutralForeground3Pressed);
+  background-color: var(--colorSubtleBackgroundPressed);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-success,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-success {
+  color: var(--colorStatusSuccessForeground1);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-success:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]),
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-success:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]) {
+  color: var(--colorStatusSuccessForeground1);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-success:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-success:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover {
+  color: var(--colorStatusSuccessForeground2);
+  background-color: var(--colorStatusSuccessBackground1);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-success:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active, .fui-Button.fui-Button-ghost.fui-Button-ghost-success:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active, .fui-Button.fui-Button-ghost.fui-Button-ghost-success:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true], .fui-Button.fui-Button-ghost.fui-Button-ghost-success:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-success:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-success:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-success:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-success:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  color: var(--colorStatusSuccessForeground2);
+  background-color: var(--colorStatusSuccessBackground2);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-danger,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-danger {
+  color: var(--colorStatusDangerForeground1);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-danger:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]),
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-danger:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]) {
+  color: var(--colorStatusDangerForeground1);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-danger:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-danger:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover {
+  color: var(--colorStatusDangerForeground2);
+  background-color: var(--colorStatusDangerBackground1);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-danger:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active, .fui-Button.fui-Button-ghost.fui-Button-ghost-danger:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active, .fui-Button.fui-Button-ghost.fui-Button-ghost-danger:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true], .fui-Button.fui-Button-ghost.fui-Button-ghost-danger:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-danger:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-danger:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-danger:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-danger:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  color: var(--colorStatusDangerForeground2);
+  background-color: var(--colorStatusDangerBackground2);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-warning,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-warning {
+  color: var(--colorStatusWarningForeground1);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-warning:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]),
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-warning:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]) {
+  color: var(--colorStatusWarningForeground1);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-warning:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-warning:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover {
+  color: var(--colorStatusWarningForeground2);
+  background-color: var(--colorStatusWarningBackground1);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-warning:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active, .fui-Button.fui-Button-ghost.fui-Button-ghost-warning:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active, .fui-Button.fui-Button-ghost.fui-Button-ghost-warning:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true], .fui-Button.fui-Button-ghost.fui-Button-ghost-warning:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-warning:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-warning:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-warning:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-warning:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  color: var(--colorStatusWarningForeground2);
+  background-color: var(--colorStatusWarningBackground2);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-info,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-info {
+  color: var(--colorNeutralForeground3);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-info:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]),
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-info:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]) {
+  color: var(--colorNeutralForeground3);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-info:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-info:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover {
+  color: var(--colorNeutralForeground3Hover);
+  background-color: var(--colorSubtleBackgroundHover);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-info:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active, .fui-Button.fui-Button-ghost.fui-Button-ghost-info:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active, .fui-Button.fui-Button-ghost.fui-Button-ghost-info:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true], .fui-Button.fui-Button-ghost.fui-Button-ghost-info:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-info:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-info:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-info:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-info:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  color: var(--colorNeutralForeground3Pressed);
+  background-color: var(--colorSubtleBackgroundPressed);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-light,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-light {
+  color: var(--colorNeutralForeground4);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-light:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]),
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-light:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]) {
+  color: var(--colorNeutralForeground4);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-light:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-light:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover {
+  color: var(--colorNeutralForeground2Hover);
+  background-color: var(--colorSubtleBackgroundHover);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-light:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active, .fui-Button.fui-Button-ghost.fui-Button-ghost-light:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active, .fui-Button.fui-Button-ghost.fui-Button-ghost-light:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true], .fui-Button.fui-Button-ghost.fui-Button-ghost-light:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-light:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-light:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-light:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-light:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  color: var(--colorNeutralForeground2Pressed);
+  background-color: var(--colorSubtleBackgroundPressed);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-dark,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-dark {
+  color: var(--colorNeutralForeground1);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-dark:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]),
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-dark:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]) {
+  color: var(--colorNeutralForeground1);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-dark:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-dark:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover {
+  color: var(--colorNeutralForeground1Hover);
+  background-color: var(--colorSubtleBackgroundHover);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-dark:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active, .fui-Button.fui-Button-ghost.fui-Button-ghost-dark:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active, .fui-Button.fui-Button-ghost.fui-Button-ghost-dark:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true], .fui-Button.fui-Button-ghost.fui-Button-ghost-dark:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-dark:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-dark:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-dark:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-dark:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  color: var(--colorNeutralForeground1Pressed);
+  background-color: var(--colorSubtleBackgroundPressed);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-link,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-link {
+  color: var(--colorBrandForegroundLink);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-link:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]),
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-link:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]) {
+  color: var(--colorBrandForegroundLink);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-link:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-link:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover {
+  color: var(--colorBrandForegroundLinkHover);
+  background-color: var(--colorBrandBackground2Hover);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-link:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active, .fui-Button.fui-Button-ghost.fui-Button-ghost-link:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active, .fui-Button.fui-Button-ghost.fui-Button-ghost-link:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true], .fui-Button.fui-Button-ghost.fui-Button-ghost-link:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-link:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-link:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-link:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-link:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  color: var(--colorBrandForegroundLinkPressed);
+  background-color: var(--colorBrandBackground2Pressed);
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-custom,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-custom {
+  color: var(--colorBrandBackground);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-custom:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]),
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-custom:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]) {
+  color: var(--colorBrandBackground);
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-custom:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-custom:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):hover {
+  color: var(--colorBrandBackground);
+  background-color: color-mix(in srgb, var(--colorBrandBackground) 10%, var(--colorSubtleBackgroundHover));
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost.fui-Button-ghost-custom:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active, .fui-Button.fui-Button-ghost.fui-Button-ghost-custom:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active, .fui-Button.fui-Button-ghost.fui-Button-ghost-custom:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true], .fui-Button.fui-Button-ghost.fui-Button-ghost-custom:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-custom:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-custom:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]).fui-Button-active,
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-custom:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-pressed=true],
+.fui-MenuItem.fui-Button-ghost.fui-Button-ghost-custom:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  color: var(--colorBrandBackground);
+  background-color: color-mix(in srgb, var(--colorBrandBackground) 20%, var(--colorSubtleBackgroundPressed));
+  border-color: transparent;
+}
+.fui-Button.fui-Button-ghost:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):focus-visible,
+.fui-MenuItem.fui-Button-ghost:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled=true]):focus-visible {
+  outline: var(--strokeWidthThick) solid var(--colorTransparentStroke);
+  outline-offset: var(--strokeWidthThick);
+  border-color: var(--colorStrokeFocus2);
+  box-shadow: inset 0 0 0 var(--strokeWidthThin) var(--colorStrokeFocus2);
+}
+.fui-Button.fui-Button-ghost:disabled, .fui-Button.fui-Button-ghost.fui-Button-disabled, .fui-Button.fui-Button-ghost.fui-MenuButton-disabled, .fui-Button.fui-Button-ghost[aria-disabled=true],
+.fui-MenuItem.fui-Button-ghost:disabled,
+.fui-MenuItem.fui-Button-ghost.fui-Button-disabled,
+.fui-MenuItem.fui-Button-ghost.fui-MenuButton-disabled,
+.fui-MenuItem.fui-Button-ghost[aria-disabled=true] {
+  color: var(--colorNeutralForegroundDisabled);
+  background-color: var(--colorSubtleBackground);
+  border-color: transparent;
+  box-shadow: none;
+}
+
 .fui-Card {
   --fui-Card--size: 12px;
   --fui-Card--border-radius: var(--borderRadiusMedium);

@@ -3143,6 +3143,131 @@ body {
   outline-offset: 2px;
 }
 
+.mui-button.mui-button-ghost,
+.mui-dropdown-item.mui-button-ghost {
+  --mui-btn-bg: transparent;
+  --mui-btn-color: var(--mui-primary);
+  --mui-btn-hover-bg: color-mix(in srgb, currentColor 8%, transparent);
+  color: var(--mui-btn-color);
+  background-color: var(--mui-btn-bg);
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+.mui-button.mui-button-ghost.mui-button-ghost-primary,
+.mui-dropdown-item.mui-button-ghost.mui-button-ghost-primary {
+  --mui-btn-color: var(--mui-primary);
+}
+.mui-button.mui-button-ghost.mui-button-ghost-secondary,
+.mui-dropdown-item.mui-button-ghost.mui-button-ghost-secondary {
+  --mui-btn-color: var(--mui-secondary);
+}
+.mui-button.mui-button-ghost.mui-button-ghost-tertiary,
+.mui-dropdown-item.mui-button-ghost.mui-button-ghost-tertiary {
+  --mui-btn-color: var(--mui-tertiary);
+}
+.mui-button.mui-button-ghost.mui-button-ghost-success,
+.mui-dropdown-item.mui-button-ghost.mui-button-ghost-success {
+  --mui-btn-color: var(--mui-success);
+}
+.mui-button.mui-button-ghost.mui-button-ghost-danger,
+.mui-dropdown-item.mui-button-ghost.mui-button-ghost-danger {
+  --mui-btn-color: var(--mui-error);
+}
+.mui-button.mui-button-ghost.mui-button-ghost-warning,
+.mui-dropdown-item.mui-button-ghost.mui-button-ghost-warning {
+  --mui-btn-color: var(--mui-warning);
+}
+.mui-button.mui-button-ghost.mui-button-ghost-info,
+.mui-dropdown-item.mui-button-ghost.mui-button-ghost-info {
+  --mui-btn-color: var(--mui-info);
+}
+.mui-button.mui-button-ghost.mui-button-ghost-light,
+.mui-dropdown-item.mui-button-ghost.mui-button-ghost-light {
+  --mui-btn-color: var(--mui-light);
+}
+.mui-button.mui-button-ghost.mui-button-ghost-dark,
+.mui-dropdown-item.mui-button-ghost.mui-button-ghost-dark {
+  --mui-btn-color: var(--mui-dark);
+}
+.mui-button.mui-button-ghost.mui-button-ghost-link,
+.mui-dropdown-item.mui-button-ghost.mui-button-ghost-link {
+  --mui-btn-color: var(--mui-primary);
+}
+.mui-button.mui-button-ghost.mui-button-ghost-custom,
+.mui-dropdown-item.mui-button-ghost.mui-button-ghost-custom {
+  --mui-btn-color: var(--mui-btn-border-color);
+}
+.mui-button.mui-button-ghost > .mui-ripple-surface > .mui-ripple,
+.mui-dropdown-item.mui-button-ghost > .mui-ripple-surface > .mui-ripple {
+  background-color: currentColor;
+  opacity: 0.12;
+}
+.mui-button.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true]),
+.mui-dropdown-item.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true]) {
+  color: var(--mui-btn-color);
+  opacity: 1;
+  transition: transform var(--mui-duration-slow), border-radius var(--mui-duration-slower), padding var(--mui-duration-slow), background-color var(--mui-duration-normal);
+}
+.mui-button.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true]):hover:not(:active):not(.mui-button-active):not([aria-pressed=true]):not([aria-expanded=true]),
+.mui-dropdown-item.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true]):hover:not(:active):not(.mui-button-active):not([aria-pressed=true]):not([aria-expanded=true]) {
+  background-color: var(--mui-btn-hover-bg);
+  background-image: none;
+}
+.mui-button.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true]):active, .mui-button.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true]).mui-button-active, .mui-button.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true])[aria-pressed=true], .mui-button.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true])[aria-expanded=true],
+.mui-dropdown-item.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true]):active,
+.mui-dropdown-item.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true]).mui-button-active,
+.mui-dropdown-item.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true])[aria-pressed=true],
+.mui-dropdown-item.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, currentColor 12%, transparent);
+  background-image: none;
+}
+.mui-button.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true]):active:not(.mui-button-active):not([aria-pressed=true]):not([aria-expanded=true]):has(> .mui-ripple-surface > .mui-ripple),
+.mui-dropdown-item.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true]):active:not(.mui-button-active):not([aria-pressed=true]):not([aria-expanded=true]):has(> .mui-ripple-surface > .mui-ripple) {
+  background-color: transparent;
+}
+.mui-button.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true]):active:not(.mui-button-active):not([aria-pressed=true]):not([aria-expanded=true]):has(> .mui-ripple-surface > .mui-ripple):hover,
+.mui-dropdown-item.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true]):active:not(.mui-button-active):not([aria-pressed=true]):not([aria-expanded=true]):has(> .mui-ripple-surface > .mui-ripple):hover {
+  background-color: var(--mui-btn-hover-bg);
+}
+.mui-button.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true]):focus-visible,
+.mui-dropdown-item.mui-button-ghost:not(:disabled):not(.mui-button-disabled):not([aria-disabled=true]):focus-visible {
+  outline: 3px solid var(--mui-secondary);
+  outline-offset: 2px;
+}
+.mui-button.mui-button-ghost:disabled, .mui-button.mui-button-ghost.mui-button-disabled, .mui-button.mui-button-ghost[aria-disabled=true],
+.mui-dropdown-item.mui-button-ghost:disabled,
+.mui-dropdown-item.mui-button-ghost.mui-button-disabled,
+.mui-dropdown-item.mui-button-ghost[aria-disabled=true] {
+  color: var(--mui-on-surface);
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  opacity: 0.38;
+}
+.mui-button.mui-button-ghost:disabled:hover, .mui-button.mui-button-ghost.mui-button-disabled:hover, .mui-button.mui-button-ghost[aria-disabled=true]:hover,
+.mui-dropdown-item.mui-button-ghost:disabled:hover,
+.mui-dropdown-item.mui-button-ghost.mui-button-disabled:hover,
+.mui-dropdown-item.mui-button-ghost[aria-disabled=true]:hover {
+  opacity: 0.38;
+}
+.mui-button.mui-button-ghost:disabled::before, .mui-button.mui-button-ghost:disabled::after,
+.mui-button.mui-button-ghost:disabled > .mui-ripple-surface, .mui-button.mui-button-ghost.mui-button-disabled::before, .mui-button.mui-button-ghost.mui-button-disabled::after,
+.mui-button.mui-button-ghost.mui-button-disabled > .mui-ripple-surface, .mui-button.mui-button-ghost[aria-disabled=true]::before, .mui-button.mui-button-ghost[aria-disabled=true]::after,
+.mui-button.mui-button-ghost[aria-disabled=true] > .mui-ripple-surface,
+.mui-dropdown-item.mui-button-ghost:disabled::before,
+.mui-dropdown-item.mui-button-ghost:disabled::after,
+.mui-dropdown-item.mui-button-ghost:disabled > .mui-ripple-surface,
+.mui-dropdown-item.mui-button-ghost.mui-button-disabled::before,
+.mui-dropdown-item.mui-button-ghost.mui-button-disabled::after,
+.mui-dropdown-item.mui-button-ghost.mui-button-disabled > .mui-ripple-surface,
+.mui-dropdown-item.mui-button-ghost[aria-disabled=true]::before,
+.mui-dropdown-item.mui-button-ghost[aria-disabled=true]::after,
+.mui-dropdown-item.mui-button-ghost[aria-disabled=true] > .mui-ripple-surface {
+  display: none;
+}
+
 .mui-button-group, .mui-button-group-vertical {
   position: relative;
   display: inline-flex;

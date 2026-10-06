@@ -546,6 +546,18 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Button( bool outline ) => "btn";
 
+    public override string ButtonGhost( bool ghost, Color color )
+    {
+        if ( !ghost )
+        {
+            return null;
+        }
+
+        var colorName = color?.IsCssValue == true ? "custom" : color?.Name;
+
+        return color.IsNullOrDefault() ? "btn-ghost" : $"btn-ghost btn-ghost-{colorName}";
+    }
+
     public override string ButtonColor( Color color, bool outline ) => color?.IsCssValue == true
         ? outline ? "btn-outline-custom" : "btn-custom"
         : outline
