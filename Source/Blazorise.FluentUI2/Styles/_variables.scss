@@ -1082,3 +1082,16 @@ $z-index-values: (
     snackbar: calc(var(--zIndexPopover) + 1),
     on-screen-keyboard: calc(var(--zIndexModal) + 100),
 ) !default;
+
+$fui-button-ghost-variants: (
+    primary: (var(--colorBrandForeground1), var(--colorBrandForegroundLinkHover), var(--colorBrandForegroundLinkPressed), var(--colorBrandBackground2Hover), var(--colorBrandBackground2Pressed), var(--colorBrandForegroundLinkSelected), var(--colorBrandBackground2)),
+    secondary: (var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Pressed), var(--colorSubtleBackgroundHover), var(--colorSubtleBackgroundPressed), var(--colorNeutralForeground3Selected), var(--colorSubtleBackgroundSelected)),
+    success: (var(--colorStatusSuccessForeground1), var(--colorStatusSuccessForeground2), var(--colorStatusSuccessForeground2), var(--colorStatusSuccessBackground1), var(--colorStatusSuccessBackground2), var(--colorStatusSuccessForeground2), var(--colorStatusSuccessBackground2)),
+    danger: (var(--colorStatusDangerForeground1), var(--colorStatusDangerForeground2), var(--colorStatusDangerForeground2), var(--colorStatusDangerBackground1), var(--colorStatusDangerBackground2), var(--colorStatusDangerForeground2), var(--colorStatusDangerBackground2)),
+    warning: (var(--colorStatusWarningForeground1), var(--colorStatusWarningForeground2), var(--colorStatusWarningForeground2), var(--colorStatusWarningBackground1), var(--colorStatusWarningBackground2), var(--colorStatusWarningForeground2), var(--colorStatusWarningBackground2)),
+    info: (var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Pressed), var(--colorSubtleBackgroundHover), var(--colorSubtleBackgroundPressed), var(--colorNeutralForeground3Selected), var(--colorSubtleBackgroundSelected)),
+    light: (var(--colorNeutralForeground4), var(--colorNeutralForeground2Hover), var(--colorNeutralForeground2Pressed), var(--colorSubtleBackgroundHover), var(--colorSubtleBackgroundPressed), var(--colorNeutralForeground2Selected), var(--colorSubtleBackgroundSelected)),
+    dark: (var(--colorNeutralForeground1), var(--colorNeutralForeground1Hover), var(--colorNeutralForeground1Pressed), var(--colorSubtleBackgroundHover), var(--colorSubtleBackgroundPressed), var(--colorNeutralForeground1Selected), var(--colorSubtleBackgroundSelected)),
+    link: (var(--colorBrandForegroundLink), var(--colorBrandForegroundLinkHover), var(--colorBrandForegroundLinkPressed), var(--colorBrandBackground2Hover), var(--colorBrandBackground2Pressed), var(--colorBrandForegroundLinkSelected), var(--colorBrandBackground2)),
+    custom: (var(--colorBrandBackground), var(--colorBrandBackground), var(--colorBrandBackground), color-mix(in srgb, var(--colorBrandBackground) 10%, var(--colorSubtleBackgroundHover)), color-mix(in srgb, var(--colorBrandBackground) 20%, var(--colorSubtleBackgroundPressed)), var(--colorBrandBackground), color-mix(in srgb, var(--colorBrandBackground) 15%, var(--colorSubtleBackgroundSelected))),
+) !default;

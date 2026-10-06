@@ -99,6 +99,34 @@ public class BootstrapThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
+        var ghostColor = Var( ThemeVariables.Color( variant ) );
+        var ghostSelectors = new[]
+        {
+            $".btn.btn-ghost.btn-ghost-{variant}",
+            $".dropdown-item.btn-ghost.btn-ghost-{variant}",
+        };
+
+        foreach ( var selector in ghostSelectors )
+        {
+            var enabledSelector = $"{selector}:not(:disabled):not(.disabled):not([aria-disabled=\"true\"])";
+
+            sb.Append( $"{selector},{enabledSelector}" ).Append( "{" )
+                .Append( $"color: {ghostColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( $"{enabledSelector}:hover" ).Append( "{" )
+                .Append( $"background-color: color-mix(in srgb, {ghostColor} 10%, transparent);" )
+                .AppendLine( "}" );
+
+            sb.Append( $"{enabledSelector}:active,{enabledSelector}.active,{enabledSelector}[aria-pressed=\"true\"],{enabledSelector}[aria-expanded=\"true\"]" ).Append( "{" )
+                .Append( $"background-color: color-mix(in srgb, {ghostColor} 20%, transparent);" )
+                .AppendLine( "}" );
+
+            sb.Append( $"{enabledSelector}:focus-visible" ).Append( "{" )
+                .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} color-mix(in srgb, {ghostColor} 50%, transparent);" )
+                .AppendLine( "}" );
+        }
+
         var background = Var( ThemeVariables.ButtonBackground( variant ) );
         var border = Var( ThemeVariables.ButtonBorder( variant ) );
         var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
@@ -262,6 +290,36 @@ public class BootstrapThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
     {
+        var ghostSelectors = new[]
+        {
+            ".btn.btn-ghost",
+            ".dropdown-item.btn-ghost",
+        };
+
+        foreach ( var selector in ghostSelectors )
+        {
+            var enabledSelector = $"{selector}:not(:disabled):not(.disabled):not([aria-disabled=\"true\"])";
+
+            sb.Append( $"{enabledSelector}:hover" ).Append( "{" )
+                .Append( "background-color: color-mix(in srgb, currentColor 5%, transparent);" )
+                .AppendLine( "}" );
+
+            sb.Append( $"{enabledSelector}:active,{enabledSelector}.active,{enabledSelector}[aria-pressed=\"true\"],{enabledSelector}[aria-expanded=\"true\"]" ).Append( "{" )
+                .Append( "background-color: color-mix(in srgb, currentColor 10%, transparent);" )
+                .AppendLine( "}" );
+
+            sb.Append( $"{enabledSelector}:focus-visible" ).Append( "{" )
+                .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} color-mix(in srgb, {Var( ThemeVariables.Color( "primary" ) )} 25%, transparent);" )
+                .AppendLine( "}" );
+
+            if ( options?.DisabledOpacity is not null )
+            {
+                sb.Append( $"{selector}:disabled,{selector}.disabled,{selector}[aria-disabled=\"true\"]" ).Append( "{" )
+                    .Append( $"opacity: {options.DisabledOpacity.ToCultureInvariantString()};" )
+                    .AppendLine( "}" );
+            }
+        }
+
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
             sb.Append( ".btn" ).Append( "{" )

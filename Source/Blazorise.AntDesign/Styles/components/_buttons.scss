@@ -186,3 +186,73 @@
         --ant-color-primary-border: color-mix(in srgb, var(--ant-color-primary) 50%, transparent);
     }
 }
+
+@mixin ant-btn-ghost-variant($color, $hover-color, $active-color, $hover-background, $active-background) {
+    --ant-btn-text-color: #{$color};
+    --ant-btn-text-color-hover: #{$hover-color};
+    --ant-btn-text-color-active: #{$active-color};
+    --ant-btn-bg-color-hover: #{$hover-background};
+    --ant-btn-bg-color-active: #{$active-background};
+}
+
+.ant-btn.ant-btn-ghost,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost {
+    --ant-btn-border-color: transparent;
+    --ant-btn-border-color-hover: transparent;
+    --ant-btn-border-color-active: transparent;
+    --ant-btn-bg-color: transparent;
+    --ant-btn-bg-color-disabled: transparent;
+    --ant-btn-shadow: none;
+    color: var(--ant-btn-text-color);
+    background-color: var(--ant-btn-bg-color);
+    background-image: none;
+    border-color: transparent;
+    box-shadow: none;
+
+    @include ant-btn-ghost-variant(
+        var(--ant-button-text-text-color),
+        var(--ant-button-text-text-hover-color),
+        var(--ant-button-text-text-active-color),
+        var(--ant-button-text-hover-bg),
+        var(--ant-color-fill)
+    );
+
+    @each $name, $colors in $button-ghost-variants {
+        &.ant-btn-ghost-#{$name} {
+            @include ant-btn-ghost-variant(nth($colors, 1), nth($colors, 2), nth($colors, 3), nth($colors, 4), nth($colors, 5));
+        }
+    }
+
+    &:not(:disabled):not(.ant-btn-disabled):not([aria-disabled="true"]) {
+        color: var(--ant-btn-text-color);
+
+        &:hover {
+            color: var(--ant-btn-text-color-hover);
+            background-color: var(--ant-btn-bg-color-hover);
+            border-color: transparent;
+        }
+
+        &:active,
+        &.active,
+        &[aria-pressed="true"],
+        &[aria-expanded="true"] {
+            color: var(--ant-btn-text-color-active);
+            background-color: var(--ant-btn-bg-color-active);
+            border-color: transparent;
+        }
+
+        &:focus-visible {
+            outline: var(--ant-line-width-focus) solid var(--ant-color-primary-border);
+            outline-offset: 1px;
+        }
+    }
+
+    &:disabled,
+    &.ant-btn-disabled,
+    &[aria-disabled="true"] {
+        color: var(--ant-color-text-disabled);
+        background-color: transparent;
+        border-color: transparent;
+        box-shadow: none;
+    }
+}

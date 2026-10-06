@@ -114,3 +114,57 @@
 label.btn.btn-custom:has(input:focus-visible) {
     box-shadow: 0 0 0 $btn-focus-width color-mix(in srgb, var(--bs-btn-bg) 50%, transparent);
 }
+
+@mixin bootstrap-button-ghost-variant($color, $hover-background, $active-background, $focus-shadow) {
+    color: $color;
+
+    &:not(:disabled):not(.disabled):not([aria-disabled="true"]) {
+        color: $color;
+
+        &:hover {
+            background-color: $hover-background;
+        }
+
+        &:active,
+        &.active,
+        &[aria-pressed="true"],
+        &[aria-expanded="true"] {
+            background-color: $active-background;
+        }
+
+        &:focus-visible {
+            outline: 0;
+            box-shadow: $focus-shadow;
+        }
+    }
+}
+
+.btn.btn-ghost,
+.dropdown-item.btn-ghost {
+    background-color: transparent;
+    background-image: none;
+    border-color: transparent;
+    box-shadow: none;
+
+    @include bootstrap-button-ghost-variant(inherit, $gray-100, $gray-200, $btn-focus-box-shadow);
+
+    @each $name, $color in $button-ghost-colors {
+        &.btn-ghost-#{$name} {
+            @include bootstrap-button-ghost-variant(
+                $color,
+                color-mix(in srgb, #{$color} 10%, transparent),
+                color-mix(in srgb, #{$color} 20%, transparent),
+                0 0 0 $btn-focus-width color-mix(in srgb, #{$color} 50%, transparent)
+            );
+        }
+    }
+
+    &:disabled,
+    &.disabled,
+    &[aria-disabled="true"] {
+        background-color: transparent;
+        border-color: transparent;
+        box-shadow: none;
+        opacity: $btn-disabled-opacity;
+    }
+}

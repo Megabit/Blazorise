@@ -26,6 +26,8 @@ public partial class Button : BaseComponent, IAsyncDisposable
 
     private bool outline;
 
+    private bool ghost;
+
     private bool disabled;
 
     private bool active;
@@ -51,13 +53,19 @@ public partial class Button : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.Button( Outline ) );
-        builder.Append( ClassProvider.ButtonColor( Color, Outline ) );
-        builder.Append( ClassProvider.ButtonSize( ThemeSize, Outline ) );
-        builder.Append( ClassProvider.ButtonBlock( Outline, Block ) );
-        builder.Append( ClassProvider.ButtonActive( Outline, Active ) );
-        builder.Append( ClassProvider.ButtonDisabled( Outline, Disabled ) );
-        builder.Append( ClassProvider.ButtonLoading( Outline, Loading && LoadingTemplate is null ) );
+        builder.Append( ClassProvider.Button( EffectiveOutline ) );
+        builder.Append( ClassProvider.ButtonGhost( Ghost, Color ) );
+
+        if ( !Ghost )
+        {
+            builder.Append( ClassProvider.ButtonColor( Color, EffectiveOutline ) );
+        }
+
+        builder.Append( ClassProvider.ButtonSize( ThemeSize, EffectiveOutline ) );
+        builder.Append( ClassProvider.ButtonBlock( EffectiveOutline, Block ) );
+        builder.Append( ClassProvider.ButtonActive( EffectiveOutline, Active ) );
+        builder.Append( ClassProvider.ButtonDisabled( EffectiveOutline, Disabled ) );
+        builder.Append( ClassProvider.ButtonLoading( EffectiveOutline, Loading && LoadingTemplate is null ) );
         builder.Append( ClassProvider.ButtonStretchedLink( StretchedLink ) );
 
         base.BuildClasses( builder );
@@ -375,6 +383,11 @@ public partial class Button : BaseComponent, IAsyncDisposable
     protected Size ThemeSize => Size.GetValueOrDefault( ParentAddons?.Size ?? Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
 
     /// <summary>
+    /// Gets whether to render an outline after resolving the ghost appearance.
+    /// </summary>
+    protected bool EffectiveOutline => !Ghost && Outline;
+
+    /// <summary>
     /// Specifies the <see cref="IJSButtonModule"/> instance.
     /// </summary>
     [Inject] public IJSButtonModule JSModule { get; set; }
@@ -457,6 +470,28 @@ public partial class Button : BaseComponent, IAsyncDisposable
         {
             outline = value;
 
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets whether to use a transparent, borderless appearance with provider-specific interaction states.
+    /// </summary>
+    /// <remarks>
+    /// Color controls the foreground and interaction palette. This appearance takes precedence over Outline.
+    /// </remarks>
+    [Parameter]
+    public bool Ghost
+    {
+        get => ghost;
+        set
+        {
+            if ( ghost == value )
+            {
+                return;
+            }
+
+            ghost = value;
             DirtyClasses();
         }
     }

@@ -535,6 +535,18 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Button( bool outline ) => "button";
 
+    public override string ButtonGhost( bool ghost, Color color )
+    {
+        if ( !ghost )
+        {
+            return null;
+        }
+
+        var colorName = color?.IsCssValue == true ? "custom" : color?.Name;
+
+        return color.IsNullOrDefault() ? "is-ghost" : $"is-ghost is-ghost-{colorName}";
+    }
+
     public override string ButtonColor( Color color, bool outline ) => color?.IsCssValue == true
         ? outline ? "is-custom is-outlined" : "is-custom"
         : outline

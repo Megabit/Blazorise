@@ -280,3 +280,7 @@ $z-index-values: (
     snackbar: 1060,
     on-screen-keyboard: $zindex-modal + 100,
 ) !default;
+
+$button-ghost-colors: map-merge($theme-colors, (
+    custom: var(--bs-btn-bg),
+)) !default;

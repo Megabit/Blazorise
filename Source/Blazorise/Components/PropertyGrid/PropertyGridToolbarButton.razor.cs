@@ -64,6 +64,11 @@ public partial class PropertyGridToolbarButton : BaseComponent
     [Parameter] public Color Color { get; set; } = Color.Secondary;
 
     /// <summary>
+    /// Gets or sets whether the button uses a transparent, borderless appearance.
+    /// </summary>
+    [Parameter] public bool Ghost { get; set; }
+
+    /// <summary>
     /// Defines whether the button uses an outlined style.
     /// </summary>
     [Parameter] public bool Outline { get; set; } = true;
