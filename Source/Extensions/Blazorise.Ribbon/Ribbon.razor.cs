@@ -110,70 +110,6 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
         await base.DisposeAsync( disposing );
     }
 
-    internal void RegisterContextualTabs( RibbonContextualTabs group )
-    {
-        ValidateContextualTabs( group );
-
-        contextualTabsItems.Add( group );
-        Refresh();
-    }
-
-    internal void ValidateContextualTabs( RibbonContextualTabs group )
-    {
-        if ( string.IsNullOrWhiteSpace( group.Name ) )
-        {
-            throw new InvalidOperationException( "RibbonContextualTabs requires a non-empty Name." );
-        }
-
-        if ( contextualTabsItems.Any( item => !ReferenceEquals( item, group ) && string.Equals( item.Name, group.Name, StringComparison.Ordinal ) ) )
-        {
-            throw new InvalidOperationException( $"Ribbon contextual group names must be unique. The name '{group.Name}' is already registered." );
-        }
-    }
-
-    internal void UnregisterContextualTabs( RibbonContextualTabs group )
-    {
-        contextualTabsItems.Remove( group );
-        Refresh();
-    }
-
-    internal void RegisterTab( RibbonTab tab )
-    {
-        ValidateTab( tab );
-
-        tabItems.Add( tab );
-        Refresh();
-    }
-
-    internal void ValidateTab( RibbonTab tab )
-    {
-        if ( string.IsNullOrWhiteSpace( tab.Name ) )
-        {
-            throw new InvalidOperationException( "RibbonTab requires a non-empty Name." );
-        }
-
-        if ( tabItems.Any( item => !ReferenceEquals( item, tab ) && item.Name == tab.Name ) )
-        {
-            throw new InvalidOperationException( $"Ribbon tab names must be unique. The name '{tab.Name}' is already registered." );
-        }
-    }
-
-    internal void UnregisterTab( RibbonTab tab )
-    {
-        tabItems.Remove( tab );
-        Refresh();
-    }
-
-    internal void Refresh()
-    {
-        if ( !Disposed && !AsyncDisposed )
-        {
-            SynchronizeState();
-
-            _ = InvokeAsync( StateHasChanged );
-        }
-    }
-
     /// <summary>
     /// Selects an enabled, visible tab and expands the command surface.
     /// </summary>
@@ -256,6 +192,70 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
 
         await SelectedTabChanged.InvokeAsync( name );
         await InvokeAsync( StateHasChanged );
+    }
+
+    internal void RegisterContextualTabs( RibbonContextualTabs group )
+    {
+        ValidateContextualTabs( group );
+
+        contextualTabsItems.Add( group );
+        Refresh();
+    }
+
+    internal void ValidateContextualTabs( RibbonContextualTabs group )
+    {
+        if ( string.IsNullOrWhiteSpace( group.Name ) )
+        {
+            throw new InvalidOperationException( "RibbonContextualTabs requires a non-empty Name." );
+        }
+
+        if ( contextualTabsItems.Any( item => !ReferenceEquals( item, group ) && string.Equals( item.Name, group.Name, StringComparison.Ordinal ) ) )
+        {
+            throw new InvalidOperationException( $"Ribbon contextual group names must be unique. The name '{group.Name}' is already registered." );
+        }
+    }
+
+    internal void UnregisterContextualTabs( RibbonContextualTabs group )
+    {
+        contextualTabsItems.Remove( group );
+        Refresh();
+    }
+
+    internal void RegisterTab( RibbonTab tab )
+    {
+        ValidateTab( tab );
+
+        tabItems.Add( tab );
+        Refresh();
+    }
+
+    internal void ValidateTab( RibbonTab tab )
+    {
+        if ( string.IsNullOrWhiteSpace( tab.Name ) )
+        {
+            throw new InvalidOperationException( "RibbonTab requires a non-empty Name." );
+        }
+
+        if ( tabItems.Any( item => !ReferenceEquals( item, tab ) && item.Name == tab.Name ) )
+        {
+            throw new InvalidOperationException( $"Ribbon tab names must be unique. The name '{tab.Name}' is already registered." );
+        }
+    }
+
+    internal void UnregisterTab( RibbonTab tab )
+    {
+        tabItems.Remove( tab );
+        Refresh();
+    }
+
+    internal void Refresh()
+    {
+        if ( !Disposed && !AsyncDisposed )
+        {
+            SynchronizeState();
+
+            _ = InvokeAsync( StateHasChanged );
+        }
     }
 
     private void SynchronizeState()

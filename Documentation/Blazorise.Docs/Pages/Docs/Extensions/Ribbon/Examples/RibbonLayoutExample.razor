@@ -55,8 +55,6 @@
 
     private string status = "Switch layouts or enable the contextual tab.";
 
-    private IReadOnlyList<string> ActiveContextualGroups => showTableTools ? ["table"] : [];
-
     private void OnShareHandler()
     {
         status = "Share document selected.";
@@ -96,4 +94,6 @@
     {
         showTableTools = false;
     }
+
+    private IReadOnlyList<string> ActiveContextualGroups => showTableTools ? ["table"] : [];
 }

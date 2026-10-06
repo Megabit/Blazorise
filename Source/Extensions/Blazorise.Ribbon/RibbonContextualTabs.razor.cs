@@ -81,6 +81,9 @@ public partial class RibbonContextualTabs : BaseComponent
 
     #region Properties
 
+    /// <summary>
+    /// Shares the group's identity, availability, and accent color with its descendant tabs.
+    /// </summary>
     internal RibbonContextualTabsState State { get; private set; } = new();
 
     /// <summary>
@@ -112,10 +115,19 @@ public partial class RibbonContextualTabs : BaseComponent
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    /// <summary>
+    /// Provides the containing ribbon for contextual group registration.
+    /// </summary>
     [CascadingParameter] internal Ribbon ParentRibbon { get; set; }
 
+    /// <summary>
+    /// Shares the active editing contexts used to determine whether the group's tabs are available.
+    /// </summary>
     [CascadingParameter] internal RibbonState ParentRibbonState { get; set; }
 
+    /// <summary>
+    /// Identifies an enclosing contextual group so unsupported group nesting can be rejected.
+    /// </summary>
     [CascadingParameter] internal RibbonContextualTabsState ParentContextualTabsState { get; set; }
 
     #endregion
