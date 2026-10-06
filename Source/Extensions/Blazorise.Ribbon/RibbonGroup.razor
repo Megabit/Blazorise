@@ -7,7 +7,7 @@
         <Span ElementId="@CaptionElementId" Flex="Blazorise.Flex.Grow.Is1" TextAlignment="TextAlignment.Center" TextColor="Blazorise.TextColor.Secondary" TextSize="Blazorise.TextSize.ExtraSmall">@Text</Span>
         @if ( ShowLauncher )
         {
-            <Button Size="Blazorise.Size.Small" Border="Blazorise.Border.Is0" TextSize="Blazorise.TextSize.Px( 10 )" Padding="Blazorise.Padding.Is0" Disabled="@LauncherDisabled" Clicked="@OnLauncherHandler" aria-label="@EffectiveLauncherLabel">
+            <Button Ghost Size="Blazorise.Size.Small" Border="Blazorise.Border.Is0" TextSize="Blazorise.TextSize.Px( 10 )" Padding="Blazorise.Padding.Is0" Disabled="@LauncherDisabled" Clicked="@OnLauncherHandler" aria-label="@EffectiveLauncherLabel">
                 <Icon Name="IconName.ExternalLinkSquareAlt" IconSize="IconSize.ExtraSmall" />
             </Button>
         }

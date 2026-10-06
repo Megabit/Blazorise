@@ -25,7 +25,6 @@ public partial class RibbonApplicationButton : BaseComponent
     public RibbonApplicationButton()
     {
         Border = Blazorise.Border.Is0;
-        Background = Blazorise.Background.Transparent;
         Flex = Blazorise.Flex.Shrink.Is0;
         TextOverflow = Blazorise.TextOverflow.NoWrap;
         TextSize = Blazorise.TextSize.Px( 13 );

@@ -1,6 +1,6 @@
 @inherits BaseComponent
 <Dropdown @ref="@dropdownRef" Flex="Blazorise.Flex.Shrink.Is0" Disabled="@Disabled" Direction="@Direction" Visible="@Visible" VisibleChanged="@OnVisibleChangedHandler">
-    <DropdownToggle @ref="@toggleRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Size="Blazorise.Size.Small" Disabled="@Disabled" ShowToggleIcon="@ShowToggleIcon" aria-label="@Text" @attributes="@Attributes">
+    <DropdownToggle Ghost @ref="@toggleRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Size="Blazorise.Size.Small" Disabled="@Disabled" ShowToggleIcon="@ShowToggleIcon" aria-label="@Text" @attributes="@Attributes">
         <_RibbonApplicationTabContent Text="@Text" ChildContent="@HeaderContent" />
     </DropdownToggle>
     <DropdownMenu>

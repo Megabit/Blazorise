@@ -26,7 +26,6 @@ public partial class RibbonApplicationMenu : BaseComponent
     public RibbonApplicationMenu()
     {
         Border = Blazorise.Border.Is0;
-        Background = Blazorise.Background.Transparent;
         Flex = Blazorise.Flex.Shrink.Is0;
         TextOverflow = Blazorise.TextOverflow.NoWrap;
         TextSize = Blazorise.TextSize.Px( 13 );
