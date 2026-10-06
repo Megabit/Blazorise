@@ -506,6 +506,8 @@ public interface IClassProvider
 
     string Button( bool outline );
 
+    string ButtonGhost( bool ghost, Color color );
+
     string ButtonColor( Color color, bool outline );
 
     string ButtonSize( Size size, bool outline );
@@ -575,6 +577,8 @@ public interface IClassProvider
     string DropdownMenuEnd( bool endAligned );
 
     string DropdownToggle( bool isDropdownSubmenu, bool outline );
+
+    string DropdownToggleGhost( bool ghost, Color color );
 
     string DropdownToggleSelector( bool isDropdownSubmenu );
 

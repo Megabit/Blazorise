@@ -523,6 +523,8 @@ class EmptyClassProvider : IClassProvider
 
     public string ButtonStretchedLink( bool stretched ) => null;
 
+    public string ButtonGhost( bool ghost, Color color ) => null;
+
     #endregion
 
     #region Buttons
@@ -588,6 +590,8 @@ class EmptyClassProvider : IClassProvider
     public string DropdownToggleSplit( bool split ) => null;
 
     public string DropdownToggleIcon( bool visible ) => null;
+
+    public string DropdownToggleGhost( bool ghost, Color color ) => null;
 
     public string DropdownDirection( Direction direction ) => null;
 

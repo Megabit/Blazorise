@@ -576,6 +576,284 @@ label.btn.btn-custom:has(input:focus-visible) {
   box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--bs-btn-bg) 50%, transparent);
 }
 
+.btn.btn-ghost,
+.dropdown-item.btn-ghost {
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  color: inherit;
+}
+.btn.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]),
+.dropdown-item.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]) {
+  color: inherit;
+}
+.btn.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]):hover,
+.dropdown-item.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]):hover {
+  background-color: #f8f9fa;
+}
+.btn.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]):active, .btn.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]).active, .btn.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true], .btn.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]):active,
+.dropdown-item.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]).active,
+.dropdown-item.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: #e9ecef;
+}
+.btn.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible,
+.dropdown-item.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.btn.btn-ghost.btn-ghost-primary,
+.dropdown-item.btn-ghost.btn-ghost-primary {
+  color: #007bff;
+}
+.btn.btn-ghost.btn-ghost-primary:not(:disabled):not(.disabled):not([aria-disabled=true]),
+.dropdown-item.btn-ghost.btn-ghost-primary:not(:disabled):not(.disabled):not([aria-disabled=true]) {
+  color: #007bff;
+}
+.btn.btn-ghost.btn-ghost-primary:not(:disabled):not(.disabled):not([aria-disabled=true]):hover,
+.dropdown-item.btn-ghost.btn-ghost-primary:not(:disabled):not(.disabled):not([aria-disabled=true]):hover {
+  background-color: color-mix(in srgb, #007bff 10%, transparent);
+}
+.btn.btn-ghost.btn-ghost-primary:not(:disabled):not(.disabled):not([aria-disabled=true]):active, .btn.btn-ghost.btn-ghost-primary:not(:disabled):not(.disabled):not([aria-disabled=true]).active, .btn.btn-ghost.btn-ghost-primary:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true], .btn.btn-ghost.btn-ghost-primary:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.btn-ghost.btn-ghost-primary:not(:disabled):not(.disabled):not([aria-disabled=true]):active,
+.dropdown-item.btn-ghost.btn-ghost-primary:not(:disabled):not(.disabled):not([aria-disabled=true]).active,
+.dropdown-item.btn-ghost.btn-ghost-primary:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.btn-ghost.btn-ghost-primary:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, #007bff 20%, transparent);
+}
+.btn.btn-ghost.btn-ghost-primary:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible,
+.dropdown-item.btn-ghost.btn-ghost-primary:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, #007bff 50%, transparent);
+}
+.btn.btn-ghost.btn-ghost-secondary,
+.dropdown-item.btn-ghost.btn-ghost-secondary {
+  color: #6c757d;
+}
+.btn.btn-ghost.btn-ghost-secondary:not(:disabled):not(.disabled):not([aria-disabled=true]),
+.dropdown-item.btn-ghost.btn-ghost-secondary:not(:disabled):not(.disabled):not([aria-disabled=true]) {
+  color: #6c757d;
+}
+.btn.btn-ghost.btn-ghost-secondary:not(:disabled):not(.disabled):not([aria-disabled=true]):hover,
+.dropdown-item.btn-ghost.btn-ghost-secondary:not(:disabled):not(.disabled):not([aria-disabled=true]):hover {
+  background-color: color-mix(in srgb, #6c757d 10%, transparent);
+}
+.btn.btn-ghost.btn-ghost-secondary:not(:disabled):not(.disabled):not([aria-disabled=true]):active, .btn.btn-ghost.btn-ghost-secondary:not(:disabled):not(.disabled):not([aria-disabled=true]).active, .btn.btn-ghost.btn-ghost-secondary:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true], .btn.btn-ghost.btn-ghost-secondary:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.btn-ghost.btn-ghost-secondary:not(:disabled):not(.disabled):not([aria-disabled=true]):active,
+.dropdown-item.btn-ghost.btn-ghost-secondary:not(:disabled):not(.disabled):not([aria-disabled=true]).active,
+.dropdown-item.btn-ghost.btn-ghost-secondary:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.btn-ghost.btn-ghost-secondary:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, #6c757d 20%, transparent);
+}
+.btn.btn-ghost.btn-ghost-secondary:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible,
+.dropdown-item.btn-ghost.btn-ghost-secondary:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, #6c757d 50%, transparent);
+}
+.btn.btn-ghost.btn-ghost-success,
+.dropdown-item.btn-ghost.btn-ghost-success {
+  color: #28a745;
+}
+.btn.btn-ghost.btn-ghost-success:not(:disabled):not(.disabled):not([aria-disabled=true]),
+.dropdown-item.btn-ghost.btn-ghost-success:not(:disabled):not(.disabled):not([aria-disabled=true]) {
+  color: #28a745;
+}
+.btn.btn-ghost.btn-ghost-success:not(:disabled):not(.disabled):not([aria-disabled=true]):hover,
+.dropdown-item.btn-ghost.btn-ghost-success:not(:disabled):not(.disabled):not([aria-disabled=true]):hover {
+  background-color: color-mix(in srgb, #28a745 10%, transparent);
+}
+.btn.btn-ghost.btn-ghost-success:not(:disabled):not(.disabled):not([aria-disabled=true]):active, .btn.btn-ghost.btn-ghost-success:not(:disabled):not(.disabled):not([aria-disabled=true]).active, .btn.btn-ghost.btn-ghost-success:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true], .btn.btn-ghost.btn-ghost-success:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.btn-ghost.btn-ghost-success:not(:disabled):not(.disabled):not([aria-disabled=true]):active,
+.dropdown-item.btn-ghost.btn-ghost-success:not(:disabled):not(.disabled):not([aria-disabled=true]).active,
+.dropdown-item.btn-ghost.btn-ghost-success:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.btn-ghost.btn-ghost-success:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, #28a745 20%, transparent);
+}
+.btn.btn-ghost.btn-ghost-success:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible,
+.dropdown-item.btn-ghost.btn-ghost-success:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, #28a745 50%, transparent);
+}
+.btn.btn-ghost.btn-ghost-info,
+.dropdown-item.btn-ghost.btn-ghost-info {
+  color: #17a2b8;
+}
+.btn.btn-ghost.btn-ghost-info:not(:disabled):not(.disabled):not([aria-disabled=true]),
+.dropdown-item.btn-ghost.btn-ghost-info:not(:disabled):not(.disabled):not([aria-disabled=true]) {
+  color: #17a2b8;
+}
+.btn.btn-ghost.btn-ghost-info:not(:disabled):not(.disabled):not([aria-disabled=true]):hover,
+.dropdown-item.btn-ghost.btn-ghost-info:not(:disabled):not(.disabled):not([aria-disabled=true]):hover {
+  background-color: color-mix(in srgb, #17a2b8 10%, transparent);
+}
+.btn.btn-ghost.btn-ghost-info:not(:disabled):not(.disabled):not([aria-disabled=true]):active, .btn.btn-ghost.btn-ghost-info:not(:disabled):not(.disabled):not([aria-disabled=true]).active, .btn.btn-ghost.btn-ghost-info:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true], .btn.btn-ghost.btn-ghost-info:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.btn-ghost.btn-ghost-info:not(:disabled):not(.disabled):not([aria-disabled=true]):active,
+.dropdown-item.btn-ghost.btn-ghost-info:not(:disabled):not(.disabled):not([aria-disabled=true]).active,
+.dropdown-item.btn-ghost.btn-ghost-info:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.btn-ghost.btn-ghost-info:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, #17a2b8 20%, transparent);
+}
+.btn.btn-ghost.btn-ghost-info:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible,
+.dropdown-item.btn-ghost.btn-ghost-info:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, #17a2b8 50%, transparent);
+}
+.btn.btn-ghost.btn-ghost-warning,
+.dropdown-item.btn-ghost.btn-ghost-warning {
+  color: #ffc107;
+}
+.btn.btn-ghost.btn-ghost-warning:not(:disabled):not(.disabled):not([aria-disabled=true]),
+.dropdown-item.btn-ghost.btn-ghost-warning:not(:disabled):not(.disabled):not([aria-disabled=true]) {
+  color: #ffc107;
+}
+.btn.btn-ghost.btn-ghost-warning:not(:disabled):not(.disabled):not([aria-disabled=true]):hover,
+.dropdown-item.btn-ghost.btn-ghost-warning:not(:disabled):not(.disabled):not([aria-disabled=true]):hover {
+  background-color: color-mix(in srgb, #ffc107 10%, transparent);
+}
+.btn.btn-ghost.btn-ghost-warning:not(:disabled):not(.disabled):not([aria-disabled=true]):active, .btn.btn-ghost.btn-ghost-warning:not(:disabled):not(.disabled):not([aria-disabled=true]).active, .btn.btn-ghost.btn-ghost-warning:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true], .btn.btn-ghost.btn-ghost-warning:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.btn-ghost.btn-ghost-warning:not(:disabled):not(.disabled):not([aria-disabled=true]):active,
+.dropdown-item.btn-ghost.btn-ghost-warning:not(:disabled):not(.disabled):not([aria-disabled=true]).active,
+.dropdown-item.btn-ghost.btn-ghost-warning:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.btn-ghost.btn-ghost-warning:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, #ffc107 20%, transparent);
+}
+.btn.btn-ghost.btn-ghost-warning:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible,
+.dropdown-item.btn-ghost.btn-ghost-warning:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, #ffc107 50%, transparent);
+}
+.btn.btn-ghost.btn-ghost-danger,
+.dropdown-item.btn-ghost.btn-ghost-danger {
+  color: #dc3545;
+}
+.btn.btn-ghost.btn-ghost-danger:not(:disabled):not(.disabled):not([aria-disabled=true]),
+.dropdown-item.btn-ghost.btn-ghost-danger:not(:disabled):not(.disabled):not([aria-disabled=true]) {
+  color: #dc3545;
+}
+.btn.btn-ghost.btn-ghost-danger:not(:disabled):not(.disabled):not([aria-disabled=true]):hover,
+.dropdown-item.btn-ghost.btn-ghost-danger:not(:disabled):not(.disabled):not([aria-disabled=true]):hover {
+  background-color: color-mix(in srgb, #dc3545 10%, transparent);
+}
+.btn.btn-ghost.btn-ghost-danger:not(:disabled):not(.disabled):not([aria-disabled=true]):active, .btn.btn-ghost.btn-ghost-danger:not(:disabled):not(.disabled):not([aria-disabled=true]).active, .btn.btn-ghost.btn-ghost-danger:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true], .btn.btn-ghost.btn-ghost-danger:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.btn-ghost.btn-ghost-danger:not(:disabled):not(.disabled):not([aria-disabled=true]):active,
+.dropdown-item.btn-ghost.btn-ghost-danger:not(:disabled):not(.disabled):not([aria-disabled=true]).active,
+.dropdown-item.btn-ghost.btn-ghost-danger:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.btn-ghost.btn-ghost-danger:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, #dc3545 20%, transparent);
+}
+.btn.btn-ghost.btn-ghost-danger:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible,
+.dropdown-item.btn-ghost.btn-ghost-danger:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, #dc3545 50%, transparent);
+}
+.btn.btn-ghost.btn-ghost-light,
+.dropdown-item.btn-ghost.btn-ghost-light {
+  color: #f8f9fa;
+}
+.btn.btn-ghost.btn-ghost-light:not(:disabled):not(.disabled):not([aria-disabled=true]),
+.dropdown-item.btn-ghost.btn-ghost-light:not(:disabled):not(.disabled):not([aria-disabled=true]) {
+  color: #f8f9fa;
+}
+.btn.btn-ghost.btn-ghost-light:not(:disabled):not(.disabled):not([aria-disabled=true]):hover,
+.dropdown-item.btn-ghost.btn-ghost-light:not(:disabled):not(.disabled):not([aria-disabled=true]):hover {
+  background-color: color-mix(in srgb, #f8f9fa 10%, transparent);
+}
+.btn.btn-ghost.btn-ghost-light:not(:disabled):not(.disabled):not([aria-disabled=true]):active, .btn.btn-ghost.btn-ghost-light:not(:disabled):not(.disabled):not([aria-disabled=true]).active, .btn.btn-ghost.btn-ghost-light:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true], .btn.btn-ghost.btn-ghost-light:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.btn-ghost.btn-ghost-light:not(:disabled):not(.disabled):not([aria-disabled=true]):active,
+.dropdown-item.btn-ghost.btn-ghost-light:not(:disabled):not(.disabled):not([aria-disabled=true]).active,
+.dropdown-item.btn-ghost.btn-ghost-light:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.btn-ghost.btn-ghost-light:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, #f8f9fa 20%, transparent);
+}
+.btn.btn-ghost.btn-ghost-light:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible,
+.dropdown-item.btn-ghost.btn-ghost-light:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, #f8f9fa 50%, transparent);
+}
+.btn.btn-ghost.btn-ghost-dark,
+.dropdown-item.btn-ghost.btn-ghost-dark {
+  color: #343a40;
+}
+.btn.btn-ghost.btn-ghost-dark:not(:disabled):not(.disabled):not([aria-disabled=true]),
+.dropdown-item.btn-ghost.btn-ghost-dark:not(:disabled):not(.disabled):not([aria-disabled=true]) {
+  color: #343a40;
+}
+.btn.btn-ghost.btn-ghost-dark:not(:disabled):not(.disabled):not([aria-disabled=true]):hover,
+.dropdown-item.btn-ghost.btn-ghost-dark:not(:disabled):not(.disabled):not([aria-disabled=true]):hover {
+  background-color: color-mix(in srgb, #343a40 10%, transparent);
+}
+.btn.btn-ghost.btn-ghost-dark:not(:disabled):not(.disabled):not([aria-disabled=true]):active, .btn.btn-ghost.btn-ghost-dark:not(:disabled):not(.disabled):not([aria-disabled=true]).active, .btn.btn-ghost.btn-ghost-dark:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true], .btn.btn-ghost.btn-ghost-dark:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.btn-ghost.btn-ghost-dark:not(:disabled):not(.disabled):not([aria-disabled=true]):active,
+.dropdown-item.btn-ghost.btn-ghost-dark:not(:disabled):not(.disabled):not([aria-disabled=true]).active,
+.dropdown-item.btn-ghost.btn-ghost-dark:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.btn-ghost.btn-ghost-dark:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, #343a40 20%, transparent);
+}
+.btn.btn-ghost.btn-ghost-dark:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible,
+.dropdown-item.btn-ghost.btn-ghost-dark:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, #343a40 50%, transparent);
+}
+.btn.btn-ghost.btn-ghost-link,
+.dropdown-item.btn-ghost.btn-ghost-link {
+  color: #3273dc;
+}
+.btn.btn-ghost.btn-ghost-link:not(:disabled):not(.disabled):not([aria-disabled=true]),
+.dropdown-item.btn-ghost.btn-ghost-link:not(:disabled):not(.disabled):not([aria-disabled=true]) {
+  color: #3273dc;
+}
+.btn.btn-ghost.btn-ghost-link:not(:disabled):not(.disabled):not([aria-disabled=true]):hover,
+.dropdown-item.btn-ghost.btn-ghost-link:not(:disabled):not(.disabled):not([aria-disabled=true]):hover {
+  background-color: color-mix(in srgb, #3273dc 10%, transparent);
+}
+.btn.btn-ghost.btn-ghost-link:not(:disabled):not(.disabled):not([aria-disabled=true]):active, .btn.btn-ghost.btn-ghost-link:not(:disabled):not(.disabled):not([aria-disabled=true]).active, .btn.btn-ghost.btn-ghost-link:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true], .btn.btn-ghost.btn-ghost-link:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.btn-ghost.btn-ghost-link:not(:disabled):not(.disabled):not([aria-disabled=true]):active,
+.dropdown-item.btn-ghost.btn-ghost-link:not(:disabled):not(.disabled):not([aria-disabled=true]).active,
+.dropdown-item.btn-ghost.btn-ghost-link:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.btn-ghost.btn-ghost-link:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, #3273dc 20%, transparent);
+}
+.btn.btn-ghost.btn-ghost-link:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible,
+.dropdown-item.btn-ghost.btn-ghost-link:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, #3273dc 50%, transparent);
+}
+.btn.btn-ghost.btn-ghost-custom,
+.dropdown-item.btn-ghost.btn-ghost-custom {
+  color: var(--bs-btn-bg);
+}
+.btn.btn-ghost.btn-ghost-custom:not(:disabled):not(.disabled):not([aria-disabled=true]),
+.dropdown-item.btn-ghost.btn-ghost-custom:not(:disabled):not(.disabled):not([aria-disabled=true]) {
+  color: var(--bs-btn-bg);
+}
+.btn.btn-ghost.btn-ghost-custom:not(:disabled):not(.disabled):not([aria-disabled=true]):hover,
+.dropdown-item.btn-ghost.btn-ghost-custom:not(:disabled):not(.disabled):not([aria-disabled=true]):hover {
+  background-color: color-mix(in srgb, var(--bs-btn-bg) 10%, transparent);
+}
+.btn.btn-ghost.btn-ghost-custom:not(:disabled):not(.disabled):not([aria-disabled=true]):active, .btn.btn-ghost.btn-ghost-custom:not(:disabled):not(.disabled):not([aria-disabled=true]).active, .btn.btn-ghost.btn-ghost-custom:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true], .btn.btn-ghost.btn-ghost-custom:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.btn-ghost.btn-ghost-custom:not(:disabled):not(.disabled):not([aria-disabled=true]):active,
+.dropdown-item.btn-ghost.btn-ghost-custom:not(:disabled):not(.disabled):not([aria-disabled=true]).active,
+.dropdown-item.btn-ghost.btn-ghost-custom:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.btn-ghost.btn-ghost-custom:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true] {
+  background-color: color-mix(in srgb, var(--bs-btn-bg) 20%, transparent);
+}
+.btn.btn-ghost.btn-ghost-custom:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible,
+.dropdown-item.btn-ghost.btn-ghost-custom:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--bs-btn-bg) 50%, transparent);
+}
+.btn.btn-ghost:disabled, .btn.btn-ghost.disabled, .btn.btn-ghost[aria-disabled=true],
+.dropdown-item.btn-ghost:disabled,
+.dropdown-item.btn-ghost.disabled,
+.dropdown-item.btn-ghost[aria-disabled=true] {
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  opacity: 0.65;
+}
+
 .context-menu {
   display: contents;
 }

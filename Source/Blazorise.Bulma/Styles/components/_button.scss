@@ -285,3 +285,83 @@
 label.button.is-custom:has(input:focus-visible) {
     box-shadow: 0 0 0 .125em color-mix(in srgb, var(--bulma-button-custom-color) 25%, transparent);
 }
+
+@mixin bulma-button-ghost-states($hover-background, $active-background) {
+    &:not(:disabled):not(.is-disabled):not([aria-disabled="true"]) {
+        &:hover,
+        &.is-hovered {
+            background-color: $hover-background;
+        }
+
+        &:active,
+        &.is-active,
+        &[aria-pressed="true"],
+        &[aria-expanded="true"] {
+            background-color: $active-background;
+        }
+    }
+}
+
+.button.is-ghost,
+.dropdown-item.is-ghost {
+    --bulma-button-ghost-color: inherit;
+    --bulma-button-ghost-decoration: none;
+    --bulma-button-ghost-hover-decoration: none;
+    color: var(--bulma-button-ghost-color, inherit);
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    text-decoration: none;
+
+    @include bulma-button-ghost-states(var(--bulma-button-text-hover-background-color, var(--bulma-background)), var(--bulma-scheme-main-ter));
+
+    @each $name, $color in $button-ghost-colors {
+        $hover-background: color-mix(in srgb, #{$color} 12%, var(--bulma-scheme-main));
+        $active-background: color-mix(in srgb, #{$color} 25%, var(--bulma-scheme-main));
+
+        @if $name != custom and $name != secondary {
+            $hover-background: var(--bulma-#{$name}-soft, #{$hover-background});
+            $active-background: color-mix(in srgb, #{$color} 15%, #{$hover-background});
+        }
+
+        &.is-ghost-#{$name} {
+            --bulma-button-ghost-color: #{$color};
+            --bulma-button-ghost-hover-color: #{$color};
+            --bulma-button-focus-box-shadow-color: color-mix(in srgb, #{$color} 25%, transparent);
+
+            @include bulma-button-ghost-states($hover-background, $active-background);
+        }
+    }
+
+    &:not(:disabled):not(.is-disabled):not([aria-disabled="true"]) {
+        color: var(--bulma-button-ghost-color, inherit);
+
+        &:hover,
+        &.is-hovered,
+        &:active,
+        &.is-active,
+        &[aria-pressed="true"],
+        &[aria-expanded="true"] {
+            color: var(--bulma-button-ghost-color, inherit);
+            border-color: transparent;
+            text-decoration: none;
+        }
+
+        &:focus-visible,
+        &.is-focused {
+            outline: 0;
+            box-shadow: var(--bulma-button-focus-box-shadow-size, 0 0 0 .125em) var(--bulma-button-focus-box-shadow-color, color-mix(in srgb, var(--bulma-link) 25%, transparent));
+        }
+    }
+
+    &:disabled,
+    &.is-disabled,
+    &[aria-disabled="true"] {
+        color: var(--bulma-button-ghost-color, inherit);
+        background: transparent;
+        border-color: transparent;
+        box-shadow: var(--bulma-button-disabled-shadow, none);
+        opacity: var(--bulma-button-disabled-opacity, .5);
+        text-decoration: none;
+    }
+}

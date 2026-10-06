@@ -209,3 +209,21 @@ $z-index-values: (
     snackbar: calc(var(--mui-zindex-tooltip) + 2),
     on-screen-keyboard: calc(var(--mui-zindex-modal) + 100),
 ) !default;
+
+$mui-button-ghost-colors: (
+    primary: var(--mui-primary),
+    secondary: var(--mui-secondary),
+    tertiary: var(--mui-tertiary),
+    success: var(--mui-success),
+    danger: var(--mui-error),
+    warning: var(--mui-warning),
+    info: var(--mui-info),
+    light: var(--mui-light),
+    dark: var(--mui-dark),
+    link: var(--mui-primary),
+    custom: var(--mui-btn-border-color),
+) !default;
+
+$mui-button-ghost-hover-opacity: .08 !default;
+$mui-button-ghost-pressed-opacity: .12 !default;
+$mui-button-ghost-disabled-opacity: .38 !default;

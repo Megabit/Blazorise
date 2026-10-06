@@ -977,3 +977,14 @@ $z-index-values: (
     snackbar: $zindex-popover,
     on-screen-keyboard: $zindex-modal + 100,
 ) !default;
+
+$button-ghost-colors: () !default;
+
+@each $name, $color in $theme-colors {
+    $button-ghost-colors: map-merge($button-ghost-colors, ($name: var(--bs-#{$name})));
+}
+
+$button-ghost-colors: map-merge($button-ghost-colors, (
+    link: var(--bs-link-color),
+    custom: var(--bs-btn-border-color),
+));

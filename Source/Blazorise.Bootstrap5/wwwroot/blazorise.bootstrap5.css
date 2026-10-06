@@ -1349,6 +1349,131 @@ input[type=button].btn-block {
   --bs-gradient: none;
 }
 
+.btn.btn-ghost,
+.dropdown-item.btn-ghost {
+  --bs-btn-color: inherit;
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: transparent;
+  --bs-btn-hover-color: var(--bs-btn-color, inherit);
+  --bs-btn-hover-bg: var(--bs-tertiary-bg);
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-active-color: var(--bs-btn-color, inherit);
+  --bs-btn-active-bg: var(--bs-secondary-bg);
+  --bs-btn-active-border-color: transparent;
+  --bs-btn-disabled-color: var(--bs-btn-color, inherit);
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: transparent;
+  --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+  --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb), .5);
+  color: var(--bs-btn-color, inherit);
+  background-color: var(--bs-btn-bg);
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+.btn.btn-ghost.btn-ghost-primary,
+.dropdown-item.btn-ghost.btn-ghost-primary {
+  --bs-btn-color: var(--bs-primary);
+  --bs-btn-focus-box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--bs-primary) 50%, transparent);
+  --bs-btn-hover-bg: var(--bs-primary-bg-subtle);
+  --bs-btn-active-bg: var(--bs-primary-border-subtle);
+}
+.btn.btn-ghost.btn-ghost-secondary,
+.dropdown-item.btn-ghost.btn-ghost-secondary {
+  --bs-btn-color: var(--bs-secondary);
+  --bs-btn-focus-box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--bs-secondary) 50%, transparent);
+  --bs-btn-hover-bg: var(--bs-secondary-bg-subtle);
+  --bs-btn-active-bg: var(--bs-secondary-border-subtle);
+}
+.btn.btn-ghost.btn-ghost-success,
+.dropdown-item.btn-ghost.btn-ghost-success {
+  --bs-btn-color: var(--bs-success);
+  --bs-btn-focus-box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--bs-success) 50%, transparent);
+  --bs-btn-hover-bg: var(--bs-success-bg-subtle);
+  --bs-btn-active-bg: var(--bs-success-border-subtle);
+}
+.btn.btn-ghost.btn-ghost-info,
+.dropdown-item.btn-ghost.btn-ghost-info {
+  --bs-btn-color: var(--bs-info);
+  --bs-btn-focus-box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--bs-info) 50%, transparent);
+  --bs-btn-hover-bg: var(--bs-info-bg-subtle);
+  --bs-btn-active-bg: var(--bs-info-border-subtle);
+}
+.btn.btn-ghost.btn-ghost-warning,
+.dropdown-item.btn-ghost.btn-ghost-warning {
+  --bs-btn-color: var(--bs-warning);
+  --bs-btn-focus-box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--bs-warning) 50%, transparent);
+  --bs-btn-hover-bg: var(--bs-warning-bg-subtle);
+  --bs-btn-active-bg: var(--bs-warning-border-subtle);
+}
+.btn.btn-ghost.btn-ghost-danger,
+.dropdown-item.btn-ghost.btn-ghost-danger {
+  --bs-btn-color: var(--bs-danger);
+  --bs-btn-focus-box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--bs-danger) 50%, transparent);
+  --bs-btn-hover-bg: var(--bs-danger-bg-subtle);
+  --bs-btn-active-bg: var(--bs-danger-border-subtle);
+}
+.btn.btn-ghost.btn-ghost-light,
+.dropdown-item.btn-ghost.btn-ghost-light {
+  --bs-btn-color: var(--bs-light);
+  --bs-btn-focus-box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--bs-light) 50%, transparent);
+  --bs-btn-hover-bg: var(--bs-light-bg-subtle);
+  --bs-btn-active-bg: var(--bs-light-border-subtle);
+}
+.btn.btn-ghost.btn-ghost-dark,
+.dropdown-item.btn-ghost.btn-ghost-dark {
+  --bs-btn-color: var(--bs-dark);
+  --bs-btn-focus-box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--bs-dark) 50%, transparent);
+  --bs-btn-hover-bg: var(--bs-dark-bg-subtle);
+  --bs-btn-active-bg: var(--bs-dark-border-subtle);
+}
+.btn.btn-ghost.btn-ghost-link,
+.dropdown-item.btn-ghost.btn-ghost-link {
+  --bs-btn-color: var(--bs-link-color);
+  --bs-btn-focus-box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--bs-link-color) 50%, transparent);
+  --bs-btn-hover-bg: var(--bs-primary-bg-subtle);
+  --bs-btn-active-bg: var(--bs-primary-border-subtle);
+}
+.btn.btn-ghost.btn-ghost-custom,
+.dropdown-item.btn-ghost.btn-ghost-custom {
+  --bs-btn-color: var(--bs-btn-border-color);
+  --bs-btn-focus-box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--bs-btn-border-color) 50%, transparent);
+  --bs-btn-hover-bg: color-mix(in srgb, var(--bs-btn-border-color) 10%, transparent);
+  --bs-btn-active-bg: color-mix(in srgb, var(--bs-btn-border-color) 20%, transparent);
+}
+.btn.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]),
+.dropdown-item.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]) {
+  color: var(--bs-btn-color, inherit);
+}
+.btn.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]):hover,
+.dropdown-item.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]):hover {
+  color: var(--bs-btn-hover-color);
+  background-color: var(--bs-btn-hover-bg);
+}
+.btn.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]):active, .btn.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]).active, .btn.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true], .btn.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true],
+.dropdown-item.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]):active,
+.dropdown-item.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]).active,
+.dropdown-item.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-pressed=true],
+.dropdown-item.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true])[aria-expanded=true] {
+  color: var(--bs-btn-active-color);
+  background-color: var(--bs-btn-active-bg);
+}
+.btn.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible,
+.dropdown-item.btn-ghost:not(:disabled):not(.disabled):not([aria-disabled=true]):focus-visible {
+  outline: 0;
+  box-shadow: var(--bs-btn-focus-box-shadow);
+}
+.btn.btn-ghost:disabled, .btn.btn-ghost.disabled, .btn.btn-ghost[aria-disabled=true],
+.dropdown-item.btn-ghost:disabled,
+.dropdown-item.btn-ghost.disabled,
+.dropdown-item.btn-ghost[aria-disabled=true] {
+  color: var(--bs-btn-disabled-color);
+  background-color: var(--bs-btn-disabled-bg);
+  border-color: transparent;
+  box-shadow: none;
+  opacity: var(--bs-btn-disabled-opacity, 0.65);
+}
+
 .card-deck .card {
   height: 100%;
   margin-bottom: 0.75rem;

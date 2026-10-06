@@ -763,6 +763,58 @@ public class TailwindClassProvider : ClassProvider
         ? "b-button inline-flex items-center border focus:ring-4 focus:outline-hidden font-medium text-center"
         : "b-button inline-flex items-center focus:ring-4 font-medium focus:outline-hidden";
 
+    public override string ButtonGhost( bool ghost, Color color )
+    {
+        if ( !ghost )
+        {
+            return null;
+        }
+
+        var builder = new StringBuilder( "bg-transparent bg-none border-transparent shadow-none text-[color:var(--tw-button-bg)] " );
+        builder.Append( "[&:not(:disabled):not([aria-disabled=true])]:text-[color:var(--tw-button-bg)] " );
+        builder.Append( "[&:where(:hover):not(:disabled):not([aria-disabled=true])]:bg-[color:var(--tw-button-hover-bg)] " );
+        builder.Append( "[&:is(:active,.active,[aria-pressed=true],[aria-expanded=true]):not(:disabled):not([aria-disabled=true])]:bg-[color:var(--tw-button-active-bg)] " );
+        builder.Append( "[&:focus:not(:focus-visible)]:ring-0 " );
+        builder.Append( "[&:focus-visible:not(:disabled):not([aria-disabled=true])]:ring-4 " );
+        builder.Append( "[&:focus-visible:not(:disabled):not([aria-disabled=true])]:outline-solid " );
+        builder.Append( "[&:focus-visible:not(:disabled):not([aria-disabled=true])]:outline-2 " );
+        builder.Append( "[&:focus-visible:not(:disabled):not([aria-disabled=true])]:outline-transparent " );
+        builder.Append( "[&:focus-visible:not(:disabled):not([aria-disabled=true])]:outline-offset-2 " );
+        builder.Append( "[&:is(:disabled,[aria-disabled=true])]:bg-transparent " );
+        builder.Append( "[&:is(:disabled,[aria-disabled=true])]:border-transparent " );
+        builder.Append( "[&:is(:disabled,[aria-disabled=true])]:shadow-none " );
+        builder.Append( "[&:is(:disabled,[aria-disabled=true])]:ring-0 " );
+        builder.Append( "[&:is(:disabled,[aria-disabled=true])]:opacity-50" );
+
+        if ( color?.IsCssValue == true )
+        {
+            builder.Append( " [--tw-button-hover-bg:color-mix(in_srgb,var(--tw-button-bg)_10%,transparent)] " );
+            builder.Append( "[--tw-button-active-bg:color-mix(in_srgb,var(--tw-button-bg)_20%,transparent)] " );
+            builder.Append( "ring-[color:color-mix(in_srgb,var(--tw-button-bg)_30%,transparent)]" );
+
+            return builder.ToString();
+        }
+
+        var colorClasses = color?.Name switch
+        {
+            "primary" => "[--tw-button-bg:var(--color-primary-600)] [--tw-button-hover-bg:var(--color-primary-50)] [--tw-button-active-bg:var(--color-primary-100)] ring-primary-300 dark:[--tw-button-bg:var(--color-primary-300)] dark:[--tw-button-hover-bg:var(--color-primary-900)] dark:[--tw-button-active-bg:var(--color-primary-800)] dark:ring-primary-800",
+            "secondary" => "[--tw-button-bg:var(--color-secondary-600)] [--tw-button-hover-bg:var(--color-secondary-50)] [--tw-button-active-bg:var(--color-secondary-100)] ring-secondary-300 dark:[--tw-button-bg:var(--color-secondary-300)] dark:[--tw-button-hover-bg:var(--color-secondary-900)] dark:[--tw-button-active-bg:var(--color-secondary-800)] dark:ring-secondary-800",
+            "success" => "[--tw-button-bg:var(--color-success-600)] [--tw-button-hover-bg:var(--color-success-50)] [--tw-button-active-bg:var(--color-success-100)] ring-success-300 dark:[--tw-button-bg:var(--color-success-300)] dark:[--tw-button-hover-bg:var(--color-success-900)] dark:[--tw-button-active-bg:var(--color-success-800)] dark:ring-success-800",
+            "danger" => "[--tw-button-bg:var(--color-danger-600)] [--tw-button-hover-bg:var(--color-danger-50)] [--tw-button-active-bg:var(--color-danger-100)] ring-danger-300 dark:[--tw-button-bg:var(--color-danger-300)] dark:[--tw-button-hover-bg:var(--color-danger-900)] dark:[--tw-button-active-bg:var(--color-danger-800)] dark:ring-danger-800",
+            "warning" => "[--tw-button-bg:var(--color-warning-600)] [--tw-button-hover-bg:var(--color-warning-50)] [--tw-button-active-bg:var(--color-warning-100)] ring-warning-300 dark:[--tw-button-bg:var(--color-warning-300)] dark:[--tw-button-hover-bg:var(--color-warning-900)] dark:[--tw-button-active-bg:var(--color-warning-800)] dark:ring-warning-800",
+            "info" => "[--tw-button-bg:var(--color-info-600)] [--tw-button-hover-bg:var(--color-info-50)] [--tw-button-active-bg:var(--color-info-100)] ring-info-300 dark:[--tw-button-bg:var(--color-info-300)] dark:[--tw-button-hover-bg:var(--color-info-900)] dark:[--tw-button-active-bg:var(--color-info-800)] dark:ring-info-800",
+            "light" => "[--tw-button-bg:var(--color-light-600)] [--tw-button-hover-bg:var(--color-light-50)] [--tw-button-active-bg:var(--color-light-100)] ring-light-300 dark:[--tw-button-bg:var(--color-light-300)] dark:[--tw-button-hover-bg:var(--color-light-900)] dark:[--tw-button-active-bg:var(--color-light-800)] dark:ring-light-800",
+            "dark" => "[--tw-button-bg:var(--color-dark-600)] [--tw-button-hover-bg:var(--color-dark-50)] [--tw-button-active-bg:var(--color-dark-100)] ring-dark-300 dark:[--tw-button-bg:var(--color-dark-300)] dark:[--tw-button-hover-bg:var(--color-dark-900)] dark:[--tw-button-active-bg:var(--color-dark-800)] dark:ring-dark-800",
+            "link" => "[--tw-button-bg:var(--color-primary-600)] [--tw-button-hover-bg:var(--color-primary-50)] [--tw-button-active-bg:var(--color-primary-100)] ring-primary-300 dark:[--tw-button-bg:var(--color-primary-300)] dark:[--tw-button-hover-bg:var(--color-primary-900)] dark:[--tw-button-active-bg:var(--color-primary-800)] dark:ring-primary-800",
+            _ => "[--tw-button-bg:var(--color-gray-900)] [--tw-button-hover-bg:var(--color-gray-50)] [--tw-button-active-bg:var(--color-gray-200)] ring-gray-100 dark:[--tw-button-bg:var(--color-white)] dark:[--tw-button-hover-bg:var(--color-gray-800)] dark:[--tw-button-active-bg:var(--color-gray-700)] dark:ring-gray-800",
+        };
+
+        builder.Append( ' ' );
+        builder.Append( colorClasses );
+
+        return builder.ToString();
+    }
+
     public override string ButtonColor( Color color, bool outline )
     {
         if ( color?.IsCssValue == true )

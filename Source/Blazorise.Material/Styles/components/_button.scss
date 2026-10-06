@@ -304,3 +304,80 @@
         }
     }
 }
+
+.mui-button.mui-button-ghost,
+.mui-dropdown-item.mui-button-ghost {
+    --mui-btn-bg: transparent;
+    --mui-btn-color: var(--mui-primary);
+    --mui-btn-hover-bg: color-mix(in srgb, currentColor #{$mui-button-ghost-hover-opacity * 100%}, transparent);
+    color: var(--mui-btn-color);
+    background-color: var(--mui-btn-bg);
+    background-image: none;
+    border-color: transparent;
+    box-shadow: none;
+
+    @each $name, $color in $mui-button-ghost-colors {
+        &.mui-button-ghost-#{$name} {
+            --mui-btn-color: #{$color};
+        }
+    }
+
+    > .mui-ripple-surface > .mui-ripple {
+        background-color: currentColor;
+        opacity: $mui-button-ghost-pressed-opacity;
+    }
+
+    &:not(:disabled):not(.mui-button-disabled):not([aria-disabled="true"]) {
+        color: var(--mui-btn-color);
+        opacity: 1;
+        transition: transform var(--mui-duration-slow), border-radius var(--mui-duration-slower), padding var(--mui-duration-slow), background-color var(--mui-duration-normal);
+
+        &:hover:not(:active):not(.mui-button-active):not([aria-pressed="true"]):not([aria-expanded="true"]) {
+            background-color: var(--mui-btn-hover-bg);
+            background-image: none;
+        }
+
+        &:active,
+        &.mui-button-active,
+        &[aria-pressed="true"],
+        &[aria-expanded="true"] {
+            background-color: color-mix(in srgb, currentColor #{$mui-button-ghost-pressed-opacity * 100%}, transparent);
+            background-image: none;
+        }
+
+        // The ripple supplies the press layer; keep the static layer as a fallback.
+        &:active:not(.mui-button-active):not([aria-pressed="true"]):not([aria-expanded="true"]):has(> .mui-ripple-surface > .mui-ripple) {
+            background-color: transparent;
+
+            &:hover {
+                background-color: var(--mui-btn-hover-bg);
+            }
+        }
+
+        &:focus-visible {
+            outline: 3px solid var(--mui-secondary);
+            outline-offset: 2px;
+        }
+    }
+
+    &:disabled,
+    &.mui-button-disabled,
+    &[aria-disabled="true"] {
+        color: var(--mui-on-surface);
+        background-color: transparent;
+        background-image: none;
+        border-color: transparent;
+        box-shadow: none;
+        opacity: $mui-button-ghost-disabled-opacity;
+
+        &:hover {
+            opacity: $mui-button-ghost-disabled-opacity;
+        }
+
+        &::before,
+        &::after,
+        > .mui-ripple-surface {
+            display: none;
+        }
+    }
+}

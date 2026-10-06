@@ -3693,6 +3693,139 @@ template {
   --ant-color-primary-border: color-mix(in srgb, var(--ant-color-primary) 50%, transparent);
 }
 
+.ant-btn.ant-btn-ghost,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost {
+  --ant-btn-border-color: transparent;
+  --ant-btn-border-color-hover: transparent;
+  --ant-btn-border-color-active: transparent;
+  --ant-btn-bg-color: transparent;
+  --ant-btn-bg-color-disabled: transparent;
+  --ant-btn-shadow: none;
+  color: var(--ant-btn-text-color);
+  background-color: var(--ant-btn-bg-color);
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  --ant-btn-text-color: var(--ant-button-text-text-color);
+  --ant-btn-text-color-hover: var(--ant-button-text-text-hover-color);
+  --ant-btn-text-color-active: var(--ant-button-text-text-active-color);
+  --ant-btn-bg-color-hover: var(--ant-button-text-hover-bg);
+  --ant-btn-bg-color-active: var(--ant-color-fill);
+}
+.ant-btn.ant-btn-ghost.ant-btn-ghost-primary,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost.ant-btn-ghost-primary {
+  --ant-btn-text-color: var(--ant-color-primary);
+  --ant-btn-text-color-hover: var(--ant-color-primary-hover);
+  --ant-btn-text-color-active: var(--ant-color-primary-active);
+  --ant-btn-bg-color-hover: var(--ant-color-primary-bg);
+  --ant-btn-bg-color-active: var(--ant-color-primary-border);
+}
+.ant-btn.ant-btn-ghost.ant-btn-ghost-secondary,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost.ant-btn-ghost-secondary {
+  --ant-btn-text-color: var(--b-theme-secondary, var(--ant-color-text-secondary));
+  --ant-btn-text-color-hover: var(--b-theme-secondary, var(--ant-color-text-secondary));
+  --ant-btn-text-color-active: var(--b-theme-secondary, var(--ant-color-text-secondary));
+  --ant-btn-bg-color-hover: var(--ant-color-fill-tertiary);
+  --ant-btn-bg-color-active: var(--ant-color-fill-secondary);
+}
+.ant-btn.ant-btn-ghost.ant-btn-ghost-success,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost.ant-btn-ghost-success {
+  --ant-btn-text-color: var(--b-theme-success, var(--ant-color-success));
+  --ant-btn-text-color-hover: var(--ant-color-success-hover);
+  --ant-btn-text-color-active: var(--ant-color-success-active);
+  --ant-btn-bg-color-hover: var(--ant-color-success-bg);
+  --ant-btn-bg-color-active: var(--ant-color-success-border);
+}
+.ant-btn.ant-btn-ghost.ant-btn-ghost-danger,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost.ant-btn-ghost-danger {
+  --ant-btn-text-color: var(--ant-color-error);
+  --ant-btn-text-color-hover: var(--ant-color-error-hover);
+  --ant-btn-text-color-active: var(--ant-color-error-active);
+  --ant-btn-bg-color-hover: var(--ant-color-error-bg);
+  --ant-btn-bg-color-active: var(--ant-color-error-bg-active);
+}
+.ant-btn.ant-btn-ghost.ant-btn-ghost-warning,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost.ant-btn-ghost-warning {
+  --ant-btn-text-color: var(--b-theme-warning, var(--ant-color-warning));
+  --ant-btn-text-color-hover: var(--ant-color-warning-hover);
+  --ant-btn-text-color-active: var(--ant-color-warning-active);
+  --ant-btn-bg-color-hover: var(--ant-color-warning-bg);
+  --ant-btn-bg-color-active: var(--ant-color-warning-border);
+}
+.ant-btn.ant-btn-ghost.ant-btn-ghost-info,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost.ant-btn-ghost-info {
+  --ant-btn-text-color: var(--b-theme-info, var(--ant-color-info));
+  --ant-btn-text-color-hover: var(--ant-color-info-hover);
+  --ant-btn-text-color-active: var(--ant-color-info-active);
+  --ant-btn-bg-color-hover: var(--ant-color-info-bg);
+  --ant-btn-bg-color-active: var(--ant-color-info-border);
+}
+.ant-btn.ant-btn-ghost.ant-btn-ghost-light,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost.ant-btn-ghost-light {
+  --ant-btn-text-color: var(--b-theme-light, var(--ant-color-fill-quaternary));
+  --ant-btn-text-color-hover: var(--ant-color-text);
+  --ant-btn-text-color-active: var(--ant-color-text);
+  --ant-btn-bg-color-hover: var(--ant-color-fill-tertiary);
+  --ant-btn-bg-color-active: var(--ant-color-fill-secondary);
+}
+.ant-btn.ant-btn-ghost.ant-btn-ghost-dark,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost.ant-btn-ghost-dark {
+  --ant-btn-text-color: var(--b-theme-dark, var(--ant-color-text));
+  --ant-btn-text-color-hover: var(--ant-color-text);
+  --ant-btn-text-color-active: var(--ant-color-text);
+  --ant-btn-bg-color-hover: var(--ant-color-fill-tertiary);
+  --ant-btn-bg-color-active: var(--ant-color-fill-secondary);
+}
+.ant-btn.ant-btn-ghost.ant-btn-ghost-link,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost.ant-btn-ghost-link {
+  --ant-btn-text-color: var(--ant-color-link);
+  --ant-btn-text-color-hover: var(--ant-color-link-hover);
+  --ant-btn-text-color-active: var(--ant-color-link-active);
+  --ant-btn-bg-color-hover: var(--ant-color-primary-bg);
+  --ant-btn-bg-color-active: var(--ant-color-primary-border);
+}
+.ant-btn.ant-btn-ghost.ant-btn-ghost-custom,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost.ant-btn-ghost-custom {
+  --ant-btn-text-color: var(--ant-color-primary);
+  --ant-btn-text-color-hover: color-mix(in srgb, var(--ant-color-primary) 85%, white);
+  --ant-btn-text-color-active: color-mix(in srgb, var(--ant-color-primary) 85%, black);
+  --ant-btn-bg-color-hover: color-mix(in srgb, var(--ant-color-primary) 15%, var(--ant-color-bg-container));
+  --ant-btn-bg-color-active: color-mix(in srgb, var(--ant-color-primary) 20%, var(--ant-color-bg-container));
+}
+.ant-btn.ant-btn-ghost:not(:disabled):not(.ant-btn-disabled):not([aria-disabled=true]),
+.ant-dropdown-menu-submenu-title.ant-btn-ghost:not(:disabled):not(.ant-btn-disabled):not([aria-disabled=true]) {
+  color: var(--ant-btn-text-color);
+}
+.ant-btn.ant-btn-ghost:not(:disabled):not(.ant-btn-disabled):not([aria-disabled=true]):hover,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost:not(:disabled):not(.ant-btn-disabled):not([aria-disabled=true]):hover {
+  color: var(--ant-btn-text-color-hover);
+  background-color: var(--ant-btn-bg-color-hover);
+  border-color: transparent;
+}
+.ant-btn.ant-btn-ghost:not(:disabled):not(.ant-btn-disabled):not([aria-disabled=true]):active, .ant-btn.ant-btn-ghost:not(:disabled):not(.ant-btn-disabled):not([aria-disabled=true]).active, .ant-btn.ant-btn-ghost:not(:disabled):not(.ant-btn-disabled):not([aria-disabled=true])[aria-pressed=true], .ant-btn.ant-btn-ghost:not(:disabled):not(.ant-btn-disabled):not([aria-disabled=true])[aria-expanded=true],
+.ant-dropdown-menu-submenu-title.ant-btn-ghost:not(:disabled):not(.ant-btn-disabled):not([aria-disabled=true]):active,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost:not(:disabled):not(.ant-btn-disabled):not([aria-disabled=true]).active,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost:not(:disabled):not(.ant-btn-disabled):not([aria-disabled=true])[aria-pressed=true],
+.ant-dropdown-menu-submenu-title.ant-btn-ghost:not(:disabled):not(.ant-btn-disabled):not([aria-disabled=true])[aria-expanded=true] {
+  color: var(--ant-btn-text-color-active);
+  background-color: var(--ant-btn-bg-color-active);
+  border-color: transparent;
+}
+.ant-btn.ant-btn-ghost:not(:disabled):not(.ant-btn-disabled):not([aria-disabled=true]):focus-visible,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost:not(:disabled):not(.ant-btn-disabled):not([aria-disabled=true]):focus-visible {
+  outline: var(--ant-line-width-focus) solid var(--ant-color-primary-border);
+  outline-offset: 1px;
+}
+.ant-btn.ant-btn-ghost:disabled, .ant-btn.ant-btn-ghost.ant-btn-disabled, .ant-btn.ant-btn-ghost[aria-disabled=true],
+.ant-dropdown-menu-submenu-title.ant-btn-ghost:disabled,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost.ant-btn-disabled,
+.ant-dropdown-menu-submenu-title.ant-btn-ghost[aria-disabled=true] {
+  color: var(--ant-color-text-disabled);
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
 .ant-card {
   border-radius: var(--ant-border-radius-lg);
 }
