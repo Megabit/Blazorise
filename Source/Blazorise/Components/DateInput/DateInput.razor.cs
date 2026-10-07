@@ -20,9 +20,40 @@ public partial class DateInput<TValue> : BaseTextInput<TValue, DateInputClasses,
 
     private OnScreenKeyboardDateInputComposer onScreenKeyboardComposer;
 
+    /// <summary>
+    /// Stores the value reported by the native input, including an empty string while date segments are incomplete,
+    /// so rendering does not overwrite the browser's in-progress entry with the formatted component value.
+    /// A null value indicates that the input should display the formatted component value.
+    /// </summary>
+    private string nativeInputValue;
+
+    /// <summary>
+    /// Captured InputMode parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<DateInputMode> paramInputMode;
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void CaptureParameters( ParameterView parameters )
+    {
+        base.CaptureParameters( parameters );
+
+        parameters.TryGetParameter( InputMode, out paramInputMode );
+    }
+
+    /// <inheritdoc/>
+    protected override Task OnAfterSetParametersAsync( ParameterView parameters )
+    {
+        if ( ( paramValue.Defined && paramValue.Changed ) || ( paramInputMode.Defined && paramInputMode.Changed ) )
+        {
+            nativeInputValue = null;
+        }
+
+        return base.OnAfterSetParametersAsync( parameters );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -46,8 +77,20 @@ public partial class DateInput<TValue> : BaseTextInput<TValue, DateInputClasses,
     /// <inheritdoc/>
     protected override Task OnChangeHandler( ChangeEventArgs e )
     {
-        return CurrentValueHandler( e?.Value?.ToString() );
+        // Native date inputs report an empty value while a segment is incomplete.
+        // Keep that editing value so rendering does not reset the browser's segments.
+        nativeInputValue = e?.Value?.ToString() ?? string.Empty;
+
+        return CurrentValueHandler( nativeInputValue );
     }
+
+    /// <summary>
+    /// Handles changes to the native input's editing value.
+    /// </summary>
+    /// <param name="value">Value reported by the native input.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task OnNativeInputValueChanged( string value )
+        => OnChangeHandler( new ChangeEventArgs { Value = value } );
 
     /// <inheritdoc/>
     protected override string FormatValueAsString( TValue value )
@@ -118,6 +161,11 @@ public partial class DateInput<TValue> : BaseTextInput<TValue, DateInputClasses,
 
     private Task UpdateOnScreenKeyboardDateValue( OnScreenKeyboardInputComposition composition )
     {
+        if ( composition.CanCommit )
+        {
+            nativeInputValue = composition.Value ?? string.Empty;
+        }
+
         return UpdateOnScreenKeyboardEditingValue( composition.Value, composition.CanCommit, composition.CanCommit );
     }
 
@@ -158,6 +206,11 @@ public partial class DateInput<TValue> : BaseTextInput<TValue, DateInputClasses,
     /// Gets the string representation of the input mode.
     /// </summary>
     protected string Mode => InputMode.ToDateInputMode();
+
+    /// <summary>
+    /// Gets the native editing value without replacing incomplete input with the formatted date.
+    /// </summary>
+    protected string NativeInputValue => nativeInputValue ?? CurrentValueAsString ?? string.Empty;
 
     /// <summary>
     /// Gets the date format based on the current <see cref="InputMode"/> settings.

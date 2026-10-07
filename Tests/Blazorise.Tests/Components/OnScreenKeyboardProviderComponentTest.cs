@@ -566,6 +566,28 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task DateInput_ShouldReplaceNativeEditingValue_WhenKeyboardValueIsCommitted()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        DateTime? value = new DateTime( 2030, 3, 15 );
+        var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = string.Empty } );
+        Assert.Null( value );
+        Assert.Equal( string.Empty, comp.Find( "input" ).GetAttribute( "value" ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "01052030" );
+
+        Assert.Equal( new DateTime( 2030, 1, 5 ), value );
+        Assert.Equal( "2030-01-05", comp.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
     public async Task DateInput_ShouldAutoPadSegment_WhenNextDigitCannotBelongToCurrentSegment()
     {
         using var cultureScope = new CultureScope( "en-GB" );
