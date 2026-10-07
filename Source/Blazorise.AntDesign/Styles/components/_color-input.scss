@@ -158,4 +158,15 @@
     @each $name, $sizes in $color-picker-sizes {
         @include color-picker-size($name, nth($sizes, 1), nth($sizes, 2));
     }
+
+    &.ant-input-color-picker[data-custom-preview='true'] {
+        width: auto;
+        min-width: 0;
+        height: auto;
+        align-items: center;
+
+        > .ant-input-color-picker-preview {
+            align-items: center;
+        }
+    }
 }

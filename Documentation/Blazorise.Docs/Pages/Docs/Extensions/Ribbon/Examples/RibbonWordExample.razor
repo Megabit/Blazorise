@@ -73,8 +73,8 @@
                         <RibbonToggleButton Text="Underline" Icon="IconName.Underline" Size="RibbonItemSize.Small" @bind-Checked="@underline" />
                         <RibbonToggleButton Text="Strikethrough" Icon="IconName.Strikethrough" Size="RibbonItemSize.Small" @bind-Checked="@strikethrough" />
                         <RibbonButton Text="Clear formatting" Icon="IconName.RemoveFormat" Size="RibbonItemSize.Small" />
-                        <RibbonColorPicker @bind-Value="@highlightColor" Size="Size.Small" aria-label="Text highlight color" title="Text highlight color" />
-                        <RibbonColorPicker @bind-Value="@fontColor" Size="Size.Small" aria-label="Font color" title="Font color" />
+                        <RibbonColorPicker @bind-Value="@highlightColor" Size="RibbonItemSize.Small" Text="Text highlight color" Icon="IconName.Highlighter" />
+                        <RibbonColorPicker @bind-Value="@fontColor" Size="RibbonItemSize.Small" Text="Font color" Icon="IconName.Palette" />
                     </RibbonRow>
                 </RibbonGroup>
                 <RibbonGroup Text="Paragraph" Layout="RibbonGroupLayout.Rows">

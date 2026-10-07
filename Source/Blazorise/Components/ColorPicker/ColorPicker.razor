@@ -1,9 +1,16 @@
 @namespace Blazorise
 @inherits BaseInputComponent<string, ColorPickerClasses, ColorPickerStyles>
-<div @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" value="@CurrentValueAsString" data-color="@CurrentValueAsString" data-show-value="@ShowValueString" tabindex="@TabIndex" aria-disabled="@AriaDisabledString" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
-    <div class="@PreviewClassNames">
-        <span class="@SwatchClassNames"></span>
-    </div>
+<div @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" value="@CurrentValueAsString" data-color="@CurrentValueAsString" data-show-value="@ShowValueString" data-custom-preview="@CustomPreviewString" role="button" aria-haspopup="dialog" tabindex="@TabIndex" aria-disabled="@AriaDisabledString" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+    @if ( PreviewContent is not null )
+    {
+        @PreviewContent
+    }
+    else
+    {
+        <div class="@PreviewClassNames">
+            <span class="@SwatchClassNames"></span>
+        </div>
+    }
 </div>
 @ChildContent
 @Feedback

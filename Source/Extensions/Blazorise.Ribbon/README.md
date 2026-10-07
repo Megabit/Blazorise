@@ -30,8 +30,8 @@ No extension stylesheet, additional services, or JavaScript assets need registra
                 <RibbonRow>
                     <RibbonToggleButton Text="Bold" Icon="IconName.Bold"
                                         Size="RibbonItemSize.Small" @bind-Checked="@bold" />
-                    <RibbonColorPicker Size="Size.Small" @bind-Value="@fontColor"
-                                       aria-label="Font color" title="Font color" />
+                    <RibbonColorPicker Size="RibbonItemSize.Small" @bind-Value="@fontColor"
+                                       Text="Font color" Icon="IconName.Palette" />
                 </RibbonRow>
             </RibbonGroup>
         </RibbonTab>
@@ -53,7 +53,7 @@ Use dedicated ribbon components for standard commands so their sizing, presentat
 - A large `RibbonSplitButton` divides its height equally between the icon action button and the text-and-arrow menu toggle below it. Both parts have matching width and padding. Clicking the icon invokes `Clicked`; clicking the text or arrow opens the menu. Medium and small split commands keep the text/icon presentation in the action button and the arrow beside it.
 - `RibbonDropdown` and `RibbonSplitButton` accept `RibbonDropdownItem` and `RibbonDropdownDivider` components directly as child content. `HeaderContent` can replace their default icon/text heading. Split commands expose a separate `Clicked` event for the default action.
 - `RibbonDropdownItem` supports `Text`, `Icon`, `Disabled`, `Active`, and `Clicked`. `ChildContent` can replace the default icon/text content. Selecting an item closes the native dropdown hierarchy by default; set `CloseParentDropdowns="false"` to close only the current menu.
-- `RibbonColorPicker` wraps a declaratively rendered `ColorPicker` without changing its native swatch or popup. It forwards `Value`, `ValueChanged`, `ShowValue`, `Size`, `Palette`, `Disabled`, `ReadOnly`, and the picker visibility and localization options. `ShowValue` defaults to `false` to keep ribbon controls compact. `Focus()` focuses the inner picker. Use `Size.Small` for compact ribbon controls and `aria-label` and `title` to identify them.
+- `RibbonColorPicker` opens the standard color picker from a ribbon icon and label, with the selected color shown beneath the icon. It shares `Text`, `Icon`, `RibbonItemSize`, and simplified-mode sizing with other commands. Set `Icon` to display an icon command, such as `IconName.Palette` or `IconName.Highlighter`. `ChildContent` takes precedence over the icon preview. When neither is supplied, the standard `ColorPicker` swatch is displayed. Bind `Value` to the document color; palette, popup, read-only, and localization options are forwarded to `ColorPicker`. `ShowValue` defaults to `false`, and `Focus()` focuses the picker.
 - `RibbonGallery` binds `SelectedValue` to the string `Value` of a `RibbonGalleryItem`. Each item accepts custom preview content.
 - Groups expose `ShowLauncher`, `LauncherAriaLabel`, and `LauncherClicked`; applications own the launched dialogs.
 

@@ -1,14 +1,27 @@
 @inherits Blazorise.ColorPicker
-<div class="@WrapperClassNames" style="@WrapperStyleNames" data-show-value="@ShowValueString">
-    <div class="@PreviewClassNames">
-        <span class="flex items-center self-center pl-1">
-            <template x-if="selected.value">
-                <div class="@SwatchClassNames" :style="{ 'background-color': selected.value }"></div>
-            </template>
-            <div class="@SwatchClassNames" :style="{ 'background-color': selected.value }" style="@($"background-color: {CurrentValueAsString};")"></div>
+<div class="@WrapperClassNames" style="@WrapperStyleNames" data-show-value="@ShowValueString" data-custom-preview="@CustomPreviewString">
+    @if ( PreviewContent is not null )
+    {
+        <span class="inline-flex items-center h-full gap-2 pointer-events-none">
+            @PreviewContent
+            @if ( ShowValue )
+            {
+                <span>@CurrentValueAsString</span>
+            }
         </span>
-    </div>
-    <input @ref="@ElementRef" id="@ElementId" type="text" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@(ReadOnly || !ShowValue)" value="@CurrentValueAsString" data-show-value="@ShowValueString" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+    }
+    else
+    {
+        <div class="@PreviewClassNames">
+            <span class="flex items-center self-center pl-1">
+                <template x-if="selected.value">
+                    <div class="@SwatchClassNames" :style="{ 'background-color': selected.value }"></div>
+                </template>
+                <div class="@SwatchClassNames" :style="{ 'background-color': selected.value }" style="@($"background-color: {CurrentValueAsString};")"></div>
+            </span>
+        </div>
+    }
+    <input @ref="@ElementRef" id="@ElementId" type="@(PreviewContent is not null ? "button" : "text")" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@(ReadOnly || !ShowValue || PreviewContent is not null)" value="@CurrentValueAsString" data-show-value="@ShowValueString" aria-haspopup="dialog" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
     @ChildContent
     @Feedback
 </div>

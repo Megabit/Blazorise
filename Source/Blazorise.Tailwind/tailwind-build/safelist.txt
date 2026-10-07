@@ -4058,34 +4058,18 @@
   ordered-list-lower-roman
   ordered-list-upper-alpha
   ordered-list-upper-roman
-  overflow--auto
-  overflow--hidden
-  overflow--scroll
-  overflow--visible
   overflow-auto
-  overflow-auto-auto
-  overflow-auto-hidden
-  overflow-auto-scroll
-  overflow-auto-visible
   overflow-hidden
-  overflow-hidden-auto
-  overflow-hidden-hidden
-  overflow-hidden-scroll
-  overflow-hidden-visible
   overflow-scroll
-  overflow-scroll-auto
-  overflow-scroll-hidden
-  overflow-scroll-scroll
-  overflow-scroll-visible
   overflow-visible
-  overflow-visible-auto
-  overflow-visible-hidden
-  overflow-visible-scroll
-  overflow-visible-visible
   overflow-x-auto
   overflow-x-hidden
+  overflow-x-scroll
+  overflow-x-visible
   overflow-y-auto
+  overflow-y-hidden
   overflow-y-scroll
+  overflow-y-visible
   p-0.5
   p-1.5
   p-2
@@ -4704,6 +4688,7 @@
   dark:bg-blue-500
   dark:bg-gray-700
   dark:text-gray-100
+  [:where(&)]:w-full
   [&::-webkit-slider-runnable-track]:h-2
   [&::-webkit-slider-runnable-track]:rounded-lg
   [&::-webkit-slider-runnable-track]:border-0

@@ -78,7 +78,7 @@ public abstract class BaseRibbonItem : BaseComponent
     /// Defines the command content.
     /// </summary>
     /// <remarks>
-    /// Buttons use this content instead of the default icon and label.
+    /// Buttons and color pickers use this content instead of the default command presentation.
     /// Dropdowns and split buttons use it for menu content, such as <see cref="RibbonDropdownItem"/> and <see cref="RibbonDropdownDivider"/>.
     /// </remarks>
     [Parameter] public RenderFragment ChildContent { get; set; }

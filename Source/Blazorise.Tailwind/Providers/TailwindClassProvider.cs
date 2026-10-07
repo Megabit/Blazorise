@@ -15,9 +15,10 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TextInput( bool plaintext ) => TextInput( plaintext, "b-input" );
 
+    // Keep the default width below explicit sizing utilities in the cascade.
     private static string TextInput( bool plaintext, string classNames ) => plaintext
-        ? $"{classNames} text-gray-900 border-none rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-800 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75"
-        : $"{classNames} bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75";
+        ? $"{classNames} text-gray-900 border-none rounded-lg focus:ring-primary-500 focus:border-primary-500 block [:where(&)]:w-full dark:bg-gray-800 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75"
+        : $"{classNames} bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 block [:where(&)]:w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75";
 
     public override string TextInputSize( Size size )
     {
@@ -3000,7 +3001,7 @@ public class TailwindClassProvider : ClassProvider
     #region Overflow
 
     public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.Default
-        ? $"overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
+        ? $"overflow-x-{ToOverflowType( overflowType )} overflow-y-{ToOverflowType( secondOverflowType )}"
         : $"overflow-{ToOverflowType( overflowType )}";
 
     #endregion

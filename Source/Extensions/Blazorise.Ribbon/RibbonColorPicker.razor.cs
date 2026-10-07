@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Ribbon;
 
 /// <summary>
-/// Displays the standard Blazorise color picker in a ribbon.
+/// Opens a color picker from a standard swatch, an icon command, or custom content.
 /// </summary>
-public partial class RibbonColorPicker : BaseComponent
+public partial class RibbonColorPicker : BaseRibbonItem
 {
     #region Members
 
@@ -20,12 +20,11 @@ public partial class RibbonColorPicker : BaseComponent
     #region Constructors
 
     /// <summary>
-    /// Initializes compact sizing for color pickers in ribbon rows.
+    /// Initializes the default color command presentation.
     /// </summary>
     public RibbonColorPicker()
     {
-        Width = Blazorise.Width.Auto;
-        Flex = Blazorise.Flex.Shrink.Is0;
+        Padding = Blazorise.Padding.Is1;
     }
 
     #endregion
@@ -53,6 +52,11 @@ public partial class RibbonColorPicker : BaseComponent
     /// </summary>
     protected virtual async Task HandleValueChanged( string value )
     {
+        if ( Disabled || ReadOnly || Value == value )
+        {
+            return;
+        }
+
         Value = value;
 
         await ValueChanged.InvokeAsync( value );
@@ -74,6 +78,11 @@ public partial class RibbonColorPicker : BaseComponent
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
+    /// Gets the selected-color indicator background, clearing it when no color is selected.
+    /// </summary>
+    protected Background EffectiveIndicatorBackground => string.IsNullOrEmpty( Value ) ? Blazorise.Background.Transparent : new( Value );
+
+    /// <summary>
     /// Specifies the selected color as a string supported by <see cref="ColorPicker"/>.
     /// </summary>
     [Parameter] public string Value { get; set; }
@@ -84,22 +93,12 @@ public partial class RibbonColorPicker : BaseComponent
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
 
     /// <summary>
-    /// Displays the selected color value beside the swatch when the picker is closed.
+    /// Displays the selected color value beside the command preview when the picker is closed.
     /// </summary>
     /// <remarks>
     /// Defaults to <c>false</c> to keep ribbon commands compact.
     /// </remarks>
     [Parameter] public bool ShowValue { get; set; }
-
-    /// <summary>
-    /// Controls the size of the color picker rather than the ribbon command layout. Defaults to <see cref="Size.Default"/>.
-    /// </summary>
-    [Parameter] public Size Size { get; set; }
-
-    /// <summary>
-    /// Disables interaction with the color picker. Defaults to <c>false</c>.
-    /// </summary>
-    [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
     /// Prevents changing the selected color. Defaults to <c>false</c>.
@@ -153,11 +152,6 @@ public partial class RibbonColorPicker : BaseComponent
     /// Provides custom localization for color picker text, overriding the default translations.
     /// </summary>
     [Parameter] public TextLocalizerHandler PickerLocalizer { get; set; }
-
-    /// <summary>
-    /// Defines additional content passed to the underlying <see cref="ColorPicker"/>.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

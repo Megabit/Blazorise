@@ -38,6 +38,9 @@
                     <RibbonButton Text="Replace" Icon="IconName.Sync" />
                 </RibbonColumn>
             </RibbonGroup>
+            <RibbonGroup Text="Color">
+                <RibbonColorPicker Text="Highlight" Icon="IconName.Highlighter" Size="RibbonItemSize.Large" @bind-Value="@highlightColor" />
+            </RibbonGroup>
         </RibbonTab>
         <RibbonContextualTabs Name="table">
             <RibbonTab Name="table" Text="Table Layout">
@@ -72,6 +75,8 @@
     private RibbonDisplayMode displayMode;
 
     private string selectedTab = "home";
+
+    private string highlightColor = "#ffff00";
 
     private bool showTableTools;
 

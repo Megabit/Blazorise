@@ -69,16 +69,13 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
     const hexColor = options.default ? options.default : null;
 
-    const colorPreviewElement = options.colorPreviewElementSelector ? element.querySelector(options.colorPreviewElementSelector) : null;
-    const colorValueElement = options.colorValueElementSelector ? element.querySelector(options.colorValueElementSelector) : null;
-
     const instanceInfo = {
         picker: picker,
         dotnetAdapter: dotnetAdapter,
         element: element,
         elementId: elementId,
-        colorPreviewElement: colorPreviewElement,
-        colorValueElement: colorValueElement,
+        colorPreviewElementSelector: options.colorPreviewElementSelector,
+        colorValueElementSelector: options.colorValueElementSelector,
         hexColor: hexColor,
         uiFallbackColor: uiFallbackColor,
         palette: options.palette || [],
@@ -91,9 +88,22 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
     let hexColorShow = picker.getColor() ? picker.getColor().toHEXA().toString() : null;
 
-    if (options.disabled) {
+    if (options.disabled || options.readOnly) {
         picker.disable();
     }
+
+    instanceInfo.keyDownHandler = event => {
+        if (event.target !== element || event.repeat || picker.options.disabled) {
+            return;
+        }
+
+        if (event.key === 'Enter' || (event.key === ' ' && (element.tagName !== 'INPUT' || element.readOnly))) {
+            event.preventDefault();
+            element.click();
+        }
+    };
+
+    element.addEventListener('keydown', instanceInfo.keyDownHandler);
 
     picker
         .on('show', (color, instance) => {
@@ -128,6 +138,10 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 export function destroy(element, elementId) {
     const instances = _instancesInfos || {};
     const instanceInfo = instances[elementId];
+
+    if (instanceInfo) {
+        instanceInfo.element.removeEventListener('keydown', instanceInfo.keyDownHandler);
+    }
 
     if (instanceInfo && instanceInfo.picker) {
         try {
@@ -218,16 +232,19 @@ export function select(element, elementId, focus) {
 }
 
 export function applyHexColor(instanceInfo, hexColor, force = false) {
+    const colorPreviewElement = instanceInfo.colorPreviewElementSelector ? instanceInfo.element.querySelector(instanceInfo.colorPreviewElementSelector) : null;
+    const colorValueElement = instanceInfo.colorValueElementSelector ? instanceInfo.element.querySelector(instanceInfo.colorValueElementSelector) : null;
+
+    if (colorPreviewElement) {
+        colorPreviewElement.style.backgroundColor = hexColor;
+    }
+
+    if (colorValueElement) {
+        colorValueElement.innerText = hexColor;
+    }
+
     if (instanceInfo.hexColor !== hexColor || force) {
         instanceInfo.hexColor = hexColor;
-
-        if (instanceInfo.colorPreviewElement) {
-            instanceInfo.colorPreviewElement.style.backgroundColor = hexColor;
-        }
-
-        if (instanceInfo.colorValueElement) {
-            instanceInfo.colorValueElement.innerText = hexColor;
-        }
 
         if (instanceInfo.element) {
             instanceInfo.element.setAttribute('data-color', hexColor);

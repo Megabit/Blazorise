@@ -7211,6 +7211,17 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
   width: calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2);
   min-width: calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2);
 }
+.ant-color-input.ant-input-color-picker[data-custom-preview=true],
+.ant-input-color-picker.ant-color-picker-trigger.ant-input-color-picker[data-custom-preview=true] {
+  width: auto;
+  min-width: 0;
+  height: auto;
+  align-items: center;
+}
+.ant-color-input.ant-input-color-picker[data-custom-preview=true] > .ant-input-color-picker-preview,
+.ant-input-color-picker.ant-color-picker-trigger.ant-input-color-picker[data-custom-preview=true] > .ant-input-color-picker-preview {
+  align-items: center;
+}
 
 .ant-numeric-picker.ant-input-number {
   width: 100%;
