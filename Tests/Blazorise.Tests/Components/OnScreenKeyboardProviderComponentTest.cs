@@ -849,6 +849,28 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task TimeInput_ShouldReplaceNativeEditingValue_WhenKeyboardValueIsCommitted()
+    {
+        using CultureScope cultureScope = new( "en-US" );
+        IOnScreenKeyboardService keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        TimeSpan? value = new TimeSpan( 15, 30, 0 );
+        IRenderedComponent<TimeInput<TimeSpan?>> comp = Render<TimeInput<TimeSpan?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = string.Empty } );
+        Assert.Null( value );
+        Assert.Equal( string.Empty, comp.Find( "input" ).GetAttribute( "value" ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "0105" );
+
+        Assert.Equal( new TimeSpan( 1, 5, 0 ), value );
+        Assert.Equal( "01:05", comp.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
     public async Task TimeInput_ShouldAcceptSeparatedTimeWithSingleDigitSegment()
     {
         using var cultureScope = new CultureScope( "en-US" );
