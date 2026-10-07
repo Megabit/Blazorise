@@ -1214,36 +1214,33 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         if ( int.TryParse( eventArgs?.Value?.ToString(), out int month ) && month is >= 1 and <= 12 )
         {
-            visibleMonth = new DateTime( visibleMonth.Year, month, 1 );
-            focusedDate = DatePickerDateUtilities.MoveIntoMonth( focusedDate, visibleMonth );
-
-            if ( InputMode == DateInputMode.Week )
-            {
-                focusedDate = WeekDateFormat.GetWeekStart( focusedDate );
-            }
-
-            NotifyCalendarStateChanged();
+            MoveFocusedMonth( month - visibleMonth.Month );
         }
     }
 
-    internal void ChangeVisibleYear( ChangeEventArgs eventArgs )
+    internal void ChangeVisibleYear( int year )
     {
         if ( CalendarInteractionDisabled )
             return;
 
-        if ( int.TryParse( eventArgs?.Value?.ToString(), out int year ) && year is >= 1 and <= 9999 )
+        year = Math.Clamp( year, DateTime.MinValue.Year, DateTime.MaxValue.Year );
+        DateTime targetMonth = new( year, visibleMonth.Month, 1 );
+
+        if ( Min.HasValue && targetMonth < Min.Value.Date )
         {
-            visibleMonth = new DateTime( year, visibleMonth.Month, 1 );
-            focusedDate = DatePickerDateUtilities.MoveIntoMonth( focusedDate, visibleMonth );
-
-            if ( InputMode == DateInputMode.Week )
-            {
-                focusedDate = WeekDateFormat.GetWeekStart( focusedDate );
-            }
-
-            NotifyCalendarStateChanged();
+            targetMonth = new DateTime( Min.Value.Year, Min.Value.Month, 1 );
         }
+
+        if ( Max.HasValue && targetMonth > Max.Value.Date )
+        {
+            targetMonth = new DateTime( Max.Value.Year, Max.Value.Month, 1 );
+        }
+
+        MoveFocusedMonth( ( targetMonth.Year - visibleMonth.Year ) * 12 + targetMonth.Month - visibleMonth.Month );
     }
+
+    internal bool IsCalendarMonthNavigationDisabled( int month )
+        => !TryGetNavigationMonth( month - visibleMonth.Month, out _ );
 
     /// <summary>
     /// Advances the month-selection calendar from months to years or from years to decades.
@@ -1424,7 +1421,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     private void MoveFocusedMonth( int months )
     {
-        if ( !DatePickerDateUtilities.TryMoveDate( visibleMonth, months, byMonth: true, out DateTime targetMonth ) )
+        if ( !TryGetNavigationMonth( months, out DateTime targetMonth ) )
             return;
 
         visibleMonth = new DateTime( targetMonth.Year, targetMonth.Month, 1 );
@@ -1436,6 +1433,41 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         }
 
         NotifyCalendarStateChanged();
+    }
+
+    private bool TryGetNavigationMonth( int months, out DateTime targetMonth )
+    {
+        targetMonth = visibleMonth;
+
+        if ( CalendarInteractionDisabled
+            || !DatePickerDateUtilities.TryMoveDate( visibleMonth, months, byMonth: true, out targetMonth ) )
+            return false;
+
+        DateTime periodStart = targetMonth;
+        DateTime periodEnd = new( targetMonth.Year, targetMonth.Month, DateTime.DaysInMonth( targetMonth.Year, targetMonth.Month ) );
+
+        if ( InputMode == DateInputMode.Month )
+        {
+            int startYear = CalendarView switch
+            {
+                DatePickerCalendarView.Year => DatePickerCalendarBuilder.GetDecadeStart( targetMonth.Year ),
+                DatePickerCalendarView.Decade => DatePickerCalendarBuilder.GetCenturyStart( targetMonth.Year ),
+                _ => targetMonth.Year,
+            };
+
+            int endYear = Math.Min( startYear + ( CalendarView switch
+            {
+                DatePickerCalendarView.Year => 9,
+                DatePickerCalendarView.Decade => 99,
+                _ => 0,
+            } ), DateTime.MaxValue.Year );
+
+            periodStart = new DateTime( startYear, 1, 1 );
+            periodEnd = new DateTime( endYear, 12, 31 );
+        }
+
+        return ( !Min.HasValue || periodEnd >= Min.Value.Date )
+            && ( !Max.HasValue || periodStart <= Max.Value.Date );
     }
 
     private void MoveFocusToWeekBoundary( bool beginning )
@@ -1776,6 +1808,14 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     internal bool FocusCalendarOnOpen => focusCalendarOnOpen;
 
     internal bool CalendarInteractionDisabled => IsDisabled || ReadOnly || Plaintext;
+
+    internal bool CalendarPreviousPeriodDisabled => !TryGetNavigationMonth( InputMode == DateInputMode.Month ? calendarNavigation.GetNavigationMonths( -1 ) : -1, out _ );
+
+    internal bool CalendarNextPeriodDisabled => !TryGetNavigationMonth( InputMode == DateInputMode.Month ? calendarNavigation.GetNavigationMonths( 1 ) : 1, out _ );
+
+    internal bool CalendarPreviousYearDisabled => !TryGetNavigationMonth( -12, out _ );
+
+    internal bool CalendarNextYearDisabled => !TryGetNavigationMonth( 12, out _ );
 
     internal string CalendarId => $"{ElementId}-calendar";
 
