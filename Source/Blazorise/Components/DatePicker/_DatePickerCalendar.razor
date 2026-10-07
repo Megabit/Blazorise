@@ -27,7 +27,7 @@
                             class="@Calendar.NavigationClassNames"
                             aria-label="@Calendar.PreviousYearAriaLabel"
                             tabindex="@Calendar.ControlTabIndex"
-                            disabled="@Parent.CalendarInteractionDisabled"
+                            disabled="@Parent.CalendarPreviousYearDisabled"
                             @onmousedown:preventDefault
                             @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                             @onkeydown:stopPropagation
@@ -40,7 +40,7 @@
                         class="@Calendar.NavigationClassNames"
                         aria-label="@Calendar.PreviousPeriodAriaLabel"
                         tabindex="@Calendar.ControlTabIndex"
-                        disabled="@Parent.CalendarInteractionDisabled"
+                        disabled="@Parent.CalendarPreviousPeriodDisabled"
                         @onmousedown:preventDefault
                         @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                         @onkeydown:stopPropagation
@@ -101,7 +101,7 @@
                         class="@Calendar.NavigationClassNames"
                         aria-label="@Calendar.NextPeriodAriaLabel"
                         tabindex="@Calendar.ControlTabIndex"
-                        disabled="@Parent.CalendarInteractionDisabled"
+                        disabled="@Parent.CalendarNextPeriodDisabled"
                         @onmousedown:preventDefault
                         @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                         @onkeydown:stopPropagation
@@ -115,7 +115,7 @@
                             class="@Calendar.NavigationClassNames"
                             aria-label="@Calendar.NextYearAriaLabel"
                             tabindex="@Calendar.ControlTabIndex"
-                            disabled="@Parent.CalendarInteractionDisabled"
+                            disabled="@Parent.CalendarNextYearDisabled"
                             @onmousedown:preventDefault
                             @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                             @onkeydown:stopPropagation

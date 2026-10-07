@@ -90,7 +90,7 @@
                             class="@Calendar.NavigationClassNames"
                             aria-label="@Calendar.PreviousPeriodAriaLabel"
                             tabindex="0"
-                            disabled="@Parent.CalendarInteractionDisabled"
+                            disabled="@Parent.CalendarPreviousPeriodDisabled"
                             @onmousedown:preventDefault
                             @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                             @onkeydown:stopPropagation
@@ -102,7 +102,7 @@
                             class="@Calendar.NavigationClassNames"
                             aria-label="@Calendar.NextPeriodAriaLabel"
                             tabindex="0"
-                            disabled="@Parent.CalendarInteractionDisabled"
+                            disabled="@Parent.CalendarNextPeriodDisabled"
                             @onmousedown:preventDefault
                             @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
                             @onkeydown:stopPropagation

@@ -203,6 +203,163 @@ public class DatePickerComponentTest : BunitContext
         Assert.Equal( "2027", comp.Find( "input[aria-label='Year']" ).GetAttribute( "value" ) );
     }
 
+    [Theory]
+    [InlineData( DateInputMode.Date )]
+    [InlineData( DateInputMode.DateTime )]
+    [InlineData( DateInputMode.Week )]
+    public async Task CalendarNavigationStopsAtMinimumAndMaximumMonths( DateInputMode inputMode )
+    {
+        // setup
+        DateTime value = new( 2026, 7, 27 );
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.InputMode, inputMode )
+            .Add( x => x.Inline, true )
+            .Add( x => x.Min, new DateTimeOffset( new DateTime( 2026, 7, 27, 9, 0, 0 ) ) )
+            .Add( x => x.Max, new DateTimeOffset( new DateTime( 2026, 8, 1 ) ) ) );
+
+        // validate
+        Assert.True( comp.Find( "button[aria-label='Previous month']" ).HasAttribute( "disabled" ) );
+        Assert.True( comp.Find( "button[aria-label='Previous year']" ).HasAttribute( "disabled" ) );
+        Assert.True( comp.Find( "button[aria-label='Next year']" ).HasAttribute( "disabled" ) );
+        Assert.False( comp.Find( "button[aria-label='Next month']" ).HasAttribute( "disabled" ) );
+
+        // test
+        await comp.Find( "button[aria-label='Next month']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( "8", comp.Find( "select[aria-label='Month']" ).GetAttribute( "value" ) );
+        Assert.True( comp.Find( "button[aria-label='Next month']" ).HasAttribute( "disabled" ) );
+        Assert.False( comp.Find( "button[aria-label='Previous month']" ).HasAttribute( "disabled" ) );
+        Assert.Equal( value, comp.Instance.Value );
+    }
+
+    [Theory]
+    [InlineData( "PageUp", false )]
+    [InlineData( "PageDown", false )]
+    [InlineData( "PageUp", true )]
+    [InlineData( "PageDown", true )]
+    public async Task CalendarPageNavigationCannotBypassDateLimits( string key, bool shiftKey )
+    {
+        // setup
+        DateTime value = new( 2026, 7, 27 );
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.Inline, true )
+            .Add( x => x.Min, new DateTimeOffset( new DateTime( 2026, 7, 1 ) ) )
+            .Add( x => x.Max, new DateTimeOffset( new DateTime( 2026, 7, 31 ) ) ) );
+
+        // test
+        await comp.Find( "[role='grid']" ).KeyDownAsync( new KeyboardEventArgs { Key = key, ShiftKey = shiftKey } );
+        await comp.InvokeAsync( () =>
+        {
+            comp.Instance.ShowPreviousPeriod();
+            comp.Instance.ShowNextPeriod();
+            comp.Instance.ShowPreviousYear();
+            comp.Instance.ShowNextYear();
+        } );
+
+        // validate
+        Assert.Equal( "7", comp.Find( "select[aria-label='Month']" ).GetAttribute( "value" ) );
+        Assert.Equal( "2026", comp.Find( "input[aria-label='Year']" ).GetAttribute( "value" ) );
+        Assert.Equal( value, comp.Instance.Value );
+    }
+
+    [Fact]
+    public async Task CalendarYearNavigationAllowsPartiallyAvailableBoundaryMonths()
+    {
+        // setup
+        DateTime value = new( 2024, 2, 29 );
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.Inline, true )
+            .Add( x => x.Min, new DateTimeOffset( new DateTime( 2023, 2, 28, 9, 0, 0 ) ) )
+            .Add( x => x.Max, new DateTimeOffset( new DateTime( 2025, 2, 1 ) ) ) );
+
+        // test
+        await comp.Find( "button[aria-label='Previous year']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( "2023", comp.Find( "input[aria-label='Year']" ).GetAttribute( "value" ) );
+        Assert.True( comp.Find( "button[aria-label='Previous year']" ).HasAttribute( "disabled" ) );
+
+        // test
+        await comp.Find( "button[aria-label='Next year']" ).ClickAsync( new MouseEventArgs() );
+        await comp.Find( "button[aria-label='Next year']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( "2025", comp.Find( "input[aria-label='Year']" ).GetAttribute( "value" ) );
+        Assert.True( comp.Find( "button[aria-label='Next year']" ).HasAttribute( "disabled" ) );
+        Assert.Equal( value, comp.Instance.Value );
+    }
+
+    [Theory]
+    [InlineData( 0, "year", "2030", "2020" )]
+    [InlineData( 1, "decade", "2030-2039", "2020-2029" )]
+    [InlineData( 2, "century", "2100-2199", "2000-2099" )]
+    public async Task MonthCalendarNavigationChecksEntireDestinationPeriod( int broaderViews, string period, string nextTitle, string previousTitle )
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2029, 7, 1 ) )
+            .Add( x => x.Inline, true )
+            .Add( x => x.InputMode, DateInputMode.Month )
+            .Add( x => x.Min, new DateTimeOffset( new DateTime( 2020, 12, 31 ) ) )
+            .Add( x => x.Max, new DateTimeOffset( new DateTime( 2100, 1, 1 ) ) ) );
+
+        for ( int view = 0; view < broaderViews; view++ )
+        {
+            await comp.Find( ".datepicker-title > button" ).ClickAsync( new MouseEventArgs() );
+        }
+
+        // test
+        await comp.Find( $"button[aria-label='Next {period}']" ).ClickAsync( new MouseEventArgs() );
+
+        // validate
+        Assert.Equal( nextTitle, comp.Find( ".datepicker-title" ).TextContent.Trim() );
+        Assert.Equal( broaderViews == 2, comp.Find( $"button[aria-label='Next {period}']" ).HasAttribute( "disabled" ) );
+
+        // test
+        await comp.Find( $"button[aria-label='Previous {period}']" ).ClickAsync( new MouseEventArgs() );
+
+        if ( broaderViews == 0 )
+        {
+            for ( int year = 2029; year > 2020; year-- )
+            {
+                await comp.Find( "button[aria-label='Previous year']" ).ClickAsync( new MouseEventArgs() );
+            }
+        }
+
+        // validate
+        Assert.Equal( previousTitle, comp.Find( ".datepicker-title" ).TextContent.Trim() );
+        Assert.True( comp.Find( $"button[aria-label='Previous {period}']" ).HasAttribute( "disabled" ) );
+    }
+
+    [Fact]
+    public void CalendarNavigationRefreshesWhenDateLimitsChange()
+    {
+        // setup
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 7, 27 ) )
+            .Add( x => x.Inline, true ) );
+
+        // test
+        comp.Render( parameters => parameters
+            .Add( x => x.Min, new DateTimeOffset( new DateTime( 2026, 7, 1 ) ) )
+            .Add( x => x.Max, new DateTimeOffset( new DateTime( 2026, 7, 31 ) ) ) );
+
+        // validate
+        Assert.Equal( 4, comp.FindAll( ".datepicker-navigation[disabled]" ).Count );
+
+        // test
+        comp.Render( parameters => parameters
+            .Add( x => x.Min, (DateTimeOffset?)null )
+            .Add( x => x.Max, (DateTimeOffset?)null ) );
+
+        // validate
+        Assert.Equal( 4, comp.FindAll( ".datepicker-navigation:not([disabled])" ).Count );
+    }
+
     [Fact]
     public async Task PendingRangeSelectionRefreshesImmediately()
     {

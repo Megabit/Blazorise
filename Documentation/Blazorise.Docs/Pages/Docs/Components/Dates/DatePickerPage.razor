@@ -40,6 +40,20 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Min and max">
+        <Paragraph>
+            Use <Code>Min</Code> and <Code>Max</Code> to restrict the available dates. Month and year navigation buttons are disabled when their destination month falls entirely outside these limits. Keyboard paging respects the same limits.
+        </Paragraph>
+        <Paragraph>
+            This inline example allows dates from one month before today to one month after today. Navigate to either boundary month to see the corresponding month navigation button become disabled.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="DatePickerMinMaxExample" Outlined FullWidth>
+        <DatePickerMinMaxExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Disable dates">
         If you'd like to make certain dates unavailable for selection you can assign the <Code>DisabledDates</Code> parameter.
     </DocsPageSectionHeader>
