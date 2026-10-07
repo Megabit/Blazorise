@@ -80,19 +80,19 @@
                             @onchange="@Parent.ChangeVisibleMonth">
                         @for ( int monthIndex = 0; monthIndex < Calendar.MonthNames.Length; monthIndex++ )
                         {
-                            <option value="@(monthIndex + 1)">@Calendar.MonthNames[monthIndex]</option>
+                            <option value="@(monthIndex + 1)" disabled="@Parent.IsCalendarMonthNavigationDisabled( monthIndex + 1 )">@Calendar.MonthNames[monthIndex]</option>
                         }
                     </select>
                     <input type="number"
-                           min="1"
-                           max="9999"
-                           value="@Calendar.VisibleMonthYear"
+                           min="@(Parent.Min?.Year ?? DateTime.MinValue.Year)"
+                           max="@(Parent.Max?.Year ?? DateTime.MaxValue.Year)"
+                           @bind:get="@Calendar.VisibleMonthYear"
+                           @bind:set="@Parent.ChangeVisibleYear"
                            aria-label="@Calendar.YearText"
                            tabindex="@Calendar.ControlTabIndex"
                            disabled="@Parent.CalendarInteractionDisabled"
                            @onkeydown="@Parent.OnCalendarControlKeyDownAsync"
-                           @onkeydown:stopPropagation
-                           @onchange="@Parent.ChangeVisibleYear" />
+                           @onkeydown:stopPropagation />
                 }
             </div>
 

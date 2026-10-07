@@ -1214,36 +1214,33 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
         if ( int.TryParse( eventArgs?.Value?.ToString(), out int month ) && month is >= 1 and <= 12 )
         {
-            visibleMonth = new DateTime( visibleMonth.Year, month, 1 );
-            focusedDate = DatePickerDateUtilities.MoveIntoMonth( focusedDate, visibleMonth );
-
-            if ( InputMode == DateInputMode.Week )
-            {
-                focusedDate = WeekDateFormat.GetWeekStart( focusedDate );
-            }
-
-            NotifyCalendarStateChanged();
+            MoveFocusedMonth( month - visibleMonth.Month );
         }
     }
 
-    internal void ChangeVisibleYear( ChangeEventArgs eventArgs )
+    internal void ChangeVisibleYear( int year )
     {
         if ( CalendarInteractionDisabled )
             return;
 
-        if ( int.TryParse( eventArgs?.Value?.ToString(), out int year ) && year is >= 1 and <= 9999 )
+        year = Math.Clamp( year, DateTime.MinValue.Year, DateTime.MaxValue.Year );
+        DateTime targetMonth = new( year, visibleMonth.Month, 1 );
+
+        if ( Min.HasValue && targetMonth < Min.Value.Date )
         {
-            visibleMonth = new DateTime( year, visibleMonth.Month, 1 );
-            focusedDate = DatePickerDateUtilities.MoveIntoMonth( focusedDate, visibleMonth );
-
-            if ( InputMode == DateInputMode.Week )
-            {
-                focusedDate = WeekDateFormat.GetWeekStart( focusedDate );
-            }
-
-            NotifyCalendarStateChanged();
+            targetMonth = new DateTime( Min.Value.Year, Min.Value.Month, 1 );
         }
+
+        if ( Max.HasValue && targetMonth > Max.Value.Date )
+        {
+            targetMonth = new DateTime( Max.Value.Year, Max.Value.Month, 1 );
+        }
+
+        MoveFocusedMonth( ( targetMonth.Year - visibleMonth.Year ) * 12 + targetMonth.Month - visibleMonth.Month );
     }
+
+    internal bool IsCalendarMonthNavigationDisabled( int month )
+        => !TryGetNavigationMonth( month - visibleMonth.Month, out _ );
 
     /// <summary>
     /// Advances the month-selection calendar from months to years or from years to decades.

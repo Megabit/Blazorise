@@ -265,6 +265,79 @@ public class DatePickerComponentTest : BunitContext
         Assert.Equal( value, comp.Instance.Value );
     }
 
+    [Theory]
+    [InlineData( DateInputMode.Date )]
+    [InlineData( DateInputMode.DateTime )]
+    [InlineData( DateInputMode.Week )]
+    public async Task CalendarMonthSelectorDisablesAndRejectsMonthsOutsideDateLimits( DateInputMode inputMode )
+    {
+        // setup
+        DateTime value = new( 2026, 7, 27 );
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.InputMode, inputMode )
+            .Add( x => x.Inline, true )
+            .Add( x => x.Min, new DateTimeOffset( new DateTime( 2026, 7, 15 ) ) )
+            .Add( x => x.Max, new DateTimeOffset( new DateTime( 2026, 9, 3 ) ) ) );
+
+        // validate
+        Assert.Equal( 9, comp.FindAll( "select[aria-label='Month'] option[disabled]" ).Count );
+        Assert.False( comp.Find( "select[aria-label='Month'] option[value='7']" ).HasAttribute( "disabled" ) );
+        Assert.False( comp.Find( "select[aria-label='Month'] option[value='8']" ).HasAttribute( "disabled" ) );
+        Assert.False( comp.Find( "select[aria-label='Month'] option[value='9']" ).HasAttribute( "disabled" ) );
+
+        // test
+        await comp.Find( "select[aria-label='Month']" ).ChangeAsync( new ChangeEventArgs { Value = "6" } );
+
+        // validate
+        Assert.Equal( "7", comp.Find( "select[aria-label='Month']" ).GetAttribute( "value" ) );
+
+        // test
+        await comp.Find( "select[aria-label='Month']" ).ChangeAsync( new ChangeEventArgs { Value = "9" } );
+        await comp.Find( "select[aria-label='Month']" ).ChangeAsync( new ChangeEventArgs { Value = "10" } );
+
+        // validate
+        Assert.Equal( "9", comp.Find( "select[aria-label='Month']" ).GetAttribute( "value" ) );
+        Assert.Equal( value, comp.Instance.Value );
+    }
+
+    [Theory]
+    [InlineData( "2024", "2025", "11" )]
+    [InlineData( "2025", "2025", "11" )]
+    [InlineData( "2027", "2027", "3" )]
+    [InlineData( "2028", "2027", "3" )]
+    public async Task CalendarYearSelectorClampsToAllowedYearAndMonth( string year, string expectedYear, string expectedMonth )
+    {
+        // setup
+        DateTime value = new( 2026, 7, 27 );
+        IRenderedComponent<DatePicker<DateTime>> comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.Inline, true )
+            .Add( x => x.Min, new DateTimeOffset( new DateTime( 2025, 11, 15 ) ) )
+            .Add( x => x.Max, new DateTimeOffset( new DateTime( 2027, 3, 5 ) ) ) );
+
+        // validate
+        Assert.Equal( "2025", comp.Find( "input[aria-label='Year']" ).GetAttribute( "min" ) );
+        Assert.Equal( "2027", comp.Find( "input[aria-label='Year']" ).GetAttribute( "max" ) );
+        Assert.Empty( comp.FindAll( "select[aria-label='Month'] option[disabled]" ) );
+
+        // test
+        await comp.Find( "input[aria-label='Year']" ).ChangeAsync( new ChangeEventArgs { Value = year } );
+
+        // validate
+        Assert.Equal( expectedYear, comp.Find( "input[aria-label='Year']" ).GetAttribute( "value" ) );
+        Assert.Equal( expectedMonth, comp.Find( "select[aria-label='Month']" ).GetAttribute( "value" ) );
+        Assert.Equal( expectedYear == "2025" ? 10 : 9, comp.FindAll( "select[aria-label='Month'] option[disabled]" ).Count );
+        Assert.Equal( value, comp.Instance.Value );
+
+        // test a year outside the limits while already at the boundary
+        await comp.Find( "input[aria-label='Year']" ).ChangeAsync( new ChangeEventArgs { Value = expectedYear == "2025" ? "2023" : "2029" } );
+
+        // validate
+        Assert.Equal( expectedYear, comp.Find( "input[aria-label='Year']" ).GetAttribute( "value" ) );
+        Assert.Equal( expectedMonth, comp.Find( "select[aria-label='Month']" ).GetAttribute( "value" ) );
+    }
+
     [Fact]
     public async Task CalendarYearNavigationAllowsPartiallyAvailableBoundaryMonths()
     {
@@ -350,6 +423,9 @@ public class DatePickerComponentTest : BunitContext
 
         // validate
         Assert.Equal( 4, comp.FindAll( ".datepicker-navigation[disabled]" ).Count );
+        Assert.Equal( 11, comp.FindAll( "select[aria-label='Month'] option[disabled]" ).Count );
+        Assert.Equal( "2026", comp.Find( "input[aria-label='Year']" ).GetAttribute( "min" ) );
+        Assert.Equal( "2026", comp.Find( "input[aria-label='Year']" ).GetAttribute( "max" ) );
 
         // test
         comp.Render( parameters => parameters
@@ -358,6 +434,9 @@ public class DatePickerComponentTest : BunitContext
 
         // validate
         Assert.Equal( 4, comp.FindAll( ".datepicker-navigation:not([disabled])" ).Count );
+        Assert.Empty( comp.FindAll( "select[aria-label='Month'] option[disabled]" ) );
+        Assert.Equal( "1", comp.Find( "input[aria-label='Year']" ).GetAttribute( "min" ) );
+        Assert.Equal( "9999", comp.Find( "input[aria-label='Year']" ).GetAttribute( "max" ) );
     }
 
     [Fact]
