@@ -27,10 +27,10 @@
         </Div>
     </Div>
 
-    <Div Display="@(backstageVisible ? Display.None : Display.Block)" hidden="@backstageVisible">
+    <RibbonWorkspace>
         <Ribbon @bind-SelectedTab="@selectedTab" @bind-Collapsed="@collapsed" DisplayMode="@displayMode" ActiveContextualGroups="@ActiveContextualGroups" Background="Background.White" Label="Document commands">
             <RibbonApplicationTab>
-                <RibbonApplicationButton @ref="@fileButtonRef" Text="File" Expanded="@backstageVisible" Clicked="@OnFileHandler" aria-controls="word-ribbon-backstage" />
+                <RibbonApplicationButton Text="File" />
             </RibbonApplicationTab>
             <TabStripContent>
                 <RibbonButton Text="Comments" Icon="IconName.Comment" Size="RibbonItemSize.Small" Clicked="@OnCommentsHandler" />
@@ -329,116 +329,116 @@
                 </Div>
             </Div>
         </Div>
-    </Div>
 
-    <RibbonBackstage @ref="@backstageRef" ElementId="word-ribbon-backstage" @bind-Visible="@backstageVisible" @bind-SelectedItem="@selectedBackstageItem" Closed="@OnBackstageClosedHandler" Height="Height.Rem( 36 )" Label="Document file commands">
-        <RibbonBackstageItem Name="info" Text="Info" Icon="IconName.InfoCircle">
-            <Heading Size="HeadingSize.Is3">Document information</Heading>
-            <Paragraph TextColor="TextColor.Secondary">Review the document title, formatting, and save status.</Paragraph>
-            <Div Flex="Flex.Row.Wrap" Gap="Gap.Is4">
-                <Div Flex="Flex.Column" Gap="Gap.Is3" Width="Width.Rem( 24 )">
-                    <Field>
-                        <FieldLabel>Title</FieldLabel>
-                        <FieldBody><TextInput Value="@Document.Title" ValueChanged="@OnTitleChangedHandler" aria-label="Document title" /></FieldBody>
-                    </Field>
-                    <Div Border="Border.Is1.Rounded" Padding="Padding.Is3">
-                        <Heading Size="HeadingSize.Is5">Properties</Heading>
-                        <Paragraph>@WordCount words</Paragraph>
-                        <Paragraph>@Document.FontFamily · @Document.FontSize px · @Document.Style</Paragraph>
-                        <Span TextColor="TextColor.Secondary">@SaveStatus</Span>
+        <RibbonBackstage @ref="@backstageRef" @bind-SelectedItem="@selectedBackstageItem" Label="Document file commands">
+            <RibbonBackstageItem Name="info" Text="Info" Icon="IconName.InfoCircle">
+                <Heading Size="HeadingSize.Is3">Document information</Heading>
+                <Paragraph TextColor="TextColor.Secondary">Review the document title, formatting, and save status.</Paragraph>
+                <Div Flex="Flex.Row.Wrap" Gap="Gap.Is4">
+                    <Div Flex="Flex.Column" Gap="Gap.Is3" Width="Width.Rem( 24 )">
+                        <Field>
+                            <FieldLabel>Title</FieldLabel>
+                            <FieldBody><TextInput Value="@Document.Title" ValueChanged="@OnTitleChangedHandler" aria-label="Document title" /></FieldBody>
+                        </Field>
+                        <Div Border="Border.Is1.Rounded" Padding="Padding.Is3">
+                            <Heading Size="HeadingSize.Is5">Properties</Heading>
+                            <Paragraph>@WordCount words</Paragraph>
+                            <Paragraph>@Document.FontFamily · @Document.FontSize px · @Document.Style</Paragraph>
+                            <Span TextColor="TextColor.Secondary">@SaveStatus</Span>
+                        </Div>
+                        <Button Color="Color.Primary" Clicked="@OnBackstageSaveHandler">Save document</Button>
                     </Div>
-                    <Button Color="Color.Primary" Clicked="@OnBackstageSaveHandler">Save document</Button>
+                    <Div Width="Width.Rem( 24 )" Border="Border.Is1.Rounded" Padding="Padding.Is3">
+                        <Heading Size="HeadingSize.Is5">Document preview</Heading>
+                        <Paragraph TextWeight="TextWeight.SemiBold">@Document.Title</Paragraph>
+                        <Paragraph>@Document.Text</Paragraph>
+                    </Div>
                 </Div>
-                <Div Width="Width.Rem( 24 )" Border="Border.Is1.Rounded" Padding="Padding.Is3">
-                    <Heading Size="HeadingSize.Is5">Document preview</Heading>
-                    <Paragraph TextWeight="TextWeight.SemiBold">@Document.Title</Paragraph>
-                    <Paragraph>@Document.Text</Paragraph>
-                </Div>
-            </Div>
-        </RibbonBackstageItem>
+            </RibbonBackstageItem>
 
-        <RibbonBackstageItem Name="new" Text="New" Icon="IconName.File">
-            <Heading Size="HeadingSize.Is3">New document</Heading>
-            <Paragraph TextColor="TextColor.Secondary">Start with a blank document or a notes template.</Paragraph>
-            <Div Flex="Flex.Row.Wrap" Gap="Gap.Is3">
-                <Button Width="Width.Rem( 12 )" Height="Height.Rem( 12 )" Border="Border.Is1" Clicked="@OnNewDocumentHandler">
-                    <Span Flex="Flex.Column.AlignItems.Center.JustifyContent.Center" Height="Height.Is100" Gap="Gap.Is3">
-                        <Icon Name="IconName.File" IconSize="IconSize.x2" />
-                        <Span>Blank document</Span>
-                    </Span>
-                </Button>
-                <Button Width="Width.Rem( 12 )" Height="Height.Rem( 12 )" Border="Border.Is1" Clicked="@OnNewNotesHandler">
-                    <Span Flex="Flex.Column.AlignItems.Center.JustifyContent.Center" Height="Height.Is100" Gap="Gap.Is3">
-                        <Icon Name="IconName.Edit" IconSize="IconSize.x2" />
-                        <Span>Meeting notes</Span>
-                    </Span>
-                </Button>
-            </Div>
-        </RibbonBackstageItem>
-
-        <RibbonBackstageItem Name="open" Text="Open" Icon="IconName.FolderOpen">
-            <Heading Size="HeadingSize.Is3">Open document</Heading>
-            <Paragraph TextColor="TextColor.Secondary">Choose one of the sample documents.</Paragraph>
-            <Div Flex="Flex.Column.AlignItems.Start" Gap="Gap.Is3">
-                <Button Clicked="@OnOpenSampleHandler">
-                    <Span Flex="Flex.Row.AlignItems.Center" Gap="Gap.Is2">
-                        <Icon Name="IconName.FileAlt" />
-                        <Span>Quarterly overview</Span>
-                    </Span>
-                </Button>
-                <Button Clicked="@OnOpenNotesHandler">
-                    <Span Flex="Flex.Row.AlignItems.Center" Gap="Gap.Is2">
-                        <Icon Name="IconName.FileAlt" />
-                        <Span>Project notes</Span>
-                    </Span>
-                </Button>
-            </Div>
-        </RibbonBackstageItem>
-
-        <RibbonBackstageItem Name="save" Text="Save" Icon="IconName.Save" Clicked="@OnBackstageSaveHandler" />
-
-        <RibbonBackstageItem Name="save-as" Text="Save As" Icon="IconName.Save">
-            <Heading Size="HeadingSize.Is3">Save As</Heading>
-            <Paragraph TextColor="TextColor.Secondary">Give the document a new title and save it in this demo session.</Paragraph>
-            <Div Width="Width.Rem( 24 )">
-                <Field>
-                    <FieldLabel>Document title</FieldLabel>
-                    <FieldBody><TextInput @bind-Value="@saveAsTitle" Immediate aria-label="New document title" /></FieldBody>
-                </Field>
-                <Button Color="Color.Primary" Disabled="@(string.IsNullOrWhiteSpace( saveAsTitle ))" Clicked="@OnSaveAsHandler">Save</Button>
-            </Div>
-        </RibbonBackstageItem>
-
-        <RibbonBackstageItem Name="print" Text="Print" Icon="IconName.Print">
-            <Heading Size="HeadingSize.Is3">Print</Heading>
-            <Div Flex="Flex.Row.Wrap" Gap="Gap.Is4">
-                <Div Width="Width.Rem( 16 )">
-                    <Field>
-                        <FieldLabel>Copies</FieldLabel>
-                        <FieldBody><NumericPicker TValue="int" @bind-Value="@printCopies" Min="1" Max="99" aria-label="Print copies" /></FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>Orientation</FieldLabel>
-                        <FieldBody>
-                            <Select TValue="string" @bind-Value="@printOrientation" aria-label="Print orientation">
-                                <SelectItem Value="@("Portrait")">Portrait</SelectItem>
-                                <SelectItem Value="@("Landscape")">Landscape</SelectItem>
-                            </Select>
-                        </FieldBody>
-                    </Field>
-                    <Button Color="Color.Primary" Clicked="@OnPrintHandler">
-                        <Icon Name="IconName.Print" /> Print
+            <RibbonBackstageItem Name="new" Text="New" Icon="IconName.File">
+                <Heading Size="HeadingSize.Is3">New document</Heading>
+                <Paragraph TextColor="TextColor.Secondary">Start with a blank document or a notes template.</Paragraph>
+                <Div Flex="Flex.Row.Wrap" Gap="Gap.Is3">
+                    <Button Width="Width.Rem( 12 )" Height="Height.Rem( 12 )" Border="Border.Is1" Clicked="@OnNewDocumentHandler">
+                        <Span Flex="Flex.Column.AlignItems.Center.JustifyContent.Center" Height="Height.Is100" Gap="Gap.Is3">
+                            <Icon Name="IconName.File" IconSize="IconSize.x2" />
+                            <Span>Blank document</Span>
+                        </Span>
+                    </Button>
+                    <Button Width="Width.Rem( 12 )" Height="Height.Rem( 12 )" Border="Border.Is1" Clicked="@OnNewNotesHandler">
+                        <Span Flex="Flex.Column.AlignItems.Center.JustifyContent.Center" Height="Height.Is100" Gap="Gap.Is3">
+                            <Icon Name="IconName.Edit" IconSize="IconSize.x2" />
+                            <Span>Meeting notes</Span>
+                        </Span>
                     </Button>
                 </Div>
-                <Div Flex="Flex.Grow.Is1" Width="Width.Rem().Min( 16 )" Background="Background.Light" Padding="Padding.Is3">
-                    <Div Background="Background.White" Border="Border.Is1" Padding="Padding.Is4">
-                        <Heading Size="HeadingSize.Is5">@Document.Title</Heading>
-                        <MemoInput Value="@Document.Text" ReadOnly Rows="12" Border="Border.Is0" Style="@DocumentStyleNames" aria-label="Print preview" />
+            </RibbonBackstageItem>
+
+            <RibbonBackstageItem Name="open" Text="Open" Icon="IconName.FolderOpen">
+                <Heading Size="HeadingSize.Is3">Open document</Heading>
+                <Paragraph TextColor="TextColor.Secondary">Choose one of the sample documents.</Paragraph>
+                <Div Flex="Flex.Column.AlignItems.Start" Gap="Gap.Is3">
+                    <Button Clicked="@OnOpenSampleHandler">
+                        <Span Flex="Flex.Row.AlignItems.Center" Gap="Gap.Is2">
+                            <Icon Name="IconName.FileAlt" />
+                            <Span>Quarterly overview</Span>
+                        </Span>
+                    </Button>
+                    <Button Clicked="@OnOpenNotesHandler">
+                        <Span Flex="Flex.Row.AlignItems.Center" Gap="Gap.Is2">
+                            <Icon Name="IconName.FileAlt" />
+                            <Span>Project notes</Span>
+                        </Span>
+                    </Button>
+                </Div>
+            </RibbonBackstageItem>
+
+            <RibbonBackstageItem Name="save" Text="Save" Icon="IconName.Save" Clicked="@OnBackstageSaveHandler" />
+
+            <RibbonBackstageItem Name="save-as" Text="Save As" Icon="IconName.Save">
+                <Heading Size="HeadingSize.Is3">Save As</Heading>
+                <Paragraph TextColor="TextColor.Secondary">Give the document a new title and save it in this demo session.</Paragraph>
+                <Div Width="Width.Rem( 24 )">
+                    <Field>
+                        <FieldLabel>Document title</FieldLabel>
+                        <FieldBody><TextInput @bind-Value="@saveAsTitle" Immediate aria-label="New document title" /></FieldBody>
+                    </Field>
+                    <Button Color="Color.Primary" Disabled="@(string.IsNullOrWhiteSpace( saveAsTitle ))" Clicked="@OnSaveAsHandler">Save</Button>
+                </Div>
+            </RibbonBackstageItem>
+
+            <RibbonBackstageItem Name="print" Text="Print" Icon="IconName.Print">
+                <Heading Size="HeadingSize.Is3">Print</Heading>
+                <Div Flex="Flex.Row.Wrap" Gap="Gap.Is4">
+                    <Div Width="Width.Rem( 16 )">
+                        <Field>
+                            <FieldLabel>Copies</FieldLabel>
+                            <FieldBody><NumericPicker TValue="int" @bind-Value="@printCopies" Min="1" Max="99" aria-label="Print copies" /></FieldBody>
+                        </Field>
+                        <Field>
+                            <FieldLabel>Orientation</FieldLabel>
+                            <FieldBody>
+                                <Select TValue="string" @bind-Value="@printOrientation" aria-label="Print orientation">
+                                    <SelectItem Value="@("Portrait")">Portrait</SelectItem>
+                                    <SelectItem Value="@("Landscape")">Landscape</SelectItem>
+                                </Select>
+                            </FieldBody>
+                        </Field>
+                        <Button Color="Color.Primary" Clicked="@OnPrintHandler">
+                            <Icon Name="IconName.Print" /> Print
+                        </Button>
+                    </Div>
+                    <Div Flex="Flex.Grow.Is1" Width="Width.Rem().Min( 16 )" Background="Background.Light" Padding="Padding.Is3">
+                        <Div Background="Background.White" Border="Border.Is1" Padding="Padding.Is4">
+                            <Heading Size="HeadingSize.Is5">@Document.Title</Heading>
+                            <MemoInput Value="@Document.Text" ReadOnly Rows="12" Border="Border.Is0" Style="@DocumentStyleNames" aria-label="Print preview" />
+                        </Div>
                     </Div>
                 </Div>
-            </Div>
-        </RibbonBackstageItem>
-    </RibbonBackstage>
+            </RibbonBackstageItem>
+        </RibbonBackstage>
+    </RibbonWorkspace>
 
     <Div Flex="Flex.Row.Wrap.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is2" Padding="Padding.Is2.OnX.Is1.OnY" Border="Border.Is1.OnTop" role="status" aria-live="polite">
         <Span TextSize="TextSize.ExtraSmall">@status</Span>
@@ -488,6 +488,13 @@
             </RibbonTab>
         </RibbonTabs>
     </Ribbon>
+    <Div Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is2.FromTop">
+        <Div Background="Background.White" Border="Border.Is1" Padding="Padding.Is4" Height="Height.Rem().Min( 16 )">
+            <Heading Size="HeadingSize.Is4">@Document.Title</Heading>
+            <Paragraph TextColor="TextColor.Secondary">Document preview</Paragraph>
+            <MemoInput Value="@Document.Text" ReadOnly Rows="6" Border="Border.Is0" Style="@DocumentStyleNames" aria-label="Document preview" />
+        </Div>
+    </Div>
     <Paragraph TextColor="TextColor.Secondary" TextSize="TextSize.Small" Margin="Margin.Is2.FromTop" role="status" aria-live="polite">@status</Paragraph>
 </Div>
 

@@ -116,10 +116,19 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Backstage">
-        Some file tasks need more space than a menu can offer, such as viewing document information or choosing export options. Open <Code>RibbonBackstage</Code> from an application button and give each task its own page. The example shares visibility with the button's <Code>Expanded</Code> state and restores focus when backstage closes.
+        Use <Code>RibbonWorkspace</Code> to connect the application button and backstage automatically. Backstage overlays the document while preserving its content. Bind <Code>BackstageVisible</Code> on the workspace when the application needs to control visibility.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="RibbonBackstageExample" Outlined FullWidth>
         <RibbonBackstageExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Standalone backstage">
+        Without a workspace, bind the application button's <Code>Expanded</Code> and backstage's <Code>Visible</Code> to the same Boolean. Place backstage in a positioned container, or set <Code>Fullscreen</Code> to cover the viewport. Optionally connect the button and backstage using <Code>aria-controls</Code> and <Code>ElementId</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonStandaloneBackstageExample" Outlined FullWidth>
+        <RibbonStandaloneBackstageExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
@@ -162,5 +171,6 @@
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonGallery />" />
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonApplicationMenu />" />
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonApplicationButton />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonWorkspace />" />
     <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonBackstage />" />
 </DocsPageApi>

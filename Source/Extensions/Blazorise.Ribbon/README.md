@@ -122,14 +122,13 @@ Classic groups scroll horizontally when space is limited. `DisplayMode="RibbonDi
 
 ## Backstage
 
-`RibbonBackstage` optionally displays file commands and pages inside the application's workspace. Place it beside the ribbon and keep the title bar outside the editing area that is hidden while backstage is open. `RibbonApplicationButton` supports `Text`, `Disabled`, `Expanded`, `Clicked`, custom `ChildContent`, and `Focus()`. Bind `Expanded` to backstage visibility; the button manages `aria-expanded` internally. Leave `Expanded` unset for a command without expandable content.
+`RibbonWorkspace` optionally coordinates the ribbon, arbitrary document content, and one `RibbonBackstage`. Its normal child content defines the workspace layout. Backstage overlays that area without hiding, unmounting, or moving the document content.
 
 ```razor
-<Div Display="@(backstageVisible ? Display.None : Display.Block)" hidden="@backstageVisible">
+<RibbonWorkspace>
     <Ribbon>
         <RibbonApplicationTab>
-            <RibbonApplicationButton @ref="@fileButtonRef" Text="File" Expanded="@backstageVisible" Clicked="@OnFileHandler"
-                                     aria-controls="document-backstage" />
+            <RibbonApplicationButton Text="File" />
         </RibbonApplicationTab>
         <RibbonTabs>
             <RibbonTab Name="home" Text="Home">
@@ -139,64 +138,82 @@ Classic groups scroll horizontally when space is limited. `DisplayMode="RibbonDi
             </RibbonTab>
         </RibbonTabs>
     </Ribbon>
-    @* Document editing area *@
-</Div>
 
-<RibbonBackstage @ref="@backstageRef" ElementId="document-backstage"
-                 @bind-Visible="@backstageVisible" @bind-SelectedItem="@selectedItem"
-                 Closed="@OnBackstageClosedHandler">
-    <RibbonBackstageItem Name="info" Text="Info" Icon="IconName.InfoCircle">
-        <Heading Size="HeadingSize.Is3">Document information</Heading>
-        <Paragraph>@documentTitle</Paragraph>
-    </RibbonBackstageItem>
-    <RibbonBackstageItem Name="save" Text="Save" Icon="IconName.Save"
-                        Clicked="@OnSaveHandler" />
-    <RibbonBackstageItem Name="print" Text="Print" Icon="IconName.Print">
-        <Heading Size="HeadingSize.Is3">Print</Heading>
-        <Button Color="Color.Primary" Clicked="@OnPrintHandler">Print document</Button>
-    </RibbonBackstageItem>
-</RibbonBackstage>
+    <Div Padding="Padding.Is4">
+        <Heading Size="HeadingSize.Is3">@documentTitle</Heading>
+        @* Document editing area *@
+    </Div>
+
+    <RibbonBackstage @ref="@backstageRef" @bind-SelectedItem="@selectedItem">
+        <RibbonBackstageItem Name="info" Text="Info" Icon="IconName.InfoCircle">
+            <Heading Size="HeadingSize.Is3">Document information</Heading>
+            <Paragraph>@documentTitle</Paragraph>
+        </RibbonBackstageItem>
+        <RibbonBackstageItem Name="save" Text="Save" Icon="IconName.Save"
+                            Clicked="@OnSaveHandler" />
+    </RibbonBackstage>
+</RibbonWorkspace>
 
 @code {
     private RibbonBackstage backstageRef;
-    private RibbonApplicationButton fileButtonRef;
-    private bool backstageVisible;
     private string selectedItem = "info";
     private string documentTitle = "Quarterly overview";
-
-    private Task OnFileHandler() => backstageRef.Show();
-
-    private Task OnBackstageClosedHandler() => fileButtonRef.Focus( false );
 
     private async Task OnSaveHandler()
     {
         // Save the document here, then return to editing.
         await backstageRef.Hide();
     }
-
-    private Task OnPrintHandler()
-    {
-        // Invoke the application's print workflow here.
-        return Task.CompletedTask;
-    }
 }
 ```
 
+- The workspace owns visibility. Bind `RibbonWorkspace.BackstageVisible` when the application needs to control it; do not also bind child `Visible` or `Expanded`.
+- The application button opens the registered backstage and automatically supplies `aria-expanded` and `aria-controls`. No component references or element IDs are needed for the connection.
+- Each workspace supports one backstage. Separate workspaces operate independently without a registry or application-wide names.
+- Keep backstage directly within the workspace's layout boundary. Its absolute overlay fills the positioned container; the document content or workspace sizing utilities determine the available space.
+- Opening backstage focuses the Back button and uses Blazorise's existing `FocusTrap` to keep Tab navigation within backstage. The overlay preserves the document's layout and component instances. It does not change surrounding elements' `inert` state or remember the previously focused element. Use `Closed` to focus an application control when needed.
+- Backstage uses independently scrolling navigation and content areas. It requires no Ribbon-specific stylesheet or JavaScript module.
+
+### Without a workspace
+
+The components also work independently. Bind the application's visibility Boolean to `RibbonApplicationButton.Expanded` and `RibbonBackstage.Visible`. Use a positioned container to define the covered area. Optionally supply `aria-controls` and a corresponding `ElementId` for an explicit accessibility association.
+
+```razor
+<Div Position="Position.Relative" Height="Height.Rem( 24 )">
+    <RibbonApplicationButton Text="File" @bind-Expanded="@backstageVisible"
+                             aria-controls="document-backstage" />
+
+    @* Document editing area remains mounted here. *@
+
+    <RibbonBackstage ElementId="document-backstage" @bind-Visible="@backstageVisible">
+        <RibbonBackstageItem Name="info" Text="Info">
+            <Paragraph>Document information</Paragraph>
+        </RibbonBackstageItem>
+    </RibbonBackstage>
+</Div>
+
+@code {
+    private bool backstageVisible;
+}
+```
+
+Set `RibbonBackstage.Fullscreen` to cover the viewport instead of the local container. The existing focus trap handles keyboard navigation in both standalone and workspace usage. Without a workspace, a button with no `Expanded` binding or value remains an ordinary application command using `Clicked`.
+
+### Pages and commands
+
 - Every `RibbonBackstageItem` requires a non-empty, unique `Name`. An item with `ChildContent` opens that page; an item without content invokes its `Clicked` callback without changing the selected page.
-- Page selection awaits `SelectedItemChanged` before invoking the item's `Clicked` callback. Commands remain open unless the application calls `Hide()` or changes `Visible`.
-- `Show()` and `Hide()` share the `VisibleChanged` notification path. The Back button and Escape close backstage. `Opened` runs after the Back button receives focus; `Closed` runs after the surface is hidden so the application can restore focus to File.
+- Page selection awaits `SelectedItemChanged` before invoking the item's `Clicked` callback. Commands remain open unless the application calls `Hide()` or updates the visibility owner.
+- `Show()`, `Hide()`, Back, and Escape use the same visibility path: `BackstageVisibleChanged` in a workspace, or `VisibleChanged` independently. `Opened` runs after focus enters backstage; `Closed` runs after it is hidden.
 - `SelectItem(name)` selects an enabled, visible page without opening backstage. If the selected page becomes unavailable, selection falls back to the first available page, or null when there are none. Command entries cannot become selected pages.
 - The default `RenderMode`, `TabsRenderMode.LazyLoad`, creates a page on its first visible selection and preserves it. `LazyReload` recreates pages when switching selection; `Default` creates all pages. Hiding backstage preserves the current page.
-- Item utility parameters, `Class`, `Style`, and unmatched attributes apply to its navigation button. Compose page content with Blazorise components and utilities. The backstage surface accepts its own utility parameters, including `Height`, and accessible labels through `Label`, `NavigationLabel`, and `BackText`.
+- Item utility parameters, `Class`, `Style`, and unmatched attributes apply to its navigation button. Compose page content with Blazorise components and utilities. The backstage surface accepts its own utility parameters and accessible labels through `Label`, `NavigationLabel`, and `BackText`.
 - `RibbonBackstageItem.Order` controls navigation and fallback selection order. Lower values come first; equal values retain registration order. Bind `Order` to the current item index for dynamic collections and use `@key` to preserve item identity.
-
-Backstage uses normal document navigation and independently scrolling navigation and content areas. It requires no Offcanvas, backdrop, focus trap, extension stylesheet, or additional JavaScript registration.
 
 ## Word sample
 
 The shared demo exposes `/tests/ribbon`, including Home, Insert, Design, Layout, Review, View, Help, and contextual Table Tools. Formatting changes the sample document as a whole. Undo/redo, session save, a sample clipboard, style selection, search counts, and zoom demonstrate application-owned command handling. Other commands report their invocation; the sample is not a rich text editor.
 
-File opens inline backstage with Info, New, Open, Save, Save As, and Print. New and Open use sample documents, saves last for the demo session, and Print demonstrates settings and command handling without submitting a print job. Back and Escape return to the editor and restore focus to File. The title bar remains visible, and page controls retain their state between visits.
+File opens a workspace backstage overlay with Info, New, Open, Save, Save As, and Print. New and Open use sample documents, saves last for the demo session, and Print demonstrates settings and command handling without submitting a print job. Back and Escape close backstage to reveal the editor. The title bar remains visible, and page controls retain their state between visits.
 
 A separate simple ribbon demonstrates an application menu with New, Open, Save, Print, disabled items, and Save As submenus nested to multiple levels. Its document commands update the Word sample; format commands only report their invocation.
 

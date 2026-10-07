@@ -83,7 +83,7 @@ public partial class RibbonBackstageItem : BaseComponent, IDisposable
     }
 
     internal Task OnClickHandler( MouseEventArgs eventArgs )
-        => CanActivate && ParentBackstage.Visible ? HandleClick( eventArgs ) : Task.CompletedTask;
+        => CanActivate && ParentBackstage.EffectiveVisible ? HandleClick( eventArgs ) : Task.CompletedTask;
 
     /// <summary>
     /// Selects the page, when present, before invoking the item callback.

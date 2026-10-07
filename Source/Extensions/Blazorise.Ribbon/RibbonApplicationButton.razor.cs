@@ -1,5 +1,6 @@
 #region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -14,6 +15,8 @@ public partial class RibbonApplicationButton : BaseComponent
     #region Members
 
     private Button buttonRef;
+
+    private ComponentParameterInfo<bool> paramExpanded;
 
     #endregion
 
@@ -38,6 +41,14 @@ public partial class RibbonApplicationButton : BaseComponent
     #region Methods
 
     /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Expanded, out paramExpanded );
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    /// <inheritdoc/>
     protected override Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender )
@@ -57,7 +68,21 @@ public partial class RibbonApplicationButton : BaseComponent
     /// <summary>
     /// Invokes the application command without changing ribbon selection.
     /// </summary>
-    protected virtual Task HandleClick( MouseEventArgs eventArgs ) => Clicked.InvokeAsync( eventArgs );
+    protected virtual async Task HandleClick( MouseEventArgs eventArgs )
+    {
+        if ( HasBackstage )
+        {
+            await ParentWorkspace.SetBackstageVisible( true );
+        }
+        else if ( CanToggleExpanded )
+        {
+            Expanded = !Expanded;
+
+            await ExpandedChanged.InvokeAsync( Expanded );
+        }
+
+        await Clicked.InvokeAsync( eventArgs );
+    }
 
     /// <summary>
     /// Moves keyboard focus to the application button.
@@ -74,10 +99,20 @@ public partial class RibbonApplicationButton : BaseComponent
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
+    private bool HasBackstage => ParentWorkspaceState?.BackstageElementId is not null;
+
+    private bool CanToggleExpanded => ParentWorkspace is null && ( paramExpanded.Defined || ExpandedChanged.HasDelegate );
+
+    /// <summary>
+    /// Resolves expansion from workspace state or the standalone parameter.
+    /// </summary>
+    protected bool? EffectiveExpanded
+        => HasBackstage ? ParentWorkspaceState.BackstageVisible : CanToggleExpanded ? Expanded : null;
+
     /// <summary>
     /// Serializes the expanded state for aria-expanded, omitting the attribute when the command has no expandable content.
     /// </summary>
-    protected string ExpandedString => Expanded switch
+    protected string ExpandedString => EffectiveExpanded switch
     {
         true => "true",
         false => "false",
@@ -95,15 +130,21 @@ public partial class RibbonApplicationButton : BaseComponent
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Reflects whether the associated backstage or menu is expanded for assistive technology.
+    /// Controls whether independently associated backstage or menu content is expanded.
     /// </summary>
     /// <remarks>
-    /// Leave unset for a command without expandable content.
+    /// Bind this parameter to standalone backstage visibility. Inside a workspace, expansion is owned by the workspace.
+    /// Leave unset for a command without expandable content. Defaults to <c>false</c>.
     /// </remarks>
-    [Parameter] public bool? Expanded { get; set; }
+    [Parameter] public bool Expanded { get; set; }
 
     /// <summary>
-    /// Occurs when the application button is activated. Use this callback to open backstage or perform an application command.
+    /// Occurs when a standalone application button toggles its expanded state.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
+
+    /// <summary>
+    /// Occurs when the application button is activated, after any backstage or expansion change.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
@@ -111,6 +152,16 @@ public partial class RibbonApplicationButton : BaseComponent
     /// Defines custom application button content, replacing the default label.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets the optional workspace that coordinates backstage interaction.
+    /// </summary>
+    [CascadingParameter] protected RibbonWorkspace ParentWorkspace { get; set; }
+
+    /// <summary>
+    /// Gets the workspace's backstage association and visibility.
+    /// </summary>
+    [CascadingParameter] protected RibbonWorkspaceState ParentWorkspaceState { get; set; }
 
     #endregion
 }

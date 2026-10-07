@@ -1,0 +1,38 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Position="Position.Relative" Height="Height.Rem( 24 )" Border="Border.Is1.Rounded">
+    <Ribbon SelectedTab="home" ShowCollapseButton="false">
+        <RibbonApplicationTab>
+            <RibbonApplicationButton Text="File" @bind-Expanded="@backstageVisible" aria-controls="standalone-ribbon-backstage" />
+        </RibbonApplicationTab>
+        <RibbonTabs>
+            <RibbonTab Name="home" Text="Home">
+                <RibbonGroup Text="Clipboard">
+                    <RibbonButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" />
+                    <RibbonButton Text="Copy" Icon="IconName.Copy" />
+                </RibbonGroup>
+            </RibbonTab>
+        </RibbonTabs>
+    </Ribbon>
+
+    <Div Padding="Padding.Is4">
+        <Field>
+            <FieldLabel>Document title</FieldLabel>
+            <TextInput @bind-Value="@documentTitle" />
+        </Field>
+        <Paragraph>Change the title, then open and close File. The editor remains mounted beneath backstage.</Paragraph>
+    </Div>
+
+    <RibbonBackstage ElementId="standalone-ribbon-backstage" @bind-Visible="@backstageVisible">
+        <RibbonBackstageItem Name="info" Text="Info" Icon="IconName.InfoCircle">
+            <Heading Size="HeadingSize.Is4">Document information</Heading>
+            <Paragraph>@documentTitle</Paragraph>
+        </RibbonBackstageItem>
+    </RibbonBackstage>
+</Div>
+
+@code {
+    private bool backstageVisible;
+
+    private string documentTitle = "Quarterly report";
+}

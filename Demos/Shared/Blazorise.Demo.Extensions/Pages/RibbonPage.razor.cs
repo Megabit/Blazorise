@@ -35,15 +35,11 @@ public partial class RibbonPage : ComponentBase
 
     private RibbonBackstage backstageRef;
 
-    private RibbonApplicationButton fileButtonRef;
-
     private Modal launcherModalRef;
 
     private string selectedTab = "home";
 
     private string selectedBackstageItem = "info";
-
-    private bool backstageVisible;
 
     private string saveAsTitle = "Quarterly overview copy";
 
@@ -456,10 +452,6 @@ public partial class RibbonPage : ComponentBase
         await OnPasteHandler();
         status = "Pasted text from the sample clipboard";
     }
-
-    private Task OnFileHandler() => backstageRef.Show();
-
-    private Task OnBackstageClosedHandler() => fileButtonRef.Focus( false );
 
     private Task OnCloseLauncherHandler() => launcherModalRef.Hide();
 

@@ -1,4 +1,4 @@
 @inherits BaseComponent
-<Button Ghost @ref="@buttonRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Size="Blazorise.Size.Small" Disabled="@Disabled" Clicked="@OnClickHandler" aria-label="@Text" aria-pressed="@((string)null)" aria-expanded="@ExpandedString" @attributes="@Attributes">
+<Button Ghost @ref="@buttonRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Size="Blazorise.Size.Small" Disabled="@Disabled" Clicked="@OnClickHandler" aria-label="@Text" aria-pressed="@((string)null)" aria-expanded="@ExpandedString" aria-controls="@ParentWorkspaceState?.BackstageElementId" @attributes="@Attributes">
     <_RibbonApplicationTabContent Text="@Text" ChildContent="@ChildContent" />
 </Button>
