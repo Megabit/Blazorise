@@ -290,6 +290,54 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         Assert.Null( selectedValue );
     }
 
+    [Theory]
+    [InlineData( true, true, "Portuga" )]
+    [InlineData( true, true, "Portugx" )]
+    [InlineData( true, false, "Portugx" )]
+    [InlineData( false, true, "Portuga" )]
+    [InlineData( false, true, "Portugx" )]
+    [InlineData( false, false, "Portugx" )]
+    public async Task EditedSelection_ShouldPreserveTextOnlyWhenFreeTyping( bool freeTyping, bool blur, string editedText )
+    {
+        List<string> selectedValues = new();
+        List<string> selectedTexts = new();
+        IRenderedComponent<AutocompleteComponent> comp = Render<AutocompleteComponent>( parameters => parameters
+            .Add( x => x.FreeTyping, freeTyping )
+            .Add( x => x.SelectedValueChanged, value => selectedValues.Add( value ) )
+            .Add( x => x.SelectedTextChanged, text => selectedTexts.Add( text ) ) );
+
+        AngleSharp.Dom.IElement autoComplete = comp.Find( ".b-is-autocomplete input" );
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.InputAsync( "Portugal" );
+        await comp.Find( ".b-is-autocomplete-suggestion" ).ClickAsync( new() );
+        await autoComplete.BlurAsync( new() );
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.KeyDownAsync( Key.Backspace );
+        await autoComplete.InputAsync( "Portuga" );
+
+        if ( editedText != "Portuga" )
+            await autoComplete.InputAsync( editedText );
+
+        Assert.Equal( "PT", comp.Instance.SelectedValue );
+        selectedTexts.Clear();
+
+        if ( blur )
+            await autoComplete.BlurAsync( new() );
+        else
+            await autoComplete.KeyDownAsync( Key.Enter );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Null( comp.Instance.SelectedValue );
+            Assert.Equal( freeTyping ? editedText : null, comp.Instance.SelectedText );
+            Assert.Equal( freeTyping ? editedText : string.Empty, comp.Find( ".b-is-autocomplete input" ).GetAttribute( "value" ) );
+            Assert.Equal( new string[] { "PT", null }, selectedValues );
+
+            if ( freeTyping )
+                Assert.Empty( selectedTexts );
+        } );
+    }
+
     [Fact]
     public async Task SelectedValueChanged_OnBackspace_ShouldTriggerNull_IfNoValue_OnCommit()
     {
@@ -597,8 +645,10 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         return TestProgramaticallySetSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText, selectedValue, expectedSelectedText );
     }
 
-    [Fact]
-    public void ProgramaticallySetSelectedValue_Null_ShouldClear_SelectedTextAndSearch()
+    [Theory]
+    [InlineData( true )]
+    [InlineData( false )]
+    public void ProgramaticallySetSelectedValue_Null_ShouldClear_SelectedTextAndSearch( bool freeTyping )
     {
         var countries = new List<Country>
         {
@@ -610,6 +660,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
 
         var comp = Render<Autocomplete<Country, string>>( parameters => parameters
             .Add( x => x.Data, countries )
+            .Add( x => x.FreeTyping, freeTyping )
             .Add( x => x.TextField, x => x.Name )
             .Add( x => x.ValueField, x => x.Iso )
             .Add( x => x.SelectedValue, selectedValue )
