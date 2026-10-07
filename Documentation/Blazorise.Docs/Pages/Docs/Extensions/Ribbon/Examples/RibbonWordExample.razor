@@ -1,7 +1,7 @@
 @namespace Blazorise.Docs.Docs.Examples
 
 <Div Border="Border.Is1.Rounded" Background="Background.Light">
-    <Ribbon @bind-SelectedTab="@selectedTab" DisplayMode="@displayMode" Background="Background.White" AriaLabel="Word document commands">
+    <Ribbon @bind-SelectedTab="@selectedTab" DisplayMode="@displayMode" Background="Background.White" Label="Word document commands">
         <QuickAccessContent>
             <Icon Name="IconName.FileAlt" TextColor="TextColor.Primary" />
             <Switch TValue="bool" @bind-Value="@autoSave" Size="Size.Small">AutoSave</Switch>

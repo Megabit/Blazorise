@@ -352,7 +352,7 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Selects the accessible label for the action that the collapse button will perform.
     /// </summary>
-    protected string EffectiveCollapseButtonAriaLabel => Collapsed ? ExpandAriaLabel : CollapseAriaLabel;
+    protected string EffectiveCollapseButtonLabel => Collapsed ? ExpandLabel : CollapseLabel;
 
     /// <summary>
     /// Provides keyboard navigation and focus management for the ribbon tab strip.
@@ -440,22 +440,22 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Specifies the accessible name announced for the tab strip. Defaults to <c>Ribbon tabs</c>.
     /// </summary>
-    [Parameter] public string AriaLabel { get; set; } = "Ribbon tabs";
+    [Parameter] public string Label { get; set; } = "Ribbon tabs";
 
     /// <summary>
     /// Specifies the accessible name announced for the quick access commands. Defaults to <c>Quick access</c>.
     /// </summary>
-    [Parameter] public string QuickAccessAriaLabel { get; set; } = "Quick access";
+    [Parameter] public string QuickAccessLabel { get; set; } = "Quick access";
 
     /// <summary>
     /// Specifies the accessible label of the collapse button when it will expand the ribbon. Defaults to <c>Expand ribbon</c>.
     /// </summary>
-    [Parameter] public string ExpandAriaLabel { get; set; } = "Expand ribbon";
+    [Parameter] public string ExpandLabel { get; set; } = "Expand ribbon";
 
     /// <summary>
     /// Specifies the accessible label of the collapse button when it will collapse the ribbon. Defaults to <c>Collapse ribbon</c>.
     /// </summary>
-    [Parameter] public string CollapseAriaLabel { get; set; } = "Collapse ribbon";
+    [Parameter] public string CollapseLabel { get; set; } = "Collapse ribbon";
 
     /// <summary>
     /// Defines frequently used commands displayed above the tab strip, such as Save, Undo, and Redo.

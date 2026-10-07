@@ -28,7 +28,7 @@
     </Div>
 
     <Div Display="@(backstageVisible ? Display.None : Display.Block)" hidden="@backstageVisible">
-        <Ribbon @bind-SelectedTab="@selectedTab" @bind-Collapsed="@collapsed" DisplayMode="@displayMode" ActiveContextualGroups="@ActiveContextualGroups" Background="Background.White" AriaLabel="Document commands">
+        <Ribbon @bind-SelectedTab="@selectedTab" @bind-Collapsed="@collapsed" DisplayMode="@displayMode" ActiveContextualGroups="@ActiveContextualGroups" Background="Background.White" Label="Document commands">
             <RibbonApplicationTab>
                 <RibbonApplicationButton @ref="@fileButtonRef" Text="File" Expanded="@backstageVisible" Clicked="@OnFileHandler" aria-controls="word-ribbon-backstage" />
             </RibbonApplicationTab>
@@ -41,7 +41,7 @@
             </TabStripContent>
             <RibbonTabs>
                 <RibbonTab Name="home" Text="Home">
-                    <RibbonGroup Text="Clipboard" ShowLauncher LauncherAriaLabel="Open Clipboard" LauncherClicked="@OnClipboardLauncherHandler">
+                    <RibbonGroup Text="Clipboard" ShowLauncher LauncherLabel="Open Clipboard" LauncherClicked="@OnClipboardLauncherHandler">
                         <RibbonSplitButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" Clicked="@OnPasteHandler">
                             <RibbonDropdownItem Text="Keep source formatting" Clicked="@OnPasteHandler" />
                             <RibbonDropdownItem Text="Keep text only" Clicked="@OnPasteTextHandler" />
@@ -55,7 +55,7 @@
                         </RibbonColumn>
                     </RibbonGroup>
 
-                    <RibbonGroup Text="Font" Layout="RibbonGroupLayout.Rows" ShowLauncher LauncherAriaLabel="Open Font settings" LauncherClicked="@OnFontLauncherHandler">
+                    <RibbonGroup Text="Font" Layout="RibbonGroupLayout.Rows" ShowLauncher LauncherLabel="Open Font settings" LauncherClicked="@OnFontLauncherHandler">
                         <RibbonRow>
                             <Select TValue="string" Value="@Document.FontFamily" ValueChanged="@OnFontFamilyChangedHandler" Size="Size.Small" Width="Width.Px( 130 )" aria-label="Font family">
                                 @foreach ( var font in fonts )
@@ -85,7 +85,7 @@
                         </RibbonRow>
                     </RibbonGroup>
 
-                    <RibbonGroup Text="Paragraph" Layout="RibbonGroupLayout.Rows" ShowLauncher LauncherAriaLabel="Open Paragraph settings" LauncherClicked="@OnParagraphLauncherHandler">
+                    <RibbonGroup Text="Paragraph" Layout="RibbonGroupLayout.Rows" ShowLauncher LauncherLabel="Open Paragraph settings" LauncherClicked="@OnParagraphLauncherHandler">
                         <RibbonRow>
                             <RibbonButton Text="Bullets" Icon="IconName.ListUl" Size="RibbonItemSize.Small" Clicked="@OnBulletsHandler" />
                             <RibbonButton Text="Numbering" Icon="IconName.ListOl" Size="RibbonItemSize.Small" Clicked="@OnNumberingHandler" />
@@ -104,7 +104,7 @@
                         </RibbonRow>
                     </RibbonGroup>
 
-                    <RibbonGroup Text="Styles" ShowLauncher LauncherAriaLabel="Open Styles" LauncherClicked="@OnStylesLauncherHandler">
+                    <RibbonGroup Text="Styles" ShowLauncher LauncherLabel="Open Styles" LauncherClicked="@OnStylesLauncherHandler">
                         <RibbonGallery Text="Document styles" SelectedValue="@Document.Style" SelectedValueChanged="@OnStyleChangedHandler">
                             @foreach ( var style in styles )
                             {
@@ -331,7 +331,7 @@
         </Div>
     </Div>
 
-    <RibbonBackstage @ref="@backstageRef" ElementId="word-ribbon-backstage" @bind-Visible="@backstageVisible" @bind-SelectedItem="@selectedBackstageItem" Closed="@OnBackstageClosedHandler" Height="Height.Rem( 36 )" AriaLabel="Document file commands">
+    <RibbonBackstage @ref="@backstageRef" ElementId="word-ribbon-backstage" @bind-Visible="@backstageVisible" @bind-SelectedItem="@selectedBackstageItem" Closed="@OnBackstageClosedHandler" Height="Height.Rem( 36 )" Label="Document file commands">
         <RibbonBackstageItem Name="info" Text="Info" Icon="IconName.InfoCircle">
             <Heading Size="HeadingSize.Is3">Document information</Heading>
             <Paragraph TextColor="TextColor.Secondary">Review the document title, formatting, and save status.</Paragraph>
@@ -449,7 +449,7 @@
 <Div Margin="Margin.Is4.FromTop">
     <Heading Size="HeadingSize.Is4">Simple File menu</Heading>
     <Paragraph TextColor="TextColor.Secondary">This ribbon uses a dropdown File menu with nested Save As commands. New, Open, and Save update the Word sample above; format commands report their invocation.</Paragraph>
-    <Ribbon SelectedTab="home" ShowCollapseButton="false" Border="Border.Is1.Rounded" Background="Background.White" AriaLabel="Simple document commands">
+    <Ribbon SelectedTab="home" ShowCollapseButton="false" Border="Border.Is1.Rounded" Background="Background.White" Label="Simple document commands">
         <RibbonApplicationTab>
             <RibbonApplicationMenu Text="File">
                 <RibbonApplicationMenuItem Text="New" Icon="IconName.File">
@@ -472,7 +472,7 @@
         </RibbonApplicationTab>
         <RibbonTabs>
             <RibbonTab Name="home" Text="Home">
-                <RibbonGroup Text="Clipboard" ShowLauncher LauncherAriaLabel="Open Clipboard">
+                <RibbonGroup Text="Clipboard" ShowLauncher LauncherLabel="Open Clipboard">
                     <RibbonSplitButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large">
                         <RibbonDropdownItem Text="Keep source formatting" />
                         <RibbonDropdownItem Text="Keep text only" />

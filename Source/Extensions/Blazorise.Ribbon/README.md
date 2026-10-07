@@ -55,7 +55,7 @@ Use dedicated ribbon components for standard commands so their sizing, presentat
 - `RibbonDropdownItem` supports `Text`, `Icon`, `Disabled`, `Active`, and `Clicked`. `ChildContent` can replace the default icon/text content. Selecting an item closes the native dropdown hierarchy by default; set `CloseParentDropdowns="false"` to close only the current menu.
 - `RibbonColorPicker` opens the standard color picker from a ribbon icon and label, with the selected color shown beneath the icon. It shares `Text`, `Icon`, `RibbonItemSize`, and simplified-mode sizing with other commands. Set `Icon` to display an icon command, such as `IconName.Palette` or `IconName.Highlighter`. `ChildContent` takes precedence over the icon preview. When neither is supplied, the standard `ColorPicker` swatch is displayed. Bind `Value` to the document color; palette, popup, read-only, and localization options are forwarded to `ColorPicker`. `ShowValue` defaults to `false`, and `Focus()` focuses the picker.
 - `RibbonGallery` binds `SelectedValue` to the string `Value` of a `RibbonGalleryItem`. Each item accepts custom preview content.
-- Groups expose `ShowLauncher`, `LauncherAriaLabel`, and `LauncherClicked`; applications own the launched dialogs.
+- Groups expose `ShowLauncher`, `LauncherLabel`, and `LauncherClicked`; applications own the launched dialogs.
 
 ```razor
 <RibbonDropdown Text="Share" Icon="IconName.ShareAlt" Size="RibbonItemSize.Medium">
@@ -187,7 +187,7 @@ Classic groups scroll horizontally when space is limited. `DisplayMode="RibbonDi
 - `Show()` and `Hide()` share the `VisibleChanged` notification path. The Back button and Escape close backstage. `Opened` runs after the Back button receives focus; `Closed` runs after the surface is hidden so the application can restore focus to File.
 - `SelectItem(name)` selects an enabled, visible page without opening backstage. If the selected page becomes unavailable, selection falls back to the first available page, or null when there are none. Command entries cannot become selected pages.
 - The default `RenderMode`, `TabsRenderMode.LazyLoad`, creates a page on its first visible selection and preserves it. `LazyReload` recreates pages when switching selection; `Default` creates all pages. Hiding backstage preserves the current page.
-- Item utility parameters, `Class`, `Style`, and unmatched attributes apply to its navigation button. Compose page content with Blazorise components and utilities. The backstage surface accepts its own utility parameters, including `Height`, and accessible labels through `AriaLabel`, `NavigationAriaLabel`, and `BackText`.
+- Item utility parameters, `Class`, `Style`, and unmatched attributes apply to its navigation button. Compose page content with Blazorise components and utilities. The backstage surface accepts its own utility parameters, including `Height`, and accessible labels through `Label`, `NavigationLabel`, and `BackText`.
 - `RibbonBackstageItem.Order` controls navigation and fallback selection order. Lower values come first; equal values retain registration order. Bind `Order` to the current item index for dynamic collections and use `@key` to preserve item identity.
 
 Backstage uses normal document navigation and independently scrolling navigation and content areas. It requires no Offcanvas, backdrop, focus trap, extension stylesheet, or additional JavaScript registration.

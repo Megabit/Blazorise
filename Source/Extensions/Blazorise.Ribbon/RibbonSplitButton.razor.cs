@@ -89,14 +89,14 @@ public partial class RibbonSplitButton : BaseRibbonItem
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Uses <see cref="MenuAriaLabel"/> as the menu toggle accessible name, falling back to the command text.
+    /// Uses <see cref="MenuLabel"/> as the menu toggle accessible name, falling back to the command text.
     /// </summary>
-    protected string EffectiveMenuAriaLabel => MenuAriaLabel ?? Text;
+    protected string EffectiveMenuLabel => MenuLabel ?? Text;
 
     /// <summary>
     /// Specifies the accessible name of the menu toggle. When omitted, uses <see cref="BaseRibbonItem.Text"/>.
     /// </summary>
-    [Parameter] public string MenuAriaLabel { get; set; }
+    [Parameter] public string MenuLabel { get; set; }
 
     /// <summary>
     /// Controls whether the command's menu is open. Defaults to <c>false</c>.

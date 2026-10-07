@@ -278,12 +278,12 @@ public partial class RibbonBackstage : BaseComponent, IDisposable
     /// <summary>
     /// Specifies the accessible name announced for the backstage surface. Defaults to <c>File backstage</c>.
     /// </summary>
-    [Parameter] public string AriaLabel { get; set; } = "File backstage";
+    [Parameter] public string Label { get; set; } = "File backstage";
 
     /// <summary>
     /// Specifies the accessible name announced for backstage navigation. Defaults to <c>File navigation</c>.
     /// </summary>
-    [Parameter] public string NavigationAriaLabel { get; set; } = "File navigation";
+    [Parameter] public string NavigationLabel { get; set; } = "File navigation";
 
     /// <summary>
     /// Specifies the Back button text and accessible name. Defaults to <c>Back to document</c>.
