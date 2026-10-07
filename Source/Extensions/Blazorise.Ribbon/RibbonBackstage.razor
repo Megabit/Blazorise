@@ -10,7 +10,7 @@
                             <Span>@BackText</Span>
                         </Span>
                     </Button>
-                    @foreach ( var item in items.Where( item => item.Visible ) )
+                    @foreach ( var item in OrderedItems.Where( item => item.Visible ) )
                     {
                         <_RibbonBackstageItemButton @key="@item" Item="@item" Selected="@(State.SelectedItem == item.Name && item.HasPage)" />
                     }

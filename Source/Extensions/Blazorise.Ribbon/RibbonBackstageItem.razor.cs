@@ -11,7 +11,7 @@ namespace Blazorise.Ribbon;
 /// <summary>
 /// Declares a backstage navigation entry and an optional application-owned page.
 /// </summary>
-public partial class RibbonBackstageItem : BaseComponent
+public partial class RibbonBackstageItem : BaseComponent, IDisposable
 {
     #region Events
 
@@ -44,6 +44,7 @@ public partial class RibbonBackstageItem : BaseComponent
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         var nameChanged = parameters.IsParameterChanged( Name );
+        var orderChanged = parameters.IsParameterChanged( Order );
         var disabledChanged = parameters.IsParameterChanged( Disabled );
         var visibleChanged = parameters.IsParameterChanged( Visible );
 
@@ -54,7 +55,7 @@ public partial class RibbonBackstageItem : BaseComponent
 
         ParentBackstage.ValidateItem( this );
 
-        if ( nameChanged || disabledChanged || visibleChanged || hasPageChanged )
+        if ( nameChanged || orderChanged || disabledChanged || visibleChanged || hasPageChanged )
         {
             ParentBackstage.Refresh();
         }
@@ -134,6 +135,14 @@ public partial class RibbonBackstageItem : BaseComponent
     /// Must be non-empty and unique within the containing backstage.
     /// </remarks>
     [Parameter] public string Name { get; set; }
+
+    /// <summary>
+    /// Controls navigation and fallback selection order. Lower values appear first. Defaults to zero.
+    /// </summary>
+    /// <remarks>
+    /// Equal values retain registration order. Bind this parameter to the current index when inserting or reordering dynamic items.
+    /// </remarks>
+    [Parameter] public int Order { get; set; }
 
     /// <summary>
     /// Specifies the label displayed in backstage navigation.

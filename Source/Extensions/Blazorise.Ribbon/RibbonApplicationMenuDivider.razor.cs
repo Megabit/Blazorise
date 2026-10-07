@@ -20,7 +20,10 @@ public partial class RibbonApplicationMenuDivider : BaseComponent
     /// <inheritdoc/>
     protected override Task OnAfterRenderAsync( bool firstRender )
     {
-        ElementRef = dividerRef.ElementRef;
+        if ( firstRender )
+        {
+            ElementRef = dividerRef.ElementRef;
+        }
 
         return base.OnAfterRenderAsync( firstRender );
     }

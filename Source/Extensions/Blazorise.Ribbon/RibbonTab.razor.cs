@@ -10,7 +10,7 @@ namespace Blazorise.Ribbon;
 /// <summary>
 /// Declares a ribbon heading and its command groups together.
 /// </summary>
-public partial class RibbonTab : BaseComponent
+public partial class RibbonTab : BaseComponent, IDisposable
 {
     #region Events
 
@@ -21,6 +21,8 @@ public partial class RibbonTab : BaseComponent
     #region Members
 
     private bool hasBeenSelected;
+
+    private Div containerRef;
 
     #endregion
 
@@ -44,6 +46,7 @@ public partial class RibbonTab : BaseComponent
     {
         var headingChanged = parameters.IsParameterChanged( Text );
         var nameChanged = parameters.IsParameterChanged( Name );
+        var orderChanged = parameters.IsParameterChanged( Order );
         var disabledChanged = parameters.IsParameterChanged( Disabled );
         var visibleChanged = parameters.IsParameterChanged( Visible );
         var contextualTabsChanged = parameters.IsParameterChanged( ParentContextualTabsState );
@@ -56,7 +59,7 @@ public partial class RibbonTab : BaseComponent
 
         ParentRibbon.ValidateTab( this );
 
-        if ( headingChanged || nameChanged || disabledChanged || visibleChanged || contextualTabsChanged )
+        if ( headingChanged || nameChanged || orderChanged || disabledChanged || visibleChanged || contextualTabsChanged )
         {
             ParentRibbon.Refresh();
         }
@@ -73,6 +76,17 @@ public partial class RibbonTab : BaseComponent
         hasBeenSelected |= IsActive;
 
         base.OnParametersSet();
+    }
+
+    /// <inheritdoc/>
+    protected override Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            ElementRef = containerRef.ElementRef;
+        }
+
+        return base.OnAfterRenderAsync( firstRender );
     }
 
     /// <inheritdoc/>
@@ -145,6 +159,15 @@ public partial class RibbonTab : BaseComponent
     /// Must be non-empty and unique within the containing ribbon.
     /// </remarks>
     [Parameter] public string Name { get; set; }
+
+    /// <summary>
+    /// Controls heading order, fallback selection, and animation direction. Lower values appear first. Defaults to zero.
+    /// </summary>
+    /// <remarks>
+    /// Applies across regular and contextual tabs. Equal values retain registration order.
+    /// Bind this parameter to the current index when inserting or reordering dynamic tabs.
+    /// </remarks>
+    [Parameter] public int Order { get; set; }
 
     /// <summary>
     /// Specifies the tab heading displayed when <see cref="HeaderContent"/> is not supplied.

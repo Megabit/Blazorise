@@ -11,6 +11,12 @@ namespace Blazorise.Ribbon;
 /// </summary>
 public partial class RibbonGroup : BaseComponent
 {
+    #region Members
+
+    private Div containerRef;
+
+    #endregion
+
     #region Constructors
 
     /// <summary>
@@ -27,6 +33,17 @@ public partial class RibbonGroup : BaseComponent
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            ElementRef = containerRef.ElementRef;
+        }
+
+        return base.OnAfterRenderAsync( firstRender );
+    }
 
     /// <summary>
     /// Handles activation of the group launcher.

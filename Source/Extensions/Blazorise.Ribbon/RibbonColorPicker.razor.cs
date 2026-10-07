@@ -35,7 +35,10 @@ public partial class RibbonColorPicker : BaseComponent
     /// <inheritdoc/>
     protected override Task OnAfterRenderAsync( bool firstRender )
     {
-        ElementRef = pickerRef.ElementRef;
+        if ( firstRender )
+        {
+            ElementRef = pickerRef.ElementRef;
+        }
 
         return base.OnAfterRenderAsync( firstRender );
     }

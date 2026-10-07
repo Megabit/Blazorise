@@ -12,7 +12,7 @@ namespace Blazorise.Ribbon;
 /// <summary>
 /// Displays application-level file commands and pages inside the document workspace.
 /// </summary>
-public partial class RibbonBackstage : BaseComponent
+public partial class RibbonBackstage : BaseComponent, IDisposable
 {
     #region Members
 
@@ -53,7 +53,10 @@ public partial class RibbonBackstage : BaseComponent
     /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        ElementRef = containerRef.ElementRef;
+        if ( firstRender )
+        {
+            ElementRef = containerRef.ElementRef;
+        }
 
         var visibilityChanged = Visible != wasVisible;
         var isVisible = Visible;
@@ -211,11 +214,16 @@ public partial class RibbonBackstage : BaseComponent
     protected RibbonBackstageState State { get; private set; } = new();
 
     /// <summary>
+    /// Orders navigation entries, preserving registration order for equal values.
+    /// </summary>
+    protected IEnumerable<RibbonBackstageItem> OrderedItems => items.OrderBy( item => item.Order );
+
+    /// <summary>
     /// Resolves the selected page, falling back to the first enabled, visible entry with page content.
     /// </summary>
     protected string EffectiveSelectedItem
         => ( items.FirstOrDefault( item => item.Name == SelectedItem && item.CanSelect )
-            ?? items.FirstOrDefault( item => item.CanSelect ) )?.Name;
+            ?? OrderedItems.FirstOrDefault( item => item.CanSelect ) )?.Name;
 
     /// <summary>
     /// Identifies the Back button that closes backstage.

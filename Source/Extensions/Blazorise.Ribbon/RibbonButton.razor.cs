@@ -34,7 +34,10 @@ public partial class RibbonButton : BaseRibbonItem
     /// <inheritdoc/>
     protected override Task OnAfterRenderAsync( bool firstRender )
     {
-        ElementRef = buttonRef.ElementRef;
+        if ( firstRender )
+        {
+            ElementRef = buttonRef.ElementRef;
+        }
 
         return base.OnAfterRenderAsync( firstRender );
     }

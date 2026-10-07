@@ -55,7 +55,7 @@ Use dedicated ribbon components for standard commands so their sizing, presentat
 - `RibbonDropdownItem` supports `Text`, `Icon`, `Disabled`, `Active`, and `Clicked`. `ChildContent` can replace the default icon/text content. Selecting an item closes the native dropdown hierarchy by default; set `CloseParentDropdowns="false"` to close only the current menu.
 - `RibbonColorPicker` wraps a declaratively rendered `ColorPicker` without changing its native swatch or popup. It forwards `Value`, `ValueChanged`, `ShowValue`, `Size`, `Palette`, `Disabled`, `ReadOnly`, and the picker visibility and localization options. `ShowValue` defaults to `false` to keep ribbon controls compact. `Focus()` focuses the inner picker. Use `Size.Small` for compact ribbon controls and `aria-label` and `title` to identify them.
 - `RibbonGallery` binds `SelectedValue` to the string `Value` of a `RibbonGalleryItem`. Each item accepts custom preview content.
-- Groups expose `ShowLauncher`, `LauncherLabel`, and `LauncherClicked`; applications own the launched dialogs.
+- Groups expose `ShowLauncher`, `LauncherAriaLabel`, and `LauncherClicked`; applications own the launched dialogs.
 
 ```razor
 <RibbonDropdown Text="Share" Icon="IconName.ShareAlt" Size="RibbonItemSize.Medium">
@@ -77,7 +77,11 @@ Declare tabs inside the explicit `<RibbonTabs>` fragment. `<RibbonApplicationTab
 
 `SelectedTab` and `Collapsed` support two-way binding. `SelectTab(name)` selects an enabled, visible tab and expands the ribbon. `SetCollapsed(bool)` uses the same notification path as the collapse button.
 
-Use `Visible` or conditional Razor declarations for contextual tabs. If the selected tab disappears or becomes disabled, selection falls back to the first available tab. With no available tabs, selection becomes null.
+Use `RibbonContextualTabs` and `ActiveContextualGroups` for named editing contexts, or `Visible` and conditional Razor declarations for individual tabs. If the selected tab becomes unavailable, selection restores the last available regular tab before falling back to the first available tab. With no available tabs, selection becomes null.
+
+`RibbonTab.Order` controls heading order, fallback selection, contextual auto-selection, and animation direction across regular and contextual tabs. Lower values come first; equal values retain registration order. The default is zero. For dynamic collections, use `@key` to preserve tab identity and bind `Order` to the current item index. Update `Order` when reordering existing entries.
+
+Changing `Animated` enables or disables transitions without recreating tabs or their retained controls.
 
 The default `RenderMode` preserves all panel content. `TabsRenderMode.LazyLoad` creates a panel on its first selection and preserves it; `LazyReload` creates only the selected panel. Collapsing the ribbon preserves the selected panel.
 
@@ -183,7 +187,8 @@ Classic groups scroll horizontally when space is limited. `DisplayMode="RibbonDi
 - `Show()` and `Hide()` share the `VisibleChanged` notification path. The Back button and Escape close backstage. `Opened` runs after the Back button receives focus; `Closed` runs after the surface is hidden so the application can restore focus to File.
 - `SelectItem(name)` selects an enabled, visible page without opening backstage. If the selected page becomes unavailable, selection falls back to the first available page, or null when there are none. Command entries cannot become selected pages.
 - The default `RenderMode`, `TabsRenderMode.LazyLoad`, creates a page on its first visible selection and preserves it. `LazyReload` recreates pages when switching selection; `Default` creates all pages. Hiding backstage preserves the current page.
-- Item utility parameters, `Class`, `Style`, and unmatched attributes apply to its navigation button. Compose page content with Blazorise components and utilities. The backstage surface accepts its own utility parameters, including `Height`, and accessible labels through `AriaLabel`, `NavigationLabel`, and `BackLabel`.
+- Item utility parameters, `Class`, `Style`, and unmatched attributes apply to its navigation button. Compose page content with Blazorise components and utilities. The backstage surface accepts its own utility parameters, including `Height`, and accessible labels through `AriaLabel`, `NavigationAriaLabel`, and `BackText`.
+- `RibbonBackstageItem.Order` controls navigation and fallback selection order. Lower values come first; equal values retain registration order. Bind `Order` to the current item index for dynamic collections and use `@key` to preserve item identity.
 
 Backstage uses normal document navigation and independently scrolling navigation and content areas. It requires no Offcanvas, backdrop, focus trap, extension stylesheet, or additional JavaScript registration.
 

@@ -22,7 +22,10 @@
 
     protected override Task OnAfterRenderAsync( bool firstRender )
     {
-        Item.ElementRef = buttonRef.ElementRef;
+        if ( firstRender )
+        {
+            Item.ElementRef = buttonRef.ElementRef;
+        }
 
         return base.OnAfterRenderAsync( firstRender );
     }

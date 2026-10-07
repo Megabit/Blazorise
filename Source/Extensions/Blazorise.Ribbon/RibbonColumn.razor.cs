@@ -1,4 +1,5 @@
 #region Using directives
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -9,6 +10,14 @@ namespace Blazorise.Ribbon;
 /// </summary>
 public partial class RibbonColumn : BaseComponent
 {
+    #region Members
+
+    private Div containerRef;
+
+    #endregion
+
+    #region Constructors
+
     /// <summary>
     /// Initializes the default column spacing.
     /// </summary>
@@ -16,6 +25,25 @@ public partial class RibbonColumn : BaseComponent
     {
         Gap = Blazorise.Gap.Is1;
     }
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    protected override Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            ElementRef = containerRef.ElementRef;
+        }
+
+        return base.OnAfterRenderAsync( firstRender );
+    }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Stacks commands vertically in classic mode and arranges them horizontally in simplified mode.
@@ -31,4 +59,6 @@ public partial class RibbonColumn : BaseComponent
     /// Shares the containing ribbon's selection, display mode, and rendering policy with this component.
     /// </summary>
     [CascadingParameter] protected RibbonState ParentRibbonState { get; set; }
+
+    #endregion
 }

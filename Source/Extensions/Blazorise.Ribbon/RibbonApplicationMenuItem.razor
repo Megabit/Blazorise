@@ -2,7 +2,7 @@
 @if ( HasSubmenu )
 {
     <Dropdown Disabled="@Disabled">
-        <DropdownToggle ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Disabled="@Disabled" ShowToggleIcon="true" aria-label="@Text" @attributes="@Attributes">
+        <DropdownToggle @ref="@toggleRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Disabled="@Disabled" ShowToggleIcon="true" aria-label="@Text" @attributes="@Attributes">
             <_RibbonCommandContent Text="@Text" Icon="@Icon" Size="RibbonItemSize.Medium" />
         </DropdownToggle>
         <DropdownMenu>
@@ -12,7 +12,7 @@
 }
 else
 {
-    <DropdownItem ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Disabled="@Disabled" Clicked="@OnClickHandler" @attributes="@Attributes">
+    <DropdownItem @ref="@itemRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Disabled="@Disabled" Clicked="@OnClickHandler" @attributes="@Attributes">
         <_RibbonCommandContent Text="@Text" Icon="@Icon" Size="RibbonItemSize.Medium" />
     </DropdownItem>
 }

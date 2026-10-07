@@ -11,6 +11,12 @@ namespace Blazorise.Ribbon;
 /// </summary>
 public partial class RibbonGalleryItem : BaseComponent
 {
+    #region Members
+
+    private Button buttonRef;
+
+    #endregion
+
     #region Constructors
 
     /// <summary>
@@ -38,6 +44,17 @@ public partial class RibbonGalleryItem : BaseComponent
         }
 
         base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            ElementRef = buttonRef.ElementRef;
+        }
+
+        return base.OnAfterRenderAsync( firstRender );
     }
 
     /// <summary>

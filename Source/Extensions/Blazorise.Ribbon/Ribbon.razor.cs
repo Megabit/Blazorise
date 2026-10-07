@@ -59,7 +59,10 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        ElementRef = containerRef.ElementRef;
+        if ( firstRender )
+        {
+            ElementRef = containerRef.ElementRef;
+        }
 
         var shouldAnimateSelection = !firstRender
             && EffectiveAnimationDuration > 0
@@ -76,12 +79,11 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
             contentAnimationRef?.Run();
         }
 
-        var contextualTabToSelect = contextualTabsItems
-            .Where( group => group.SelectOnShow
+        var contextualTabToSelect = OrderedTabs.FirstOrDefault( tab => tab.CanSelect
+            && contextualTabsItems.Any( group => group.SelectOnShow
+                && tab.ParentContextualTabsState?.Name == group.Name
                 && State.ActiveContextualGroups.Contains( group.Name, StringComparer.Ordinal )
-                && !previousActiveContextualGroups.Contains( group.Name, StringComparer.Ordinal ) )
-            .SelectMany( group => tabItems.Where( tab => tab.ParentContextualTabsState?.Name == group.Name && tab.CanSelect ) )
-            .FirstOrDefault();
+                && !previousActiveContextualGroups.Contains( group.Name, StringComparer.Ordinal ) ) );
 
         previousActiveContextualGroups = State.ActiveContextualGroups
             .Where( name => contextualTabsItems.Any( group => string.Equals( group.Name, name, StringComparison.Ordinal ) ) )
@@ -305,20 +307,32 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     protected RibbonState State { get; private set; } = new();
 
     /// <summary>
+    /// Orders headings, preserving registration order for equal values.
+    /// </summary>
+    protected IEnumerable<RibbonTab> OrderedTabs => tabItems.OrderBy( tab => tab.Order );
+
+    /// <summary>
     /// Resolves the selected tab, restoring the last available regular tab before falling back to the first enabled, visible tab.
     /// </summary>
     protected string EffectiveSelectedTab
         => ( tabItems.FirstOrDefault( tab => tab.Name == SelectedTab && tab.CanSelect )
             ?? tabItems.FirstOrDefault( tab => tab.Name == lastRegularTab && tab.CanSelect && !tab.IsContextual )
-            ?? tabItems.FirstOrDefault( tab => tab.CanSelect ) )?.Name;
+            ?? OrderedTabs.FirstOrDefault( tab => tab.CanSelect ) )?.Name;
 
     /// <summary>
     /// Selects the slide direction from the new tab's position relative to the previously displayed tab.
     /// </summary>
     protected IAnimation EffectiveTabAnimation
-        => tabItems.FindIndex( tab => tab.Name == State.SelectedTab ) > tabItems.FindIndex( tab => tab.Name == previousSelectedTab )
-            ? Animations.SlideLeft
-            : Animations.SlideRight;
+    {
+        get
+        {
+            var orderedTabs = OrderedTabs.ToList();
+
+            return orderedTabs.FindIndex( tab => tab.Name == State.SelectedTab ) > orderedTabs.FindIndex( tab => tab.Name == previousSelectedTab )
+                ? Animations.SlideLeft
+                : Animations.SlideRight;
+        }
+    }
 
     /// <summary>
     /// Resolves the transition duration, returning zero when animation is disabled or <see cref="AnimationDuration"/> is negative.

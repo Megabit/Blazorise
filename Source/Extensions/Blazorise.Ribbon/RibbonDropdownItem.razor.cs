@@ -21,7 +21,10 @@ public partial class RibbonDropdownItem : BaseComponent
     /// <inheritdoc/>
     protected override Task OnAfterRenderAsync( bool firstRender )
     {
-        ElementRef = itemRef.ElementRef;
+        if ( firstRender )
+        {
+            ElementRef = itemRef.ElementRef;
+        }
 
         return base.OnAfterRenderAsync( firstRender );
     }

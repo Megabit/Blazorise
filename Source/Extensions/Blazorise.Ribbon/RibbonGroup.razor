@@ -1,5 +1,5 @@
 @inherits BaseComponent
-<Div ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" role="group" aria-labelledby="@CaptionElementId" @attributes="@Attributes">
+<Div @ref="@containerRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" role="group" aria-labelledby="@CaptionElementId" @attributes="@Attributes">
     <Div Flex="@EffectiveItemsFlex" Gap="Blazorise.Gap.Is1" Height="@(IsSimplified ? Blazorise.Height.Auto : Blazorise.Height.Rem( 6 ))">
         @ChildContent
     </Div>

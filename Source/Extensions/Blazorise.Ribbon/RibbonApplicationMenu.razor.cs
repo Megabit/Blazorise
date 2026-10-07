@@ -41,7 +41,10 @@ public partial class RibbonApplicationMenu : BaseComponent
     /// <inheritdoc/>
     protected override Task OnAfterRenderAsync( bool firstRender )
     {
-        ElementRef = toggleRef.ElementRef;
+        if ( firstRender )
+        {
+            ElementRef = toggleRef.ElementRef;
+        }
 
         return base.OnAfterRenderAsync( firstRender );
     }

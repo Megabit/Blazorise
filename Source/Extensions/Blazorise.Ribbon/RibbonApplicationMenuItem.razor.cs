@@ -10,7 +10,23 @@ namespace Blazorise.Ribbon;
 /// </summary>
 public partial class RibbonApplicationMenuItem : BaseComponent
 {
+    #region Members
+
+    private DropdownToggle toggleRef;
+
+    private DropdownItem itemRef;
+
+    #endregion
+
     #region Methods
+
+    /// <inheritdoc/>
+    protected override Task OnAfterRenderAsync( bool firstRender )
+    {
+        ElementRef = HasSubmenu ? toggleRef.ElementRef : itemRef.ElementRef;
+
+        return base.OnAfterRenderAsync( firstRender );
+    }
 
     /// <summary>
     /// Handles activation of a leaf command received from the dropdown item.

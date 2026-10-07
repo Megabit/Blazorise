@@ -11,7 +11,7 @@ namespace Blazorise.Ribbon;
 /// <summary>
 /// Groups ribbon tabs that share an editing context and accent color.
 /// </summary>
-public partial class RibbonContextualTabs : BaseComponent
+public partial class RibbonContextualTabs : BaseComponent, IDisposable
 {
     #region Methods
 

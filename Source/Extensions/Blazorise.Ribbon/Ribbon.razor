@@ -14,7 +14,7 @@
                     <Div Flex="Blazorise.Flex.Row.AlignItems.Center.Shrink.Is0">@RibbonApplicationTab</Div>
                 }
                 <Div Flex="Blazorise.Flex.Row.NoWrap.Grow.Is1" Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Auto.Hidden" role="tablist" aria-label="@AriaLabel" aria-orientation="horizontal">
-                    @foreach ( var tab in tabItems.Where( tab => tab.IsVisible ) )
+                    @foreach ( var tab in OrderedTabs.Where( tab => tab.IsVisible ) )
                     {
                         <_RibbonTabHeader @key="@tab" Tab="@tab" Selected="@(State.SelectedTab == tab.Name)" />
                     }
@@ -31,20 +31,11 @@
                 }
             </Div>
             <Div ElementId="@ContentElementId" Display="@(Collapsed ? Blazorise.Display.None : Blazorise.Display.Block)" Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Hidden" hidden="@Collapsed">
-                @if ( Animated )
-                {
-                    <Animate @ref="@contentAnimationRef" Animation="@EffectiveTabAnimation" Easing="Easings.EaseOut" DurationMilliseconds="@EffectiveAnimationDuration" DelayMilliseconds="0" Trigger="AnimationTrigger.Render" AnimateOnInitialRender="false">
-                        <Div Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Auto.Hidden">
-                            @RibbonTabs
-                        </Div>
-                    </Animate>
-                }
-                else
-                {
+                <Animate @ref="@contentAnimationRef" Animation="@EffectiveTabAnimation" Easing="Easings.EaseOut" DurationMilliseconds="@EffectiveAnimationDuration" DelayMilliseconds="0" Trigger="AnimationTrigger.Render" AnimateOnInitialRender="false">
                     <Div Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Auto.Hidden">
                         @RibbonTabs
                     </Div>
-                }
+                </Animate>
             </Div>
         </Div>
     </CascadingValue>

@@ -1,5 +1,5 @@
 @inherits BaseComponent
-<Button Ghost ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Size="Blazorise.Size.Small" Border="Blazorise.Border.Is0" Active="@IsSelected" Disabled="@IsDisabled" Clicked="@OnClickHandler" aria-label="@Text" title="@Text" @attributes="@Attributes">
+<Button @ref="@buttonRef" Ghost ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Size="Blazorise.Size.Small" Border="Blazorise.Border.Is0" Active="@IsSelected" Disabled="@IsDisabled" Clicked="@OnClickHandler" aria-label="@Text" title="@Text" @attributes="@Attributes">
     <Span Flex="Blazorise.Flex.Column.AlignItems.Center.JustifyContent.Center" Height="Blazorise.Height.Is100" Gap="Blazorise.Gap.Is1">
         @ChildContent
         <Span TextSize="Blazorise.TextSize.ExtraSmall">@Text</Span>
