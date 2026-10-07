@@ -9,6 +9,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     if (!element)
         return;
 
+    const ariaLabel = element.getAttribute('aria-label');
     const uiFallbackColor = getUiFallbackColor(options.palette);
 
     const picker = Pickr.create({
@@ -66,6 +67,11 @@ export function initialize(dotnetAdapter, element, elementId, options) {
             'aria:opacity': 'selection slider'
         }
     });
+
+    // Pickr replaces the trigger label when it uses the existing element as its button.
+    if (ariaLabel !== null) {
+        element.setAttribute('aria-label', ariaLabel);
+    }
 
     const hexColor = options.default ? options.default : null;
 
