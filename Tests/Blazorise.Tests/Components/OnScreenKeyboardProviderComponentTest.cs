@@ -1068,6 +1068,32 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task NumericInput_ShouldReplaceNativeEditingValue_WhenKeyboardValueIsCommitted()
+    {
+        JSInterop.SetupModule( new JSUtilitiesModule( JSInterop.JSRuntime, new MockVersionProvider(), new( null, options => { } ) ).ModuleFileName )
+            .Setup<int>( "getCaret", _ => true ).SetResult( -1 );
+
+        IOnScreenKeyboardService keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        decimal? value = 15.5m;
+        IRenderedComponent<NumericInput<decimal?>> comp = Render<NumericInput<decimal?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.Immediate, true )
+            .Add( p => p.Debounce, false )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).InputAsync( string.Empty );
+        Assert.Null( value );
+        Assert.Equal( string.Empty, comp.Find( "input" ).GetAttribute( "value" ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "-12.5" );
+
+        Assert.Equal( -12.5m, value );
+        Assert.Equal( "-12.5", comp.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
     public async Task NumericInput_ShouldSetKeyboardDecimalSeparatorFromCulture()
     {
         var module = JSInterop.SetupModule( new JSUtilitiesModule( JSInterop.JSRuntime, new MockVersionProvider(), new( null, options => { } ) ).ModuleFileName );
