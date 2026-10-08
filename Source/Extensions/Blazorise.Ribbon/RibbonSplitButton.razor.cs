@@ -121,7 +121,7 @@ public partial class RibbonSplitButton : BaseRibbonItem
     /// <summary>
     /// Defines custom content for the default action button, replacing its default icon and label.
     /// </summary>
-    [Parameter] public RenderFragment HeaderContent { get; set; }
+    [Parameter] public RenderFragment ButtonContent { get; set; }
 
     #endregion
 }

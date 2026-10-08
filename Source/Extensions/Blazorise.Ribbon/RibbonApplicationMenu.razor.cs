@@ -125,9 +125,9 @@ public partial class RibbonApplicationMenu : BaseComponent
     [Parameter] public bool ShowToggleIcon { get; set; }
 
     /// <summary>
-    /// Defines custom application menu heading content, replacing the visible <see cref="Text"/> label.
+    /// Defines custom content for the application menu button, replacing the visible <see cref="Text"/> label.
     /// </summary>
-    [Parameter] public RenderFragment HeaderContent { get; set; }
+    [Parameter] public RenderFragment ButtonContent { get; set; }
 
     /// <summary>
     /// Defines the application menu content.

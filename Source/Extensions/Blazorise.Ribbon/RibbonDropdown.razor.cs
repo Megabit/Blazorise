@@ -94,7 +94,7 @@ public partial class RibbonDropdown : BaseRibbonItem
     /// <summary>
     /// Defines custom content for the menu trigger, replacing its default icon and label.
     /// </summary>
-    [Parameter] public RenderFragment HeaderContent { get; set; }
+    [Parameter] public RenderFragment ButtonContent { get; set; }
 
     #endregion
 }
