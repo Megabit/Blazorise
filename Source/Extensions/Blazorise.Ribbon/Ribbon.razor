@@ -4,7 +4,7 @@
         <Div @ref="@containerRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" @attributes="@Attributes">
             @if ( QuickAccessContent is not null )
             {
-                <Div Flex="Blazorise.Flex.Row.AlignItems.Center" Gap="Blazorise.Gap.Is1" Padding="Blazorise.Padding.Is1" role="group" aria-label="@QuickAccessLabel">
+                <Div Flex="Blazorise.Flex.Row.AlignItems.Center" Gap="Blazorise.Gap.Is1" Padding="Blazorise.Padding.Is1" role="group" aria-label="@EffectiveQuickAccessLabel">
                     @QuickAccessContent
                 </Div>
             }
@@ -13,7 +13,7 @@
                 {
                     <Div Flex="Blazorise.Flex.Row.AlignItems.Center.Shrink.Is0">@RibbonApplicationTab</Div>
                 }
-                <Div Flex="Blazorise.Flex.Row.NoWrap.Grow.Is1" Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Auto.Hidden" role="tablist" aria-label="@Label" aria-orientation="horizontal">
+                <Div Flex="Blazorise.Flex.Row.NoWrap.Grow.Is1" Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Auto.Hidden" role="tablist" aria-label="@EffectiveLabel" aria-orientation="horizontal">
                     @foreach ( var tab in OrderedTabs.Where( tab => tab.IsVisible ) )
                     {
                         <_RibbonTabHeader @key="@tab" Tab="@tab" Selected="@(State.SelectedTab == tab.Name)" />

@@ -12,4 +12,8 @@
     <ProjectReference Include="..\Blazorise.Animate\Blazorise.Animate.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Localization\Ribbon\*.json" />
+  </ItemGroup>
+
 </Project>

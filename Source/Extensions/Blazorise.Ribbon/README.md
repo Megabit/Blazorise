@@ -209,6 +209,14 @@ Set `RibbonBackstage.Fullscreen` to cover the viewport instead of the local cont
 - Item utility parameters, `Class`, `Style`, and unmatched attributes apply to its navigation button. Compose page content with Blazorise components and utilities. The backstage surface accepts its own utility parameters and accessible labels through `Label`, `NavigationLabel`, and `BackText`.
 - `RibbonBackstageItem.Order` controls navigation and fallback selection order. Lower values come first; equal values retain registration order. Bind `Order` to the current item index for dynamic collections and use `@key` to preserve item identity.
 
+## Localization
+
+Built-in ribbon labels, backstage navigation, and color-menu text follow the language selected by Blazorise's `ITextLocalizerService`. Call `ChangeLanguage(cultureName, false)` to change that language without changing the thread culture. Existing components refresh their labels automatically, including standalone backstage and color commands. The full More Colors popup uses the core ColorPicker's translations.
+
+Translations are included for all supported languages: Czech, Danish, German, English, Spanish, French, Croatian, Icelandic, Italian, Dutch, Polish, Portuguese, Romanian, Russian, Slovak, Turkish, and Chinese.
+
+Each component exposes a `Localizers` parameter: `RibbonLocalizers` on Ribbon, `RibbonBackstageLocalizers` on backstage, and `RibbonColorPickerLocalizers` on the color command. An explicit text or label parameter takes precedence over a custom handler, which takes precedence over the embedded translation. Leave text parameters null to use localization; an empty palette heading still hides that heading. Tab captions, group captions, document content, and application command labels are supplied and translated by the application.
+
 ## Word sample
 
 The shared demo exposes `/tests/ribbon`, including Home, Insert, Design, Layout, Review, View, Help, and contextual Table Tools. Formatting changes the sample document as a whole. Undo/redo, session save, a sample clipboard, style selection, search counts, and zoom demonstrate application-owned command handling. Other commands report their invocation; the sample is not a rich text editor.

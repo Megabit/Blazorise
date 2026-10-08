@@ -2,6 +2,8 @@
 using System;
 using System.Threading.Tasks;
 using Blazorise.Localization;
+using Blazorise.Ribbon.Extensions;
+using Blazorise.Ribbon.Utilities;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -12,7 +14,7 @@ namespace Blazorise.Ribbon;
 /// <summary>
 /// Opens a menu of preset colors, with access to a full color picker for custom colors.
 /// </summary>
-public partial class RibbonColorPicker : BaseRibbonItem
+public partial class RibbonColorPicker : BaseRibbonItem, IDisposable
 {
     #region Members
 
@@ -60,6 +62,14 @@ public partial class RibbonColorPicker : BaseRibbonItem
     #region Methods
 
     /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        LocalizerService.LocalizationChanged += OnLocalizationChangedHandler;
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
     protected override Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender )
@@ -70,10 +80,29 @@ public partial class RibbonColorPicker : BaseRibbonItem
         return base.OnAfterRenderAsync( firstRender );
     }
 
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            LocalizerService.LocalizationChanged -= OnLocalizationChangedHandler;
+        }
+
+        base.Dispose( disposing );
+    }
+
     /// <summary>
     /// Builds the native menu item appearance for the full picker trigger.
     /// </summary>
     protected virtual void BuildMoreColorsClasses( ClassBuilder builder ) => builder.Append( ClassProvider.DropdownItem() );
+
+    /// <summary>
+    /// Refreshes built-in labels after the application's language changes.
+    /// </summary>
+    private void OnLocalizationChangedHandler( object sender, EventArgs eventArgs )
+    {
+        _ = InvokeAsync( StateHasChanged );
+    }
 
     /// <summary>
     /// Handles changes received from the color picker.
@@ -297,12 +326,35 @@ public partial class RibbonColorPicker : BaseRibbonItem
     /// <summary>
     /// Resolves the primary heading from an explicit label or the selected palette.
     /// </summary>
-    protected string EffectivePaletteText => PaletteText ?? ( Palette is not null ? "Colors" : PalettePreset switch
-    {
-        RibbonColorPalette.Simple => "Colors",
-        RibbonColorPalette.Standard => "Standard Colors",
-        _ => "Theme Colors",
-    } );
+    protected string EffectivePaletteText
+        => PaletteText ?? ( Palette is not null
+            ? Localizer.Localize( Localizers?.ColorsLocalizer, LocalizationConstants.Colors )
+            : PalettePreset switch
+            {
+                RibbonColorPalette.Simple => Localizer.Localize( Localizers?.ColorsLocalizer, LocalizationConstants.Colors ),
+                RibbonColorPalette.Standard => Localizer.Localize( Localizers?.StandardColorsLocalizer, LocalizationConstants.StandardColors ),
+                _ => Localizer.Localize( Localizers?.ThemeColorsLocalizer, LocalizationConstants.ThemeColors ),
+            } );
+
+    /// <summary>
+    /// Resolves the heading and accessible name of the second swatch grid.
+    /// </summary>
+    protected string EffectiveStandardPaletteText => StandardPaletteText ?? Localizer.Localize( Localizers?.StandardColorsLocalizer, LocalizationConstants.StandardColors );
+
+    /// <summary>
+    /// Resolves the application-defined automatic color command's label.
+    /// </summary>
+    protected string EffectiveAutomaticText => AutomaticText ?? Localizer.Localize( Localizers?.AutomaticLocalizer, LocalizationConstants.Automatic );
+
+    /// <summary>
+    /// Resolves the command label used to clear the selected color.
+    /// </summary>
+    protected string EffectiveNoColorText => NoColorText ?? Localizer.Localize( Localizers?.NoColorLocalizer, LocalizationConstants.NoColor );
+
+    /// <summary>
+    /// Resolves the command label used to open the full picker.
+    /// </summary>
+    protected string EffectiveMoreColorsText => MoreColorsText ?? Localizer.Localize( Localizers?.MoreColorsLocalizer, LocalizationConstants.MoreColors );
 
     /// <summary>
     /// Resolves the column count within the supported range and available color count.
@@ -333,6 +385,16 @@ public partial class RibbonColorPicker : BaseRibbonItem
     /// Provides the rendered classes for More Colors.
     /// </summary>
     protected string MoreColorsClassNames => MoreColorsClassBuilder.Class;
+
+    /// <summary>
+    /// Supplies embedded translations for built-in component labels.
+    /// </summary>
+    [Inject] protected ITextLocalizer<Ribbon> Localizer { get; set; }
+
+    /// <summary>
+    /// Notifies the component when the application's language changes.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
     /// Specifies the selected color as a string supported by <see cref="ColorPicker"/>.
@@ -431,9 +493,9 @@ public partial class RibbonColorPicker : BaseRibbonItem
     [Parameter] public string[] StandardPalette { get; set; }
 
     /// <summary>
-    /// Provides the heading and accessible name of the second swatch grid. Defaults to Standard Colors.
+    /// Provides the heading and accessible name of the second swatch grid.
     /// </summary>
-    [Parameter] public string StandardPaletteText { get; set; } = "Standard Colors";
+    [Parameter] public string StandardPaletteText { get; set; }
 
     /// <summary>
     /// Displays the Automatic command above the palettes. Defaults to <c>false</c>.
@@ -443,7 +505,7 @@ public partial class RibbonColorPicker : BaseRibbonItem
     /// <summary>
     /// Provides the Automatic command label.
     /// </summary>
-    [Parameter] public string AutomaticText { get; set; } = "Automatic";
+    [Parameter] public string AutomaticText { get; set; }
 
     /// <summary>
     /// Occurs when Automatic is selected, allowing the application to apply its default color.
@@ -464,7 +526,7 @@ public partial class RibbonColorPicker : BaseRibbonItem
     /// <summary>
     /// Provides the command label used to clear the selected color.
     /// </summary>
-    [Parameter] public string NoColorText { get; set; } = "No Color";
+    [Parameter] public string NoColorText { get; set; }
 
     /// <summary>
     /// Displays the command that opens the full picker for a custom color. Defaults to <c>true</c>.
@@ -474,7 +536,12 @@ public partial class RibbonColorPicker : BaseRibbonItem
     /// <summary>
     /// Provides the command label used to open the full picker.
     /// </summary>
-    [Parameter] public string MoreColorsText { get; set; } = "More Colors…";
+    [Parameter] public string MoreColorsText { get; set; }
+
+    /// <summary>
+    /// Overrides translations for palette headings and built-in color commands.
+    /// </summary>
+    [Parameter] public RibbonColorPickerLocalizers Localizers { get; set; }
 
     #endregion
 }

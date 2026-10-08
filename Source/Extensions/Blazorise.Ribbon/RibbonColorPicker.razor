@@ -33,7 +33,7 @@
     <DropdownMenu aria-label="@Text">
         @if ( ShowAutomatic )
         {
-            <RibbonDropdownItem Text="@AutomaticText" Disabled="@IsDisabled" Clicked="@OnAutomaticClickedHandler" />
+            <RibbonDropdownItem Text="@EffectiveAutomaticText" Disabled="@IsDisabled" Clicked="@OnAutomaticClickedHandler" />
             @if ( HasPalette )
             {
                 <RibbonDropdownDivider />
@@ -64,10 +64,10 @@
                 }
                 @if ( EffectiveStandardPalette.Length > 0 )
                 {
-                    <Div Padding="Blazorise.Padding.Is2" role="group" aria-label="@StandardPaletteText">
-                        @if ( !string.IsNullOrEmpty( StandardPaletteText ) )
+                    <Div Padding="Blazorise.Padding.Is2" role="group" aria-label="@EffectiveStandardPaletteText">
+                        @if ( !string.IsNullOrEmpty( EffectiveStandardPaletteText ) )
                         {
-                            <Div TextSize="Blazorise.TextSize.Small" TextWeight="TextWeight.SemiBold" Margin="Blazorise.Margin.Is1.FromBottom">@StandardPaletteText</Div>
+                            <Div TextSize="Blazorise.TextSize.Small" TextWeight="TextWeight.SemiBold" Margin="Blazorise.Margin.Is1.FromBottom">@EffectiveStandardPaletteText</Div>
                         }
                         <Grid Columns="@EffectiveGridColumns" Gap="Blazorise.Gap.Is0" Width="@Blazorise.Width.Rem( EffectivePaletteColumns * 1.5 )">
                             @foreach ( var color in EffectiveStandardPalette )
@@ -92,13 +92,13 @@
             }
             @if ( ShowNoColor )
             {
-                <RibbonDropdownItem Text="@NoColorText" Icon="IconName.Ban" Disabled="@IsDisabled" Clicked="@OnNoColorClickedHandler" />
+                <RibbonDropdownItem Text="@EffectiveNoColorText" Icon="IconName.Ban" Disabled="@IsDisabled" Clicked="@OnNoColorClickedHandler" />
             }
             @if ( ShowMoreColors )
             {
-                <ColorPicker @ref="@pickerRef" Class="@MoreColorsClassNames" Value="@Value" ValueChanged="@OnValueChangedHandler" ShowValue="false" Size="Blazorise.Size.Small" Disabled="@Disabled" ReadOnly="@ReadOnly" Width="Blazorise.Width.Is100" Height="Blazorise.Height.Auto" Border="Blazorise.Border.Is0" TextSize="Blazorise.TextSize.Px( 13 )" ShowPalette="false" ShowClearButton="false" ShowCancelButton="true" ShowOpacitySlider="true" ShowHueSlider="true" ShowInputField="true" PickerLocalizer="@PickerLocalizer" TabIndex="0" aria-label="@($"{Text}: {MoreColorsText}")" role="menuitem" @onclick="@OnMoreColorsClickedHandler">
+                <ColorPicker @ref="@pickerRef" Class="@MoreColorsClassNames" Value="@Value" ValueChanged="@OnValueChangedHandler" ShowValue="false" Size="Blazorise.Size.Small" Disabled="@Disabled" ReadOnly="@ReadOnly" Width="Blazorise.Width.Is100" Height="Blazorise.Height.Auto" Border="Blazorise.Border.Is0" TextSize="Blazorise.TextSize.Px( 13 )" ShowPalette="false" ShowClearButton="false" ShowCancelButton="true" ShowOpacitySlider="true" ShowHueSlider="true" ShowInputField="true" PickerLocalizer="@PickerLocalizer" TabIndex="0" aria-label="@($"{Text}: {EffectiveMoreColorsText}")" role="menuitem" @onclick="@OnMoreColorsClickedHandler">
                     <PreviewContent>
-                        <_RibbonCommandContent Text="@MoreColorsText" Icon="IconName.Palette" Size="RibbonItemSize.Medium" />
+                        <_RibbonCommandContent Text="@EffectiveMoreColorsText" Icon="IconName.Palette" Size="RibbonItemSize.Medium" />
                     </PreviewContent>
                 </ColorPicker>
             }

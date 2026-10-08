@@ -5,7 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Animate;
 using Blazorise.Extensions;
+using Blazorise.Localization;
 using Blazorise.Modules;
+using Blazorise.Ribbon.Extensions;
+using Blazorise.Ribbon.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -47,6 +50,14 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        LocalizerService.LocalizationChanged += OnLocalizationChangedHandler;
+
+        base.OnInitialized();
+    }
 
     /// <inheritdoc/>
     protected override void OnParametersSet()
@@ -104,9 +115,14 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
-        if ( disposing && Rendered )
+        if ( disposing )
         {
-            await JSModule.SafeDestroy( ElementRef, ElementId );
+            LocalizerService.LocalizationChanged -= OnLocalizationChangedHandler;
+
+            if ( Rendered )
+            {
+                await JSModule.SafeDestroy( ElementRef, ElementId );
+            }
         }
 
         await base.DisposeAsync( disposing );
@@ -172,6 +188,14 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
 
         await CollapsedChanged.InvokeAsync( collapsed );
         await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Refreshes built-in labels after the application's language changes.
+    /// </summary>
+    private void OnLocalizationChangedHandler( object sender, EventArgs eventArgs )
+    {
+        _ = InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -352,7 +376,37 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Selects the accessible label for the action that the collapse button will perform.
     /// </summary>
-    protected string EffectiveCollapseButtonLabel => Collapsed ? ExpandLabel : CollapseLabel;
+    protected string EffectiveCollapseButtonLabel => Collapsed ? EffectiveExpandLabel : EffectiveCollapseLabel;
+
+    /// <summary>
+    /// Resolves the tab strip's accessible name from an explicit label or its translation.
+    /// </summary>
+    protected string EffectiveLabel => Label ?? Localizer.Localize( Localizers?.LabelLocalizer, LocalizationConstants.RibbonTabs );
+
+    /// <summary>
+    /// Resolves the quick access toolbar's accessible name.
+    /// </summary>
+    protected string EffectiveQuickAccessLabel => QuickAccessLabel ?? Localizer.Localize( Localizers?.QuickAccessLocalizer, LocalizationConstants.QuickAccess );
+
+    /// <summary>
+    /// Resolves the accessible name of the action that expands the ribbon.
+    /// </summary>
+    protected string EffectiveExpandLabel => ExpandLabel ?? Localizer.Localize( Localizers?.ExpandLocalizer, LocalizationConstants.Expand );
+
+    /// <summary>
+    /// Resolves the accessible name of the action that collapses the ribbon.
+    /// </summary>
+    protected string EffectiveCollapseLabel => CollapseLabel ?? Localizer.Localize( Localizers?.CollapseLocalizer, LocalizationConstants.Collapse );
+
+    /// <summary>
+    /// Supplies embedded translations for built-in component labels.
+    /// </summary>
+    [Inject] protected ITextLocalizer<Ribbon> Localizer { get; set; }
+
+    /// <summary>
+    /// Notifies the component when the application's language changes.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
     /// Provides keyboard navigation and focus management for the ribbon tab strip.
@@ -438,24 +492,29 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     [Parameter] public int AnimationDuration { get; set; } = 200;
 
     /// <summary>
-    /// Specifies the accessible name announced for the tab strip. Defaults to <c>Ribbon tabs</c>.
+    /// Specifies the accessible name announced for the tab strip.
     /// </summary>
-    [Parameter] public string Label { get; set; } = "Ribbon tabs";
+    [Parameter] public string Label { get; set; }
 
     /// <summary>
-    /// Specifies the accessible name announced for the quick access commands. Defaults to <c>Quick access</c>.
+    /// Specifies the accessible name announced for the quick access commands.
     /// </summary>
-    [Parameter] public string QuickAccessLabel { get; set; } = "Quick access";
+    [Parameter] public string QuickAccessLabel { get; set; }
 
     /// <summary>
-    /// Specifies the accessible label of the collapse button when it will expand the ribbon. Defaults to <c>Expand ribbon</c>.
+    /// Specifies the accessible label of the collapse button when it will expand the ribbon.
     /// </summary>
-    [Parameter] public string ExpandLabel { get; set; } = "Expand ribbon";
+    [Parameter] public string ExpandLabel { get; set; }
 
     /// <summary>
-    /// Specifies the accessible label of the collapse button when it will collapse the ribbon. Defaults to <c>Collapse ribbon</c>.
+    /// Specifies the accessible label of the collapse button when it will collapse the ribbon.
     /// </summary>
-    [Parameter] public string CollapseLabel { get; set; } = "Collapse ribbon";
+    [Parameter] public string CollapseLabel { get; set; }
+
+    /// <summary>
+    /// Overrides translations for built-in ribbon labels without changing application command text.
+    /// </summary>
+    [Parameter] public RibbonLocalizers Localizers { get; set; }
 
     /// <summary>
     /// Defines frequently used commands displayed above the tab strip, such as Save, Undo, and Redo.

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Localization;
+using Blazorise.Ribbon.Extensions;
+using Blazorise.Ribbon.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -48,6 +51,8 @@ public partial class RibbonBackstage : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
+        LocalizerService.LocalizationChanged += OnLocalizationChangedHandler;
+
         base.OnInitialized();
 
         ParentWorkspace?.RegisterBackstage( this );
@@ -114,10 +119,19 @@ public partial class RibbonBackstage : BaseComponent, IDisposable
     {
         if ( disposing )
         {
+            LocalizerService.LocalizationChanged -= OnLocalizationChangedHandler;
             ParentWorkspace?.UnregisterBackstage( this );
         }
 
         base.Dispose( disposing );
+    }
+
+    /// <summary>
+    /// Refreshes built-in labels after the application's language changes.
+    /// </summary>
+    private void OnLocalizationChangedHandler( object sender, EventArgs eventArgs )
+    {
+        _ = InvokeAsync( StateHasChanged );
     }
 
     internal void RegisterItem( RibbonBackstageItem item )
@@ -283,6 +297,31 @@ public partial class RibbonBackstage : BaseComponent, IDisposable
     protected string BackElementId => $"{ElementId}-back";
 
     /// <summary>
+    /// Resolves the backstage surface's accessible name.
+    /// </summary>
+    protected string EffectiveLabel => Label ?? Localizer.Localize( Localizers?.LabelLocalizer, LocalizationConstants.FileBackstage );
+
+    /// <summary>
+    /// Resolves the backstage navigation's accessible name.
+    /// </summary>
+    protected string EffectiveNavigationLabel => NavigationLabel ?? Localizer.Localize( Localizers?.NavigationLocalizer, LocalizationConstants.FileNavigation );
+
+    /// <summary>
+    /// Resolves the text and accessible name of the command that returns to the document.
+    /// </summary>
+    protected string EffectiveBackText => BackText ?? Localizer.Localize( Localizers?.BackLocalizer, LocalizationConstants.Back );
+
+    /// <summary>
+    /// Supplies embedded translations for built-in component labels.
+    /// </summary>
+    [Inject] protected ITextLocalizer<Ribbon> Localizer { get; set; }
+
+    /// <summary>
+    /// Notifies the component when the application's language changes.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+    /// <summary>
     /// Controls whether backstage is shown.
     /// </summary>
     /// <remarks>
@@ -335,19 +374,24 @@ public partial class RibbonBackstage : BaseComponent, IDisposable
     [Parameter] public TabsRenderMode RenderMode { get; set; } = TabsRenderMode.LazyLoad;
 
     /// <summary>
-    /// Specifies the accessible name announced for the backstage surface. Defaults to <c>File backstage</c>.
+    /// Specifies the accessible name announced for the backstage surface.
     /// </summary>
-    [Parameter] public string Label { get; set; } = "File backstage";
+    [Parameter] public string Label { get; set; }
 
     /// <summary>
-    /// Specifies the accessible name announced for backstage navigation. Defaults to <c>File navigation</c>.
+    /// Specifies the accessible name announced for backstage navigation.
     /// </summary>
-    [Parameter] public string NavigationLabel { get; set; } = "File navigation";
+    [Parameter] public string NavigationLabel { get; set; }
 
     /// <summary>
-    /// Specifies the Back button text and accessible name. Defaults to <c>Back to document</c>.
+    /// Specifies the Back button text and accessible name.
     /// </summary>
-    [Parameter] public string BackText { get; set; } = "Back to document";
+    [Parameter] public string BackText { get; set; }
+
+    /// <summary>
+    /// Overrides translations for the backstage surface, navigation, and Back command.
+    /// </summary>
+    [Parameter] public RibbonBackstageLocalizers Localizers { get; set; }
 
     /// <summary>
     /// Defines backstage pages and commands using <see cref="RibbonBackstageItem"/> components.

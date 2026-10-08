@@ -1,0 +1,18 @@
+{
+  "culture": "ru",
+  "translations": {
+    "Automatic": "Автоматически",
+    "Back to document": "Назад к документу",
+    "Collapse ribbon": "Свернуть ленту",
+    "Colors": "Цвета",
+    "Expand ribbon": "Развернуть ленту",
+    "File backstage": "Представление файла",
+    "File navigation": "Навигация по файлам",
+    "More Colors…": "Другие цвета…",
+    "No Color": "Нет цвета",
+    "Quick access": "Быстрый доступ",
+    "Ribbon tabs": "Вкладки ленты",
+    "Standard Colors": "Стандартные цвета",
+    "Theme Colors": "Цвета темы"
+  }
+}

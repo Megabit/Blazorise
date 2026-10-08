@@ -1,0 +1,18 @@
+{
+  "culture": "fr",
+  "translations": {
+    "Automatic": "Automatique",
+    "Back to document": "Retour au document",
+    "Collapse ribbon": "Réduire le ruban",
+    "Colors": "Couleurs",
+    "Expand ribbon": "Développer le ruban",
+    "File backstage": "Affichage Fichier",
+    "File navigation": "Navigation des fichiers",
+    "More Colors…": "Autres couleurs…",
+    "No Color": "Aucune couleur",
+    "Quick access": "Accès rapide",
+    "Ribbon tabs": "Onglets du ruban",
+    "Standard Colors": "Couleurs standard",
+    "Theme Colors": "Couleurs du thème"
+  }
+}
