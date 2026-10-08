@@ -1,0 +1,48 @@
+@namespace Blazorise.Ribbon.Components
+@implements IDisposable
+<Button Ghost ElementId="@Tab.TabElementId" Size="Blazorise.Size.Small" Height="Height.Auto" Border="Border.Is0" Flex="Flex.Shrink.Is0" TextOverflow="TextOverflow.NoWrap" TextSize="TextSize.Px( 13 )" Padding="Padding.Is0" TextColor="@EffectiveTextColor" Disabled="@Tab.Disabled" TabIndex="@(Selected && !Tab.Disabled ? 0 : -1)" Clicked="@OnClickHandler" role="tab" aria-pressed="@((string)null)" aria-selected="@(Selected ? "true" : "false")" aria-controls="@Tab.ElementId">
+    <Span Flex="Flex.Column">
+        <Span Padding="Padding.Is1.OnY.Is3.OnX">
+            @if ( Tab.HeaderContent is not null )
+            {
+                @Tab.HeaderContent
+            }
+            else
+            {
+                @Tab.Text
+            }
+        </Span>
+        <Span Height="Height.Px( 3 )" Margin="Margin.Is3.OnX" Background="@(Selected ? AccentBackground : Background.Transparent)" />
+    </Span>
+</Button>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Tab.HeadingChanged += OnHeadingChangedHandler;
+
+        base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        Tab.HeadingChanged -= OnHeadingChangedHandler;
+    }
+
+    private Task OnClickHandler() => Tab.ParentRibbon.SelectTab( Tab.Name );
+
+    private void OnHeadingChangedHandler()
+    {
+        _ = InvokeAsync( StateHasChanged );
+    }
+
+    private Color EffectiveColor => Tab.EffectiveColor;
+
+    private TextColor EffectiveTextColor => Selected || Tab.IsContextual ? new( EffectiveColor.Name ) : TextColor.Body;
+
+    private Background AccentBackground => new( EffectiveColor.Name );
+
+    [Parameter] public RibbonTab Tab { get; set; }
+
+    [Parameter] public bool Selected { get; set; }
+}

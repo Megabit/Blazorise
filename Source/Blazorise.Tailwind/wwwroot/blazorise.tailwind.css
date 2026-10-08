@@ -1623,11 +1623,23 @@
   .overflow-x-hidden {
     overflow-x: hidden;
   }
+  .overflow-x-scroll {
+    overflow-x: scroll;
+  }
+  .overflow-x-visible {
+    overflow-x: visible;
+  }
   .overflow-y-auto {
     overflow-y: auto;
   }
+  .overflow-y-hidden {
+    overflow-y: hidden;
+  }
   .overflow-y-scroll {
     overflow-y: scroll;
+  }
+  .overflow-y-visible {
+    overflow-y: visible;
   }
   .rounded {
     border-radius: 0.25rem;
@@ -3959,6 +3971,28 @@
       background-color: var(--color-gray-50);
     }
   }
+  .focus-within\:outline-2 {
+    &:focus-within {
+      outline-style: var(--tw-outline-style);
+      outline-width: 2px;
+    }
+  }
+  .focus-within\:outline-offset-2 {
+    &:focus-within {
+      outline-offset: 2px;
+    }
+  }
+  .focus-within\:outline-primary-600 {
+    &:focus-within {
+      outline-color: var(--color-primary-600);
+    }
+  }
+  .focus-within\:outline-solid {
+    &:focus-within {
+      --tw-outline-style: solid;
+      outline-style: solid;
+    }
+  }
   .hover\:border-gray-300 {
     &:hover {
       @media (hover: hover) {
@@ -4500,9 +4534,24 @@
       }
     }
   }
+  .has-\[\>input\:disabled\]\:opacity-\[\.65\] {
+    &:has(>input:disabled) {
+      opacity: .65;
+    }
+  }
   .aria-disabled\:opacity-60 {
     &[aria-disabled="true"] {
       opacity: 60%;
+    }
+  }
+  .data-\[custom-preview\=true\]\:inline-flex {
+    &[data-custom-preview="true"] {
+      display: inline-flex;
+    }
+  }
+  .data-\[custom-preview\=true\]\:h-auto {
+    &[data-custom-preview="true"] {
+      height: auto;
     }
   }
   .data-\[show-value\=false\]\:px-0 {
@@ -9865,6 +9914,46 @@
       text-align: start;
     }
   }
+  .\[\&\>input\]\:absolute {
+    &>input {
+      position: absolute;
+    }
+  }
+  .\[\&\>input\]\:inset-0 {
+    &>input {
+      inset: calc(var(--spacing) * 0);
+    }
+  }
+  .\[\&\>input\]\:m-0\! {
+    &>input {
+      margin: calc(var(--spacing) * 0) !important;
+    }
+  }
+  .\[\&\>input\]\:h-full {
+    &>input {
+      height: 100%;
+    }
+  }
+  .\[\&\>input\]\:w-full {
+    &>input {
+      width: 100%;
+    }
+  }
+  .\[\&\>input\]\:cursor-pointer {
+    &>input {
+      cursor: pointer;
+    }
+  }
+  .\[\&\>input\]\:opacity-0 {
+    &>input {
+      opacity: 0%;
+    }
+  }
+  .\[\&\>input\:disabled\]\:cursor-not-allowed {
+    &>input:disabled {
+      cursor: not-allowed;
+    }
+  }
   .\[\&\>td\:not\(\.tw-table-cell-colored\)\]\:bg-\[color\:var\(--tw-table-fill\)\] {
     &>td:not(.tw-table-cell-colored) {
       background-color: var(--tw-table-fill);
@@ -9941,6 +10030,11 @@
       @supports (color: color-mix(in lab, red, red)) {
         --tw-table-fill: color-mix(in srgb,var(--tw-table-bg) 90%,black);
       }
+    }
+  }
+  .\[\:where\(\&\)\]\:w-full {
+    :where(&) {
+      width: 100%;
     }
   }
   .\[\:where\(\&\)\]\:gap-y-6 {

@@ -1,0 +1,18 @@
+@inherits BaseComponent
+@if ( HasSubmenu )
+{
+    <Dropdown Disabled="@Disabled">
+        <DropdownToggle @ref="@toggleRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Disabled="@Disabled" ShowToggleIcon="true" aria-label="@Text" @attributes="@Attributes">
+            <_RibbonCommandContent Text="@Text" Icon="@Icon" Size="RibbonItemSize.Medium" />
+        </DropdownToggle>
+        <DropdownMenu>
+            @ChildContent
+        </DropdownMenu>
+    </Dropdown>
+}
+else
+{
+    <DropdownItem @ref="@itemRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Disabled="@Disabled" Clicked="@OnClickHandler" @attributes="@Attributes">
+        <_RibbonCommandContent Text="@Text" Icon="@Icon" Size="RibbonItemSize.Medium" />
+    </DropdownItem>
+}

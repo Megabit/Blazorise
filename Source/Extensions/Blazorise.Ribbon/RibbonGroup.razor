@@ -1,0 +1,15 @@
+@inherits BaseComponent
+<Div @ref="@containerRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" role="group" aria-labelledby="@CaptionElementId" @attributes="@Attributes">
+    <Div Flex="@EffectiveItemsFlex" Gap="Blazorise.Gap.Is1" Height="@(IsSimplified ? Blazorise.Height.Auto : Blazorise.Height.Rem( 6 ))">
+        @ChildContent
+    </Div>
+    <Div Flex="@(IsSimplified ? null : Blazorise.Flex.Row.AlignItems.Center.JustifyContent.Between)" Gap="Blazorise.Gap.Is1" Display="@(IsSimplified ? Blazorise.Display.None : null)" Height="Blazorise.Height.Rem().Min( 1 )" hidden="@IsSimplified">
+        <Span ElementId="@CaptionElementId" Flex="Blazorise.Flex.Grow.Is1" TextAlignment="TextAlignment.Center" TextColor="Blazorise.TextColor.Secondary" TextSize="Blazorise.TextSize.ExtraSmall">@Text</Span>
+        @if ( ShowLauncher )
+        {
+            <Button Ghost Size="Blazorise.Size.Small" Height="Blazorise.Height.Auto" TextColor="Blazorise.TextColor.Body" Border="Blazorise.Border.Is0" TextSize="Blazorise.TextSize.Px( 10 )" Padding="Blazorise.Padding.Is0" Disabled="@LauncherDisabled" Clicked="@OnLauncherHandler" aria-label="@EffectiveLauncherLabel">
+                <Icon Name="IconName.ExternalLinkSquareAlt" IconSize="IconSize.ExtraSmall" />
+            </Button>
+        }
+    </Div>
+</Div>

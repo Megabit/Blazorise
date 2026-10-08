@@ -1,0 +1,4 @@
+@inherits BaseRibbonItem
+<Button @ref="@buttonRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Height="@(Height is null ? EffectiveHeight : null)" Color="@Color" TextColor="@EffectiveTextColor" Ghost Size="Blazorise.Size.Small" Disabled="@Disabled" Active="@IsPressed" Clicked="@OnClickHandler" aria-label="@Text" title="@Text" @attributes="@Attributes">
+    <_RibbonCommandContent Text="@Text" Icon="@Icon" Size="@EffectiveSize" ChildContent="@ChildContent" />
+</Button>

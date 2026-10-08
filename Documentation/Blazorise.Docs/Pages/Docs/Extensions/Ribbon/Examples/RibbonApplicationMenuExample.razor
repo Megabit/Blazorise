@@ -1,0 +1,100 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Ribbon SelectedTab="home" ShowCollapseButton="false" Border="Border.Is1.Rounded">
+    <ApplicationTab>
+        <RibbonApplicationMenu Text="File">
+            <RibbonApplicationMenuItem Text="New" Icon="IconName.File" Clicked="@OnNewHandler" />
+            <RibbonApplicationMenuItem Text="Open" Icon="IconName.FolderOpen" Clicked="@OnOpenHandler" />
+            <RibbonApplicationMenuItem Text="Save As" Icon="IconName.Save">
+                <RibbonApplicationMenuItem Text="Word document" Clicked="@OnSaveWordHandler" />
+                <RibbonApplicationMenuItem Text="PDF" Clicked="@OnSavePdfHandler" />
+                <RibbonApplicationMenuDivider />
+                <RibbonApplicationMenuItem Text="Other formats">
+                    <RibbonApplicationMenuItem Text="Plain text" Clicked="@OnSaveTextHandler" />
+                </RibbonApplicationMenuItem>
+            </RibbonApplicationMenuItem>
+            <RibbonApplicationMenuDivider />
+            <RibbonApplicationMenuItem Text="Print" Icon="IconName.Print" Clicked="@OnPrintHandler" />
+        </RibbonApplicationMenu>
+    </ApplicationTab>
+    <RibbonTabs>
+        <RibbonTab Name="home" Text="Home">
+            <RibbonGroup Text="Clipboard">
+                <RibbonButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" />
+                <RibbonColumn>
+                    <RibbonButton Text="Cut" Icon="IconName.Cut" />
+                    <RibbonButton Text="Copy" Icon="IconName.Copy" Clicked="@OnCopyHandler" />
+                    <RibbonButton Text="Format Painter" Icon="IconName.PaintBrush" />
+                </RibbonColumn>
+            </RibbonGroup>
+            <RibbonGroup Text="Paragraph">
+                <RibbonButton Text="Align left" Icon="IconName.AlignLeft" Size="RibbonItemSize.Large" />
+                <RibbonColumn>
+                    <RibbonButton Text="Center" Icon="IconName.AlignCenter" />
+                    <RibbonButton Text="Align right" Icon="IconName.AlignRight" />
+                </RibbonColumn>
+            </RibbonGroup>
+            <RibbonGroup Text="Editing">
+                <RibbonColumn>
+                    <RibbonButton Text="Find" Icon="IconName.Search" />
+                    <RibbonButton Text="Replace" Icon="IconName.Sync" />
+                </RibbonColumn>
+            </RibbonGroup>
+        </RibbonTab>
+    </RibbonTabs>
+</Ribbon>
+
+<Div Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is2.FromTop">
+    <Div Background="Background.White" Border="Border.Is1" Padding="Padding.Is4" Height="Height.Rem().Min( 16 )">
+        <Heading Size="HeadingSize.Is4">Project notes</Heading>
+        <Paragraph TextColor="TextColor.Secondary">Quarterly planning document</Paragraph>
+        <Paragraph>
+            Review the team's progress, collect feedback, and outline the priorities for the next release.
+        </Paragraph>
+        <Heading Size="HeadingSize.Is5">Next steps</Heading>
+        <Paragraph>Confirm the timeline and share the updated plan with the team.</Paragraph>
+    </Div>
+</Div>
+
+<Paragraph Margin="Margin.Is2.FromTop" TextColor="TextColor.Secondary">
+    @status
+</Paragraph>
+
+@code {
+    private string status = "Open File, then Save As to explore nested menus.";
+
+    private void OnNewHandler()
+    {
+        status = "New document selected.";
+    }
+
+    private void OnOpenHandler()
+    {
+        status = "Open document selected.";
+    }
+
+    private void OnSaveWordHandler()
+    {
+        status = "Save as Word document selected.";
+    }
+
+    private void OnSavePdfHandler()
+    {
+        status = "Save as PDF selected.";
+    }
+
+    private void OnSaveTextHandler()
+    {
+        status = "Save as plain text selected.";
+    }
+
+    private void OnPrintHandler()
+    {
+        status = "Print selected.";
+    }
+
+    private void OnCopyHandler()
+    {
+        status = "Copy selected.";
+    }
+}

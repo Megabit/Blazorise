@@ -1,0 +1,33 @@
+@namespace Blazorise.Ribbon.Components
+@if ( ChildContent is not null )
+{
+    @ChildContent
+}
+else
+{
+    <Span Flex="@(Size == RibbonItemSize.Large ? Flex.Column.AlignItems.Center.JustifyContent.Center : Flex.Row.AlignItems.Center)" Height="@(Size == RibbonItemSize.Large ? Height.Is100 : null)" Gap="Gap.Is1">
+        @if ( Icon is not null )
+        {
+            <Icon Name="@Icon" IconSize="@(Size == RibbonItemSize.Large ? IconSize.x2 : IconSize.Default)" TextSize="@(Size == RibbonItemSize.Large ? TextSize.Em( 2 ) : TextSize.Em( 1 ))" FixedWidth />
+        }
+        @if ( ShowText && ( Size != RibbonItemSize.Small || Icon is null ) )
+        {
+            <Span>@Text</Span>
+        }
+    </Span>
+}
+
+@code {
+    [Parameter] public string Text { get; set; }
+
+    [Parameter] public object Icon { get; set; }
+
+    [Parameter] public RibbonItemSize Size { get; set; }
+
+    /// <summary>
+    /// Displays the command label when its size and icon allow visible text. Defaults to <c>true</c>.
+    /// </summary>
+    [Parameter] public bool ShowText { get; set; } = true;
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

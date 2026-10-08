@@ -1,0 +1,18 @@
+{
+  "culture": "zh",
+  "translations": {
+    "Automatic": "自动",
+    "Back to document": "返回文档",
+    "Collapse ribbon": "折叠功能区",
+    "Colors": "颜色",
+    "Expand ribbon": "展开功能区",
+    "File backstage": "文件视图",
+    "File navigation": "文件导航",
+    "More Colors…": "其他颜色…",
+    "No Color": "无颜色",
+    "Quick access": "快速访问",
+    "Ribbon tabs": "功能区选项卡",
+    "Standard Colors": "标准色",
+    "Theme Colors": "主题颜色"
+  }
+}

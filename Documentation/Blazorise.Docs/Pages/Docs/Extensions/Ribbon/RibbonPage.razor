@@ -1,0 +1,188 @@
+@page "/docs/extensions/ribbon"
+
+<Seo Canonical="/docs/extensions/ribbon" Title="Blazorise Ribbon component" Description="Organize application commands with Blazorise Ribbon tabs, groups, menus, formatting controls, and optional backstage pages." />
+
+<DocsPageTitle Path="Extensions/Ribbon">
+    Blazorise Ribbon component
+</DocsPageTitle>
+
+<DocsPageLead>
+    The <Code>Ribbon</Code> component keeps related commands easy to find and frequently used actions within reach, leaving more room for the document or workspace.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Use a ribbon in document editors, spreadsheets, design tools, and other applications where users work with many commands. Grouping actions by task makes it easier to find the right command without filling the screen with toolbars.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Installation
+</DocsPageSectionTitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install the <Code>Blazorise.Ribbon</Code> package in your Blazor application.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="RibbonNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        Add the Ribbon namespace to your <Code>_Imports.razor</Code> file. The extension uses your existing Blazorise setup.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="RibbonImportsExample" />
+</DocsPageSection>
+
+<DocsPageSectionTitle>
+    Examples
+</DocsPageSectionTitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basics">
+        When your application has many commands, arrange them into tabs for different tasks and use <Code>RibbonGroup</Code> to keep related actions together. Start with Home and Insert, give each tab a unique <Code>Name</Code>, and bind <Code>SelectedTab</Code> to follow the user's selection.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonBasicExample" Outlined FullWidth>
+        <RibbonBasicExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Commands">
+        When adding commands or menus to a ribbon, choose their <Code>Size</Code> to give important actions more space and keep supporting commands compact. Try <Code>Large</Code> for Paste and <Code>Small</Code> for Cut. Use <Code>RibbonSplitButton</Code> when an action needs a menu of alternatives, or <Code>RibbonDropdown</Code> for a menu on its own.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonCommandsExample" Outlined FullWidth>
+        <RibbonCommandsExample />
+    </DocsPageSectionContent>
+    <DocsPageParagraph>
+        When your application needs to open or close a menu, bind <Code>Visible</Code> on either command, as the switches do here. Through a component reference, you can also call <Code>Show()</Code>, <Code>Hide()</Code>, or <Code>Focus()</Code> to focus the menu toggle.
+    </DocsPageParagraph>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Rows and columns">
+        Keep supporting commands beside a large action by stacking them in <Code>RibbonColumn</Code>, as Clipboard does here. To arrange commands into horizontal rows, set the group's <Code>Layout</Code> to <Code>RibbonGroupLayout.Rows</Code> and wrap each row in <Code>RibbonRow</Code>. Groups use <Code>Columns</Code> by default.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonRowsColumnsExample" Outlined FullWidth>
+        <RibbonRowsColumnsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Formatting">
+        For formatting options such as Bold or text color, bind the controls so the ribbon remembers the user's choices. Use <Code>Layout="RibbonGroupLayout.Rows"</Code> to place font selectors and formatting controls in separate <Code>RibbonRow</Code> components. Add a gallery when users would benefit from seeing a style preview before selecting it.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonFormattingExample" Outlined FullWidth>
+        <RibbonFormattingExample />
+    </DocsPageSectionContent>
+    <DocsPageParagraph>
+        For a color command, bind <Code>Value</Code> to keep its swatch or icon indicator in sync with the document. Use <Code>Text</Code> to name the command and <Code>ChildContent</Code> when it needs a custom preview. Color commands follow the same sizes as other ribbon commands.
+    </DocsPageParagraph>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Colors">
+        To give users useful color choices without defining them yourself, use the default Extended palette or choose Simple or Standard through <Code>PalettePreset</Code>. Try switching presets below, then open Font color to compare them. More Colors opens the full picker for a custom shade; No Color clears the binding.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonColorsExample" Outlined FullWidth>
+        <RibbonColorsExample />
+    </DocsPageSectionContent>
+    <DocsPageParagraph>
+        When a command needs specific colors, supply <Code>Palette</Code>, as Brand color does here. Those colors replace the preset; <Code>StandardPalette</Code> can add a second section. Use <Code>PaletteColumns</Code> to arrange the grid and <Code>PaletteText</Code> to label it. When a command should always have a color, hide No Color with <Code>ShowNoColor="false"</Code>, as Brand color does here. Handle <Code>AutomaticClicked</Code> when the document has its own default color, or set <Code>HideAfterPaletteSelect="false"</Code> to keep the menu open while trying colors.
+    </DocsPageParagraph>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Layout">
+        A full ribbon works well for grouped editing tools, but users may want more room for their document. Let them switch <Code>DisplayMode</Code> or collapse the commands to keep the workspace clear. Enable table tools to reveal commands for the selected table.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonLayoutExample" Outlined FullWidth>
+        <RibbonLayoutExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Toolbars">
+        When commands such as Save or Share should stay within reach across every tab, place them outside <Code>RibbonTabs</Code>. Use <Code>QuickAccessToolbar</Code> for the toolbar above the tabs and <Code>TabStripToolbar</Code> for commands beside the tab headings. Switch tabs or collapse the ribbon to see both strips stay available.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonToolbarsExample" Outlined FullWidth>
+        <RibbonToolbarsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Contextual tabs">
+        When selecting an object should reveal several tabs, place them in a named <Code>RibbonContextualTabs</Code> group. Bind <Code>ActiveContextualGroups</Code> to your editor's selection and enable <Code>SelectOnShow</Code> to open its first tab automatically. The switches use declarative state; Clear contexts demonstrates imperative updates to the same binding.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonContextualExample" Outlined FullWidth>
+        <RibbonContextualExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="File menu">
+        When file commands only need a compact menu, add <Code>RibbonApplicationMenu</Code> inside <Code>ApplicationTab</Code>. Group actions such as New, Open, and Print there, and nest menu items when a command needs more choices, as Save As does in this example.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonApplicationMenuExample" Outlined FullWidth>
+        <RibbonApplicationMenuExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Backstage">
+        Use <Code>RibbonWorkspace</Code> to connect the application button and backstage automatically. Backstage overlays the document while preserving its content. Bind <Code>BackstageVisible</Code> on the workspace when the application needs to control visibility.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonBackstageExample" Outlined FullWidth>
+        <RibbonBackstageExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Standalone backstage">
+        Without a workspace, bind the application button's <Code>Expanded</Code> and backstage's <Code>Visible</Code> to the same Boolean. Place backstage in a positioned container, or set <Code>Fullscreen</Code> to cover the viewport. Optionally connect the button and backstage using <Code>aria-controls</Code> and <Code>ElementId</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonStandaloneBackstageExample" Outlined FullWidth>
+        <RibbonStandaloneBackstageExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Animation">
+        To help users follow a change of tab, enable <Code>Animated</Code> and let the command panel slide in from the direction of the new selection. Try moving between Home, Insert, and View in either direction; adjust <Code>AnimationDuration</Code> to change the pace.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonAnimationExample" Outlined FullWidth>
+        <RibbonAnimationExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Rendering">
+        If your tabs contain expensive content, choose a <Code>RenderMode</Code> that avoids creating every panel up front. Use <Code>LazyLoad</Code> when visited panels should keep their state, or <Code>LazyReload</Code> when only the active panel should exist. The ribbon creates all panels by default; backstage uses lazy loading.
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Word ribbon">
+        For a document editor, bring the previous patterns together around a document workspace. This example keeps editing tools on Home and gives insertion, layout, review, and viewing tasks their own tabs. Explore the File menu and control states to see the complete UI; command buttons leave the sample document unchanged.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonWordExample" Outlined FullWidth>
+        <RibbonWordExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<Ribbon />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonTab />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonContextualTabs />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonGroup />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonColumn />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonRow />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonButton />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonToggleButton />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonSplitButton />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonDropdown />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonColorPicker />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonGallery />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonApplicationMenu />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonApplicationButton />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonWorkspace />" />
+    <DocsPageApiItem Url="docs/extensions/ribbon/api" Name="<RibbonBackstage />" />
+</DocsPageApi>

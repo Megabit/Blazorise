@@ -1,0 +1,56 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Ribbon SelectedTab="home" ShowCollapseButton="false" Border="Border.Is1.Rounded">
+    <RibbonTabs>
+        <RibbonTab Name="home" Text="Home">
+            <RibbonGroup Text="Clipboard">
+                <RibbonButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" />
+                <RibbonColumn>
+                    <RibbonButton Text="Cut" Icon="IconName.Cut" />
+                    <RibbonButton Text="Copy" Icon="IconName.Copy" />
+                </RibbonColumn>
+            </RibbonGroup>
+            <RibbonGroup Text="Font" Layout="RibbonGroupLayout.Rows">
+                <RibbonRow>
+                    <Select TValue="RibbonColorPalette" @bind-Value="@palettePreset" Size="Size.Small" Width="Width.Rem( 8 )" aria-label="Color palette">
+                        <SelectItem Value="RibbonColorPalette.Simple">Simple</SelectItem>
+                        <SelectItem Value="RibbonColorPalette.Standard">Standard</SelectItem>
+                        <SelectItem Value="RibbonColorPalette.Extended">Extended</SelectItem>
+                    </Select>
+                    <RibbonColorPicker Text="Font color" Icon="IconName.Palette" Size="RibbonItemSize.Small" @bind-Value="@fontColor" PalettePreset="@palettePreset" ShowAutomatic AutomaticClicked="@OnAutomaticColorHandler" />
+                </RibbonRow>
+                <RibbonRow>
+                    <RibbonToggleButton Text="Bold" Icon="IconName.Bold" Size="RibbonItemSize.Small" @bind-Checked="@bold" />
+                    <RibbonToggleButton Text="Italic" Icon="IconName.Italic" Size="RibbonItemSize.Small" @bind-Checked="@italic" />
+                    <RibbonButton Text="Clear formatting" Icon="IconName.RemoveFormat" />
+                </RibbonRow>
+            </RibbonGroup>
+            <RibbonGroup Text="Brand">
+                <RibbonColorPicker Text="Brand color" Size="RibbonItemSize.Large" @bind-Value="@brandColor" Palette="@brandColors" PaletteText="Brand Colors" PaletteColumns="5" ShowNoColor="false" />
+            </RibbonGroup>
+        </RibbonTab>
+    </RibbonTabs>
+</Ribbon>
+
+<Paragraph Margin="Margin.Is3.FromTop" TextColor="@(string.IsNullOrEmpty( fontColor ) ? TextColor.Body : new TextColor( fontColor ))" TextWeight="@(bold ? TextWeight.Bold : TextWeight.Normal)" Italic="@italic">
+    Choose a preset, use Automatic for the document's default, or open More Colors for a custom shade.
+</Paragraph>
+
+@code {
+    private readonly string[] brandColors =
+    [
+        "#4472C4", "#ED7D31", "#70AD47", "#A5A5A5", "#7030A0",
+    ];
+
+    private RibbonColorPalette palettePreset = RibbonColorPalette.Extended;
+
+    private string fontColor = "#212121";
+
+    private string brandColor = "#4472C4";
+
+    private bool bold;
+
+    private bool italic;
+
+    private void OnAutomaticColorHandler() => fontColor = "#212121";
+}

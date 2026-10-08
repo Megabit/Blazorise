@@ -1,0 +1,107 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Flex="Flex.Row.Wrap.AlignItems.Center" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
+    <Switch TValue="bool" @bind-Value="@pasteMenuVisible">Paste menu open</Switch>
+    <Switch TValue="bool" @bind-Value="@tableMenuVisible">Table menu open</Switch>
+</Div>
+
+<Ribbon SelectedTab="home" ShowCollapseButton="false" Border="Border.Is1.Rounded">
+    <RibbonTabs>
+        <RibbonTab Name="home" Text="Home">
+            <RibbonGroup Text="Clipboard">
+                <RibbonSplitButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" @bind-Visible="@pasteMenuVisible" Clicked="@OnPasteHandler">
+                    <RibbonDropdownItem Text="Keep source formatting" Clicked="@OnPasteFormattingHandler" />
+                    <RibbonDropdownItem Text="Keep text only" Clicked="@OnPasteTextHandler" />
+                    <RibbonDropdownDivider />
+                    <RibbonDropdownItem Text="Paste special" Clicked="@OnPasteSpecialHandler" />
+                </RibbonSplitButton>
+                <RibbonColumn>
+                    <RibbonButton Text="Cut" Icon="IconName.Cut" Size="RibbonItemSize.Small" Clicked="@OnCutHandler" />
+                    <RibbonButton Text="Copy" Icon="IconName.Copy" Size="RibbonItemSize.Medium" Clicked="@OnCopyHandler" />
+                </RibbonColumn>
+            </RibbonGroup>
+            <RibbonGroup Text="Insert">
+                <RibbonDropdown Text="Table" Icon="IconName.Table" Size="RibbonItemSize.Large" @bind-Visible="@tableMenuVisible">
+                    <RibbonDropdownItem Text="Insert table" Icon="IconName.Table" Clicked="@OnTableHandler" />
+                    <RibbonDropdownItem Text="Draw table" Clicked="@OnDrawTableHandler" />
+                </RibbonDropdown>
+            </RibbonGroup>
+            <RibbonGroup Text="Editing">
+                <RibbonColumn>
+                    <RibbonSplitButton Text="Find" Icon="IconName.Search" Size="RibbonItemSize.Medium" Clicked="@OnFindHandler">
+                        <RibbonDropdownItem Text="Advanced find" Clicked="@OnAdvancedFindHandler" />
+                        <RibbonDropdownItem Text="Go to" Clicked="@OnGoToHandler" />
+                    </RibbonSplitButton>
+                    <RibbonButton Text="Replace" Icon="IconName.Edit" Disabled />
+                </RibbonColumn>
+            </RibbonGroup>
+        </RibbonTab>
+    </RibbonTabs>
+</Ribbon>
+
+<Paragraph Margin="Margin.Is2.FromTop" TextColor="TextColor.Secondary">
+    @status
+</Paragraph>
+
+@code {
+    private bool pasteMenuVisible;
+
+    private bool tableMenuVisible;
+
+    private string status = "Use Paste for its default action or open its menu for alternatives.";
+
+    private void OnPasteHandler()
+    {
+        status = "Default paste action selected.";
+    }
+
+    private void OnPasteFormattingHandler()
+    {
+        status = "Paste with source formatting selected.";
+    }
+
+    private void OnPasteTextHandler()
+    {
+        status = "Paste as plain text selected.";
+    }
+
+    private void OnPasteSpecialHandler()
+    {
+        status = "Paste special selected.";
+    }
+
+    private void OnCutHandler()
+    {
+        status = "Cut selected.";
+    }
+
+    private void OnCopyHandler()
+    {
+        status = "Copy selected.";
+    }
+
+    private void OnTableHandler()
+    {
+        status = "Insert table selected.";
+    }
+
+    private void OnDrawTableHandler()
+    {
+        status = "Draw table selected.";
+    }
+
+    private void OnFindHandler()
+    {
+        status = "Default find action selected.";
+    }
+
+    private void OnAdvancedFindHandler()
+    {
+        status = "Advanced find selected.";
+    }
+
+    private void OnGoToHandler()
+    {
+        status = "Go to selected.";
+    }
+}

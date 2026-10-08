@@ -41,6 +41,14 @@ public class JSColorPickerModule : BaseJSModule, IJSColorPickerModule
         => ValueTask.CompletedTask;
 
     /// <inheritdoc/>
+    public virtual ValueTask Show( ElementReference elementRef, string elementId, string targetElementId = null )
+        => InvokeSafeVoidAsync( "show", elementRef, elementId, targetElementId );
+
+    /// <inheritdoc/>
+    public virtual ValueTask Hide( ElementReference elementRef, string elementId )
+        => InvokeSafeVoidAsync( "hide", elementRef, elementId );
+
+    /// <inheritdoc/>
     public virtual ValueTask UpdateValue( ElementReference elementRef, string elementId, object value )
         => InvokeSafeVoidAsync( "updateValue", elementRef, elementId, value );
 

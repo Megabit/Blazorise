@@ -1,0 +1,107 @@
+@inherits BaseRibbonItem
+<Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Height="@(Height is null ? EffectiveHeight : null)" Disabled="@IsDisabled" Direction="@Direction" Visible="@Visible" VisibleChanged="@OnVisibleChangedHandler" @onkeydown="@OnMenuKeyDownHandler" @attributes="@Attributes">
+    <DropdownToggle @ref="@toggleRef" ElementId="@ToggleElementId" Color="@Color" TextColor="@EffectiveTextColor" Ghost Size="Blazorise.Size.Small" Border="Blazorise.Border.Is0" Flex="@(EffectiveSize == RibbonItemSize.Large ? Blazorise.Flex.InlineFlex.Column.NoWrap.AlignItems.Center.JustifyContent.Center : Blazorise.Flex.InlineFlex.Row.NoWrap.AlignItems.Center.JustifyContent.Center)" Height="@(EffectiveSize == RibbonItemSize.Large ? Blazorise.Height.Is100 : Blazorise.Height.Auto)" Padding="Blazorise.Padding.Is1" TextSize="Blazorise.TextSize.Px( 13 )" TextOverflow="Blazorise.TextOverflow.NoWrap" aria-label="@Text" title="@Text">
+        @if ( ChildContent is not null )
+        {
+            @ChildContent
+        }
+        else
+        {
+            <Span Flex="@(EffectiveSize == RibbonItemSize.Large ? Blazorise.Flex.Column.AlignItems.Center.JustifyContent.Center : Blazorise.Flex.Row.AlignItems.Center)" Height="@(EffectiveSize == RibbonItemSize.Large ? Blazorise.Height.Is100 : null)" Gap="Blazorise.Gap.Is1">
+                <Span Flex="Blazorise.Flex.Column.AlignItems.Center" aria-hidden="true">
+                    @if ( Icon is not null )
+                    {
+                        <Icon Name="@Icon" IconSize="@(EffectiveSize == RibbonItemSize.Large ? IconSize.x2 : IconSize.Default)" TextSize="@(EffectiveSize == RibbonItemSize.Large ? Blazorise.TextSize.Em( 2 ) : Blazorise.TextSize.Em( 1 ))" FixedWidth />
+                        <Span Display="Blazorise.Display.Block" Width="@(EffectiveSize == RibbonItemSize.Large ? Blazorise.Width.Em( 2 ) : Blazorise.Width.Em( 1 ))" Height="Blazorise.Height.Px( 3 )" Background="@EffectiveIndicatorBackground" />
+                    }
+                    else
+                    {
+                        <Span Display="Blazorise.Display.Block" Width="@(EffectiveSize == RibbonItemSize.Large ? Blazorise.Width.Rem( 2 ) : Blazorise.Width.Rem( 1.25 ))" Height="@(EffectiveSize == RibbonItemSize.Large ? Blazorise.Height.Rem( 2 ) : Blazorise.Height.Rem( 1.25 ))" Border="Blazorise.Border.Is1.Rounded" Background="@EffectiveIndicatorBackground" />
+                    }
+                </Span>
+                @if ( EffectiveSize != RibbonItemSize.Small )
+                {
+                    <Span>@Text</Span>
+                }
+                @if ( ShowValue )
+                {
+                    <Span>@Value</Span>
+                }
+            </Span>
+        }
+    </DropdownToggle>
+    <DropdownMenu aria-label="@Text">
+        @if ( ShowAutomatic )
+        {
+            <RibbonDropdownItem Text="@EffectiveAutomaticText" Disabled="@IsDisabled" Clicked="@OnAutomaticClickedHandler" />
+            @if ( HasPalette )
+            {
+                <RibbonDropdownDivider />
+            }
+        }
+        @if ( ShowPalette )
+        {
+            <CascadingValue TValue="Dropdown" Value="@((Dropdown)null)" IsFixed>
+                @if ( EffectivePalette.Length > 0 )
+                {
+                    <Div Padding="Blazorise.Padding.Is2" role="group" aria-label="@EffectivePaletteText">
+                        @if ( !string.IsNullOrEmpty( EffectivePaletteText ) )
+                        {
+                            <Div TextSize="Blazorise.TextSize.Small" TextWeight="TextWeight.SemiBold" Margin="Blazorise.Margin.Is1.FromBottom">@EffectivePaletteText</Div>
+                        }
+                        <Grid Columns="@EffectiveGridColumns" Gap="Blazorise.Gap.Is0" Width="@Blazorise.Width.Rem( EffectivePaletteColumns * 1.5 )">
+                            @foreach ( var color in EffectivePalette )
+                            {
+                                var selected = IsColorSelected( color );
+                                Task OnColorClickedHandler() => HandleColorSelected( color );
+
+                                <Button Color="Blazorise.Color.Primary" Ghost Size="Blazorise.Size.Small" Active="@selected" Disabled="@IsDisabled" Width="Blazorise.Width.Rem( 1.5 )" Height="Blazorise.Height.Rem( 1.5 )" Padding="Blazorise.Padding.Is1" Border="Blazorise.Border.Is0" Flex="Blazorise.Flex.InlineFlex.AlignItems.Center.JustifyContent.Center.Shrink.Is0" Clicked="@OnColorClickedHandler" role="menuitemradio" aria-checked="@(selected ? "true" : "false")" aria-pressed="@((string)null)" aria-label="@color" title="@color">
+                                    <Span Display="Blazorise.Display.Block" Width="Blazorise.Width.Rem( 1 )" Height="Blazorise.Height.Rem( 1 )" Flex="Blazorise.Flex.Shrink.Is0" Border="Blazorise.Border.Is1" Background="@(new Background( color ))" aria-hidden="true" />
+                                </Button>
+                            }
+                        </Grid>
+                    </Div>
+                }
+                @if ( EffectiveStandardPalette.Length > 0 )
+                {
+                    <Div Padding="Blazorise.Padding.Is2" role="group" aria-label="@EffectiveStandardPaletteText">
+                        @if ( !string.IsNullOrEmpty( EffectiveStandardPaletteText ) )
+                        {
+                            <Div TextSize="Blazorise.TextSize.Small" TextWeight="TextWeight.SemiBold" Margin="Blazorise.Margin.Is1.FromBottom">@EffectiveStandardPaletteText</Div>
+                        }
+                        <Grid Columns="@EffectiveGridColumns" Gap="Blazorise.Gap.Is0" Width="@Blazorise.Width.Rem( EffectivePaletteColumns * 1.5 )">
+                            @foreach ( var color in EffectiveStandardPalette )
+                            {
+                                var selected = IsColorSelected( color );
+                                Task OnColorClickedHandler() => HandleColorSelected( color );
+
+                                <Button Color="Blazorise.Color.Primary" Ghost Size="Blazorise.Size.Small" Active="@selected" Disabled="@IsDisabled" Width="Blazorise.Width.Rem( 1.5 )" Height="Blazorise.Height.Rem( 1.5 )" Padding="Blazorise.Padding.Is1" Border="Blazorise.Border.Is0" Flex="Blazorise.Flex.InlineFlex.AlignItems.Center.JustifyContent.Center.Shrink.Is0" Clicked="@OnColorClickedHandler" role="menuitemradio" aria-checked="@(selected ? "true" : "false")" aria-pressed="@((string)null)" aria-label="@color" title="@color">
+                                    <Span Display="Blazorise.Display.Block" Width="Blazorise.Width.Rem( 1 )" Height="Blazorise.Height.Rem( 1 )" Flex="Blazorise.Flex.Shrink.Is0" Border="Blazorise.Border.Is1" Background="@(new Background( color ))" aria-hidden="true" />
+                                </Button>
+                            }
+                        </Grid>
+                    </Div>
+                }
+            </CascadingValue>
+        }
+        @if ( ShowNoColor || ShowMoreColors )
+        {
+            @if ( ShowAutomatic || HasPalette )
+            {
+                <RibbonDropdownDivider />
+            }
+            @if ( ShowNoColor )
+            {
+                <RibbonDropdownItem Text="@EffectiveNoColorText" Icon="IconName.Ban" Disabled="@IsDisabled" Clicked="@OnNoColorClickedHandler" />
+            }
+            @if ( ShowMoreColors )
+            {
+                <ColorPicker @ref="@pickerRef" Class="@MoreColorsClassNames" Value="@Value" ValueChanged="@OnValueChangedHandler" ShowValue="false" Size="Blazorise.Size.Small" Disabled="@Disabled" ReadOnly="@ReadOnly" Width="Blazorise.Width.Is100" Height="Blazorise.Height.Auto" Border="Blazorise.Border.Is0" TextSize="Blazorise.TextSize.Px( 13 )" ShowPalette="false" ShowClearButton="false" ShowCancelButton="true" ShowOpacitySlider="true" ShowHueSlider="true" ShowInputField="true" PickerLocalizer="@PickerLocalizer" TabIndex="0" aria-label="@($"{Text}: {EffectiveMoreColorsText}")" role="menuitem" @onclick="@OnMoreColorsClickedHandler">
+                    <PreviewContent>
+                        <_RibbonCommandContent Text="@EffectiveMoreColorsText" Icon="IconName.Palette" Size="RibbonItemSize.Medium" />
+                    </PreviewContent>
+                </ColorPicker>
+            }
+        }
+    </DropdownMenu>
+</Dropdown>

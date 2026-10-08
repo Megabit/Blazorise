@@ -96,6 +96,7 @@
     <Project Path="Source/Extensions/Blazorise.Reporting.DataSources.WebApi/Blazorise.Reporting.DataSources.WebApi.csproj" />
     <Project Path="Source/Extensions/Blazorise.Reporting/Blazorise.Reporting.csproj" />
     <Project Path="Source/Extensions/Blazorise.RichTextEdit/Blazorise.RichTextEdit.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Ribbon/Blazorise.Ribbon.csproj" />
     <Project Path="Source/Extensions/Blazorise.Scheduler/Blazorise.Scheduler.csproj" />
     <Project Path="Source/Extensions/Blazorise.Sidebar/Blazorise.Sidebar.csproj" />
     <Project Path="Source/Extensions/Blazorise.SignaturePad/Blazorise.SignaturePad.csproj" />

@@ -1,4 +1,6 @@
+#region Using directives
 using Blazorise.Utilities;
+#endregion
 
 namespace Blazorise.Tailwind.Components
 {
@@ -27,11 +29,29 @@ namespace Blazorise.Tailwind.Components
         private void BuildWrapperClasses( ClassBuilder builder )
         {
             builder.Append( "group/color-picker relative" );
+
+            if ( PreviewContent is not null )
+            {
+                builder.Append( ClassProvider.TextInput( false ) );
+                builder.Append( ClassProvider.TextInputSize( ThemeSize ) );
+                builder.Append( "data-[custom-preview=true]:inline-flex data-[custom-preview=true]:h-auto items-center" );
+                builder.Append( "[&>input]:absolute [&>input]:inset-0 [&>input]:w-full [&>input]:h-full [&>input]:m-0! [&>input]:opacity-0 [&>input]:cursor-pointer [&>input:disabled]:cursor-not-allowed" );
+                builder.Append( "focus-within:outline-solid focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary-600 has-[>input:disabled]:opacity-[.65]" );
+                builder.Append( UtilityClassBuilder.Class );
+                builder.Append( Class );
+            }
+
             AppendWrapperUtilities( builder );
         }
 
         private void BuildWrapperStyles( StyleBuilder builder )
         {
+            if ( PreviewContent is not null )
+            {
+                builder.Append( UtilityStyleBuilder.Styles );
+                builder.Append( Style );
+            }
+
             AppendWrapperUtilities( builder );
         }
 

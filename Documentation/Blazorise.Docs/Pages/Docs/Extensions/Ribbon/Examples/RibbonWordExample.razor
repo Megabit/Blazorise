@@ -1,0 +1,362 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Border="Border.Is1.Rounded" Background="Background.Light">
+    <Ribbon @bind-SelectedTab="@selectedTab" DisplayMode="@displayMode" Background="Background.White" Label="Word document commands">
+        <QuickAccessToolbar>
+            <Icon Name="IconName.FileAlt" TextColor="TextColor.Primary" />
+            <Switch TValue="bool" @bind-Value="@autoSave" Size="Size.Small">AutoSave</Switch>
+            <RibbonButton Text="Save" Icon="IconName.Save" Size="RibbonItemSize.Small" />
+            <RibbonButton Text="Undo" Icon="IconName.Undo" Size="RibbonItemSize.Small" />
+            <RibbonButton Text="Redo" Icon="IconName.Redo" Size="RibbonItemSize.Small" />
+            <Span Margin="Margin.Is3.FromStart" TextWeight="TextWeight.Bold">Quarterly report</Span>
+        </QuickAccessToolbar>
+        <ApplicationTab>
+            <RibbonApplicationMenu Text="File">
+                <RibbonApplicationMenuItem Text="New" Icon="IconName.File" />
+                <RibbonApplicationMenuItem Text="Open" Icon="IconName.FolderOpen" />
+                <RibbonApplicationMenuDivider />
+                <RibbonApplicationMenuItem Text="Save" Icon="IconName.Save" />
+                <RibbonApplicationMenuItem Text="Save As" Icon="IconName.Save">
+                    <RibbonApplicationMenuItem Text="Word document (.docx)" />
+                    <RibbonApplicationMenuItem Text="PDF (.pdf)" />
+                    <RibbonApplicationMenuItem Text="Other formats">
+                        <RibbonApplicationMenuItem Text="Plain text (.txt)" />
+                        <RibbonApplicationMenuItem Text="OpenDocument (.odt)" />
+                    </RibbonApplicationMenuItem>
+                </RibbonApplicationMenuItem>
+                <RibbonApplicationMenuDivider />
+                <RibbonApplicationMenuItem Text="Print" Icon="IconName.Print" />
+            </RibbonApplicationMenu>
+        </ApplicationTab>
+        <TabStripToolbar>
+            <RibbonButton Text="Comments" Icon="IconName.Comment" Size="RibbonItemSize.Small" />
+            <RibbonDropdown Text="Share" Icon="IconName.ShareAlt" Size="RibbonItemSize.Medium">
+                <RibbonDropdownItem Text="Share document" />
+                <RibbonDropdownItem Text="Copy link" />
+            </RibbonDropdown>
+        </TabStripToolbar>
+        <RibbonTabs>
+            <RibbonTab Name="home" Text="Home">
+                <RibbonGroup Text="Clipboard">
+                    <RibbonSplitButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large">
+                        <RibbonDropdownItem Text="Keep source formatting" />
+                        <RibbonDropdownItem Text="Merge formatting" />
+                        <RibbonDropdownItem Text="Keep text only" />
+                        <RibbonDropdownDivider />
+                        <RibbonDropdownItem Text="Paste special…" />
+                    </RibbonSplitButton>
+                    <RibbonColumn>
+                        <RibbonButton Text="Cut" Icon="IconName.Cut" />
+                        <RibbonButton Text="Copy" Icon="IconName.Copy" />
+                        <RibbonButton Text="Format Painter" Icon="IconName.PaintBrush" />
+                    </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Font" Layout="RibbonGroupLayout.Rows">
+                    <RibbonRow>
+                        <Select TValue="string" @bind-Value="@fontFamily" Size="Size.Small" Width="Width.Rem( 8 )" aria-label="Font family">
+                            <SelectItem Value="@("Calibri")">Calibri</SelectItem>
+                            <SelectItem Value="@("Arial")">Arial</SelectItem>
+                            <SelectItem Value="@("Georgia")">Georgia</SelectItem>
+                        </Select>
+                        <Select TValue="int" @bind-Value="@fontSize" Size="Size.Small" Width="Width.Rem( 4 )" aria-label="Font size">
+                            <SelectItem Value="11">11</SelectItem>
+                            <SelectItem Value="12">12</SelectItem>
+                            <SelectItem Value="16">16</SelectItem>
+                            <SelectItem Value="24">24</SelectItem>
+                        </Select>
+                        <RibbonButton Text="Increase font size" Icon="IconName.Plus" Size="RibbonItemSize.Small" />
+                        <RibbonButton Text="Decrease font size" Icon="IconName.Minus" Size="RibbonItemSize.Small" />
+                    </RibbonRow>
+                    <RibbonRow>
+                        <RibbonToggleButton Text="Bold" Icon="IconName.Bold" Size="RibbonItemSize.Small" @bind-Checked="@bold" />
+                        <RibbonToggleButton Text="Italic" Icon="IconName.Italic" Size="RibbonItemSize.Small" @bind-Checked="@italic" />
+                        <RibbonToggleButton Text="Underline" Icon="IconName.Underline" Size="RibbonItemSize.Small" @bind-Checked="@underline" />
+                        <RibbonToggleButton Text="Strikethrough" Icon="IconName.Strikethrough" Size="RibbonItemSize.Small" @bind-Checked="@strikethrough" />
+                        <RibbonButton Text="Clear formatting" Icon="IconName.RemoveFormat" Size="RibbonItemSize.Small" />
+                        <RibbonColorPicker @bind-Value="@highlightColor" Size="RibbonItemSize.Small" Text="Text highlight color" Icon="IconName.Highlighter" PalettePreset="RibbonColorPalette.Standard" PaletteText="Highlight colors" />
+                        <RibbonColorPicker @bind-Value="@fontColor" Size="RibbonItemSize.Small" Text="Font color" Icon="IconName.Palette" ShowAutomatic AutomaticClicked="@OnAutomaticFontColorHandler" />
+                    </RibbonRow>
+                </RibbonGroup>
+                <RibbonGroup Text="Paragraph" Layout="RibbonGroupLayout.Rows">
+                    <RibbonRow>
+                        <RibbonDropdown Text="Bullets" Icon="IconName.ListUl" Size="RibbonItemSize.Small">
+                            <RibbonDropdownItem Text="Filled circle" />
+                            <RibbonDropdownItem Text="Hollow circle" />
+                            <RibbonDropdownItem Text="Square" />
+                            <RibbonDropdownDivider />
+                            <RibbonDropdownItem Text="Define new bullet…" />
+                        </RibbonDropdown>
+                        <RibbonDropdown Text="Numbering" Icon="IconName.ListOl" Size="RibbonItemSize.Small">
+                            <RibbonDropdownItem Text="1, 2, 3" />
+                            <RibbonDropdownItem Text="a, b, c" />
+                            <RibbonDropdownItem Text="I, II, III" />
+                        </RibbonDropdown>
+                        <RibbonButton Text="Decrease indent" Icon="IconName.ArrowLeft" Size="RibbonItemSize.Small" />
+                        <RibbonButton Text="Increase indent" Icon="IconName.Indent" Size="RibbonItemSize.Small" />
+                        <RibbonToggleButton Text="Formatting marks" Size="RibbonItemSize.Small" @bind-Checked="@showFormattingMarks">¶</RibbonToggleButton>
+                    </RibbonRow>
+                    <RibbonRow>
+                        <RibbonButton Text="Align left" Icon="IconName.AlignLeft" Size="RibbonItemSize.Small" />
+                        <RibbonButton Text="Center" Icon="IconName.AlignCenter" Size="RibbonItemSize.Small" />
+                        <RibbonButton Text="Align right" Icon="IconName.AlignRight" Size="RibbonItemSize.Small" />
+                        <RibbonButton Text="Justify" Icon="IconName.AlignJustify" Size="RibbonItemSize.Small" />
+                        <RibbonDropdown Text="Line spacing" Icon="IconName.TextHeight" Size="RibbonItemSize.Small">
+                            <RibbonDropdownItem Text="1.0" />
+                            <RibbonDropdownItem Text="1.5" />
+                            <RibbonDropdownItem Text="2.0" />
+                        </RibbonDropdown>
+                    </RibbonRow>
+                </RibbonGroup>
+                <RibbonGroup Text="Styles">
+                    <RibbonGallery Text="Document styles" @bind-SelectedValue="@selectedStyle">
+                        <RibbonGalleryItem Value="normal" Text="Normal">
+                            <Span>AaBbCc</Span>
+                        </RibbonGalleryItem>
+                        <RibbonGalleryItem Value="heading" Text="Heading 1">
+                            <Span TextSize="TextSize.Large" TextColor="TextColor.Primary">AaBbCc</Span>
+                        </RibbonGalleryItem>
+                        <RibbonGalleryItem Value="title" Text="Title">
+                            <Span TextSize="TextSize.ExtraLarge">AaBbCc</Span>
+                        </RibbonGalleryItem>
+                    </RibbonGallery>
+                </RibbonGroup>
+                <RibbonGroup Text="Editing">
+                    <RibbonColumn>
+                        <RibbonSplitButton Text="Find" Icon="IconName.Search">
+                            <RibbonDropdownItem Text="Find" />
+                            <RibbonDropdownItem Text="Advanced find…" />
+                            <RibbonDropdownItem Text="Go to…" />
+                        </RibbonSplitButton>
+                        <RibbonButton Text="Replace" Icon="IconName.Sync" />
+                        <RibbonDropdown Text="Select" Icon="IconName.Mouse">
+                            <RibbonDropdownItem Text="Select all" />
+                            <RibbonDropdownItem Text="Select objects" />
+                        </RibbonDropdown>
+                    </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Voice">
+                    <RibbonSplitButton Text="Dictate" Icon="IconName.Microphone" Size="RibbonItemSize.Large">
+                        <RibbonDropdownItem Text="English" />
+                        <RibbonDropdownItem Text="French" />
+                        <RibbonDropdownItem Text="German" />
+                    </RibbonSplitButton>
+                </RibbonGroup>
+            </RibbonTab>
+
+            <RibbonTab Name="insert" Text="Insert">
+                <RibbonGroup Text="Pages">
+                    <RibbonDropdown Text="Cover Page" Icon="IconName.FileAlt" Size="RibbonItemSize.Large">
+                        <RibbonDropdownItem Text="Blank cover" />
+                        <RibbonDropdownItem Text="Business report" />
+                    </RibbonDropdown>
+                    <RibbonColumn>
+                        <RibbonButton Text="Blank Page" Icon="IconName.File" />
+                        <RibbonButton Text="Page Break" Icon="IconName.Copy" />
+                    </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Tables">
+                    <RibbonDropdown Text="Table" Icon="IconName.Table" Size="RibbonItemSize.Large">
+                        <RibbonDropdownItem Text="Insert table…" />
+                        <RibbonDropdownItem Text="Draw table" />
+                        <RibbonDropdownDivider />
+                        <RibbonDropdownItem Text="Convert text to table…" />
+                    </RibbonDropdown>
+                </RibbonGroup>
+                <RibbonGroup Text="Illustrations">
+                    <RibbonDropdown Text="Pictures" Icon="IconName.Image" Size="RibbonItemSize.Large">
+                        <RibbonDropdownItem Text="This device…" />
+                        <RibbonDropdownItem Text="Stock images…" />
+                        <RibbonDropdownItem Text="Online pictures…" />
+                    </RibbonDropdown>
+                    <RibbonColumn>
+                        <RibbonDropdown Text="Shapes" Icon="IconName.Shapes">
+                            <RibbonDropdownItem Text="Rectangle" />
+                            <RibbonDropdownItem Text="Circle" />
+                            <RibbonDropdownItem Text="Arrow" />
+                        </RibbonDropdown>
+                        <RibbonButton Text="Chart" Icon="IconName.ChartBar" />
+                        <RibbonButton Text="Screenshot" Icon="IconName.Camera" />
+                    </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Links">
+                    <RibbonButton Text="Link" Icon="IconName.Link" Size="RibbonItemSize.Large" />
+                    <RibbonColumn>
+                        <RibbonButton Text="Bookmark" Icon="IconName.Bookmark" />
+                        <RibbonButton Text="Cross-reference" Icon="IconName.FileAlt" />
+                    </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Header and Footer">
+                    <RibbonColumn>
+                        <RibbonDropdown Text="Header" Icon="IconName.FileAlt">
+                            <RibbonDropdownItem Text="Blank" />
+                            <RibbonDropdownItem Text="Three columns" />
+                        </RibbonDropdown>
+                        <RibbonDropdown Text="Footer" Icon="IconName.FileAlt">
+                            <RibbonDropdownItem Text="Blank" />
+                            <RibbonDropdownItem Text="Page number" />
+                        </RibbonDropdown>
+                        <RibbonButton Text="Page Number" Icon="IconName.ListOl" />
+                    </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Comments">
+                    <RibbonButton Text="Comment" Icon="IconName.Comment" Size="RibbonItemSize.Large" />
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Name="layout" Text="Layout">
+                <RibbonGroup Text="Page Setup">
+                    <RibbonDropdown Text="Margins" Icon="IconName.FileAlt" Size="RibbonItemSize.Large">
+                        <RibbonDropdownItem Text="Normal" />
+                        <RibbonDropdownItem Text="Narrow" />
+                        <RibbonDropdownItem Text="Wide" />
+                        <RibbonDropdownDivider />
+                        <RibbonDropdownItem Text="Custom margins…" />
+                    </RibbonDropdown>
+                    <RibbonDropdown Text="Orientation" Icon="IconName.Sync" Size="RibbonItemSize.Large">
+                        <RibbonDropdownItem Text="Portrait" />
+                        <RibbonDropdownItem Text="Landscape" />
+                    </RibbonDropdown>
+                    <RibbonDropdown Text="Size" Icon="IconName.File" Size="RibbonItemSize.Large">
+                        <RibbonDropdownItem Text="A4" />
+                        <RibbonDropdownItem Text="Letter" />
+                        <RibbonDropdownItem Text="Legal" />
+                    </RibbonDropdown>
+                    <RibbonColumn>
+                        <RibbonDropdown Text="Columns" Icon="IconName.Table">
+                            <RibbonDropdownItem Text="One" />
+                            <RibbonDropdownItem Text="Two" />
+                            <RibbonDropdownItem Text="Three" />
+                        </RibbonDropdown>
+                        <RibbonButton Text="Breaks" Icon="IconName.Copy" />
+                        <RibbonButton Text="Line Numbers" Icon="IconName.ListOl" />
+                    </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Paragraph">
+                    <RibbonColumn>
+                        <RibbonButton Text="Indent Left" Icon="IconName.Indent" />
+                        <RibbonButton Text="Indent Right" Icon="IconName.AlignRight" />
+                        <RibbonButton Text="Spacing" Icon="IconName.TextHeight" />
+                    </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Arrange">
+                    <RibbonButton Text="Position" Icon="IconName.Image" Size="RibbonItemSize.Large" />
+                    <RibbonDropdown Text="Wrap Text" Icon="IconName.AlignLeft" Size="RibbonItemSize.Large">
+                        <RibbonDropdownItem Text="In line with text" />
+                        <RibbonDropdownItem Text="Square" />
+                        <RibbonDropdownItem Text="Behind text" />
+                    </RibbonDropdown>
+                    <RibbonColumn>
+                        <RibbonButton Text="Bring Forward" Icon="IconName.LayerGroup" />
+                        <RibbonButton Text="Send Backward" Icon="IconName.Backward" />
+                    </RibbonColumn>
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Name="review" Text="Review">
+                <RibbonGroup Text="Proofing">
+                    <RibbonButton Text="Editor" Icon="IconName.SpellCheck" Size="RibbonItemSize.Large" />
+                    <RibbonColumn>
+                        <RibbonButton Text="Thesaurus" Icon="IconName.Book" />
+                        <RibbonButton Text="Word Count" Icon="IconName.ListOl" />
+                    </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Language">
+                    <RibbonButton Text="Translate" Icon="IconName.Language" Size="RibbonItemSize.Large" />
+                    <RibbonButton Text="Language" Icon="IconName.Globe" Size="RibbonItemSize.Large" />
+                </RibbonGroup>
+                <RibbonGroup Text="Comments">
+                    <RibbonButton Text="New Comment" Icon="IconName.Comment" Size="RibbonItemSize.Large" />
+                    <RibbonColumn>
+                        <RibbonButton Text="Delete" Icon="IconName.Delete" />
+                        <RibbonButton Text="Previous" Icon="IconName.ArrowLeft" />
+                        <RibbonButton Text="Next" Icon="IconName.ArrowRight" />
+                    </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Tracking">
+                    <RibbonToggleButton Text="Track Changes" Icon="IconName.Edit" Size="RibbonItemSize.Large" @bind-Checked="@trackChanges" />
+                </RibbonGroup>
+                <RibbonGroup Text="Protect">
+                    <RibbonButton Text="Restrict Editing" Icon="IconName.Lock" Size="RibbonItemSize.Large" />
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Name="view" Text="View">
+                <RibbonGroup Text="Views">
+                    <RibbonButton Text="Read Mode" Icon="IconName.BookReader" Size="RibbonItemSize.Large" />
+                    <RibbonButton Text="Print Layout" Icon="IconName.FileAlt" Size="RibbonItemSize.Large" />
+                    <RibbonButton Text="Web Layout" Icon="IconName.Globe" Size="RibbonItemSize.Large" />
+                </RibbonGroup>
+                <RibbonGroup Text="Show">
+                    <RibbonColumn>
+                        <Check TValue="bool" @bind-Value="@showRuler" Size="Size.Small">Ruler</Check>
+                        <Check TValue="bool" @bind-Value="@showGridlines" Size="Size.Small">Gridlines</Check>
+                        <Check TValue="bool" @bind-Value="@showNavigation" Size="Size.Small">Navigation Pane</Check>
+                    </RibbonColumn>
+                </RibbonGroup>
+                <RibbonGroup Text="Zoom">
+                    <RibbonButton Text="Zoom In" Icon="IconName.SearchPlus" Size="RibbonItemSize.Large" />
+                    <RibbonButton Text="Zoom Out" Icon="IconName.SearchMinus" Size="RibbonItemSize.Large" />
+                    <RibbonButton Text="100%" Icon="IconName.Search" Size="RibbonItemSize.Large" />
+                </RibbonGroup>
+                <RibbonGroup Text="Ribbon">
+                    <Select TValue="RibbonDisplayMode" @bind-Value="@displayMode" Size="Size.Small" aria-label="Ribbon layout">
+                        <SelectItem Value="RibbonDisplayMode.Classic">Classic</SelectItem>
+                        <SelectItem Value="RibbonDisplayMode.Simplified">Simplified</SelectItem>
+                    </Select>
+                </RibbonGroup>
+            </RibbonTab>
+        </RibbonTabs>
+    </Ribbon>
+    <Div Padding="Padding.Is4">
+        <Div Background="Background.White" Border="Border.Is1.Rounded" Padding="Padding.Is4" Height="Height.Rem().Min( 18 )">
+            <Heading Size="HeadingSize.Is3">Quarterly report</Heading>
+            <Paragraph TextColor="TextColor.Secondary">Prepared by Alex Morgan · June 2026</Paragraph>
+            <Heading Size="HeadingSize.Is5">Executive overview</Heading>
+            <Paragraph>
+                This quarter, the team expanded the product range and improved the customer onboarding experience.
+                The next phase focuses on strengthening partnerships and preparing for the autumn launch.
+            </Paragraph>
+            <Heading Size="HeadingSize.Is5">Next steps</Heading>
+            <Paragraph>Finalize the release plan, review customer feedback, and schedule the next project milestone.</Paragraph>
+        </Div>
+        <Div Flex="Flex.Row.Wrap.JustifyContent.Between" Gap="Gap.Is2" Margin="Margin.Is2.FromTop" TextColor="TextColor.Secondary" TextSize="TextSize.Small">
+            <Span>Page 1 of 1</Span>
+            <Span>English · 100%</Span>
+        </Div>
+    </Div>
+</Div>
+
+@code {
+    private string selectedTab = "home";
+
+    private bool autoSave = true;
+
+    private string fontFamily = "Calibri";
+
+    private int fontSize = 11;
+
+    private bool bold;
+
+    private bool italic;
+
+    private bool underline;
+
+    private bool strikethrough;
+
+    private bool showFormattingMarks;
+
+    private string highlightColor = "#ffff00";
+
+    private string fontColor = "#212121";
+
+    private string selectedStyle = "normal";
+
+    private bool trackChanges;
+
+    private bool showRuler = true;
+
+    private bool showGridlines;
+
+    private bool showNavigation;
+
+    private RibbonDisplayMode displayMode;
+
+    private void OnAutomaticFontColorHandler() => fontColor = "#000000";
+}

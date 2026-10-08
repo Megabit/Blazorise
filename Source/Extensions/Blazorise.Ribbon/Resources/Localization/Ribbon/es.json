@@ -1,0 +1,18 @@
+{
+  "culture": "es",
+  "translations": {
+    "Automatic": "Automático",
+    "Back to document": "Volver al documento",
+    "Collapse ribbon": "Contraer la cinta de opciones",
+    "Colors": "Colores",
+    "Expand ribbon": "Expandir la cinta de opciones",
+    "File backstage": "Vista de archivo",
+    "File navigation": "Navegación de archivos",
+    "More Colors…": "Más colores…",
+    "No Color": "Sin color",
+    "Quick access": "Acceso rápido",
+    "Ribbon tabs": "Pestañas de la cinta de opciones",
+    "Standard Colors": "Colores estándar",
+    "Theme Colors": "Colores del tema"
+  }
+}

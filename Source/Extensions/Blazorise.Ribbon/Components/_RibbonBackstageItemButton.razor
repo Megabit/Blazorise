@@ -1,0 +1,46 @@
+@namespace Blazorise.Ribbon.Components
+@implements IDisposable
+<Button @ref="@buttonRef" ElementId="@Item.ElementId" Class="@Item.ClassNames" Style="@Item.StyleNames" Width="Width.Is100" Border="Border.Is0" Background="@(Selected ? Background.White : Background.Transparent)" TextColor="@(Selected ? TextColor.Primary : TextColor.White)" TextAlignment="TextAlignment.Start" Padding="Padding.Is2" Active="@Selected" Disabled="@Item.Disabled" Clicked="@Item.OnClickHandler" aria-pressed="@((string)null)" aria-current="@(Selected ? "page" : null)" aria-controls="@(Item.HasPage ? Item.ContentElementId : null)" @attributes="@Item.Attributes">
+    <Span Flex="Flex.Row.AlignItems.Center" Gap="Gap.Is2">
+        @if ( Item.Icon is not null )
+        {
+            <Icon Name="@Item.Icon" FixedWidth />
+        }
+        <Span>@Item.Text</Span>
+    </Span>
+</Button>
+
+@code {
+    private Button buttonRef;
+
+    protected override void OnInitialized()
+    {
+        Item.HeadingChanged += OnHeadingChangedHandler;
+
+        base.OnInitialized();
+    }
+
+    protected override Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            Item.ElementRef = buttonRef.ElementRef;
+        }
+
+        return base.OnAfterRenderAsync( firstRender );
+    }
+
+    public void Dispose()
+    {
+        Item.HeadingChanged -= OnHeadingChangedHandler;
+    }
+
+    private void OnHeadingChangedHandler()
+    {
+        _ = InvokeAsync( StateHasChanged );
+    }
+
+    [Parameter] public RibbonBackstageItem Item { get; set; }
+
+    [Parameter] public bool Selected { get; set; }
+}

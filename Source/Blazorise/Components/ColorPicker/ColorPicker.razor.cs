@@ -48,6 +48,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// </summary>
     protected ComponentParameterInfo<bool> paramReadOnly;
 
+    /// <summary>
+    /// Captured PreviewContent parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<RenderFragment> paramPreviewContent;
+
     #endregion
 
     #region Constructors
@@ -75,6 +80,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         parameters.TryGetParameter( HideAfterPaletteSelect, out paramHideAfterPaletteSelect );
         parameters.TryGetParameter( Disabled, out paramDisabled );
         parameters.TryGetParameter( ReadOnly, out paramReadOnly );
+        parameters.TryGetParameter( PreviewContent, out paramPreviewContent );
     }
 
     /// <inheritdoc/>
@@ -82,18 +88,22 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     {
         await base.OnBeforeSetParametersAsync( parameters );
 
+        var previewChanged = paramPreviewContent.Defined && ( paramPreviewContent.Value is null ) != ( PreviewContent is null );
         var paletteChanged = paramPalette.Defined && paramPalette.Changed;
         var showPaletteChanged = paramShowPalette.Defined && paramShowPalette.Changed;
         var hideAfterPaletteSelectChanged = paramHideAfterPaletteSelect.Defined && paramHideAfterPaletteSelect.Changed;
         var disabledChanged = paramDisabled.Defined && paramDisabled.Changed;
         var readOnlyChanged = paramReadOnly.Defined && paramReadOnly.Changed;
 
-        if ( paramValue.Changed )
+        if ( previewChanged )
         {
-            if ( Rendered )
-            {
-                ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue.Value ) );
-            }
+            DirtyClasses();
+            DirtyStyles();
+        }
+
+        if ( Rendered && ( paramValue.Changed || previewChanged ) )
+        {
+            ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, Value ) );
         }
 
         if ( Rendered && ( paletteChanged
@@ -240,6 +250,16 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     }
 
     /// <summary>
+    /// Opens the full color picker when the input is enabled and editable.
+    /// </summary>
+    public virtual Task Show() => Disabled || ReadOnly ? Task.CompletedTask : JSModule.Show( ElementRef, ElementId ).AsTask();
+
+    /// <summary>
+    /// Closes the full color picker.
+    /// </summary>
+    public virtual Task Hide() => JSModule.Hide( ElementRef, ElementId ).AsTask();
+
+    /// <summary>
     /// Updated the <see cref="ColorPicker"/> with the new value.
     /// </summary>
     /// <param name="value">New color value.</param>
@@ -276,6 +296,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// Gets the value visibility serialized for the data-show-value attribute.
     /// </summary>
     protected string ShowValueString => ShowValue ? "true" : "false";
+
+    /// <summary>
+    /// Gets the custom preview state serialized for provider styling.
+    /// </summary>
+    protected string CustomPreviewString => PreviewContent is not null ? "true" : "false";
 
     /// <summary>
     /// Gets the CSS selector for the color preview element.
@@ -388,6 +413,15 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// Controls the visibility of the selected color value beside the swatch in the closed picker.
     /// </summary>
     [Parameter] public bool ShowValue { get; set; } = true;
+
+    /// <summary>
+    /// Replaces the color swatch in the closed picker with custom content, such as an icon.
+    /// </summary>
+    /// <remarks>
+    /// The content opens the color picker when activated. Use non-interactive content and supply an accessible name for the picker.
+    /// <see cref="ShowValue"/> independently controls the selected color text. When omitted, the default swatch is displayed.
+    /// </remarks>
+    [Parameter] public RenderFragment PreviewContent { get; set; }
 
     /// <summary>
     /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.

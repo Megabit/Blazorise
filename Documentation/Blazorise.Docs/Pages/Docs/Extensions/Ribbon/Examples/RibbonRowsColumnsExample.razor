@@ -1,0 +1,34 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Ribbon SelectedTab="home" ShowCollapseButton="false" Border="Border.Is1.Rounded">
+    <RibbonTabs>
+        <RibbonTab Name="home" Text="Home">
+            <RibbonGroup Text="Clipboard" Layout="RibbonGroupLayout.Columns">
+                <RibbonButton Text="Paste" Icon="IconName.Paste" Size="RibbonItemSize.Large" />
+                <RibbonColumn>
+                    <RibbonButton Text="Cut" Icon="IconName.Cut" />
+                    <RibbonButton Text="Copy" Icon="IconName.Copy" />
+                    <RibbonButton Text="Format Painter" Icon="IconName.PaintBrush" />
+                </RibbonColumn>
+            </RibbonGroup>
+            <RibbonGroup Text="Paragraph" Layout="RibbonGroupLayout.Rows">
+                <RibbonRow>
+                    <RibbonButton Text="Align left" Icon="IconName.AlignLeft" />
+                    <RibbonButton Text="Center" Icon="IconName.AlignCenter" />
+                    <RibbonButton Text="Align right" Icon="IconName.AlignRight" />
+                </RibbonRow>
+                <RibbonRow>
+                    <RibbonButton Text="Bullets" Icon="IconName.ListUl" />
+                    <RibbonButton Text="Numbering" Icon="IconName.ListOl" />
+                    <RibbonButton Text="Indent" Icon="IconName.ArrowRight" />
+                </RibbonRow>
+            </RibbonGroup>
+            <RibbonGroup Text="Editing">
+                <RibbonColumn>
+                    <RibbonButton Text="Find" Icon="IconName.Search" />
+                    <RibbonButton Text="Replace" Icon="IconName.Sync" />
+                </RibbonColumn>
+            </RibbonGroup>
+        </RibbonTab>
+    </RibbonTabs>
+</Ribbon>

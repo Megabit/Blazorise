@@ -1,0 +1,8 @@
+@inherits BaseComponent
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@State">
+        <Div @ref="@containerRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+        </Div>
+    </CascadingValue>
+</CascadingValue>

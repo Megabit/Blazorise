@@ -1,0 +1,42 @@
+@inherits BaseComponent
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@State">
+        <Div @ref="@containerRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" @attributes="@Attributes">
+            @if ( QuickAccessToolbar is not null )
+            {
+                <Div Flex="Blazorise.Flex.Row.AlignItems.Center" Gap="Blazorise.Gap.Is1" Padding="Blazorise.Padding.Is1" role="group" aria-label="@EffectiveQuickAccessLabel">
+                    @QuickAccessToolbar
+                </Div>
+            }
+            <Div Flex="Blazorise.Flex.Row.AlignItems.End" Gap="Blazorise.Gap.Is1" Width="Blazorise.Width.Px().Min( 0 )">
+                @if ( ApplicationTab is not null )
+                {
+                    <Div Flex="Blazorise.Flex.Row.AlignItems.Center.Shrink.Is0">@ApplicationTab</Div>
+                }
+                <Div Flex="Blazorise.Flex.Row.NoWrap.Grow.Is1" Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Auto.Hidden" role="tablist" aria-label="@EffectiveLabel" aria-orientation="horizontal">
+                    @foreach ( var tab in OrderedTabs.Where( tab => tab.IsVisible ) )
+                    {
+                        <_RibbonTabHeader @key="@tab" Tab="@tab" Selected="@(State.SelectedTab == tab.Name)" />
+                    }
+                </Div>
+                @if ( TabStripToolbar is not null )
+                {
+                    <Div Flex="Blazorise.Flex.InlineFlex.Row.AlignItems.Center" Gap="Blazorise.Gap.Is1">@TabStripToolbar</Div>
+                }
+                @if ( ShowCollapseButton )
+                {
+                    <Button Ghost Size="Blazorise.Size.Small" Height="Blazorise.Height.Auto" Padding="Blazorise.Padding.Is1" TextSize="Blazorise.TextSize.Px( 13 )" TextColor="Blazorise.TextColor.Body" Border="Blazorise.Border.Is0" Clicked="@OnCollapseHandler" aria-label="@EffectiveCollapseButtonLabel" aria-expanded="@ExpandedString" aria-controls="@ContentElementId">
+                        <Icon Name="@(Collapsed ? IconName.ChevronDown : IconName.ChevronUp)" TextSize="Blazorise.TextSize.Em( 1 )" />
+                    </Button>
+                }
+            </Div>
+            <Div ElementId="@ContentElementId" Display="@(Collapsed ? Blazorise.Display.None : Blazorise.Display.Block)" Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Hidden" hidden="@Collapsed">
+                <Animate @ref="@contentAnimationRef" Animation="@EffectiveTabAnimation" Easing="Easings.EaseOut" DurationMilliseconds="@EffectiveAnimationDuration" DelayMilliseconds="0" Trigger="AnimationTrigger.Render" AnimateOnInitialRender="false">
+                    <Div Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Auto.Hidden">
+                        @RibbonTabs
+                    </Div>
+                </Animate>
+            </Div>
+        </Div>
+    </CascadingValue>
+</CascadingValue>

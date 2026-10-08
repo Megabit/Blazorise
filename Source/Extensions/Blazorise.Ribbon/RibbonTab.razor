@@ -1,0 +1,9 @@
+@inherits BaseComponent
+<Div @ref="@containerRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Display="@(IsActive ? null : Blazorise.Display.None)" role="tabpanel" aria-labelledby="@TabElementId" aria-hidden="@HiddenString" hidden="@(!IsActive)" tabindex="@(IsActive ? 0 : -1)" @attributes="@Attributes">
+    @if ( ShouldRenderContent )
+    {
+        <Div Flex="Blazorise.Flex.Row.NoWrap.AlignItems.Stretch" Padding="Blazorise.Padding.Is1.OnY">
+            @ChildContent
+        </Div>
+    }
+</Div>
