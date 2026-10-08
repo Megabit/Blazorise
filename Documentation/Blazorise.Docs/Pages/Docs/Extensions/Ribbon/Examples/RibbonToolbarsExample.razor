@@ -1,11 +1,11 @@
 @namespace Blazorise.Docs.Docs.Examples
 
 <Ribbon @bind-SelectedTab="@selectedTab" Border="Border.Is1.Rounded">
-    <QuickAccessContent>
+    <QuickAccessToolbar>
         <RibbonButton Text="Save" Icon="IconName.Save" Size="RibbonItemSize.Small" Clicked="@OnSaveHandler" />
         <RibbonButton Text="Undo" Icon="IconName.Undo" Size="RibbonItemSize.Small" Clicked="@OnUndoHandler" />
         <RibbonButton Text="Redo" Icon="IconName.Redo" Size="RibbonItemSize.Small" Clicked="@OnRedoHandler" />
-    </QuickAccessContent>
+    </QuickAccessToolbar>
     <TabStripToolbar>
         <RibbonButton Text="Comments" Icon="IconName.Comment" Clicked="@OnCommentsHandler" />
         <RibbonDropdown Text="Share" Icon="IconName.ShareAlt" Size="RibbonItemSize.Medium">

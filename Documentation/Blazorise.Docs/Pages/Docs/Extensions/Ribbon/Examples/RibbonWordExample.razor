@@ -2,14 +2,14 @@
 
 <Div Border="Border.Is1.Rounded" Background="Background.Light">
     <Ribbon @bind-SelectedTab="@selectedTab" DisplayMode="@displayMode" Background="Background.White" Label="Word document commands">
-        <QuickAccessContent>
+        <QuickAccessToolbar>
             <Icon Name="IconName.FileAlt" TextColor="TextColor.Primary" />
             <Switch TValue="bool" @bind-Value="@autoSave" Size="Size.Small">AutoSave</Switch>
             <RibbonButton Text="Save" Icon="IconName.Save" Size="RibbonItemSize.Small" />
             <RibbonButton Text="Undo" Icon="IconName.Undo" Size="RibbonItemSize.Small" />
             <RibbonButton Text="Redo" Icon="IconName.Redo" Size="RibbonItemSize.Small" />
             <Span Margin="Margin.Is3.FromStart" TextWeight="TextWeight.Bold">Quarterly report</Span>
-        </QuickAccessContent>
+        </QuickAccessToolbar>
         <ApplicationTab>
             <RibbonApplicationMenu Text="File">
                 <RibbonApplicationMenuItem Text="New" Icon="IconName.File" />

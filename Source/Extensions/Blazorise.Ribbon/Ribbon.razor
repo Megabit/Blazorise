@@ -2,10 +2,10 @@
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
         <Div @ref="@containerRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" @attributes="@Attributes">
-            @if ( QuickAccessContent is not null )
+            @if ( QuickAccessToolbar is not null )
             {
                 <Div Flex="Blazorise.Flex.Row.AlignItems.Center" Gap="Blazorise.Gap.Is1" Padding="Blazorise.Padding.Is1" role="group" aria-label="@EffectiveQuickAccessLabel">
-                    @QuickAccessContent
+                    @QuickAccessToolbar
                 </Div>
             }
             <Div Flex="Blazorise.Flex.Row.AlignItems.End" Gap="Blazorise.Gap.Is1" Width="Blazorise.Width.Px().Min( 0 )">

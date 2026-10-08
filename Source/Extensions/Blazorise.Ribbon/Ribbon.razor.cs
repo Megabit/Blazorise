@@ -519,7 +519,7 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Defines frequently used commands displayed above the tab strip, such as Save, Undo, and Redo.
     /// </summary>
-    [Parameter] public RenderFragment QuickAccessContent { get; set; }
+    [Parameter] public RenderFragment QuickAccessToolbar { get; set; }
 
     /// <summary>
     /// Defines the application entry preceding the tab headings, such as File.
