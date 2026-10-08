@@ -29,9 +29,9 @@
 
     <RibbonWorkspace>
         <Ribbon @bind-SelectedTab="@selectedTab" @bind-Collapsed="@collapsed" DisplayMode="@displayMode" ActiveContextualGroups="@ActiveContextualGroups" Background="Background.White" Label="Document commands">
-            <RibbonApplicationTab>
+            <ApplicationTab>
                 <RibbonApplicationButton Text="File" />
-            </RibbonApplicationTab>
+            </ApplicationTab>
             <TabStripContent>
                 <RibbonButton Text="Comments" Icon="IconName.Comment" Size="RibbonItemSize.Small" Clicked="@OnCommentsHandler" />
                 <RibbonDropdown Text="Share" Icon="IconName.ShareAlt" Size="RibbonItemSize.Medium">
@@ -450,7 +450,7 @@
     <Heading Size="HeadingSize.Is4">Simple File menu</Heading>
     <Paragraph TextColor="TextColor.Secondary">This ribbon uses a dropdown File menu with nested Save As commands. New, Open, and Save update the Word sample above; format commands report their invocation.</Paragraph>
     <Ribbon SelectedTab="home" ShowCollapseButton="false" Border="Border.Is1.Rounded" Background="Background.White" Label="Simple document commands">
-        <RibbonApplicationTab>
+        <ApplicationTab>
             <RibbonApplicationMenu Text="File">
                 <RibbonApplicationMenuItem Text="New" Icon="IconName.File">
                     <RibbonApplicationMenuItem Text="Blank document" Clicked="@OnNewDocumentHandler" />
@@ -469,7 +469,7 @@
                 <RibbonApplicationMenuItem Text="Print" Icon="IconName.Print" Clicked="@OnPrintHandler" />
                 <RibbonApplicationMenuItem Text="Share" Icon="IconName.ShareAlt" Disabled />
             </RibbonApplicationMenu>
-        </RibbonApplicationTab>
+        </ApplicationTab>
         <RibbonTabs>
             <RibbonTab Name="home" Text="Home">
                 <RibbonGroup Text="Clipboard" ShowLauncher LauncherLabel="Open Clipboard">

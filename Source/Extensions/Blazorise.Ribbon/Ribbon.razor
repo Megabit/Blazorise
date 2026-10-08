@@ -9,9 +9,9 @@
                 </Div>
             }
             <Div Flex="Blazorise.Flex.Row.AlignItems.End" Gap="Blazorise.Gap.Is1" Width="Blazorise.Width.Px().Min( 0 )">
-                @if ( RibbonApplicationTab is not null )
+                @if ( ApplicationTab is not null )
                 {
-                    <Div Flex="Blazorise.Flex.Row.AlignItems.Center.Shrink.Is0">@RibbonApplicationTab</Div>
+                    <Div Flex="Blazorise.Flex.Row.AlignItems.Center.Shrink.Is0">@ApplicationTab</Div>
                 }
                 <Div Flex="Blazorise.Flex.Row.NoWrap.Grow.Is1" Width="Blazorise.Width.Px().Min( 0 )" Overflow="Blazorise.Overflow.Auto.Hidden" role="tablist" aria-label="@EffectiveLabel" aria-orientation="horizontal">
                     @foreach ( var tab in OrderedTabs.Where( tab => tab.IsVisible ) )

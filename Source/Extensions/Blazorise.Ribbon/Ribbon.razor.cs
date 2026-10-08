@@ -527,7 +527,7 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     /// <remarks>
     /// Use <see cref="RibbonApplicationMenu"/> for a dropdown menu or <see cref="RibbonApplicationButton"/> to open backstage or invoke a command.
     /// </remarks>
-    [Parameter] public RenderFragment RibbonApplicationTab { get; set; }
+    [Parameter] public RenderFragment ApplicationTab { get; set; }
 
     /// <summary>
     /// Defines commands displayed after the tab headings, such as Share or Comments.

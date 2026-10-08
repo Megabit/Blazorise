@@ -1,7 +1,7 @@
 @namespace Blazorise.Docs.Docs.Examples
 
 <Ribbon SelectedTab="home" ShowCollapseButton="false" Border="Border.Is1.Rounded">
-    <RibbonApplicationTab>
+    <ApplicationTab>
         <RibbonApplicationMenu Text="File">
             <RibbonApplicationMenuItem Text="New" Icon="IconName.File" Clicked="@OnNewHandler" />
             <RibbonApplicationMenuItem Text="Open" Icon="IconName.FolderOpen" Clicked="@OnOpenHandler" />
@@ -16,7 +16,7 @@
             <RibbonApplicationMenuDivider />
             <RibbonApplicationMenuItem Text="Print" Icon="IconName.Print" Clicked="@OnPrintHandler" />
         </RibbonApplicationMenu>
-    </RibbonApplicationTab>
+    </ApplicationTab>
     <RibbonTabs>
         <RibbonTab Name="home" Text="Home">
             <RibbonGroup Text="Clipboard">

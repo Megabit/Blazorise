@@ -71,7 +71,7 @@ Use dedicated ribbon components for standard commands so their sizing, presentat
 </RibbonSplitButton>
 ```
 
-Declare tabs inside the explicit `<RibbonTabs>` fragment. `<RibbonApplicationTab>` accepts the application entry preceding the tabs, usually File. Choose `RibbonApplicationMenu` for commands and nested submenus, or `RibbonApplicationButton` for opening the optional backstage or invoking a custom action. Their headings share the same markup, appearance, and alignment as tab headings. The application entry does not change ribbon tab selection or participate in tab arrow-key navigation. `QuickAccessContent` and `TabStripContent` accept commands before and after the tab strip.
+Declare tabs inside the explicit `<RibbonTabs>` fragment. `<ApplicationTab>` accepts the application entry preceding the tabs, usually File. Choose `RibbonApplicationMenu` for commands and nested submenus, or `RibbonApplicationButton` for opening the optional backstage or invoking a custom action. Their headings share the same markup, appearance, and alignment as tab headings. The application entry does not change ribbon tab selection or participate in tab arrow-key navigation. `QuickAccessContent` and `TabStripContent` accept commands before and after the tab strip.
 
 ## Selection and rendering
 
@@ -95,7 +95,7 @@ Classic groups scroll horizontally when space is limited. `DisplayMode="RibbonDi
 
 ```razor
 <Ribbon>
-    <RibbonApplicationTab>
+    <ApplicationTab>
         <RibbonApplicationMenu Text="File">
             <RibbonApplicationMenuItem Text="New" Icon="IconName.File" Clicked="@OnNewHandler" />
             <RibbonApplicationMenuItem Text="Open" Icon="IconName.FolderOpen" Clicked="@OnOpenHandler" />
@@ -106,7 +106,7 @@ Classic groups scroll horizontally when space is limited. `DisplayMode="RibbonDi
             <RibbonApplicationMenuDivider />
             <RibbonApplicationMenuItem Text="Print" Icon="IconName.Print" Clicked="@OnPrintHandler" />
         </RibbonApplicationMenu>
-    </RibbonApplicationTab>
+    </ApplicationTab>
     <RibbonTabs>
         <RibbonTab Name="home" Text="Home">
             @* Ribbon groups *@
@@ -127,9 +127,9 @@ Classic groups scroll horizontally when space is limited. `DisplayMode="RibbonDi
 ```razor
 <RibbonWorkspace>
     <Ribbon>
-        <RibbonApplicationTab>
+        <ApplicationTab>
             <RibbonApplicationButton Text="File" />
-        </RibbonApplicationTab>
+        </ApplicationTab>
         <RibbonTabs>
             <RibbonTab Name="home" Text="Home">
                 <RibbonGroup Text="Clipboard">
