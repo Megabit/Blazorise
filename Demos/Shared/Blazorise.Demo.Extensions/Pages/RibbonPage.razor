@@ -32,13 +32,13 @@
             <ApplicationTab>
                 <RibbonApplicationButton Text="File" />
             </ApplicationTab>
-            <TabStripContent>
+            <TabStripToolbar>
                 <RibbonButton Text="Comments" Icon="IconName.Comment" Size="RibbonItemSize.Small" Clicked="@OnCommentsHandler" />
                 <RibbonDropdown Text="Share" Icon="IconName.ShareAlt" Size="RibbonItemSize.Medium">
                     <RibbonDropdownItem Text="Share document" Clicked="@OnShareHandler" />
                     <RibbonDropdownItem Text="Copy link" Clicked="@OnCopyLinkHandler" />
                 </RibbonDropdown>
-            </TabStripContent>
+            </TabStripToolbar>
             <RibbonTabs>
                 <RibbonTab Name="home" Text="Home">
                     <RibbonGroup Text="Clipboard" ShowLauncher LauncherLabel="Open Clipboard" LauncherClicked="@OnClipboardLauncherHandler">

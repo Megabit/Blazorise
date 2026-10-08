@@ -6,13 +6,13 @@
         <RibbonButton Text="Undo" Icon="IconName.Undo" Size="RibbonItemSize.Small" Clicked="@OnUndoHandler" />
         <RibbonButton Text="Redo" Icon="IconName.Redo" Size="RibbonItemSize.Small" Clicked="@OnRedoHandler" />
     </QuickAccessContent>
-    <TabStripContent>
+    <TabStripToolbar>
         <RibbonButton Text="Comments" Icon="IconName.Comment" Clicked="@OnCommentsHandler" />
         <RibbonDropdown Text="Share" Icon="IconName.ShareAlt" Size="RibbonItemSize.Medium">
             <RibbonDropdownItem Text="Share document" Clicked="@OnShareHandler" />
             <RibbonDropdownItem Text="Copy link" Clicked="@OnCopyLinkHandler" />
         </RibbonDropdown>
-    </TabStripContent>
+    </TabStripToolbar>
     <RibbonTabs>
         <RibbonTab Name="home" Text="Home">
             <RibbonGroup Text="Clipboard">

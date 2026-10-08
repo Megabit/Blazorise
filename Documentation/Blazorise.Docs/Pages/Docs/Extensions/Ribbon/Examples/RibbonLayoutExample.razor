@@ -10,12 +10,12 @@
 </Div>
 
 <Ribbon @bind-SelectedTab="@selectedTab" @bind-Collapsed="@collapsed" DisplayMode="@displayMode" ActiveContextualGroups="@ActiveContextualGroups" Border="Border.Is1.Rounded">
-    <TabStripContent>
+    <TabStripToolbar>
         <RibbonDropdown Text="Share" Icon="IconName.ShareAlt" Size="RibbonItemSize.Medium">
             <RibbonDropdownItem Text="Share document" Clicked="@OnShareHandler" />
             <RibbonDropdownItem Text="Copy link" Clicked="@OnCopyLinkHandler" />
         </RibbonDropdown>
-    </TabStripContent>
+    </TabStripToolbar>
     <RibbonTabs>
         <RibbonTab Name="home" Text="Home">
             <RibbonGroup Text="Clipboard">

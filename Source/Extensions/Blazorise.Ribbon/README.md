@@ -71,7 +71,7 @@ Use dedicated ribbon components for standard commands so their sizing, presentat
 </RibbonSplitButton>
 ```
 
-Declare tabs inside the explicit `<RibbonTabs>` fragment. `<ApplicationTab>` accepts the application entry preceding the tabs, usually File. Choose `RibbonApplicationMenu` for commands and nested submenus, or `RibbonApplicationButton` for opening the optional backstage or invoking a custom action. Their headings share the same markup, appearance, and alignment as tab headings. The application entry does not change ribbon tab selection or participate in tab arrow-key navigation. `QuickAccessContent` and `TabStripContent` accept commands before and after the tab strip.
+Declare tabs inside the explicit `<RibbonTabs>` fragment. `<ApplicationTab>` accepts the application entry preceding the tabs, usually File. Choose `RibbonApplicationMenu` for commands and nested submenus, or `RibbonApplicationButton` for opening the optional backstage or invoking a custom action. Their headings share the same markup, appearance, and alignment as tab headings. The application entry does not change ribbon tab selection or participate in tab arrow-key navigation. `QuickAccessContent` and `TabStripToolbar` accept commands before and after the tab strip.
 
 ## Selection and rendering
 

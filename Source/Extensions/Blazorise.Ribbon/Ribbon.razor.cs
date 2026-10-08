@@ -532,7 +532,7 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Defines commands displayed after the tab headings, such as Share or Comments.
     /// </summary>
-    [Parameter] public RenderFragment TabStripContent { get; set; }
+    [Parameter] public RenderFragment TabStripToolbar { get; set; }
 
     /// <summary>
     /// Defines ordinary <see cref="RibbonTab"/> components and named <see cref="RibbonContextualTabs"/> collections.

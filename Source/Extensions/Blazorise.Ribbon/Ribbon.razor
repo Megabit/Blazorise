@@ -19,9 +19,9 @@
                         <_RibbonTabHeader @key="@tab" Tab="@tab" Selected="@(State.SelectedTab == tab.Name)" />
                     }
                 </Div>
-                @if ( TabStripContent is not null )
+                @if ( TabStripToolbar is not null )
                 {
-                    <Div Flex="Blazorise.Flex.InlineFlex.Row.AlignItems.Center" Gap="Blazorise.Gap.Is1">@TabStripContent</Div>
+                    <Div Flex="Blazorise.Flex.InlineFlex.Row.AlignItems.Center" Gap="Blazorise.Gap.Is1">@TabStripToolbar</Div>
                 }
                 @if ( ShowCollapseButton )
                 {
