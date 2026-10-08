@@ -566,6 +566,28 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task DateInput_ShouldReplaceNativeEditingValue_WhenKeyboardValueIsCommitted()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        DateTime? value = new DateTime( 2030, 3, 15 );
+        var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = string.Empty } );
+        Assert.Null( value );
+        Assert.Equal( string.Empty, comp.Find( "input" ).GetAttribute( "value" ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "01052030" );
+
+        Assert.Equal( new DateTime( 2030, 1, 5 ), value );
+        Assert.Equal( "2030-01-05", comp.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
     public async Task DateInput_ShouldAutoPadSegment_WhenNextDigitCannotBelongToCurrentSegment()
     {
         using var cultureScope = new CultureScope( "en-GB" );
@@ -827,6 +849,28 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task TimeInput_ShouldReplaceNativeEditingValue_WhenKeyboardValueIsCommitted()
+    {
+        using CultureScope cultureScope = new( "en-US" );
+        IOnScreenKeyboardService keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        TimeSpan? value = new TimeSpan( 15, 30, 0 );
+        IRenderedComponent<TimeInput<TimeSpan?>> comp = Render<TimeInput<TimeSpan?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = string.Empty } );
+        Assert.Null( value );
+        Assert.Equal( string.Empty, comp.Find( "input" ).GetAttribute( "value" ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "0105" );
+
+        Assert.Equal( new TimeSpan( 1, 5, 0 ), value );
+        Assert.Equal( "01:05", comp.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
     public async Task TimeInput_ShouldAcceptSeparatedTimeWithSingleDigitSegment()
     {
         using var cultureScope = new CultureScope( "en-US" );
@@ -1021,6 +1065,32 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
         Assert.Equal( 7, keyboardService.State.Context.GetPreviewCaret() );
         Assert.True( value.HasValue );
         Assert.Equal( 123.456m, value.Value );
+    }
+
+    [Fact]
+    public async Task NumericInput_ShouldReplaceNativeEditingValue_WhenKeyboardValueIsCommitted()
+    {
+        JSInterop.SetupModule( new JSUtilitiesModule( JSInterop.JSRuntime, new MockVersionProvider(), new( null, options => { } ) ).ModuleFileName )
+            .Setup<int>( "getCaret", _ => true ).SetResult( -1 );
+
+        IOnScreenKeyboardService keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        decimal? value = 15.5m;
+        IRenderedComponent<NumericInput<decimal?>> comp = Render<NumericInput<decimal?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.Immediate, true )
+            .Add( p => p.Debounce, false )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).InputAsync( string.Empty );
+        Assert.Null( value );
+        Assert.Equal( string.Empty, comp.Find( "input" ).GetAttribute( "value" ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "-12.5" );
+
+        Assert.Equal( -12.5m, value );
+        Assert.Equal( "-12.5", comp.Find( "input" ).GetAttribute( "value" ) );
     }
 
     [Fact]

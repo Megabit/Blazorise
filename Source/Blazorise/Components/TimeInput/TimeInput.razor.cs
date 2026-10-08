@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -20,9 +20,27 @@ public partial class TimeInput<TValue> : BaseTextInput<TValue, TimeInputClasses,
 
     private OnScreenKeyboardTimeInputComposer onScreenKeyboardComposer;
 
+    /// <summary>
+    /// Stores the value reported by the native input, including an empty string while time segments are incomplete,
+    /// so rendering does not overwrite the browser's in-progress entry with the formatted component value.
+    /// A null value indicates that the input should display the formatted component value.
+    /// </summary>
+    private string nativeInputValue;
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override Task OnAfterSetParametersAsync( ParameterView parameters )
+    {
+        if ( paramValue.Defined && paramValue.Changed )
+        {
+            nativeInputValue = null;
+        }
+
+        return base.OnAfterSetParametersAsync( parameters );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -46,8 +64,20 @@ public partial class TimeInput<TValue> : BaseTextInput<TValue, TimeInputClasses,
     /// <inheritdoc/>
     protected override Task OnChangeHandler( ChangeEventArgs e )
     {
-        return CurrentValueHandler( e?.Value?.ToString() );
+        // Native time inputs report an empty value while a segment is incomplete.
+        // Keep that editing value so rendering does not reset the browser's segments.
+        nativeInputValue = e?.Value?.ToString() ?? string.Empty;
+
+        return CurrentValueHandler( nativeInputValue );
     }
+
+    /// <summary>
+    /// Handles changes to the native input's editing value.
+    /// </summary>
+    /// <param name="value">Value reported by the native input.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task OnNativeInputValueChanged( string value )
+        => OnChangeHandler( new ChangeEventArgs { Value = value } );
 
     /// <inheritdoc/>
     protected override string FormatValueAsString( TValue value )
@@ -125,6 +155,11 @@ public partial class TimeInput<TValue> : BaseTextInput<TValue, TimeInputClasses,
 
     private Task UpdateOnScreenKeyboardTimeValue( OnScreenKeyboardInputComposition composition )
     {
+        if ( composition.CanCommit )
+        {
+            nativeInputValue = composition.Value ?? string.Empty;
+        }
+
         return UpdateOnScreenKeyboardEditingValue( composition.Value, composition.CanCommit, composition.CanCommit );
     }
 
@@ -161,6 +196,16 @@ public partial class TimeInput<TValue> : BaseTextInput<TValue, TimeInputClasses,
     private OnScreenKeyboardTimeInputComposer OnScreenKeyboardComposer => onScreenKeyboardComposer ??= new( OnScreenKeyboardRequiresSeconds );
 
     private bool OnScreenKeyboardRequiresSeconds => Step.HasValue && Step.Value < 60;
+
+    /// <summary>
+    /// Gets the native input type as an expression so binding uses the native string value instead of typed time conversion.
+    /// </summary>
+    protected string Mode => "time";
+
+    /// <summary>
+    /// Gets the native editing value without replacing incomplete input with the formatted time.
+    /// </summary>
+    protected string NativeInputValue => nativeInputValue ?? CurrentValueAsString ?? string.Empty;
 
     /// <summary>
     /// The earliest time to accept.

@@ -31,6 +31,13 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
     private OnScreenKeyboardNumericInputComposer onScreenKeyboardComposer;
 
     /// <summary>
+    /// Stores the value reported by the native input, including an empty string while a number is incomplete,
+    /// so rendering does not overwrite the browser's in-progress entry with the formatted component value.
+    /// A null value indicates that the input should display the formatted component value.
+    /// </summary>
+    private string nativeInputValue;
+
+    /// <summary>
     /// Captured Min parameter snapshot.
     /// </summary>
     protected ComponentParameterInfo<TValue> paramMin;
@@ -39,6 +46,11 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
     /// Captured Max parameter snapshot.
     /// </summary>
     protected ComponentParameterInfo<TValue> paramMax;
+
+    /// <summary>
+    /// Captured Culture parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<string> paramCulture;
 
     #endregion
 
@@ -64,6 +76,18 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
 
         parameters.TryGetParameter( Min, out paramMin );
         parameters.TryGetParameter( Max, out paramMax );
+        parameters.TryGetParameter( Culture, out paramCulture );
+    }
+
+    /// <inheritdoc/>
+    protected override Task OnAfterSetParametersAsync( ParameterView parameters )
+    {
+        if ( ( paramValue.Defined && paramValue.Changed ) || ( paramCulture.Defined && paramCulture.Changed ) )
+        {
+            nativeInputValue = null;
+        }
+
+        return base.OnAfterSetParametersAsync( parameters );
     }
 
     /// <inheritdoc/>
@@ -96,6 +120,20 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
         {
             return Task.FromResult( ParseValue<TValue>.Empty );
         }
+    }
+
+    /// <summary>
+    /// Handles changes to the native input's editing value using the configured update behavior.
+    /// </summary>
+    /// <param name="value">Value reported by the native input.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task OnNativeInputValueChanged( string value )
+    {
+        nativeInputValue = value ?? string.Empty;
+
+        ChangeEventArgs eventArgs = new() { Value = nativeInputValue };
+
+        return IsImmediate ? OnInputHandler( eventArgs ) : OnChangeHandler( eventArgs );
     }
 
     /// <inheritdoc/>
@@ -153,6 +191,7 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
                 && !CurrentValue.IsEqual( currentValue ) )
             {
                 // number has changed so we need to re-set the CurrentValue and re-run any validation
+                nativeInputValue = null;
                 return CurrentValueHandler( FormatValueAsString( currentValue ) );
             }
         }
@@ -210,6 +249,11 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
 
     private Task UpdateOnScreenKeyboardNumericValue( OnScreenKeyboardInputComposition composition )
     {
+        if ( composition.CanCommit )
+        {
+            nativeInputValue = composition.Value ?? string.Empty;
+        }
+
         return UpdateOnScreenKeyboardEditingValue( composition.Value, composition.CanCommit, composition.CanCommit );
     }
 
@@ -293,6 +337,11 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
     /// Gets the correct inputmode for the input element, based in the TValue.
     /// </summary>
     protected string InputMode => inputMode;
+
+    /// <summary>
+    /// Gets the native editing value without replacing incomplete input with the formatted number.
+    /// </summary>
+    protected string NativeInputValue => nativeInputValue ?? CurrentValueAsString ?? string.Empty;
 
     /// <summary>
     /// Specifies the interval between valid values.
