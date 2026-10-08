@@ -80,8 +80,8 @@
                             <RibbonToggleButton Text="Strikethrough" Icon="IconName.Strikethrough" Size="RibbonItemSize.Small" Checked="@Document.Strikethrough" CheckedChanged="@OnStrikethroughChangedHandler" />
                             <RibbonButton Text="Subscript" Icon="IconName.Subscript" Size="RibbonItemSize.Small" Clicked="@OnSubscriptHandler" />
                             <RibbonButton Text="Superscript" Icon="IconName.Superscript" Size="RibbonItemSize.Small" Clicked="@OnSuperscriptHandler" />
-                            <RibbonColorPicker Size="RibbonItemSize.Small" Value="@Document.HighlightColor" ValueChanged="@OnHighlightChangedHandler" Text="Text highlight color" Icon="IconName.Highlighter" />
-                            <RibbonColorPicker Size="RibbonItemSize.Small" Value="@Document.FontColor" ValueChanged="@OnFontColorChangedHandler" Text="Font color" Icon="IconName.Palette" />
+                            <RibbonColorPicker Size="RibbonItemSize.Small" Value="@Document.HighlightColor" ValueChanged="@OnHighlightChangedHandler" Text="Text highlight color" Icon="IconName.Highlighter" PalettePreset="RibbonColorPalette.Standard" PaletteText="Highlight colors" />
+                            <RibbonColorPicker Size="RibbonItemSize.Small" Value="@Document.FontColor" ValueChanged="@OnFontColorChangedHandler" Text="Font color" Icon="IconName.Palette" ShowAutomatic AutomaticClicked="@OnAutomaticFontColorHandler" />
                         </RibbonRow>
                     </RibbonGroup>
 

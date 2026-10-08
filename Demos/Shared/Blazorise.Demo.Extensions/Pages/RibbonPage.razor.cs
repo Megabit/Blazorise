@@ -398,6 +398,8 @@ public partial class RibbonPage : ComponentBase
 
     private Task OnStrikethroughChangedHandler( bool value ) => UpdateDocument( Document with { Strikethrough = value } );
 
+    private Task OnAutomaticFontColorHandler() => OnFontColorChangedHandler( "#000000" );
+
     private Task OnFontColorChangedHandler( string color ) => UpdateDocument( Document with { FontColor = color } );
 
     private Task OnHighlightChangedHandler( string color ) => UpdateDocument( Document with { HighlightColor = color } );

@@ -73,8 +73,8 @@
                         <RibbonToggleButton Text="Underline" Icon="IconName.Underline" Size="RibbonItemSize.Small" @bind-Checked="@underline" />
                         <RibbonToggleButton Text="Strikethrough" Icon="IconName.Strikethrough" Size="RibbonItemSize.Small" @bind-Checked="@strikethrough" />
                         <RibbonButton Text="Clear formatting" Icon="IconName.RemoveFormat" Size="RibbonItemSize.Small" />
-                        <RibbonColorPicker @bind-Value="@highlightColor" Size="RibbonItemSize.Small" Text="Text highlight color" Icon="IconName.Highlighter" />
-                        <RibbonColorPicker @bind-Value="@fontColor" Size="RibbonItemSize.Small" Text="Font color" Icon="IconName.Palette" />
+                        <RibbonColorPicker @bind-Value="@highlightColor" Size="RibbonItemSize.Small" Text="Text highlight color" Icon="IconName.Highlighter" PalettePreset="RibbonColorPalette.Standard" PaletteText="Highlight colors" />
+                        <RibbonColorPicker @bind-Value="@fontColor" Size="RibbonItemSize.Small" Text="Font color" Icon="IconName.Palette" ShowAutomatic AutomaticClicked="@OnAutomaticFontColorHandler" />
                     </RibbonRow>
                 </RibbonGroup>
                 <RibbonGroup Text="Paragraph" Layout="RibbonGroupLayout.Rows">
@@ -357,4 +357,6 @@
     private bool showNavigation;
 
     private RibbonDisplayMode displayMode;
+
+    private void OnAutomaticFontColorHandler() => fontColor = "#000000";
 }

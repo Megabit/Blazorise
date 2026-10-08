@@ -74,7 +74,19 @@
         <RibbonFormattingExample />
     </DocsPageSectionContent>
     <DocsPageParagraph>
-        <Code>RibbonColorPicker</Code> displays the selected color beneath its <Code>Icon</Code>. Use <Code>Text</Code> for its label and accessible name, and <Code>RibbonItemSize</Code> for the command layout. Large color commands become medium commands in simplified mode. <Code>ChildContent</Code> takes precedence over the icon, label, and indicator. When neither <Code>Icon</Code> nor <Code>ChildContent</Code> is supplied, the standard color swatch is displayed.
+        For a color command, bind <Code>Value</Code> to keep its swatch or icon indicator in sync with the document. Use <Code>Text</Code> to name the command and <Code>ChildContent</Code> when it needs a custom preview. Color commands follow the same sizes as other ribbon commands.
+    </DocsPageParagraph>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Colors">
+        To give users useful color choices without defining them yourself, use the default Extended palette or choose Simple or Standard through <Code>PalettePreset</Code>. Try switching presets below, then open Font color to compare them. More Colors opens the full picker for a custom shade; No Color clears the binding.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="RibbonColorsExample" Outlined FullWidth>
+        <RibbonColorsExample />
+    </DocsPageSectionContent>
+    <DocsPageParagraph>
+        When a command needs specific colors, supply <Code>Palette</Code>, as Brand color does here. Those colors replace the preset; <Code>StandardPalette</Code> can add a second section. Use <Code>PaletteColumns</Code> to arrange the grid and <Code>PaletteText</Code> to label it. When a command should always have a color, hide No Color with <Code>ShowNoColor="false"</Code>, as Brand color does here. Handle <Code>AutomaticClicked</Code> when the document has its own default color, or set <Code>HideAfterPaletteSelect="false"</Code> to keep the menu open while trying colors.
     </DocsPageParagraph>
 </DocsPageSection>
 
