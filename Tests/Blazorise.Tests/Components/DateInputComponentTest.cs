@@ -15,6 +15,87 @@ public class DateInputComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task NativeDateInputPreservesEmptyEditingValueUntilCompletedOrReplaced()
+    {
+        // setup
+        DateOnly value = new( 2030, 3, 15 );
+        IRenderedComponent<DateInput<DateOnly>> comp = Render<DateInput<DateOnly>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.ValueChanged, changedValue => value = changedValue ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = string.Empty } );
+        comp.Render( parameters => parameters.Add( x => x.Value, value ) );
+
+        // validate existing default-value behavior without writing it back into the input
+        Assert.Equal( default, value );
+        Assert.Equal( string.Empty, comp.Find( "input" ).GetAttribute( "value" ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "2030-01-05" } );
+
+        // validate
+        Assert.Equal( new DateOnly( 2030, 1, 5 ), value );
+        Assert.Equal( "2030-01-05", comp.Find( "input" ).GetAttribute( "value" ) );
+
+        // test
+        comp.Render( parameters => parameters.Add( x => x.Value, new DateOnly( 2031, 6, 12 ) ) );
+
+        // validate
+        Assert.Equal( "2031-06-12", comp.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
+    public async Task NullableNativeDateInputPreservesEmptyEditingValueAcrossRenders()
+    {
+        // setup
+        DateOnly? value = new DateOnly( 2030, 3, 15 );
+        IRenderedComponent<DateInput<DateOnly?>> comp = Render<DateInput<DateOnly?>>( parameters => parameters
+            .Add( x => x.Value, value )
+            .Add( x => x.ValueChanged, changedValue => value = changedValue ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = string.Empty } );
+        comp.Render( parameters => parameters.Add( x => x.Value, value ) );
+
+        // validate
+        Assert.Null( value );
+        Assert.Equal( string.Empty, comp.Find( "input" ).GetAttribute( "value" ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "2030-05-02" } );
+
+        // validate
+        Assert.Equal( new DateOnly( 2030, 5, 2 ), value );
+        Assert.Equal( "2030-05-02", comp.Find( "input" ).GetAttribute( "value" ) );
+
+        // test
+        comp.Render( parameters => parameters.Add( x => x.Value, (DateOnly?)null ) );
+
+        // validate
+        Assert.Equal( string.Empty, comp.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
+    public async Task NativeEditingValueIsReformattedWhenInputModeChanges()
+    {
+        // setup
+        IRenderedComponent<DateInput<DateTime>> comp = Render<DateInput<DateTime>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2030, 3, 15 ) ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "2030-03-16" } );
+        comp.Render( parameters => parameters
+            .Add( x => x.Value, comp.Instance.Value )
+            .Add( x => x.InputMode, DateInputMode.Month ) );
+
+        // validate
+        Assert.Equal( "month", comp.Find( "input" ).GetAttribute( "type" ) );
+        Assert.Equal( "2030-03", comp.Find( "input" ).GetAttribute( "value" ) );
+        Assert.Equal( new DateTime( 2030, 3, 16 ), comp.Instance.Value );
+    }
+
+    [Fact]
     public async Task WeekModeUsesNativeWeekValue()
     {
         // setup
