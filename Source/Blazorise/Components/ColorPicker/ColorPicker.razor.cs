@@ -250,6 +250,16 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     }
 
     /// <summary>
+    /// Opens the full color picker when the input is enabled and editable.
+    /// </summary>
+    public virtual Task Show() => Disabled || ReadOnly ? Task.CompletedTask : JSModule.Show( ElementRef, ElementId ).AsTask();
+
+    /// <summary>
+    /// Closes the full color picker.
+    /// </summary>
+    public virtual Task Hide() => JSModule.Hide( ElementRef, ElementId ).AsTask();
+
+    /// <summary>
     /// Updated the <see cref="ColorPicker"/> with the new value.
     /// </summary>
     /// <param name="value">New color value.</param>

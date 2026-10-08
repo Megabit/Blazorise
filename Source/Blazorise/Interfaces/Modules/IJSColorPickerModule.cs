@@ -23,6 +23,23 @@ public interface IJSColorPickerModule : IBaseJSModule,
     ValueTask Initialize( DotNetObjectReference<ColorPicker> dotNetObjectRef, ElementReference elementRef, string elementId, ColorPickerJSOptions options );
 
     /// <summary>
+    /// Opens the color picker, optionally positioning it against another trigger.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered picker trigger.</param>
+    /// <param name="elementId">ID of the rendered picker trigger.</param>
+    /// <param name="targetElementId">Optional ID of the element used for positioning and focus restoration.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask Show( ElementReference elementRef, string elementId, string targetElementId = null );
+
+    /// <summary>
+    /// Closes the color picker popup.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered picker trigger.</param>
+    /// <param name="elementId">ID of the rendered picker trigger.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask Hide( ElementReference elementRef, string elementId );
+
+    /// <summary>
     /// Updates the <see cref="ColorPicker"/> value.
     /// </summary>
     /// <param name="elementRef">Reference to the rendered element.</param>

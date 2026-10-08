@@ -10,6 +10,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         return;
 
     const ariaLabel = element.getAttribute('aria-label');
+    const role = element.getAttribute('role');
     const uiFallbackColor = getUiFallbackColor(options.palette);
 
     const picker = Pickr.create({
@@ -73,6 +74,10 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         element.setAttribute('aria-label', ariaLabel);
     }
 
+    if (role !== null) {
+        element.setAttribute('role', role);
+    }
+
     const hexColor = options.default ? options.default : null;
 
     const instanceInfo = {
@@ -115,6 +120,14 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         .on('show', (color, instance) => {
             hexColorShow = instanceInfo.hexColor;
             instance.setColor(hexColorShow || instanceInfo.uiFallbackColor, true);
+        })
+        .on('hide', () => {
+            const target = instanceInfo.popupTarget;
+            const activeElement = document.activeElement;
+
+            if (target?.isConnected && (activeElement === element || picker.getRoot().app.contains(activeElement))) {
+                target.focus({ preventScroll: true });
+            }
         })
         .on("cancel", (instance) => {
             applyHexColor(instanceInfo, hexColorShow);
@@ -166,6 +179,35 @@ export function destroy(element, elementId) {
     }
 
     delete instances[elementId];
+}
+
+export function show(element, elementId, targetElementId) {
+    const instanceInfo = _instancesInfos[elementId];
+
+    if (!instanceInfo || instanceInfo.picker.options.disabled) {
+        return;
+    }
+
+    const target = targetElementId ? document.getElementById(targetElementId) : instanceInfo.element;
+
+    if (!target?.isConnected) {
+        return;
+    }
+
+    instanceInfo.popupTarget = target;
+
+    // Pickr keeps this reference for subsequent resize and scroll positioning.
+    instanceInfo.picker._nanopop.update({ reference: target });
+    instanceInfo.picker.show();
+
+    const root = instanceInfo.picker.getRoot();
+    const focusTarget = root.app.querySelector('input:not([disabled]), button:not([disabled])');
+
+    focusTarget?.focus({ preventScroll: true });
+}
+
+export function hide(element, elementId) {
+    _instancesInfos[elementId]?.picker.hide();
 }
 
 export function updateValue(element, elementId, hexColor) {
