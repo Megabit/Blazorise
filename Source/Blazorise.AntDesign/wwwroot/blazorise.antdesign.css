@@ -7262,6 +7262,33 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
   box-shadow: var(--ant-box-shadow-secondary);
   font-family: inherit;
   text-align: start;
+  opacity: 1;
+  transition-property: opacity;
+  transition-duration: var(--ant-motion-duration-mid);
+  transition-timing-function: var(--ant-motion-ease-out-quint);
+}
+@starting-style {
+  .ant-input-color-picker-menu {
+    opacity: 0;
+  }
+}
+.ant-input-color-picker-menu[data-animation-duration] {
+  transition-duration: var(--ant-dropdown-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--ant-dropdown-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ant-input-color-picker-menu[data-animation-duration] {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ant-input-color-picker-menu {
+    transition: none;
+  }
 }
 @supports (position-anchor: --ant-color-picker-anchor) and (anchor-scope: --ant-color-picker-anchor) {
   .ant-input-color-picker-menu {

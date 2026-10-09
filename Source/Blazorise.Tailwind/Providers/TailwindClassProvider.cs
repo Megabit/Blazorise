@@ -241,6 +241,7 @@ public class TailwindClassProvider : ClassProvider
     {
         var builder = new StringBuilder( "absolute top-full start-0 z-50 mt-1 w-72 max-w-[calc(100vw-1rem)] max-h-[calc(100vh-1rem)] overflow-auto rounded-lg border border-secondary-200 bg-white p-3 text-secondary-900 shadow-lg dark:border-secondary-700 dark:bg-secondary-900 dark:text-white " );
 
+        builder.Append( "opacity-100 starting:opacity-0 transition-opacity data-[animation-duration]:[transition-duration:var(--tw-dropdown-animation-duration)] motion-reduce:transition-none " );
         builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:fixed " );
         builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:[position-anchor:--tw-color-picker-anchor] " );
         builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:inset-auto " );

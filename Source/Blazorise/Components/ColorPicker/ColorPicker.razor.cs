@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Localization;
@@ -62,6 +63,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         var nextPalette = parameters.TryGetValue<string[]>( nameof( Palette ), out var paramPalette ) ? paramPalette : Palette;
         var nextDisabled = parameters.TryGetValue<bool>( nameof( Disabled ), out var paramDisabled ) ? paramDisabled : IsDisabled;
         var nextReadOnly = parameters.TryGetValue<bool>( nameof( ReadOnly ), out var paramReadOnly ) ? paramReadOnly : ReadOnly;
+
+        if ( parameters.IsParameterChanged( Animated ) || parameters.IsParameterChanged( AnimationDuration ) )
+        {
+            MenuStyleBuilder.Dirty();
+        }
 
         if ( valueChanged || ( string.IsNullOrEmpty( nextValue ) && parameters.TryGetValue<string[]>( nameof( Palette ), out _ ) ) )
         {
@@ -150,7 +156,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
 
     private void BuildMenuClasses( ClassBuilder builder ) => builder.Append( ClassProvider.ColorPickerMenu() );
 
-    private void BuildMenuStyles( StyleBuilder builder ) => builder.Append( StyleProvider.ColorPickerMenuAnchor( targetElementId ) );
+    private void BuildMenuStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.ColorPickerMenuAnchor( targetElementId ) );
+        builder.Append( StyleProvider.DropdownAnimationDuration( EffectiveAnimationDuration ) );
+    }
 
     private void BuildSliderClasses( ClassBuilder builder ) => builder.Append( ClassProvider.ColorPickerSlider() );
 
@@ -628,6 +638,13 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     internal bool IsRgbaFormat => rgbaFormat;
 
     /// <summary>
+    /// Gets the duration override, or null to retain the provider's default timing.
+    /// </summary>
+    protected int? EffectiveAnimationDuration => !Animated ? 0 : AnimationDuration.HasValue ? Math.Max( 0, AnimationDuration.Value ) : null;
+
+    internal string AnimationDurationString => EffectiveAnimationDuration?.ToString( CultureInfo.InvariantCulture );
+
+    /// <summary>
     /// Gets the class builder for the preview wrapper.
     /// </summary>
     protected ClassBuilder PreviewClassBuilder { get; }
@@ -702,6 +719,17 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// Specifies the document observer used for outside interaction.
     /// </summary>
     [Inject] protected IDocumentObserver DocumentObserver { get; set; }
+
+    /// <summary>
+    /// Enables the opening animation supplied by the CSS provider. Set to false to open immediately.
+    /// </summary>
+    [Parameter] public bool Animated { get; set; } = true;
+
+    /// <summary>
+    /// Overrides the provider's opening animation duration, in milliseconds. Null preserves the provider's default.
+    /// Zero or a negative value disables the animation.
+    /// </summary>
+    [Parameter] public int? AnimationDuration { get; set; }
 
     /// <summary>
     /// List a colors below the colorpicker to make it convenient for users to choose from

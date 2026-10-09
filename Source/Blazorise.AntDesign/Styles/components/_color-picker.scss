@@ -43,6 +43,23 @@
         font-family: inherit;
         text-align: start;
 
+        opacity: 1;
+        transition-property: opacity;
+        transition-duration: var(--ant-motion-duration-mid);
+        transition-timing-function: var(--ant-motion-ease-out-quint);
+
+        @starting-style {
+            opacity: 0;
+        }
+
+        &[data-animation-duration] {
+            @include component-animation-duration(var(--ant-dropdown-animation-duration));
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+
         @supports (position-anchor: --ant-color-picker-anchor) and (anchor-scope: --ant-color-picker-anchor) {
             position: fixed;
             position-anchor: --ant-color-picker-anchor;

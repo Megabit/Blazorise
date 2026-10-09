@@ -11589,6 +11589,33 @@ body .b-report {
   box-shadow: var(--mui-elevate3);
   font-family: inherit;
   text-align: start;
+  opacity: 1;
+  transition-property: opacity;
+  transition-duration: var(--mui-duration-faster);
+  transition-timing-function: var(--mui-curve-decelerate-min);
+}
+@starting-style {
+  .mui-color-picker-menu {
+    opacity: 0;
+  }
+}
+.mui-color-picker-menu[data-animation-duration] {
+  transition-duration: var(--mui-dropdown-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--mui-dropdown-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mui-color-picker-menu[data-animation-duration] {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mui-color-picker-menu {
+    transition: none;
+  }
 }
 @supports (position-anchor: --material-color-picker-anchor) and (anchor-scope: --material-color-picker-anchor) {
   .mui-color-picker-menu {

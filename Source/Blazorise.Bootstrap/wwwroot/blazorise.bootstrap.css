@@ -3040,6 +3040,27 @@ input[readonly=readonly][type=range]::-ms-thumb {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
   font-family: inherit;
   text-align: start;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+}
+.form-control-color-picker-menu[data-animation-duration] {
+  transition-duration: var(--dropdown-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--dropdown-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .form-control-color-picker-menu[data-animation-duration] {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .form-control-color-picker-menu {
+    animation: none;
+  }
 }
 @supports (position-anchor: --bootstrap-color-picker-anchor) and (anchor-scope: --bootstrap-color-picker-anchor) {
   .form-control-color-picker-menu {

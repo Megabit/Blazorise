@@ -4003,6 +4003,27 @@ fieldset.columns > legend.field-label ~ .column {
   box-shadow: var(--bulma-shadow);
   font-family: inherit;
   text-align: start;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+}
+.color-picker-menu[data-animation-duration] {
+  transition-duration: var(--bulma-dropdown-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--bulma-dropdown-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .color-picker-menu[data-animation-duration] {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .color-picker-menu {
+    animation: none;
+  }
 }
 @supports (position-anchor: --bulma-color-picker-anchor) and (anchor-scope: --bulma-color-picker-anchor) {
   .color-picker-menu {

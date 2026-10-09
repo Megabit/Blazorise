@@ -7834,6 +7834,33 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
   box-shadow: var(--shadow16);
   font-family: inherit;
   text-align: start;
+  opacity: 1;
+  transition-property: opacity;
+  transition-duration: var(--durationSlower);
+  transition-timing-function: var(--curveDecelerateMid);
+}
+@starting-style {
+  .fui-ColorPicker__menu {
+    opacity: 0;
+  }
+}
+.fui-ColorPicker__menu[data-animation-duration] {
+  transition-duration: var(--fui-dropdown-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--fui-dropdown-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fui-ColorPicker__menu[data-animation-duration] {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fui-ColorPicker__menu {
+    transition: none;
+  }
 }
 @supports (position-anchor: --fluent-color-picker-anchor) and (anchor-scope: --fluent-color-picker-anchor) {
   .fui-ColorPicker__menu {

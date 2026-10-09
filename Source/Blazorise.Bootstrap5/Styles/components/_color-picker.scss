@@ -106,6 +106,18 @@
         font-family: inherit;
         text-align: start;
 
+        animation-duration: 0.3s;
+        animation-fill-mode: both;
+        animation-name: fadeIn;
+
+        &[data-animation-duration] {
+            @include component-animation-duration(var(--bs-dropdown-animation-duration));
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            animation: none;
+        }
+
         @supports (position-anchor: --bootstrap5-color-picker-anchor) and (anchor-scope: --bootstrap5-color-picker-anchor) {
             position: fixed;
             position-anchor: --bootstrap5-color-picker-anchor;

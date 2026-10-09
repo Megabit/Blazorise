@@ -1,0 +1,28 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <Switch @bind-Value="animated">Animate opening</Switch>
+</Field>
+<Field>
+    <FieldLabel>Animation duration</FieldLabel>
+    <Select TValue="int?" @bind-Value="animationDuration">
+        <SelectItem TValue="int?" Value="@((int?)null)">Provider default</SelectItem>
+        <SelectItem TValue="int?" Value="0">Immediate</SelectItem>
+        <SelectItem TValue="int?" Value="100">100 ms</SelectItem>
+        <SelectItem TValue="int?" Value="200">200 ms</SelectItem>
+        <SelectItem TValue="int?" Value="400">400 ms</SelectItem>
+        <SelectItem TValue="int?" Value="1000">1000 ms</SelectItem>
+    </Select>
+</Field>
+<Field>
+    <FieldLabel>Color</FieldLabel>
+    <ColorPicker @bind-Value="@colorValue" Animated="@animated" AnimationDuration="@animationDuration" />
+</Field>
+
+@code {
+    private bool animated = true;
+
+    private int? animationDuration;
+
+    private string colorValue = "#ff0000";
+}
