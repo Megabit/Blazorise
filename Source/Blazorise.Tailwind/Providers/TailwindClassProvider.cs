@@ -235,15 +235,51 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ColorPickerSize( Size size ) => TextInputSize( size );
 
-    public override string ColorPickerContainer() => "tw-color-picker-container relative inline-flex w-full min-w-0 align-middle has-[>[role=dialog]]:z-50";
+    public override string ColorPickerContainer() => "relative inline-flex w-full min-w-0 align-middle has-[>[role=dialog]]:z-50 [anchor-name:--tw-color-picker-anchor] [anchor-scope:--tw-color-picker-anchor]";
 
-    public override string ColorPickerMenu() => "tw-color-picker-menu absolute top-full start-0 z-50 mt-1 w-72 max-w-[calc(100vw-1rem)] max-h-[calc(100vh-1rem)] overflow-auto rounded-lg border border-secondary-200 bg-white p-3 text-secondary-900 shadow-lg dark:border-secondary-700 dark:bg-secondary-900 dark:text-white";
+    public override string ColorPickerMenu()
+    {
+        var builder = new StringBuilder( "absolute top-full start-0 z-50 mt-1 w-72 max-w-[calc(100vw-1rem)] max-h-[calc(100vh-1rem)] overflow-auto rounded-lg border border-secondary-200 bg-white p-3 text-secondary-900 shadow-lg dark:border-secondary-700 dark:bg-secondary-900 dark:text-white " );
+
+        builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:fixed " );
+        builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:[position-anchor:--tw-color-picker-anchor] " );
+        builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:inset-auto " );
+        builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:top-[anchor(bottom)] " );
+        builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:[inset-inline-start:anchor(start)] " );
+        builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:[position-try-fallbacks:flip-block,flip-inline,flip-block_flip-inline]" );
+
+        return builder.ToString();
+    }
 
     public override string ColorPickerSurface() => "relative h-40 w-full touch-none select-none cursor-crosshair rounded-sm [direction:ltr] bg-[linear-gradient(to_top,black,transparent),linear-gradient(to_right,white,transparent)] focus-visible:outline-2 focus-visible:outline-primary-600";
 
     public override string ColorPickerMarker() => "absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow pointer-events-none";
 
-    public override string ColorPickerSlider() => "tw-color-picker-slider";
+    public override string ColorPickerSlider()
+    {
+        var builder = new StringBuilder( "relative w-full min-h-10 [direction:ltr] " );
+
+        builder.Append( "before:content-[''] before:absolute before:inset-x-2 before:top-1/2 before:h-2 before:rounded-full before:-translate-y-1/2 before:pointer-events-none " );
+        builder.Append( "data-[color-channel=hue]:before:bg-[linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)] " );
+        builder.Append( "data-[color-channel=opacity]:before:bg-[linear-gradient(to_right,transparent,currentColor),repeating-conic-gradient(#fff_0%_25%,#ccc_0%_50%)] " );
+        builder.Append( "data-[color-channel=opacity]:before:[background-size:100%_100%,.5rem_.5rem] " );
+        builder.Append( "[&_input[type=range]]:relative [&_input[type=range]]:block [&_input[type=range]]:w-full [&_input[type=range]]:!h-10 " );
+        builder.Append( "[&_input[type=range]]:m-0 [&_input[type=range]]:p-0 [&_input[type=range]]:border-0 [&_input[type=range]]:outline-none " );
+        builder.Append( "[&_input[type=range]]:!bg-transparent [&_input[type=range]]:text-inherit [&_input[type=range]]:opacity-100 [&_input[type=range]]:cursor-pointer [&_input[type=range]]:appearance-none " );
+        builder.Append( "[&_input[type=range]::-webkit-slider-runnable-track]:h-2 [&_input[type=range]::-webkit-slider-runnable-track]:border-0 [&_input[type=range]::-webkit-slider-runnable-track]:bg-transparent [&_input[type=range]::-webkit-slider-runnable-track]:text-inherit " );
+        builder.Append( "[&_input[type=range]::-moz-range-track]:h-2 [&_input[type=range]::-moz-range-track]:border-0 [&_input[type=range]::-moz-range-track]:bg-transparent " );
+        builder.Append( "[&_input[type=range]::-moz-range-progress]:h-2 [&_input[type=range]::-moz-range-progress]:border-0 [&_input[type=range]::-moz-range-progress]:!bg-transparent " );
+        builder.Append( "[&_input[type=range]::-webkit-slider-thumb]:box-border [&_input[type=range]::-webkit-slider-thumb]:!w-4 [&_input[type=range]::-webkit-slider-thumb]:!h-4 " );
+        builder.Append( "[&_input[type=range]::-webkit-slider-thumb]:!-mt-1 [&_input[type=range]::-webkit-slider-thumb]:!border-2 [&_input[type=range]::-webkit-slider-thumb]:border-white [&_input[type=range]::-webkit-slider-thumb]:rounded-full " );
+        builder.Append( "[&_input[type=range]::-webkit-slider-thumb]:!bg-current [&_input[type=range]::-webkit-slider-thumb]:!shadow-[0_0_0_1px_rgba(0,0,0,.25)] [&_input[type=range]::-webkit-slider-thumb]:cursor-pointer [&_input[type=range]::-webkit-slider-thumb]:appearance-none " );
+        builder.Append( "[&_input[type=range]::-moz-range-thumb]:box-border [&_input[type=range]::-moz-range-thumb]:!w-4 [&_input[type=range]::-moz-range-thumb]:!h-4 " );
+        builder.Append( "[&_input[type=range]::-moz-range-thumb]:!border-2 [&_input[type=range]::-moz-range-thumb]:border-white [&_input[type=range]::-moz-range-thumb]:rounded-full " );
+        builder.Append( "[&_input[type=range]::-moz-range-thumb]:!bg-current [&_input[type=range]::-moz-range-thumb]:!shadow-[0_0_0_1px_rgba(0,0,0,.25)] [&_input[type=range]::-moz-range-thumb]:cursor-pointer " );
+        builder.Append( "[&_input[type=range]:focus-visible::-webkit-slider-thumb]:!outline-2 [&_input[type=range]:focus-visible::-webkit-slider-thumb]:!outline-primary-600 [&_input[type=range]:focus-visible::-webkit-slider-thumb]:outline-offset-2 [&_input[type=range]:focus-visible::-webkit-slider-thumb]:transform-none " );
+        builder.Append( "[&_input[type=range]:focus-visible::-moz-range-thumb]:outline-2 [&_input[type=range]:focus-visible::-moz-range-thumb]:outline-primary-600 [&_input[type=range]:focus-visible::-moz-range-thumb]:outline-offset-2 [&_input[type=range]:focus-visible::-moz-range-thumb]:transform-none" );
+
+        return builder.ToString();
+    }
 
     #endregion
 
