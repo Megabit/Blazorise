@@ -11,6 +11,8 @@
     "aria:btn:save": "guardar y cerrar",
     "aria:btn:cancel": "cancelar y cerrar",
     "aria:btn:clear": "claro y cercano",
+    "aria:format": "formato de color",
+    "aria:btn:copy": "copiar color",
     "aria:input": "campo de entrada de color",
     "aria:palette": "área de selección de color",
     "aria:hue": "control deslizante de selección de tono",

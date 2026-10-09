@@ -3,10 +3,9 @@ using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Localization;
-using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise;
@@ -14,44 +13,21 @@ namespace Blazorise;
 /// <summary>
 /// The editor that allows you to select a color from a dropdown menu.
 /// </summary>
-public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses, ColorPickerStyles>, ISelectableComponent, IAsyncDisposable
+public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses, ColorPickerStyles>, IAsyncDisposable, ISelectableComponent
 {
     #region Members
 
-    /// <summary>
-    /// Object reference that can be accessed through the JSInterop.
-    /// </summary>
-    private DotNetObjectReference<ColorPicker> dotNetObjectRef;
+    private ColorPickerColor selectedColor = new( 0, 100, 100, 1 );
 
-    /// <summary>
-    /// Captured Palette parameter snapshot.
-    /// </summary>
-    protected ComponentParameterInfo<string[]> paramPalette;
+    private string colorBeforeOpen;
 
-    /// <summary>
-    /// Captured ShowPalette parameter snapshot.
-    /// </summary>
-    protected ComponentParameterInfo<bool> paramShowPalette;
+    private bool pickerOpen;
 
-    /// <summary>
-    /// Captured HideAfterPaletteSelect parameter snapshot.
-    /// </summary>
-    protected ComponentParameterInfo<bool> paramHideAfterPaletteSelect;
+    private bool rgbaFormat;
 
-    /// <summary>
-    /// Captured Disabled parameter snapshot.
-    /// </summary>
-    protected ComponentParameterInfo<bool> paramDisabled;
+    private string targetElementId;
 
-    /// <summary>
-    /// Captured ReadOnly parameter snapshot.
-    /// </summary>
-    protected ComponentParameterInfo<bool> paramReadOnly;
-
-    /// <summary>
-    /// Captured PreviewContent parameter snapshot.
-    /// </summary>
-    protected ComponentParameterInfo<RenderFragment> paramPreviewContent;
+    private PickerObserverCoordinator observerCoordinator;
 
     #endregion
 
@@ -64,6 +40,14 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     {
         PreviewClassBuilder = new( BuildPreviewClasses );
         SwatchClassBuilder = new( BuildSwatchClasses );
+        PickerContainerClassBuilder = new( BuildPickerContainerClasses, builder => builder.Append( Classes?.Wrapper ) );
+        PickerContainerStyleBuilder = new( BuildPickerContainerStyles, builder => builder.Append( Styles?.Wrapper ) );
+        MenuClassBuilder = new( BuildMenuClasses );
+        MenuStyleBuilder = new( BuildMenuStyles );
+        SliderClassBuilder = new( BuildSliderClasses );
+        SwatchStyleBuilder = new( BuildSwatchStyles );
+        HueSliderStyleBuilder = new( BuildHueSliderStyles );
+        OpacitySliderStyleBuilder = new( BuildOpacitySliderStyles );
     }
 
     #endregion
@@ -71,56 +55,40 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     #region Methods
 
     /// <inheritdoc/>
-    protected override void CaptureParameters( ParameterView parameters )
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        base.CaptureParameters( parameters );
+        var valueChanged = !Rendered || parameters.IsParameterChanged( Value );
+        var nextValue = parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) ? paramValue : Value;
+        var nextPalette = parameters.TryGetValue<string[]>( nameof( Palette ), out var paramPalette ) ? paramPalette : Palette;
+        var nextDisabled = parameters.TryGetValue<bool>( nameof( Disabled ), out var paramDisabled ) ? paramDisabled : IsDisabled;
+        var nextReadOnly = parameters.TryGetValue<bool>( nameof( ReadOnly ), out var paramReadOnly ) ? paramReadOnly : ReadOnly;
 
-        parameters.TryGetParameter( Palette, out paramPalette );
-        parameters.TryGetParameter( ShowPalette, out paramShowPalette );
-        parameters.TryGetParameter( HideAfterPaletteSelect, out paramHideAfterPaletteSelect );
-        parameters.TryGetParameter( Disabled, out paramDisabled );
-        parameters.TryGetParameter( ReadOnly, out paramReadOnly );
-        parameters.TryGetParameter( PreviewContent, out paramPreviewContent );
-    }
-
-    /// <inheritdoc/>
-    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
-    {
-        await base.OnBeforeSetParametersAsync( parameters );
-
-        var previewChanged = paramPreviewContent.Defined && ( paramPreviewContent.Value is null ) != ( PreviewContent is null );
-        var paletteChanged = paramPalette.Defined && paramPalette.Changed;
-        var showPaletteChanged = paramShowPalette.Defined && paramShowPalette.Changed;
-        var hideAfterPaletteSelectChanged = paramHideAfterPaletteSelect.Defined && paramHideAfterPaletteSelect.Changed;
-        var disabledChanged = paramDisabled.Defined && paramDisabled.Changed;
-        var readOnlyChanged = paramReadOnly.Defined && paramReadOnly.Changed;
-
-        if ( previewChanged )
+        if ( valueChanged || ( string.IsNullOrEmpty( nextValue ) && parameters.TryGetValue<string[]>( nameof( Palette ), out _ ) ) )
         {
-            DirtyClasses();
-            DirtyStyles();
+            SynchronizeColor( nextValue, nextPalette );
+            colorBeforeOpen = nextValue;
         }
 
-        if ( Rendered && ( paramValue.Changed || previewChanged ) )
+        if ( nextDisabled || nextReadOnly )
         {
-            ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, Value ) );
+            if ( IsPickerVisible && targetElementId is not null )
+            {
+                await JSUtilitiesModule.RestoreElement( MenuElementId );
+            }
+
+            pickerOpen = false;
         }
 
-        if ( Rendered && ( paletteChanged
-            || showPaletteChanged
-            || hideAfterPaletteSelectChanged
-            || disabledChanged
-            || readOnlyChanged ) )
+        if ( valueChanged )
         {
-            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId,
-                new ColorPickerUpdateJsOptions
-                {
-                    Palette = new JSOptionChange<string[]>( paletteChanged, paramPalette.Value ),
-                    ShowPalette = new JSOptionChange<bool>( showPaletteChanged, paramShowPalette.Value ),
-                    HideAfterPaletteSelect = new JSOptionChange<bool>( hideAfterPaletteSelectChanged, paramHideAfterPaletteSelect.Value ),
-                    Disabled = new JSOptionChange<bool>( disabledChanged, paramDisabled.Value ),
-                    ReadOnly = new JSOptionChange<bool>( readOnlyChanged, paramReadOnly.Value )
-                } ) );
+            InvalidateSwatchStyles( nextValue );
+        }
+
+        await base.SetParametersAsync( parameters );
+
+        if ( !IsPickerVisible && observerCoordinator is not null )
+        {
+            await observerCoordinator.DisposeOutsideSubscriptionAsync();
         }
     }
 
@@ -132,61 +100,22 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         base.OnInitialized();
     }
 
-    /// <summary>
-    /// Handles the localization changed event.
-    /// </summary>
-    /// <param name="sender">Object that raised the event.</param>
-    /// <param name="eventArgs">Data about the localization event.</param>
-    private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
-    {
-        // no need to refresh if we're using custom localization
-        if ( PickerLocalizer is not null )
-            return;
-
-        ExecuteAfterRender( async () => await JSModule.UpdateLocalization( ElementRef, ElementId, Localizer.GetStrings() ) );
-
-        await InvokeAsync( StateHasChanged );
-    }
-
-    /// <inheritdoc/>
-    protected override async Task OnFirstAfterRenderAsync()
-    {
-        dotNetObjectRef ??= CreateDotNetObjectRef( value: this );
-
-        await JSModule.Initialize( dotNetObjectRef: dotNetObjectRef, elementRef: ElementRef, elementId: ElementId,
-        options: new()
-        {
-            Default = Value,
-            Palette = Palette,
-            ShowPalette = ShowPalette,
-            HideAfterPaletteSelect = HideAfterPaletteSelect,
-            ShowClearButton = ShowClearButton,
-            ShowCancelButton = ShowCancelButton,
-            ShowOpacitySlider = ShowOpacitySlider,
-            ShowHueSlider = ShowHueSlider,
-            ShowInputField = ShowInputField,
-            Disabled = Disabled,
-            ReadOnly = ReadOnly,
-            Localization = Localizer.GetStrings(),
-            ColorPreviewElementSelector = ColorPreviewElementSelector,
-            ColorValueElementSelector = ColorValueElementSelector
-        } );
-
-
-        await base.OnFirstAfterRenderAsync();
-    }
-
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
-        if ( disposing && Rendered )
+        if ( disposing )
         {
-            await JSModule.SafeDestroy( ElementRef, ElementId );
-
-            DisposeDotNetObjectRef( dotNetObjectRef );
-            dotNetObjectRef = null;
-
             LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+
+            if ( observerCoordinator is not null )
+            {
+                await observerCoordinator.DisposeAsync();
+            }
+
+            if ( targetElementId is not null )
+            {
+                await JSUtilitiesModule.RestoreElement( MenuElementId );
+            }
         }
 
         await base.DisposeAsync( disposing );
@@ -204,78 +133,386 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// <summary>
     /// Builds the classes for the preview wrapper.
     /// </summary>
-    /// <param name="builder">Class builder.</param>
     protected virtual void BuildPreviewClasses( ClassBuilder builder ) => builder.Append( ClassProvider.ColorPickerPreview() );
 
     /// <summary>
     /// Builds the classes for the color swatch.
     /// </summary>
-    /// <param name="builder">Class builder.</param>
     protected virtual void BuildSwatchClasses( ClassBuilder builder ) => builder.Append( ClassProvider.ColorPickerSwatch() );
+
+    private void BuildPickerContainerClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.ColorPickerContainer() );
+        AppendWrapperUtilities( builder );
+    }
+
+    private void BuildPickerContainerStyles( StyleBuilder builder ) => AppendWrapperUtilities( builder );
+
+    private void BuildMenuClasses( ClassBuilder builder ) => builder.Append( ClassProvider.ColorPickerMenu() );
+
+    private void BuildMenuStyles( StyleBuilder builder ) => builder.Append( StyleProvider.ColorPickerMenuAnchor( targetElementId ) );
+
+    private void BuildSliderClasses( ClassBuilder builder ) => builder.Append( ClassProvider.ColorPickerSlider() );
+
+    private void BuildSwatchStyles( StyleBuilder builder ) => builder.Append( $"background-color: {GetColorString( Value )};" );
+
+    private void BuildHueSliderStyles( StyleBuilder builder ) => builder.Append( $"color: {CssColor.Hsl( selectedColor.Hue, 100, 50 )};" );
+
+    private void BuildOpacitySliderStyles( StyleBuilder builder ) => builder.Append( $"color: {( selectedColor with { Alpha = 1 } ).ToHexString()};" );
 
     /// <inheritdoc/>
     protected internal override void DirtyClasses()
     {
         PreviewClassBuilder.Dirty();
         SwatchClassBuilder.Dirty();
+        PickerContainerClassBuilder.Dirty();
+        MenuClassBuilder.Dirty();
+        SliderClassBuilder.Dirty();
 
         base.DirtyClasses();
     }
 
-    /// <summary>
-    /// Handles the input onchange event.
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    protected Task OnChangeHandler( ChangeEventArgs eventArgs )
+    /// <inheritdoc/>
+    protected internal override void DirtyStyles()
     {
-        return CurrentValueHandler( eventArgs?.Value?.ToString() );
+        PickerContainerStyleBuilder.Dirty();
+
+        base.DirtyStyles();
     }
+
+    /// <summary>
+    /// Handles changes to the color input.
+    /// </summary>
+    protected Task OnChangeHandler( ChangeEventArgs eventArgs ) => SetValue( eventArgs?.Value?.ToString() );
+
+    /// <summary>
+    /// Handles activation of the picker trigger.
+    /// </summary>
+    protected Task OnClickHandler( MouseEventArgs eventArgs ) => IsPickerVisible ? Hide() : Show();
 
     /// <inheritdoc/>
-    protected override string FormatValueAsString( string value )
+    protected override async Task OnKeyDownHandler( KeyboardEventArgs eventArgs )
     {
-        return value;
+        if ( eventArgs.Key == "Escape" && IsPickerVisible )
+        {
+            await Hide();
+        }
+        else if ( eventArgs.Key == "ArrowDown" && !IsPickerVisible )
+        {
+            await Show();
+        }
+
+        await base.OnKeyDownHandler( eventArgs );
     }
 
-    /// <inheritdoc/>
-    protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
+    internal async Task OnMenuKeyDownHandler( KeyboardEventArgs eventArgs )
     {
-        return Task.FromResult( new ParseValue<string>( true, value, null ) );
+        if ( eventArgs.Key == "Escape" )
+        {
+            await Hide();
+            await Focus( false );
+        }
     }
 
-    /// <inheritdoc/>
-    public virtual Task Select( bool focus = true )
+    private Task OnOutsidePointerHandler( DocumentEventArgs eventArgs ) => Hide();
+
+    internal async Task<bool> SelectSurfaceColor( double saturation, double brightness )
     {
-        return JSUtilitiesModule.Select( ElementRef, ElementId, focus ).AsTask();
+        if ( IsInteractionDisabled || !IsPickerVisible )
+        {
+            return false;
+        }
+
+        var color = selectedColor with { Saturation = saturation, Brightness = brightness };
+
+        if ( !SetSelectedColor( color ) )
+        {
+            return false;
+        }
+
+        await ApplySelectedColor();
+
+        return true;
     }
 
-    /// <summary>
-    /// Opens the full color picker when the input is enabled and editable.
-    /// </summary>
-    public virtual Task Show() => Disabled || ReadOnly ? Task.CompletedTask : JSModule.Show( ElementRef, ElementId ).AsTask();
-
-    /// <summary>
-    /// Closes the full color picker.
-    /// </summary>
-    public virtual Task Hide() => JSModule.Hide( ElementRef, ElementId ).AsTask();
-
-    /// <summary>
-    /// Updated the <see cref="ColorPicker"/> with the new value.
-    /// </summary>
-    /// <param name="value">New color value.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    [JSInvokable]
-    public async Task SetValue( string value )
+    internal async Task OnHueChangedHandler( double hue )
     {
+        if ( IsInteractionDisabled )
+        {
+            return;
+        }
+
+        SetSelectedColor( selectedColor with { Hue = Math.Clamp( hue, 0, 360 ) } );
+        await ApplySelectedColor();
+    }
+
+    internal async Task OnOpacityChangedHandler( double opacity )
+    {
+        if ( IsInteractionDisabled )
+        {
+            return;
+        }
+
+        SetSelectedColor( selectedColor with { Alpha = Math.Clamp( opacity, 0, 1 ) } );
+        await ApplySelectedColor();
+    }
+
+    internal Task OnInputChangedHandler( string text ) => SetValue( text );
+
+    internal async Task OnSaveClickHandler( MouseEventArgs eventArgs )
+    {
+        if ( IsInteractionDisabled || !IsPickerVisible )
+        {
+            return;
+        }
+
+        if ( !GetColorString( Value ).IsEqual( selectedColor.ToHexString() ) )
+        {
+            await ApplySelectedColor();
+        }
+
+        await Hide();
+        await Focus( false );
+    }
+
+    internal async Task OnClearClickHandler( MouseEventArgs eventArgs )
+    {
+        await SetValue( null );
+        await Hide();
+        await Focus( false );
+    }
+
+    internal async Task OnCancelClickHandler( MouseEventArgs eventArgs )
+    {
+        await SetValue( colorBeforeOpen );
+        await Hide();
+        await Focus( false );
+    }
+
+    internal void OnFormatChangedHandler( bool isRgbaFormat ) => rgbaFormat = isRgbaFormat;
+
+    internal Task OnCopyClickHandler( MouseEventArgs eventArgs ) => JSUtilitiesModule.CopyToClipboard( default, InputElementId ).AsTask();
+
+    internal async Task SelectPaletteColor( string value )
+    {
+        if ( IsInteractionDisabled || !ColorPickerColor.TryParse( value, out var color ) )
+        {
+            return;
+        }
+
+        await SetValue( color.ToHexString() );
+
+        if ( HideAfterPaletteSelect )
+        {
+            await Hide();
+            await Focus( false );
+        }
+    }
+
+    private async Task ApplySelectedColor()
+    {
+        var value = selectedColor.ToHexString();
+
         if ( Value.IsEqual( value ) )
         {
             return;
         }
 
+        InvalidateSwatchStyles( value );
+
         await CurrentValueHandler( value );
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private void SynchronizeColor( string value, string[] palette )
+    {
+        if ( ColorPickerColor.TryParse( value, out var color ) )
+        {
+            SetSelectedColor( color );
+            return;
+        }
+
+        if ( palette is not null )
+        {
+            foreach ( var paletteColor in palette )
+            {
+                if ( ColorPickerColor.TryParse( paletteColor, out color ) )
+                {
+                    SetSelectedColor( color );
+                    return;
+                }
+            }
+        }
+
+        SetSelectedColor( new( 0, 100, 100, 1 ) );
+    }
+
+    private bool SetSelectedColor( ColorPickerColor color )
+    {
+        if ( color == selectedColor )
+        {
+            return false;
+        }
+
+        if ( color.Hue != selectedColor.Hue )
+        {
+            HueSliderStyleBuilder.Dirty();
+        }
+
+        if ( color.Hue != selectedColor.Hue
+            || color.Saturation != selectedColor.Saturation
+            || color.Brightness != selectedColor.Brightness )
+        {
+            var previousColorString = ( selectedColor with { Alpha = 1 } ).ToHexString();
+            var colorString = ( color with { Alpha = 1 } ).ToHexString();
+
+            if ( !previousColorString.IsEqual( colorString ) )
+            {
+                OpacitySliderStyleBuilder.Dirty();
+            }
+        }
+
+        selectedColor = color;
+
+        return true;
+    }
+
+    private void InvalidateSwatchStyles( string value )
+    {
+        if ( !GetColorString( Value ).IsEqual( GetColorString( value ) ) )
+        {
+            SwatchStyleBuilder.Dirty();
+        }
+    }
+
+    private void OnLocalizationChanged( object sender, EventArgs eventArgs )
+    {
+        if ( PickerLocalizer is null )
+        {
+            _ = InvokeAsync( StateHasChanged );
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override string FormatValueAsString( string value ) => value;
+
+    /// <inheritdoc/>
+    protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
+        => Task.FromResult( new ParseValue<string>( string.IsNullOrEmpty( value ) || ColorPickerColor.TryParse( value, out _ ), value, null ) );
+
+    /// <inheritdoc/>
+    public virtual Task Select( bool focus = true ) => JSUtilitiesModule.Select( ElementRef, ElementId, focus ).AsTask();
+
+    /// <inheritdoc/>
+    public override Task Focus( bool scrollToElement = true )
+        => targetElementId is not null
+            ? JSUtilitiesModule.Focus( default, targetElementId, scrollToElement ).AsTask()
+            : base.Focus( scrollToElement );
+
+    /// <summary>
+    /// Opens the color picker when the input is enabled and editable.
+    /// </summary>
+    public virtual Task Show() => Show( null );
+
+    /// <summary>
+    /// Opens the color picker against the specified target, outside its containing menu.
+    /// </summary>
+    /// <param name="targetId">The element identifier to anchor the picker to and return focus to when closed.</param>
+    public virtual async Task Show( string targetId )
+    {
+        if ( IsInteractionDisabled || IsPickerVisible )
+        {
+            return;
+        }
+
+        colorBeforeOpen = Value;
+        SynchronizeColor( Value, Palette );
+
+        var nextTargetElementId = string.IsNullOrWhiteSpace( targetId ) ? null : targetId;
+
+        if ( targetElementId != nextTargetElementId )
+        {
+            targetElementId = nextTargetElementId;
+            MenuStyleBuilder.Dirty();
+        }
+
+        pickerOpen = true;
+
+        await InvokeAsync( StateHasChanged );
+
+        await ObserverCoordinator.SynchronizeOutsideSubscriptionAsync( IsPickerVisible, false, ElementId, targetElementId ?? ElementId, MenuElementId, OnOutsidePointerHandler );
+    }
+
+    /// <summary>
+    /// Closes the color picker.
+    /// </summary>
+    public virtual async Task Hide()
+    {
+        if ( !pickerOpen )
+        {
+            return;
+        }
+
+        if ( targetElementId is not null )
+        {
+            await JSUtilitiesModule.RestoreElement( MenuElementId );
+        }
+
+        pickerOpen = false;
+
+        if ( observerCoordinator is not null )
+        {
+            await observerCoordinator.DisposeOutsideSubscriptionAsync();
+        }
 
         await InvokeAsync( StateHasChanged );
     }
+
+    internal async Task OnMenuRendered()
+    {
+        if ( !IsPickerVisible )
+        {
+            return;
+        }
+
+        if ( targetElementId is not null )
+        {
+            await JSUtilitiesModule.ShowAnchoredElement( MenuElementId, targetElementId );
+        }
+
+        if ( IsPickerVisible )
+        {
+            await JSUtilitiesModule.Focus( default, SurfaceElementId, false );
+        }
+    }
+
+    /// <summary>
+    /// Updates the picker with a new color value.
+    /// </summary>
+    /// <param name="value">New color value.</param>
+    public async Task SetValue( string value )
+    {
+        if ( IsInteractionDisabled || Value.IsEqual( value ) )
+        {
+            return;
+        }
+
+        if ( !string.IsNullOrEmpty( value ) && !ColorPickerColor.TryParse( value, out _ ) )
+        {
+            return;
+        }
+
+        InvalidateSwatchStyles( value );
+
+        await CurrentValueHandler( value );
+        SynchronizeColor( Value, Palette );
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    internal string Localize( string key ) => PickerLocalizer?.Invoke( key ) ?? Localizer.GetString( key );
+
+    internal static string GetColorString( string value ) => ColorPickerColor.TryParse( value, out var color ) ? color.ToHexString() : "transparent";
 
     #endregion
 
@@ -290,10 +527,10 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// <summary>
     /// Gets the disabled state serialized for the aria-disabled attribute.
     /// </summary>
-    protected string AriaDisabledString => Disabled ? "true" : "false";
+    protected string AriaDisabledString => IsInteractionDisabled ? "true" : "false";
 
     /// <summary>
-    /// Gets the value visibility serialized for the data-show-value attribute.
+    /// Gets the value visibility serialized for provider styling.
     /// </summary>
     protected string ShowValueString => ShowValue ? "true" : "false";
 
@@ -303,17 +540,92 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     protected string CustomPreviewString => PreviewContent is not null ? "true" : "false";
 
     /// <summary>
-    /// Gets the CSS selector for the color preview element.
+    /// Gets the expanded state of the picker trigger.
     /// </summary>
-    protected virtual string ColorPreviewElementSelector
-        => string.IsNullOrEmpty( PreviewClassNames ) || string.IsNullOrEmpty( SwatchClassNames )
-            ? null
-            : $":scope > .{PreviewClassNames} > .{SwatchClassNames}";
+    protected string AriaExpandedString => IsPickerVisible ? "true" : "false";
 
-    /// <summary>
-    /// Gets the CSS selector for the color value element.
-    /// </summary>
-    protected virtual string ColorValueElementSelector => null;
+    internal bool IsInteractionDisabled => IsDisabled || ReadOnly;
+
+    private PickerObserverCoordinator ObserverCoordinator => observerCoordinator ??= new( DocumentObserver );
+
+    internal bool IsPickerVisible => pickerOpen && !IsInteractionDisabled;
+
+    internal string MenuElementId => $"{ElementId}-menu";
+
+    internal string SurfaceElementId => $"{ElementId}-surface";
+
+    internal string HueSliderElementId => $"{ElementId}-hue";
+
+    internal string OpacitySliderElementId => $"{ElementId}-opacity";
+
+    internal string InputElementId => $"{ElementId}-input";
+
+    internal string FormatSelectElementId => $"{ElementId}-format";
+
+    internal string CopyButtonElementId => $"{ElementId}-copy";
+
+    internal string ClearButtonElementId => $"{ElementId}-clear";
+
+    internal string CancelButtonElementId => $"{ElementId}-cancel";
+
+    internal string SaveButtonElementId => $"{ElementId}-save";
+
+    internal string FirstControlElementId
+    {
+        get
+        {
+            if ( ShowHueSlider )
+            {
+                return HueSliderElementId;
+            }
+
+            if ( ShowOpacitySlider )
+            {
+                return OpacitySliderElementId;
+            }
+
+            if ( ShowPalette && Palette is not null )
+            {
+                for ( var index = 0; index < Palette.Length; index++ )
+                {
+                    if ( ColorPickerColor.TryParse( Palette[index], out _ ) )
+                    {
+                        return $"{ElementId}-palette-{index}";
+                    }
+                }
+            }
+
+            if ( ShowInputField )
+            {
+                return FormatSelectElementId;
+            }
+
+            if ( ShowClearButton )
+            {
+                return ClearButtonElementId;
+            }
+
+            if ( ShowCancelButton )
+            {
+                return CancelButtonElementId;
+            }
+
+            return ShowSaveButton ? SaveButtonElementId : ElementId;
+        }
+    }
+
+    internal ColorPickerColor SelectedColor => selectedColor;
+
+    internal double Hue => selectedColor.Hue;
+
+    internal double Opacity => selectedColor.Alpha;
+
+    internal string InputText
+        => ColorPickerColor.TryParse( Value, out var color )
+            ? rgbaFormat ? color.ToRgbaString() : color.ToHexString()
+            : Value;
+
+    internal bool IsRgbaFormat => rgbaFormat;
 
     /// <summary>
     /// Gets the class builder for the preview wrapper.
@@ -324,6 +636,22 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// Gets the class builder for the color swatch.
     /// </summary>
     protected ClassBuilder SwatchClassBuilder { get; }
+
+    private ClassBuilder PickerContainerClassBuilder { get; }
+
+    private StyleBuilder PickerContainerStyleBuilder { get; }
+
+    private ClassBuilder MenuClassBuilder { get; }
+
+    private StyleBuilder MenuStyleBuilder { get; }
+
+    private ClassBuilder SliderClassBuilder { get; }
+
+    private StyleBuilder SwatchStyleBuilder { get; }
+
+    private StyleBuilder HueSliderStyleBuilder { get; }
+
+    private StyleBuilder OpacitySliderStyleBuilder { get; }
 
     /// <summary>
     /// Gets the classes for the preview wrapper.
@@ -336,26 +664,51 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     protected string SwatchClassNames => SwatchClassBuilder.Class;
 
     /// <summary>
-    /// Specifies the <see cref="IJSColorPickerModule"/> instance.
+    /// Gets the styles for the color swatch.
     /// </summary>
-    [Inject] public IJSColorPickerModule JSModule { get; set; }
+    protected string SwatchStyleNames => SwatchStyleBuilder.Styles;
 
     /// <summary>
-    /// Specifies the DI registered <see cref="ITextLocalizerService"/>.
+    /// Gets the classes for the picker container.
+    /// </summary>
+    protected string PickerContainerClassNames => PickerContainerClassBuilder.Class;
+
+    /// <summary>
+    /// Gets the styles for the picker container.
+    /// </summary>
+    protected string PickerContainerStyleNames => PickerContainerStyleBuilder.Styles;
+
+    internal string MenuClassNames => MenuClassBuilder.Class;
+
+    internal string MenuStyleNames => MenuStyleBuilder.Styles;
+
+    internal string SliderClassNames => SliderClassBuilder.Class;
+
+    internal string HueSliderStyleNames => HueSliderStyleBuilder.Styles;
+
+    internal string OpacitySliderStyleNames => OpacitySliderStyleBuilder.Styles;
+
+    /// <summary>
+    /// Specifies the DI registered localization service.
     /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
-    /// Specifies the DI registered <see cref="ITextLocalizer{ColorPicker}"/>.
+    /// Specifies the DI registered color picker localizer.
     /// </summary>
     [Inject] protected ITextLocalizer<ColorPicker> Localizer { get; set; }
+
+    /// <summary>
+    /// Specifies the document observer used for outside interaction.
+    /// </summary>
+    [Inject] protected IDocumentObserver DocumentObserver { get; set; }
 
     /// <summary>
     /// List a colors below the colorpicker to make it convenient for users to choose from
     /// frequently or recently used colors.
     /// </summary>
     [Parameter]
-    public string[] Palette { get; set; } = new string[]
+    public string[] Palette { get; set; } = new[]
     {
         "rgba(244, 67, 54, 1)",
         "rgba(233, 30, 99, 0.95)",
@@ -370,7 +723,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         "rgba(139, 195, 74, 0.85)",
         "rgba(205, 220, 57, 0.9)",
         "rgba(255, 235, 59, 0.95)",
-        "rgba(255, 193, 7, 1)"
+        "rgba(255, 193, 7, 1)",
     };
 
     /// <summary>
@@ -393,6 +746,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// Controls the visibility of the cancel buttons.
     /// </summary>
     [Parameter] public bool ShowCancelButton { get; set; } = true;
+
+    /// <summary>
+    /// Controls the visibility of the save button that confirms the selected color and closes the picker.
+    /// </summary>
+    [Parameter] public bool ShowSaveButton { get; set; } = true;
 
     /// <summary>
     /// Controls the visibility of the opacity slider.

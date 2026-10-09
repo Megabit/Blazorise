@@ -468,7 +468,8 @@ body {
 }
 
 .mui-addon-xs > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
-.mui-addon-xs > .mui-numeric > :is(.mui-input, .mui-input-plaintext) {
+.mui-addon-xs > .mui-numeric > :is(.mui-input, .mui-input-plaintext),
+.mui-addon-xs > .mui-color-picker-container > .mui-color-picker {
   --mui-input-size: 1.5rem;
   --mui-input-font-size: 0.625rem;
   --mui-btn-size: 1.5rem;
@@ -478,7 +479,8 @@ body {
 }
 
 .mui-addon-sm > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
-.mui-addon-sm > .mui-numeric > :is(.mui-input, .mui-input-plaintext) {
+.mui-addon-sm > .mui-numeric > :is(.mui-input, .mui-input-plaintext),
+.mui-addon-sm > .mui-color-picker-container > .mui-color-picker {
   --mui-input-size: 2rem;
   --mui-input-font-size: 0.75rem;
   --mui-btn-size: 2rem;
@@ -488,7 +490,8 @@ body {
 }
 
 .mui-addon-md > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
-.mui-addon-md > .mui-numeric > :is(.mui-input, .mui-input-plaintext) {
+.mui-addon-md > .mui-numeric > :is(.mui-input, .mui-input-plaintext),
+.mui-addon-md > .mui-color-picker-container > .mui-color-picker {
   --mui-input-size: 2.75rem;
   --mui-input-font-size: 1.125rem;
   --mui-btn-size: 2.75rem;
@@ -498,7 +501,8 @@ body {
 }
 
 .mui-addon-lg > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
-.mui-addon-lg > .mui-numeric > :is(.mui-input, .mui-input-plaintext) {
+.mui-addon-lg > .mui-numeric > :is(.mui-input, .mui-input-plaintext),
+.mui-addon-lg > .mui-color-picker-container > .mui-color-picker {
   --mui-input-size: 3rem;
   --mui-input-font-size: 1.25rem;
   --mui-btn-size: 3rem;
@@ -508,7 +512,8 @@ body {
 }
 
 .mui-addon-xl > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
-.mui-addon-xl > .mui-numeric > :is(.mui-input, .mui-input-plaintext) {
+.mui-addon-xl > .mui-numeric > :is(.mui-input, .mui-input-plaintext),
+.mui-addon-xl > .mui-color-picker-container > .mui-color-picker {
   --mui-input-size: 3.5rem;
   --mui-input-font-size: 1.5rem;
   --mui-btn-size: 3.5rem;
@@ -5842,7 +5847,7 @@ fieldset.mui-row > legend.mui-field-label-horizontal {
 }
 
 .mui-field.mui-field-floating:focus-within > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown), > .mui-field-body > :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown), > textarea.mui-input[placeholder]:not(:placeholder-shown), > .mui-field-body > textarea.mui-input[placeholder]:not(:placeholder-shown), > :is(.mui-select, .mui-color-input, .mui-color-picker), > .mui-field-body > :is(.mui-select, .mui-color-input, .mui-color-picker)) > .mui-field-label:not(.mui-field-label-horizontal) {
+.mui-field.mui-field-floating:has(> :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown), > .mui-field-body > :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown), > textarea.mui-input[placeholder]:not(:placeholder-shown), > .mui-field-body > textarea.mui-input[placeholder]:not(:placeholder-shown), > :is(.mui-select, .mui-color-input, .mui-color-picker, .mui-color-picker-container), > .mui-field-body > :is(.mui-select, .mui-color-input, .mui-color-picker, .mui-color-picker-container)) > .mui-field-label:not(.mui-field-label-horizontal) {
   block-size: 2.5rem;
   line-height: 2.5rem;
   font-size: 0.75rem;
@@ -7664,10 +7669,10 @@ body.modal-open {
 .mui-property-grid-item-body :is(.mui-addon-start, .mui-addon-end) > .mui-button {
   --mui-btn-padding: calc(var(--mui-spacing) * .375);
 }
-.mui-property-grid-item[data-property-grid-editor=color] .mui-addon-body:has(> .mui-color-picker) {
+.mui-property-grid-item[data-property-grid-editor=color] .mui-addon-body:has(> .mui-color-picker-container) {
   flex: none;
 }
-.mui-property-grid-item[data-property-grid-editor=color] .mui-addon-body > .mui-color-picker {
+.mui-property-grid-item[data-property-grid-editor=color] .mui-addon-body > .mui-color-picker-container > .mui-color-picker {
   box-sizing: border-box;
   flex: 0 0 var(--mui-input-size);
   inline-size: var(--mui-input-size);
@@ -7676,7 +7681,7 @@ body.modal-open {
   gap: 0;
   padding-inline: 0;
 }
-.mui-property-grid-item[data-property-grid-editor=color] .mui-addon-body > .mui-color-picker::after {
+.mui-property-grid-item[data-property-grid-editor=color] .mui-addon-body > .mui-color-picker-container > .mui-color-picker::after {
   display: none;
 }
 .mui-property-grid-item[data-property-grid-editor=color] .mui-addon-end > .mui-button {
@@ -11545,130 +11550,187 @@ body .b-report {
   font-size: 1rem;
 }
 
-.pcr-app {
+.mui-color-picker-container {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  min-width: 0;
+  vertical-align: middle;
+  anchor-name: --material-color-picker-anchor;
+  anchor-scope: --material-color-picker-anchor;
+}
+.mui-color-picker-container[data-show-value=false] {
+  width: auto;
+  flex: 0 0 auto;
+}
+.mui-color-picker-container:has(> .mui-color-picker-menu) {
   z-index: var(--mui-zindex-popover);
-  border-radius: 1rem;
-  border: 0.0625rem solid var(--mui-outline-variant);
+}
+.mui-color-picker-container > button {
+  text-align: start;
+  cursor: pointer;
+}
+.mui-color-picker-container > button:disabled {
+  cursor: not-allowed;
+}
+.mui-color-picker-menu {
+  position: absolute;
+  inset-block-start: calc(100% + 0.25rem);
+  inset-inline-start: 0;
+  z-index: var(--mui-zindex-popover);
+  display: block;
+  box-sizing: border-box;
+  width: 18rem;
+  min-width: 0;
+  max-width: calc(100vw - 1rem);
+  max-height: calc(100vh - 1rem);
+  overflow: auto;
+  padding: 0.75rem;
+  border: 1px solid var(--mui-outline-variant);
+  border-radius: 0.75rem;
   background: var(--mui-surface-container-high);
   color: var(--mui-on-surface);
   box-shadow: var(--mui-elevate3);
   font-family: inherit;
-  transform: scale(0.98) translateY(-0.125rem);
-  transition: opacity var(--mui-duration-fast) var(--mui-curve-easy-ease), transform var(--mui-duration-fast) var(--mui-curve-easy-ease), visibility 0s linear var(--mui-duration-fast);
-}
-
-.pcr-app.visible {
-  transform: scale(1) translateY(0);
-  transition: opacity var(--mui-duration-fast) var(--mui-curve-easy-ease), transform var(--mui-duration-fast) var(--mui-curve-easy-ease), visibility 0s linear 0s;
-}
-
-.pickr input:focus,
-.pickr input.pcr-active,
-.pickr button:focus,
-.pickr button.pcr-active,
-.pcr-app input:focus,
-.pcr-app input.pcr-active,
-.pcr-app button:focus,
-.pcr-app button.pcr-active {
-  box-shadow: 0 0 0 0.125rem color-mix(in srgb, var(--mui-primary) 24%, transparent);
-}
-
-.pcr-app[data-theme=monolith] {
-  width: min(18rem, 95vw);
-  padding: 0.75rem;
-}
-
-.pcr-app[data-theme=monolith] .pcr-selection .pcr-color-palette .pcr-palette {
-  border-radius: 0.75rem;
-}
-
-.pcr-app[data-theme=monolith] .pcr-selection .pcr-color-chooser,
-.pcr-app[data-theme=monolith] .pcr-selection .pcr-color-opacity {
-  block-size: 0.625rem;
-  margin-top: 0.625rem;
-}
-
-.pcr-app[data-theme=monolith] .pcr-selection .pcr-color-chooser .pcr-slider,
-.pcr-app[data-theme=monolith] .pcr-selection .pcr-color-opacity .pcr-slider {
-  border-radius: 999rem;
-}
-
-.pcr-app .pcr-selection .pcr-picker {
-  border: 0.125rem solid var(--mui-surface);
-  box-shadow: 0 0 0 0.0625rem color-mix(in srgb, var(--mui-on-surface) 20%, transparent);
-}
-
-.pcr-app .pcr-swatches {
-  margin-top: 0.625rem;
-}
-
-.pcr-app .pcr-swatches > button {
-  border-radius: 0.375rem;
-}
-
-.pcr-app .pcr-swatches > button::after {
-  border-color: var(--mui-outline-variant);
-  border-radius: 0.375rem;
-}
-
-.pcr-app .pcr-interaction {
-  margin: 0.625rem 0 0;
-  gap: 0.375rem;
-  align-items: center;
-}
-
-.pcr-app .pcr-interaction > * {
-  margin: 0;
-}
-
-.pcr-app .pcr-interaction input {
-  letter-spacing: 0;
-  font-size: 0.75rem;
-  padding: 0.375rem 0.625rem;
-  margin-top: 0;
-  border-radius: 999rem;
-  background: var(--mui-surface-container-highest);
-  color: var(--mui-on-surface-variant);
-}
-
-.pcr-app .pcr-interaction .pcr-result {
   text-align: start;
-  border-radius: 0.5rem;
-  background: var(--mui-surface-container-highest);
-  color: var(--mui-on-surface);
+}
+@supports (position-anchor: --material-color-picker-anchor) and (anchor-scope: --material-color-picker-anchor) {
+  .mui-color-picker-menu {
+    position: fixed;
+    position-anchor: --material-color-picker-anchor;
+    inset: auto;
+    top: anchor(bottom);
+    inset-inline-start: anchor(start);
+    margin-block-start: 0.25rem;
+    position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  }
+}
+.mui-color-picker-surface {
+  position: relative;
+  width: 100%;
+  height: 10rem;
+  border-radius: 0.25rem;
+  background-image: linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, transparent);
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+  direction: ltr;
+}
+.mui-color-picker-surface:focus-visible {
+  outline: 2px solid var(--mui-primary);
+  outline-offset: 2px;
+}
+.mui-color-picker-marker {
+  position: absolute;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #000;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
-.pcr-app .pcr-interaction .pcr-type.active {
-  background: var(--mui-primary);
-  color: var(--mui-on-primary);
+.mui-color-picker-slider[data-color-channel] {
+  position: relative;
+  width: 100%;
+  min-height: 2.5rem;
+  direction: ltr;
+}
+.mui-color-picker-slider[data-color-channel]::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0.5rem;
+  top: 50%;
+  height: 0.5rem;
+  border-radius: 999px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.mui-color-picker-slider[data-color-channel][data-color-channel=hue]::before {
+  background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+.mui-color-picker-slider[data-color-channel][data-color-channel=opacity]::before {
+  background-image: linear-gradient(to right, transparent, currentColor), repeating-conic-gradient(#fff 0% 25%, #ccc 0% 50%);
+  background-size: 100% 100%, 0.5rem 0.5rem;
+}
+.mui-color-picker-slider[data-color-channel] input[type=range] {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  opacity: 1;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.mui-color-picker-slider[data-color-channel] input[type=range]::-webkit-slider-runnable-track {
+  height: 0.5rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+.mui-color-picker-slider[data-color-channel] input[type=range]::-moz-range-track, .mui-color-picker-slider[data-color-channel] input[type=range]::-moz-range-progress {
+  height: 0.5rem;
+  border: 0;
+  background: transparent;
+}
+.mui-color-picker-slider[data-color-channel] input[type=range]::-webkit-slider-thumb {
+  box-sizing: border-box;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  margin-top: -0.25rem;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.mui-color-picker-slider[data-color-channel] input[type=range]::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+.mui-color-picker-slider[data-color-channel] input[type=range]:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--mui-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  transform: none;
+}
+.mui-color-picker-slider[data-color-channel] input[type=range]:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--mui-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  transform: none;
+}
+.mui-color-picker-slider[data-color-channel] .mui-slider-value {
+  display: none;
 }
 
-.pcr-app .pcr-interaction .pcr-save,
-.pcr-app .pcr-interaction .pcr-cancel,
-.pcr-app .pcr-interaction .pcr-clear {
-  border-radius: 999rem;
+.mui-addons > .mui-addon-body > .mui-color-picker-container {
+  flex: 1 1 auto;
+  inline-size: 1%;
+  min-inline-size: 0;
 }
-
-.pcr-app .pcr-interaction .pcr-save {
-  background: var(--mui-primary);
-  color: var(--mui-on-primary);
+.mui-addons > .mui-addon-body > .mui-color-picker-container[data-show-value=false] {
+  flex: 0 0 auto;
+  inline-size: auto;
 }
-
-.pcr-app .pcr-interaction .pcr-save:hover {
-  filter: none;
-  background: var(--mui-primary-hover);
-}
-
-.pcr-app .pcr-interaction .pcr-clear,
-.pcr-app .pcr-interaction .pcr-cancel {
-  background: var(--mui-error-container);
-  color: var(--mui-on-error-container);
-}
-
-.pcr-app .pcr-interaction .pcr-clear:hover,
-.pcr-app .pcr-interaction .pcr-cancel:hover {
-  filter: none;
-  background: color-mix(in srgb, var(--mui-error-container) 88%, var(--mui-error) 12%);
+.mui-addons > .mui-addon-body > .mui-color-picker-container > .mui-color-picker {
+  --mui-input-border-radius: var(--mui-addon-gap-radius);
 }
 
 .bg-primary {

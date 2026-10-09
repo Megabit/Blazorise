@@ -28,6 +28,16 @@ public interface IStyleProvider
 
     #endregion
 
+    #region ColorPicker
+
+    /// <summary>
+    /// Builds the styles that position a color picker popup against its explicit target.
+    /// </summary>
+    /// <param name="targetId">The element identifier of the popup target.</param>
+    string ColorPickerMenuAnchor( string targetId ) => null;
+
+    #endregion
+
     #region Carousel
 
     string CarouselAnimationDuration( int? animationDuration ) => null;

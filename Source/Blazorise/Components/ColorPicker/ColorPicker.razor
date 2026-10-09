@@ -1,16 +1,24 @@
 @namespace Blazorise
 @inherits BaseInputComponent<string, ColorPickerClasses, ColorPickerStyles>
-<div @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" value="@CurrentValueAsString" data-color="@CurrentValueAsString" data-show-value="@ShowValueString" data-custom-preview="@CustomPreviewString" role="button" aria-haspopup="dialog" tabindex="@TabIndex" aria-disabled="@AriaDisabledString" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
-    @if ( PreviewContent is not null )
-    {
-        @PreviewContent
-    }
-    else
-    {
-        <div class="@PreviewClassNames">
-            <span class="@SwatchClassNames"></span>
-        </div>
-    }
-</div>
+<CascadingValue Value="@this">
+    <Div Class="@PickerContainerClassNames" Style="@PickerContainerStyleNames" data-show-value="@ShowValueString">
+        <button @ref="@ElementRef" id="@ElementId" type="button" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" value="@CurrentValueAsString" data-color="@CurrentValueAsString" data-show-value="@ShowValueString" data-custom-preview="@CustomPreviewString" aria-haspopup="dialog" aria-expanded="@AriaExpandedString" aria-controls="@MenuElementId" tabindex="@TabIndex" aria-disabled="@AriaDisabledString" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @onclick="@OnClickHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+        @if ( PreviewContent is not null )
+        {
+            @PreviewContent
+        }
+        else
+        {
+            <Div Class="@PreviewClassNames">
+                <Span Class="@SwatchClassNames" Style="@SwatchStyleNames" />
+            </Div>
+        }
+        </button>
+        @if ( IsPickerVisible )
+        {
+            <_ColorPickerMenu />
+        }
+    </Div>
+</CascadingValue>
 @ChildContent
 @Feedback

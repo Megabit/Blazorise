@@ -191,6 +191,16 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
+    public override string ColorPickerContainer() => "form-control-color-picker-container";
+
+    public override string ColorPickerMenu() => "form-control-color-picker-menu";
+
+    public override string ColorPickerSurface() => "form-control-color-picker-surface";
+
+    public override string ColorPickerMarker() => "form-control-color-picker-marker";
+
+    public override string ColorPickerSlider() => "form-control-color-picker-slider";
+
     #endregion
 
     #region NumericPicker

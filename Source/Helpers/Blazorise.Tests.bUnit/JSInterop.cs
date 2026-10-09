@@ -186,17 +186,8 @@ public static class JSInterop
 
     public static BunitJSInterop AddBlazoriseColorPicker( this BunitJSInterop jsInterop )
     {
-        AddBlazoriseUtilities( jsInterop );
-
-        var module = jsInterop.SetupModule( new JSColorPickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
-        module.SetupVoid( "import", _ => true ).SetVoidResult();
-        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
-        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
-        module.SetupVoid( "updateValue", _ => true ).SetVoidResult();
-        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
-        module.SetupVoid( "updateLocalization", _ => true ).SetVoidResult();
-        module.SetupVoid( "focus", _ => true ).SetVoidResult();
-        module.SetupVoid( "select", _ => true ).SetVoidResult();
+        AddBlazoriseTextInput( jsInterop );
+        AddBlazoriseDocumentObserver( jsInterop );
 
         return jsInterop;
     }

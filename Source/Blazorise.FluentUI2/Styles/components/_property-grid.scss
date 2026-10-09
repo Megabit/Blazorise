@@ -150,7 +150,7 @@
             display: none;
         }
 
-        .fui-Input__content:has(> .fui-ColorPicker) {
+        .fui-ColorPicker__container:has(> .fui-Input__content > .fui-ColorPicker) {
             flex: none;
         }
 

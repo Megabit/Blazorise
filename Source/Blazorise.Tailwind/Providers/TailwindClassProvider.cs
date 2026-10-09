@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -226,30 +226,24 @@ public class TailwindClassProvider : ClassProvider
 
     #region ColorPicker
 
-    public override string ColorPicker()
-        => TextInput(
-            false,
-            "h-10 data-[show-value=false]:px-0 "
-            + "data-[show-value=false]:text-transparent data-[show-value=false]:caret-transparent "
-            + "data-[show-value=false]:selection:text-transparent data-[show-value=false]:selection:bg-transparent" );
+    public override string ColorPicker() => TextInput( false, "inline-flex items-center gap-2 text-left" );
 
     public override string ColorPickerPreview()
         => "absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-secondary-400";
 
     public override string ColorPickerSwatch() => "w-4 h-4 rounded shadow border";
 
-    public override string ColorPickerSize( Size size )
-    {
-        return size switch
-        {
-            Size.ExtraSmall => "pl-8 py-1.2 sm:text-xs",
-            Size.Small => "pl-8 py-2 sm:text-xs",
-            Size.Medium => "pl-8 py-3 text-base",
-            Size.Large => "pl-8 py-4 sm:text-base",
-            Size.ExtraLarge => "pl-8 py-4 sm:text-lg",
-            _ => "pl-8 py-2.5 text-sm"
-        };
-    }
+    public override string ColorPickerSize( Size size ) => TextInputSize( size );
+
+    public override string ColorPickerContainer() => "tw-color-picker-container relative inline-flex w-full min-w-0 align-middle data-[show-value=false]:w-auto has-[>[role=dialog]]:z-50";
+
+    public override string ColorPickerMenu() => "tw-color-picker-menu absolute top-full start-0 z-50 mt-1 w-72 max-w-[calc(100vw-1rem)] max-h-[calc(100vh-1rem)] overflow-auto rounded-lg border border-secondary-200 bg-white p-3 text-secondary-900 shadow-lg dark:border-secondary-700 dark:bg-secondary-900 dark:text-white";
+
+    public override string ColorPickerSurface() => "relative h-40 w-full touch-none select-none cursor-crosshair rounded-sm [direction:ltr] bg-[linear-gradient(to_top,black,transparent),linear-gradient(to_right,white,transparent)] focus-visible:outline-2 focus-visible:outline-primary-600";
+
+    public override string ColorPickerMarker() => "absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow pointer-events-none";
+
+    public override string ColorPickerSlider() => "tw-color-picker-slider";
 
     #endregion
 
@@ -2421,7 +2415,6 @@ public class TailwindClassProvider : ClassProvider
             _ => name,
         };
     }
-
 
     public override string BadgePill( bool pill ) => pill ? "b-badge-pill rounded-full" : null;
 

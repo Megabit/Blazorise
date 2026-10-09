@@ -1,87 +1,20 @@
-.form-control.form-control-color-picker {
-    display: inline-flex;
-    align-items: center;
-    gap: $input-padding-x;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    overflow: hidden;
-
-    > .form-control-color-preview {
-        width: 1.25em;
-        height: 1.25em;
-        flex: 0 0 auto;
-        position: relative;
-        z-index: 1;
-        display: flex;
-        border-radius: $input-border-radius;
-
-        &::before {
-            position: absolute;
-            inset: 0;
-            content: '';
-            background: url('data:image/svg+xml;utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V1H0V0Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
-            background-size: .5em;
-            z-index: -1;
-        }
-
-        > .form-control-color-swatch {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-
-        &::before,
-        > .form-control-color-swatch {
-            border-radius: inherit;
-        }
-    }
-
-    &::after {
-        content: attr(data-color);
-        min-width: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    &[data-show-value='false'],
-    &:not([data-color]),
-    &[data-color=''],
-    &[data-color='null'] {
-        gap: 0;
-
-        &::after {
-            display: none;
-        }
-    }
-
-    &[data-show-value='false'] {
-        flex: 0 0 auto;
-    }
-
-    &[aria-disabled='true'] {
-        opacity: .65;
-    }
-}
-
-.form-control-color-picker {
+.ant-input-color-picker {
     &-container {
         position: relative;
         display: inline-flex;
         width: 100%;
         min-width: 0;
         vertical-align: middle;
-        anchor-name: --bootstrap5-color-picker-anchor;
-        anchor-scope: --bootstrap5-color-picker-anchor;
+        anchor-name: --ant-color-picker-anchor;
+        anchor-scope: --ant-color-picker-anchor;
 
         &[data-show-value='false'] {
             width: auto;
             flex: 0 0 auto;
         }
 
-        &:has(> .form-control-color-picker-menu) {
-            z-index: $zindex-popover;
+        &:has(> .ant-input-color-picker-menu) {
+            z-index: var(--ant-picker-z-index-popup);
         }
 
         > button {
@@ -98,7 +31,7 @@
         position: absolute;
         inset-block-start: calc(100% + .25rem);
         inset-inline-start: 0;
-        z-index: $zindex-popover;
+        z-index: var(--ant-picker-z-index-popup);
         display: block;
         box-sizing: border-box;
         width: 18rem;
@@ -107,17 +40,17 @@
         max-height: calc(100vh - 1rem);
         overflow: auto;
         padding: .75rem;
-        border: 1px solid var(--bs-border-color);
-        border-radius: var(--bs-border-radius);
-        background: var(--bs-body-bg);
-        color: var(--bs-body-color);
-        box-shadow: var(--bs-box-shadow);
+        border: 1px solid var(--ant-color-border-secondary);
+        border-radius: var(--ant-border-radius-lg);
+        background: var(--ant-color-bg-elevated);
+        color: var(--ant-color-text);
+        box-shadow: var(--ant-box-shadow-secondary);
         font-family: inherit;
         text-align: start;
 
-        @supports (position-anchor: --bootstrap5-color-picker-anchor) and (anchor-scope: --bootstrap5-color-picker-anchor) {
+        @supports (position-anchor: --ant-color-picker-anchor) and (anchor-scope: --ant-color-picker-anchor) {
             position: fixed;
-            position-anchor: --bootstrap5-color-picker-anchor;
+            position-anchor: --ant-color-picker-anchor;
             inset: auto;
             top: anchor(bottom);
             inset-inline-start: anchor(start);
@@ -138,7 +71,7 @@
         direction: ltr;
 
         &:focus-visible {
-            outline: 2px solid var(--bs-primary);
+            outline: 2px solid var(--ant-color-primary);
             outline-offset: 2px;
         }
     }
@@ -155,7 +88,7 @@
     }
 }
 
-@mixin bootstrap5-color-picker-slider-thumb {
+@mixin ant-color-picker-slider-thumb {
     box-sizing: border-box;
     width: 1rem;
     height: 1rem;
@@ -166,7 +99,7 @@
     cursor: pointer;
 }
 
-.form-control-color-picker-slider[data-color-channel] {
+.ant-input-color-picker-slider[data-color-channel] {
     position: relative;
     width: 100%;
     min-height: 2.5rem;
@@ -223,34 +156,49 @@
         }
 
         &::-webkit-slider-thumb {
-            @include bootstrap5-color-picker-slider-thumb;
+            @include ant-color-picker-slider-thumb;
             margin-top: -.25rem;
             -webkit-appearance: none;
             appearance: none;
         }
 
         &::-moz-range-thumb {
-            @include bootstrap5-color-picker-slider-thumb;
+            @include ant-color-picker-slider-thumb;
         }
 
         &:focus-visible::-webkit-slider-thumb {
-            outline: 2px solid var(--bs-primary);
+            outline: 2px solid var(--ant-color-primary);
             outline-offset: 2px;
             box-shadow: 0 0 0 1px rgba(0, 0, 0, .25);
             transform: none;
         }
 
         &:focus-visible::-moz-range-thumb {
-            outline: 2px solid var(--bs-primary);
+            outline: 2px solid var(--ant-color-primary);
             outline-offset: 2px;
             box-shadow: 0 0 0 1px rgba(0, 0, 0, .25);
             transform: none;
         }
     }
+
+    .ant-slider {
+        height: auto;
+        margin: 0;
+        padding: 0;
+        color: inherit;
+    }
+
+    .ant-slider-rail,
+    .ant-slider-track,
+    .ant-slider-step,
+    .ant-slider-handle,
+    .ant-slider-tooltip {
+        display: none;
+    }
 }
 
-.input-group {
-    > .form-control-color-picker-container {
+.ant-input-wrapper.ant-input-group {
+    > .ant-input-color-picker-container {
         flex: 1 1 auto;
         width: 1%;
 
@@ -259,14 +207,25 @@
             width: auto;
         }
 
-        &:not(:first-child) > .form-control-color-picker {
+        > .ant-color-picker-trigger {
+            width: 100%;
+            min-width: 0;
+            border-radius: var(--ant-addons-border-radius);
+        }
+
+        &:not(:first-child) > .ant-color-picker-trigger {
+            border-inline-start: 0;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
 
-        &:not(:last-child) > .form-control-color-picker {
+        &:not(:last-child) > .ant-color-picker-trigger {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
+        }
+
+        + .ant-input-group-addon {
+            border-inline-start: 0;
         }
     }
 }

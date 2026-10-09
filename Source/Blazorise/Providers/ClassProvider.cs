@@ -183,6 +183,16 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ColorPickerSize( Size size );
 
+    public virtual string ColorPickerContainer() => null;
+
+    public virtual string ColorPickerMenu() => null;
+
+    public virtual string ColorPickerSurface() => null;
+
+    public virtual string ColorPickerMarker() => null;
+
+    public virtual string ColorPickerSlider() => null;
+
     #endregion
 
     #region NumericPicker

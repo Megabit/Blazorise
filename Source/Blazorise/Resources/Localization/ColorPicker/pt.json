@@ -11,6 +11,8 @@
     "aria:btn:save": "salvar e fechar",
     "aria:btn:cancel": "cancelar e fechar",
     "aria:btn:clear": "limpar e fechar",
+    "aria:format": "formato de cor",
+    "aria:btn:copy": "copiar cor",
     "aria:input": "campo de entrada de cor",
     "aria:palette": "área de seleção de cores",
     "aria:hue": "controle deslizante de seleção de matiz",

@@ -1,6 +1,7 @@
 @mixin make-addon-size($name, $size, $font-size) {
     .mui-addon-#{$name} > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
-    .mui-addon-#{$name} > .mui-numeric > :is(.mui-input, .mui-input-plaintext) {
+    .mui-addon-#{$name} > .mui-numeric > :is(.mui-input, .mui-input-plaintext),
+    .mui-addon-#{$name} > .mui-color-picker-container > .mui-color-picker {
         --mui-input-size: #{$size};
         --mui-input-font-size: #{$font-size};
         --mui-btn-size: #{$size};

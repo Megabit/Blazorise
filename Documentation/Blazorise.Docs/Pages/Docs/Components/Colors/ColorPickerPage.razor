@@ -7,13 +7,12 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    The <Code>ColorPicker</Code> allow the user to select a color using a variety of input methods.
+    <Code>ColorPicker</Code> helps users choose precise colors and transparency for themes, drawing tools, and other visual settings.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    <Code>ColorPicker</Code> component is based on a <Anchor To="https://simonwep.github.io/pickr/">Pickr</Anchor> library
-    and as such is not a native color input element. That means that unlike <Anchor To="docs/components/color-input" Title="Link to ColorInput">ColorInput</Anchor> which will render <Code Tag>input type="color"</Code>,
-    <Code>ColorPicker</Code> will render <Code>span</Code> element.
+    Use the color surface to explore shades, choose a familiar color from the palette, or enter an exact color code.
+    For the browser's built-in color selection dialog, use <Anchor To="docs/components/color-input" Title="Link to ColorInput">ColorInput</Anchor>.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
@@ -22,7 +21,8 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
-        In this Blazorise example, a <Code>ColorPicker</Code> component is bound to a colorValue variable using the <Code>@@bind-Value</Code> directive. Initially set to red (<Strong>#ff0000</Strong>), the <Code>colorValue</Code> updates automatically when a user selects a new color through the <Code>ColorPicker</Code>, demonstrating an interactive color selection tool in a Blazor application.
+        Bind <Code>Value</Code> to update the color as users select it. Save confirms the current color and closes the picker, Cancel restores the color from when the picker opened, and Clear removes the color.
+        Use <Code>ShowSaveButton</Code>, <Code>ShowCancelButton</Code>, and <Code>ShowClearButton</Code> to control which actions are available.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="ColorPickerExample" Outlined FullWidth>
         <ColorPickerExample />

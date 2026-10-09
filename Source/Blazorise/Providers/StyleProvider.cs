@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Text;
 #endregion
 
@@ -51,6 +52,16 @@ public abstract class StyleProvider : IStyleProvider
     #region Dropdown
 
     public virtual string DropdownAnimationDuration( int? animationDuration ) => null;
+
+    #endregion
+
+    #region ColorPicker
+
+    /// <inheritdoc/>
+    public virtual string ColorPickerMenuAnchor( string targetId )
+        => string.IsNullOrWhiteSpace( targetId ) ? null : $"position-anchor: {ToColorPickerAnchorString( targetId )}";
+
+    private static string ToColorPickerAnchorString( string targetId ) => $"--color-picker-{Convert.ToHexString( Encoding.UTF8.GetBytes( targetId ) )}";
 
     #endregion
 

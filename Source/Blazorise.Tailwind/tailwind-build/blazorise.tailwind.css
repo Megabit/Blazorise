@@ -182,7 +182,8 @@ body:before {
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-datepicker > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-numeric > input,
-.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input {
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input,
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-color-picker-container > button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -203,7 +204,8 @@ body:before {
 .b-addons > .b-addon-body > input,
 .b-addons > .b-addon-body > div.tw-datepicker,
 .b-addons > .b-addon-body > div.tw-numeric,
-.b-addons > .b-addon-body > div.tw-timepicker {
+.b-addons > .b-addon-body > div.tw-timepicker,
+.b-addons > .b-addon-body > div.tw-color-picker-container {
   position: relative;
   flex: 1 1 auto;
   width: 1%;
@@ -212,7 +214,8 @@ body:before {
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-datepicker > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-numeric > input,
-.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input {
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input,
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-color-picker-container > button {
   border-left: 0;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -1244,6 +1247,108 @@ body:before {
 }
 .dark .tw-timepicker-button:disabled {
   color: var(--color-gray-600, var(--btw-color-gray-600));
+}
+
+.tw-color-picker-container {
+  anchor-name: --tw-color-picker-anchor;
+  anchor-scope: --tw-color-picker-anchor;
+}
+
+@supports (position-anchor: --tw-color-picker-anchor) and (anchor-scope: --tw-color-picker-anchor) {
+  .tw-color-picker-menu {
+    position: fixed;
+    position-anchor: --tw-color-picker-anchor;
+    inset: auto;
+    top: anchor(bottom);
+    inset-inline-start: anchor(start);
+    position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  }
+}
+
+.tw-color-picker-slider[data-color-channel] {
+  position: relative;
+  width: 100%;
+  min-height: 2.5rem;
+  direction: ltr;
+}
+.tw-color-picker-slider[data-color-channel]::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0.5rem;
+  top: 50%;
+  height: 0.5rem;
+  border-radius: 999px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.tw-color-picker-slider[data-color-channel][data-color-channel=hue]::before {
+  background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+.tw-color-picker-slider[data-color-channel][data-color-channel=opacity]::before {
+  background-image: linear-gradient(to right, transparent, currentColor), repeating-conic-gradient(#fff 0% 25%, #ccc 0% 50%);
+  background-size: 100% 100%, 0.5rem 0.5rem;
+}
+.tw-color-picker-slider[data-color-channel] input[type=range] {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  opacity: 1;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.tw-color-picker-slider[data-color-channel] input[type=range]::-webkit-slider-runnable-track {
+  height: 0.5rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+.tw-color-picker-slider[data-color-channel] input[type=range]::-moz-range-track, .tw-color-picker-slider[data-color-channel] input[type=range]::-moz-range-progress {
+  height: 0.5rem;
+  border: 0;
+  background: transparent;
+}
+.tw-color-picker-slider[data-color-channel] input[type=range]::-webkit-slider-thumb {
+  box-sizing: border-box;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  margin-top: -0.25rem;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.tw-color-picker-slider[data-color-channel] input[type=range]::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+.tw-color-picker-slider[data-color-channel] input[type=range]:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  transform: none;
+}
+.tw-color-picker-slider[data-color-channel] input[type=range]:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  transform: none;
 }
 
 .b-dropdown.b-dropdown-group > .b-button:not(:last-child):not(.b-dropdown-toggle) {

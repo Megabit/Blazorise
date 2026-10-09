@@ -11,6 +11,8 @@
     "aria:btn:save": "speichern und schließen",
     "aria:btn:cancel": "abbrechen und schließen",
     "aria:btn:clear": "löschen und schließen",
+    "aria:format": "Farbformat",
+    "aria:btn:copy": "Farbe kopieren",
     "aria:input": "Farbeingabefeld",
     "aria:palette": "Farbauswahlbereich",
     "aria:hue": "Farbtonauswahl-Schieberegler",

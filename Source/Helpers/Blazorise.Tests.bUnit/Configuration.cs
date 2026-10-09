@@ -61,7 +61,6 @@ public static class Configuration
         services.AddScoped<IJSResizerModule, JSResizerModule>();
         services.AddScoped<IJSMemoInputModule, JSMemoInputModule>();
         services.AddScoped<IJSNumericPickerModule, JSNumericPickerModule>();
-        services.AddScoped<IJSColorPickerModule, JSColorPickerModule>();
         services.AddScoped<IJSFileInputModule, JSFileInputModule>();
         services.AddScoped<IJSFileModule, JSFileModule>();
         services.AddScoped<IJSTableModule, JSTableModule>();
