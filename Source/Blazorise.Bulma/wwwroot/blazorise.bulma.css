@@ -3960,9 +3960,6 @@ fieldset.columns > legend.field-label ~ .column {
 .input.color-picker[data-show-value=false]::after, .input.color-picker:not([data-color])::after, .input.color-picker[data-color=""]::after, .input.color-picker[data-color=null]::after {
   display: none;
 }
-.input.color-picker[data-show-value=false] {
-  flex: 0 0 auto;
-}
 .input.color-picker[aria-disabled=true] {
   opacity: 0.65;
 }
@@ -3975,10 +3972,6 @@ fieldset.columns > legend.field-label ~ .column {
   vertical-align: middle;
   anchor-name: --bulma-color-picker-anchor;
   anchor-scope: --bulma-color-picker-anchor;
-}
-.color-picker-container[data-show-value=false] {
-  width: auto;
-  flex: 0 0 auto;
 }
 .color-picker-container:has(> .color-picker-menu) {
   z-index: 42;

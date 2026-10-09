@@ -11559,10 +11559,6 @@ body .b-report {
   anchor-name: --material-color-picker-anchor;
   anchor-scope: --material-color-picker-anchor;
 }
-.mui-color-picker-container[data-show-value=false] {
-  width: auto;
-  flex: 0 0 auto;
-}
 .mui-color-picker-container:has(> .mui-color-picker-menu) {
   z-index: var(--mui-zindex-popover);
 }
@@ -11724,10 +11720,6 @@ body .b-report {
   flex: 1 1 auto;
   inline-size: 1%;
   min-inline-size: 0;
-}
-.mui-addons > .mui-addon-body > .mui-color-picker-container[data-show-value=false] {
-  flex: 0 0 auto;
-  inline-size: auto;
 }
 .mui-addons > .mui-addon-body > .mui-color-picker-container > .mui-color-picker {
   --mui-input-border-radius: var(--mui-addon-gap-radius);

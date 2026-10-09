@@ -56,10 +56,6 @@
         }
     }
 
-    &[data-show-value='false'] {
-        flex: 0 0 auto;
-    }
-
     &[aria-disabled='true'] {
         opacity: .65;
     }
@@ -74,11 +70,6 @@
         vertical-align: middle;
         anchor-name: --bulma-color-picker-anchor;
         anchor-scope: --bulma-color-picker-anchor;
-
-        &[data-show-value='false'] {
-            width: auto;
-            flex: 0 0 auto;
-        }
 
         &:has(> .color-picker-menu) {
             z-index: 42;

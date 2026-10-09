@@ -60,14 +60,6 @@
     }
 }
 
-.fui-Input,
-.fui-Input__content {
-    &[data-show-value='false'] {
-        width: auto;
-        flex: 0 0 auto;
-    }
-}
-
 .fui-ColorPicker {
     &__container {
         position: relative;
@@ -77,11 +69,6 @@
         vertical-align: middle;
         anchor-name: --fluent-color-picker-anchor;
         anchor-scope: --fluent-color-picker-anchor;
-
-        &[data-show-value='false'] {
-            width: auto;
-            flex: 0 0 auto;
-        }
 
         &:has(> .fui-ColorPicker__menu) {
             z-index: 1000001;

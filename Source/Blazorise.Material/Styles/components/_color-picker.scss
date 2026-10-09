@@ -8,11 +8,6 @@
         anchor-name: --material-color-picker-anchor;
         anchor-scope: --material-color-picker-anchor;
 
-        &[data-show-value='false'] {
-            width: auto;
-            flex: 0 0 auto;
-        }
-
         &:has(> .mui-color-picker-menu) {
             z-index: var(--mui-zindex-popover);
         }
@@ -191,11 +186,6 @@
         flex: 1 1 auto;
         inline-size: 1%;
         min-inline-size: 0;
-
-        &[data-show-value='false'] {
-            flex: 0 0 auto;
-            inline-size: auto;
-        }
 
         > .mui-color-picker {
             --mui-input-border-radius: var(--mui-addon-gap-radius);

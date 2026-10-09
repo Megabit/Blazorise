@@ -7232,10 +7232,6 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
   anchor-name: --ant-color-picker-anchor;
   anchor-scope: --ant-color-picker-anchor;
 }
-.ant-input-color-picker-container[data-show-value=false] {
-  width: auto;
-  flex: 0 0 auto;
-}
 .ant-input-color-picker-container:has(> .ant-input-color-picker-menu) {
   z-index: var(--ant-picker-z-index-popup);
 }
@@ -7406,10 +7402,6 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
 .ant-input-wrapper.ant-input-group > .ant-input-color-picker-container {
   flex: 1 1 auto;
   width: 1%;
-}
-.ant-input-wrapper.ant-input-group > .ant-input-color-picker-container[data-show-value=false] {
-  flex: 0 0 auto;
-  width: auto;
 }
 .ant-input-wrapper.ant-input-group > .ant-input-color-picker-container > .ant-color-picker-trigger {
   width: 100%;

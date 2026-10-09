@@ -56,10 +56,6 @@
         }
     }
 
-    &[data-show-value='false'] {
-        flex: 0 0 auto;
-    }
-
     &[aria-disabled='true'] {
         opacity: .65;
     }
@@ -74,11 +70,6 @@
         vertical-align: middle;
         anchor-name: --bootstrap5-color-picker-anchor;
         anchor-scope: --bootstrap5-color-picker-anchor;
-
-        &[data-show-value='false'] {
-            width: auto;
-            flex: 0 0 auto;
-        }
 
         &:has(> .form-control-color-picker-menu) {
             z-index: $zindex-popover;
@@ -253,11 +244,6 @@
     > .form-control-color-picker-container {
         flex: 1 1 auto;
         width: 1%;
-
-        &[data-show-value='false'] {
-            flex: 0 0 auto;
-            width: auto;
-        }
 
         &:not(:first-child) > .form-control-color-picker {
             border-top-left-radius: 0;

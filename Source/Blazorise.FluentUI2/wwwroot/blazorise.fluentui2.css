@@ -7795,12 +7795,6 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
   border-top-color: var(--colorPaletteGreenForeground1) !important;
 }
 
-.fui-Input[data-show-value=false],
-.fui-Input__content[data-show-value=false] {
-  width: auto;
-  flex: 0 0 auto;
-}
-
 .fui-ColorPicker__container {
   position: relative;
   display: inline-flex;
@@ -7809,10 +7803,6 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
   vertical-align: middle;
   anchor-name: --fluent-color-picker-anchor;
   anchor-scope: --fluent-color-picker-anchor;
-}
-.fui-ColorPicker__container[data-show-value=false] {
-  width: auto;
-  flex: 0 0 auto;
 }
 .fui-ColorPicker__container:has(> .fui-ColorPicker__menu) {
   z-index: 1000001;

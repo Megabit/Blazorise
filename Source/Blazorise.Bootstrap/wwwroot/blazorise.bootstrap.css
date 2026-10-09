@@ -2997,9 +2997,6 @@ input[readonly=readonly][type=range]::-ms-thumb {
 .form-control.form-control-color-picker[data-show-value=false]::after, .form-control.form-control-color-picker:not([data-color])::after, .form-control.form-control-color-picker[data-color=""]::after, .form-control.form-control-color-picker[data-color=null]::after {
   display: none;
 }
-.form-control.form-control-color-picker[data-show-value=false] {
-  flex: 0 0 auto;
-}
 .form-control.form-control-color-picker[aria-disabled=true] {
   opacity: 0.65;
 }
@@ -3012,10 +3009,6 @@ input[readonly=readonly][type=range]::-ms-thumb {
   vertical-align: middle;
   anchor-name: --bootstrap-color-picker-anchor;
   anchor-scope: --bootstrap-color-picker-anchor;
-}
-.form-control-color-picker-container[data-show-value=false] {
-  width: auto;
-  flex: 0 0 auto;
 }
 .form-control-color-picker-container:has(> .form-control-color-picker-menu) {
   z-index: 1060;
@@ -3174,10 +3167,6 @@ input[readonly=readonly][type=range]::-ms-thumb {
 .input-group > .form-control-color-picker-container {
   flex: 1 1 auto;
   width: 1%;
-}
-.input-group > .form-control-color-picker-container[data-show-value=false] {
-  flex: 0 0 auto;
-  width: auto;
 }
 .input-group > .form-control-color-picker-container:not(:first-child) > .form-control-color-picker {
   border-top-left-radius: 0;

@@ -4562,11 +4562,6 @@
       opacity: 60%;
     }
   }
-  .data-\[show-value\=false\]\:w-auto {
-    &[data-show-value="false"] {
-      width: auto;
-    }
-  }
   .supports-\[color\:contrast-color\(red\)\]\:peer-checked\:after\:bg-\[contrast-color\(var\(--tw-switch-bg\)\)\] {
     @supports (color:contrast-color(red)) {
       &:is(:where(.peer):checked ~ *) {

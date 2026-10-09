@@ -235,7 +235,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ColorPickerSize( Size size ) => TextInputSize( size );
 
-    public override string ColorPickerContainer() => "tw-color-picker-container relative inline-flex w-full min-w-0 align-middle data-[show-value=false]:w-auto has-[>[role=dialog]]:z-50";
+    public override string ColorPickerContainer() => "tw-color-picker-container relative inline-flex w-full min-w-0 align-middle has-[>[role=dialog]]:z-50";
 
     public override string ColorPickerMenu() => "tw-color-picker-menu absolute top-full start-0 z-50 mt-1 w-72 max-w-[calc(100vw-1rem)] max-h-[calc(100vh-1rem)] overflow-auto rounded-lg border border-secondary-200 bg-white p-3 text-secondary-900 shadow-lg dark:border-secondary-700 dark:bg-secondary-900 dark:text-white";
 

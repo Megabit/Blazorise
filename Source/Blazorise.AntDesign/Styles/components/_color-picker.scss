@@ -8,11 +8,6 @@
         anchor-name: --ant-color-picker-anchor;
         anchor-scope: --ant-color-picker-anchor;
 
-        &[data-show-value='false'] {
-            width: auto;
-            flex: 0 0 auto;
-        }
-
         &:has(> .ant-input-color-picker-menu) {
             z-index: var(--ant-picker-z-index-popup);
         }
@@ -201,11 +196,6 @@
     > .ant-input-color-picker-container {
         flex: 1 1 auto;
         width: 1%;
-
-        &[data-show-value='false'] {
-            flex: 0 0 auto;
-            width: auto;
-        }
 
         > .ant-color-picker-trigger {
             width: 100%;
