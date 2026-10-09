@@ -39,7 +39,7 @@
                 <RibbonDropdownDivider />
             }
         }
-        @if ( ShowPalette )
+        @if ( ShowPalette && Visible )
         {
             <CascadingValue TValue="Dropdown" Value="@((Dropdown)null)" IsFixed>
                 @if ( EffectivePalette.Length > 0 )

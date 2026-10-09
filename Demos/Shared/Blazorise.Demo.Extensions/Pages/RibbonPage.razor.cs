@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Blazorise.Demo.Models;
 using Blazorise.Ribbon;
@@ -23,13 +22,11 @@ public partial class RibbonPage : ComponentBase
 
     private static readonly string[] styles = ["Normal", "No Spacing", "Heading 1", "Heading 2", "Title", "Subtitle"];
 
-    private readonly List<WordRibbonDocument> history = [new()];
-
     private readonly StyleBuilder documentStyleBuilder;
 
-    private int historyIndex;
+    private string fontColor = "#222222";
 
-    private WordRibbonDocument savedDocument = new();
+    private string highlightColor = "#ffffff";
 
     private MemoInput documentInputRef;
 
@@ -69,8 +66,6 @@ public partial class RibbonPage : ComponentBase
 
     private string searchText;
 
-    private string clipboardText = "Pasted content from the sample clipboard.";
-
     private string status = "Ready";
 
     private string launcherTitle;
@@ -103,11 +98,7 @@ public partial class RibbonPage : ComponentBase
         builder.Append( "line-height:1.65" );
     }
 
-    private void OnSaveHandler()
-    {
-        savedDocument = Document;
-        status = "Saved in this demo session";
-    }
+    private void OnSaveHandler() => ShowCommandStatus( "Save" );
 
     private void OnSaveWordHandler() => ShowCommandStatus( "Save As Word Document" );
 
@@ -115,126 +106,50 @@ public partial class RibbonPage : ComponentBase
 
     private void OnSaveTextHandler() => ShowCommandStatus( "Save As Plain Text" );
 
-    private void OnUndoHandler()
-    {
-        if ( !CanUndo )
-        {
-            return;
-        }
+    private void OnUndoHandler() => ShowCommandStatus( "Undo" );
 
-        historyIndex--;
-        OnHistoryChanged();
-        status = "Change undone";
-    }
+    private void OnRedoHandler() => ShowCommandStatus( "Redo" );
 
-    private void OnRedoHandler()
-    {
-        if ( !CanRedo )
-        {
-            return;
-        }
+    private void OnCopyHandler() => ShowCommandStatus( "Copy" );
 
-        historyIndex++;
-        OnHistoryChanged();
-        status = "Change restored";
-    }
+    private void OnCutHandler() => ShowCommandStatus( "Cut" );
 
-    private void OnCopyHandler()
-    {
-        clipboardText = Document.Text;
-        status = "Copied to the sample clipboard";
-    }
+    private Task OnNewDocumentHandler() => ShowBackstageCommand( "New document" );
 
-    private async Task OnCutHandler()
-    {
-        clipboardText = Document.Text;
-        await UpdateDocument( Document with { Text = string.Empty } );
-        status = "Cut to the sample clipboard";
-    }
+    private Task OnBackstageSaveHandler() => ShowBackstageCommand( "Save" );
 
-    private async Task OnNewDocumentHandler()
-    {
-        await UpdateDocument( new() { Title = "Untitled document", Text = string.Empty } );
-        await backstageRef.Hide();
-    }
+    private Task OnSaveAsHandler() => ShowBackstageCommand( "Save As" );
 
-    private async Task OnBackstageSaveHandler()
-    {
-        OnSaveHandler();
+    private Task OnNewNotesHandler() => ShowBackstageCommand( "New meeting notes" );
 
-        await backstageRef.Hide();
-    }
+    private Task OnOpenSampleHandler() => ShowBackstageCommand( "Open quarterly overview" );
 
-    private async Task OnSaveAsHandler()
-    {
-        if ( string.IsNullOrWhiteSpace( saveAsTitle ) )
-        {
-            return;
-        }
+    private Task OnOpenNotesHandler() => ShowBackstageCommand( "Open project notes" );
 
-        await UpdateDocument( Document with { Title = saveAsTitle.Trim() } );
-        OnSaveHandler();
-
-        await backstageRef.Hide();
-    }
-
-    private async Task OnNewNotesHandler()
-    {
-        await UpdateDocument( new()
-        {
-            Title = "Meeting notes",
-            Text = "Meeting notes\n\nAttendees\n\nAgenda\n\nDecisions\n\nAction items",
-        } );
-
-        await backstageRef.Hide();
-    }
-
-    private async Task OnOpenSampleHandler()
-    {
-        await UpdateDocument( new() );
-
-        await backstageRef.Hide();
-    }
-
-    private async Task OnOpenNotesHandler()
-    {
-        await UpdateDocument( new()
-        {
-            Title = "Project notes",
-            Text = "Project notes\n\nGoals\nReview the first release and gather feedback.\n\nNext steps\nPlan the next iteration and agree on priorities.",
-        } );
-
-        await backstageRef.Hide();
-    }
-
-    private void OnPrintHandler()
-    {
-        status = $"Print command invoked: {printCopies} copies, {printOrientation.ToLowerInvariant()} orientation";
-    }
+    private void OnPrintHandler() => ShowCommandStatus( "Print" );
 
     private Task OnIncreaseFontSizeHandler() => OnFontSizeChangedHandler( Math.Min( 72, Document.FontSize + 2 ) );
 
     private Task OnDecreaseFontSizeHandler() => OnFontSizeChangedHandler( Math.Max( 8, Document.FontSize - 2 ) );
 
-    private Task OnClearFormattingHandler() => UpdateDocument( new() { Title = Document.Title, Text = Document.Text } );
+    private void OnClearFormattingHandler() => ShowCommandStatus( "Clear Formatting" );
 
-    private Task OnBulletsHandler() => UpdateDocument( Document with { Text = $"{Document.Text}\n• New item" } );
+    private void OnBulletsHandler() => ShowCommandStatus( "Bullets" );
 
-    private Task OnNumberingHandler() => UpdateDocument( Document with { Text = $"{Document.Text}\n1. New item" } );
+    private void OnNumberingHandler() => ShowCommandStatus( "Numbering" );
 
-    private Task OnPageBreakHandler() => UpdateDocument( Document with { Text = $"{Document.Text}\n\n— Page break —\n\n" } );
+    private void OnPageBreakHandler() => ShowCommandStatus( "Page Break" );
 
-    private Task OnDateAndTimeHandler() => UpdateDocument( Document with { Text = $"{Document.Text}\n{DateTime.Now:D}" } );
+    private void OnDateAndTimeHandler() => ShowCommandStatus( "Date and Time" );
 
-    private Task OnSymbolHandler() => UpdateDocument( Document with { Text = $"{Document.Text} ∞" } );
+    private void OnSymbolHandler() => ShowCommandStatus( "Symbol" );
 
-    private async Task OnTableHandler()
+    private void OnTableHandler()
     {
         tableToolsVisible = true;
-        await UpdateDocument( Document with { Text = $"{Document.Text}\n\nName\tOwner\tStatus\nPortal\tProduct\tComplete\nResearch\tDesign\tIn progress" } );
-
         selectedTab = "table-layout";
         collapsed = false;
+        ShowCommandStatus( "Insert Table" );
     }
 
     private void OnDeleteTableHandler()
@@ -260,10 +175,7 @@ public partial class RibbonPage : ComponentBase
 
     private void OnSelectObjectsHandler() => ShowCommandStatus( "Select Objects" );
 
-    private void OnWordCountHandler()
-    {
-        status = $"Document contains {WordCount} words";
-    }
+    private void OnWordCountHandler() => ShowCommandStatus( "Word Count" );
 
     private void OnZoomInHandler() => SetZoom( Math.Min( 200, zoom + 10 ) );
 
@@ -398,11 +310,17 @@ public partial class RibbonPage : ComponentBase
 
     private Task OnStrikethroughChangedHandler( bool value ) => UpdateDocument( Document with { Strikethrough = value } );
 
-    private Task OnAutomaticFontColorHandler() => OnFontColorChangedHandler( "#000000" );
+    private void OnAutomaticFontColorHandler() => OnFontColorChangedHandler( "#000000" );
 
-    private Task OnFontColorChangedHandler( string color ) => UpdateDocument( Document with { FontColor = color } );
+    private void OnFontColorChangedHandler( string color )
+    {
+        fontColor = color;
+    }
 
-    private Task OnHighlightChangedHandler( string color ) => UpdateDocument( Document with { HighlightColor = color } );
+    private void OnHighlightChangedHandler( string color )
+    {
+        highlightColor = color;
+    }
 
     private Task OnAlignLeftHandler( bool value ) => UpdateDocument( Document with { Alignment = TextAlignment.Start } );
 
@@ -412,34 +330,11 @@ public partial class RibbonPage : ComponentBase
 
     private Task OnAlignJustifyHandler( bool value ) => UpdateDocument( Document with { Alignment = TextAlignment.Justified } );
 
-    private Task OnStyleChangedHandler( string style )
-    {
-        var size = style switch
-        {
-            "Heading 1" => 24,
-            "Heading 2" => 20,
-            "Title" => 32,
-            "Subtitle" => 18,
-            _ => 14,
-        };
-
-        return UpdateDocument( Document with
-        {
-            Style = style,
-            FontSize = size,
-            Bold = style.StartsWith( "Heading", StringComparison.Ordinal ),
-            FontColor = style.StartsWith( "Heading", StringComparison.Ordinal ) ? "#2f5496" : "#222222",
-        } );
-    }
+    private Task OnStyleChangedHandler( string style ) => UpdateDocument( Document with { Style = style } );
 
     private void OnAutoSaveChangedHandler( bool value )
     {
         autoSave = value;
-
-        if ( autoSave )
-        {
-            savedDocument = Document;
-        }
     }
 
     private void OnSearchChangedHandler( string text )
@@ -447,23 +342,19 @@ public partial class RibbonPage : ComponentBase
         searchText = text;
     }
 
-    private Task OnPasteHandler() => UpdateDocument( Document with { Text = $"{Document.Text}\n{clipboardText}" } );
+    private void OnPasteHandler() => ShowCommandStatus( "Paste" );
 
-    private async Task OnPasteTextHandler()
-    {
-        await OnPasteHandler();
-        status = "Pasted text from the sample clipboard";
-    }
+    private void OnPasteTextHandler() => ShowCommandStatus( "Paste Text" );
 
     private Task OnCloseLauncherHandler() => launcherModalRef.Hide();
 
-    private Task OnFontLauncherHandler() => ShowLauncher( "Font", "Change the sample document's font size. The ribbon controls also update its font family, emphasis, and colors." );
+    private Task OnFontLauncherHandler() => ShowLauncher( "Font", "Choose a font size using the dialog or the ribbon controls." );
 
     private Task OnParagraphLauncherHandler() => ShowLauncher( "Paragraph", "Use the alignment controls in the ribbon to change the sample document's paragraph alignment." );
 
-    private Task OnClipboardLauncherHandler() => ShowLauncher( "Clipboard", $"The sample clipboard contains:\n{clipboardText}" );
+    private Task OnClipboardLauncherHandler() => ShowLauncher( "Clipboard", "Use grouped commands and split buttons to present clipboard actions." );
 
-    private Task OnStylesLauncherHandler() => ShowLauncher( "Styles", "Select a preview in the Styles gallery to apply its formatting to the sample document." );
+    private Task OnStylesLauncherHandler() => ShowLauncher( "Styles", "Select a style preview in the gallery." );
 
     private Task OnPageSetupLauncherHandler() => ShowLauncher( "Page Setup", "This sample uses a fixed document sheet inside a horizontally scrollable workspace." );
 
@@ -499,31 +390,40 @@ public partial class RibbonPage : ComponentBase
             return Task.CompletedTask;
         }
 
-        if ( CanRedo )
-        {
-            history.RemoveRange( historyIndex + 1, history.Count - historyIndex - 1 );
-        }
+        var stylesChanged = Document.FontFamily != document.FontFamily
+            || Document.FontSize != document.FontSize
+            || Document.Bold != document.Bold
+            || Document.Italic != document.Italic
+            || Document.Underline != document.Underline
+            || Document.Strikethrough != document.Strikethrough
+            || Document.FontColor != document.FontColor
+            || Document.HighlightColor != document.HighlightColor
+            || Document.Alignment != document.Alignment;
 
-        history.Add( document );
-        historyIndex++;
-        OnHistoryChanged();
-        status = "Document updated";
+        Document = document;
+
+        if ( stylesChanged )
+        {
+            documentStyleBuilder.Dirty();
+        }
 
         return Task.CompletedTask;
     }
 
-    private void OnHistoryChanged()
+    private Task ShowBackstageCommand( string command )
     {
-        documentStyleBuilder.Dirty();
+        ShowCommandStatus( command );
 
-        if ( autoSave )
-        {
-            savedDocument = Document;
-        }
+        return backstageRef.Hide();
     }
 
     private void SetZoom( int value )
     {
+        if ( zoom == value )
+        {
+            return;
+        }
+
         zoom = value;
         documentStyleBuilder.Dirty();
         status = $"Zoom set to {zoom}%";
@@ -535,13 +435,13 @@ public partial class RibbonPage : ComponentBase
 
     private IReadOnlyList<string> ActiveContextualGroups => tableToolsVisible ? ["table"] : [];
 
-    private WordRibbonDocument Document => history[historyIndex];
+    private WordRibbonDocument Document { get; set; } = new();
 
-    private bool CanUndo => historyIndex > 0;
+    private bool CanUndo => false;
 
-    private bool CanRedo => historyIndex < history.Count - 1;
+    private bool CanRedo => false;
 
-    private string SaveStatus => Document == savedDocument ? "Saved in demo session" : "Unsaved changes";
+    private string SaveStatus => "Saved in demo session";
 
     private int WordCount => Document.Text.Split( (char[])null, StringSplitOptions.RemoveEmptyEntries ).Count( word => word.Any( char.IsLetterOrDigit ) );
 
@@ -561,7 +461,13 @@ public partial class RibbonPage : ComponentBase
         _ => "start",
     };
 
-    private string SearchStatus => $"{Regex.Matches( Document.Text, Regex.Escape( searchText ?? string.Empty ), RegexOptions.IgnoreCase ).Count} matches for “{searchText}”";
+    private string SearchStatus => string.IsNullOrWhiteSpace( searchText ) ? "Find in document" : $"Find command invoked: {searchText}";
+
+    private Action<string> NonRenderingFontColorChangedHandler
+        => EventUtil.AsNonRenderingEventHandler<string>( OnFontColorChangedHandler );
+
+    private Action<string> NonRenderingHighlightChangedHandler
+        => EventUtil.AsNonRenderingEventHandler<string>( OnHighlightChangedHandler );
 
     private string FormattingMarksText => Document.Text.Replace( " ", "·", StringComparison.Ordinal ).Replace( "\n", "¶ ", StringComparison.Ordinal );
 
