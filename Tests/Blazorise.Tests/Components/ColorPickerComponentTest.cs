@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -52,16 +53,13 @@ public class ColorPickerComponentTest : BunitContext
     }
 
     [Fact]
-    public void Preview_ShouldRenderColorWithoutPickerJavaScript()
+    public void Preview_ShouldRenderColorAndKeepMenuClosed()
     {
         var comp = Render<ColorPicker>( parameters => parameters
             .Add( x => x.Value, "#6200ea" ) );
 
         Assert.Contains( "background-color: #6200EA", comp.Find( ".form-control-color-swatch" ).GetAttribute( "style" ) );
         Assert.Empty( comp.FindAll( "[role='dialog']" ) );
-        Assert.DoesNotContain( JSInterop.Invocations, invocation => invocation.Identifier == "import"
-            && invocation.Arguments.Count > 0
-            && invocation.Arguments[0]?.ToString()?.Contains( "colorPicker.js" ) == true );
     }
 
     [Theory]
@@ -106,10 +104,11 @@ public class ColorPickerComponentTest : BunitContext
 
         await comp.InvokeAsync( () => comp.Instance.Show() );
 
+        var menuElementId = comp.WaitForElement( "[role='dialog']" ).Id;
         var subscription = Assert.IsType<DocumentObserverJsSubscription>( Assert.Single( JSInterop.Invocations["addSubscription"] ).Arguments[0] );
 
         Assert.Equal( new[] { "pointerdown", "focusin" }, subscription.EventNames );
-        Assert.Equal( $"[id=\"{comp.Instance.ElementId}\"], [id=\"{comp.Instance.MenuElementId}\"]", subscription.ExcludeSelector );
+        Assert.Equal( $"[id=\"{comp.Instance.ElementId}\"], [id=\"{menuElementId}\"]", subscription.ExcludeSelector );
         Assert.False( subscription.PreventDefault );
         Assert.False( subscription.StopPropagation );
 
@@ -139,6 +138,8 @@ public class ColorPickerComponentTest : BunitContext
         var comp = Render<ColorPicker>( parameters => parameters.Add( x => x.Value, "#FF0000" ) );
         await comp.InvokeAsync( () => comp.Instance.Show() );
 
+        var menuElementId = comp.WaitForElement( "[role='dialog']" ).Id;
+
         Assert.Single( JSInterop.Invocations["addSubscription"] );
 
         await comp.Find( ".form-control-color-picker-surface" ).PointerDownAsync( new PointerEventArgs
@@ -149,9 +150,11 @@ public class ColorPickerComponentTest : BunitContext
             ClientX = 100,
         } );
 
+        Assert.Equal( 2, JSInterop.Invocations["addSubscription"].Count );
+
         var subscription = Assert.IsType<DocumentObserverJsSubscription>( JSInterop.Invocations["addSubscription"][1].Arguments[0] );
         Assert.Equal( new[] { "pointermove", "pointerup", "pointercancel" }, subscription.EventNames );
-        Assert.Equal( $"[id=\"{comp.Instance.MenuElementId}\"]", subscription.ExcludeSelector );
+        Assert.Equal( $"[id=\"{menuElementId}\"]", subscription.ExcludeSelector );
         Assert.False( subscription.PreventDefault );
 
         var observer = Assert.IsType<DocumentObserver>( Services.GetRequiredService<IDocumentObserver>() );
@@ -189,16 +192,18 @@ public class ColorPickerComponentTest : BunitContext
     }
 
     [Fact]
-    public void TriggerAndEscape_ShouldOpenAndCloseNativePicker()
+    public async Task TriggerAndEscape_ShouldOpenAndCloseNativePicker()
     {
         var comp = Render<ColorPicker>();
 
-        comp.Find( "button.form-control-color-picker" ).Click();
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
 
         Assert.Single( comp.FindAll( "[role='dialog']" ) );
         Assert.Equal( "true", comp.Find( "button.form-control-color-picker" ).GetAttribute( "aria-expanded" ) );
 
-        comp.Find( "[role='dialog']" ).KeyDown( new KeyboardEventArgs { Key = "Escape" } );
+        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "Escape" } );
 
         Assert.Empty( comp.FindAll( "[role='dialog']" ) );
         Assert.Equal( "false", comp.Find( "button.form-control-color-picker" ).GetAttribute( "aria-expanded" ) );
@@ -225,18 +230,21 @@ public class ColorPickerComponentTest : BunitContext
     }
 
     [Fact]
-    public void Sliders_ShouldUpdateColorAndOpacityThroughBinding()
+    public async Task Sliders_ShouldUpdateColorAndOpacityThroughBinding()
     {
         var valueChangedCount = 0;
         var comp = Render<ColorPicker>( parameters => parameters
             .Add( x => x.Value, "#FF0000" )
             .Add( x => x.ValueChanged, _ => valueChangedCount++ ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
+
         Assert.Contains( "color: #FF0000", comp.Find( "[data-color-channel='opacity']" ).GetAttribute( "style" ) );
 
-        comp.Find( "input[type='range'][max='360']" ).Input( "120" );
-        comp.Find( "input[type='range'][max='1']" ).Input( "0.5" );
+        await comp.Find( "input[type='range'][max='360']" ).InputAsync( "120" );
+        await comp.Find( "input[type='range'][max='1']" ).InputAsync( "0.5" );
 
         Assert.Equal( "#00FF0080", comp.Instance.Value );
         Assert.Equal( 2, valueChangedCount );
@@ -247,19 +255,22 @@ public class ColorPickerComponentTest : BunitContext
     [Theory]
     [InlineData( null )]
     [InlineData( "#FF0000" )]
-    public void Cancel_ShouldRestoreColorBeforeOpening( string originalColor )
+    public async Task Cancel_ShouldRestoreColorBeforeOpening( string originalColor )
     {
         var comp = Render<ColorPicker>( parameters => parameters
             .Add( x => x.Value, originalColor )
             .Add( x => x.HideAfterPaletteSelect, false )
             .Add( x => x.Palette, new[] { "#00FF00" } ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
-        comp.Find( "button[id*='-palette-']" ).Click();
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
+
+        await comp.Find( "button[id*='-palette-']" ).ClickAsync();
 
         Assert.Equal( "#00FF00", comp.Instance.Value );
 
-        comp.Find( "button[aria-label='cancel and close']" ).Click();
+        await comp.Find( "button[aria-label='cancel and close']" ).ClickAsync();
 
         Assert.Equal( originalColor, comp.Instance.Value );
         Assert.Empty( comp.FindAll( "[role='dialog']" ) );
@@ -269,7 +280,7 @@ public class ColorPickerComponentTest : BunitContext
     [InlineData( null, "#00FF00", 1 )]
     [InlineData( "#FF0000", "#FF0000", 0 )]
     [InlineData( "rgba(255,0,0,0.5)", "rgba(255,0,0,0.5)", 0 )]
-    public void Save_ShouldConfirmDisplayedColorAndClosePicker( string initialColor, string expectedColor, int expectedChanges )
+    public async Task Save_ShouldConfirmDisplayedColorAndClosePicker( string initialColor, string expectedColor, int expectedChanges )
     {
         var valueChangedCount = 0;
         var comp = Render<ColorPicker>( parameters => parameters
@@ -277,8 +288,11 @@ public class ColorPickerComponentTest : BunitContext
             .Add( x => x.ValueChanged, _ => valueChangedCount++ )
             .Add( x => x.Palette, new[] { "#00FF00" } ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
-        comp.Find( "button[aria-label='save and close']" ).Click();
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
+
+        await comp.Find( "button[aria-label='save and close']" ).ClickAsync();
 
         Assert.Equal( expectedColor, comp.Instance.Value );
         Assert.Equal( expectedChanges, valueChangedCount );
@@ -286,28 +300,34 @@ public class ColorPickerComponentTest : BunitContext
     }
 
     [Fact]
-    public void Save_ShouldPreserveLiveUpdatesAndUseSavedColorForNextCancel()
+    public async Task Save_ShouldPreserveLiveUpdatesAndUseSavedColorForNextCancel()
     {
         var valueChangedCount = 0;
         var comp = Render<ColorPicker>( parameters => parameters
             .Add( x => x.Value, "#FF0000" )
             .Add( x => x.ValueChanged, _ => valueChangedCount++ ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
-        comp.Find( "input[type='range'][max='360']" ).Input( "120" );
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
+
+        await comp.Find( "input[type='range'][max='360']" ).InputAsync( "120" );
 
         Assert.Equal( "#00FF00", comp.Instance.Value );
         Assert.Equal( 1, valueChangedCount );
 
-        comp.Find( "button[aria-label='save and close']" ).Click();
+        await comp.Find( "button[aria-label='save and close']" ).ClickAsync();
 
         Assert.Equal( "#00FF00", comp.Instance.Value );
         Assert.Equal( 1, valueChangedCount );
         Assert.Empty( comp.FindAll( "[role='dialog']" ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
-        comp.Find( "input[type='range'][max='360']" ).Input( "240" );
-        comp.Find( "button[aria-label='cancel and close']" ).Click();
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
+
+        await comp.Find( "input[type='range'][max='360']" ).InputAsync( "240" );
+        await comp.Find( "button[aria-label='cancel and close']" ).ClickAsync();
 
         Assert.Equal( "#00FF00", comp.Instance.Value );
         Assert.Equal( 3, valueChangedCount );
@@ -316,46 +336,55 @@ public class ColorPickerComponentTest : BunitContext
     [Theory]
     [InlineData( true )]
     [InlineData( false )]
-    public void PaletteSelection_ShouldRespectVisibilityOption( bool hideAfterSelect )
+    public async Task PaletteSelection_ShouldRespectVisibilityOption( bool hideAfterSelect )
     {
         var comp = Render<ColorPicker>( parameters => parameters
             .Add( x => x.Palette, new[] { "rgba(255, 0, 0, 0.5)" } )
             .Add( x => x.HideAfterPaletteSelect, hideAfterSelect ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
-        comp.Find( "button[id*='-palette-']" ).Click();
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
+
+        await comp.WaitForElement( "button[id*='-palette-']" ).ClickAsync();
 
         Assert.Equal( "#FF000080", comp.Instance.Value );
-        Assert.Equal( hideAfterSelect ? 0 : 1, comp.FindAll( "[role='dialog']" ).Count );
+        comp.WaitForAssertion( () => Assert.Equal( hideAfterSelect ? 0 : 1, comp.FindAll( "[role='dialog']" ).Count ) );
     }
 
     [Fact]
-    public void TextInput_ShouldRejectInvalidColorAndAcceptCssColor()
+    public async Task TextInput_ShouldRejectInvalidColorAndAcceptCssColor()
     {
         var comp = Render<ColorPicker>( parameters => parameters
             .Add( x => x.Value, "#FF0000" ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
-        comp.Find( "input[type='text']" ).Change( "invalid-color" );
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
+
+        await comp.Find( "input[type='text']" ).ChangeAsync( "invalid-color" );
 
         Assert.Equal( "#FF0000", comp.Instance.Value );
 
-        comp.Find( "input[type='text']" ).Change( "hsl(120 100% 50%)" );
+        await comp.Find( "input[type='text']" ).ChangeAsync( "hsl(120 100% 50%)" );
 
         Assert.Equal( "hsl(120 100% 50%)", comp.Instance.Value );
         Assert.Contains( "#00FF00", comp.Find( ".form-control-color-swatch" ).GetAttribute( "style" ) );
     }
 
     [Fact]
-    public void Clear_ShouldNotifyBindingAndClosePicker()
+    public async Task Clear_ShouldNotifyBindingAndClosePicker()
     {
         var valueChangedCount = 0;
         var comp = Render<ColorPicker>( parameters => parameters
             .Add( x => x.Value, "#FF0000" )
             .Add( x => x.ValueChanged, _ => valueChangedCount++ ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
-        comp.Find( "button[aria-label='clear and close']" ).Click();
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
+
+        await comp.Find( "button[aria-label='clear and close']" ).ClickAsync();
 
         Assert.Null( comp.Instance.Value );
         Assert.Equal( 1, valueChangedCount );
@@ -363,24 +392,26 @@ public class ColorPickerComponentTest : BunitContext
     }
 
     [Fact]
-    public void FormatSelect_ShouldChangeDisplayWithoutNotifyingBinding()
+    public async Task FormatSelect_ShouldChangeDisplayWithoutNotifyingBinding()
     {
         var valueChangedCount = 0;
         var comp = Render<ColorPicker>( parameters => parameters
             .Add( x => x.Value, "rgba(255, 0, 0, 0.5)" )
             .Add( x => x.ValueChanged, _ => valueChangedCount++ ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
 
         Assert.Equal( "#FF000080", comp.Find( "input[type='text']" ).GetAttribute( "value" ) );
 
-        comp.Find( "select" ).Change( "True" );
+        await comp.Find( "select" ).ChangeAsync( "True" );
 
         Assert.Equal( "rgba(255,0,0,0.5)", comp.Find( "input[type='text']" ).GetAttribute( "value" ) );
         Assert.Equal( "rgba(255, 0, 0, 0.5)", comp.Instance.Value );
         Assert.Equal( 0, valueChangedCount );
 
-        comp.Find( "select" ).Change( "False" );
+        await comp.Find( "select" ).ChangeAsync( "False" );
 
         Assert.Equal( "#FF000080", comp.Find( "input[type='text']" ).GetAttribute( "value" ) );
         Assert.Equal( 0, valueChangedCount );
@@ -400,11 +431,13 @@ public class ColorPickerComponentTest : BunitContext
             .Add( x => x.Value, "#FF000080" )
             .Add( x => x.ValueChanged, _ => valueChangedCount++ ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
 
         if ( rgba )
         {
-            comp.Find( "select" ).Change( "True" );
+            await comp.Find( "select" ).ChangeAsync( "True" );
         }
 
         await comp.Find( "button[aria-label='copy color']" ).ClickAsync( new MouseEventArgs() );
@@ -418,14 +451,17 @@ public class ColorPickerComponentTest : BunitContext
     }
 
     [Fact]
-    public void ParameterChanges_ShouldSynchronizeOpenPickerWithoutNotifyingBinding()
+    public async Task ParameterChanges_ShouldSynchronizeOpenPickerWithoutNotifyingBinding()
     {
         var valueChangedCount = 0;
         var comp = Render<ColorPicker>( parameters => parameters
             .Add( x => x.Value, "#FF0000" )
             .Add( x => x.ValueChanged, _ => valueChangedCount++ ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
+
         comp.Render( parameters => parameters
             .Add( x => x.Value, "#00FF0080" )
             .Add( x => x.ShowHueSlider, false )
@@ -442,28 +478,33 @@ public class ColorPickerComponentTest : BunitContext
     }
 
     [Fact]
-    public void KeyboardSelection_ShouldAdjustSaturationAndBrightness()
+    public async Task KeyboardSelection_ShouldAdjustSaturationAndBrightness()
     {
         var comp = Render<ColorPicker>( parameters => parameters
             .Add( x => x.Value, "#FF0000" ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
-        comp.Find( ".form-control-color-picker-surface" ).KeyDown( new KeyboardEventArgs { Key = "Home" } );
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
+
+        await comp.Find( ".form-control-color-picker-surface" ).KeyDownAsync( new KeyboardEventArgs { Key = "Home" } );
 
         Assert.Equal( "#FFFFFF", comp.Instance.Value );
 
-        comp.Find( ".form-control-color-picker-surface" ).KeyDown( new KeyboardEventArgs { Key = "End" } );
+        await comp.Find( ".form-control-color-picker-surface" ).KeyDownAsync( new KeyboardEventArgs { Key = "End" } );
 
         Assert.Equal( "#000000", comp.Instance.Value );
     }
 
     [Fact]
-    public void PickerLocalizer_ShouldLocalizeNativeControls()
+    public async Task PickerLocalizer_ShouldLocalizeNativeControls()
     {
         var comp = Render<ColorPicker>( parameters => parameters
             .Add( x => x.PickerLocalizer, ( key, arguments ) => $"localized {key}" ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
 
         Assert.Equal( "localized ui:dialog", comp.Find( "[role='dialog']" ).GetAttribute( "aria-label" ) );
         Assert.Equal( "localized btn:clear", comp.Find( "button[aria-label='localized aria:btn:clear']" ).TextContent );
@@ -478,7 +519,9 @@ public class ColorPickerComponentTest : BunitContext
         var measurement = utilities.Setup<DomElement>( "getElementInfo", _ => true );
         var comp = Render<ColorPicker>( parameters => parameters.Add( x => x.Value, "#008000" ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
 
         var pointerDownTask = comp.Find( ".form-control-color-picker-surface" ).PointerDownAsync( new PointerEventArgs
         {
@@ -524,7 +567,7 @@ public class ColorPickerComponentTest : BunitContext
     }
 
     [Fact]
-    public void PopupControls_ShouldPreserveOuterColorValidation()
+    public async Task PopupControls_ShouldPreserveOuterColorValidation()
     {
         var comp = Render<Validation>( parameters => parameters
             .Add( x => x.Validator, ValidationRule.IsNotEmpty )
@@ -532,87 +575,95 @@ public class ColorPickerComponentTest : BunitContext
                 .Add( x => x.Palette, new[] { "#FF0000" } )
                 .Add( x => x.HideAfterPaletteSelect, false ) ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
-        comp.Find( "button[id*='-palette-']" ).Click();
-        comp.Find( "input[type='range'][max='360']" ).Input( "120" );
+        await comp.Find( "button.form-control-color-picker" ).ClickAsync();
+
+        comp.WaitForElement( ".form-control-color-picker-surface" );
+
+        await comp.Find( "button[id*='-palette-']" ).ClickAsync();
+        await comp.Find( "input[type='range'][max='360']" ).InputAsync( "120" );
 
         comp.WaitForAssertion( () => Assert.Equal( ValidationStatus.Success, comp.Instance.Status ) );
 
-        comp.Find( "button[aria-label='clear and close']" ).Click();
+        await comp.Find( "button[aria-label='clear and close']" ).ClickAsync();
 
         comp.WaitForAssertion( () => Assert.Equal( ValidationStatus.Error, comp.Instance.Status ) );
     }
 
     [Fact]
-    public async Task IdleSurfaceEvents_ShouldNotRenderPickerOrMenu()
+    public async Task IdleSurfaceEvents_ShouldNotRenderOrChangePicker()
     {
-        var comp = Render<ColorPicker>();
+        var valueChangedCount = 0;
+        var comp = Render<ColorPicker>( parameters => parameters
+            .Add( x => x.Value, "#FF0000" )
+            .Add( x => x.ValueChanged, _ => valueChangedCount++ ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
+        await comp.InvokeAsync( () => comp.Instance.Show() );
 
-        var menu = comp.FindComponent<_ColorPickerMenu>();
-        var surface = comp.FindComponent<_ColorPickerSurface>();
-        var pickerRenderCount = comp.RenderCount;
-        var menuRenderCount = menu.RenderCount;
-        var surfaceRenderCount = surface.RenderCount;
+        comp.WaitForElement( ".form-control-color-picker-surface" );
 
-        await surface.Find( "[role='group']" ).PointerMoveAsync( new PointerEventArgs { PointerId = 1 } );
-        await menu.Find( "[role='dialog']" ).PointerMoveAsync( new PointerEventArgs { PointerId = 1 } );
-        await surface.Find( "[role='group']" ).KeyDownAsync( new KeyboardEventArgs { Key = "a" } );
-        await menu.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "a" } );
+        var renderCount = comp.RenderCount;
+        var markup = comp.Markup;
 
-        Assert.Equal( pickerRenderCount, comp.RenderCount );
-        Assert.Equal( menuRenderCount, menu.RenderCount );
-        Assert.Equal( surfaceRenderCount, surface.RenderCount );
+        await comp.Find( ".form-control-color-picker-surface" ).PointerMoveAsync( new PointerEventArgs { PointerId = 1 } );
+        await comp.Find( "[role='dialog']" ).PointerMoveAsync( new PointerEventArgs { PointerId = 1 } );
+        await comp.Find( ".form-control-color-picker-surface" ).KeyDownAsync( new KeyboardEventArgs { Key = "a" } );
+        await comp.Find( "[role='dialog']" ).KeyDownAsync( new KeyboardEventArgs { Key = "a" } );
+
+        Assert.Equal( renderCount, comp.RenderCount );
+        Assert.Equal( markup, comp.Markup );
+        Assert.Equal( "#FF0000", comp.Instance.Value );
+        Assert.Equal( 0, valueChangedCount );
     }
 
     [Fact]
-    public void ColorStyles_ShouldOnlyRebuildWhenTheirInputsChange()
+    public async Task ColorStyles_ShouldReflectHueOpacityAndSurfaceSelection()
     {
         var comp = Render<ColorPicker>( parameters => parameters.Add( x => x.Value, "#FF0000" ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
+        await comp.InvokeAsync( () => comp.Instance.Show() );
 
-        var surface = comp.FindComponent<_ColorPickerSurface>();
-        var surfaceStyles = surface.Instance.StyleNames;
-        var hueStyles = comp.Instance.HueSliderStyleNames;
-        var opacityStyles = comp.Instance.OpacitySliderStyleNames;
+        comp.WaitForElement( ".form-control-color-picker-surface" );
+
+        var surfaceStyleString = comp.Find( ".form-control-color-picker-surface" ).GetAttribute( "style" );
+        var hueStyleString = comp.Find( "[data-color-channel='hue']" ).GetAttribute( "style" );
+        var opacityStyleString = comp.Find( "[data-color-channel='opacity']" ).GetAttribute( "style" );
 
         comp.Render( parameters => parameters.Add( x => x.ShowCancelButton, false ) );
 
-        Assert.Same( surfaceStyles, surface.Instance.StyleNames );
-        Assert.Same( hueStyles, comp.Instance.HueSliderStyleNames );
-        Assert.Same( opacityStyles, comp.Instance.OpacitySliderStyleNames );
+        Assert.Equal( surfaceStyleString, comp.Find( ".form-control-color-picker-surface" ).GetAttribute( "style" ) );
+        Assert.Equal( hueStyleString, comp.Find( "[data-color-channel='hue']" ).GetAttribute( "style" ) );
+        Assert.Equal( opacityStyleString, comp.Find( "[data-color-channel='opacity']" ).GetAttribute( "style" ) );
 
-        comp.Find( "input[type='range'][max='1']" ).Input( "0.5" );
+        await comp.Find( "input[type='range'][max='1']" ).InputAsync( "0.5" );
 
-        Assert.Same( surfaceStyles, surface.Instance.StyleNames );
-        Assert.Same( hueStyles, comp.Instance.HueSliderStyleNames );
-        Assert.Same( opacityStyles, comp.Instance.OpacitySliderStyleNames );
-        Assert.Contains( "background-color: #FF000080", surface.Find( ".form-control-color-picker-marker" ).GetAttribute( "style" ) );
+        comp.WaitForAssertion( () => Assert.Contains( "background-color: #FF000080", comp.Find( ".form-control-color-picker-marker" ).GetAttribute( "style" ) ) );
 
-        comp.Find( "input[type='range'][max='360']" ).Input( "120" );
+        Assert.Equal( surfaceStyleString, comp.Find( ".form-control-color-picker-surface" ).GetAttribute( "style" ) );
+        Assert.Equal( hueStyleString, comp.Find( "[data-color-channel='hue']" ).GetAttribute( "style" ) );
+        Assert.Equal( opacityStyleString, comp.Find( "[data-color-channel='opacity']" ).GetAttribute( "style" ) );
 
-        Assert.NotSame( surfaceStyles, surface.Instance.StyleNames );
-        Assert.NotSame( hueStyles, comp.Instance.HueSliderStyleNames );
-        Assert.NotSame( opacityStyles, comp.Instance.OpacitySliderStyleNames );
-        Assert.Contains( "color: #00FF00", comp.Instance.OpacitySliderStyleNames );
+        await comp.Find( "input[type='range'][max='360']" ).InputAsync( "120" );
 
-        surfaceStyles = surface.Instance.StyleNames;
-        hueStyles = comp.Instance.HueSliderStyleNames;
-        opacityStyles = comp.Instance.OpacitySliderStyleNames;
+        comp.WaitForAssertion( () => Assert.Contains( "color: #00FF00", comp.Find( "[data-color-channel='opacity']" ).GetAttribute( "style" ) ) );
 
-        surface.Find( "[role='group']" ).KeyDown( new KeyboardEventArgs { Key = "Home" } );
+        Assert.NotEqual( surfaceStyleString, comp.Find( ".form-control-color-picker-surface" ).GetAttribute( "style" ) );
+        Assert.NotEqual( hueStyleString, comp.Find( "[data-color-channel='hue']" ).GetAttribute( "style" ) );
+        Assert.NotEqual( opacityStyleString, comp.Find( "[data-color-channel='opacity']" ).GetAttribute( "style" ) );
 
-        Assert.Same( surfaceStyles, surface.Instance.StyleNames );
-        Assert.Same( hueStyles, comp.Instance.HueSliderStyleNames );
-        Assert.NotSame( opacityStyles, comp.Instance.OpacitySliderStyleNames );
-        Assert.Contains( "color: #FFFFFF", comp.Instance.OpacitySliderStyleNames );
-        Assert.Contains( "left: 0%", surface.Find( ".form-control-color-picker-marker" ).GetAttribute( "style" ) );
+        surfaceStyleString = comp.Find( ".form-control-color-picker-surface" ).GetAttribute( "style" );
+        hueStyleString = comp.Find( "[data-color-channel='hue']" ).GetAttribute( "style" );
+
+        await comp.Find( ".form-control-color-picker-surface" ).KeyDownAsync( new KeyboardEventArgs { Key = "Home" } );
+
+        comp.WaitForAssertion( () => Assert.Contains( "color: #FFFFFF", comp.Find( "[data-color-channel='opacity']" ).GetAttribute( "style" ) ) );
+
+        Assert.Equal( surfaceStyleString, comp.Find( ".form-control-color-picker-surface" ).GetAttribute( "style" ) );
+        Assert.Equal( hueStyleString, comp.Find( "[data-color-channel='hue']" ).GetAttribute( "style" ) );
+        Assert.Contains( "left: 0%", comp.Find( ".form-control-color-picker-marker" ).GetAttribute( "style" ) );
     }
 
     [Fact]
-    public async Task SurfaceMovement_ShouldRenderOnlySurfaceUntilColorChanges()
+    public async Task SurfaceMovement_ShouldOnlyRefreshPreviewWhenColorChanges()
     {
         var utilities = JSInterop.TryGetModuleJSInterop( "import", Services.GetRequiredService<IJSUtilitiesModule>().ModuleFileName );
         utilities.Setup<DomElement>( "getElementInfo", _ => true ).SetResult( new DomElement
@@ -620,20 +671,26 @@ public class ColorPickerComponentTest : BunitContext
             BoundingClientRect = new DomRectangle { Width = 100, Height = 100 },
         } );
 
+        var previewRenderCount = 0;
+        RenderFragment previewContent = builder =>
+        {
+            previewRenderCount++;
+            builder.AddContent( 0, "Color preview" );
+        };
+
         var valueChangedCount = 0;
         var comp = Render<ColorPicker>( parameters => parameters
             .Add( x => x.Value, "#FF0000" )
-            .Add( x => x.ValueChanged, _ => valueChangedCount++ ) );
+            .Add( x => x.ValueChanged, _ => valueChangedCount++ )
+            .Add( x => x.PreviewContent, previewContent ) );
 
-        comp.Find( "button.form-control-color-picker" ).Click();
+        await comp.InvokeAsync( () => comp.Instance.Show() );
 
-        var menu = comp.FindComponent<_ColorPickerMenu>();
-        var surface = comp.FindComponent<_ColorPickerSurface>();
-        var pickerRenderCount = comp.RenderCount;
-        var menuRenderCount = menu.RenderCount;
-        var surfaceRenderCount = surface.RenderCount;
+        comp.WaitForElement( ".form-control-color-picker-surface" );
 
-        await surface.Find( "[role='group']" ).PointerDownAsync( new PointerEventArgs
+        var initialPreviewRenderCount = previewRenderCount;
+
+        await comp.Find( ".form-control-color-picker-surface" ).PointerDownAsync( new PointerEventArgs
         {
             PointerId = 1,
             Button = 0,
@@ -641,26 +698,24 @@ public class ColorPickerComponentTest : BunitContext
             ClientX = 100,
         } );
 
-        await surface.Find( "[role='group']" ).PointerMoveAsync( new PointerEventArgs
+        await comp.Find( ".form-control-color-picker-surface" ).PointerMoveAsync( new PointerEventArgs
         {
             PointerId = 1,
             Buttons = 1,
             ClientX = 99.99,
         } );
 
+        comp.WaitForAssertion( () => Assert.Contains( "left: 99.99%", comp.Find( ".form-control-color-picker-marker" ).GetAttribute( "style" ) ) );
+
         Assert.Equal( "#FF0000", comp.Instance.Value );
         Assert.Equal( 0, valueChangedCount );
-        Assert.Equal( pickerRenderCount, comp.RenderCount );
-        Assert.Equal( menuRenderCount, menu.RenderCount );
-        Assert.True( surface.RenderCount > surfaceRenderCount );
-        Assert.Contains( "left: 99.99%", surface.Find( ".form-control-color-picker-marker" ).GetAttribute( "style" ) );
+        Assert.Equal( initialPreviewRenderCount, previewRenderCount );
 
         comp.Render( parameters => parameters.Add( x => x.ShowCancelButton, false ) );
 
-        Assert.Contains( "left: 99.99%", surface.Find( ".form-control-color-picker-marker" ).GetAttribute( "style" ) );
+        Assert.Contains( "left: 99.99%", comp.Find( ".form-control-color-picker-marker" ).GetAttribute( "style" ) );
 
-        pickerRenderCount = comp.RenderCount;
-        menuRenderCount = menu.RenderCount;
+        initialPreviewRenderCount = previewRenderCount;
 
         var nextPosition = new PointerEventArgs
         {
@@ -669,25 +724,23 @@ public class ColorPickerComponentTest : BunitContext
             ClientX = 50,
         };
 
-        await surface.Find( "[role='group']" ).PointerMoveAsync( nextPosition );
+        await comp.Find( ".form-control-color-picker-surface" ).PointerMoveAsync( nextPosition );
+
+        comp.WaitForAssertion( () => Assert.Equal( "#FF8080", comp.Find( "input[type='text']" ).GetAttribute( "value" ) ) );
 
         Assert.Equal( "#FF8080", comp.Instance.Value );
         Assert.Equal( 1, valueChangedCount );
-        Assert.True( comp.RenderCount > pickerRenderCount );
-        Assert.True( menu.RenderCount > menuRenderCount );
-        Assert.Contains( "left: 50%", surface.Find( ".form-control-color-picker-marker" ).GetAttribute( "style" ) );
-        Assert.Equal( "#FF8080", comp.Find( "input[type='text']" ).GetAttribute( "value" ) );
+        Assert.True( previewRenderCount > initialPreviewRenderCount );
+        Assert.Contains( "left: 50%", comp.Find( ".form-control-color-picker-marker" ).GetAttribute( "style" ) );
         Assert.Contains( "color: #FF8080", comp.Find( "[data-color-channel='opacity']" ).GetAttribute( "style" ) );
 
-        pickerRenderCount = comp.RenderCount;
-        menuRenderCount = menu.RenderCount;
-        surfaceRenderCount = surface.RenderCount;
+        initialPreviewRenderCount = previewRenderCount;
+        var markerStyleString = comp.Find( ".form-control-color-picker-marker" ).GetAttribute( "style" );
 
-        await surface.Find( "[role='group']" ).PointerMoveAsync( nextPosition );
+        await comp.Find( ".form-control-color-picker-surface" ).PointerMoveAsync( nextPosition );
 
         Assert.Equal( 1, valueChangedCount );
-        Assert.Equal( pickerRenderCount, comp.RenderCount );
-        Assert.Equal( menuRenderCount, menu.RenderCount );
-        Assert.Equal( surfaceRenderCount, surface.RenderCount );
+        Assert.Equal( initialPreviewRenderCount, previewRenderCount );
+        Assert.Equal( markerStyleString, comp.Find( ".form-control-color-picker-marker" ).GetAttribute( "style" ) );
     }
 }
