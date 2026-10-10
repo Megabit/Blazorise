@@ -18,12 +18,24 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
 {
     #region Members
 
+    /// <summary>
+    /// The starting and latest pointer events for the current surface interaction.
+    /// </summary>
     private (PointerEventArgs Start, PointerEventArgs Current)? pointerInteraction;
 
+    /// <summary>
+    /// The measured surface bounds used to map pointer positions to color channels.
+    /// </summary>
     private DomRectangle surfaceRectangle;
 
+    /// <summary>
+    /// The supplied color and its parameter change metadata.
+    /// </summary>
     private ComponentParameterInfo<ColorPickerColor> paramColor;
 
+    /// <summary>
+    /// The pending or active subscription for pointer interaction outside the menu.
+    /// </summary>
     private Task<IAsyncDisposable> pointerSubscriptionTask;
 
     #endregion
@@ -81,8 +93,14 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
         base.BuildStyles( builder );
     }
 
+    /// <summary>
+    /// Builds the classes for the surface marker.
+    /// </summary>
     private void BuildMarkerClasses( ClassBuilder builder ) => builder.Append( ClassProvider.ColorPickerMarker() );
 
+    /// <summary>
+    /// Builds the position and background color styles for the surface marker.
+    /// </summary>
     private void BuildMarkerStyles( StyleBuilder builder )
     {
         var color = Color;
@@ -100,6 +118,34 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
         base.DirtyClasses();
     }
 
+    /// <summary>
+    /// Invalidates the surface and marker styles only when their color inputs change.
+    /// </summary>
+    private void InvalidateColorStyles()
+    {
+        if ( !paramColor.Changed )
+        {
+            return;
+        }
+
+        var color = paramColor.Value;
+
+        if ( color.Hue != Color.Hue )
+        {
+            StyleBuilder.Dirty();
+        }
+
+        if ( color.Saturation != Color.Saturation
+            || color.Brightness != Color.Brightness
+            || !color.ToHexString().IsEqual( Color.ToHexString() ) )
+        {
+            MarkerStyleBuilder.Dirty();
+        }
+    }
+
+    /// <summary>
+    /// Starts a surface interaction and measures the bounds for the initial color selection.
+    /// </summary>
     private async Task OnPointerDownHandler( PointerEventArgs eventArgs )
     {
         if ( !CanSelectColor || eventArgs.Button != 0 || pointerSubscriptionTask is not null )
@@ -138,6 +184,9 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
         }
     }
 
+    /// <summary>
+    /// Updates the surface selection while the active pointer's primary button is pressed.
+    /// </summary>
     internal async Task OnPointerMoveHandler( PointerEventArgs eventArgs )
     {
         if ( pointerInteraction is not { } interaction
@@ -159,6 +208,9 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
         await UpdateSurfaceColor( eventArgs );
     }
 
+    /// <summary>
+    /// Applies the final pointer position and ends the document pointer subscription.
+    /// </summary>
     internal async Task OnPointerUpHandler( PointerEventArgs eventArgs )
     {
         if ( pointerInteraction is not { } interaction
@@ -174,6 +226,9 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
         await DisposePointerSubscriptionAsync();
     }
 
+    /// <summary>
+    /// Cancels the active pointer interaction and releases its document subscription.
+    /// </summary>
     internal async Task OnPointerCancelHandler( PointerEventArgs eventArgs )
     {
         if ( pointerInteraction?.Start.PointerId == eventArgs.PointerId )
@@ -183,6 +238,9 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
         }
     }
 
+    /// <summary>
+    /// Converts document pointer events and forwards them to the surface handlers.
+    /// </summary>
     private Task OnDocumentPointerHandler( DocumentEventArgs eventArgs )
     {
         var pointerEventArgs = new PointerEventArgs
@@ -202,17 +260,9 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
         };
     }
 
-    private async Task DisposePointerSubscriptionAsync()
-    {
-        var subscriptionTask = pointerSubscriptionTask;
-        pointerSubscriptionTask = null;
-
-        if ( subscriptionTask is not null )
-        {
-            await ( await subscriptionTask ).DisposeAsync();
-        }
-    }
-
+    /// <summary>
+    /// Handles keyboard color selection and focus navigation from the surface.
+    /// </summary>
     private async Task OnKeyDownHandler( KeyboardEventArgs eventArgs )
     {
         if ( !CanSelectColor )
@@ -268,6 +318,25 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
         await SelectColor( saturation, brightness );
     }
 
+    /// <summary>
+    /// Releases the subscription for pointer interaction outside the menu.
+    /// </summary>
+    private async Task DisposePointerSubscriptionAsync()
+    {
+        var subscriptionTask = pointerSubscriptionTask;
+        pointerSubscriptionTask = null;
+
+        if ( subscriptionTask is not null )
+        {
+            await ( await subscriptionTask ).DisposeAsync();
+        }
+    }
+
+    /// <summary>
+    /// Maps the active pointer position to saturation and brightness and updates the selection.
+    /// </summary>
+    /// <param name="eventArgs">The pointer position to apply.</param>
+    /// <param name="measureBounds">Whether to refresh the surface bounds before calculating the color.</param>
     private async Task UpdateSurfaceColor( PointerEventArgs eventArgs, bool measureBounds = true )
     {
         if ( !CanSelectColor || surfaceRectangle.Width <= 0 || surfaceRectangle.Height <= 0 )
@@ -302,6 +371,9 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
         await SelectColor( saturation, brightness );
     }
 
+    /// <summary>
+    /// Updates the parent color and redraws only the surface when the bound value is unchanged.
+    /// </summary>
     private async Task SelectColor( double saturation, double brightness )
     {
         var previousValue = Parent.Value;
@@ -325,54 +397,62 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
         await InvokeAsync( StateHasChanged );
     }
 
-    private void InvalidateColorStyles()
-    {
-        if ( !paramColor.Changed )
-        {
-            return;
-        }
-
-        var color = paramColor.Value;
-
-        if ( color.Hue != Color.Hue )
-        {
-            StyleBuilder.Dirty();
-        }
-
-        if ( color.Saturation != Color.Saturation
-            || color.Brightness != Color.Brightness
-            || !color.ToHexString().IsEqual( Color.ToHexString() ) )
-        {
-            MarkerStyleBuilder.Dirty();
-        }
-    }
-
     #endregion
 
     #region Properties
 
+    /// <summary>
+    /// Gets whether the surface is active and its parent allows color selection.
+    /// </summary>
     private bool CanSelectColor => !Disposed && !AsyncDisposed && Parent.IsPickerVisible && !Parent.IsInteractionDisabled;
 
+    /// <summary>
+    /// Gets the class builder for the surface marker.
+    /// </summary>
     private ClassBuilder MarkerClassBuilder { get; }
 
+    /// <summary>
+    /// Gets the style builder for the surface marker.
+    /// </summary>
     private StyleBuilder MarkerStyleBuilder { get; }
 
+    /// <summary>
+    /// Gets the classes for the surface marker.
+    /// </summary>
     private string MarkerClassNames => MarkerClassBuilder.Class;
 
+    /// <summary>
+    /// Gets the styles for the surface marker.
+    /// </summary>
     private string MarkerStyleNames => MarkerStyleBuilder.Styles;
 
+    /// <summary>
+    /// Gets the pointer press handler that suppresses automatic surface rendering.
+    /// </summary>
     private Func<PointerEventArgs, Task> NonRenderingPointerDownHandler
         => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerDownHandler );
 
+    /// <summary>
+    /// Gets the pointer movement handler that suppresses automatic surface rendering.
+    /// </summary>
     private Func<PointerEventArgs, Task> NonRenderingPointerMoveHandler
         => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerMoveHandler );
 
+    /// <summary>
+    /// Gets the pointer release handler that suppresses automatic surface rendering.
+    /// </summary>
     private Func<PointerEventArgs, Task> NonRenderingPointerUpHandler
         => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerUpHandler );
 
+    /// <summary>
+    /// Gets the pointer cancellation handler that suppresses automatic surface rendering.
+    /// </summary>
     private Func<PointerEventArgs, Task> NonRenderingPointerCancelHandler
         => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerCancelHandler );
 
+    /// <summary>
+    /// Gets the keyboard handler that suppresses automatic surface rendering.
+    /// </summary>
     private Func<KeyboardEventArgs, Task> NonRenderingKeyDownHandler
         => EventUtil.AsNonRenderingEventHandler<KeyboardEventArgs>( OnKeyDownHandler );
 
@@ -386,6 +466,9 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
     /// </summary>
     [Inject] protected IDocumentObserver DocumentObserver { get; set; }
 
+    /// <summary>
+    /// Gets or sets the editable color supplied by the parent picker.
+    /// </summary>
     [CascadingParameter] internal ColorPickerColor Color { get; set; }
 
     /// <summary>

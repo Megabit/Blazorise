@@ -18,16 +18,34 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
 {
     #region Members
 
+    /// <summary>
+    /// The editable HSV color and opacity.
+    /// </summary>
     private ColorPickerColor selectedColor = new( 0, 100, 100, 1 );
 
+    /// <summary>
+    /// The color value to restore when the current selection is canceled.
+    /// </summary>
     private string colorBeforeOpen;
 
+    /// <summary>
+    /// Tracks whether the picker menu has been opened.
+    /// </summary>
     private bool pickerOpen;
 
+    /// <summary>
+    /// Tracks whether the color input displays RGBA instead of hexadecimal values.
+    /// </summary>
     private bool rgbaFormat;
 
+    /// <summary>
+    /// The optional element identifier used to anchor the menu and restore focus.
+    /// </summary>
     private string targetElementId;
 
+    /// <summary>
+    /// Coordinates the subscriptions that close the picker on outside interaction.
+    /// </summary>
     private PickerObserverCoordinator observerCoordinator;
 
     #endregion
@@ -127,6 +145,40 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         await base.DisposeAsync( disposing );
     }
 
+    /// <summary>
+    /// Anchors the newly rendered menu to its optional target and focuses the color surface.
+    /// </summary>
+    internal async Task OnMenuRendered()
+    {
+        if ( !IsPickerVisible )
+        {
+            return;
+        }
+
+        if ( targetElementId is not null )
+        {
+            await JSUtilitiesModule.ShowAnchoredElement( MenuElementId, targetElementId );
+        }
+
+        if ( IsPickerVisible )
+        {
+            await JSUtilitiesModule.Focus( default, SurfaceElementId, false );
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override string FormatValueAsString( string value ) => value;
+
+    /// <inheritdoc/>
+    protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
+        => Task.FromResult( new ParseValue<string>( string.IsNullOrEmpty( value ) || ColorPickerColor.TryParse( value, out _ ), value, null ) );
+
+    /// <inheritdoc/>
+    public override Task Focus( bool scrollToElement = true )
+        => targetElementId is not null
+            ? JSUtilitiesModule.Focus( default, targetElementId, scrollToElement ).AsTask()
+            : base.Focus( scrollToElement );
+
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
@@ -146,28 +198,52 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// </summary>
     protected virtual void BuildSwatchClasses( ClassBuilder builder ) => builder.Append( ClassProvider.ColorPickerSwatch() );
 
+    /// <summary>
+    /// Builds the classes for the picker container.
+    /// </summary>
     private void BuildPickerContainerClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ColorPickerContainer() );
         AppendWrapperUtilities( builder );
     }
 
+    /// <summary>
+    /// Builds the utility styles for the picker container.
+    /// </summary>
     private void BuildPickerContainerStyles( StyleBuilder builder ) => AppendWrapperUtilities( builder );
 
+    /// <summary>
+    /// Builds the classes for the picker menu.
+    /// </summary>
     private void BuildMenuClasses( ClassBuilder builder ) => builder.Append( ClassProvider.ColorPickerMenu() );
 
+    /// <summary>
+    /// Builds the menu anchor and opening animation styles.
+    /// </summary>
     private void BuildMenuStyles( StyleBuilder builder )
     {
         builder.Append( StyleProvider.ColorPickerMenuAnchor( targetElementId ) );
         builder.Append( StyleProvider.DropdownAnimationDuration( EffectiveAnimationDuration ) );
     }
 
+    /// <summary>
+    /// Builds the classes for the color sliders.
+    /// </summary>
     private void BuildSliderClasses( ClassBuilder builder ) => builder.Append( ClassProvider.ColorPickerSlider() );
 
+    /// <summary>
+    /// Builds the background color styles for the color swatch.
+    /// </summary>
     private void BuildSwatchStyles( StyleBuilder builder ) => builder.Append( $"background-color: {GetColorString( Value )};" );
 
+    /// <summary>
+    /// Builds the color styles used by the hue slider.
+    /// </summary>
     private void BuildHueSliderStyles( StyleBuilder builder ) => builder.Append( $"color: {CssColor.Hsl( selectedColor.Hue, 100, 50 )};" );
 
+    /// <summary>
+    /// Builds the opaque color styles used by the opacity slider.
+    /// </summary>
     private void BuildOpacitySliderStyles( StyleBuilder builder ) => builder.Append( $"color: {( selectedColor with { Alpha = 1 } ).ToHexString()};" );
 
     /// <inheritdoc/>
@@ -215,6 +291,9 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         await base.OnKeyDownHandler( eventArgs );
     }
 
+    /// <summary>
+    /// Handles the Escape key to close the menu and restore focus.
+    /// </summary>
     internal async Task OnMenuKeyDownHandler( KeyboardEventArgs eventArgs )
     {
         if ( eventArgs.Key == "Escape" )
@@ -224,27 +303,14 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         }
     }
 
+    /// <summary>
+    /// Closes the picker when pointer or focus interaction occurs outside it.
+    /// </summary>
     private Task OnOutsidePointerHandler( DocumentEventArgs eventArgs ) => Hide();
 
-    internal async Task<bool> SelectSurfaceColor( double saturation, double brightness )
-    {
-        if ( IsInteractionDisabled || !IsPickerVisible )
-        {
-            return false;
-        }
-
-        var color = selectedColor with { Saturation = saturation, Brightness = brightness };
-
-        if ( !SetSelectedColor( color ) )
-        {
-            return false;
-        }
-
-        await ApplySelectedColor();
-
-        return true;
-    }
-
+    /// <summary>
+    /// Updates the selected hue from the hue slider.
+    /// </summary>
     internal async Task OnHueChangedHandler( double hue )
     {
         if ( IsInteractionDisabled )
@@ -256,6 +322,9 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         await ApplySelectedColor();
     }
 
+    /// <summary>
+    /// Updates the selected opacity from the opacity slider.
+    /// </summary>
     internal async Task OnOpacityChangedHandler( double opacity )
     {
         if ( IsInteractionDisabled )
@@ -267,8 +336,14 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         await ApplySelectedColor();
     }
 
+    /// <summary>
+    /// Updates the selected color from the text input.
+    /// </summary>
     internal Task OnInputChangedHandler( string text ) => SetValue( text );
 
+    /// <summary>
+    /// Confirms the selected color, closes the menu, and restores focus.
+    /// </summary>
     internal async Task OnSaveClickHandler( MouseEventArgs eventArgs )
     {
         if ( IsInteractionDisabled || !IsPickerVisible )
@@ -285,6 +360,9 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         await Focus( false );
     }
 
+    /// <summary>
+    /// Clears the selected color, closes the menu, and restores focus.
+    /// </summary>
     internal async Task OnClearClickHandler( MouseEventArgs eventArgs )
     {
         await SetValue( null );
@@ -292,6 +370,9 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         await Focus( false );
     }
 
+    /// <summary>
+    /// Restores the color from before the menu opened, closes the menu, and restores focus.
+    /// </summary>
     internal async Task OnCancelClickHandler( MouseEventArgs eventArgs )
     {
         await SetValue( colorBeforeOpen );
@@ -299,102 +380,19 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         await Focus( false );
     }
 
+    /// <summary>
+    /// Updates the color format displayed in the text input.
+    /// </summary>
     internal void OnFormatChangedHandler( bool isRgbaFormat ) => rgbaFormat = isRgbaFormat;
 
+    /// <summary>
+    /// Copies the displayed color value to the clipboard.
+    /// </summary>
     internal Task OnCopyClickHandler( MouseEventArgs eventArgs ) => JSUtilitiesModule.CopyToClipboard( default, InputElementId ).AsTask();
 
-    internal async Task SelectPaletteColor( string value )
-    {
-        if ( IsInteractionDisabled || !ColorPickerColor.TryParse( value, out var color ) )
-        {
-            return;
-        }
-
-        await SetValue( color.ToHexString() );
-
-        if ( HideAfterPaletteSelect )
-        {
-            await Hide();
-            await Focus( false );
-        }
-    }
-
-    private async Task ApplySelectedColor()
-    {
-        var value = selectedColor.ToHexString();
-
-        if ( Value.IsEqual( value ) )
-        {
-            return;
-        }
-
-        InvalidateSwatchStyles( value );
-
-        await CurrentValueHandler( value );
-        await InvokeAsync( StateHasChanged );
-    }
-
-    private void SynchronizeColor( string value, string[] palette )
-    {
-        if ( ColorPickerColor.TryParse( value, out var color ) )
-        {
-            SetSelectedColor( color );
-            return;
-        }
-
-        if ( palette is not null )
-        {
-            foreach ( var paletteColor in palette )
-            {
-                if ( ColorPickerColor.TryParse( paletteColor, out color ) )
-                {
-                    SetSelectedColor( color );
-                    return;
-                }
-            }
-        }
-
-        SetSelectedColor( new( 0, 100, 100, 1 ) );
-    }
-
-    private bool SetSelectedColor( ColorPickerColor color )
-    {
-        if ( color == selectedColor )
-        {
-            return false;
-        }
-
-        if ( color.Hue != selectedColor.Hue )
-        {
-            HueSliderStyleBuilder.Dirty();
-        }
-
-        if ( color.Hue != selectedColor.Hue
-            || color.Saturation != selectedColor.Saturation
-            || color.Brightness != selectedColor.Brightness )
-        {
-            var previousColorString = ( selectedColor with { Alpha = 1 } ).ToHexString();
-            var colorString = ( color with { Alpha = 1 } ).ToHexString();
-
-            if ( !previousColorString.IsEqual( colorString ) )
-            {
-                OpacitySliderStyleBuilder.Dirty();
-            }
-        }
-
-        selectedColor = color;
-
-        return true;
-    }
-
-    private void InvalidateSwatchStyles( string value )
-    {
-        if ( !GetColorString( Value ).IsEqual( GetColorString( value ) ) )
-        {
-            SwatchStyleBuilder.Dirty();
-        }
-    }
-
+    /// <summary>
+    /// Redraws the picker after the default localization changes.
+    /// </summary>
     private void OnLocalizationChanged( object sender, EventArgs eventArgs )
     {
         if ( PickerLocalizer is null )
@@ -404,20 +402,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     }
 
     /// <inheritdoc/>
-    protected override string FormatValueAsString( string value ) => value;
-
-    /// <inheritdoc/>
-    protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
-        => Task.FromResult( new ParseValue<string>( string.IsNullOrEmpty( value ) || ColorPickerColor.TryParse( value, out _ ), value, null ) );
-
-    /// <inheritdoc/>
     public virtual Task Select( bool focus = true ) => JSUtilitiesModule.Select( ElementRef, ElementId, focus ).AsTask();
-
-    /// <inheritdoc/>
-    public override Task Focus( bool scrollToElement = true )
-        => targetElementId is not null
-            ? JSUtilitiesModule.Focus( default, targetElementId, scrollToElement ).AsTask()
-            : base.Focus( scrollToElement );
 
     /// <summary>
     /// Opens the color picker when the input is enabled and editable.
@@ -478,24 +463,6 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         await InvokeAsync( StateHasChanged );
     }
 
-    internal async Task OnMenuRendered()
-    {
-        if ( !IsPickerVisible )
-        {
-            return;
-        }
-
-        if ( targetElementId is not null )
-        {
-            await JSUtilitiesModule.ShowAnchoredElement( MenuElementId, targetElementId );
-        }
-
-        if ( IsPickerVisible )
-        {
-            await JSUtilitiesModule.Focus( default, SurfaceElementId, false );
-        }
-    }
-
     /// <summary>
     /// Updates the picker with a new color value.
     /// </summary>
@@ -520,8 +487,153 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         await InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Updates the selected saturation and brightness from surface interaction.
+    /// </summary>
+    /// <param name="saturation">Saturation as a percentage, from 0 to 100.</param>
+    /// <param name="brightness">Brightness as a percentage, from 0 to 100.</param>
+    /// <returns><see langword="true"/> when the editable color changes; otherwise, <see langword="false"/>.</returns>
+    internal async Task<bool> SelectSurfaceColor( double saturation, double brightness )
+    {
+        if ( IsInteractionDisabled || !IsPickerVisible )
+        {
+            return false;
+        }
+
+        var color = selectedColor with { Saturation = saturation, Brightness = brightness };
+
+        if ( !SetSelectedColor( color ) )
+        {
+            return false;
+        }
+
+        await ApplySelectedColor();
+
+        return true;
+    }
+
+    /// <summary>
+    /// Selects a palette color and optionally closes the menu.
+    /// </summary>
+    /// <param name="value">The CSS color represented by the palette entry.</param>
+    internal async Task SelectPaletteColor( string value )
+    {
+        if ( IsInteractionDisabled || !ColorPickerColor.TryParse( value, out var color ) )
+        {
+            return;
+        }
+
+        await SetValue( color.ToHexString() );
+
+        if ( HideAfterPaletteSelect )
+        {
+            await Hide();
+            await Focus( false );
+        }
+    }
+
+    /// <summary>
+    /// Updates the bound value and redraws the picker when the selected hexadecimal color changes.
+    /// </summary>
+    private async Task ApplySelectedColor()
+    {
+        var value = selectedColor.ToHexString();
+
+        if ( Value.IsEqual( value ) )
+        {
+            return;
+        }
+
+        InvalidateSwatchStyles( value );
+
+        await CurrentValueHandler( value );
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Resolves the editable color from the current value, the palette, or the default red color.
+    /// </summary>
+    private void SynchronizeColor( string value, string[] palette )
+    {
+        if ( ColorPickerColor.TryParse( value, out var color ) )
+        {
+            SetSelectedColor( color );
+            return;
+        }
+
+        if ( palette is not null )
+        {
+            foreach ( var paletteColor in palette )
+            {
+                if ( ColorPickerColor.TryParse( paletteColor, out color ) )
+                {
+                    SetSelectedColor( color );
+                    return;
+                }
+            }
+        }
+
+        SetSelectedColor( new( 0, 100, 100, 1 ) );
+    }
+
+    /// <summary>
+    /// Updates the editable color and invalidates only the slider styles affected by the change.
+    /// </summary>
+    /// <param name="color">The editable HSV color and opacity.</param>
+    /// <returns><see langword="true"/> when the editable color changes; otherwise, <see langword="false"/>.</returns>
+    private bool SetSelectedColor( ColorPickerColor color )
+    {
+        if ( color == selectedColor )
+        {
+            return false;
+        }
+
+        if ( color.Hue != selectedColor.Hue )
+        {
+            HueSliderStyleBuilder.Dirty();
+        }
+
+        if ( color.Hue != selectedColor.Hue
+            || color.Saturation != selectedColor.Saturation
+            || color.Brightness != selectedColor.Brightness )
+        {
+            var previousColorString = ( selectedColor with { Alpha = 1 } ).ToHexString();
+            var colorString = ( color with { Alpha = 1 } ).ToHexString();
+
+            if ( !previousColorString.IsEqual( colorString ) )
+            {
+                OpacitySliderStyleBuilder.Dirty();
+            }
+        }
+
+        selectedColor = color;
+
+        return true;
+    }
+
+    /// <summary>
+    /// Invalidates the swatch styles when the rendered color changes.
+    /// </summary>
+    private void InvalidateSwatchStyles( string value )
+    {
+        if ( !GetColorString( Value ).IsEqual( GetColorString( value ) ) )
+        {
+            SwatchStyleBuilder.Dirty();
+        }
+    }
+
+    /// <summary>
+    /// Resolves picker text through the custom localizer or the default localizer.
+    /// </summary>
+    /// <param name="key">The localization key.</param>
+    /// <returns>The localized picker text.</returns>
     internal string Localize( string key ) => PickerLocalizer?.Invoke( key ) ?? Localizer.GetString( key );
 
+    /// <summary>
+    /// Formats a valid CSS color as a hexadecimal value, or returns transparent for an invalid color.
+    /// </summary>
+    /// <param name="value">The CSS color to format.</param>
+    /// <returns>The hexadecimal color value or the transparent keyword.</returns>
     internal static string GetColorString( string value ) => ColorPickerColor.TryParse( value, out var color ) ? color.ToHexString() : "transparent";
 
     #endregion
@@ -554,32 +666,74 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// </summary>
     protected string AriaExpandedString => IsPickerVisible ? "true" : "false";
 
+    /// <summary>
+    /// Gets whether the picker is disabled or read-only.
+    /// </summary>
     internal bool IsInteractionDisabled => IsDisabled || ReadOnly;
 
+    /// <summary>
+    /// Gets the coordinator for outside interaction subscriptions.
+    /// </summary>
     private PickerObserverCoordinator ObserverCoordinator => observerCoordinator ??= new( DocumentObserver );
 
+    /// <summary>
+    /// Gets whether the picker menu is open and interaction is enabled.
+    /// </summary>
     internal bool IsPickerVisible => pickerOpen && !IsInteractionDisabled;
 
+    /// <summary>
+    /// Gets the element identifier of the picker menu.
+    /// </summary>
     internal string MenuElementId => $"{ElementId}-menu";
 
+    /// <summary>
+    /// Gets the element identifier of the color surface.
+    /// </summary>
     internal string SurfaceElementId => $"{ElementId}-surface";
 
+    /// <summary>
+    /// Gets the element identifier of the hue slider.
+    /// </summary>
     internal string HueSliderElementId => $"{ElementId}-hue";
 
+    /// <summary>
+    /// Gets the element identifier of the opacity slider.
+    /// </summary>
     internal string OpacitySliderElementId => $"{ElementId}-opacity";
 
+    /// <summary>
+    /// Gets the element identifier of the color text input.
+    /// </summary>
     internal string InputElementId => $"{ElementId}-input";
 
+    /// <summary>
+    /// Gets the element identifier of the color format selector.
+    /// </summary>
     internal string FormatSelectElementId => $"{ElementId}-format";
 
+    /// <summary>
+    /// Gets the element identifier of the copy button.
+    /// </summary>
     internal string CopyButtonElementId => $"{ElementId}-copy";
 
+    /// <summary>
+    /// Gets the element identifier of the clear button.
+    /// </summary>
     internal string ClearButtonElementId => $"{ElementId}-clear";
 
+    /// <summary>
+    /// Gets the element identifier of the cancel button.
+    /// </summary>
     internal string CancelButtonElementId => $"{ElementId}-cancel";
 
+    /// <summary>
+    /// Gets the element identifier of the save button.
+    /// </summary>
     internal string SaveButtonElementId => $"{ElementId}-save";
 
+    /// <summary>
+    /// Gets the first visible control to focus when tabbing forward from the color surface.
+    /// </summary>
     internal string FirstControlElementId
     {
         get
@@ -624,17 +778,32 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         }
     }
 
+    /// <summary>
+    /// Gets the editable HSV color and opacity.
+    /// </summary>
     internal ColorPickerColor SelectedColor => selectedColor;
 
+    /// <summary>
+    /// Gets the selected hue in degrees.
+    /// </summary>
     internal double Hue => selectedColor.Hue;
 
+    /// <summary>
+    /// Gets the selected opacity, from 0 to 1.
+    /// </summary>
     internal double Opacity => selectedColor.Alpha;
 
+    /// <summary>
+    /// Gets the color value formatted for the selected input format.
+    /// </summary>
     internal string InputText
         => ColorPickerColor.TryParse( Value, out var color )
             ? rgbaFormat ? color.ToRgbaString() : color.ToHexString()
             : Value;
 
+    /// <summary>
+    /// Gets whether the text input displays the RGBA format.
+    /// </summary>
     internal bool IsRgbaFormat => rgbaFormat;
 
     /// <summary>
@@ -642,6 +811,9 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// </summary>
     protected int? EffectiveAnimationDuration => !Animated ? 0 : AnimationDuration.HasValue ? Math.Max( 0, AnimationDuration.Value ) : null;
 
+    /// <summary>
+    /// Gets the animation duration override formatted for the menu attribute.
+    /// </summary>
     internal string AnimationDurationString => EffectiveAnimationDuration?.ToString( CultureInfo.InvariantCulture );
 
     /// <summary>
@@ -654,20 +826,44 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// </summary>
     protected ClassBuilder SwatchClassBuilder { get; }
 
+    /// <summary>
+    /// Gets the class builder for the picker container.
+    /// </summary>
     private ClassBuilder PickerContainerClassBuilder { get; }
 
+    /// <summary>
+    /// Gets the style builder for the picker container.
+    /// </summary>
     private StyleBuilder PickerContainerStyleBuilder { get; }
 
+    /// <summary>
+    /// Gets the class builder for the picker menu.
+    /// </summary>
     private ClassBuilder MenuClassBuilder { get; }
 
+    /// <summary>
+    /// Gets the style builder for the picker menu.
+    /// </summary>
     private StyleBuilder MenuStyleBuilder { get; }
 
+    /// <summary>
+    /// Gets the class builder for the color sliders.
+    /// </summary>
     private ClassBuilder SliderClassBuilder { get; }
 
+    /// <summary>
+    /// Gets the style builder for the color swatch.
+    /// </summary>
     private StyleBuilder SwatchStyleBuilder { get; }
 
+    /// <summary>
+    /// Gets the style builder for the hue slider.
+    /// </summary>
     private StyleBuilder HueSliderStyleBuilder { get; }
 
+    /// <summary>
+    /// Gets the style builder for the opacity slider.
+    /// </summary>
     private StyleBuilder OpacitySliderStyleBuilder { get; }
 
     /// <summary>
@@ -695,14 +891,29 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// </summary>
     protected string PickerContainerStyleNames => PickerContainerStyleBuilder.Styles;
 
+    /// <summary>
+    /// Gets the classes for the picker menu.
+    /// </summary>
     internal string MenuClassNames => MenuClassBuilder.Class;
 
+    /// <summary>
+    /// Gets the styles for the picker menu.
+    /// </summary>
     internal string MenuStyleNames => MenuStyleBuilder.Styles;
 
+    /// <summary>
+    /// Gets the classes for the color sliders.
+    /// </summary>
     internal string SliderClassNames => SliderClassBuilder.Class;
 
+    /// <summary>
+    /// Gets the styles for the hue slider.
+    /// </summary>
     internal string HueSliderStyleNames => HueSliderStyleBuilder.Styles;
 
+    /// <summary>
+    /// Gets the styles for the opacity slider.
+    /// </summary>
     internal string OpacitySliderStyleNames => OpacitySliderStyleBuilder.Styles;
 
     /// <summary>
@@ -735,8 +946,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// List a colors below the colorpicker to make it convenient for users to choose from
     /// frequently or recently used colors.
     /// </summary>
-    [Parameter]
-    public string[] Palette { get; set; } = new[]
+    [Parameter] public string[] Palette { get; set; } = new[]
     {
         "rgba(244, 67, 54, 1)",
         "rgba(233, 30, 99, 0.95)",

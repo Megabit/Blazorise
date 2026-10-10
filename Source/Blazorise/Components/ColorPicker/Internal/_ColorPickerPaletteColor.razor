@@ -20,8 +20,20 @@
 }
 
 @code {
+    #region Methods
+
+    /// <summary>
+    /// Selects the palette color in the parent picker.
+    /// </summary>
     private System.Threading.Tasks.Task OnClickHandler( Microsoft.AspNetCore.Components.Web.MouseEventArgs eventArgs ) => Parent.SelectPaletteColor( Value );
 
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets whether this palette color matches the parent's current value.
+    /// </summary>
     private bool IsSelected => ColorPicker.GetColorString( Parent.Value ) == ColorPicker.GetColorString( Value );
 
     /// <summary>
@@ -33,4 +45,6 @@
     /// Gets or sets the color picker that owns this palette entry.
     /// </summary>
     [CascadingParameter] public ColorPicker Parent { get; set; }
+
+    #endregion
 }

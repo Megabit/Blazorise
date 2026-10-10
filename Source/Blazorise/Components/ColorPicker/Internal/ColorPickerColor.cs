@@ -56,6 +56,9 @@ internal readonly record struct ColorPickerColor( double Hue, double Saturation,
         return CssColor.Rgba( color.R, color.G, color.B, Alpha );
     }
 
+    /// <summary>
+    /// Converts the HSV channels and opacity to an ARGB color with byte channel values.
+    /// </summary>
     private System.Drawing.Color ToColor()
     {
         var hue = ( Hue % 360 + 360 ) % 360 / 60;
