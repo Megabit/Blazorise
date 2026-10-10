@@ -134,7 +134,7 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
             && CanSelectColor )
         {
             surfaceRectangle = rectangle;
-            await UpdateSurfaceColor( interaction.Current );
+            await UpdateSurfaceColor( interaction.Current, false );
         }
     }
 
@@ -190,7 +190,7 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
             PointerId = eventArgs.PointerId,
             ClientX = eventArgs.ClientX,
             ClientY = eventArgs.ClientY,
-            Buttons = eventArgs.Type == DocumentEventType.PointerMove ? 1 : 0,
+            Buttons = eventArgs.Buttons,
         };
 
         return eventArgs.Type switch
@@ -268,17 +268,38 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
         await SelectColor( saturation, brightness );
     }
 
-    private Task UpdateSurfaceColor( PointerEventArgs eventArgs )
+    private async Task UpdateSurfaceColor( PointerEventArgs eventArgs, bool measureBounds = true )
     {
         if ( !CanSelectColor || surfaceRectangle.Width <= 0 || surfaceRectangle.Height <= 0 )
         {
-            return Task.CompletedTask;
+            return;
+        }
+
+        if ( measureBounds )
+        {
+            var interactionStart = pointerInteraction?.Start;
+            var rectangle = ( await JSUtilitiesModule.GetElementInfo( ElementRef, ElementId ) ).BoundingClientRect;
+
+            if ( !CanSelectColor
+                || pointerInteraction is not { } interaction
+                || !ReferenceEquals( interaction.Start, interactionStart ) )
+            {
+                return;
+            }
+
+            surfaceRectangle = rectangle;
+            eventArgs = interaction.Current;
+
+            if ( surfaceRectangle.Width <= 0 || surfaceRectangle.Height <= 0 )
+            {
+                return;
+            }
         }
 
         var saturation = Math.Clamp( ( eventArgs.ClientX - surfaceRectangle.Left ) / surfaceRectangle.Width * 100, 0, 100 );
         var brightness = 100 - Math.Clamp( ( eventArgs.ClientY - surfaceRectangle.Top ) / surfaceRectangle.Height * 100, 0, 100 );
 
-        return SelectColor( saturation, brightness );
+        await SelectColor( saturation, brightness );
     }
 
     private async Task SelectColor( double saturation, double brightness )

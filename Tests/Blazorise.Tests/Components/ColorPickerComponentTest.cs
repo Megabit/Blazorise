@@ -162,6 +162,7 @@ public class ColorPickerComponentTest : BunitContext
         {
             Type = DocumentEventType.PointerMove,
             PointerId = 1,
+            Buttons = 1,
             ClientX = 150,
             ClientY = 50,
         } ) );
