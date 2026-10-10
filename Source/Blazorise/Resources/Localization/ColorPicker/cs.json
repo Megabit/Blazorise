@@ -11,6 +11,8 @@
     "aria:btn:save": "uložit a zavřít",
     "aria:btn:cancel": "zrušit a zavřít",
     "aria:btn:clear": "vymazat a zavřít",
+    "aria:format": "formát barvy",
+    "aria:btn:copy": "zkopírovat barvu",
     "aria:input": "pole na zadaní barvy",
     "aria:palette": "výběr barev",
     "aria:hue": "výběr odstínu",

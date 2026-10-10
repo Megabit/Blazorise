@@ -1,4 +1,4 @@
-﻿.fui-ColorPicker {
+.fui-ColorPicker {
     display: inline-flex;
     box-sizing: border-box;
     justify-content: start;
@@ -60,10 +60,219 @@
     }
 }
 
-.fui-Input,
-.fui-Input__content {
-    &[data-show-value='false'] {
-        width: auto;
-        flex: 0 0 auto;
+.fui-ColorPicker {
+    &__container {
+        position: relative;
+        display: inline-flex;
+        width: 100%;
+        min-width: 0;
+        vertical-align: middle;
+        anchor-name: --fluent-color-picker-anchor;
+        anchor-scope: --fluent-color-picker-anchor;
+
+        &:has(> .fui-ColorPicker__menu) {
+            z-index: 1000001;
+        }
+
+        > button {
+            text-align: start;
+            cursor: pointer;
+
+            &:disabled {
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    &__menu {
+        position: absolute;
+        inset-block-start: calc(100% + .25rem);
+        inset-inline-start: 0;
+        z-index: 1000001;
+        display: block;
+        box-sizing: border-box;
+        width: 18rem;
+        min-width: 0;
+        max-width: calc(100vw - 1rem);
+        max-height: calc(100vh - 1rem);
+        overflow: auto;
+        padding: .75rem;
+        border: 1px solid var(--colorNeutralStroke1);
+        border-radius: var(--borderRadiusMedium);
+        background: var(--colorNeutralBackground1);
+        color: var(--colorNeutralForeground1);
+        box-shadow: var(--shadow16);
+        font-family: inherit;
+        text-align: start;
+
+        opacity: 1;
+        transition-property: opacity;
+        transition-duration: var(--durationSlower);
+        transition-timing-function: var(--curveDecelerateMid);
+
+        @starting-style {
+            opacity: 0;
+        }
+
+        &[data-animation-duration] {
+            @include component-animation-duration(var(--fui-dropdown-animation-duration));
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+
+        @supports (position-anchor: --fluent-color-picker-anchor) and (anchor-scope: --fluent-color-picker-anchor) {
+            position: fixed;
+            position-anchor: --fluent-color-picker-anchor;
+            inset: auto;
+            top: anchor(bottom);
+            inset-inline-start: anchor(start);
+            margin-block-start: .25rem;
+            position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+        }
+    }
+
+    &__surface {
+        position: relative;
+        width: 100%;
+        height: 10rem;
+        border-radius: .25rem;
+        background-image: linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, transparent);
+        cursor: crosshair;
+        touch-action: none;
+        user-select: none;
+        direction: ltr;
+
+        &:focus-visible {
+            outline: 2px solid var(--colorCompoundBrandStroke);
+            outline-offset: 2px;
+        }
+    }
+
+    &__marker {
+        position: absolute;
+        width: .75rem;
+        height: .75rem;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 0 1px #000;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+    }
+}
+
+.fui-ColorPicker__container {
+    > .fui-Input,
+    > .fui-Input__content {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+@mixin fui-color-picker-slider-thumb {
+    box-sizing: border-box;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .25);
+    cursor: pointer;
+}
+
+.fui-ColorPicker__slider[data-color-channel] {
+    position: relative;
+    width: 100%;
+    min-height: 2.5rem;
+    direction: ltr;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset-inline: .5rem;
+        top: 50%;
+        height: .5rem;
+        border-radius: 999px;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    &[data-color-channel='hue']::before {
+        background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+    }
+
+    &[data-color-channel='opacity']::before {
+        background-image: linear-gradient(to right, transparent, currentColor), repeating-conic-gradient(#fff 0% 25%, #ccc 0% 50%);
+        background-size: 100% 100%, .5rem .5rem;
+    }
+
+    input[type='range'] {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 2.5rem;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: none;
+        background: transparent;
+        color: inherit;
+        opacity: 1;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+
+        &::-webkit-slider-runnable-track {
+            height: .5rem;
+            border: 0;
+            background: transparent;
+            color: inherit;
+        }
+
+        &::-moz-range-track,
+        &::-moz-range-progress {
+            height: .5rem;
+            border: 0;
+            background: transparent;
+        }
+
+        &::-webkit-slider-thumb {
+            @include fui-color-picker-slider-thumb;
+            margin-top: -.25rem;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        &::-moz-range-thumb {
+            @include fui-color-picker-slider-thumb;
+        }
+
+        &:focus-visible::-webkit-slider-thumb {
+            outline: 2px solid var(--colorCompoundBrandStroke);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, .25);
+            transform: none;
+        }
+
+        &:focus-visible::-moz-range-thumb {
+            outline: 2px solid var(--colorCompoundBrandStroke);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, .25);
+            transform: none;
+        }
+    }
+
+    .fui-Slider__container,
+    .fui-Slider {
+        display: block;
+        min-width: 0;
+        min-height: 0;
+    }
+
+    .fui-Label,
+    .fui-Slider__rail,
+    .fui-Slider__thumb {
+        display: none;
     }
 }

@@ -11,6 +11,8 @@
     "aria:btn:save": "salvează și închide",
     "aria:btn:cancel": "anulează și închide",
     "aria:btn:clear": "șterge și închide",
+    "aria:format": "format culoare",
+    "aria:btn:copy": "copiază culoarea",
     "aria:input": "câmp de introducere culoare",
     "aria:palette": "zonă de selectare a culorii",
     "aria:hue": "slider de selecție nuanță",

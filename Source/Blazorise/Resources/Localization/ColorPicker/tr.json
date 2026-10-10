@@ -11,6 +11,8 @@
     "aria:btn:save": "kaydet ve kapat",
     "aria:btn:cancel": "iptal et ve kapat",
     "aria:btn:clear": "temizle ve kapat",
+    "aria:format": "renk biçimi",
+    "aria:btn:copy": "rengi kopyala",
     "aria:input": "renk giriş alanı",
     "aria:palette": "renk seçim alanı",
     "aria:hue": "ton seçim kaydırıcısı",

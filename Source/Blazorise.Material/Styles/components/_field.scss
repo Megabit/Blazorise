@@ -262,7 +262,7 @@ fieldset.mui-row > legend.mui-field-label-horizontal {
 }
 
 .mui-field.mui-field-floating:focus-within > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown), > .mui-field-body > :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown), > textarea.mui-input[placeholder]:not(:placeholder-shown), > .mui-field-body > textarea.mui-input[placeholder]:not(:placeholder-shown), > :is(.mui-select, .mui-color-input, .mui-color-picker), > .mui-field-body > :is(.mui-select, .mui-color-input, .mui-color-picker)) > .mui-field-label:not(.mui-field-label-horizontal) {
+.mui-field.mui-field-floating:has(> :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown), > .mui-field-body > :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown), > textarea.mui-input[placeholder]:not(:placeholder-shown), > .mui-field-body > textarea.mui-input[placeholder]:not(:placeholder-shown), > :is(.mui-select, .mui-color-input, .mui-color-picker, .mui-color-picker-container), > .mui-field-body > :is(.mui-select, .mui-color-input, .mui-color-picker, .mui-color-picker-container)) > .mui-field-label:not(.mui-field-label-horizontal) {
     block-size: 2.5rem;
     line-height: 2.5rem;
     font-size: 0.75rem;

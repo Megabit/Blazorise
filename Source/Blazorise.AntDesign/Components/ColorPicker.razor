@@ -1,29 +1,45 @@
 @inherits Blazorise.ColorPicker
-<div @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ContainerClassNames" style="@StyleNames" value="@CurrentValueAsString" data-show-value="@ShowValueString" data-custom-preview="@CustomPreviewString" role="button" aria-haspopup="dialog" tabindex="@TabIndex" aria-disabled="@AriaDisabledString" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
-    <span class="ant-input-color-picker-preview">
-        @if ( PreviewContent is not null )
+<CascadingValue Value="@this">
+    <Div Class="@PickerContainerClassNames" Style="@PickerContainerStyleNames" data-show-value="@ShowValueString">
+        <button @ref="@ElementRef" id="@ElementId" type="button" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" value="@CurrentValueAsString" data-color="@CurrentValueAsString" data-show-value="@ShowValueString" data-custom-preview="@CustomPreviewString" aria-haspopup="dialog" aria-expanded="@AriaExpandedString" aria-controls="@MenuElementId" tabindex="@TabIndex" aria-disabled="@AriaDisabledString" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @onclick="@OnClickHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+        <Span Class="@PreviewClassNames">
+            @if ( PreviewContent is not null )
+            {
+                @PreviewContent
+            }
+            else
+            {
+                <Span Class="@SwatchClassNames" Style="@SwatchStyleNames" />
+            }
+            @if ( ShowValue )
+            {
+                <Span Class="ant-input-color-picker-current-value ant-color-picker-trigger-text">@CurrentValueAsString</Span>
+            }
+        </Span>
+        </button>
+        @if ( IsPickerVisible )
         {
-            @PreviewContent
+            <_ColorPickerMenu />
         }
-        else
-        {
-            <span class="ant-input-color-picker-current-color ant-color-picker-color-block" style="@SwatchStyleNames"></span>
-        }
-        <span class="ant-input-color-picker-current-value ant-color-picker-trigger-text">@DisplayValue</span>
-    </span>
-</div>
+    </Div>
+</CascadingValue>
 @ChildContent
 @Feedback
 @code {
-    string ContainerClassNames => IsDisabled
-        ? $"{ClassNames} ant-color-picker-trigger ant-color-picker-trigger-disabled"
-        : $"{ClassNames} ant-color-picker-trigger";
+    /// <inheritdoc/>
+    protected override void BuildClasses( Blazorise.Utilities.ClassBuilder builder )
+    {
+        builder.Append( "ant-color-picker-trigger" );
+        builder.Append( "ant-color-picker-trigger-disabled", IsDisabled );
 
-    string DisplayValue => CurrentValueAsString?.ToUpperInvariant() ?? string.Empty;
+        base.BuildClasses( builder );
+    }
 
-    string SwatchStyleNames => $"background: {CurrentValueAsString ?? "#1677ff"};";
+    /// <inheritdoc/>
+    protected override void BuildSwatchClasses( Blazorise.Utilities.ClassBuilder builder )
+    {
+        builder.Append( "ant-color-picker-color-block" );
 
-    protected override string ColorPreviewElementSelector => ":scope > .ant-input-color-picker-preview > .ant-input-color-picker-current-color";
-
-    protected override string ColorValueElementSelector => ":scope > .ant-input-color-picker-preview > .ant-input-color-picker-current-value";
+        base.BuildSwatchClasses( builder );
+    }
 }

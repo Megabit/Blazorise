@@ -2997,11 +2997,205 @@ input[readonly=readonly][type=range]::-ms-thumb {
 .form-control.form-control-color-picker[data-show-value=false]::after, .form-control.form-control-color-picker:not([data-color])::after, .form-control.form-control-color-picker[data-color=""]::after, .form-control.form-control-color-picker[data-color=null]::after {
   display: none;
 }
-.form-control.form-control-color-picker[data-show-value=false] {
-  flex: 0 0 auto;
-}
 .form-control.form-control-color-picker[aria-disabled=true] {
   opacity: 0.65;
+}
+
+.form-control-color-picker-container {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  min-width: 0;
+  vertical-align: middle;
+  anchor-name: --bootstrap-color-picker-anchor;
+  anchor-scope: --bootstrap-color-picker-anchor;
+}
+.form-control-color-picker-container:has(> .form-control-color-picker-menu) {
+  z-index: 1060;
+}
+.form-control-color-picker-container > button {
+  text-align: start;
+  cursor: pointer;
+}
+.form-control-color-picker-container > button:disabled {
+  cursor: not-allowed;
+}
+.form-control-color-picker-menu {
+  position: absolute;
+  inset-block-start: calc(100% + 0.25rem);
+  inset-inline-start: 0;
+  z-index: 1060;
+  display: block;
+  box-sizing: border-box;
+  width: 18rem;
+  min-width: 0;
+  max-width: calc(100vw - 1rem);
+  max-height: calc(100vh - 1rem);
+  overflow: auto;
+  padding: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+  background: #fff;
+  color: #212529;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+  font-family: inherit;
+  text-align: start;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+}
+.form-control-color-picker-menu[data-animation-duration] {
+  transition-duration: var(--dropdown-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--dropdown-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .form-control-color-picker-menu[data-animation-duration] {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .form-control-color-picker-menu {
+    animation: none;
+  }
+}
+@supports (position-anchor: --bootstrap-color-picker-anchor) and (anchor-scope: --bootstrap-color-picker-anchor) {
+  .form-control-color-picker-menu {
+    position: fixed;
+    position-anchor: --bootstrap-color-picker-anchor;
+    inset: auto;
+    top: anchor(bottom);
+    inset-inline-start: anchor(start);
+    margin-block-start: 0.25rem;
+    position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  }
+}
+.form-control-color-picker-surface {
+  position: relative;
+  width: 100%;
+  height: 10rem;
+  border-radius: 0.25rem;
+  background-image: linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, transparent);
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+  direction: ltr;
+}
+.form-control-color-picker-surface:focus-visible {
+  outline: 2px solid rgb(127.5, 189, 255);
+  outline-offset: 2px;
+}
+.form-control-color-picker-marker {
+  position: absolute;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #000;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.form-control-color-picker-slider[data-color-channel] {
+  position: relative;
+  width: 100%;
+  min-height: 2.5rem;
+  direction: ltr;
+}
+.form-control-color-picker-slider[data-color-channel]::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0.5rem;
+  top: 50%;
+  height: 0.5rem;
+  border-radius: 999px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.form-control-color-picker-slider[data-color-channel][data-color-channel=hue]::before {
+  background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+.form-control-color-picker-slider[data-color-channel][data-color-channel=opacity]::before {
+  background-image: linear-gradient(to right, transparent, currentColor), repeating-conic-gradient(#fff 0% 25%, #ccc 0% 50%);
+  background-size: 100% 100%, 0.5rem 0.5rem;
+}
+.form-control-color-picker-slider[data-color-channel] input[type=range] {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  opacity: 1;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.form-control-color-picker-slider[data-color-channel] input[type=range]::-webkit-slider-runnable-track {
+  height: 0.5rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+.form-control-color-picker-slider[data-color-channel] input[type=range]::-moz-range-track, .form-control-color-picker-slider[data-color-channel] input[type=range]::-moz-range-progress {
+  height: 0.5rem;
+  border: 0;
+  background: transparent;
+}
+.form-control-color-picker-slider[data-color-channel] input[type=range]::-webkit-slider-thumb {
+  box-sizing: border-box;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  margin-top: -0.25rem;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.form-control-color-picker-slider[data-color-channel] input[type=range]::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+.form-control-color-picker-slider[data-color-channel] input[type=range]:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid rgb(127.5, 189, 255);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  transform: none;
+}
+.form-control-color-picker-slider[data-color-channel] input[type=range]:focus-visible::-moz-range-thumb {
+  outline: 2px solid rgb(127.5, 189, 255);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  transform: none;
+}
+
+.input-group > .form-control-color-picker-container {
+  flex: 1 1 auto;
+  width: 1%;
+}
+.input-group > .form-control-color-picker-container:not(:first-child) > .form-control-color-picker {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.input-group > .form-control-color-picker-container:not(:last-child) > .form-control-color-picker {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .range-slider {

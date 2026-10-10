@@ -149,11 +149,11 @@
     }
 
     &-grid-item[data-property-grid-editor="color"] {
-        .mui-addon-body:has(> .mui-color-picker) {
+        .mui-addon-body:has(> .mui-color-picker-container) {
             flex: none;
         }
 
-        .mui-addon-body > .mui-color-picker {
+        .mui-addon-body > .mui-color-picker-container > .mui-color-picker {
             box-sizing: border-box;
             flex: 0 0 var(--mui-input-size);
             inline-size: var(--mui-input-size);

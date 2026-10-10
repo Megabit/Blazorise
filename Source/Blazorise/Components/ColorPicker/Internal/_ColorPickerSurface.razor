@@ -1,0 +1,22 @@
+@namespace Blazorise
+@inherits BaseComponent
+
+<div @ref="@ElementRef"
+     id="@ElementId"
+     class="@ClassNames"
+     style="@StyleNames"
+     role="group"
+     aria-label="@($"{Parent.Localize( "aria:palette" )}: {Parent.SelectedColor.ToHexString()}")"
+     tabindex="0"
+     @onpointerdown="@NonRenderingPointerDownHandler"
+     @onpointerdown:preventDefault
+     @onpointermove="@NonRenderingPointerMoveHandler"
+     @onpointermove:stopPropagation
+     @onpointerup="@NonRenderingPointerUpHandler"
+     @onpointerup:stopPropagation
+     @onpointercancel="@NonRenderingPointerCancelHandler"
+     @onpointercancel:stopPropagation
+     @onkeydown="@NonRenderingKeyDownHandler"
+     @onkeydown:preventDefault>
+    <Span Class="@MarkerClassNames" Style="@MarkerStyleNames" aria-hidden="true" />
+</div>

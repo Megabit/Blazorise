@@ -11,6 +11,8 @@
     "aria:btn:save": "gem og luk",
     "aria:btn:cancel": "annuller og luk",
     "aria:btn:clear": "ryd og luk",
+    "aria:format": "farveformat",
+    "aria:btn:copy": "kopiér farve",
     "aria:input": "farvevalg",
     "aria:palette": "farvevalgs palette",
     "aria:hue": "skyder til farvenuancevalg",

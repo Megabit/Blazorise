@@ -3960,11 +3960,192 @@ fieldset.columns > legend.field-label ~ .column {
 .input.color-picker[data-show-value=false]::after, .input.color-picker:not([data-color])::after, .input.color-picker[data-color=""]::after, .input.color-picker[data-color=null]::after {
   display: none;
 }
-.input.color-picker[data-show-value=false] {
-  flex: 0 0 auto;
-}
 .input.color-picker[aria-disabled=true] {
   opacity: 0.65;
+}
+
+.color-picker-container {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  min-width: 0;
+  vertical-align: middle;
+  anchor-name: --bulma-color-picker-anchor;
+  anchor-scope: --bulma-color-picker-anchor;
+}
+.color-picker-container:has(> .color-picker-menu) {
+  z-index: 42;
+}
+.color-picker-container > button {
+  text-align: start;
+  cursor: pointer;
+}
+.color-picker-container > button:disabled {
+  cursor: not-allowed;
+}
+.color-picker-menu {
+  position: absolute;
+  inset-block-start: calc(100% + 0.25rem);
+  inset-inline-start: 0;
+  z-index: 42;
+  display: block;
+  box-sizing: border-box;
+  width: 18rem;
+  min-width: 0;
+  max-width: calc(100vw - 1rem);
+  max-height: calc(100vh - 1rem);
+  overflow: auto;
+  padding: 0.75rem;
+  border: 1px solid var(--bulma-border);
+  border-radius: var(--bulma-radius);
+  background: var(--bulma-scheme-main);
+  color: var(--bulma-text);
+  box-shadow: var(--bulma-shadow);
+  font-family: inherit;
+  text-align: start;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+}
+.color-picker-menu[data-animation-duration] {
+  transition-duration: var(--bulma-dropdown-animation-duration) !important;
+  transition-delay: 0s !important;
+  animation-duration: var(--bulma-dropdown-animation-duration) !important;
+  animation-delay: 0s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .color-picker-menu[data-animation-duration] {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .color-picker-menu {
+    animation: none;
+  }
+}
+@supports (position-anchor: --bulma-color-picker-anchor) and (anchor-scope: --bulma-color-picker-anchor) {
+  .color-picker-menu {
+    position: fixed;
+    position-anchor: --bulma-color-picker-anchor;
+    inset: auto;
+    top: anchor(bottom);
+    inset-inline-start: anchor(start);
+    margin-block-start: 0.25rem;
+    position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  }
+}
+.color-picker-surface {
+  position: relative;
+  width: 100%;
+  height: 10rem;
+  border-radius: 0.25rem;
+  background-image: linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, transparent);
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+  direction: ltr;
+}
+.color-picker-surface:focus-visible {
+  outline: 2px solid var(--bulma-link);
+  outline-offset: 2px;
+}
+.color-picker-marker {
+  position: absolute;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #000;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.color-picker-slider[data-color-channel] {
+  position: relative;
+  width: 100%;
+  min-height: 2.5rem;
+  direction: ltr;
+}
+.color-picker-slider[data-color-channel]::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0.5rem;
+  top: 50%;
+  height: 0.5rem;
+  border-radius: 999px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.color-picker-slider[data-color-channel][data-color-channel=hue]::before {
+  background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+.color-picker-slider[data-color-channel][data-color-channel=opacity]::before {
+  background-image: linear-gradient(to right, transparent, currentColor), repeating-conic-gradient(#fff 0% 25%, #ccc 0% 50%);
+  background-size: 100% 100%, 0.5rem 0.5rem;
+}
+.color-picker-slider[data-color-channel] input[type=range] {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  opacity: 1;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.color-picker-slider[data-color-channel] input[type=range]::-webkit-slider-runnable-track {
+  height: 0.5rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+.color-picker-slider[data-color-channel] input[type=range]::-moz-range-track, .color-picker-slider[data-color-channel] input[type=range]::-moz-range-progress {
+  height: 0.5rem;
+  border: 0;
+  background: transparent;
+}
+.color-picker-slider[data-color-channel] input[type=range]::-webkit-slider-thumb {
+  box-sizing: border-box;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  margin-top: -0.25rem;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.color-picker-slider[data-color-channel] input[type=range]::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+.color-picker-slider[data-color-channel] input[type=range]:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid hsl(171, 100%, 41%);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  transform: none;
+}
+.color-picker-slider[data-color-channel] input[type=range]:focus-visible::-moz-range-thumb {
+  outline: 2px solid hsl(171, 100%, 41%);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  transform: none;
 }
 
 :is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit, .datepicker, .timepicker) + .help.is-success,
@@ -5027,7 +5208,7 @@ li.list-group-item-action {
   width: 100%;
   min-width: 0;
 }
-.property-grid-item[data-property-grid-editor=color] .field.has-addons > .control:has(> .color-picker) {
+.property-grid-item[data-property-grid-editor=color] .field.has-addons > .control:has(> .color-picker-container) {
   flex: none;
 }
 .property-grid-item[data-property-grid-editor=color] .color-picker {

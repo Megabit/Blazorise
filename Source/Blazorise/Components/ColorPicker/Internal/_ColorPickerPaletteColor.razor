@@ -1,0 +1,50 @@
+@namespace Blazorise
+@inherits BaseComponent
+
+@if ( ColorPickerColor.TryParse( Value, out _ ) )
+{
+    <Button Type="ButtonType.Button"
+            ElementId="@ElementId"
+            Class="@ClassNames"
+            Style="@StyleNames"
+            Active="@IsSelected"
+            Width="Blazorise.Width.Rem( 1.5 ).Min( 0 )"
+            Height="Blazorise.Height.Rem( 1.5 ).Min( 0 )"
+            Padding="Blazorise.Padding.Is0"
+            Border="Blazorise.Border.Is1.Rounded"
+            Background="@(new Background( ColorPicker.GetColorString( Value ) ))"
+            Flex="Blazorise.Flex.InlineFlex.AlignItems.Center.JustifyContent.Center.Shrink.Is0"
+            Clicked="@OnClickHandler"
+            aria-label="@($"{Parent.Localize( "btn:swatch" )}: {Value}")"
+            aria-pressed="@(IsSelected ? "true" : "false")" />
+}
+
+@code {
+    #region Methods
+
+    /// <summary>
+    /// Selects the palette color in the parent picker.
+    /// </summary>
+    private System.Threading.Tasks.Task OnClickHandler( Microsoft.AspNetCore.Components.Web.MouseEventArgs eventArgs ) => Parent.SelectPaletteColor( Value );
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets whether this palette color matches the parent's current value.
+    /// </summary>
+    private bool IsSelected => ColorPicker.GetColorString( Parent.Value ) == ColorPicker.GetColorString( Value );
+
+    /// <summary>
+    /// Gets or sets the CSS color represented by this palette entry.
+    /// </summary>
+    [Parameter] public string Value { get; set; }
+
+    /// <summary>
+    /// Gets or sets the color picker that owns this palette entry.
+    /// </summary>
+    [CascadingParameter] public ColorPicker Parent { get; set; }
+
+    #endregion
+}

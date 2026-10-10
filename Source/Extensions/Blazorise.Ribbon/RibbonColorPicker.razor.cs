@@ -197,7 +197,18 @@ public partial class RibbonColorPicker : BaseRibbonItem, IDisposable
     protected Task OnMoreColorsClickedHandler() => HandleMoreColorsClicked();
 
     /// <summary>
-    /// Anchors the full picker to the ribbon command before closing the preset menu.
+    /// Handles keyboard activation of the full color picker from More Colors.
+    /// </summary>
+    protected Task OnMoreColorsKeyDownHandler( KeyboardEventArgs eventArgs ) => HandleMoreColorsKeyDown( eventArgs );
+
+    /// <summary>
+    /// Opens the full picker against the ribbon command when the opening arrow key is pressed.
+    /// </summary>
+    protected virtual Task HandleMoreColorsKeyDown( KeyboardEventArgs eventArgs )
+        => eventArgs.Key == "ArrowDown" ? HandleMoreColorsClicked() : Task.CompletedTask;
+
+    /// <summary>
+    /// Opens the full picker and closes the preset menu.
     /// </summary>
     protected virtual async Task HandleMoreColorsClicked()
     {
@@ -206,7 +217,7 @@ public partial class RibbonColorPicker : BaseRibbonItem, IDisposable
             return;
         }
 
-        await pickerRef.JSModule.Show( pickerRef.ElementRef, pickerRef.ElementId, ToggleElementId );
+        await pickerRef.Show( ToggleElementId );
         await dropdownRef.Hide();
     }
 

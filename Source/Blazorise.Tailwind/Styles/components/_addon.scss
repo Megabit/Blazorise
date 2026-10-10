@@ -19,7 +19,8 @@
         > input,
         > div.tw-datepicker > input,
         > div.tw-numeric > input,
-        > div.tw-timepicker > input {
+        > div.tw-timepicker > input,
+        > div.tw-color-picker-container > button {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
@@ -50,7 +51,8 @@
         > input,
         > div.tw-datepicker,
         > div.tw-numeric,
-        > div.tw-timepicker {
+        > div.tw-timepicker,
+        > div.tw-color-picker-container {
             position: relative;
             flex: 1 1 auto;
             width: 1%;
@@ -62,7 +64,8 @@
         > input,
         > div.tw-datepicker > input,
         > div.tw-numeric > input,
-        > div.tw-timepicker > input {
+        > div.tw-timepicker > input,
+        > div.tw-color-picker-container > button {
             border-left: 0;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;

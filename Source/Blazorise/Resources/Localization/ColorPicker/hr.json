@@ -11,6 +11,8 @@
     "aria:btn:save": "spremi i zatvori",
     "aria:btn:cancel": "otkaži i zatvori",
     "aria:btn:clear": "očisti i zatvori",
+    "aria:format": "format boje",
+    "aria:btn:copy": "kopiraj boju",
     "aria:input": "polje za unos boje",
     "aria:palette": "područje odabira boje",
     "aria:hue": "klizač za odabir nijanse",

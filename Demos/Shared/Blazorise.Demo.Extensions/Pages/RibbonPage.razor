@@ -5,7 +5,7 @@
 <Div Margin="Margin.Is4.OnY">
     <Heading Size="HeadingSize.Is3">Word ribbon</Heading>
     <Paragraph TextColor="TextColor.Secondary">
-        Explore grouped commands, split buttons, style previews, and contextual tabs. Formatting applies to the sample document; undo and redo restore earlier changes.
+        Explore grouped commands, split buttons, style previews, and contextual tabs. Commands report their invocation without implementing a document editor.
     </Paragraph>
 </Div>
 
@@ -80,8 +80,8 @@
                             <RibbonToggleButton Text="Strikethrough" Icon="IconName.Strikethrough" Size="RibbonItemSize.Small" Checked="@Document.Strikethrough" CheckedChanged="@OnStrikethroughChangedHandler" />
                             <RibbonButton Text="Subscript" Icon="IconName.Subscript" Size="RibbonItemSize.Small" Clicked="@OnSubscriptHandler" />
                             <RibbonButton Text="Superscript" Icon="IconName.Superscript" Size="RibbonItemSize.Small" Clicked="@OnSuperscriptHandler" />
-                            <RibbonColorPicker Size="RibbonItemSize.Small" Value="@Document.HighlightColor" ValueChanged="@OnHighlightChangedHandler" Text="Text highlight color" Icon="IconName.Highlighter" PalettePreset="RibbonColorPalette.Standard" PaletteText="Highlight colors" />
-                            <RibbonColorPicker Size="RibbonItemSize.Small" Value="@Document.FontColor" ValueChanged="@OnFontColorChangedHandler" Text="Font color" Icon="IconName.Palette" ShowAutomatic AutomaticClicked="@OnAutomaticFontColorHandler" />
+                            <RibbonColorPicker Size="RibbonItemSize.Small" Value="@highlightColor" ValueChanged="@NonRenderingHighlightChangedHandler" Text="Text highlight color" Icon="IconName.Highlighter" PalettePreset="RibbonColorPalette.Standard" PaletteText="Highlight colors" />
+                            <RibbonColorPicker Size="RibbonItemSize.Small" Value="@fontColor" ValueChanged="@NonRenderingFontColorChangedHandler" Text="Font color" Icon="IconName.Palette" ShowAutomatic AutomaticClicked="@OnAutomaticFontColorHandler" />
                         </RibbonRow>
                     </RibbonGroup>
 
@@ -448,7 +448,7 @@
 
 <Div Margin="Margin.Is4.FromTop">
     <Heading Size="HeadingSize.Is4">Simple File menu</Heading>
-    <Paragraph TextColor="TextColor.Secondary">This ribbon uses a dropdown File menu with nested Save As commands. New, Open, and Save update the Word sample above; format commands report their invocation.</Paragraph>
+    <Paragraph TextColor="TextColor.Secondary">This ribbon uses a dropdown File menu with nested Save As commands. Commands report their invocation.</Paragraph>
     <Ribbon SelectedTab="home" ShowCollapseButton="false" Border="Border.Is1.Rounded" Background="Background.White" Label="Simple document commands">
         <ApplicationTab>
             <RibbonApplicationMenu Text="File">

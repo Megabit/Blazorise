@@ -21,6 +21,11 @@ public class DocumentEventArgs
     public long PointerId { get; set; }
 
     /// <summary>
+    /// Gets or sets the bitmask of pointer buttons currently pressed.
+    /// </summary>
+    public long Buttons { get; set; }
+
+    /// <summary>
     /// Gets or sets the document client X coordinate.
     /// </summary>
     public double ClientX { get; set; }

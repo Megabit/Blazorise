@@ -317,6 +317,7 @@ function createDocumentObserver() {
             type: getDocumentEventType(event.type),
             eventName: event.type,
             pointerId: typeof event.pointerId === "number" ? event.pointerId : 0,
+            buttons: typeof event.buttons === "number" ? event.buttons : 0,
             clientX: point.clientX,
             clientY: point.clientY,
             pageX: point.pageX,
