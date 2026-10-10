@@ -1,7 +1,5 @@
 #region Using directives
 using System;
-using System.Globalization;
-using System.Text.RegularExpressions;
 using Blazorise.Utilities;
 #endregion
 
@@ -26,33 +24,13 @@ internal readonly record struct ColorPickerColor( double Hue, double Saturation,
     {
         color = default;
 
-        if ( !HtmlColorCodeParser.TryParse( value, out var parsedColor ) )
+        if ( !HtmlColorCodeParser.TryParse( value, out var parsedColor, out var alpha ) )
         {
             return false;
         }
 
-        value = value.Trim();
-
         var maximum = Math.Max( parsedColor.R, Math.Max( parsedColor.G, parsedColor.B ) );
         var minimum = Math.Min( parsedColor.R, Math.Min( parsedColor.G, parsedColor.B ) );
-        var alpha = parsedColor.A / 255d;
-        var opening = value.IndexOf( '(' );
-
-        if ( opening >= 0 )
-        {
-            var parts = Regex.Split( value[( opening + 1 )..^1].Trim(), @"\s*[,/]\s*|\s+" );
-
-            if ( parts.Length == 4 )
-            {
-                var percentage = parts[3].EndsWith( '%' );
-                var opacity = percentage ? parts[3][..^1] : parts[3];
-
-                if ( double.TryParse( opacity, NumberStyles.Float, CultureInfo.InvariantCulture, out var parsedAlpha ) && double.IsFinite( parsedAlpha ) )
-                {
-                    alpha = Math.Clamp( percentage ? parsedAlpha / 100 : parsedAlpha, 0, 1 );
-                }
-            }
-        }
 
         color = new(
             parsedColor.GetHue(),
