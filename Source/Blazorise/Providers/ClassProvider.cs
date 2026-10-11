@@ -183,9 +183,9 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ColorPickerSize( Size size );
 
-    public virtual string ColorPickerContainer() => null;
+    public virtual string ColorPickerContainer( bool inline ) => null;
 
-    public virtual string ColorPickerMenu() => null;
+    public virtual string ColorPickerMenu( bool inline ) => null;
 
     public virtual string ColorPickerSurface() => null;
 

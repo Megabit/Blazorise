@@ -11589,7 +11589,7 @@ body .b-report {
   anchor-name: --material-color-picker-anchor;
   anchor-scope: --material-color-picker-anchor;
 }
-.mui-color-picker-container:has(> .mui-color-picker-menu) {
+.mui-color-picker-container:not(.mui-color-picker-container-inline):has(> .mui-color-picker-menu) {
   z-index: var(--mui-zindex-popover);
 }
 .mui-color-picker-container > button {
@@ -11657,6 +11657,17 @@ body .b-report {
     margin-block-start: 0.25rem;
     position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
   }
+}
+.mui-color-picker-menu-inline {
+  position: static;
+  inset: auto;
+  z-index: auto;
+  max-width: 100%;
+  max-height: none;
+  margin: 0;
+  box-shadow: none;
+  animation: none;
+  transition: none;
 }
 .mui-color-picker-surface {
   position: relative;

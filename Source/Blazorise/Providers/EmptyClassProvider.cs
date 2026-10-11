@@ -185,9 +185,9 @@ class EmptyClassProvider : IClassProvider
 
     public string ColorPickerSize( Size size ) => null;
 
-    public string ColorPickerContainer() => null;
+    public string ColorPickerContainer( bool inline ) => null;
 
-    public string ColorPickerMenu() => null;
+    public string ColorPickerMenu( bool inline ) => null;
 
     public string ColorPickerSurface() => null;
 

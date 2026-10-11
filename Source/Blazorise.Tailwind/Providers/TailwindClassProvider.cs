@@ -235,19 +235,30 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ColorPickerSize( Size size ) => TextInputSize( size );
 
-    public override string ColorPickerContainer() => "relative inline-flex w-full min-w-0 align-middle has-[>[role=dialog]]:z-50 [anchor-name:--tw-color-picker-anchor] [anchor-scope:--tw-color-picker-anchor]";
+    public override string ColorPickerContainer( bool inline )
+        => inline
+            ? "relative inline-flex w-full min-w-0 align-middle"
+            : "relative inline-flex w-full min-w-0 align-middle has-[>[role=dialog]]:z-50 [anchor-name:--tw-color-picker-anchor] [anchor-scope:--tw-color-picker-anchor]";
 
-    public override string ColorPickerMenu()
+    public override string ColorPickerMenu( bool inline )
     {
-        var builder = new StringBuilder( "absolute top-full start-0 z-50 mt-1 w-72 max-w-[calc(100vw-1rem)] max-h-[calc(100vh-1rem)] overflow-auto rounded-lg border border-secondary-200 bg-white p-3 text-secondary-900 shadow-lg dark:border-secondary-700 dark:bg-secondary-900 dark:text-white " );
+        var builder = new StringBuilder( "block box-border w-72 min-w-0 overflow-auto rounded-lg border border-secondary-200 bg-white p-3 text-secondary-900 dark:border-secondary-700 dark:bg-secondary-900 dark:text-white " );
 
-        builder.Append( "opacity-100 starting:opacity-0 transition-opacity data-[animation-duration]:[transition-duration:var(--tw-dropdown-animation-duration)] motion-reduce:transition-none " );
-        builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:fixed " );
-        builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:[position-anchor:--tw-color-picker-anchor] " );
-        builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:inset-auto " );
-        builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:top-[anchor(bottom)] " );
-        builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:[inset-inline-start:anchor(start)] " );
-        builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:[position-try-fallbacks:flip-block,flip-inline,flip-block_flip-inline]" );
+        if ( inline )
+        {
+            builder.Append( "static max-w-full" );
+        }
+        else
+        {
+            builder.Append( "absolute top-full start-0 z-50 mt-1 max-w-[calc(100vw-1rem)] max-h-[calc(100vh-1rem)] shadow-lg " );
+            builder.Append( "opacity-100 starting:opacity-0 transition-opacity data-[animation-duration]:[transition-duration:var(--tw-dropdown-animation-duration)] motion-reduce:transition-none " );
+            builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:fixed " );
+            builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:[position-anchor:--tw-color-picker-anchor] " );
+            builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:inset-auto " );
+            builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:top-[anchor(bottom)] " );
+            builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:[inset-inline-start:anchor(start)] " );
+            builder.Append( "supports-[(position-anchor:--tw-color-picker-anchor)_and_(anchor-scope:--tw-color-picker-anchor)]:[position-try-fallbacks:flip-block,flip-inline,flip-block_flip-inline]" );
+        }
 
         return builder.ToString();
     }

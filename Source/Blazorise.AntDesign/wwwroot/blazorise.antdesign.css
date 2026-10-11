@@ -7232,7 +7232,7 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
   anchor-name: --ant-color-picker-anchor;
   anchor-scope: --ant-color-picker-anchor;
 }
-.ant-input-color-picker-container:has(> .ant-input-color-picker-menu) {
+.ant-input-color-picker-container:not(.ant-input-color-picker-container-inline):has(> .ant-input-color-picker-menu) {
   z-index: var(--ant-picker-z-index-popup);
 }
 .ant-input-color-picker-container > button {
@@ -7300,6 +7300,17 @@ textarea.ant-input[data-autosize=true].ant-input-xl {
     margin-block-start: 0.25rem;
     position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
   }
+}
+.ant-input-color-picker-menu-inline {
+  position: static;
+  inset: auto;
+  z-index: auto;
+  max-width: 100%;
+  max-height: none;
+  margin: 0;
+  box-shadow: none;
+  animation: none;
+  transition: none;
 }
 .ant-input-color-picker-surface {
   position: relative;

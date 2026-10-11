@@ -3010,7 +3010,7 @@ input[readonly=readonly][type=range]::-ms-thumb {
   anchor-name: --bootstrap-color-picker-anchor;
   anchor-scope: --bootstrap-color-picker-anchor;
 }
-.form-control-color-picker-container:has(> .form-control-color-picker-menu) {
+.form-control-color-picker-container:not(.form-control-color-picker-container-inline):has(> .form-control-color-picker-menu) {
   z-index: 1060;
 }
 .form-control-color-picker-container > button {
@@ -3072,6 +3072,17 @@ input[readonly=readonly][type=range]::-ms-thumb {
     margin-block-start: 0.25rem;
     position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
   }
+}
+.form-control-color-picker-menu-inline {
+  position: static;
+  inset: auto;
+  z-index: auto;
+  max-width: 100%;
+  max-height: none;
+  margin: 0;
+  box-shadow: none;
+  animation: none;
+  transition: none;
 }
 .form-control-color-picker-surface {
   position: relative;

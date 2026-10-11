@@ -8,7 +8,7 @@
         anchor-name: --ant-color-picker-anchor;
         anchor-scope: --ant-color-picker-anchor;
 
-        &:has(> .ant-input-color-picker-menu) {
+        &:not(.ant-input-color-picker-container-inline):has(> .ant-input-color-picker-menu) {
             z-index: var(--ant-picker-z-index-popup);
         }
 
@@ -68,6 +68,18 @@
             inset-inline-start: anchor(start);
             margin-block-start: .25rem;
             position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+        }
+
+        &-inline {
+            position: static;
+            inset: auto;
+            z-index: auto;
+            max-width: 100%;
+            max-height: none;
+            margin: 0;
+            box-shadow: none;
+            animation: none;
+            transition: none;
         }
     }
 

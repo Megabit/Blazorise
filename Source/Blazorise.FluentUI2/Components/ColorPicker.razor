@@ -1,22 +1,25 @@
 @inherits Blazorise.ColorPicker
 <CascadingValue Value="@this">
     <Div Class="@PickerContainerClassNames" Style="@PickerContainerStyleNames" data-show-value="@ShowValueString">
-        <Div Class="@(ParentIsAddons ? AddonClassNames : InputClassNames)" Style="@WrapperStyleNames" data-show-value="@ShowValueString">
-            <button @ref="@ElementRef" id="@ElementId" type="button" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" value="@CurrentValueAsString" data-color="@CurrentValueAsString" data-show-value="@ShowValueString" data-custom-preview="@CustomPreviewString" aria-haspopup="dialog" aria-expanded="@AriaExpandedString" aria-controls="@MenuElementId" tabindex="@TabIndex" aria-disabled="@AriaDisabledString" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @onclick="@OnClickHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
-                @if ( PreviewContent is not null )
-                {
-                    @PreviewContent
-                }
-                else
-                {
-                    <Span Class="@SwatchClassNames" Style="@SwatchStyleNames" />
-                }
-                @if ( ShowValue )
-                {
-                    <Span Class="@ColorValueClassNames">@CurrentValueAsString</Span>
-                }
-            </button>
-        </Div>
+        @if ( !Inline )
+        {
+            <Div Class="@(ParentIsAddons ? AddonClassNames : InputClassNames)" Style="@WrapperStyleNames" data-show-value="@ShowValueString">
+                <button @ref="@ElementRef" id="@ElementId" type="button" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" value="@CurrentValueAsString" data-color="@CurrentValueAsString" data-show-value="@ShowValueString" data-custom-preview="@CustomPreviewString" aria-haspopup="dialog" aria-expanded="@AriaExpandedString" aria-controls="@MenuElementId" tabindex="@TabIndex" aria-disabled="@AriaDisabledString" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @onclick="@OnClickHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+                    @if ( PreviewContent is not null )
+                    {
+                        @PreviewContent
+                    }
+                    else
+                    {
+                        <Span Class="@SwatchClassNames" Style="@SwatchStyleNames" />
+                    }
+                    @if ( ShowValue )
+                    {
+                        <Span Class="@ColorValueClassNames">@CurrentValueAsString</Span>
+                    }
+                </button>
+            </Div>
+        }
         @if ( IsPickerVisible )
         {
             <_ColorPickerMenu />

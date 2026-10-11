@@ -6,9 +6,10 @@
      class="@ClassNames"
      style="@StyleNames"
      data-mode="@(Parent.IsWheelSurface ? "wheel" : "square")"
+     aria-disabled="@(Parent.IsInteractionDisabled ? "true" : "false")"
      role="group"
      aria-label="@($"{Parent.Localize( "aria:palette" )}: {Parent.SelectedColor.ToHexString()}")"
-     tabindex="0"
+     tabindex="@(Parent.IsInteractionDisabled ? -1 : 0)"
      @onpointerdown="@NonRenderingPointerDownHandler"
      @onpointerdown:preventDefault
      @onpointermove="@NonRenderingPointerMoveHandler"
@@ -18,6 +19,6 @@
      @onpointercancel="@NonRenderingPointerCancelHandler"
      @onpointercancel:stopPropagation
      @onkeydown="@NonRenderingKeyDownHandler"
-     @onkeydown:preventDefault>
+     @onkeydown:preventDefault="@(!Parent.Inline)">
     <Span Class="@MarkerClassNames" Style="@MarkerStyleNames" aria-hidden="true" />
 </div>

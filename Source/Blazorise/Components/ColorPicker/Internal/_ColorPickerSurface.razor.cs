@@ -38,6 +38,11 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
     /// </summary>
     private Task<IAsyncDisposable> pointerSubscriptionTask;
 
+    /// <summary>
+    /// Prevents browser scrolling for inline color-selection keys while allowing native tab navigation.
+    /// </summary>
+    private IAsyncDisposable keyDownSubscription;
+
     #endregion
 
     #region Constructors
@@ -67,12 +72,42 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
     }
 
     /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await base.OnAfterRenderAsync( firstRender );
+
+        if ( firstRender && Parent.Inline )
+        {
+            keyDownSubscription = await DocumentObserver.Subscribe( new()
+            {
+                OwnerId = ElementId,
+                EventTypes = DocumentEventTypes.KeyDown,
+                Selector = $"{CssSelectorUtilities.BuildElementIdSelector( ElementId )}[aria-disabled='false']",
+                KeysFilter = new[] { "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End" },
+                PreventDefault = true,
+            } );
+
+            if ( Disposed || AsyncDisposed )
+            {
+                await keyDownSubscription.DisposeAsync();
+                keyDownSubscription = null;
+            }
+        }
+    }
+
+    /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
         if ( disposing )
         {
             pointerInteraction = null;
             await DisposePointerSubscriptionAsync();
+
+            if ( keyDownSubscription is not null )
+            {
+                await keyDownSubscription.DisposeAsync();
+                keyDownSubscription = null;
+            }
         }
 
         await base.DisposeAsync( disposing );
@@ -290,6 +325,11 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
 
         if ( eventArgs.Key == "Tab" )
         {
+            if ( Parent.Inline )
+            {
+                return;
+            }
+
             if ( eventArgs.ShiftKey )
             {
                 await Parent.Focus( false );

@@ -71,7 +71,7 @@
         anchor-name: --bulma-color-picker-anchor;
         anchor-scope: --bulma-color-picker-anchor;
 
-        &:has(> .color-picker-menu) {
+        &:not(.color-picker-container-inline):has(> .color-picker-menu) {
             z-index: 42;
         }
 
@@ -126,6 +126,18 @@
             inset-inline-start: anchor(start);
             margin-block-start: .25rem;
             position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+        }
+
+        &-inline {
+            position: static;
+            inset: auto;
+            z-index: auto;
+            max-width: 100%;
+            max-height: none;
+            margin: 0;
+            box-shadow: none;
+            animation: none;
+            transition: none;
         }
     }
 

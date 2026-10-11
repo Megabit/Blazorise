@@ -1,0 +1,13 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <FieldLabel>Color</FieldLabel>
+    <FieldBody>
+        <ColorPicker Inline @bind-Value="@colorValue" />
+    </FieldBody>
+    <FieldHelp>Selected color: @colorValue</FieldHelp>
+</Field>
+
+@code {
+    private string colorValue = "#3366ff";
+}

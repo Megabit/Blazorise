@@ -182,9 +182,9 @@ public interface IClassProvider
 
     string ColorPickerSize( Size size );
 
-    string ColorPickerContainer();
+    string ColorPickerContainer( bool inline );
 
-    string ColorPickerMenu();
+    string ColorPickerMenu( bool inline );
 
     string ColorPickerSurface();
 

@@ -71,7 +71,7 @@
         anchor-name: --bootstrap5-color-picker-anchor;
         anchor-scope: --bootstrap5-color-picker-anchor;
 
-        &:has(> .form-control-color-picker-menu) {
+        &:not(.form-control-color-picker-container-inline):has(> .form-control-color-picker-menu) {
             z-index: $zindex-popover;
         }
 
@@ -125,6 +125,18 @@
             inset-inline-start: anchor(start);
             margin-block-start: .25rem;
             position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+        }
+
+        &-inline {
+            position: static;
+            inset: auto;
+            z-index: auto;
+            max-width: 100%;
+            max-height: none;
+            margin: 0;
+            box-shadow: none;
+            animation: none;
+            transition: none;
         }
     }
 

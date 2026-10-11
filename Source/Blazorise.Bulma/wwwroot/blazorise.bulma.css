@@ -3991,7 +3991,7 @@ fieldset.columns > legend.field-label ~ .column {
   anchor-name: --bulma-color-picker-anchor;
   anchor-scope: --bulma-color-picker-anchor;
 }
-.color-picker-container:has(> .color-picker-menu) {
+.color-picker-container:not(.color-picker-container-inline):has(> .color-picker-menu) {
   z-index: 42;
 }
 .color-picker-container > button {
@@ -4053,6 +4053,17 @@ fieldset.columns > legend.field-label ~ .column {
     margin-block-start: 0.25rem;
     position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
   }
+}
+.color-picker-menu-inline {
+  position: static;
+  inset: auto;
+  z-index: auto;
+  max-width: 100%;
+  max-height: none;
+  margin: 0;
+  box-shadow: none;
+  animation: none;
+  transition: none;
 }
 .color-picker-surface {
   position: relative;

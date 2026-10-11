@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Components.Web;
 namespace Blazorise;
 
 /// <summary>
-/// The editor that allows you to select a color from a dropdown menu.
+/// The editor that allows you to select a color from a popup or inline picker.
 /// </summary>
 public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses, ColorPickerStyles>, IAsyncDisposable, ISelectableComponent
 {
@@ -82,8 +82,9 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         var nextPalette = parameters.TryGetValue<string[]>( nameof( Palette ), out var paramPalette ) ? paramPalette : Palette;
         var nextDisabled = parameters.TryGetValue<bool>( nameof( Disabled ), out var paramDisabled ) ? paramDisabled : IsDisabled;
         var nextReadOnly = parameters.TryGetValue<bool>( nameof( ReadOnly ), out var paramReadOnly ) ? paramReadOnly : ReadOnly;
+        parameters.TryGetParameter( Inline, out var paramInline );
 
-        if ( parameters.IsParameterChanged( Animated ) || parameters.IsParameterChanged( AnimationDuration ) )
+        if ( paramInline.Changed || parameters.IsParameterChanged( Animated ) || parameters.IsParameterChanged( AnimationDuration ) )
         {
             MenuStyleBuilder.Dirty();
         }
@@ -94,7 +95,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
             colorBeforeOpen = nextValue;
         }
 
-        if ( nextDisabled || nextReadOnly )
+        if ( nextDisabled || nextReadOnly || paramInline.Changed )
         {
             if ( IsPickerVisible && targetElementId is not null )
             {
@@ -104,6 +105,14 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
             pickerOpen = false;
         }
 
+        if ( paramInline.Changed )
+        {
+            targetElementId = null;
+            colorBeforeOpen = nextValue;
+            PickerContainerClassBuilder.Dirty();
+            MenuClassBuilder.Dirty();
+        }
+
         if ( valueChanged )
         {
             InvalidateSwatchStyles( nextValue );
@@ -111,7 +120,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
 
         await base.SetParametersAsync( parameters );
 
-        if ( !IsPickerVisible && observerCoordinator is not null )
+        if ( ( Inline || !IsPickerVisible ) && observerCoordinator is not null )
         {
             await observerCoordinator.DisposeOutsideSubscriptionAsync();
         }
@@ -151,7 +160,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// </summary>
     internal async Task OnMenuRendered()
     {
-        if ( !IsPickerVisible )
+        if ( Inline || !IsPickerVisible )
         {
             return;
         }
@@ -176,9 +185,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
 
     /// <inheritdoc/>
     public override Task Focus( bool scrollToElement = true )
-        => targetElementId is not null
-            ? JSUtilitiesModule.Focus( default, targetElementId, scrollToElement ).AsTask()
-            : base.Focus( scrollToElement );
+        => Inline
+            ? JSUtilitiesModule.Focus( default, SurfaceElementId, scrollToElement ).AsTask()
+            : targetElementId is not null
+                ? JSUtilitiesModule.Focus( default, targetElementId, scrollToElement ).AsTask()
+                : base.Focus( scrollToElement );
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -204,7 +215,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// </summary>
     private void BuildPickerContainerClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.ColorPickerContainer() );
+        builder.Append( ClassProvider.ColorPickerContainer( Inline ) );
         AppendWrapperUtilities( builder );
     }
 
@@ -216,14 +227,24 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// <summary>
     /// Builds the classes for the picker menu.
     /// </summary>
-    private void BuildMenuClasses( ClassBuilder builder ) => builder.Append( ClassProvider.ColorPickerMenu() );
+    private void BuildMenuClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.ColorPickerMenu( Inline ) );
+        builder.Append( Class, Inline );
+    }
 
     /// <summary>
-    /// Builds the menu anchor and opening animation styles.
+    /// Builds the menu anchor, inline custom styles, and opening animation styles.
     /// </summary>
     private void BuildMenuStyles( StyleBuilder builder )
     {
-        builder.Append( StyleProvider.ColorPickerMenuAnchor( targetElementId ) );
+        if ( !Inline )
+        {
+            builder.Append( StyleProvider.ColorPickerMenuAnchor( targetElementId ) );
+        }
+
+        builder.Append( Style, Inline );
+
         builder.Append( StyleProvider.DropdownAnimationDuration( EffectiveAnimationDuration ) );
     }
 
@@ -268,6 +289,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     protected internal override void DirtyStyles()
     {
         PickerContainerStyleBuilder.Dirty();
+        MenuStyleBuilder.Dirty();
 
         base.DirtyStyles();
     }
@@ -302,7 +324,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// </summary>
     internal async Task OnMenuKeyDownHandler( KeyboardEventArgs eventArgs )
     {
-        if ( eventArgs.Key == "Escape" )
+        if ( !Inline && eventArgs.Key == "Escape" )
         {
             await Hide();
             await Focus( false );
@@ -362,7 +384,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     internal Task OnInputChangedHandler( string text ) => SetValue( text );
 
     /// <summary>
-    /// Confirms the selected color, closes the menu, and restores focus.
+    /// Confirms the selected color, updates the inline restore point, or closes the popup and restores focus.
     /// </summary>
     internal async Task OnSaveClickHandler( MouseEventArgs eventArgs )
     {
@@ -376,28 +398,52 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
             await ApplySelectedColor();
         }
 
+        if ( Inline )
+        {
+            colorBeforeOpen = Value;
+            return;
+        }
+
         await Hide();
         await Focus( false );
     }
 
     /// <summary>
-    /// Clears the selected color, closes the menu, and restores focus.
+    /// Clears the selected color and closes the popup with focus restored when not inline.
     /// </summary>
     internal async Task OnClearClickHandler( MouseEventArgs eventArgs )
     {
+        if ( IsInteractionDisabled )
+        {
+            return;
+        }
+
         await SetValue( null );
-        await Hide();
-        await Focus( false );
+
+        if ( !Inline )
+        {
+            await Hide();
+            await Focus( false );
+        }
     }
 
     /// <summary>
-    /// Restores the color from before the menu opened, closes the menu, and restores focus.
+    /// Restores the saved inline color or the color from before the popup opened, closing the popup with focus restored.
     /// </summary>
     internal async Task OnCancelClickHandler( MouseEventArgs eventArgs )
     {
+        if ( IsInteractionDisabled )
+        {
+            return;
+        }
+
         await SetValue( colorBeforeOpen );
-        await Hide();
-        await Focus( false );
+
+        if ( !Inline )
+        {
+            await Hide();
+            await Focus( false );
+        }
     }
 
     /// <summary>
@@ -422,7 +468,20 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     }
 
     /// <inheritdoc/>
-    public virtual Task Select( bool focus = true ) => JSUtilitiesModule.Select( ElementRef, ElementId, focus ).AsTask();
+    public virtual Task Select( bool focus = true )
+    {
+        if ( !Inline )
+        {
+            return JSUtilitiesModule.Select( ElementRef, ElementId, focus ).AsTask();
+        }
+
+        if ( ShowInputField )
+        {
+            return JSUtilitiesModule.Select( default, InputElementId, focus ).AsTask();
+        }
+
+        return focus ? Focus() : Task.CompletedTask;
+    }
 
     /// <summary>
     /// Opens the color picker when the input is enabled and editable.
@@ -459,11 +518,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     }
 
     /// <summary>
-    /// Closes the color picker.
+    /// Closes the color picker popup. Inline pickers remain visible.
     /// </summary>
     public virtual async Task Hide()
     {
-        if ( !pickerOpen )
+        if ( Inline || !pickerOpen )
         {
             return;
         }
@@ -542,7 +601,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
 
         await SetValue( color.ToHexString() );
 
-        if ( HideAfterPaletteSelect )
+        if ( HideAfterPaletteSelect && !Inline )
         {
             await Hide();
             await Focus( false );
@@ -705,9 +764,14 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     private PickerObserverCoordinator ObserverCoordinator => observerCoordinator ??= new( DocumentObserver );
 
     /// <summary>
-    /// Gets whether the picker menu is open and interaction is enabled.
+    /// Gets whether the picker is inline or its popup is open and interaction is enabled.
     /// </summary>
-    internal bool IsPickerVisible => pickerOpen && !IsInteractionDisabled;
+    internal bool IsPickerVisible => Inline || ( pickerOpen && !IsInteractionDisabled );
+
+    /// <summary>
+    /// Gets the accessible label reference for the inline picker.
+    /// </summary>
+    internal string MenuAriaLabelledBy => Inline ? ResolvedAriaLabelledBy : null;
 
     /// <summary>
     /// Gets whether the picker uses the hue and saturation wheel.
@@ -857,7 +921,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// <summary>
     /// Gets the duration override, or null to retain the provider's default timing.
     /// </summary>
-    protected int? EffectiveAnimationDuration => !Animated ? 0 : AnimationDuration.HasValue ? Math.Max( 0, AnimationDuration.Value ) : null;
+    protected int? EffectiveAnimationDuration => Inline || !Animated ? 0 : AnimationDuration.HasValue ? Math.Max( 0, AnimationDuration.Value ) : null;
 
     /// <summary>
     /// Gets the animation duration override formatted for the menu attribute.
@@ -1001,6 +1065,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     [Parameter] public int? AnimationDuration { get; set; }
 
     /// <summary>
+    /// Displays the picker directly in the page without the popup toggle. The picker remains visible after interaction.
+    /// </summary>
+    [Parameter] public bool Inline { get; set; }
+
+    /// <summary>
     /// Gets or sets the color selection mode. The wheel includes a separate brightness slider.
     /// </summary>
     [Parameter] public ColorPickerMode Mode { get; set; } = ColorPickerMode.Square;
@@ -1049,7 +1118,8 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     [Parameter] public bool ShowCancelButton { get; set; } = true;
 
     /// <summary>
-    /// Controls the visibility of the save button that confirms the selected color and closes the picker.
+    /// Controls the visibility of the save button that confirms the selected color and closes the popup.
+    /// Inline pickers remain visible and use the saved color as the Cancel restore point.
     /// </summary>
     [Parameter] public bool ShowSaveButton { get; set; } = true;
 

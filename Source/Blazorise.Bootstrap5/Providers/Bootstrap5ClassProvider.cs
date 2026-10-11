@@ -190,9 +190,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string ColorPickerContainer() => "form-control-color-picker-container";
+    public override string ColorPickerContainer( bool inline ) => inline ? "form-control-color-picker-container form-control-color-picker-container-inline" : "form-control-color-picker-container";
 
-    public override string ColorPickerMenu() => "form-control-color-picker-menu";
+    public override string ColorPickerMenu( bool inline ) => inline ? "form-control-color-picker-menu form-control-color-picker-menu-inline" : "form-control-color-picker-menu";
 
     public override string ColorPickerSurface() => "form-control-color-picker-surface";
 

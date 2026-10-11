@@ -7804,7 +7804,7 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
   anchor-name: --fluent-color-picker-anchor;
   anchor-scope: --fluent-color-picker-anchor;
 }
-.fui-ColorPicker__container:has(> .fui-ColorPicker__menu) {
+.fui-ColorPicker__container:not(.fui-ColorPicker__container-inline):has(> .fui-ColorPicker__menu) {
   z-index: 1000001;
 }
 .fui-ColorPicker__container > button {
@@ -7872,6 +7872,17 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
     margin-block-start: 0.25rem;
     position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
   }
+}
+.fui-ColorPicker__menu-inline {
+  position: static;
+  inset: auto;
+  z-index: auto;
+  max-width: 100%;
+  max-height: none;
+  margin: 0;
+  box-shadow: none;
+  animation: none;
+  transition: none;
 }
 .fui-ColorPicker__surface {
   position: relative;
