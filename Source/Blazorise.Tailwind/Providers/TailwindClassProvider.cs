@@ -487,7 +487,11 @@ public class TailwindClassProvider : ClassProvider
     {
         if ( !rangeSlider )
         {
-            return "tw-slider w-full h-2 rounded-lg cursor-pointer bg-gray-200 accent-blue-600 dark:accent-blue-500 dark:bg-gray-700";
+            var builder = new StringBuilder( "tw-slider w-full h-2 rounded-lg cursor-pointer bg-gray-200 accent-blue-600 dark:accent-blue-500 dark:bg-gray-700 " );
+
+            builder.Append( "aria-[orientation=vertical]:w-4 aria-[orientation=vertical]:h-40 aria-[orientation=vertical]:[writing-mode:vertical-lr] aria-[orientation=vertical]:[direction:rtl]" );
+
+            return builder.ToString();
         }
 
         string layoutClasses = rangeSlider

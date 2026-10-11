@@ -1,0 +1,22 @@
+.form-range[aria-orientation='vertical'] {
+    width: $form-range-thumb-width;
+    height: 10rem;
+    padding: 0;
+    writing-mode: vertical-lr;
+    direction: rtl;
+
+    &::-webkit-slider-runnable-track {
+        width: $form-range-track-height;
+        height: 100%;
+    }
+
+    &::-webkit-slider-thumb {
+        margin-top: 0;
+        margin-left: calc((#{$form-range-track-height} - #{$form-range-thumb-width}) / 2);
+    }
+
+    &::-moz-range-track {
+        width: $form-range-track-height;
+        height: 100%;
+    }
+}

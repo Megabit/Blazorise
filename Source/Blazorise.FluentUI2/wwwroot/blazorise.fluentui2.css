@@ -7884,6 +7884,23 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
   user-select: none;
   direction: ltr;
 }
+.fui-ColorPicker__surface[data-mode=wheel] {
+  width: 10rem;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  margin-inline: auto;
+  border-radius: 50%;
+  background-image: radial-gradient(circle closest-side, #fff, transparent), conic-gradient(from 90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+.fui-ColorPicker__surface[data-mode=wheel]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  pointer-events: none;
+}
 .fui-ColorPicker__surface:focus-visible {
   outline: 2px solid var(--colorCompoundBrandStroke);
   outline-offset: 2px;
@@ -7927,6 +7944,9 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
 .fui-ColorPicker__slider[data-color-channel][data-color-channel=opacity]::before {
   background-image: linear-gradient(to right, transparent, currentColor), repeating-conic-gradient(#fff 0% 25%, #ccc 0% 50%);
   background-size: 100% 100%, 0.5rem 0.5rem;
+}
+.fui-ColorPicker__slider[data-color-channel][data-color-channel=brightness]::before {
+  background: linear-gradient(to right, #000, currentColor);
 }
 .fui-ColorPicker__slider[data-color-channel] input[type=range] {
   position: relative;
@@ -15244,6 +15264,29 @@ input::file-selector-button {
   align-items: center;
   width: 100%;
 }
+.fui-Slider[data-orientation=vertical] {
+  width: 32px;
+  height: 10rem;
+  min-width: 32px;
+  min-height: 120px;
+  grid-template-columns: 1fr var(--fui-Slider__thumb--size) 1fr;
+  grid-template-rows: 1fr calc(100% - var(--fui-Slider__thumb--size)) 1fr;
+}
+.fui-Slider[data-orientation=vertical] .fui-Slider__input {
+  width: var(--fui-Slider__thumb--size);
+  height: 100%;
+  writing-mode: vertical-lr;
+  direction: rtl;
+}
+.fui-Slider[data-orientation=vertical] .fui-Slider__rail {
+  width: var(--fui-Slider__rail--size);
+  height: 100%;
+}
+.fui-Slider[data-orientation=vertical] .fui-Slider__thumb {
+  left: 50%;
+  bottom: var(--fui-Slider--progress);
+  transform: translate(-50%, 50%);
+}
 .fui-Slider .fui-Slider__input {
   grid-column-end: -1;
   grid-column-start: 1;
@@ -15305,6 +15348,10 @@ input::file-selector-button {
 .fui-Slider__container {
   display: flex;
   align-items: center;
+}
+.fui-Slider__container[data-orientation=vertical] {
+  width: max-content;
+  flex-direction: column-reverse;
 }
 
 .fui-RangeSlider {

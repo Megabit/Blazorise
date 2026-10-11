@@ -1,4 +1,18 @@
 .ant-slider {
+    &.ant-slider-vertical {
+        height: 10rem;
+
+        .ant-slider-input {
+            writing-mode: vertical-lr;
+            direction: rtl;
+        }
+
+        .ant-slider-tooltip::after {
+            left: 0;
+            top: 50%;
+        }
+    }
+
     .ant-slider-handle {
         pointer-events: none;
     }

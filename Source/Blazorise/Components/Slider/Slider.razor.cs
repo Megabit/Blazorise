@@ -38,6 +38,12 @@ public partial class Slider<TValue> : BaseInputComponent<TValue, SliderClasses, 
 
         parameters.TryGetParameter( Min, out paramMin );
         parameters.TryGetParameter( Max, out paramMax );
+
+        if ( parameters.IsParameterChanged( Orientation ) )
+        {
+            DirtyClasses();
+            DirtyStyles();
+        }
     }
 
     /// <inheritdoc/>
@@ -91,6 +97,11 @@ public partial class Slider<TValue> : BaseInputComponent<TValue, SliderClasses, 
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
+    /// Gets the slider orientation serialized for accessibility attributes.
+    /// </summary>
+    protected string OrientationString => Orientation == Orientation.Vertical ? "vertical" : "horizontal";
+
+    /// <summary>
     /// Gets the string representation of the <see cref="Step"/> value.
     /// </summary>
     protected string StepString => Step.ToCultureInvariantString();
@@ -129,6 +140,11 @@ public partial class Slider<TValue> : BaseInputComponent<TValue, SliderClasses, 
     /// The maximum value to accept for this input.
     /// </summary>
     [Parameter] public TValue Max { get; set; }
+
+    /// <summary>
+    /// Gets or sets the slider orientation. Vertical sliders increase from bottom to top.
+    /// </summary>
+    [Parameter] public Orientation Orientation { get; set; } = Orientation.Horizontal;
 
     #endregion
 }

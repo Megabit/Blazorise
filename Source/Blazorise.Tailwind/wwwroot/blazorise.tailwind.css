@@ -4613,9 +4613,37 @@
       opacity: 60%;
     }
   }
+  .aria-\[orientation\=vertical\]\:h-40 {
+    &[aria-orientation="vertical"] {
+      height: calc(var(--spacing) * 40);
+    }
+  }
+  .aria-\[orientation\=vertical\]\:w-4 {
+    &[aria-orientation="vertical"] {
+      width: calc(var(--spacing) * 4);
+    }
+  }
+  .aria-\[orientation\=vertical\]\:\[direction\:rtl\] {
+    &[aria-orientation="vertical"] {
+      direction: rtl;
+    }
+  }
+  .aria-\[orientation\=vertical\]\:\[writing-mode\:vertical-lr\] {
+    &[aria-orientation="vertical"] {
+      writing-mode: vertical-lr;
+    }
+  }
   .data-\[animation-duration\]\:\[transition-duration\:var\(--tw-dropdown-animation-duration\)\] {
     &[data-animation-duration] {
       transition-duration: var(--tw-dropdown-animation-duration);
+    }
+  }
+  .data-\[color-channel\=brightness\]\:before\:bg-\[linear-gradient\(to_right\,\#000\,currentColor\)\] {
+    &[data-color-channel="brightness"] {
+      &::before {
+        content: var(--tw-content);
+        background-image: linear-gradient(to right,#000,currentColor);
+      }
     }
   }
   .data-\[color-channel\=hue\]\:before\:bg-\[linear-gradient\(to_right\,\#f00\,\#ff0\,\#0f0\,\#0ff\,\#00f\,\#f0f\,\#f00\)\] {
@@ -4639,6 +4667,89 @@
       &::before {
         content: var(--tw-content);
         background-size: 100% 100%,.5rem .5rem;
+      }
+    }
+  }
+  .data-\[mode\=wheel\]\:mx-auto {
+    &[data-mode="wheel"] {
+      margin-inline: auto;
+    }
+  }
+  .data-\[mode\=wheel\]\:aspect-square {
+    &[data-mode="wheel"] {
+      aspect-ratio: 1 / 1;
+    }
+  }
+  .data-\[mode\=wheel\]\:h-auto {
+    &[data-mode="wheel"] {
+      height: auto;
+    }
+  }
+  .data-\[mode\=wheel\]\:w-40 {
+    &[data-mode="wheel"] {
+      width: calc(var(--spacing) * 40);
+    }
+  }
+  .data-\[mode\=wheel\]\:max-w-full {
+    &[data-mode="wheel"] {
+      max-width: 100%;
+    }
+  }
+  .data-\[mode\=wheel\]\:rounded-full {
+    &[data-mode="wheel"] {
+      border-radius: calc(infinity * 1px);
+    }
+  }
+  .data-\[mode\=wheel\]\:bg-\[radial-gradient\(circle_closest-side\,\#fff\,transparent\)\,conic-gradient\(from_90deg\,\#f00\,\#ff0\,\#0f0\,\#0ff\,\#00f\,\#f0f\,\#f00\)\] {
+    &[data-mode="wheel"] {
+      background-image: radial-gradient(circle closest-side,#fff,transparent),conic-gradient(from 90deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00);
+    }
+  }
+  .data-\[mode\=wheel\]\:before\:pointer-events-none {
+    &[data-mode="wheel"] {
+      &::before {
+        content: var(--tw-content);
+        pointer-events: none;
+      }
+    }
+  }
+  .data-\[mode\=wheel\]\:before\:absolute {
+    &[data-mode="wheel"] {
+      &::before {
+        content: var(--tw-content);
+        position: absolute;
+      }
+    }
+  }
+  .data-\[mode\=wheel\]\:before\:inset-0 {
+    &[data-mode="wheel"] {
+      &::before {
+        content: var(--tw-content);
+        inset: calc(var(--spacing) * 0);
+      }
+    }
+  }
+  .data-\[mode\=wheel\]\:before\:rounded-full {
+    &[data-mode="wheel"] {
+      &::before {
+        content: var(--tw-content);
+        border-radius: calc(infinity * 1px);
+      }
+    }
+  }
+  .data-\[mode\=wheel\]\:before\:bg-current {
+    &[data-mode="wheel"] {
+      &::before {
+        content: var(--tw-content);
+        background-color: currentcolor;
+      }
+    }
+  }
+  .data-\[mode\=wheel\]\:before\:content-\[\'\'\] {
+    &[data-mode="wheel"] {
+      &::before {
+        --tw-content: '';
+        content: var(--tw-content);
       }
     }
   }

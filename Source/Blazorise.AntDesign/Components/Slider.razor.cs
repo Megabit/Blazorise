@@ -10,6 +10,14 @@ public partial class Slider<TValue> : Blazorise.Slider<TValue>
 {
     #region Methods
 
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( Orientation == Orientation.Vertical ? "ant-slider-vertical" : "ant-slider-horizontal" );
+
+        base.BuildClasses( builder );
+    }
+
     private static bool TryConvertToDouble( TValue value, out double result )
     {
         if ( value is null )
@@ -42,17 +50,34 @@ public partial class Slider<TValue> : Blazorise.Slider<TValue>
         }
     }
 
+    /// <summary>
+    /// Gets the filled track styles for the current value and orientation.
+    /// </summary>
     protected string TrackStyle
-        => $"left: 0%; right: auto; width: {SliderPercentage.ToString( "0.####", CultureInfo.InvariantCulture )}%;";
+        => Orientation == Orientation.Vertical
+            ? $"bottom: 0%; top: auto; height: {SliderPercentage.ToString( "0.####", CultureInfo.InvariantCulture )}%;"
+            : $"left: 0%; right: auto; width: {SliderPercentage.ToString( "0.####", CultureInfo.InvariantCulture )}%;";
 
+    /// <summary>
+    /// Gets the handle position styles for the current value and orientation.
+    /// </summary>
     protected string HandleStyle
-        => $"left: {SliderPercentage.ToString( "0.####", CultureInfo.InvariantCulture )}%; transform: translateX(-50%);";
+        => Orientation == Orientation.Vertical
+            ? $"left: 50%; bottom: {SliderPercentage.ToString( "0.####", CultureInfo.InvariantCulture )}%; transform: translate(-50%, 50%);"
+            : $"left: {SliderPercentage.ToString( "0.####", CultureInfo.InvariantCulture )}%; transform: translateX(-50%);";
 
+    /// <summary>
+    /// Gets the tooltip position styles for the current value and orientation.
+    /// </summary>
     protected string TooltipStyle
-        => $"left: {SliderPercentage.ToString( "0.####", CultureInfo.InvariantCulture )}%; transform: translate(-50%, calc(-100% - var(--ant-margin-xs)));";
+        => Orientation == Orientation.Vertical
+            ? $"left: calc(100% + var(--ant-margin-xs)); top: auto; bottom: {SliderPercentage.ToString( "0.####", CultureInfo.InvariantCulture )}%; transform: translateY(50%);"
+            : $"left: {SliderPercentage.ToString( "0.####", CultureInfo.InvariantCulture )}%; transform: translate(-50%, calc(-100% - var(--ant-margin-xs)));";
 
-    protected string RootClassNames
-        => $"{ClassNames} ant-slider-horizontal";
+    /// <summary>
+    /// Gets the classes for the slider root.
+    /// </summary>
+    protected string RootClassNames => ClassNames;
 
     #endregion
 }

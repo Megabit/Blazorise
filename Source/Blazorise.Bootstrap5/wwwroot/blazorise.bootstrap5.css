@@ -3898,6 +3898,26 @@ input[type=color].form-control-color,
   border-bottom-right-radius: 0;
 }
 
+.form-range[aria-orientation=vertical] {
+  width: 1rem;
+  height: 10rem;
+  padding: 0;
+  writing-mode: vertical-lr;
+  direction: rtl;
+}
+.form-range[aria-orientation=vertical]::-webkit-slider-runnable-track {
+  width: 0.5rem;
+  height: 100%;
+}
+.form-range[aria-orientation=vertical]::-webkit-slider-thumb {
+  margin-top: 0;
+  margin-left: calc((0.5rem - 1rem) / 2);
+}
+.form-range[aria-orientation=vertical]::-moz-range-track {
+  width: 0.5rem;
+  height: 100%;
+}
+
 .range-slider {
   min-height: 2rem;
 }
