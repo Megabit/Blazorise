@@ -15,8 +15,8 @@ public partial class Progress
 
     protected override void OnInitialized()
     {
-        hasProgressBarClassBuilder = new( BuildHasProgressBarClasses );
-        innerClassBuilder = new( BuildInnerClasses, builder => builder.Append( Classes?.Bar ) );
+        hasProgressBarClassBuilder = new( BuildHasProgressBarClasses, null, FinalizeClasses );
+        innerClassBuilder = new( BuildInnerClasses, builder => builder.Append( Classes?.Bar ), FinalizeClasses );
 
         base.OnInitialized();
     }

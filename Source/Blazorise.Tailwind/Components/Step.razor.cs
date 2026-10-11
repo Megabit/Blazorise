@@ -11,7 +11,7 @@ public partial class Step : Blazorise.Step
 
     public Step()
     {
-        ContainerClassBuilder = new( BuildContainerClasses, builder => builder.Append( Classes?.Container ) );
+        ContainerClassBuilder = new( BuildContainerClasses, builder => builder.Append( Classes?.Container ), FinalizeClasses );
         ContainerStyleBuilder = new( BuildContainerStyles, builder => builder.Append( Styles?.Container ) );
     }
 

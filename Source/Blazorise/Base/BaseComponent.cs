@@ -551,16 +551,6 @@ public abstract class BaseComponent : BaseStyledComponent
     [Inject] protected IIdGenerator IdGenerator { get; set; }
 
     /// <summary>
-    /// Gets or sets the classname provider.
-    /// </summary>
-    [Inject] protected IClassProvider ClassProvider { get; set; }
-
-    /// <summary>
-    /// Specifies the style provider.
-    /// </summary>
-    [Inject] protected IStyleProvider StyleProvider { get; set; }
-
-    /// <summary>
     /// Specifies the IJSUtilitiesModule reference.
     /// </summary>
     [Inject] private IJSUtilitiesModule JSUtilitiesModule { get; set; }

@@ -27,7 +27,7 @@ public abstract class BaseStyledComponent : BaseAfterRenderComponent
     /// </summary>
     protected BaseStyledComponent()
     {
-        ClassBuilder = new( BuildClasses, BuildCustomClasses );
+        ClassBuilder = new( BuildClasses, BuildCustomClasses, FinalizeClasses );
         StyleBuilder = new( BuildStyles, BuildCustomStyles );
     }
 
@@ -96,6 +96,12 @@ public abstract class BaseStyledComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
+    /// Applies provider-specific processing to a completed element class list.
+    /// </summary>
+    /// <param name="classNames">The completed class list.</param>
+    protected string FinalizeClasses( string classNames ) => ClassProvider is null ? classNames : ClassProvider.MergeClasses( classNames );
+
+    /// <summary>
     /// Clears the class names and marks them to be regenerated.
     /// </summary>
     protected internal virtual void DirtyClasses()
@@ -134,6 +140,16 @@ public abstract class BaseStyledComponent : BaseAfterRenderComponent
     /// Gets the built styles.
     /// </summary>
     public string StyleNames => StyleBuilder.Styles;
+
+    /// <summary>
+    /// Gets or sets the classname provider.
+    /// </summary>
+    [Inject] protected IClassProvider ClassProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the style provider.
+    /// </summary>
+    [Inject] protected IStyleProvider StyleProvider { get; set; }
 
     /// <summary>
     /// Custom CSS class name to apply to the component.

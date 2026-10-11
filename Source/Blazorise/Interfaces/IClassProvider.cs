@@ -1702,6 +1702,15 @@ public interface IClassProvider
 
     #endregion
 
+    #region Class merging
+
+    /// <summary>
+    /// Resolves conflicts in a completed element class list before it is cached.
+    /// </summary>
+    string MergeClasses( string classNames ) => classNames;
+
+    #endregion
+
     #region Enums
 
     /*

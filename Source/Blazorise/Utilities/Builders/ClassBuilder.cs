@@ -20,6 +20,8 @@ public class ClassBuilder
 
     private readonly Action<ClassBuilder> buildCustomClass;
 
+    private readonly Func<string, string> finalizeClasses;
+
     private StringBuilder builder = new();
 
     private string classNames;
@@ -36,9 +38,21 @@ public class ClassBuilder
     /// <param name="buildClasses">Action responsible for building the classes.</param>
     /// <param name="buildCustomClass">Optional action that appends additional custom classes.</param>
     public ClassBuilder( Action<ClassBuilder> buildClasses, Action<ClassBuilder> buildCustomClass = null )
+        : this( buildClasses, buildCustomClass, null )
+    {
+    }
+
+    /// <summary>
+    /// Creates a builder that finalizes and caches the completed class list.
+    /// </summary>
+    /// <param name="buildClasses">Action responsible for building the classes.</param>
+    /// <param name="buildCustomClass">Optional action that appends additional custom classes.</param>
+    /// <param name="finalizeClasses">Optional transformation applied when classes are rebuilt.</param>
+    public ClassBuilder( Action<ClassBuilder> buildClasses, Action<ClassBuilder> buildCustomClass, Func<string, string> finalizeClasses )
     {
         this.buildClasses = buildClasses;
         this.buildCustomClass = buildCustomClass;
+        this.finalizeClasses = finalizeClasses;
     }
 
     #endregion
@@ -103,9 +117,16 @@ public class ClassBuilder
                 buildClasses( this );
 
                 if ( buildCustomClass is not null )
+                {
                     buildCustomClass( this );
+                }
 
                 classNames = builder.ToString().TrimEnd()?.EmptyToNull();
+
+                if ( finalizeClasses is not null )
+                {
+                    classNames = finalizeClasses( classNames )?.EmptyToNull();
+                }
 
                 dirty = false;
             }
