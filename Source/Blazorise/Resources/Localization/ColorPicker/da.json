@@ -1,6 +1,7 @@
 {
   "culture": "da",
   "translations": {
+    "aria:brightness": "skyder til valg af lysstyrke",
     "ui:dialog": "farvevælger dialog",
     "btn:toggle": "skift farvevælger dialog",
     "btn:swatch": "farveprøve",

@@ -1,6 +1,7 @@
 {
   "culture": "nl",
   "translations": {
+    "aria:brightness": "schuifregelaar voor helderheidsselectie",
     "ui:dialog": "dialoogvenster kleurkiezer",
     "btn:toggle": "dialoogvenster kleurkiezer in-/uitschakelen",
     "btn:swatch": "kleurstaal",

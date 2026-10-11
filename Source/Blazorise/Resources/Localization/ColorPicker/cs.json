@@ -1,6 +1,7 @@
 {
   "culture": "cs-CZ",
   "translations": {
+    "aria:brightness": "posuvník pro výběr jasu",
     "ui:dialog": "dialogové okno pro výběr barvy",
     "btn:toggle": "přepnout dialogové okno pro výběr barvy",
     "btn:swatch": "vzorkovník barev",

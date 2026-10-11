@@ -15,12 +15,18 @@
     <CascadingValue TValue="Dropdown" Value="@((Dropdown)null)" IsFixed>
         <CascadingValue Value="@Parent" IsFixed>
             <CascadingValue Value="@Parent.SelectedColor">
-                <_ColorPickerSurface @ref="@surfaceRef" ElementId="@Parent.SurfaceElementId" />
+                <_ColorPickerSurface @key="@Parent.Mode" @ref="@surfaceRef" ElementId="@Parent.SurfaceElementId" />
             </CascadingValue>
         </CascadingValue>
         <CascadingValue TValue="Validation" Value="@((Validation)null)" IsFixed>
             <CascadingValue TValue="Field" Value="@((Field)null)" IsFixed>
                 <Div Flex="Flex.Column" Gap="Gap.Is2" Margin="Margin.Is2.FromTop">
+                    @if ( Parent.IsWheelSurface )
+                    {
+                        <Div Class="@Parent.SliderClassNames" Style="@Parent.BrightnessSliderStyleNames" data-color-channel="brightness">
+                            <Slider TValue="double" ElementId="@Parent.BrightnessSliderElementId" Value="@Parent.Brightness" ValueChanged="@Parent.OnBrightnessChangedHandler" Min="0" Max="100" Step="1" form="" aria-label="@Parent.Localize( "aria:brightness" )" />
+                        </Div>
+                    }
                     @if ( Parent.ShowHueSlider )
                     {
                         <Div Class="@Parent.SliderClassNames" Style="@Parent.HueSliderStyleNames" data-color-channel="hue">

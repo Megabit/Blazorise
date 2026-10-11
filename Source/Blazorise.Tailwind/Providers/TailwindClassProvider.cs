@@ -252,7 +252,17 @@ public class TailwindClassProvider : ClassProvider
         return builder.ToString();
     }
 
-    public override string ColorPickerSurface() => "relative h-40 w-full touch-none select-none cursor-crosshair rounded-sm [direction:ltr] bg-[linear-gradient(to_top,black,transparent),linear-gradient(to_right,white,transparent)] focus-visible:outline-2 focus-visible:outline-primary-600";
+    public override string ColorPickerSurface()
+    {
+        var builder = new StringBuilder( "relative h-40 w-full touch-none select-none cursor-crosshair rounded-sm [direction:ltr] " );
+
+        builder.Append( "bg-[linear-gradient(to_top,black,transparent),linear-gradient(to_right,white,transparent)] focus-visible:outline-2 focus-visible:outline-primary-600 " );
+        builder.Append( "data-[mode=wheel]:w-40 data-[mode=wheel]:max-w-full data-[mode=wheel]:h-auto data-[mode=wheel]:aspect-square data-[mode=wheel]:mx-auto data-[mode=wheel]:rounded-full " );
+        builder.Append( "data-[mode=wheel]:bg-[radial-gradient(circle_closest-side,#fff,transparent),conic-gradient(from_90deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)] " );
+        builder.Append( "data-[mode=wheel]:before:content-[''] data-[mode=wheel]:before:absolute data-[mode=wheel]:before:inset-0 data-[mode=wheel]:before:rounded-full data-[mode=wheel]:before:bg-current data-[mode=wheel]:before:pointer-events-none" );
+
+        return builder.ToString();
+    }
 
     public override string ColorPickerMarker() => "absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow pointer-events-none";
 
@@ -262,6 +272,7 @@ public class TailwindClassProvider : ClassProvider
 
         builder.Append( "before:content-[''] before:absolute before:inset-x-2 before:top-1/2 before:h-2 before:rounded-full before:-translate-y-1/2 before:pointer-events-none " );
         builder.Append( "data-[color-channel=hue]:before:bg-[linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)] " );
+        builder.Append( "data-[color-channel=brightness]:before:bg-[linear-gradient(to_right,#000,currentColor)] " );
         builder.Append( "data-[color-channel=opacity]:before:bg-[linear-gradient(to_right,transparent,currentColor),repeating-conic-gradient(#fff_0%_25%,#ccc_0%_50%)] " );
         builder.Append( "data-[color-channel=opacity]:before:[background-size:100%_100%,.5rem_.5rem] " );
         builder.Append( "[&_input[type=range]]:relative [&_input[type=range]]:block [&_input[type=range]]:w-full [&_input[type=range]]:!h-10 " );

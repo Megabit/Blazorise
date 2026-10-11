@@ -1,6 +1,7 @@
 {
   "culture": "tr",
   "translations": {
+    "aria:brightness": "parlaklık seçim kaydırıcısı",
     "ui:dialog": "renk seçici iletişim kutusu",
     "btn:toggle": "renk seçici iletişim kutusunu aç/kapat",
     "btn:swatch": "renk örneği",

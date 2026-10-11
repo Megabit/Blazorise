@@ -1,6 +1,7 @@
 {
   "culture": "ro",
   "translations": {
+    "aria:brightness": "glisor pentru selectarea luminozității",
     "ui:dialog": "dialog selectare culoare",
     "btn:toggle": "comută dialogul de selectare culoare",
     "btn:swatch": "mostră de culoare",

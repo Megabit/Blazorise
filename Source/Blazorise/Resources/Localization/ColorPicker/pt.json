@@ -1,6 +1,7 @@
 {
   "culture": "pt",
   "translations": {
+    "aria:brightness": "controle deslizante de seleção de brilho",
     "ui:dialog": "diálogo seletor de cores",
     "btn:toggle": "alternar a caixa de diálogo do seletor de cores",
     "btn:swatch": "amostra de cor",

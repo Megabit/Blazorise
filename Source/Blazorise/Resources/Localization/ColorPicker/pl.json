@@ -1,6 +1,7 @@
 {
   "culture": "pl",
   "translations": {
+    "aria:brightness": "suwak wyboru jasności",
     "ui:dialog": "okno wyboru koloru",
     "btn:toggle": "przełącz okno dialogowe wyboru koloru",
     "btn:swatch": "próbka koloru",

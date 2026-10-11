@@ -59,8 +59,9 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
     public override Task SetParametersAsync( ParameterView parameters )
     {
         parameters.TryGetParameter( Color, out paramColor );
+        parameters.TryGetParameter( Parent, out var paramParent );
 
-        InvalidateColorStyles();
+        InvalidateColorStyles( paramParent.GetValueOrDefault( Parent ).IsWheelSurface );
 
         return base.SetParametersAsync( parameters );
     }
@@ -88,7 +89,14 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( $"background-color: {CssColor.Hsl( Color.Hue, 100, 50 )};" );
+        if ( Parent.IsWheelSurface )
+        {
+            builder.Append( $"color: {CssColor.Rgba( 0, 0, 0, 1 - Color.Brightness / 100 )};" );
+        }
+        else
+        {
+            builder.Append( $"background-color: {CssColor.Hsl( Color.Hue, 100, 50 )};" );
+        }
 
         base.BuildStyles( builder );
     }
@@ -104,9 +112,18 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
     private void BuildMarkerStyles( StyleBuilder builder )
     {
         var color = Color;
+        var left = color.Saturation;
+        var top = 100 - color.Brightness;
 
-        builder.Append( $"left: {color.Saturation.ToString( "0.###", CultureInfo.InvariantCulture )}%;" );
-        builder.Append( $"top: {( 100 - color.Brightness ).ToString( "0.###", CultureInfo.InvariantCulture )}%;" );
+        if ( Parent.IsWheelSurface )
+        {
+            var angle = color.Hue * Math.PI / 180;
+            left = 50 + Math.Cos( angle ) * color.Saturation / 2;
+            top = 50 + Math.Sin( angle ) * color.Saturation / 2;
+        }
+
+        builder.Append( $"left: {left.ToString( "0.###", CultureInfo.InvariantCulture )}%;" );
+        builder.Append( $"top: {top.ToString( "0.###", CultureInfo.InvariantCulture )}%;" );
         builder.Append( $"background-color: {color.ToHexString()};" );
     }
 
@@ -121,7 +138,8 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Invalidates the surface and marker styles only when their color inputs change.
     /// </summary>
-    private void InvalidateColorStyles()
+    /// <param name="isWheelSurface">Whether the supplied parent uses the hue and saturation wheel.</param>
+    private void InvalidateColorStyles( bool isWheelSurface )
     {
         if ( !paramColor.Changed )
         {
@@ -130,13 +148,13 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
 
         var color = paramColor.Value;
 
-        if ( color.Hue != Color.Hue )
+        if ( isWheelSurface ? color.Brightness != Color.Brightness : color.Hue != Color.Hue )
         {
             StyleBuilder.Dirty();
         }
 
         if ( color.Saturation != Color.Saturation
-            || color.Brightness != Color.Brightness
+            || ( isWheelSurface ? color.Hue != Color.Hue : color.Brightness != Color.Brightness )
             || !color.ToHexString().IsEqual( Color.ToHexString() ) )
         {
             MarkerStyleBuilder.Dirty();
@@ -284,6 +302,12 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
             return;
         }
 
+        if ( Parent.IsWheelSurface )
+        {
+            await SelectWheelColorByKeyboard( eventArgs );
+            return;
+        }
+
         var color = Parent.SelectedColor;
         var saturation = color.Saturation;
         var brightness = color.Brightness;
@@ -315,7 +339,7 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
                 return;
         }
 
-        await SelectColor( saturation, brightness );
+        await SelectColor( color with { Saturation = saturation, Brightness = brightness } );
     }
 
     /// <summary>
@@ -333,7 +357,7 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Maps the active pointer position to saturation and brightness and updates the selection.
+    /// Maps the active pointer position to the surface's color channels and updates the selection.
     /// </summary>
     /// <param name="eventArgs">The pointer position to apply.</param>
     /// <param name="measureBounds">Whether to refresh the surface bounds before calculating the color.</param>
@@ -365,20 +389,29 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
             }
         }
 
+        if ( Parent.IsWheelSurface )
+        {
+            var x = ( eventArgs.ClientX - surfaceRectangle.Left ) / surfaceRectangle.Width * 2 - 1;
+            var y = ( eventArgs.ClientY - surfaceRectangle.Top ) / surfaceRectangle.Height * 2 - 1;
+
+            await SelectColor( ResolveWheelColor( x, y ) );
+            return;
+        }
+
         var saturation = Math.Clamp( ( eventArgs.ClientX - surfaceRectangle.Left ) / surfaceRectangle.Width * 100, 0, 100 );
         var brightness = 100 - Math.Clamp( ( eventArgs.ClientY - surfaceRectangle.Top ) / surfaceRectangle.Height * 100, 0, 100 );
 
-        await SelectColor( saturation, brightness );
+        await SelectColor( Parent.SelectedColor with { Saturation = saturation, Brightness = brightness } );
     }
 
     /// <summary>
     /// Updates the parent color and redraws only the surface when the bound value is unchanged.
     /// </summary>
-    private async Task SelectColor( double saturation, double brightness )
+    private async Task SelectColor( ColorPickerColor color )
     {
         var previousValue = Parent.Value;
 
-        if ( !await Parent.SelectSurfaceColor( saturation, brightness ) || !CanSelectColor )
+        if ( !await Parent.SelectSurfaceColor( color ) || !CanSelectColor )
         {
             return;
         }
@@ -391,10 +424,65 @@ public partial class _ColorPickerSurface : BaseComponent, IAsyncDisposable
 
         // Marker-only changes refresh the color snapshot without rendering the menu.
         paramColor = new( Parent.SelectedColor, false, Parent.SelectedColor != Color );
-        InvalidateColorStyles();
+        InvalidateColorStyles( Parent.IsWheelSurface );
         Color = paramColor.Value;
 
         await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Moves the wheel marker with the arrow keys or selects its center or edge with Home and End.
+    /// </summary>
+    /// <param name="eventArgs">The keyboard interaction to apply.</param>
+    private Task SelectWheelColorByKeyboard( KeyboardEventArgs eventArgs )
+    {
+        var color = Parent.SelectedColor;
+        var angle = color.Hue * Math.PI / 180;
+        var x = Math.Cos( angle ) * color.Saturation / 100;
+        var y = Math.Sin( angle ) * color.Saturation / 100;
+        var increment = eventArgs.ShiftKey ? .1 : .01;
+
+        switch ( eventArgs.Key )
+        {
+            case "ArrowLeft":
+                x -= increment;
+                break;
+            case "ArrowRight":
+                x += increment;
+                break;
+            case "ArrowUp":
+                y -= increment;
+                break;
+            case "ArrowDown":
+                y += increment;
+                break;
+            case "Home":
+                x = 0;
+                y = 0;
+                break;
+            case "End":
+                x = Math.Cos( angle );
+                y = Math.Sin( angle );
+                break;
+            default:
+                return Task.CompletedTask;
+        }
+
+        return SelectColor( ResolveWheelColor( x, y ) );
+    }
+
+    /// <summary>
+    /// Resolves hue and saturation from coordinates relative to the wheel center, clamping to its edge.
+    /// </summary>
+    /// <param name="x">Horizontal position, with the right edge at one.</param>
+    /// <param name="y">Vertical position, with the bottom edge at one.</param>
+    /// <returns>The selected color with its wheel channels updated and brightness and opacity preserved.</returns>
+    private ColorPickerColor ResolveWheelColor( double x, double y )
+    {
+        var saturation = Math.Min( 1, Math.Sqrt( x * x + y * y ) ) * 100;
+        var hue = saturation == 0 ? Parent.SelectedColor.Hue : ( Math.Atan2( y, x ) * 180 / Math.PI + 360 ) % 360;
+
+        return Parent.SelectedColor with { Hue = hue, Saturation = saturation };
     }
 
     #endregion

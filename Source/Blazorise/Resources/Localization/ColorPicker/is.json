@@ -1,6 +1,7 @@
 {
   "culture": "is",
   "translations": {
+    "aria:brightness": "sleði fyrir birtustig",
     "ui:dialog": "valmynd fyrir litaval",
     "btn:toggle": "skipta um valmynd",
     "btn:swatch": "litapróf",

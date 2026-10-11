@@ -1,6 +1,7 @@
 {
   "culture": "ru",
   "translations": {
+    "aria:brightness": "ползунок выбора яркости",
     "ui:dialog": "диалог выбора цвета",
     "btn:toggle": "переключение диалогового окна выбора цвета",
     "btn:swatch": "образец цвета",

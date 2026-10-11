@@ -1,6 +1,7 @@
 {
   "culture": "zh",
   "translations": {
+    "aria:brightness": "亮度选择滑块",
     "ui:dialog": "颜色选择器对话框",
     "btn:toggle": "切换颜色选择器对话框",
     "btn:swatch": "色卡",

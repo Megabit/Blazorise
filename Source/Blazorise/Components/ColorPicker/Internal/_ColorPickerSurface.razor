@@ -5,6 +5,7 @@
      id="@ElementId"
      class="@ClassNames"
      style="@StyleNames"
+     data-mode="@(Parent.IsWheelSurface ? "wheel" : "square")"
      role="group"
      aria-label="@($"{Parent.Localize( "aria:palette" )}: {Parent.SelectedColor.ToHexString()}")"
      tabindex="0"

@@ -1,6 +1,7 @@
 {
   "culture": "es",
   "translations": {
+    "aria:brightness": "control deslizante de selección de brillo",
     "ui:dialog": "cuadro de diálogo del selector de color",
     "btn:toggle": "cuadro de diálogo del selector de color",
     "btn:swatch": "muestra de color",

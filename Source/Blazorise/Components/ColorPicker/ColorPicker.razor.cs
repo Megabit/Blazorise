@@ -66,6 +66,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         SliderClassBuilder = new( BuildSliderClasses );
         SwatchStyleBuilder = new( BuildSwatchStyles );
         HueSliderStyleBuilder = new( BuildHueSliderStyles );
+        BrightnessSliderStyleBuilder = new( BuildBrightnessSliderStyles );
         OpacitySliderStyleBuilder = new( BuildOpacitySliderStyles );
     }
 
@@ -242,6 +243,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     private void BuildHueSliderStyles( StyleBuilder builder ) => builder.Append( $"color: {CssColor.Hsl( selectedColor.Hue, 100, 50 )};" );
 
     /// <summary>
+    /// Builds the full-brightness color styles used by the brightness slider.
+    /// </summary>
+    private void BuildBrightnessSliderStyles( StyleBuilder builder ) => builder.Append( $"color: {( selectedColor with { Brightness = 100, Alpha = 1 } ).ToHexString()};" );
+
+    /// <summary>
     /// Builds the opaque color styles used by the opacity slider.
     /// </summary>
     private void BuildOpacitySliderStyles( StyleBuilder builder ) => builder.Append( $"color: {( selectedColor with { Alpha = 1 } ).ToHexString()};" );
@@ -319,6 +325,20 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
         }
 
         SetSelectedColor( selectedColor with { Hue = Math.Clamp( hue, 0, 360 ) } );
+        await ApplySelectedColor();
+    }
+
+    /// <summary>
+    /// Updates the selected brightness from the brightness slider.
+    /// </summary>
+    internal async Task OnBrightnessChangedHandler( double brightness )
+    {
+        if ( IsInteractionDisabled )
+        {
+            return;
+        }
+
+        SetSelectedColor( selectedColor with { Brightness = Math.Clamp( brightness, 0, 100 ) } );
         await ApplySelectedColor();
     }
 
@@ -488,19 +508,16 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     }
 
     /// <summary>
-    /// Updates the selected saturation and brightness from surface interaction.
+    /// Updates the selected color from surface interaction.
     /// </summary>
-    /// <param name="saturation">Saturation as a percentage, from 0 to 100.</param>
-    /// <param name="brightness">Brightness as a percentage, from 0 to 100.</param>
+    /// <param name="color">The editable HSV color and opacity.</param>
     /// <returns><see langword="true"/> when the editable color changes; otherwise, <see langword="false"/>.</returns>
-    internal async Task<bool> SelectSurfaceColor( double saturation, double brightness )
+    internal async Task<bool> SelectSurfaceColor( ColorPickerColor color )
     {
         if ( IsInteractionDisabled || !IsPickerVisible )
         {
             return false;
         }
-
-        var color = selectedColor with { Saturation = saturation, Brightness = brightness };
 
         if ( !SetSelectedColor( color ) )
         {
@@ -593,6 +610,17 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
             HueSliderStyleBuilder.Dirty();
         }
 
+        if ( color.Hue != selectedColor.Hue || color.Saturation != selectedColor.Saturation )
+        {
+            var previousColorString = ( selectedColor with { Brightness = 100, Alpha = 1 } ).ToHexString();
+            var colorString = ( color with { Brightness = 100, Alpha = 1 } ).ToHexString();
+
+            if ( !previousColorString.IsEqual( colorString ) )
+            {
+                BrightnessSliderStyleBuilder.Dirty();
+            }
+        }
+
         if ( color.Hue != selectedColor.Hue
             || color.Saturation != selectedColor.Saturation
             || color.Brightness != selectedColor.Brightness )
@@ -682,6 +710,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     internal bool IsPickerVisible => pickerOpen && !IsInteractionDisabled;
 
     /// <summary>
+    /// Gets whether the picker uses the hue and saturation wheel.
+    /// </summary>
+    internal bool IsWheelSurface => Mode == ColorPickerMode.Wheel;
+
+    /// <summary>
     /// Gets the element identifier of the picker menu.
     /// </summary>
     internal string MenuElementId => $"{ElementId}-menu";
@@ -695,6 +728,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// Gets the element identifier of the hue slider.
     /// </summary>
     internal string HueSliderElementId => $"{ElementId}-hue";
+
+    /// <summary>
+    /// Gets the element identifier of the wheel's brightness slider.
+    /// </summary>
+    internal string BrightnessSliderElementId => $"{ElementId}-brightness";
 
     /// <summary>
     /// Gets the element identifier of the opacity slider.
@@ -738,6 +776,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     {
         get
         {
+            if ( IsWheelSurface )
+            {
+                return BrightnessSliderElementId;
+            }
+
             if ( ShowHueSlider )
             {
                 return HueSliderElementId;
@@ -787,6 +830,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// Gets the selected hue in degrees.
     /// </summary>
     internal double Hue => selectedColor.Hue;
+
+    /// <summary>
+    /// Gets the selected brightness as a percentage, from 0 to 100.
+    /// </summary>
+    internal double Brightness => selectedColor.Brightness;
 
     /// <summary>
     /// Gets the selected opacity, from 0 to 1.
@@ -862,6 +910,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     private StyleBuilder HueSliderStyleBuilder { get; }
 
     /// <summary>
+    /// Gets the style builder for the brightness slider.
+    /// </summary>
+    private StyleBuilder BrightnessSliderStyleBuilder { get; }
+
+    /// <summary>
     /// Gets the style builder for the opacity slider.
     /// </summary>
     private StyleBuilder OpacitySliderStyleBuilder { get; }
@@ -912,6 +965,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     internal string HueSliderStyleNames => HueSliderStyleBuilder.Styles;
 
     /// <summary>
+    /// Gets the styles for the brightness slider.
+    /// </summary>
+    internal string BrightnessSliderStyleNames => BrightnessSliderStyleBuilder.Styles;
+
+    /// <summary>
     /// Gets the styles for the opacity slider.
     /// </summary>
     internal string OpacitySliderStyleNames => OpacitySliderStyleBuilder.Styles;
@@ -941,6 +999,11 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// Zero or a negative value disables the animation.
     /// </summary>
     [Parameter] public int? AnimationDuration { get; set; }
+
+    /// <summary>
+    /// Gets or sets the color selection mode. The wheel includes a separate brightness slider.
+    /// </summary>
+    [Parameter] public ColorPickerMode Mode { get; set; } = ColorPickerMode.Square;
 
     /// <summary>
     /// List a colors below the colorpicker to make it convenient for users to choose from

@@ -3764,6 +3764,23 @@ input[type=color].form-control-color,
   user-select: none;
   direction: ltr;
 }
+.form-control-color-picker-surface[data-mode=wheel] {
+  width: 10rem;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  margin-inline: auto;
+  border-radius: 50%;
+  background-image: radial-gradient(circle closest-side, #fff, transparent), conic-gradient(from 90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+.form-control-color-picker-surface[data-mode=wheel]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  pointer-events: none;
+}
 .form-control-color-picker-surface:focus-visible {
   outline: 2px solid var(--bs-primary);
   outline-offset: 2px;
@@ -3801,6 +3818,9 @@ input[type=color].form-control-color,
 .form-control-color-picker-slider[data-color-channel][data-color-channel=opacity]::before {
   background-image: linear-gradient(to right, transparent, currentColor), repeating-conic-gradient(#fff 0% 25%, #ccc 0% 50%);
   background-size: 100% 100%, 0.5rem 0.5rem;
+}
+.form-control-color-picker-slider[data-color-channel][data-color-channel=brightness]::before {
+  background: linear-gradient(to right, #000, currentColor);
 }
 .form-control-color-picker-slider[data-color-channel] input[type=range] {
   position: relative;

@@ -1,6 +1,7 @@
 {
   "culture": "fr",
   "translations": {
+    "aria:brightness": "curseur de sélection de luminosité",
     "ui:dialog": "boîte de dialogue du sélecteur de couleurs",
     "btn:toggle": "activer la boîte de dialogue du sélecteur de couleurs",
     "btn:swatch": "échantillon de couleur",

@@ -1,6 +1,7 @@
 {
   "culture": "de",
   "translations": {
+    "aria:brightness": "Schieberegler zur Auswahl der Helligkeit",
     "ui:dialog": "Farbauswahldialog",
     "btn:toggle": "Farbauswahldialog umschalten",
     "btn:swatch": "Farbmuster",

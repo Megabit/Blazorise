@@ -1,6 +1,7 @@
 {
   "culture": "en",
   "translations": {
+    "aria:brightness": "brightness selection slider",
     "ui:dialog": "color picker dialog",
     "btn:toggle": "toggle color picker dialog",
     "btn:swatch": "color swatch",

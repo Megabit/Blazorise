@@ -1,6 +1,7 @@
 {
   "culture": "hr",
   "translations": {
+    "aria:brightness": "klizač za odabir svjetline",
     "ui:dialog": "dijalog za odabir boje",
     "btn:toggle": "prebaci dijalog za odabir boje",
     "btn:swatch": "uzorak u boji",

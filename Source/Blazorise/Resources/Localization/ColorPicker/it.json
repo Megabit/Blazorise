@@ -1,6 +1,7 @@
 {
   "culture": "it",
   "translations": {
+    "aria:brightness": "cursore per la selezione della luminosità",
     "ui:dialog": "finestra di dialogo per la selezione dei colori",
     "btn:toggle": "attiva/disattiva la finestra di dialogo per la selezione dei colori",
     "btn:swatch": "campione di colore",
