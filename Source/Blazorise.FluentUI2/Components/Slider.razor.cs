@@ -81,7 +81,7 @@ public partial class Slider<TValue>
         var currentValue = MathUtils.Clamp( CurrentValue, min, max );
         var valuePercent = MathUtils.GetPercent( currentValue, min, max ).ToCultureInvariantString();
 
-        builder.Append( $"--fui-Slider--direction: 90deg;--fui-Slider--progress: {valuePercent}%;" );
+        builder.Append( $"--fui-Slider--direction: {( Orientation == Orientation.Vertical ? 0 : 90 )}deg;--fui-Slider--progress: {valuePercent}%;" );
 
         if ( Disabled )
         {

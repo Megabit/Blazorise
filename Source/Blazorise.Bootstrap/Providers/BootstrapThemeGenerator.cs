@@ -361,7 +361,7 @@ public class BootstrapThemeGenerator : ThemeGenerator
     {
         if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
         {
-            sb.Append( ".dropdown-menu" ).Append( "{" )
+            sb.Append( ".dropdown-menu, .form-control-color-picker-menu" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
@@ -542,7 +542,7 @@ public class BootstrapThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( theme.BodyOptions?.BackgroundColor ) )
         {
             sb
-                .Append( ".datepicker-calendar.dropdown-menu, .timepicker-menu.dropdown-menu, .datepicker-time-buttons, .timepicker-buttons" )
+                .Append( ".datepicker-calendar.dropdown-menu, .timepicker-menu.dropdown-menu, .form-control-color-picker-menu, .datepicker-time-buttons, .timepicker-buttons" )
                 .Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BodyBackgroundColor )};" )
                 .AppendLine( "}" );
@@ -553,7 +553,7 @@ public class BootstrapThemeGenerator : ThemeGenerator
             sb
                 .Append( ".datepicker-calendar.dropdown-menu, .datepicker-day, .datepicker-month," )
                 .Append( ".datepicker-time > span, .datepicker-time .datepicker-button, .datepicker-actions .datepicker-button, .datepicker-time-input," )
-                .Append( ".timepicker-menu.dropdown-menu, .timepicker-input, .timepicker-separator, .timepicker-meridiem" )
+                .Append( ".timepicker-menu.dropdown-menu, .form-control-color-picker-menu, .timepicker-input, .timepicker-separator, .timepicker-meridiem" )
                 .Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.BodyTextColor )};" )
                 .AppendLine( "}" );

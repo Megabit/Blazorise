@@ -1,6 +1,7 @@
 {
   "culture": "pt",
   "translations": {
+    "aria:brightness": "controle deslizante de seleção de brilho",
     "ui:dialog": "diálogo seletor de cores",
     "btn:toggle": "alternar a caixa de diálogo do seletor de cores",
     "btn:swatch": "amostra de cor",
@@ -11,6 +12,8 @@
     "aria:btn:save": "salvar e fechar",
     "aria:btn:cancel": "cancelar e fechar",
     "aria:btn:clear": "limpar e fechar",
+    "aria:format": "formato de cor",
+    "aria:btn:copy": "copiar cor",
     "aria:input": "campo de entrada de cor",
     "aria:palette": "área de seleção de cores",
     "aria:hue": "controle deslizante de seleção de matiz",

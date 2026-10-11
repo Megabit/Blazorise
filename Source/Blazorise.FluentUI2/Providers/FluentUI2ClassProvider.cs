@@ -190,6 +190,16 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
+    public override string ColorPickerContainer( bool inline ) => inline ? "fui-ColorPicker__container fui-ColorPicker__container-inline" : "fui-ColorPicker__container";
+
+    public override string ColorPickerMenu( bool inline ) => inline ? "fui-ColorPicker__menu fui-ColorPicker__menu-inline" : "fui-ColorPicker__menu";
+
+    public override string ColorPickerSurface() => "fui-ColorPicker__surface";
+
+    public override string ColorPickerMarker() => "fui-ColorPicker__marker";
+
+    public override string ColorPickerSlider() => "fui-ColorPicker__slider";
+
     #endregion
 
     #region NumericPicker

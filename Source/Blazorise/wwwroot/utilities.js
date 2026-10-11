@@ -91,6 +91,66 @@ export function showPicker(element, elementId) {
     }
 }
 
+const anchoredElements = new Map();
+
+export function showAnchoredElement(elementId, targetId) {
+    const element = document.getElementById(elementId);
+    const target = document.getElementById(targetId);
+
+    if (!element || !target || !target.parentElement || anchoredElements.has(elementId)) {
+        return;
+    }
+
+    const anchorName = element.style.getPropertyValue("position-anchor");
+    const previousAnchorName = target.style.getPropertyValue("anchor-name");
+    const previousAnchorPriority = target.style.getPropertyPriority("anchor-name");
+
+    anchoredElements.set(elementId, {
+        element,
+        parent: element.parentNode,
+        nextSibling: element.nextSibling,
+        target,
+        previousAnchorName,
+        previousAnchorPriority
+    });
+
+    if (anchorName) {
+        const existingAnchorName = getComputedStyle(target).getPropertyValue("anchor-name").trim();
+        target.style.setProperty("anchor-name", existingAnchorName && existingAnchorName !== "none"
+            ? `${existingAnchorName}, ${anchorName}`
+            : anchorName);
+    }
+
+    target.parentElement.appendChild(element);
+}
+
+export function restoreElement(elementId) {
+    const state = anchoredElements.get(elementId);
+
+    if (!state) {
+        return;
+    }
+
+    anchoredElements.delete(elementId);
+
+    if (state.previousAnchorName) {
+        state.target.style.setProperty("anchor-name", state.previousAnchorName, state.previousAnchorPriority);
+    } else {
+        state.target.style.removeProperty("anchor-name");
+    }
+
+    // Blazor may already have removed the popup as part of disposing its component subtree.
+    if (!state.element.parentNode) {
+        return;
+    }
+
+    if (state.parent.isConnected) {
+        state.parent.insertBefore(state.element, state.nextSibling?.parentNode === state.parent ? state.nextSibling : null);
+    } else {
+        state.element.remove();
+    }
+}
+
 export function submitClosestForm(element) {
     const form = element && typeof element.closest === "function"
         ? element.closest("form")
@@ -517,7 +577,11 @@ export function copyToClipboard(element, elementId) {
         return;
 
     if (navigator.clipboard) {
-        navigator.clipboard.writeText(element.innerText);
+        const text = element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement
+            ? element.value
+            : element.innerText;
+
+        return navigator.clipboard.writeText(text);
     }
 }
 

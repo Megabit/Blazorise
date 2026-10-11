@@ -190,6 +190,16 @@ public class MaterialClassProvider : ClassProvider
 
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
+    public override string ColorPickerContainer( bool inline ) => inline ? "mui-color-picker-container mui-color-picker-container-inline" : "mui-color-picker-container";
+
+    public override string ColorPickerMenu( bool inline ) => inline ? "mui-color-picker-menu mui-color-picker-menu-inline" : "mui-color-picker-menu";
+
+    public override string ColorPickerSurface() => "mui-color-picker-surface";
+
+    public override string ColorPickerMarker() => "mui-color-picker-marker";
+
+    public override string ColorPickerSlider() => "mui-color-picker-slider";
+
     #endregion
 
     #region NumericPicker

@@ -182,7 +182,8 @@ body:before {
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-datepicker > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-numeric > input,
-.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input {
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input,
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-color-picker-container > button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -203,7 +204,8 @@ body:before {
 .b-addons > .b-addon-body > input,
 .b-addons > .b-addon-body > div.tw-datepicker,
 .b-addons > .b-addon-body > div.tw-numeric,
-.b-addons > .b-addon-body > div.tw-timepicker {
+.b-addons > .b-addon-body > div.tw-timepicker,
+.b-addons > .b-addon-body > div.tw-color-picker-container {
   position: relative;
   flex: 1 1 auto;
   width: 1%;
@@ -212,7 +214,8 @@ body:before {
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-datepicker > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-numeric > input,
-.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input {
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input,
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-color-picker-container > button {
   border-left: 0;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;

@@ -18,12 +18,12 @@ else
     {
         @if ( MinDefined || MaxDefined )
         {
-            <div class="fui-Slider__container">
+            <div class="fui-Slider__container" data-orientation="@OrientationString">
                 @if ( MinDefined )
                 {
                     <label aria-hidden="true" class="fui-Label">@MinString</label>
                 }
-                <div class="@InputClassNames" style="@InputStyleNames">
+                <div class="@InputClassNames" data-orientation="@OrientationString" style="@InputStyleNames">
                     @SliderElement
                 </div>
                 @if ( MaxDefined )
@@ -34,7 +34,7 @@ else
         }
         else
         {
-            <div class="@InputClassNames" style="@InputStyleNames">
+            <div class="@InputClassNames" data-orientation="@OrientationString" style="@InputStyleNames">
                 @SliderElement
             </div>
         }
@@ -42,7 +42,7 @@ else
 
     private RenderFragment SliderElement => __builder =>
     {
-        <input @ref="@ElementRef" id="@ElementId" type="range" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" step="@StepString" min="@MinString" max="@MaxString" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @bind-value="@CurrentValueAsString" @bind-value:event="oninput" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+        <input @ref="@ElementRef" id="@ElementId" type="range" aria-orientation="@OrientationString" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" step="@StepString" min="@MinString" max="@MaxString" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @bind-value="@CurrentValueAsString" @bind-value:event="oninput" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
         <div class="fui-Slider__rail"></div>
         <div class="fui-Slider__thumb"></div>
     };

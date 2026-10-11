@@ -1,6 +1,7 @@
 {
   "culture": "fr",
   "translations": {
+    "aria:brightness": "curseur de sélection de luminosité",
     "ui:dialog": "boîte de dialogue du sélecteur de couleurs",
     "btn:toggle": "activer la boîte de dialogue du sélecteur de couleurs",
     "btn:swatch": "échantillon de couleur",
@@ -11,6 +12,8 @@
     "aria:btn:save": "enregistrer et fermer",
     "aria:btn:cancel": "annuler et fermer",
     "aria:btn:clear": "effacer et fermer",
+    "aria:format": "format de couleur",
+    "aria:btn:copy": "copier la couleur",
     "aria:input": "champ de saisie de couleur",
     "aria:palette": "zone de sélection des couleurs",
     "aria:hue": "curseur de sélection de teinte",

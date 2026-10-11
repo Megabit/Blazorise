@@ -1,5 +1,5 @@
 @inherits BaseRibbonItem
-<Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Height="@(Height is null ? EffectiveHeight : null)" Disabled="@IsDisabled" Direction="@Direction" Visible="@Visible" VisibleChanged="@OnVisibleChangedHandler" @onkeydown="@OnMenuKeyDownHandler" @attributes="@Attributes">
+<Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Position="@(Position ?? Blazorise.Position.Relative)" Height="@(Height is null ? EffectiveHeight : null)" Disabled="@IsDisabled" Direction="@Direction" Visible="@Visible" VisibleChanged="@OnVisibleChangedHandler" @onkeydown="@OnMenuKeyDownHandler" @attributes="@Attributes">
     <DropdownToggle @ref="@toggleRef" ElementId="@ToggleElementId" Color="@Color" TextColor="@EffectiveTextColor" Ghost Size="Blazorise.Size.Small" Border="Blazorise.Border.Is0" Flex="@(EffectiveSize == RibbonItemSize.Large ? Blazorise.Flex.InlineFlex.Column.NoWrap.AlignItems.Center.JustifyContent.Center : Blazorise.Flex.InlineFlex.Row.NoWrap.AlignItems.Center.JustifyContent.Center)" Height="@(EffectiveSize == RibbonItemSize.Large ? Blazorise.Height.Is100 : Blazorise.Height.Auto)" Padding="Blazorise.Padding.Is1" TextSize="Blazorise.TextSize.Px( 13 )" TextOverflow="Blazorise.TextOverflow.NoWrap" aria-label="@Text" title="@Text">
         @if ( ChildContent is not null )
         {
@@ -39,7 +39,7 @@
                 <RibbonDropdownDivider />
             }
         }
-        @if ( ShowPalette )
+        @if ( ShowPalette && Visible )
         {
             <CascadingValue TValue="Dropdown" Value="@((Dropdown)null)" IsFixed>
                 @if ( EffectivePalette.Length > 0 )
@@ -96,7 +96,7 @@
             }
             @if ( ShowMoreColors )
             {
-                <ColorPicker @ref="@pickerRef" Class="@MoreColorsClassNames" Value="@Value" ValueChanged="@OnValueChangedHandler" ShowValue="false" Size="Blazorise.Size.Small" Disabled="@Disabled" ReadOnly="@ReadOnly" Width="Blazorise.Width.Is100" Height="Blazorise.Height.Auto" Border="Blazorise.Border.Is0" TextSize="Blazorise.TextSize.Px( 13 )" ShowPalette="false" ShowClearButton="false" ShowCancelButton="true" ShowOpacitySlider="true" ShowHueSlider="true" ShowInputField="true" PickerLocalizer="@PickerLocalizer" TabIndex="0" aria-label="@($"{Text}: {EffectiveMoreColorsText}")" role="menuitem" @onclick="@OnMoreColorsClickedHandler">
+                <ColorPicker @ref="@pickerRef" Class="@MoreColorsClassNames" Value="@Value" ValueChanged="@OnValueChangedHandler" ShowValue="false" Size="Blazorise.Size.Small" Disabled="@Disabled" ReadOnly="@ReadOnly" Width="Blazorise.Width.Is100" Height="Blazorise.Height.Auto" Border="Blazorise.Border.Is0" TextSize="Blazorise.TextSize.Px( 13 )" ShowPalette="false" ShowClearButton="false" ShowCancelButton="true" ShowOpacitySlider="true" ShowHueSlider="true" ShowInputField="true" PickerLocalizer="@PickerLocalizer" TabIndex="0" aria-label="@($"{Text}: {EffectiveMoreColorsText}")" role="menuitem" @onclick="@OnMoreColorsClickedHandler" @onkeydown="@OnMoreColorsKeyDownHandler">
                     <PreviewContent>
                         <_RibbonCommandContent Text="@EffectiveMoreColorsText" Icon="IconName.Palette" Size="RibbonItemSize.Medium" />
                     </PreviewContent>

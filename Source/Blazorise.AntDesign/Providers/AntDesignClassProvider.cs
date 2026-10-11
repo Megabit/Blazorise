@@ -190,6 +190,16 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
+    public override string ColorPickerContainer( bool inline ) => inline ? "ant-input-color-picker-container ant-input-color-picker-container-inline" : "ant-input-color-picker-container";
+
+    public override string ColorPickerMenu( bool inline ) => inline ? "ant-input-color-picker-menu ant-input-color-picker-menu-inline" : "ant-input-color-picker-menu";
+
+    public override string ColorPickerSurface() => "ant-input-color-picker-surface";
+
+    public override string ColorPickerMarker() => "ant-input-color-picker-marker";
+
+    public override string ColorPickerSlider() => "ant-input-color-picker-slider";
+
     #endregion
 
     #region NumericPicker

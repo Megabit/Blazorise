@@ -182,6 +182,16 @@ public interface IClassProvider
 
     string ColorPickerSize( Size size );
 
+    string ColorPickerContainer( bool inline );
+
+    string ColorPickerMenu( bool inline );
+
+    string ColorPickerSurface();
+
+    string ColorPickerMarker();
+
+    string ColorPickerSlider();
+
     #endregion
 
     #region NumericPicker

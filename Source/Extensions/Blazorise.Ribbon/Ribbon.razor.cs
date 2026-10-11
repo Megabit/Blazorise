@@ -107,7 +107,10 @@ public partial class Ribbon : BaseComponent, IAsyncDisposable
             await SetCollapsed( false );
         }
 
-        await JSModule.Initialize( ElementRef, ElementId );
+        if ( firstRender )
+        {
+            await JSModule.Initialize( ElementRef, ElementId );
+        }
 
         await base.OnAfterRenderAsync( firstRender );
     }

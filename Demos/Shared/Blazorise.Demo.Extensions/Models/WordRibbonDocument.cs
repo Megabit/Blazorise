@@ -1,7 +1,7 @@
 namespace Blazorise.Demo.Models;
 
 /// <summary>
-/// An immutable document snapshot used by the sample's undo history.
+/// Sample values displayed by the ribbon demo's controls and document preview.
 /// </summary>
 public record WordRibbonDocument
 {

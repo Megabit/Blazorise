@@ -98,6 +98,21 @@ public interface IJSUtilitiesModule : IBaseJSModule
     ValueTask ShowPicker( ElementReference elementRef, string elementId );
 
     /// <summary>
+    /// Moves an anchored popup to the target element's parent so it remains visible when its original container closes.
+    /// </summary>
+    /// <param name="elementId">Identifier of the popup element.</param>
+    /// <param name="targetId">Identifier of the anchor element.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask ShowAnchoredElement( string elementId, string targetId );
+
+    /// <summary>
+    /// Restores a moved element to its original location, or removes it if its original container has been disposed.
+    /// </summary>
+    /// <param name="elementId">Identifier of the moved element.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask RestoreElement( string elementId );
+
+    /// <summary>
     /// Submits the closest parent form for the supplied element.
     /// </summary>
     /// <param name="elementRef">Reference to the rendered element.</param>
@@ -199,7 +214,7 @@ public interface IJSUtilitiesModule : IBaseJSModule
     ValueTask<string> GetUserAgent();
 
     /// <summary>
-    /// Copies the specified element content to the clipboard.
+    /// Copies the specified element's text or input value to the clipboard.
     /// </summary>
     /// <param name="elementRef">Reference to the rendered element.</param>
     /// <param name="elementId">ID of the rendered element.</param>

@@ -430,84 +430,124 @@ public static class HtmlColorCodeParser
     /// <param name="value">The literal CSS color to parse.</param>
     /// <param name="color">The parsed color, including alpha.</param>
     /// <returns>True if the color can be resolved without browser state.</returns>
-    public static bool TryParse( string value, out System.Drawing.Color color )
+    public static bool TryParse( string value, out System.Drawing.Color color ) => TryParse( value, out color, out _ );
+
+    /// <summary>
+    /// Resolves literal CSS colors while preserving alpha precision before conversion to an 8-bit channel.
+    /// </summary>
+    /// <param name="value">The literal CSS color to parse.</param>
+    /// <param name="color">The parsed color, including its 8-bit alpha channel.</param>
+    /// <param name="alpha">The parsed alpha component from 0 to 1 when parsing succeeds.</param>
+    /// <returns>True if the color can be resolved without browser state.</returns>
+    public static bool TryParse( string value, out System.Drawing.Color color, out double alpha )
     {
         color = System.Drawing.Color.Empty;
+        alpha = 0;
 
         if ( string.IsNullOrWhiteSpace( value ) )
+        {
             return false;
+        }
 
         value = value.Trim();
 
         if ( value.StartsWith( '#' ) )
         {
-            string hex = value[1..];
+            var hex = value[1..];
 
             if ( hex.Length is 3 or 4 )
             {
-                string expanded = string.Empty;
+                var expanded = new StringBuilder( hex.Length * 2 );
 
-                foreach ( char digit in hex )
-                    expanded += new string( digit, 2 );
+                foreach ( var digit in hex )
+                {
+                    expanded.Append( digit );
+                    expanded.Append( digit );
+                }
 
-                hex = expanded;
+                hex = expanded.ToString();
             }
 
-            if ( hex.Length is not ( 6 or 8 ) || !uint.TryParse( hex, NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out uint channels ) )
+            if ( hex.Length is not ( 6 or 8 ) || !uint.TryParse( hex, NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out var channels ) )
+            {
                 return false;
+            }
 
-            int alpha = hex.Length == 8 ? (int)( channels & 255 ) : 255;
+            var hexAlphaChannel = hex.Length == 8 ? (int)( channels & 255 ) : 255;
+
             if ( hex.Length == 8 )
+            {
                 channels >>= 8;
+            }
 
-            color = System.Drawing.Color.FromArgb( alpha, (int)( channels >> 16 & 255 ), (int)( channels >> 8 & 255 ), (int)( channels & 255 ) );
+            color = System.Drawing.Color.FromArgb( hexAlphaChannel, (int)( channels >> 16 & 255 ), (int)( channels >> 8 & 255 ), (int)( channels & 255 ) );
+            alpha = hexAlphaChannel / 255d;
+
             return true;
         }
 
-        int opening = value.IndexOf( '(' );
+        var opening = value.IndexOf( '(' );
 
         if ( opening < 0 )
         {
             color = System.Drawing.Color.FromName( value );
+            alpha = color.A / 255d;
+
             return color.IsKnownColor;
         }
 
-        string function = value[..opening].ToLowerInvariant();
+        var function = value[..opening].ToLowerInvariant();
+
         if ( function is not ( "rgb" or "rgba" or "hsl" or "hsla" ) || !value.EndsWith( ')' ) )
+        {
             return false;
+        }
 
-        string[] parts = Regex.Split( value[( opening + 1 )..^1].Trim(), @"\s*[,/]\s*|\s+" );
+        var parts = Regex.Split( value[( opening + 1 )..^1].Trim(), @"\s*[,/]\s*|\s+" );
+
         if ( parts.Length is not ( 3 or 4 ) )
+        {
             return false;
+        }
 
-        double opacity = 1;
+        var opacity = 1d;
+
         if ( parts.Length == 4 && !TryNumber( parts[3], 1, out opacity ) )
+        {
             return false;
+        }
 
-        int alphaChannel = (int)( Math.Clamp( opacity, 0, 1 ) * 255 );
+        alpha = Math.Clamp( opacity, 0, 1 );
+        var alphaChannel = (int)( alpha * 255 );
 
         if ( function is "rgb" or "rgba" )
         {
-            if ( !TryNumber( parts[0], 255, out double red )
-                || !TryNumber( parts[1], 255, out double green )
-                || !TryNumber( parts[2], 255, out double blue ) )
+            if ( !TryNumber( parts[0], 255, out var red )
+                || !TryNumber( parts[1], 255, out var green )
+                || !TryNumber( parts[2], 255, out var blue ) )
+            {
                 return false;
+            }
 
             color = System.Drawing.Color.FromArgb( alphaChannel, Channel( red ), Channel( green ), Channel( blue ) );
+
             return true;
         }
 
-        if ( !TryHue( parts[0], out double hue )
-            || !parts[1].EndsWith( '%' ) || !TryNumber( parts[1], 1, out double saturation )
-            || !parts[2].EndsWith( '%' ) || !TryNumber( parts[2], 1, out double lightness ) )
+        if ( !TryHue( parts[0], out var hue )
+            || !parts[1].EndsWith( '%' ) || !TryNumber( parts[1], 1, out var saturation )
+            || !parts[2].EndsWith( '%' ) || !TryNumber( parts[2], 1, out var lightness ) )
+        {
             return false;
+        }
 
-        HslColor hsl = new(
+        var hsl = new HslColor(
             ( hue % 360 + 360 ) % 360,
             Math.Clamp( saturation, 0, 1 ) * 100,
             Math.Clamp( lightness, 0, 1 ) * 100 );
 
         color = System.Drawing.Color.FromArgb( alphaChannel, hsl.ToColor() );
+
         return true;
     }
 

@@ -1,6 +1,7 @@
 {
   "culture": "zh",
   "translations": {
+    "aria:brightness": "亮度选择滑块",
     "ui:dialog": "颜色选择器对话框",
     "btn:toggle": "切换颜色选择器对话框",
     "btn:swatch": "色卡",
@@ -11,6 +12,8 @@
     "aria:btn:save": "保存并关闭",
     "aria:btn:cancel": "取消并关闭",
     "aria:btn:clear": "清除并关闭",
+    "aria:format": "颜色格式",
+    "aria:btn:copy": "复制颜色",
     "aria:input": "颜色输入字段",
     "aria:palette": "颜色选择区域",
     "aria:hue": "色调选择滑块",

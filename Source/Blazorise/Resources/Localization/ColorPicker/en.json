@@ -1,6 +1,7 @@
 {
   "culture": "en",
   "translations": {
+    "aria:brightness": "brightness selection slider",
     "ui:dialog": "color picker dialog",
     "btn:toggle": "toggle color picker dialog",
     "btn:swatch": "color swatch",
@@ -11,6 +12,8 @@
     "aria:btn:save": "save and close",
     "aria:btn:cancel": "cancel and close",
     "aria:btn:clear": "clear and close",
+    "aria:format": "color format",
+    "aria:btn:copy": "copy color",
     "aria:input": "color input field",
     "aria:palette": "color selection area",
     "aria:hue": "hue selection slider",

@@ -134,10 +134,15 @@
                 display: none;
             }
 
-            .ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-color-picker.ant-color-picker-trigger {
+            .ant-addons > .ant-input-wrapper.ant-input-group > .ant-input-color-picker-container {
                 flex: none;
                 width: auto;
                 min-width: auto;
+
+                > .ant-color-picker-trigger {
+                    width: auto;
+                    min-width: auto;
+                }
             }
         }
     }

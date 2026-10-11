@@ -1,0 +1,98 @@
+@namespace Blazorise
+
+<div id="@Parent.MenuElementId"
+     class="@Parent.MenuClassNames"
+     style="@Parent.MenuStyleNames"
+     data-animation-duration="@Parent.AnimationDurationString"
+     role="@(Parent.Inline ? "group" : "dialog")"
+     aria-modal="@(Parent.Inline ? null : "false")"
+     aria-label="@Parent.Localize( "ui:dialog" )"
+     aria-labelledby="@Parent.MenuAriaLabelledBy"
+     @onkeydown="@NonRenderingKeyDownHandler"
+     @onkeydown:stopPropagation
+     @onpointermove="@NonRenderingPointerMoveHandler"
+     @onpointerup="@NonRenderingPointerUpHandler"
+     @onpointercancel="@NonRenderingPointerCancelHandler"
+     @attributes="@(Parent.Inline ? Parent.Attributes : null)">
+    <CascadingValue TValue="Dropdown" Value="@((Dropdown)null)" IsFixed>
+        <CascadingValue Value="@Parent">
+            <CascadingValue Value="@Parent.SelectedColor">
+                <_ColorPickerSurface @key="@((Parent.Mode, Parent.Inline))" @ref="@surfaceRef" ElementId="@Parent.SurfaceElementId" />
+            </CascadingValue>
+        </CascadingValue>
+        <CascadingValue TValue="Validation" Value="@((Validation)null)" IsFixed>
+            <CascadingValue TValue="Field" Value="@((Field)null)" IsFixed>
+                <Div Flex="Flex.Column" Gap="Gap.Is2" Margin="Margin.Is2.FromTop">
+                    @if ( Parent.IsWheelSurface )
+                    {
+                        <Div Class="@Parent.SliderClassNames" Style="@Parent.BrightnessSliderStyleNames" data-color-channel="brightness">
+                            <Slider Disabled="@Parent.IsInteractionDisabled" TValue="double" ElementId="@Parent.BrightnessSliderElementId" Value="@Parent.Brightness" ValueChanged="@Parent.OnBrightnessChangedHandler" Min="0" Max="100" Step="1" form="" aria-label="@Parent.Localize( "aria:brightness" )" />
+                        </Div>
+                    }
+                    @if ( Parent.ShowHueSlider )
+                    {
+                        <Div Class="@Parent.SliderClassNames" Style="@Parent.HueSliderStyleNames" data-color-channel="hue">
+                            <Slider Disabled="@Parent.IsInteractionDisabled" TValue="double" ElementId="@Parent.HueSliderElementId" Value="@Parent.Hue" ValueChanged="@Parent.OnHueChangedHandler" Min="0" Max="360" Step="1" form="" aria-label="@Parent.Localize( "aria:hue" )" />
+                        </Div>
+                    }
+                    @if ( Parent.ShowOpacitySlider )
+                    {
+                        <Div Class="@Parent.SliderClassNames" Style="@Parent.OpacitySliderStyleNames" data-color-channel="opacity">
+                            <Slider Disabled="@Parent.IsInteractionDisabled" TValue="double" ElementId="@Parent.OpacitySliderElementId" Value="@Parent.Opacity" ValueChanged="@Parent.OnOpacityChangedHandler" Min="0" Max="1" Step="0.01" form="" aria-label="@Parent.Localize( "aria:opacity" )" />
+                        </Div>
+                    }
+                    @if ( Parent.ShowPalette && Parent.Palette is not null )
+                    {
+                        <Div Flex="Flex.Wrap" Gap="Gap.Is1" role="group" aria-label="@Parent.Localize( "btn:swatch" )">
+                            @for ( var index = 0; index < Parent.Palette.Length; index++ )
+                            {
+                                <_ColorPickerPaletteColor ElementId="@($"{Parent.ElementId}-palette-{index}")" Value="@Parent.Palette[index]" />
+                            }
+                        </Div>
+                    }
+                    @if ( Parent.ShowInputField )
+                    {
+                        <Div Flex="Flex.Row.AlignItems.Center" Gap="Gap.Is1">
+                            <Select Disabled="@Parent.IsInteractionDisabled" TValue="bool" ElementId="@Parent.FormatSelectElementId" Value="@Parent.IsRgbaFormat" ValueChanged="@Parent.OnFormatChangedHandler" Size="Size.Small" Width="Width.Auto" Flex="Flex.Shrink.Is0" form="" aria-label="@Parent.Localize( "aria:format" )">
+                                <SelectItem TValue="bool" Value="false">HEXA</SelectItem>
+                                <SelectItem TValue="bool" Value="true">RGBA</SelectItem>
+                            </Select>
+                            <Addons Size="Size.Small" Width="Width.Px().Min( 0 )" Flex="Flex.Grow.Is1.Shrink.Is1">
+                                <Addon AddonType="AddonType.Body">
+                                    <TextInput Disabled="@Parent.IsInteractionDisabled" ElementId="@Parent.InputElementId" Value="@Parent.InputText" ValueChanged="@Parent.OnInputChangedHandler" Size="Size.Small" Immediate="false" form="" aria-label="@Parent.Localize( "aria:input" )" />
+                                </Addon>
+                                <Addon AddonType="AddonType.End">
+                                    <Button Disabled="@Parent.IsInteractionDisabled" ElementId="@Parent.CopyButtonElementId" Type="ButtonType.Button" Ghost Size="Size.Small" Clicked="@Parent.OnCopyClickHandler" aria-label="@Parent.Localize( "aria:btn:copy" )" title="@Parent.Localize( "aria:btn:copy" )">
+                                        <Icon Name="IconName.Copy" />
+                                    </Button>
+                                </Addon>
+                            </Addons>
+                        </Div>
+                    }
+                    @if ( Parent.ShowClearButton || Parent.ShowCancelButton || Parent.ShowSaveButton )
+                    {
+                        <Div Flex="Flex.Row.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is1">
+                            @if ( Parent.ShowClearButton )
+                            {
+                                <Button Disabled="@Parent.IsInteractionDisabled" ElementId="@Parent.ClearButtonElementId" Type="ButtonType.Button" Color="Color.Danger" Ghost Size="Size.Small" Clicked="@Parent.OnClearClickHandler" aria-label="@Parent.Localize( "aria:btn:clear" )">@Parent.Localize( "btn:clear" )</Button>
+                            }
+                            @if ( Parent.ShowCancelButton || Parent.ShowSaveButton )
+                            {
+                                <Div Flex="Flex.InlineFlex.JustifyContent.End.Grow.Is1" Gap="Gap.Is1">
+                                    @if ( Parent.ShowCancelButton )
+                                    {
+                                        <Button Disabled="@Parent.IsInteractionDisabled" ElementId="@Parent.CancelButtonElementId" Type="ButtonType.Button" Color="Color.Secondary" Ghost Size="Size.Small" Clicked="@Parent.OnCancelClickHandler" aria-label="@Parent.Localize( "aria:btn:cancel" )">@Parent.Localize( "btn:cancel" )</Button>
+                                    }
+                                    @if ( Parent.ShowSaveButton )
+                                    {
+                                        <Button Disabled="@Parent.IsInteractionDisabled" ElementId="@Parent.SaveButtonElementId" Type="ButtonType.Button" Color="Color.Primary" Ghost Size="Size.Small" Clicked="@Parent.OnSaveClickHandler" aria-label="@Parent.Localize( "aria:btn:save" )">@Parent.Localize( "btn:save" )</Button>
+                                    }
+                                </Div>
+                            }
+                        </Div>
+                    }
+                </Div>
+            </CascadingValue>
+        </CascadingValue>
+    </CascadingValue>
+</div>

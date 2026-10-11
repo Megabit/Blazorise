@@ -525,7 +525,7 @@ public class BulmaThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( theme.BodyOptions?.BackgroundColor ) )
         {
             sb
-                .Append( ".datepicker .datepicker-calendar.box, .timepicker .timepicker-menu.box, .datepicker-time-buttons, .timepicker-buttons" )
+                .Append( ".datepicker .datepicker-calendar.box, .timepicker .timepicker-menu.box, .color-picker-menu, .datepicker-time-buttons, .timepicker-buttons" )
                 .Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BodyBackgroundColor )};" )
                 .AppendLine( "}" );
@@ -534,7 +534,7 @@ public class BulmaThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( theme.BodyOptions?.TextColor ) )
         {
             sb
-                .Append( ".datepicker .datepicker-calendar.box, .datepicker .datepicker-day, .datepicker .datepicker-month," )
+                .Append( ".datepicker .datepicker-calendar.box, .color-picker-menu, .datepicker .datepicker-day, .datepicker .datepicker-month," )
                 .Append( ".timepicker .timepicker-menu.box, .timepicker .timepicker-input.input, .datepicker-time-button:not(:disabled), .timepicker-button:not(:disabled)," )
                 .Append( ".timepicker .timepicker-separator.button, .timepicker .timepicker-meridiem.button," )
                 .Append( ".datepicker .datepicker-navigation.button:hover:not(:disabled)," )

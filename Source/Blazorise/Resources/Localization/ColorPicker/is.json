@@ -1,6 +1,7 @@
 {
   "culture": "is",
   "translations": {
+    "aria:brightness": "sleði fyrir birtustig",
     "ui:dialog": "valmynd fyrir litaval",
     "btn:toggle": "skipta um valmynd",
     "btn:swatch": "litapróf",
@@ -11,6 +12,8 @@
     "aria:btn:save": "vista og loka",
     "aria:btn:cancel": "hætta við og loka",
     "aria:btn:clear": "hreinsa og lokað",
+    "aria:format": "litasnið",
+    "aria:btn:copy": "afrita lit",
     "aria:input": "inntak",
     "aria:palette": "litatafla",
     "aria:hue": "litbrigði",

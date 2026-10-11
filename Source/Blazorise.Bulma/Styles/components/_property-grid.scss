@@ -129,7 +129,7 @@
         }
 
         &[data-property-grid-editor="color"] {
-            .field.has-addons > .control:has(> .color-picker) {
+            .field.has-addons > .control:has(> .color-picker-container) {
                 flex: none;
             }
 

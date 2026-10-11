@@ -73,6 +73,14 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
         => InvokeSafeVoidAsync( "showPicker", elementRef, elementId );
 
     /// <inheritdoc/>
+    public virtual ValueTask ShowAnchoredElement( string elementId, string targetId )
+        => InvokeSafeVoidAsync( "showAnchoredElement", elementId, targetId );
+
+    /// <inheritdoc/>
+    public virtual ValueTask RestoreElement( string elementId )
+        => InvokeSafeVoidAsync( "restoreElement", elementId );
+
+    /// <inheritdoc/>
     public virtual ValueTask SubmitClosestForm( ElementReference elementRef )
         => InvokeSafeVoidAsync( "submitClosestForm", elementRef );
 

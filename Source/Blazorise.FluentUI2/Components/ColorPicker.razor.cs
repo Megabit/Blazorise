@@ -4,10 +4,16 @@ using Blazorise.Utilities;
 
 namespace Blazorise.FluentUI2.Components;
 
+/// <summary>
+/// A color picker styled for Fluent UI 2.
+/// </summary>
 public partial class ColorPicker
 {
     #region Constructors
 
+    /// <summary>
+    /// Initializes the Fluent UI input and addon builders.
+    /// </summary>
     public ColorPicker()
     {
         InputClassBuilder = new ClassBuilder( BuildInputClasses, builder => builder.Append( Classes?.Wrapper ) );
@@ -19,6 +25,7 @@ public partial class ColorPicker
 
     #region Methods
 
+    /// <inheritdoc/>
     protected internal override void DirtyClasses()
     {
         InputClassBuilder.Dirty();
@@ -27,6 +34,7 @@ public partial class ColorPicker
         base.DirtyClasses();
     }
 
+    /// <inheritdoc/>
     protected internal override void DirtyStyles()
     {
         WrapperStyleBuilder.Dirty();
@@ -80,24 +88,39 @@ public partial class ColorPicker
 
     #region Properties
 
-    protected override string ColorPreviewElementSelector => ":scope > .fui-Input__colorPreview";
-
-    protected override string ColorValueElementSelector => ":scope > .fui-Input__colorValue";
-
+    /// <summary>
+    /// Gets the class builder for the input wrapper.
+    /// </summary>
     protected ClassBuilder InputClassBuilder { get; private set; }
 
+    /// <summary>
+    /// Gets the class builder for the addon content wrapper.
+    /// </summary>
     protected ClassBuilder AddonClassBuilder { get; private set; }
 
+    /// <summary>
+    /// Gets the style builder for the input wrapper.
+    /// </summary>
     protected StyleBuilder WrapperStyleBuilder { get; private set; }
 
+    /// <summary>
+    /// Gets the classes for the input wrapper.
+    /// </summary>
     protected string InputClassNames => InputClassBuilder.Class;
 
+    /// <summary>
+    /// Gets the classes for the addon content wrapper.
+    /// </summary>
     protected string AddonClassNames => AddonClassBuilder.Class;
 
+    /// <summary>
+    /// Gets the styles for the input wrapper.
+    /// </summary>
     protected string WrapperStyleNames => WrapperStyleBuilder.Styles;
 
-    protected string ColorPreviewClassNames => "fui-Input__colorPreview";
-
+    /// <summary>
+    /// Gets the classes for the displayed color value.
+    /// </summary>
     protected string ColorValueClassNames => "fui-Input__colorValue";
 
     #endregion

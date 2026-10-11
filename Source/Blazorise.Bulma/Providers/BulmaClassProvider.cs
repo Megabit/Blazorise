@@ -190,6 +190,16 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
+    public override string ColorPickerContainer( bool inline ) => inline ? "color-picker-container color-picker-container-inline" : "color-picker-container";
+
+    public override string ColorPickerMenu( bool inline ) => inline ? "color-picker-menu color-picker-menu-inline" : "color-picker-menu";
+
+    public override string ColorPickerSurface() => "color-picker-surface";
+
+    public override string ColorPickerMarker() => "color-picker-marker";
+
+    public override string ColorPickerSlider() => "color-picker-slider";
+
     #endregion
 
     #region NumericPicker
