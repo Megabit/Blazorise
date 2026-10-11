@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -144,9 +145,15 @@ public class FluentTextSize :
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentTextSize> cachedOperations = new( static ( _, cache ) => new() { cache = cache }, static builder => ref builder.cache );
+
+    private FluentUtilityState<FluentTextSize> cache;
+
+    private UtilityTarget? utilityTarget;
+
     private TextSizeDefinition currentTextSizeDefinition;
 
-    private readonly Dictionary<TextSizeType, TextSizeDefinition> rules = new();
+    private Dictionary<TextSizeType, TextSizeDefinition> rules;
 
     private bool dirty = true;
 
@@ -156,17 +163,31 @@ public class FluentTextSize :
 
     #region Methods
 
+    internal static FluentTextSize CreateCached() => cachedOperations.CreateRoot();
+
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
+    {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Class( (IClassProvider)provider ) );
+        }
+
+        return BuildClassNames( classProvider );
+    }
+
+    private string BuildClassNames( IClassProvider classProvider )
     {
         if ( dirty )
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules.Count > 0 )
+                if ( rules?.Count > 0 )
+                {
                     builder.Append( rules
                         .Where( r => r.Key != TextSizeType.Default || r.Value.Breakpoint != Breakpoint.None )
                         .Select( r => classProvider.TextSize( r.Key, r.Value ) ) );
+                }
             }
 
             var classBuilder = new ClassBuilder( BuildClasses );
@@ -186,7 +207,13 @@ public class FluentTextSize :
 
     private IFluentTextSize WithUtilityTarget( UtilityTarget target )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.UtilityTarget = (UtilityTarget)value, value: (int)target, target: target );
+        }
+
         UtilityTarget = target;
+
         return this;
     }
 
@@ -197,6 +224,13 @@ public class FluentTextSize :
     /// <returns>Next rule reference.</returns>
     public IFluentTextSizeOnBreakpoint WithSize( TextSizeType textSize )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithSize( (TextSizeType)value ), value: (int)textSize );
+        }
+
+        rules ??= new();
+
         var textSizeDefinition = new TextSizeDefinition { Breakpoint = Breakpoint.None };
 
         rules.Add( textSize, textSizeDefinition );
@@ -214,6 +248,11 @@ public class FluentTextSize :
     /// <returns>Next rule reference.</returns>
     public IFluentTextSizeWithSize WithBreakpoint( Breakpoint breakpoint )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithBreakpoint( (Breakpoint)value ), value: (int)breakpoint );
+        }
+
         currentTextSizeDefinition.Breakpoint = breakpoint;
         Dirty();
 
@@ -227,7 +266,19 @@ public class FluentTextSize :
     /// <summary>
     /// Gets or sets the utility target override.
     /// </summary>
-    public UtilityTarget? UtilityTarget { get; set; }
+    public UtilityTarget? UtilityTarget
+    {
+        get => cache.IsCached ? cache.Target : utilityTarget;
+        set
+        {
+            if ( cache.IsCached )
+            {
+                throw new InvalidOperationException( "Cached fluent utilities are immutable. Use OnSelf or OnWrapper to change the utility target." );
+            }
+
+            utilityTarget = value;
+        }
+    }
 
     /// <summary>
     /// Targets the utility output to the component element.
@@ -301,65 +352,67 @@ public class FluentTextSize :
 /// </summary>
 public static class TextSize
 {
+    private static readonly FluentTextSize cached = FluentTextSize.CreateCached();
+
     /// <summary>
     /// No particular size rule will be applied, meaning a default size will be used.
     /// </summary>
-    public static IFluentTextSizeOnBreakpoint Default => new FluentTextSize().Default;
+    public static IFluentTextSizeOnBreakpoint Default => cached.Default;
 
     /// <summary>
     /// Makes an element text extra small size.
     /// </summary>
-    public static IFluentTextSizeOnBreakpoint ExtraSmall => new FluentTextSize().ExtraSmall;
+    public static IFluentTextSizeOnBreakpoint ExtraSmall => cached.ExtraSmall;
 
     /// <summary>
     /// Makes an element text small size.
     /// </summary>
-    public static IFluentTextSizeOnBreakpoint Small => new FluentTextSize().Small;
+    public static IFluentTextSizeOnBreakpoint Small => cached.Small;
 
     /// <summary>
     /// Makes an element text medium size.
     /// </summary>
-    public static IFluentTextSizeOnBreakpoint Medium => new FluentTextSize().Medium;
+    public static IFluentTextSizeOnBreakpoint Medium => cached.Medium;
 
     /// <summary>
     /// Makes an element text large.
     /// </summary>
-    public static IFluentTextSizeOnBreakpoint Large => new FluentTextSize().Large;
+    public static IFluentTextSizeOnBreakpoint Large => cached.Large;
 
     /// <summary>
     /// Makes an element text extra large.
     /// </summary>
-    public static IFluentTextSizeOnBreakpoint ExtraLarge => new FluentTextSize().ExtraLarge;
+    public static IFluentTextSizeOnBreakpoint ExtraLarge => cached.ExtraLarge;
 
     /// <summary>
     /// Matches the element text size with the h1 text size.
     /// </summary>
-    public static IFluentTextSizeOnBreakpoint Heading1 => new FluentTextSize().Heading1;
+    public static IFluentTextSizeOnBreakpoint Heading1 => cached.Heading1;
 
     /// <summary>
     /// Matches the element text size with the h2 text size.
     /// </summary>
-    public static IFluentTextSizeOnBreakpoint Heading2 => new FluentTextSize().Heading2;
+    public static IFluentTextSizeOnBreakpoint Heading2 => cached.Heading2;
 
     /// <summary>
     /// Matches the element text size with the h3 text size.
     /// </summary>
-    public static IFluentTextSizeOnBreakpoint Heading3 => new FluentTextSize().Heading3;
+    public static IFluentTextSizeOnBreakpoint Heading3 => cached.Heading3;
 
     /// <summary>
     /// Matches the element text size with the h4 text size.
     /// </summary>
-    public static IFluentTextSizeOnBreakpoint Heading4 => new FluentTextSize().Heading4;
+    public static IFluentTextSizeOnBreakpoint Heading4 => cached.Heading4;
 
     /// <summary>
     /// Matches the element text size with the h5 text size.
     /// </summary>
-    public static IFluentTextSizeOnBreakpoint Heading5 => new FluentTextSize().Heading5;
+    public static IFluentTextSizeOnBreakpoint Heading5 => cached.Heading5;
 
     /// <summary>
     /// Matches the element text size with the h6 text size.
     /// </summary>
-    public static IFluentTextSizeOnBreakpoint Heading6 => new FluentTextSize().Heading6;
+    public static IFluentTextSizeOnBreakpoint Heading6 => cached.Heading6;
 
     /// <summary>
     /// Defines the text size in pixels.

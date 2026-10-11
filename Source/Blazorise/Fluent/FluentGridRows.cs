@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -130,9 +131,15 @@ public class FluentGridRows :
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentGridRows> cachedOperations = new( static ( _, cache ) => new() { cache = cache }, static builder => ref builder.cache );
+
+    private FluentUtilityState<FluentGridRows> cache;
+
+    private bool hasSizes;
+
     private GridRowsDefinition currentGridRowsDefinition;
 
-    private readonly Dictionary<GridRowsSize, GridRowsDefinition> rules = new();
+    private Dictionary<GridRowsSize, GridRowsDefinition> rules;
 
     private bool dirty = true;
 
@@ -142,15 +149,29 @@ public class FluentGridRows :
 
     #region Methods
 
+    internal static FluentGridRows CreateCached() => cachedOperations.CreateRoot();
+
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
+    {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Class( (IClassProvider)provider ) );
+        }
+
+        return BuildClassNames( classProvider );
+    }
+
+    private string BuildClassNames( IClassProvider classProvider )
     {
         if ( dirty )
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules.Any( x => x.Key != GridRowsSize.Default ) )
+                if ( rules?.Any( x => x.Key != GridRowsSize.Default ) == true )
+                {
                     builder.Append( string.Join( " ", rules.Select( r => classProvider.GridRows( r.Key, r.Value ) ) ) );
+                }
             }
 
             var classBuilder = new ClassBuilder( BuildClasses );
@@ -178,6 +199,13 @@ public class FluentGridRows :
     /// <returns>Next rule reference.</returns>
     public IFluentGridRowsAll WithGridRowsSize( GridRowsSize gridRowsSize )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithGridRowsSize( (GridRowsSize)value ), value: (int)gridRowsSize );
+        }
+
+        rules ??= new();
+
         HasSizes = true;
 
         var gridRowsDefinition = new GridRowsDefinition { Breakpoint = Breakpoint.None };
@@ -197,6 +225,11 @@ public class FluentGridRows :
     /// <returns>Next rule reference.</returns>
     public IFluentGridRowsSize WithBreakpoint( Breakpoint breakpoint )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithBreakpoint( (Breakpoint)value ), value: (int)breakpoint );
+        }
+
         currentGridRowsDefinition.Breakpoint = breakpoint;
         Dirty();
 
@@ -208,7 +241,11 @@ public class FluentGridRows :
     #region Properties
 
     /// <inheritdoc/>
-    public bool HasSizes { get; private set; }
+    public bool HasSizes
+    {
+        get => cache.IsCached ? cachedOperations.HasOperation( this, nameof( WithGridRowsSize ) ) : hasSizes;
+        private set => hasSizes = value;
+    }
 
     /// <inheritdoc/>
     public IFluentGridRowsAll Are1 => WithGridRowsSize( GridRowsSize.Are1 );
@@ -254,33 +291,35 @@ public class FluentGridRows :
 /// </summary>
 public static class GridRows
 {
+    private static readonly FluentGridRows cached = FluentGridRows.CreateCached();
+
     /// <summary>
     /// One row per row.
     /// </summary>
-    public static IFluentGridRowsAll Are1 { get { return new FluentGridRows().Are1; } }
+    public static IFluentGridRowsAll Are1 => cached.Are1;
 
     /// <summary>
     /// Two rows per row.
     /// </summary>
-    public static IFluentGridRowsAll Are2 { get { return new FluentGridRows().Are2; } }
+    public static IFluentGridRowsAll Are2 => cached.Are2;
 
     /// <summary>
     /// Three rows per row.
     /// </summary>
-    public static IFluentGridRowsAll Are3 { get { return new FluentGridRows().Are3; } }
+    public static IFluentGridRowsAll Are3 => cached.Are3;
 
     /// <summary>
     /// Four rows per row.
     /// </summary>
-    public static IFluentGridRowsAll Are4 { get { return new FluentGridRows().Are4; } }
+    public static IFluentGridRowsAll Are4 => cached.Are4;
 
     /// <summary>
     /// Five rows per row.
     /// </summary>
-    public static IFluentGridRowsAll Are5 { get { return new FluentGridRows().Are5; } }
+    public static IFluentGridRowsAll Are5 => cached.Are5;
 
     /// <summary>
     /// Six rows per row.
     /// </summary>
-    public static IFluentGridRowsAll Are6 { get { return new FluentGridRows().Are6; } }
+    public static IFluentGridRowsAll Are6 => cached.Are6;
 }

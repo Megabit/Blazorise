@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -175,6 +176,8 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentSpacing> cachedOperations = new( CreateUtility, static builder => ref builder.cache );
+
     private class SpacingDefinition
     {
         public Side Side { get; set; }
@@ -189,13 +192,17 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
 
     private SpacingDefinition currentSpacing;
 
-    private readonly Dictionary<SpacingSize, List<SpacingDefinition>> rules = new();
+    private Dictionary<SpacingSize, List<SpacingDefinition>> rules;
 
     private List<string> customRules;
 
     private bool dirty = true;
 
     private string classNames;
+
+    private FluentUtilityState<FluentSpacing> cache;
+
+    private UtilityTarget? utilityTarget;
 
     #endregion
 
@@ -217,25 +224,48 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
     {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Class( (IClassProvider)provider ) );
+        }
+
         if ( dirty )
         {
-            void BuildClasses( ClassBuilder builder )
-            {
-                if ( rules.Count > 0 )
-                    builder.Append( rules.Select( r => classProvider.Spacing( spacing, r.Key, r.Value.Select( v => (v.Side, v.Breakpoint) ) ) ) );
-
-                if ( customRules?.Count > 0 )
-                    builder.Append( customRules );
-            }
-
-            var classBuilder = new ClassBuilder( BuildClasses );
-
-            classNames = classBuilder.Class;
-
+            classNames = BuildClassNames( classProvider );
             dirty = false;
         }
 
         return classNames;
+    }
+
+    private string BuildClassNames( IClassProvider classProvider )
+    {
+        void BuildClasses( ClassBuilder builder )
+        {
+            if ( rules?.Count > 0 )
+            {
+                builder.Append( rules.Select( r => classProvider.Spacing( spacing, r.Key, r.Value.Select( v => (v.Side, v.Breakpoint) ) ) ) );
+            }
+
+            if ( customRules?.Count > 0 )
+            {
+                builder.Append( customRules );
+            }
+        }
+
+        var classBuilder = new ClassBuilder( BuildClasses );
+
+        return classBuilder.Class;
+    }
+
+    internal static FluentSpacing CreateCached( Spacing spacing ) => cachedOperations.CreateRoot( (int)spacing );
+
+    private static FluentSpacing CreateUtility( int root, FluentUtilityState<FluentSpacing> cache )
+    {
+        var builder = root == (int)Spacing.Margin ? (FluentSpacing)new FluentMargin() : new FluentPadding();
+        builder.cache = cache;
+
+        return builder;
     }
 
     private void Dirty()
@@ -245,7 +275,13 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
 
     private IFluentSpacing WithUtilityTarget( UtilityTarget target )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.UtilityTarget = (UtilityTarget)value, value: (int)target, target: target );
+        }
+
         UtilityTarget = target;
+
         return this;
     }
 
@@ -256,15 +292,26 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
     /// <returns>Next rule reference.</returns>
     public IFluentSpacingOnBreakpointWithSideAndSize WithSize( SpacingSize spacingSize )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithSize( (SpacingSize)value ), value: (int)spacingSize );
+        }
+
         var spacingDefinition = new SpacingDefinition { Breakpoint = Breakpoint.None, Side = Side.All };
+        rules ??= new();
 
         if ( rules.TryGetValue( spacingSize, out var rule ) )
+        {
             rule.Add( spacingDefinition );
+        }
         else
+        {
             rules.Add( spacingSize, new() { spacingDefinition } );
+        }
 
         currentSpacing = spacingDefinition;
         Dirty();
+
         return this;
     }
 
@@ -275,6 +322,11 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
     /// <returns>Next rule reference.</returns>
     public IFluentSpacingOnBreakpointWithSideAndSize WithSide( Side side )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithSide( (Side)value ), value: (int)side );
+        }
+
         currentSpacing.Side = side;
         Dirty();
 
@@ -288,6 +340,11 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
     /// <returns>Next rule reference.</returns>
     public IFluentSpacingOnBreakpointWithSideAndSize WithBreakpoint( Breakpoint breakpoint )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithBreakpoint( (Breakpoint)value ), value: (int)breakpoint );
+        }
+
         currentSpacing.Breakpoint = breakpoint;
         Dirty();
 
@@ -296,10 +353,19 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
 
     private IFluentSpacingWithSize WithSize( string value )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, data ) => builder.WithSize( (string)data ), data: value, retain: false );
+        }
+
         if ( customRules is null )
+        {
             customRules = new() { value };
+        }
         else
+        {
             customRules.Add( value );
+        }
 
         Dirty();
 
@@ -319,7 +385,23 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
     /// <summary>
     /// Gets or sets the utility target override.
     /// </summary>
-    public UtilityTarget? UtilityTarget { get; set; }
+    /// <remarks>
+    /// Cached instances returned by <see cref="Margin"/> and <see cref="Padding"/> are immutable.
+    /// Use <see cref="OnSelf"/> or <see cref="OnWrapper"/> to select their utility target.
+    /// </remarks>
+    public UtilityTarget? UtilityTarget
+    {
+        get => cache.IsCached ? cache.Target : utilityTarget;
+        set
+        {
+            if ( cache.IsCached )
+            {
+                throw new InvalidOperationException( "Cached spacing cannot be modified directly. Use OnSelf or OnWrapper to select the utility target." );
+            }
+
+            utilityTarget = value;
+        }
+    }
 
     /// <summary>
     /// Targets the utility output to the component element.
@@ -464,93 +546,103 @@ public sealed class FluentPadding : FluentSpacing
 /// <summary>
 /// Margin builder.
 /// </summary>
+/// <remarks>
+/// Fluent operations return immutable instances. Retain the returned instance when extending a chain.
+/// </remarks>
 public static class Margin
 {
+    private static readonly FluentSpacing cached = FluentSpacing.CreateCached( Spacing.Margin );
+
     /// <summary>
     /// for classes that eliminate the margin by setting it to 0
     /// </summary>
-    public static IFluentSpacingOnBreakpointWithSideAndSize Is0 => new FluentMargin().Is0;
+    public static IFluentSpacingOnBreakpointWithSideAndSize Is0 => cached.Is0;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer * .25
     /// </summary>
-    public static IFluentSpacingOnBreakpointWithSideAndSize Is1 => new FluentMargin().Is1;
+    public static IFluentSpacingOnBreakpointWithSideAndSize Is1 => cached.Is1;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer * .5
     /// </summary>
-    public static IFluentSpacingOnBreakpointWithSideAndSize Is2 => new FluentMargin().Is2;
+    public static IFluentSpacingOnBreakpointWithSideAndSize Is2 => cached.Is2;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer
     /// </summary>
-    public static IFluentSpacingOnBreakpointWithSideAndSize Is3 => new FluentMargin().Is3;
+    public static IFluentSpacingOnBreakpointWithSideAndSize Is3 => cached.Is3;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer * 1.5
     /// </summary>
-    public static IFluentSpacingOnBreakpointWithSideAndSize Is4 => new FluentMargin().Is4;
+    public static IFluentSpacingOnBreakpointWithSideAndSize Is4 => cached.Is4;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer * 3
     /// </summary>
-    public static IFluentSpacingOnBreakpointWithSideAndSize Is5 => new FluentMargin().Is5;
+    public static IFluentSpacingOnBreakpointWithSideAndSize Is5 => cached.Is5;
 
     /// <summary>
     /// For classes that set the margin to auto.
     /// </summary>
-    public static IFluentSpacingOnBreakpointWithSideAndSize IsAuto => new FluentMargin().IsAuto;
+    public static IFluentSpacingOnBreakpointWithSideAndSize IsAuto => cached.IsAuto;
 
     /// <summary>
     /// Add custom margin rule.
     /// </summary>
     /// <param name="value">Custom css classname.</param>
-    public static IFluentSpacingWithSize Is( string value ) => new FluentMargin().Is( value );
+    public static IFluentSpacingWithSize Is( string value ) => cached.Is( value );
 }
 
 /// <summary>
 /// Padding builder.
 /// </summary>
+/// <remarks>
+/// Fluent operations return immutable instances. Retain the returned instance when extending a chain.
+/// </remarks>
 public static class Padding
 {
+    private static readonly FluentSpacing cached = FluentSpacing.CreateCached( Spacing.Padding );
+
     /// <summary>
     /// for classes that eliminate the padding by setting it to 0
     /// </summary>
-    public static IFluentSpacingOnBreakpointWithSideAndSize Is0 => new FluentPadding().Is0;
+    public static IFluentSpacingOnBreakpointWithSideAndSize Is0 => cached.Is0;
 
     /// <summary>
     /// (by default) for classes that set the padding to $spacer * .25
     /// </summary>
-    public static IFluentSpacingOnBreakpointWithSideAndSize Is1 => new FluentPadding().Is1;
+    public static IFluentSpacingOnBreakpointWithSideAndSize Is1 => cached.Is1;
 
     /// <summary>
     /// (by default) for classes that set the padding to $spacer * .5
     /// </summary>
-    public static IFluentSpacingOnBreakpointWithSideAndSize Is2 => new FluentPadding().Is2;
+    public static IFluentSpacingOnBreakpointWithSideAndSize Is2 => cached.Is2;
 
     /// <summary>
     /// (by default) for classes that set the padding to $spacer
     /// </summary>
-    public static IFluentSpacingOnBreakpointWithSideAndSize Is3 => new FluentPadding().Is3;
+    public static IFluentSpacingOnBreakpointWithSideAndSize Is3 => cached.Is3;
 
     /// <summary>
     /// (by default) for classes that set the padding to $spacer * 1.5
     /// </summary>
-    public static IFluentSpacingOnBreakpointWithSideAndSize Is4 => new FluentPadding().Is4;
+    public static IFluentSpacingOnBreakpointWithSideAndSize Is4 => cached.Is4;
 
     /// <summary>
     /// (by default) for classes that set the padding to $spacer * 3
     /// </summary>
-    public static IFluentSpacingOnBreakpointWithSideAndSize Is5 => new FluentPadding().Is5;
+    public static IFluentSpacingOnBreakpointWithSideAndSize Is5 => cached.Is5;
 
     /// <summary>
     /// For classes that set the margin to auto.
     /// </summary>
-    public static IFluentSpacingOnBreakpointWithSideAndSize IsAuto => new FluentPadding().IsAuto;
+    public static IFluentSpacingOnBreakpointWithSideAndSize IsAuto => cached.IsAuto;
 
     /// <summary>
     /// Add custom padding rule.
     /// </summary>
     /// <param name="value">Custom css classname.</param>
-    public static IFluentSpacingWithSize Is( string value ) => new FluentPadding().Is( value );
+    public static IFluentSpacingWithSize Is( string value ) => cached.Is( value );
 }

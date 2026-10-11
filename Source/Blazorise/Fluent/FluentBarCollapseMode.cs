@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise;
@@ -81,6 +82,12 @@ public class FluentBarCollapseMode :
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentBarCollapseMode> cachedOperations = new( static ( _, cache ) => new() { cache = cache }, static builder => ref builder.cache );
+
+    private FluentUtilityState<FluentBarCollapseMode> cache;
+
+    private UtilityTarget? utilityTarget;
+
     private class BarCollapseModeDefinition
     {
         public Breakpoint Breakpoint { get; set; }
@@ -94,9 +101,16 @@ public class FluentBarCollapseMode :
 
     #region Methods
 
+    internal static FluentBarCollapseMode CreateCached() => cachedOperations.CreateRoot();
+
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
     {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Class( (IClassProvider)provider ) );
+        }
+
         throw new NotImplementedException();
     }
 
@@ -107,6 +121,11 @@ public class FluentBarCollapseMode :
     /// <returns>Next rule reference.</returns>
     public IFluentBarCollapseModeOnBreakpoint WithMode( BarCollapseMode mode )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithMode( (BarCollapseMode)value ), value: (int)mode );
+        }
+
         var barCollapseModeDefinition = new BarCollapseModeDefinition { Breakpoint = Breakpoint.None };
 
         currentBarCollapseMode = barCollapseModeDefinition;
@@ -121,6 +140,11 @@ public class FluentBarCollapseMode :
     /// <returns>Next rule reference.</returns>
     public IFluentBarCollapseModeWithMode WithBreakpoint( Breakpoint breakpoint )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithBreakpoint( (Breakpoint)value ), value: (int)breakpoint );
+        }
+
         currentBarCollapseMode.Breakpoint = breakpoint;
 
         return this;
@@ -128,7 +152,13 @@ public class FluentBarCollapseMode :
 
     private IFluentDisplay WithUtilityTarget( UtilityTarget target )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.UtilityTarget = (UtilityTarget)value, value: (int)target, target: target );
+        }
+
         UtilityTarget = target;
+
         return this;
     }
 
@@ -139,7 +169,19 @@ public class FluentBarCollapseMode :
     /// <summary>
     /// Gets or sets the utility target override.
     /// </summary>
-    public UtilityTarget? UtilityTarget { get; set; }
+    public UtilityTarget? UtilityTarget
+    {
+        get => cache.IsCached ? cache.Target : utilityTarget;
+        set
+        {
+            if ( cache.IsCached )
+            {
+                throw new InvalidOperationException( "Cached fluent utilities are immutable. Use OnSelf or OnWrapper to change the utility target." );
+            }
+
+            utilityTarget = value;
+        }
+    }
 
     /// <summary>
     /// Targets the utility output to the component element.
@@ -184,12 +226,12 @@ public class FluentBarCollapseMode :
     /// <summary>
     /// 
     /// </summary>
-    public IFluentBarCollapseModeOnBreakpoint Hide { get { return WithMode( BarCollapseMode.Hide ); } }
+    public IFluentBarCollapseModeOnBreakpoint Hide => WithMode( BarCollapseMode.Hide );
 
     /// <summary>
     /// 
     /// </summary>
-    public IFluentBarCollapseModeOnBreakpoint Small { get { return WithMode( BarCollapseMode.Small ); } }
+    public IFluentBarCollapseModeOnBreakpoint Small => WithMode( BarCollapseMode.Small );
 
     #endregion
 }
@@ -199,13 +241,15 @@ public class FluentBarCollapseMode :
 /// </summary>
 public static class BarCollapseModee
 {
+    private static readonly FluentBarCollapseMode cached = FluentBarCollapseMode.CreateCached();
+
     /// <summary>
     /// Collapse will hide on breakpoint.
     /// </summary>
-    public static IFluentBarCollapseModeOnBreakpoint Hide => new FluentBarCollapseMode().Hide;
+    public static IFluentBarCollapseModeOnBreakpoint Hide => cached.Hide;
 
     /// <summary>
     /// Collapse will go become smaller on breakpoint.
     /// </summary>
-    public static IFluentBarCollapseModeOnBreakpoint Small => new FluentBarCollapseMode().Small;
+    public static IFluentBarCollapseModeOnBreakpoint Small => cached.Small;
 }

@@ -179,6 +179,12 @@ public class FluentPosition :
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentPosition> cachedOperations = new( static ( _, cache ) => new() { cache = cache }, static builder => ref builder.cache );
+
+    private FluentUtilityState<FluentPosition> cache;
+
+    private UtilityTarget? utilityTarget;
+
     /// <summary>
     /// Holds the additions information for the current position rules.
     /// </summary>
@@ -221,8 +227,20 @@ public class FluentPosition :
 
     #region Methods
 
+    internal static FluentPosition CreateCached() => cachedOperations.CreateRoot();
+
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
+    {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Class( (IClassProvider)provider ) );
+        }
+
+        return BuildClassNames( classProvider );
+    }
+
+    private string BuildClassNames( IClassProvider classProvider )
     {
         if ( dirty )
         {
@@ -251,7 +269,13 @@ public class FluentPosition :
 
     private IFluentPosition WithUtilityTarget( UtilityTarget target )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.UtilityTarget = (UtilityTarget)value, value: (int)target, target: target );
+        }
+
         UtilityTarget = target;
+
         return this;
     }
 
@@ -262,6 +286,11 @@ public class FluentPosition :
     /// <returns>Next rule reference.</returns>
     public IFluentPositionWithAll WithPosition( PositionType positionType )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithPosition( (PositionType)value ), value: (int)positionType );
+        }
+
         this.positionType = positionType;
         Dirty();
 
@@ -275,14 +304,23 @@ public class FluentPosition :
     /// <returns>Next rule reference.</returns>
     public IFluentPositionWithAll WithEdge( PositionEdgeType edgeType )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithEdge( (PositionEdgeType)value ), value: (int)edgeType );
+        }
+
         edgeRules ??= new();
 
         var positionEdgeDefinition = new PositionEdgeDefinition();
 
         if ( edgeRules.TryGetValue( edgeType, out var rule ) )
+        {
             rule = positionEdgeDefinition;
+        }
         else
+        {
             edgeRules.Add( edgeType, positionEdgeDefinition );
+        }
 
         currentPositionEdgeDefinition = positionEdgeDefinition;
         Dirty();
@@ -297,6 +335,11 @@ public class FluentPosition :
     /// <returns>Next rule reference.</returns>
     public IFluentPositionWithAll WithEdgeOffset( int offset )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithEdgeOffset( value ), value: offset );
+        }
+
         currentPositionEdgeDefinition.EdgeOffset = offset;
         Dirty();
 
@@ -310,6 +353,11 @@ public class FluentPosition :
     /// <returns>Next rule reference.</returns>
     public IFluentPositionWithAll WithTranslate( PositionTranslateType translateType )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithTranslate( (PositionTranslateType)value ), value: (int)translateType );
+        }
+
         this.translateType = translateType;
         Dirty();
 
@@ -323,7 +371,19 @@ public class FluentPosition :
     /// <summary>
     /// Gets or sets the utility target override.
     /// </summary>
-    public UtilityTarget? UtilityTarget { get; set; }
+    public UtilityTarget? UtilityTarget
+    {
+        get => cache.IsCached ? cache.Target : utilityTarget;
+        set
+        {
+            if ( cache.IsCached )
+            {
+                throw new InvalidOperationException( "Cached fluent utilities are immutable. Use OnSelf or OnWrapper to change the utility target." );
+            }
+
+            utilityTarget = value;
+        }
+    }
 
     /// <summary>
     /// Targets the utility output to the component element.
@@ -391,33 +451,35 @@ public class FluentPosition :
 /// </summary>
 public static class Position
 {
+    private static readonly FluentPosition cached = FluentPosition.CreateCached();
+
     /// <summary>
     /// An element is not positioned in any special way; it is always positioned according to the normal flow of the page.
     /// </summary>
     /// <remarks>
     /// Static positioned elements are not affected by the top, bottom, left, and right properties.
     /// </remarks>
-    public static IFluentPositionWithEdgeTypeAndTranslateType Static => new FluentPosition().Static;
+    public static IFluentPositionWithEdgeTypeAndTranslateType Static => cached.Static;
 
     /// <summary>
     /// An element is positioned relative to its normal position.
     /// </summary>
-    public static IFluentPositionWithEdgeTypeAndTranslateType Relative => new FluentPosition().Relative;
+    public static IFluentPositionWithEdgeTypeAndTranslateType Relative => cached.Relative;
 
     /// <summary>
     /// An element is positioned relative to the nearest positioned ancestor (instead of positioned relative to the
     /// viewport, like fixed).
     /// </summary>
-    public static IFluentPositionWithEdgeTypeAndTranslateType Absolute => new FluentPosition().Absolute;
+    public static IFluentPositionWithEdgeTypeAndTranslateType Absolute => cached.Absolute;
 
     /// <summary>
     /// An element is positioned relative to the viewport, which means it always stays in the
     /// same place even if the page is scrolled. The top, right, bottom, and left properties are used to position the element.
     /// </summary>
-    public static IFluentPositionWithEdgeTypeAndTranslateType Fixed => new FluentPosition().Fixed;
+    public static IFluentPositionWithEdgeTypeAndTranslateType Fixed => cached.Fixed;
 
     /// <summary>
     /// An element is positioned based on the user's scroll position.
     /// </summary>
-    public static IFluentPositionWithEdgeTypeAndTranslateType Sticky => new FluentPosition().Sticky;
+    public static IFluentPositionWithEdgeTypeAndTranslateType Sticky => cached.Sticky;
 }

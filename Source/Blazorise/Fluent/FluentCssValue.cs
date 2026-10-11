@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Globalization;
 using System.Numerics;
 using Blazorise.Utilities;
@@ -16,6 +17,14 @@ public sealed class FluentCssValue :
     IUtilityTargeted
 {
     #region Members
+
+    private static readonly FluentUtilityBuilderCache<FluentCssValue> cachedOperations = new( CreateUtility, static builder => ref builder.cache );
+
+    private static readonly FluentCssValue cached = cachedOperations.CreateRoot();
+
+    private FluentUtilityState<FluentCssValue> cache;
+
+    private UtilityTarget? utilityTarget;
 
     private double? minValue;
 
@@ -40,6 +49,39 @@ public sealed class FluentCssValue :
 
     #region Methods
 
+    internal static FluentCssValue CreateCached( string unit, double value ) => cached.WithValue( unit, value );
+
+    private static FluentCssValue CreateUtility( int root, FluentUtilityState<FluentCssValue> cache )
+    {
+        var unit = cache.Parent?.Unit ?? string.Empty;
+        var value = cache.Parent?.Value ?? 0;
+
+        if ( cache.Operation == nameof( WithValue ) )
+        {
+            var data = (ValueTuple<string, long>)cache.Data;
+            unit = data.Item1;
+            value = BitConverter.Int64BitsToDouble( data.Item2 );
+        }
+
+        var builder = new FluentCssValue( unit, value );
+        builder.cache = cache;
+
+        return builder;
+    }
+
+    private FluentCssValue WithValue( string unit, double value )
+    {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, data ) => builder.WithValue( ((ValueTuple<string, long>)data).Item1, BitConverter.Int64BitsToDouble( ((ValueTuple<string, long>)data).Item2 ) ), data: (unit, BitConverter.DoubleToInt64Bits( value )) );
+        }
+
+        Unit = unit;
+        Value = value;
+
+        return this;
+    }
+
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
         => null;
@@ -56,6 +98,18 @@ public sealed class FluentCssValue :
     /// <returns>Built CSS declarations.</returns>
     internal string Style( string propertyName, bool includeMinMax = false )
     {
+        if ( cache.IsCached )
+        {
+            return cache.GetStyle( this, propertyName,
+                includeMinMax ? static ( builder, property ) => cachedOperations.Build( builder ).Style( (string)property, true )
+                              : static ( builder, property ) => cachedOperations.Build( builder ).Style( (string)property ), alternate: includeMinMax );
+        }
+
+        return BuildStyleNames( propertyName, includeMinMax );
+    }
+
+    private string BuildStyleNames( string propertyName, bool includeMinMax = false )
+    {
         void BuildStyles( StyleBuilder builder )
         {
             builder.Append( $"{propertyName}: {ToCssValue( Value )}" );
@@ -63,10 +117,14 @@ public sealed class FluentCssValue :
             if ( includeMinMax )
             {
                 if ( minValue.HasValue )
+                {
                     builder.Append( $"min-{propertyName}: {ToCssValue( minValue.Value )}" );
+                }
 
                 if ( maxValue.HasValue )
+                {
                     builder.Append( $"max-{propertyName}: {ToCssValue( maxValue.Value )}" );
+                }
             }
         }
 
@@ -76,6 +134,11 @@ public sealed class FluentCssValue :
     /// <inheritdoc/>
     public IFluentSizingStyle Min( double size )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, data ) => builder.Min( BitConverter.Int64BitsToDouble( (long)data ) ), data: BitConverter.DoubleToInt64Bits( size ) );
+        }
+
         minValue = size;
 
         return this;
@@ -84,6 +147,11 @@ public sealed class FluentCssValue :
     /// <inheritdoc/>
     public IFluentSizingStyle Max( double size )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, data ) => builder.Max( BitConverter.Int64BitsToDouble( (long)data ) ), data: BitConverter.DoubleToInt64Bits( size ) );
+        }
+
         maxValue = size;
 
         return this;
@@ -94,6 +162,11 @@ public sealed class FluentCssValue :
 
     private FluentCssValue WithUtilityTarget( UtilityTarget target )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.UtilityTarget = (UtilityTarget)value, value: (int)target, target: target );
+        }
+
         UtilityTarget = target;
 
         return this;
@@ -106,18 +179,30 @@ public sealed class FluentCssValue :
     /// <summary>
     /// Gets the CSS unit.
     /// </summary>
-    public string Unit { get; }
+    public string Unit { get; private set; }
 
     /// <summary>
     /// Gets the numeric value.
     /// </summary>
-    public double Value { get; }
+    public double Value { get; private set; }
 
     /// <inheritdoc/>
     public double? FixedSize => Value;
 
     /// <inheritdoc/>
-    public UtilityTarget? UtilityTarget { get; set; }
+    public UtilityTarget? UtilityTarget
+    {
+        get => cache.IsCached ? cache.Target : utilityTarget;
+        set
+        {
+            if ( cache.IsCached )
+            {
+                throw new InvalidOperationException( "Cached fluent utilities are immutable. Use OnSelf or OnWrapper to change the utility target." );
+            }
+
+            utilityTarget = value;
+        }
+    }
 
     /// <summary>
     /// Targets the utility output to the component element.
@@ -228,5 +313,5 @@ public static class FluentCssValueExtensions
     /// <returns>Returns the <see cref="FluentCssValue"/> reference.</returns>
     private static FluentCssValue WithUnit<TNumber>( TNumber size, string unit )
         where TNumber : INumber<TNumber>
-        => new( unit, double.CreateChecked( size ) );
+        => FluentCssValue.CreateCached( unit, double.CreateChecked( size ) );
 }

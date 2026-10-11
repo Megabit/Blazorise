@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -688,6 +689,12 @@ public class FluentFlex :
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentFlex> cachedOperations = new( static ( _, cache ) => new() { cache = cache }, static builder => ref builder.cache );
+
+    private FluentUtilityState<FluentFlex> cache;
+
+    private UtilityTarget? utilityTarget;
+
     /// <summary>
     /// Currently used display type.
     /// </summary>
@@ -706,7 +713,7 @@ public class FluentFlex :
     /// <summary>
     /// Holds the flex rules.
     /// </summary>
-    private List<FlexRule> rules = new();
+    private List<FlexRule> rules;
 
     /// <summary>
     /// Indicates if the rules have changed.
@@ -722,8 +729,20 @@ public class FluentFlex :
 
     #region Methods
 
+    internal static FluentFlex CreateCached() => cachedOperations.CreateRoot();
+
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
+    {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Class( (IClassProvider)provider ) );
+        }
+
+        return BuildClassNames( classProvider );
+    }
+
+    private string BuildClassNames( IClassProvider classProvider )
     {
         if ( dirty )
         {
@@ -768,7 +787,13 @@ public class FluentFlex :
 
     private IFluentFlex WithUtilityTarget( UtilityTarget target )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.UtilityTarget = (UtilityTarget)value, value: (int)target, target: target );
+        }
+
         UtilityTarget = target;
+
         return this;
     }
 
@@ -779,6 +804,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithFlexType( FlexType flexType )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithFlexType( (FlexType)value ), value: (int)flexType );
+        }
+
         if ( currentFlexType != flexType )
         {
             currentFlexType = flexType;
@@ -798,7 +828,9 @@ public class FluentFlex :
     private FlexRule GetRule()
     {
         if ( currentFlexRule is null )
+        {
             currentFlexRule = CreateRule();
+        }
 
         return currentFlexRule;
     }
@@ -809,6 +841,8 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     private FlexRule CreateRule()
     {
+        rules ??= new();
+
         var rule = new FlexRule { FlexType = currentFlexType, Definitions = new() };
 
         rules.Add( rule );
@@ -823,7 +857,9 @@ public class FluentFlex :
     private FlexDefinition GetDefinition()
     {
         if ( currentFlexDefinition is null )
+        {
             currentFlexDefinition = CreateDefinition();
+        }
 
         return currentFlexDefinition;
     }
@@ -855,6 +891,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithBreakpoint( Breakpoint breakpoint )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithBreakpoint( (Breakpoint)value ), value: (int)breakpoint );
+        }
+
         if ( currentFlexDefinition is null )
         {
             // If there is still no definition then we need to apply breakpoint to the flex rule.
@@ -876,6 +917,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithDirection( FlexDirection direction )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithDirection( (FlexDirection)value ), value: (int)direction );
+        }
+
         currentFlexDefinition = CreateDefinition();
         currentFlexDefinition.Direction = direction;
         Dirty();
@@ -889,6 +935,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexJustifyContentPositions WithJustifyContent()
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, _ ) => builder.WithJustifyContent() );
+        }
+
         currentFlexDefinition = CreateDefinition();
         currentFlexDefinition.JustifyContent = FlexJustifyContent.Default;
         Dirty();
@@ -903,6 +954,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithJustifyContent( FlexJustifyContent justifyContent )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithJustifyContent( (FlexJustifyContent)value ), value: (int)justifyContent );
+        }
+
         currentFlexDefinition = GetDefinition();
         currentFlexDefinition.JustifyContent = justifyContent;
         Dirty();
@@ -916,6 +972,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAlignItemsPosition WithAlignItems()
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, _ ) => builder.WithAlignItems() );
+        }
+
         currentFlexDefinition = CreateDefinition();
         currentFlexDefinition.AlignItems = FlexAlignItems.Default;
         Dirty();
@@ -930,6 +991,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithAlignItems( FlexAlignItems alignItems )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithAlignItems( (FlexAlignItems)value ), value: (int)alignItems );
+        }
+
         currentFlexDefinition = GetDefinition();
         currentFlexDefinition.AlignItems = alignItems;
         Dirty();
@@ -943,6 +1009,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAlignSelfPosition WithAlignSelf()
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, _ ) => builder.WithAlignSelf() );
+        }
+
         currentFlexDefinition = CreateDefinition();
         currentFlexDefinition.AlignSelf = FlexAlignSelf.Default;
         Dirty();
@@ -957,6 +1028,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithAlignSelf( FlexAlignSelf alignSelf )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithAlignSelf( (FlexAlignSelf)value ), value: (int)alignSelf );
+        }
+
         currentFlexDefinition = GetDefinition();
         currentFlexDefinition.AlignSelf = alignSelf;
         Dirty();
@@ -970,6 +1046,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAlignContentPosition WithAlignContent()
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, _ ) => builder.WithAlignContent() );
+        }
+
         currentFlexDefinition = CreateDefinition();
         currentFlexDefinition.AlignContent = FlexAlignContent.Default;
         Dirty();
@@ -984,6 +1065,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithAlignContent( FlexAlignContent alignContent )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithAlignContent( (FlexAlignContent)value ), value: (int)alignContent );
+        }
+
         currentFlexDefinition = GetDefinition();
         currentFlexDefinition.AlignContent = alignContent;
         Dirty();
@@ -997,6 +1083,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexGrowShrinkSize WithGrowShrink( FlexGrowShrink growShrink )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithGrowShrink( (FlexGrowShrink)value ), value: (int)growShrink );
+        }
+
         currentFlexDefinition = CreateDefinition();
         currentFlexDefinition.GrowShrink = growShrink;
         Dirty();
@@ -1011,6 +1102,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithGrowShrinkSize( FlexGrowShrinkSize growShrinkSize )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithGrowShrinkSize( (FlexGrowShrinkSize)value ), value: (int)growShrinkSize );
+        }
+
         currentFlexDefinition = GetDefinition();
         currentFlexDefinition.GrowShrinkSize = growShrinkSize;
         Dirty();
@@ -1024,6 +1120,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexBasisSize WithBasis()
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, _ ) => builder.WithBasis() );
+        }
+
         currentFlexDefinition = CreateDefinition();
         currentFlexDefinition.Basis = true;
         Dirty();
@@ -1038,6 +1139,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithBasisSize( FlexBasisSize basisSize )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithBasisSize( (FlexBasisSize)value ), value: (int)basisSize );
+        }
+
         currentFlexDefinition = GetDefinition();
         currentFlexDefinition.BasisSize = basisSize;
         Dirty();
@@ -1051,6 +1157,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithWrap( FlexWrap wrap )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithWrap( (FlexWrap)value ), value: (int)wrap );
+        }
+
         currentFlexDefinition = CreateDefinition();
         currentFlexDefinition.Wrap = wrap;
         Dirty();
@@ -1064,6 +1175,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexOrderNumber WithOrder()
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, _ ) => builder.WithOrder() );
+        }
+
         currentFlexDefinition = CreateDefinition();
         currentFlexDefinition.Order = FlexOrder.Default;
         Dirty();
@@ -1078,6 +1194,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithOrder( FlexOrder order )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithOrder( (FlexOrder)value ), value: (int)order );
+        }
+
         currentFlexDefinition = GetDefinition();
         currentFlexDefinition.Order = order;
         Dirty();
@@ -1091,6 +1212,11 @@ public class FluentFlex :
     /// <returns>Next rule reference.</returns>
     public IFluentFlexAll WithFill()
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, _ ) => builder.WithFill() );
+        }
+
         currentFlexDefinition = CreateDefinition();
         currentFlexDefinition.Fill = true;
         Dirty();
@@ -1101,6 +1227,11 @@ public class FluentFlex :
     /// <inheritdoc/>
     public IFluentFlexAll If( bool condition )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.If( value != 0 ), value: condition ? 1 : 0 );
+        }
+
         currentFlexDefinition = GetDefinition();
         currentFlexDefinition.Condition = condition;
         Dirty();
@@ -1115,7 +1246,19 @@ public class FluentFlex :
     /// <summary>
     /// Gets or sets the utility target override.
     /// </summary>
-    public UtilityTarget? UtilityTarget { get; set; }
+    public UtilityTarget? UtilityTarget
+    {
+        get => cache.IsCached ? cache.Target : utilityTarget;
+        set
+        {
+            if ( cache.IsCached )
+            {
+                throw new InvalidOperationException( "Cached fluent utilities are immutable. Use OnSelf or OnWrapper to change the utility target." );
+            }
+
+            utilityTarget = value;
+        }
+    }
 
     /// <summary>
     /// Targets the utility output to the component element.
@@ -1327,6 +1470,8 @@ public class FluentFlex :
 /// </summary>
 public static class Flex
 {
+    private static readonly FluentFlex cached = FluentFlex.CreateCached();
+
     /// <summary>
     /// Explicitly starts the new set of rules for flex display.
     /// </summary>
@@ -1334,97 +1479,97 @@ public static class Flex
     /// By default all rules use "flex" type but in case someone wants to define it explicitly
     /// I have added this option. It is named as "_" because "Flex" cannot be used(Compiler Error CS0542).
     /// </remarks>
-    public static IFluentFlexAll _ => new FluentFlex().WithFlexType( FlexType.Flex );
+    public static IFluentFlexAll _ => cached.WithFlexType( FlexType.Flex );
 
     /// <summary>
     /// Explicitly starts the new set of rules for flex display.
     /// </summary>
-    public static IFluentFlexAll Default => new FluentFlex().WithFlexType( FlexType.Flex );
+    public static IFluentFlexAll Default => cached.WithFlexType( FlexType.Flex );
 
     /// <summary>
     /// Starts the new set of rules for inline-flex display.
     /// </summary>
-    public static IFluentFlexAll InlineFlex => new FluentFlex().WithFlexType( FlexType.InlineFlex );
+    public static IFluentFlexAll InlineFlex => cached.WithFlexType( FlexType.InlineFlex );
 
     /// <summary>
     /// Default value. The flexible items are displayed horizontally, as a row.
     /// </summary>
-    public static IFluentFlexAll Row => new FluentFlex().WithFlexType( FlexType.Flex ).Row;
+    public static IFluentFlexAll Row => cached.WithFlexType( FlexType.Flex ).Row;
 
     /// <summary>
     /// Same as row, but in reverse order.
     /// </summary>
-    public static IFluentFlexAll ReverseRow => new FluentFlex().WithFlexType( FlexType.Flex ).ReverseRow;
+    public static IFluentFlexAll ReverseRow => cached.WithFlexType( FlexType.Flex ).ReverseRow;
 
     /// <summary>
     /// The flexible items are displayed vertically, as a column.
     /// </summary>
-    public static IFluentFlexAll Column => new FluentFlex().WithFlexType( FlexType.Flex ).Column;
+    public static IFluentFlexAll Column => cached.WithFlexType( FlexType.Flex ).Column;
 
     /// <summary>
     /// Same as column, but in reverse order.
     /// </summary>
-    public static IFluentFlexAll ReverseColumn => new FluentFlex().WithFlexType( FlexType.Flex ).ReverseColumn;
+    public static IFluentFlexAll ReverseColumn => cached.WithFlexType( FlexType.Flex ).ReverseColumn;
 
     /// <summary>
     /// Defines the alignment along the main axis.
     /// </summary>
-    public static IFluentFlexJustifyContentPositions JustifyContent => new FluentFlex().WithFlexType( FlexType.Flex ).JustifyContent;
+    public static IFluentFlexJustifyContentPositions JustifyContent => cached.WithFlexType( FlexType.Flex ).JustifyContent;
 
     /// <summary>
     /// Defines the default behavior for how flex items are laid out along the cross axis on the current line.
     /// </summary>
-    public static IFluentFlexAlignItemsPosition AlignItems => new FluentFlex().WithFlexType( FlexType.Flex ).AlignItems;
+    public static IFluentFlexAlignItemsPosition AlignItems => cached.WithFlexType( FlexType.Flex ).AlignItems;
 
     /// <summary>
     /// Allows the default alignment (or the one specified by align-items) to be overridden for individual flex items.
     /// </summary>
-    public static IFluentFlexAlignSelfPosition AlignSelf => new FluentFlex().WithAlignSelf();
+    public static IFluentFlexAlignSelfPosition AlignSelf => cached.WithAlignSelf();
 
     /// <summary>
     /// The align-content property aligns a flex container’s lines within the
     /// flex container when there is extra space in the cross-axis.
     /// </summary>
-    public static IFluentFlexAlignContentPosition AlignContent => new FluentFlex().WithFlexType( FlexType.Flex ).AlignContent;
+    public static IFluentFlexAlignContentPosition AlignContent => cached.WithFlexType( FlexType.Flex ).AlignContent;
 
     /// <summary>
     /// Defines the ability for a flex item to grow if necessary. It accepts a unitless value that serves
     /// as a proportion. It dictates what amount of the available space inside the flex container the item should take up.
     /// </summary>
-    public static IFluentFlexGrowShrinkSize Grow => new FluentFlex().WithGrowShrink( FlexGrowShrink.Grow );
+    public static IFluentFlexGrowShrinkSize Grow => cached.WithGrowShrink( FlexGrowShrink.Grow );
 
     /// <summary>
     /// This defines the ability for a flex item to shrink if necessary.
     /// </summary>
-    public static IFluentFlexGrowShrinkSize Shrink => new FluentFlex().WithGrowShrink( FlexGrowShrink.Shrink );
+    public static IFluentFlexGrowShrinkSize Shrink => cached.WithGrowShrink( FlexGrowShrink.Shrink );
 
     /// <summary>
     /// Defines the default size of an element before the remaining space is distributed. Default is auto.
     /// </summary>
-    public static IFluentFlexBasisSize Basis => new FluentFlex().WithBasis();
+    public static IFluentFlexBasisSize Basis => cached.WithBasis();
 
     /// <summary>
     /// Controls the order in which items appear in the flex container.
     /// </summary>
-    public static IFluentFlexOrderNumber Order => new FluentFlex().WithOrder();
+    public static IFluentFlexOrderNumber Order => cached.WithOrder();
 
     /// <summary>
     /// Flex items will wrap onto multiple lines, from top to bottom.
     /// </summary>
-    public static IFluentFlexAll Wrap => new FluentFlex().WithFlexType( FlexType.Flex ).Wrap;
+    public static IFluentFlexAll Wrap => cached.WithFlexType( FlexType.Flex ).Wrap;
 
     /// <summary>
     /// Flex items will wrap onto multiple lines from bottom to top.
     /// </summary>
-    public static IFluentFlexAll ReverseWrap => new FluentFlex().WithFlexType( FlexType.Flex ).ReverseWrap;
+    public static IFluentFlexAll ReverseWrap => cached.WithFlexType( FlexType.Flex ).ReverseWrap;
 
     /// <summary>
     /// All flex items will be on one line.
     /// </summary>
-    public static IFluentFlexAll NoWrap => new FluentFlex().WithFlexType( FlexType.Flex ).NoWrap;
+    public static IFluentFlexAll NoWrap => cached.WithFlexType( FlexType.Flex ).NoWrap;
 
     /// <summary>
     /// Force all child items to be equal widths.
     /// </summary>
-    public static IFluentFlexAll Fill => new FluentFlex().WithFill();
+    public static IFluentFlexAll Fill => cached.WithFill();
 }

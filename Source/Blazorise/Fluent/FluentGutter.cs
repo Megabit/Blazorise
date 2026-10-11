@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -156,6 +157,10 @@ public class FluentGutter :
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentGutter> cachedOperations = new( static ( _, cache ) => new() { cache = cache }, static builder => ref builder.cache );
+
+    private FluentUtilityState<FluentGutter> cache;
+
     private class GutterDefinition
     {
         public GutterSide Side { get; set; }
@@ -165,7 +170,7 @@ public class FluentGutter :
 
     private GutterDefinition currentGutter;
 
-    private readonly Dictionary<GutterSize, List<GutterDefinition>> rules = new();
+    private Dictionary<GutterSize, List<GutterDefinition>> rules;
 
     private List<string> customRules;
 
@@ -177,18 +182,34 @@ public class FluentGutter :
 
     #region Methods
 
+    internal static FluentGutter CreateCached() => cachedOperations.CreateRoot();
+
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
+    {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Class( (IClassProvider)provider ) );
+        }
+
+        return BuildClassNames( classProvider );
+    }
+
+    private string BuildClassNames( IClassProvider classProvider )
     {
         if ( dirty )
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules.Count > 0 )
+                if ( rules?.Count > 0 )
+                {
                     builder.Append( rules.Select( r => classProvider.Gutter( r.Key, r.Value.Select( v => (v.Side, v.Breakpoint) ) ) ) );
+                }
 
                 if ( customRules?.Count > 0 )
+                {
                     builder.Append( customRules );
+                }
             }
 
             var classBuilder = new ClassBuilder( BuildClasses );
@@ -213,12 +234,23 @@ public class FluentGutter :
     /// <returns>The fluent builder instance for further configuration.</returns>
     public IFluentGutterOnBreakpointWithSideAndSize WithSize( GutterSize gutterSize )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithSize( (GutterSize)value ), value: (int)gutterSize );
+        }
+
+        rules ??= new();
+
         var gutterDefinition = new GutterDefinition { Side = GutterSide.All };
 
         if ( rules.TryGetValue( gutterSize, out var rule ) )
+        {
             rule.Add( gutterDefinition );
+        }
         else
+        {
             rules.Add( gutterSize, new() { gutterDefinition } );
+        }
 
         currentGutter = gutterDefinition;
         Dirty();
@@ -233,6 +265,11 @@ public class FluentGutter :
     /// <returns>The fluent builder instance for further configuration.</returns>
     public IFluentGutterOnBreakpointWithSideAndSize WithSide( GutterSide side )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithSide( (GutterSide)value ), value: (int)side );
+        }
+
         currentGutter.Side = side;
         Dirty();
 
@@ -246,6 +283,11 @@ public class FluentGutter :
     /// <returns>The fluent builder instance for further configuration.</returns>
     public IFluentGutterOnBreakpointWithSideAndSize WithBreakpoint( Breakpoint breakpoint )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithBreakpoint( (Breakpoint)value ), value: (int)breakpoint );
+        }
+
         currentGutter.Breakpoint = breakpoint;
         Dirty();
 
@@ -254,10 +296,19 @@ public class FluentGutter :
 
     private IFluentGutterWithSize WithSize( string value )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, data ) => builder.WithSize( (string)data ), data: value, retain: false );
+        }
+
         if ( customRules is null )
+        {
             customRules = new() { value };
+        }
         else
+        {
             customRules.Add( value );
+        }
 
         Dirty();
 
@@ -357,39 +408,41 @@ public class FluentGutter :
 /// </summary>
 public static class Gutter
 {
+    private static readonly FluentGutter cached = FluentGutter.CreateCached();
+
     /// <summary>
     /// Applies size level 0 (no gutter spacing).
     /// </summary>
-    public static IFluentGutterOnBreakpointWithSideAndSize Is0 => new FluentGutter().Is0;
+    public static IFluentGutterOnBreakpointWithSideAndSize Is0 => cached.Is0;
 
     /// <summary>
     /// Applies size level 1 as defined by the active provider.
     /// </summary>
-    public static IFluentGutterOnBreakpointWithSideAndSize Is1 => new FluentGutter().Is1;
+    public static IFluentGutterOnBreakpointWithSideAndSize Is1 => cached.Is1;
 
     /// <summary>
     /// Applies size level 2 as defined by the active provider.
     /// </summary>
-    public static IFluentGutterOnBreakpointWithSideAndSize Is2 => new FluentGutter().Is2;
+    public static IFluentGutterOnBreakpointWithSideAndSize Is2 => cached.Is2;
 
     /// <summary>
     /// Applies size level 3 as defined by the active provider.
     /// </summary>
-    public static IFluentGutterOnBreakpointWithSideAndSize Is3 => new FluentGutter().Is3;
+    public static IFluentGutterOnBreakpointWithSideAndSize Is3 => cached.Is3;
 
     /// <summary>
     /// Applies size level 4 as defined by the active provider.
     /// </summary>
-    public static IFluentGutterOnBreakpointWithSideAndSize Is4 => new FluentGutter().Is4;
+    public static IFluentGutterOnBreakpointWithSideAndSize Is4 => cached.Is4;
 
     /// <summary>
     /// Applies size level 5 as defined by the active provider.
     /// </summary>
-    public static IFluentGutterOnBreakpointWithSideAndSize Is5 => new FluentGutter().Is5;
+    public static IFluentGutterOnBreakpointWithSideAndSize Is5 => cached.Is5;
 
     /// <summary>
     /// Adds a custom CSS class to represent a user-defined gutter rule. The value is passed through unchanged.
     /// </summary>
     /// <param name="value">A custom CSS class name.</param>
-    public static IFluentGutterWithSize Is( string value ) => new FluentGutter().Is( value );
+    public static IFluentGutterWithSize Is( string value ) => cached.Is( value );
 }

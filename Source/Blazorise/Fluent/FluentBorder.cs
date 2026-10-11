@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -275,6 +276,12 @@ public class FluentBorder :
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentBorder> cachedOperations = new( static ( _, cache ) => new() { cache = cache }, static builder => ref builder.cache );
+
+    private FluentUtilityState<FluentBorder> cache;
+
+    private UtilityTarget? utilityTarget;
+
     /// <summary>
     /// Tracks the active size bucket for new/implicit rules.
     /// </summary>
@@ -309,8 +316,20 @@ public class FluentBorder :
 
     #region Methods
 
+    internal static FluentBorder CreateCached() => cachedOperations.CreateRoot();
+
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
+    {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Class( (IClassProvider)provider ) );
+        }
+
+        return BuildClassNames( classProvider );
+    }
+
+    private string BuildClassNames( IClassProvider classProvider )
     {
         if ( dirty )
         {
@@ -343,15 +362,24 @@ public class FluentBorder :
     /// <returns>Inline border color styles.</returns>
     public string Style()
     {
+        if ( cache.IsCached )
+        {
+            return cache.GetStyle( this, null, static ( builder, _ ) => cachedOperations.Build( builder ).Style() );
+        }
+
         if ( rules is null || rules.Count == 0 )
+        {
             return null;
+        }
 
         void BuildStyles( StyleBuilder builder )
         {
-            foreach ( BorderDefinition definition in rules.SelectMany( rule => rule.Value ) )
+            foreach ( var definition in rules.SelectMany( rule => rule.Value ) )
             {
                 if ( definition.Color.IsCssValue )
+                {
                     builder.Append( $"{GetBorderColorProperty( definition.Side )}:{definition.Color.Name} !important" );
+                }
             }
         }
 
@@ -387,7 +415,13 @@ public class FluentBorder :
 
     private IFluentBorder WithUtilityTarget( UtilityTarget target )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.UtilityTarget = (UtilityTarget)value, value: (int)target, target: target );
+        }
+
         UtilityTarget = target;
+
         return this;
     }
 
@@ -400,14 +434,20 @@ public class FluentBorder :
         rules ??= new();
 
         if ( currentBorderDefinition is not null )
+        {
             return;
+        }
 
         var def = new BorderDefinition { Side = BorderSide.All };
 
         if ( rules.TryGetValue( currentSize, out var list ) )
+        {
             list.Add( def );
+        }
         else
+        {
             rules.Add( currentSize, new() { def } );
+        }
 
         currentBorderDefinition = def;
 
@@ -421,6 +461,11 @@ public class FluentBorder :
     /// <returns>Next rule reference.</returns>
     public IFluentBorderWithAll WithSize( BorderSize borderSize )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithSize( (BorderSize)value ), value: (int)borderSize );
+        }
+
         rules ??= new();
 
         currentSize = borderSize;
@@ -428,9 +473,13 @@ public class FluentBorder :
         var borderDefinition = new BorderDefinition { Side = BorderSide.All };
 
         if ( rules.TryGetValue( borderSize, out var rule ) )
+        {
             rule.Add( borderDefinition );
+        }
         else
+        {
             rules.Add( borderSize, new() { borderDefinition } );
+        }
 
         currentBorderDefinition = borderDefinition;
 
@@ -446,6 +495,11 @@ public class FluentBorder :
     /// <returns>Next rule reference.</returns>
     public IFluentBorderWithAll WithSide( BorderSide borderSide )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithSide( (BorderSide)value ), value: (int)borderSide );
+        }
+
         rules ??= new();
         EnsureCurrentDefinition();
 
@@ -456,13 +510,17 @@ public class FluentBorder :
             {
                 Side = borderSide,
                 Color = currentBorderDefinition.Color,
-                Subtle = currentBorderDefinition.Subtle
+                Subtle = currentBorderDefinition.Subtle,
             };
 
             if ( rules.TryGetValue( currentSize, out var list ) )
+            {
                 list.Add( newDef );
+            }
             else
+            {
                 rules.Add( currentSize, new() { newDef } );
+            }
 
             currentBorderDefinition = newDef;
         }
@@ -483,6 +541,11 @@ public class FluentBorder :
     /// <returns>Next rule reference.</returns>
     public IFluentBorderColorWithSide WithColor( BorderColor borderColor )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, data ) => builder.WithColor( (BorderColor)data ), data: borderColor, retain: !borderColor.IsCssValue );
+        }
+
         EnsureCurrentDefinition();
 
         currentBorderDefinition.Color = borderColor;
@@ -496,6 +559,11 @@ public class FluentBorder :
     /// </summary>
     public IFluentBorderColorWithSide WithSubtle()
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, _ ) => builder.WithSubtle() );
+        }
+
         EnsureCurrentDefinition();
 
         currentBorderDefinition.Subtle = true;
@@ -511,6 +579,11 @@ public class FluentBorder :
     /// <returns>Next rule reference.</returns>
     public IFluentBorderWithAll WithRadius( BorderRadius borderRadius )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithRadius( (BorderRadius)value ), value: (int)borderRadius );
+        }
+
         this.borderRadius = borderRadius;
         Dirty();
 
@@ -524,7 +597,19 @@ public class FluentBorder :
     /// <summary>
     /// Gets or sets the utility target override.
     /// </summary>
-    public UtilityTarget? UtilityTarget { get; set; }
+    public UtilityTarget? UtilityTarget
+    {
+        get => cache.IsCached ? cache.Target : utilityTarget;
+        set
+        {
+            if ( cache.IsCached )
+            {
+                throw new InvalidOperationException( "Cached fluent utilities are immutable. Use OnSelf or OnWrapper to change the utility target." );
+            }
+
+            utilityTarget = value;
+        }
+    }
 
     /// <summary>
     /// Targets the utility output to the component element.
@@ -631,6 +716,8 @@ public class FluentBorder :
 /// </summary>
 public static class Border
 {
+    private static readonly FluentBorder cached = FluentBorder.CreateCached();
+
     /// <summary>
     /// Defines a custom border color on all sides of an element.
     /// </summary>
@@ -638,141 +725,141 @@ public static class Border
     /// <returns>A fluent border builder.</returns>
     public static IFluentBorderColorWithSide WithColor( BorderColor color )
     {
-        return new FluentBorder().WithColor( color );
+        return cached.WithColor( color );
     }
 
     /// <summary>
     /// Makes the element borderless.
     /// </summary>
-    public static IFluentBorderWithAll Is0 => new FluentBorder().Is0;
+    public static IFluentBorderWithAll Is0 => cached.Is0;
 
     /// <summary>
     /// Borders will be 1px wide.
     /// </summary>
-    public static IFluentBorderWithAll Is1 => new FluentBorder().Is1;
+    public static IFluentBorderWithAll Is1 => cached.Is1;
 
     /// <summary>
     /// Borders will be 2px wide.
     /// </summary>
-    public static IFluentBorderWithAll Is2 => new FluentBorder().Is2;
+    public static IFluentBorderWithAll Is2 => cached.Is2;
 
     /// <summary>
     /// Borders will be 3px wide.
     /// </summary>
-    public static IFluentBorderWithAll Is3 => new FluentBorder().Is3;
+    public static IFluentBorderWithAll Is3 => cached.Is3;
 
     /// <summary>
     /// Borders will be 4px wide.
     /// </summary>
-    public static IFluentBorderWithAll Is4 => new FluentBorder().Is4;
+    public static IFluentBorderWithAll Is4 => cached.Is4;
 
     /// <summary>
     /// Borders will be 5px wide.
     /// </summary>
-    public static IFluentBorderWithAll Is5 => new FluentBorder().Is5;
+    public static IFluentBorderWithAll Is5 => cached.Is5;
 
     /// <summary>
     /// Shows the 1px wide border on the top side of the element.
     /// </summary>
-    public static IFluentBorderWithAll OnTop => new FluentBorder().Is1.OnTop;
+    public static IFluentBorderWithAll OnTop => cached.Is1.OnTop;
 
     /// <summary>
     /// Shows the 1px wide border on the right side of the element.
     /// </summary>
-    public static IFluentBorderWithAll OnEnd => new FluentBorder().Is1.OnEnd;
+    public static IFluentBorderWithAll OnEnd => cached.Is1.OnEnd;
 
     /// <summary>
     /// Shows the 1px wide border on the bottom side of the element.
     /// </summary>
-    public static IFluentBorderWithAll OnBottom => new FluentBorder().Is1.OnBottom;
+    public static IFluentBorderWithAll OnBottom => cached.Is1.OnBottom;
 
     /// <summary>
     /// Shows the 1px wide border on the left side of the element.
     /// </summary>
-    public static IFluentBorderWithAll OnStart => new FluentBorder().Is1.OnStart;
+    public static IFluentBorderWithAll OnStart => cached.Is1.OnStart;
 
     /// <summary>
     /// Defines the border primary color on all sides of an element.
     /// </summary>
-    public static IFluentBorderColorWithSide Primary => new FluentBorder().Is1.Primary;
+    public static IFluentBorderColorWithSide Primary => cached.Is1.Primary;
 
     /// <summary>
     /// Defines the border secondary color on all sides of an element.
     /// </summary>
-    public static IFluentBorderColorWithSide Secondary => new FluentBorder().Is1.Secondary;
+    public static IFluentBorderColorWithSide Secondary => cached.Is1.Secondary;
 
     /// <summary>
     /// Defines the border success color on all sides of an element.
     /// </summary>
-    public static IFluentBorderColorWithSide Success => new FluentBorder().Is1.Success;
+    public static IFluentBorderColorWithSide Success => cached.Is1.Success;
 
     /// <summary>
     /// Defines the border danger color on all sides of an element.
     /// </summary>
-    public static IFluentBorderColorWithSide Danger => new FluentBorder().Is1.Danger;
+    public static IFluentBorderColorWithSide Danger => cached.Is1.Danger;
 
     /// <summary>
     /// Defines the border warning color on all sides of an element.
     /// </summary>
-    public static IFluentBorderColorWithSide Warning => new FluentBorder().Is1.Warning;
+    public static IFluentBorderColorWithSide Warning => cached.Is1.Warning;
 
     /// <summary>
     /// Defines the border info color on all sides of an element.
     /// </summary>
-    public static IFluentBorderColorWithSide Info => new FluentBorder().Is1.Info;
+    public static IFluentBorderColorWithSide Info => cached.Is1.Info;
 
     /// <summary>
     /// Defines the border light color on all sides of an element.
     /// </summary>
-    public static IFluentBorderColorWithSide Light => new FluentBorder().Is1.Light;
+    public static IFluentBorderColorWithSide Light => cached.Is1.Light;
 
     /// <summary>
     /// Defines the border dark color on all sides of an element.
     /// </summary>
-    public static IFluentBorderColorWithSide Dark => new FluentBorder().Is1.Dark;
+    public static IFluentBorderColorWithSide Dark => cached.Is1.Dark;
 
     /// <summary>
     /// Defines the border white color on all sides of an element.
     /// </summary>
-    public static IFluentBorderColorWithSide White => new FluentBorder().Is1.White;
+    public static IFluentBorderColorWithSide White => cached.Is1.White;
 
     /// <summary>
     /// Makes the element rounded on all sides.
     /// </summary>
-    public static IFluentBorderWithAll Rounded => new FluentBorder().Rounded;
+    public static IFluentBorderWithAll Rounded => cached.Rounded;
 
     /// <summary>
     /// Makes the element rounded on top side of the element.
     /// </summary>
-    public static IFluentBorderWithAll RoundedTop => new FluentBorder().RoundedTop;
+    public static IFluentBorderWithAll RoundedTop => cached.RoundedTop;
 
     /// <summary>
     /// Makes the element rounded on right side of the element.
     /// </summary>
-    public static IFluentBorderWithAll RoundedEnd => new FluentBorder().RoundedEnd;
+    public static IFluentBorderWithAll RoundedEnd => cached.RoundedEnd;
 
     /// <summary>
     /// Makes the element rounded on bottom side of the element.
     /// </summary>
-    public static IFluentBorderWithAll RoundedBottom => new FluentBorder().RoundedBottom;
+    public static IFluentBorderWithAll RoundedBottom => cached.RoundedBottom;
 
     /// <summary>
     /// Makes the element rounded on left side of the element.
     /// </summary>
-    public static IFluentBorderWithAll RoundedStart => new FluentBorder().RoundedStart;
+    public static IFluentBorderWithAll RoundedStart => cached.RoundedStart;
 
     /// <summary>
     /// Makes the element as circle shaped.
     /// </summary>
-    public static IFluentBorderWithAll RoundedCircle => new FluentBorder().RoundedCircle;
+    public static IFluentBorderWithAll RoundedCircle => cached.RoundedCircle;
 
     /// <summary>
     /// Makes the element as pill shaped.
     /// </summary>
-    public static IFluentBorderWithAll RoundedPill => new FluentBorder().RoundedPill;
+    public static IFluentBorderWithAll RoundedPill => cached.RoundedPill;
 
     /// <summary>
     /// Makes the element without any round corners.
     /// </summary>
-    public static IFluentBorderWithAll RoundedZero => new FluentBorder().RoundedZero;
+    public static IFluentBorderWithAll RoundedZero => cached.RoundedZero;
 }
