@@ -26,7 +26,6 @@ public static class Config
         serviceCollection.AddSingleton<IStyleProvider, AntDesignStyleProvider>();
         serviceCollection.AddSingleton<IBehaviourProvider, AntDesignBehaviourProvider>();
         serviceCollection.AddScoped<IThemeGenerator, AntDesignThemeGenerator>();
-        serviceCollection.AddScoped<AntDesignJSBarModule>();
         serviceCollection.AddScoped<AntDesignJSSegmentedModule>();
         serviceCollection.AddScoped<AntDesignJSWaveModule>();
 

@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.BarEnd
 <CascadingValue Value="@this" IsFixed>
-    @if ( ParentBarState?.Mode == BarMode.Horizontal )
+    @if ( ParentBarState is not null )
     {
         <li class="ant-menu-end-spacer" role="presentation" aria-hidden="true"></li>
     }

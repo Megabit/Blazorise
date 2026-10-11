@@ -1,57 +1,6 @@
 @inherits Blazorise.BarDropdownMenu
-@using Blazorise.Utilities
-@if ( UsePopupContainer )
-{
-    <div @ref="@ContainerRef" class="@GetContainerClassNames( UseHorizontalPopupPlacement ? HorizontalMenuClass : VerticalMenuClass )" style="@GetContainerStyleNames()" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseover="@ParentBarDropdown.OnMouseOverHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
-        <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@MenuClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler" @onmousedown="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmousedown:stopPropagation @onmouseup="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmouseup:stopPropagation>
-            @ChildContent
-        </ul>
-    </div>
-
-}
-else
-{
-    <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@MenuClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler" @onmousedown="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmousedown:stopPropagation @onmouseup="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmouseup:stopPropagation>
+<div class="@ContainerClassNames" style="@ContainerStyleNames" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseover="@ParentBarDropdown.OnMouseOverHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+    <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler" @onmousedown="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmousedown:stopPropagation @onmouseup="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmouseup:stopPropagation>
         @ChildContent
     </ul>
-}
-@code {
-    bool UsePopupContainer => ParentDropdownState is not null && !ParentDropdownState.IsInlineDisplay;
-
-    bool UseHorizontalPopupPlacement => ParentDropdownState?.Mode == BarMode.Horizontal && ParentDropdownState?.NestedIndex <= 1;
-
-    string MenuClassNames => UsePopupContainer && ParentDropdownState?.Mode == BarMode.VerticalInline
-        ? ClassNames?.Replace( "ant-menu-inline", "ant-menu-vertical" )
-        : ClassNames;
-
-    string HorizontalMenuClass
-        => $"ant-menu-submenu ant-menu-submenu-popup {( ParentDropdownState?.RightAligned == true ? "ant-menu-submenu-placement-bottomRight" : "ant-menu-submenu-placement-bottomLeft" )} {( ParentDropdownState?.Visible == true ? "" : "ant-menu-submenu-hidden" )}";
-
-    string VerticalMenuClass
-        => $"ant-menu-submenu ant-menu-submenu-popup {( ParentDropdownState?.RightAligned == true ? "ant-menu-submenu-placement-leftTop" : "ant-menu-submenu-placement-rightTop" )} {( ParentDropdownState?.Visible == true ? "" : "ant-menu-submenu-hidden" )}";
-
-    string GetContainerClassNames( string baseClass )
-    {
-        var builder = new ClassBuilder( classBuilder =>
-        {
-            classBuilder.Append( baseClass );
-            classBuilder.Append( Classes?.Container );
-            AppendWrapperUtilities( classBuilder );
-        } );
-
-        return builder.Class;
-    }
-
-    string GetContainerStyleNames()
-    {
-        var builder = new StyleBuilder( styleBuilder =>
-        {
-            AppendWrapperUtilities( styleBuilder );
-            styleBuilder.Append( Styles?.Container );
-        } );
-
-        return builder.Styles;
-    }
-
-    [CascadingParameter( Name = "SubMenuId" )] string SubMenuId { get; set; }
-}
+</div>

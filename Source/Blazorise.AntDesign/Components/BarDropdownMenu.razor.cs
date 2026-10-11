@@ -1,6 +1,5 @@
 #region Using directives
-using System.Threading.Tasks;
-using Blazorise.AntDesign.Modules;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -8,39 +7,40 @@ namespace Blazorise.AntDesign.Components;
 
 public partial class BarDropdownMenu
 {
-    #region Members
-
-    protected ElementReference ContainerRef;
-
-    #endregion
-
     #region Methods
 
-    protected override async Task OnAfterRenderAsync( bool firstRender )
+    protected override void BuildContainerClasses( ClassBuilder builder )
     {
-        await base.OnAfterRenderAsync( firstRender );
+        base.BuildContainerClasses( builder );
 
-        if ( UsePopupContainer && !UseHorizontalPopupPlacement )
+        if ( !IsPopup )
         {
-            await JSBarModule.UpdatePopupPlacement( ContainerRef, ParentDropdownState?.Visible == true );
-        }
-    }
-
-    protected override async ValueTask DisposeAsync( bool disposing )
-    {
-        if ( disposing && UsePopupContainer && !UseHorizontalPopupPlacement )
-        {
-            await JSBarModule.ResetPopupPlacement( ContainerRef );
+            return;
         }
 
-        await base.DisposeAsync( disposing );
+        builder.Append( "ant-menu-submenu ant-menu-submenu-popup" );
+
+        if ( IsHorizontalPopup )
+        {
+            builder.Append( ParentDropdownState.RightAligned ? "ant-menu-submenu-placement-bottomRight" : "ant-menu-submenu-placement-bottomLeft" );
+        }
+        else
+        {
+            builder.Append( ParentDropdownState.RightAligned ? "ant-menu-submenu-placement-leftTop" : "ant-menu-submenu-placement-rightTop" );
+        }
+
+        builder.Append( "ant-menu-submenu-hidden", !ParentDropdownState.Visible );
     }
 
     #endregion
 
     #region Properties
 
-    [Inject] public AntDesignJSBarModule JSBarModule { get; set; }
+    protected bool IsPopup => ParentDropdownState is not null && !ParentDropdownState.IsInlineDisplay;
+
+    protected bool IsHorizontalPopup => ParentDropdownState?.Mode == BarMode.Horizontal && ParentDropdownState?.NestedIndex <= 1;
+
+    [CascadingParameter( Name = "SubMenuId" )] protected string SubMenuId { get; set; }
 
     #endregion
 }
