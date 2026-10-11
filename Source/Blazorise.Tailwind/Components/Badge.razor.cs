@@ -8,7 +8,7 @@ namespace Blazorise.Tailwind.Components
 
         public Badge()
         {
-            CloseButtonClassBuilder = new ClassBuilder( BuildCloseButtonClasses, builder => builder.Append( Classes?.Close ) );
+            CloseButtonClassBuilder = new ClassBuilder( BuildCloseButtonClasses, builder => builder.Append( Classes?.Close ), FinalizeClasses );
         }
 
         #endregion

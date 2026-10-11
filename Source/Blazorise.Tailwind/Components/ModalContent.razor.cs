@@ -14,7 +14,7 @@ public partial class ModalContent : Blazorise.ModalContent
 
     public ModalContent()
     {
-        DialogClassBuilder = new( BuildDialogClasses, builder => builder.Append( Classes?.Dialog ) );
+        DialogClassBuilder = new( BuildDialogClasses, builder => builder.Append( Classes?.Dialog ), FinalizeClasses );
     }
 
     #endregion
@@ -35,7 +35,9 @@ public partial class ModalContent : Blazorise.ModalContent
         builder.Append( ClassProvider.ToModalSize( Size ) );
 
         if ( Size == ModalSize.Fullscreen )
-            builder.Append( "modal-fullscreen h-screen w-screen max-w-none h-full m-0" );
+        {
+            builder.Append( "modal-fullscreen h-screen w-screen max-w-none m-0" );
+        }
 
         builder.Append( ClassProvider.ModalContentCentered( Centered ) );
 

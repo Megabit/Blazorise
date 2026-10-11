@@ -14,7 +14,7 @@ public partial class Radio<TValue>
 
     protected override void OnInitialized()
     {
-        buttonLabelClassBuilder = new( BuildButtonLabelClasses );
+        buttonLabelClassBuilder = new( BuildButtonLabelClasses, null, FinalizeClasses );
         buttonLabelStyleBuilder = new( BuildButtonLabelStyles );
         buttonInputStyleBuilder = new( BuildButtonInputStyles );
 

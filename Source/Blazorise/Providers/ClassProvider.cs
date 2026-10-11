@@ -1731,6 +1731,13 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region Class merging
+
+    /// <inheritdoc/>
+    public virtual string MergeClasses( string classNames ) => classNames;
+
+    #endregion
+
     #region Enums
 
     public virtual string ToSize( Size size )

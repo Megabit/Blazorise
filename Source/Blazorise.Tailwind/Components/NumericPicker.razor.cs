@@ -20,11 +20,11 @@ public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
 
     public NumericPicker()
     {
-        NumericWrapperClassBuilder = new( BuildNumericWrapperClasses, builder => builder.Append( Classes?.Wrapper ) );
+        NumericWrapperClassBuilder = new( BuildNumericWrapperClasses, builder => builder.Append( Classes?.Wrapper ), FinalizeClasses );
         NumericWrapperStyleBuilder = new( BuildNumericWrapperStyles, builder => builder.Append( Styles?.Wrapper ) );
-        ButtonsClassBuilder = new( BuildButtonsClasses, builder => builder.Append( Classes?.Buttons ) );
-        ButtonUpClassBuilder = new( BuildButtonUpClasses, builder => builder.Append( Classes?.ButtonUp ) );
-        ButtonDownClassBuilder = new( BuildButtonDownClasses, builder => builder.Append( Classes?.ButtonDown ) );
+        ButtonsClassBuilder = new( BuildButtonsClasses, builder => builder.Append( Classes?.Buttons ), FinalizeClasses );
+        ButtonUpClassBuilder = new( BuildButtonUpClasses, builder => builder.Append( Classes?.ButtonUp ), FinalizeClasses );
+        ButtonDownClassBuilder = new( BuildButtonDownClasses, builder => builder.Append( Classes?.ButtonDown ), FinalizeClasses );
     }
 
     #endregion

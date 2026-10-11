@@ -12,7 +12,7 @@ public partial class Switch<TValue>
 
     protected override void OnInitialized()
     {
-        backgroundClassBuilder = new( BuildBackgroundClasses );
+        backgroundClassBuilder = new( BuildBackgroundClasses, null, FinalizeClasses );
         backgroundStyleBuilder = new( BuildBackgroundStyles );
 
         base.OnInitialized();

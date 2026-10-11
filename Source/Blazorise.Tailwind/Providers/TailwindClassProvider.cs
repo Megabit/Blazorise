@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Blazorise.Extensions;
+using Blazorise.Tailwind.Utilities;
 #endregion
 
 namespace Blazorise.Tailwind.Providers;
@@ -3254,6 +3255,13 @@ public class TailwindClassProvider : ClassProvider
 
         return active ? $"{baseClass} tw-dock-shell-guide-active" : baseClass;
     }
+
+    #endregion
+
+    #region Class merging
+
+    /// <inheritdoc/>
+    public override string MergeClasses( string classNames ) => TailwindClassMerger.Merge( classNames );
 
     #endregion
 
