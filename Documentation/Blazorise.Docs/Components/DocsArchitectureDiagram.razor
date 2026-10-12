@@ -1,0 +1,67 @@
+<Div Border="Border.Is1.Rounded" Padding="Padding.Is3" Margin="Margin.Is4.OnY" Background="Background.Body">
+    <Div Overflow="Overflow.Auto" tabindex="0" role="region" aria-label="Blazorise architecture diagram">
+        <Div Width="Width.Px().Min( 640 ).Max( 800 )" Margin="Margin.IsAuto.OnX">
+            <svg viewBox="0 0 800 400" width="100%" role="img" aria-labelledby="@TitleElementId" aria-describedby="@DescriptionElementId" font-family="inherit" fill="@ForegroundColor">
+                <title id="@TitleElementId">How Blazorise fits together</title>
+                <desc id="@DescriptionElementId">Your application uses Blazorise core components and optional extensions. Extensions reuse core components. The selected CSS provider adapts the rendering of core components to your chosen framework.</desc>
+                <defs>
+                    <marker id="@ArrowElementId" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+                        <path d="M0 0L8 4L0 8Z" fill="@MutedColor" />
+                    </marker>
+                </defs>
+
+                <g fill="none" stroke="@MutedColor" stroke-width="1.5" stroke-linejoin="round">
+                    <path d="M400 80V104H160V130" marker-end="@ArrowUrlString" />
+                    <path d="M400 104H600V130" marker-end="@ArrowUrlString" />
+                    <path d="M288 180H432" marker-end="@ArrowUrlString" />
+                    <path d="M600 224V296" marker-end="@ArrowUrlString" />
+                </g>
+
+                <rect x="240" y="16" width="320" height="64" rx="10" fill="@SurfaceColor" stroke="@BorderColor" />
+                <text x="400" y="54" text-anchor="middle" font-size="18" font-weight="600">Your application</text>
+
+                <rect x="32" y="130" width="256" height="94" rx="10" fill="@SurfaceColor" stroke="@BorderColor" />
+                <text x="160" y="164" text-anchor="middle" font-size="17" font-weight="600">Optional extensions</text>
+                <text x="160" y="188" text-anchor="middle" font-size="13" fill="@MutedColor">DataGrid, Charts, Scheduler</text>
+                <text x="360" y="168" text-anchor="middle" font-size="12" fill="@MutedColor">Reuse core</text>
+
+                <rect x="432" y="130" width="336" height="94" rx="10" fill="@SurfaceColor" stroke="@BorderColor" />
+                <text x="600" y="164" text-anchor="middle" font-size="17" font-weight="600">Blazorise core</text>
+                <text x="600" y="188" text-anchor="middle" font-size="13" fill="@MutedColor">Buttons, inputs, tables, modals</text>
+                <text x="620" y="264" font-size="12" fill="@MutedColor">Rendered by</text>
+
+                <rect x="432" y="296" width="336" height="88" rx="10" fill="@AccentBackgroundColor" stroke="@AccentColor" />
+                <text x="600" y="330" text-anchor="middle" font-size="17" font-weight="600">Selected CSS provider</text>
+                <text x="600" y="354" text-anchor="middle" font-size="13" fill="@MutedColor">Bootstrap, Bulma, Ant Design, and more</text>
+
+                <text x="32" y="326" font-size="14" font-weight="600">One component API.</text>
+                <text x="32" y="350" font-size="13" fill="@MutedColor">Your choice of CSS framework.</text>
+            </svg>
+        </Div>
+    </Div>
+    <Paragraph TextSize="TextSize.Small" TextColor="TextColor.Secondary" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+        Extensions reuse the shared core. Your selected provider adapts how those components render.
+    </Paragraph>
+</Div>
+
+@code {
+    private string TitleElementId { get; } = $"docs-architecture-title-{Guid.NewGuid():N}";
+
+    private string DescriptionElementId => $"{TitleElementId}-description";
+
+    private string ArrowElementId => $"{TitleElementId}-arrow";
+
+    private string ArrowUrlString => $"url(#{ArrowElementId})";
+
+    private const string ForegroundColor = "var(--bs-body-color)";
+
+    private const string MutedColor = "var(--bs-secondary-color)";
+
+    private const string SurfaceColor = "var(--bs-body-bg)";
+
+    private const string BorderColor = "var(--bs-border-color)";
+
+    private const string AccentColor = "var(--b-theme-primary, var(--bs-primary))";
+
+    private const string AccentBackgroundColor = "var(--b-codeblock-background-color, var(--bs-tertiary-bg))";
+}

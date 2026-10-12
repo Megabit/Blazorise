@@ -1,0 +1,70 @@
+<Div Border="Border.Is1.Rounded" Padding="Padding.Is3" Margin="Margin.Is4.OnY" Background="Background.Body">
+    <Div Overflow="Overflow.Auto" tabindex="0" role="region" aria-label="DataGrid composition diagram">
+        <Div Width="Width.Px().Min( 640 ).Max( 800 )" Margin="Margin.IsAuto.OnX">
+            <svg viewBox="0 0 800 360" width="100%" role="img" aria-labelledby="@TitleElementId" aria-describedby="@DescriptionElementId" font-family="inherit" fill="@ForegroundColor">
+                <title id="@TitleElementId">DataGrid builds on core components</title>
+                <desc id="@DescriptionElementId">The DataGrid extension adds editing, filtering, sorting, and paging by composing core Table, Inputs, Buttons, and Pagination components. These core components all use the selected CSS provider and theme.</desc>
+                <defs>
+                    <marker id="@ArrowElementId" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+                        <path d="M0 0L8 4L0 8Z" fill="@MutedColor" />
+                    </marker>
+                </defs>
+
+                <rect x="24" y="16" width="752" height="190" rx="12" fill="@AccentBackgroundColor" stroke="@BorderColor" />
+                <text x="48" y="52" font-size="18" font-weight="600">DataGrid extension</text>
+                <text x="48" y="78" font-size="13" fill="@MutedColor">Editing, filtering, sorting, and paging</text>
+
+                <rect x="48" y="110" width="164" height="72" rx="8" fill="@SurfaceColor" stroke="@BorderColor" />
+                <text x="130" y="140" text-anchor="middle" font-size="16" font-weight="600">Table</text>
+                <text x="130" y="163" text-anchor="middle" font-size="12" fill="@MutedColor">Rows and cells</text>
+
+                <rect x="228" y="110" width="164" height="72" rx="8" fill="@SurfaceColor" stroke="@BorderColor" />
+                <text x="310" y="140" text-anchor="middle" font-size="16" font-weight="600">Inputs</text>
+                <text x="310" y="163" text-anchor="middle" font-size="12" fill="@MutedColor">Edit and filter</text>
+
+                <rect x="408" y="110" width="164" height="72" rx="8" fill="@SurfaceColor" stroke="@BorderColor" />
+                <text x="490" y="140" text-anchor="middle" font-size="16" font-weight="600">Buttons</text>
+                <text x="490" y="163" text-anchor="middle" font-size="12" fill="@MutedColor">User actions</text>
+
+                <rect x="588" y="110" width="164" height="72" rx="8" fill="@SurfaceColor" stroke="@BorderColor" />
+                <text x="670" y="140" text-anchor="middle" font-size="16" font-weight="600">Pagination</text>
+                <text x="670" y="163" text-anchor="middle" font-size="12" fill="@MutedColor">Page navigation</text>
+
+                <g fill="none" stroke="@MutedColor" stroke-width="1.5" stroke-linejoin="round">
+                    <path d="M130 182V230H670V182M310 182V230M490 182V230" />
+                    <path d="M400 230V278" marker-end="@ArrowUrlString" />
+                </g>
+                <text x="420" y="257" font-size="12" fill="@MutedColor">All use the selected provider</text>
+
+                <rect x="224" y="278" width="352" height="66" rx="10" fill="@SurfaceColor" stroke="@AccentColor" />
+                <text x="400" y="305" text-anchor="middle" font-size="17" font-weight="600">Selected provider and theme</text>
+                <text x="400" y="328" text-anchor="middle" font-size="12" fill="@MutedColor">Matches the rest of your application</text>
+            </svg>
+        </Div>
+    </Div>
+    <Paragraph TextSize="TextSize.Small" TextColor="TextColor.Secondary" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+        DataGrid adds advanced features using familiar components that already follow your provider and theme.
+    </Paragraph>
+</Div>
+
+@code {
+    private string TitleElementId { get; } = $"docs-extension-composition-title-{Guid.NewGuid():N}";
+
+    private string DescriptionElementId => $"{TitleElementId}-description";
+
+    private string ArrowElementId => $"{TitleElementId}-arrow";
+
+    private string ArrowUrlString => $"url(#{ArrowElementId})";
+
+    private const string ForegroundColor = "var(--bs-body-color)";
+
+    private const string MutedColor = "var(--bs-secondary-color)";
+
+    private const string SurfaceColor = "var(--bs-body-bg)";
+
+    private const string BorderColor = "var(--bs-border-color)";
+
+    private const string AccentColor = "var(--b-theme-primary, var(--bs-primary))";
+
+    private const string AccentBackgroundColor = "var(--b-codeblock-background-color, var(--bs-tertiary-bg))";
+}

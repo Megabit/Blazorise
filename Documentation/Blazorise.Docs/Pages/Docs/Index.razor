@@ -1,22 +1,90 @@
 ﻿@page "/docs"
 @using Blazorise.Docs.Services
 
-<Seo Canonical="/docs" Title="Blazorise Documentation" Description="On this pages you can find everything you need to create a rich UI Blazor single page application with the help of Blazorise components." />
+<Seo Canonical="/docs" Title="Blazorise Documentation" Description="Discover how Blazorise brings together a shared component API, a choice of CSS providers, and optional extensions to build Blazor applications." />
 
 <DocsPageTitle Path="">
     Blazorise Documentation
 </DocsPageTitle>
 
 <DocsPageLead>
-    Get started with Blazorise, one of the world's most popular Blazor framework for building feature rich, blazing fast applications.
+    Build Blazor applications with a consistent set of components and the freedom to choose the design system that fits your project.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Blazorise consists of modern UI components with customizable styling, comprehensive documentation, UI design assets, and the tooling you need to build a solid foundation for your applications.
+    A new application might start with a few forms and a navigation bar, then grow to need data grids, charts, and more complex workflows.
+    It might also need to fit an existing design system. Blazorise is built around those needs: familiar components you can use throughout
+    your application, a choice of CSS frameworks, and additional features you can bring in as your project grows.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    On these pages you will find everything you need to create a single-page application.
+    That idea shapes the whole library. Blazorise has three parts that work together: a shared core, providers for different CSS frameworks,
+    and extensions for more specialized features. Understanding how they fit together makes it easier to choose what your application needs.
+</DocsPageParagraph>
+
+<DocsArchitectureDiagram />
+
+<DocsPageSectionTitle>
+    One API, different design systems
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    If you have used a component library built around one design system, you are used to choosing its look along with its API.
+    Blazorise separates those choices. You work with the same components, parameters, and events whether your application uses
+    Bootstrap, Bulma, Ant Design, or another supported CSS framework.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    For example, a button still uses the same Blazorise API to set its color, disable it, or respond to a click. The provider gives it
+    the appearance and framework-specific rendering your application needs. You can carry the same component knowledge between projects,
+    even when those projects use different design systems.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    A shared core and separate providers
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    The <Code>Blazorise</Code> project is the common foundation. It defines everyday components such as buttons, inputs, tables, and modals,
+    along with their shared behavior, events, validation, and layout utilities. Keeping this work in one place lets providers reuse it,
+    so improvements to common behavior can benefit applications across CSS frameworks.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Each provider lives in a separate project, such as <Code>Blazorise.Bootstrap5</Code>. Its job is to adapt that foundation to a particular
+    CSS framework, supplying the appropriate classes, styles, and any component markup or behavior that needs to differ.
+    A provider therefore does more than change colors: it connects the shared Blazorise API to the conventions of the framework you choose.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    This separation keeps the core independent of any one CSS framework. Providers can evolve with their frameworks while sharing
+    the same foundation, and your application references the provider it uses. The
+    <Anchor To="docs/usage">integration guides</Anchor> explain the available providers and their setup.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Extensions built on the same foundation
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    A simple form and an analytics dashboard need different tools. Putting every feature into the core would make both applications
+    take on the same set of dependencies. Blazorise keeps specialized features such as DataGrid, Charts, and Scheduler in separate
+    extension packages, so you can add the capabilities and any supporting dependencies your project needs while keeping the core focused
+    on the components those features share.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Most extensions are built by combining core Blazorise components. DataGrid, for example, uses the core table, inputs, buttons,
+    and pagination components to provide its richer editing and navigation features. Those building blocks already use your selected
+    provider, so the extension naturally follows the same visual conventions and theme as the rest of your application.
+</DocsPageParagraph>
+
+<DocsExtensionCompositionDiagram />
+
+<DocsPageParagraph>
+    This is why extensions can offer more advanced behavior while still feeling like part of Blazorise. You keep working with familiar
+    components and styling options as your application grows. Extensions that need a specialized rendering engine, such as Charts,
+    keep that integration in their own package.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
@@ -24,16 +92,13 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    Quickly get a project started with any of our examples. This <Anchor To="docs/start">quick start</Anchor> guide will take you through the downloading and
-    getting started with the Blazorise.
+    Follow the <Anchor To="docs/start">quick start guide</Anchor> to add Blazorise to your application and create your first components.
+    If you already have a CSS framework in mind, start with its <Anchor To="docs/usage">integration guide</Anchor>.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    The best way to round up the whole story is to see the Blazorise in action.
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    Use an AI assistant? Connect it to the <Anchor To="docs/mcp" Title="Link to MCP server guide">MCP server guide</Anchor> to pull Blazorise docs and examples on demand.
+    If you work with an AI assistant, the <Anchor To="docs/mcp" Title="Link to MCP server guide">MCP server guide</Anchor>
+    shows how to give it access to Blazorise documentation and examples.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
@@ -41,7 +106,8 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    Another way to quickly get started is to use our provided Templates. Please visit our <Anchor To="docs/templates">templates guide</Anchor> for more information about downloading and quickly getting started with a Blazorise Template.
+    Start from a ready-made project with a Blazorise template. The <Anchor To="docs/templates">templates guide</Anchor>
+    explains how to choose and create a starting point for your application.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
@@ -57,7 +123,8 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    Want migration diagnostics directly in your IDE and build output? Follow the <Anchor To="docs/analyzer">analyzer guide</Anchor> to install and configure <Code>Blazorise.Analyzers</Code>.
+    Get migration diagnostics in your IDE and build output with <Code>Blazorise.Analyzers</Code>.
+    Follow the <Anchor To="docs/analyzer">analyzer guide</Anchor> to install and configure it.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
@@ -65,7 +132,8 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    Go through the Components section to learn how to work with some essential Blazorise elements.
+    Explore the component documentation for focused examples of forms, layouts, navigation, and other everyday UI elements.
+    The extension documentation covers more specialized features as you need them.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
@@ -73,7 +141,8 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    You can browse our demos-oriented samples showcasing all our control's significant features.
+    Open a demo below to see Blazorise components and extensions in action. Compare the providers to see how the same component API
+    fits different visual styles, and explore the examples to find patterns for your own application.
 </DocsPageParagraph>
 
 <Row Margin="Margin.Is5.OnY">
@@ -97,18 +166,18 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    Stay up to date on the development of Blazorise and reach out to the community with these helpful resources.
+    Follow the development of Blazorise, share what you are building, and connect with other developers.
 </DocsPageParagraph>
 
 <DocsPageUnorderedList>
     <DocsPageUnorderedListItem>
-        Read and subscribe to <Anchor To="blog" Title="Link to Official Blazorise Blog">Official Blazorise Blog</Anchor>..
+        Read the <Anchor To="blog" Title="Link to Official Blazorise Blog">Blazorise blog</Anchor> for updates, guides, and project news.
     </DocsPageUnorderedListItem>
     <DocsPageUnorderedListItem>
-        Join the <Anchor To="https://discord.gg/cVmq8xBSnG" Title="Link to Official Blazorise Discord">Official Discord server</Anchor>.
+        Join the <Anchor To="https://discord.gg/cVmq8xBSnG" Title="Link to Official Blazorise Discord">Discord community</Anchor> to ask questions and share ideas.
     </DocsPageUnorderedListItem>
 </DocsPageUnorderedList>
 
 <DocsPageParagraph>
-    You can also follow <Anchor To="https://x.com/Blazorise" Title="Link to Blazorise Twitter">@@Blazorise</Anchor> on Twitter for the latest news and other interesting stuff.
+    Follow <Anchor To="https://x.com/Blazorise" Title="Link to Blazorise on X">@@Blazorise</Anchor> on X for news and updates.
 </DocsPageParagraph>
