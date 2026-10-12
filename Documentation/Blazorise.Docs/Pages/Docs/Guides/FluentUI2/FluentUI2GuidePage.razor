@@ -56,36 +56,38 @@
     2. Static Files
 </Heading>
 
-<DocsPageParagraph>
-    Modify your project's HTML template to include the necessary CSS files. The files you add depend on whether you're working with a WebAssembly or Server project:
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    <DocsPageUnorderedList>
-        <DocsPageUnorderedListItem>
-            For <Strong>WebAssembly</Strong>, update <Strong>index.html</Strong>.
-        </DocsPageUnorderedListItem>
-        <DocsPageUnorderedListItem>
-            For <Strong>Server</Strong>, update <Strong>_Layout.cshtml</Strong> or <Strong>_Host.cshtml</Strong>.
-        </DocsPageUnorderedListItem>
-        <DocsPageUnorderedListItem>
-            For <Strong>.NET 8</Strong>, update <Strong>App.razor</Strong>.
-        </DocsPageUnorderedListItem>
-    </DocsPageUnorderedList>
-</DocsPageParagraph>
-
 <DocsPageSection>
     <DocsPageSectionHeader>
         Add these lines inside the <Code Tag>head</Code> section:
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="FluentUI2GuideSourceFiles1Example" />
+    <DocsPageSectionSourceGroup AriaLabel="Blazor project type">
+        <DocsPageSectionSource Code="FluentUI2GuideSourceFiles1Example" CodeTitle="WebAssembly">
+            Update <Code>wwwroot/index.html</Code>.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="FluentUI2GuideSourceFiles1Example" CodeTitle="Blazor Server">
+            Update <Code>_Layout.cshtml</Code> or <Code>_Host.cshtml</Code>, depending on your project template.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="FluentUI2GuideSourceFiles1Example" CodeTitle="Blazor Web App">
+            Update <Code>Components/App.razor</Code> in the server project.
+        </DocsPageSectionSource>
+    </DocsPageSectionSourceGroup>
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Optional: SVG icons">
         Fluent icons use the CSS font by default. To render inline SVG icons instead, replace the Fluent font stylesheet shown above with the SVG stylesheet. Keep the remaining Fluent 2 stylesheets unchanged.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="FluentUI2GuideSvgSourceFilesExample" />
+    <DocsPageSectionSourceGroup AriaLabel="Blazor project type">
+        <DocsPageSectionSource Code="FluentUI2GuideSvgSourceFilesExample" CodeTitle="WebAssembly">
+            Update <Code>wwwroot/index.html</Code>.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="FluentUI2GuideSvgSourceFilesExample" CodeTitle="Blazor Server">
+            Update <Code>_Layout.cshtml</Code> or <Code>_Host.cshtml</Code>, depending on your project template.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="FluentUI2GuideSvgSourceFilesExample" CodeTitle="Blazor Web App">
+            Update <Code>Components/App.razor</Code> in the server project.
+        </DocsPageSectionSource>
+    </DocsPageSectionSourceGroup>
 </DocsPageSection>
 
 <Alert Color="Color.Info" Visible>

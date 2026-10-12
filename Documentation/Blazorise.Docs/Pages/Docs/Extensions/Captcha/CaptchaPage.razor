@@ -65,28 +65,20 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Static files (reCAPTCHA)">
         <Paragraph>
-            Modify your project's HTML template to include the Google <Strong>reCAPTCHA</Strong> JavaScript files. The files you add depend on whether you're working with a WebAssembly or Server project:
-        </Paragraph>
-
-        <Paragraph>
-            <DocsPageUnorderedList>
-                <DocsPageUnorderedListItem>
-                    For <Strong>WebAssembly</Strong>, update <Strong>index.html</Strong>.
-                </DocsPageUnorderedListItem>
-                <DocsPageUnorderedListItem>
-                    For <Strong>Server</Strong>, update <Strong>_Layout.cshtml</Strong> or <Strong>_Host.cshtml</Strong>.
-                </DocsPageUnorderedListItem>
-                <DocsPageUnorderedListItem>
-                    For <Strong>.NET 8</Strong>, update <Strong>App.razor</Strong>.
-                </DocsPageUnorderedListItem>
-            </DocsPageUnorderedList>
-        </Paragraph>
-
-        <Paragraph>
             Google <Strong>reCAPTCHA</Strong> docs recommend adding the script to the end of the <Code Tag>head</Code> tag with <Code>async</Code> and <Code>defer</Code> attributes.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ReCaptchaResourcesExample" />
+    <DocsPageSectionSourceGroup AriaLabel="Blazor project type">
+        <DocsPageSectionSource Code="ReCaptchaResourcesExample" CodeTitle="WebAssembly">
+            Update <Code>wwwroot/index.html</Code>.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="ReCaptchaResourcesExample" CodeTitle="Blazor Server">
+            Update <Code>_Layout.cshtml</Code> or <Code>_Host.cshtml</Code>, depending on your project template.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="ReCaptchaResourcesExample" CodeTitle="Blazor Web App">
+            Update <Code>Components/App.razor</Code> in the server project.
+        </DocsPageSectionSource>
+    </DocsPageSectionSourceGroup>
 </DocsPageSection>
 
 <DocsPageSectionTitle>

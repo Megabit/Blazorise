@@ -1,57 +1,96 @@
-<Div Position="Position.Relative" Height="Height.Is100">
-    @if ( HasMultipleCodeSources )
+@implements IDisposable
+
+@if ( ParentSourceGroup is not null )
+{
+    <TabPanel Name="@SourceCodeElementId" Border="Border.Is1.OnTop">
+        @SourceContent
+    </TabPanel>
+}
+else
+{
+    @SourceContent
+    @if ( ChildContent is not null )
     {
-        <Div Flex="Flex.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is2" Padding="Padding.Is2.OnX.Is1.OnY">
-            <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is3">
-                @if ( ShowCode )
-                {
-                    @foreach ( DocsCodeSource source in CodeSources )
-                    {
-                        <Button Color="Color.Default"
-                                Size="Size.Small"
-                                TextColor="@SourceSelectorTextColor( source.Code )"
-                                TextWeight="@SourceSelectorTextWeight( source.Code )"
-                                Padding="Padding.Is0"
-                                Clicked="@(() => OnSelectCodeSource( source.Code ))">
-                            @source.Title
-                        </Button>
-                    }
-                }
-            </Div>
-            <Div Flex="Flex.AlignItems.Center">
-                @SourceActions
-            </Div>
+        <Div Margin="Margin.Is2.FromTop">
+            @ChildContent
         </Div>
     }
-    else
-    {
-        <Div Position="Position.Absolute.Top.Is0.End.Is0">
-            @SourceActions
-        </Div>
-    }
-    <Div ElementId="@SourceCodeElementId" Class="b-docs-page-section-source-code" Height="@SourceCodeHeight" Overflow="Overflow.Auto" Display="@SourceCodeDisplay">
-        @CodeComponent( CurrentCode )
-    </Div>
-</Div>
+}
 
 @code {
-    private RenderFragment SourceActions =>
+    private RenderFragment SourceContent =>
+        @<Div Position="Position.Relative" Height="Height.Is100">
+            @if ( HasMultipleCodeSources )
+            {
+                <Div Position="Position.Relative" Border="Border.Is1.Rounded" Background="@(new Background( "var(--b-codeblock-background-color)" ))">
+                    <Tabs SelectedTab="@CurrentCode"
+                          SelectedTabChanged="@OnSelectCodeSourceHandler"
+                          AriaLabel="Example source files"
+                          Width="@(ParentSourceGroup is null ? Width.Calc( "100% - 8rem" ) : null)"
+                          Flex="Flex.NoWrap"
+                          Overflow="Overflow.Auto"
+                          Padding="Padding.Is2.OnX"
+                          Border="Border.Is0.OnBottom">
+                        <Items>
+                            @foreach ( var source in CodeSources )
+                            {
+                                <DocsPageSectionSourceTab Name="@source.Code" Title="@source.Title" />
+                            }
+                        </Items>
+                        <Content>
+                            @foreach ( var source in CodeSources )
+                            {
+                                <TabPanel Name="@source.Code" Border="Border.Is1.OnTop">
+                                    @if ( source.Code == CurrentCode )
+                                    {
+                                        @SourceCodeContent
+                                    }
+                                </TabPanel>
+                            }
+                        </Content>
+                    </Tabs>
+                    @if ( ParentSourceGroup is null )
+                    {
+                        <Div Position="Position.Absolute.Top.Is0.End.Is0" Flex="Flex.AlignItems.Center.NoWrap" Padding="Padding.Is1">
+                            @SourceActions
+                        </Div>
+                    }
+                </Div>
+            }
+            else
+            {
+                @if ( ParentSourceGroup is null )
+                {
+                    <Div Position="Position.Absolute.Top.Is0.End.Is0">
+                        @SourceActions
+                    </Div>
+                }
+                @SourceCodeContent
+            }
+        </Div>;
+
+    private RenderFragment SourceCodeContent =>
+        @<Div ElementId="@SourceCodeElementId" Class="b-docs-page-section-source-code" Height="@SourceCodeHeight" Overflow="Overflow.Auto" Display="@SourceCodeDisplay">
+            @CodeComponent( CurrentCode )
+        </Div>;
+
+    internal RenderFragment SourceActions =>
         @<text>
-            @if ( ShowCode && CanExpandSource )
+            @if ( IsCodeVisible && CanExpandSource )
             {
                 <Tooltip Text="@(SourceExpanded ? "Collapse code example" : "Expand code example")" Inline>
-                    <Button Color="Color.Default" Size="Size.Small" TextColor="TextColor.Secondary" Clicked="@OnToggleSourceExpanded">
+                    <Button Color="Color.Default" Ghost Size="Size.Small" TextColor="TextColor.Secondary" Width="@SourceActionWidth" Height="@SourceActionHeight" Clicked="@OnToggleSourceExpandedHandler" aria-label="@(SourceExpanded ? "Collapse code example" : "Expand code example")">
                         <Icon Name="@(SourceExpanded ? IconName.Compress : IconName.Expand)" />
                     </Button>
                 </Tooltip>
             }
-            <Tooltip Text="@(ShowCode ? "Hide code example" : "Show code example")" Inline>
-                <Button Color="Color.Default" Size="Size.Small" TextColor="TextColor.Secondary" Clicked="@OnToggleCode">
+            <Tooltip Text="@(IsCodeVisible ? "Hide code example" : "Show code example")" Inline>
+                <Button Color="Color.Default" Ghost Size="Size.Small" TextColor="TextColor.Secondary" Width="@SourceActionWidth" Height="@SourceActionHeight" Clicked="@OnToggleCodeHandler" aria-label="@(IsCodeVisible ? "Hide code example" : "Show code example")">
                     <Icon Name="IconName.Code" />
                 </Button>
             </Tooltip>
             <Tooltip Text="@(CopyFullExample ? "Copy full example" : "Copy code")" Inline>
-                <Button Color="Color.Default" Size="Size.Small" TextColor="TextColor.Secondary" Margin="@SourceActionEndMargin" Clicked="@OnCopyCode">
+                <Button Color="Color.Default" Ghost Size="Size.Small" TextColor="TextColor.Secondary" Width="@SourceActionWidth" Height="@SourceActionHeight" Margin="@SourceActionEndMargin" Clicked="@OnCopyCodeHandler" aria-label="@(CopyFullExample ? "Copy full example" : "Copy code")">
                     <Icon Name="IconName.Copy" />
                 </Button>
             </Tooltip>

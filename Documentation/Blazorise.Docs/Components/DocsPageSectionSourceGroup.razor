@@ -1,0 +1,109 @@
+@using System.Collections.Generic
+@using System.Linq
+
+<CascadingValue Value="@this" IsFixed>
+    <Div Position="Position.Relative" Border="Border.Is1.Rounded" Background="@(new Background( "var(--b-codeblock-background-color)" ))">
+        <Tabs @ref="tabs"
+              SelectedTab="@selectedSourceElementId"
+              SelectedTabChanged="@OnSelectedTabChangedHandler"
+              AriaLabel="@AriaLabel"
+              Width="@(Width.Calc( "100% - 8rem" ))"
+              Flex="Flex.NoWrap"
+              Overflow="Overflow.Auto"
+              Padding="Padding.Is2.OnX"
+              Border="Border.Is0.OnBottom">
+            <Items>
+                @foreach ( var source in sources )
+                {
+                    <DocsPageSectionSourceTab @key="source" Name="@source.SourceCodeElementId" Title="@source.CodeTitle" />
+                }
+            </Items>
+            <Content>
+                @ChildContent
+            </Content>
+        </Tabs>
+        <Div Position="Position.Absolute.Top.Is0.End.Is0" Flex="Flex.AlignItems.Center.NoWrap" Padding="Padding.Is1">
+            @(ActiveSource?.SourceActions)
+        </Div>
+    </Div>
+    @if ( ActiveSource?.ChildContent is not null )
+    {
+        <Div Margin="Margin.Is2.FromTop">
+            @ActiveSource.ChildContent
+        </Div>
+    }
+</CascadingValue>
+
+@code {
+    #region Members
+
+    private readonly List<DocsPageSectionSource> sources = new();
+
+    private Tabs tabs;
+
+    private string selectedSourceElementId;
+
+    #endregion
+
+    #region Methods
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( ActiveSource is not null && tabs?.SelectedTab == selectedSourceElementId )
+        {
+            await ActiveSource.MeasureSourceOverflowAsync();
+        }
+    }
+
+    internal void RegisterSource( DocsPageSectionSource source )
+    {
+        sources.Add( source );
+        selectedSourceElementId ??= source.SourceCodeElementId;
+
+        _ = InvokeAsync( StateHasChanged );
+    }
+
+    internal void UnregisterSource( DocsPageSectionSource source )
+    {
+        sources.Remove( source );
+
+        if ( selectedSourceElementId == source.SourceCodeElementId )
+        {
+            selectedSourceElementId = sources.FirstOrDefault()?.SourceCodeElementId;
+            ActiveSource?.RequestSourceOverflowMeasure();
+        }
+
+        _ = InvokeAsync( StateHasChanged );
+    }
+
+    internal void NotifySourceChanged( DocsPageSectionSource source )
+    {
+        if ( sources.Contains( source ) )
+        {
+            _ = InvokeAsync( StateHasChanged );
+        }
+    }
+
+    private Task OnSelectedTabChangedHandler( string elementId )
+    {
+        if ( selectedSourceElementId != elementId )
+        {
+            selectedSourceElementId = elementId;
+            ActiveSource?.RequestSourceOverflowMeasure();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    #endregion
+
+    #region Properties
+
+    private DocsPageSectionSource ActiveSource => sources.FirstOrDefault( source => source.SourceCodeElementId == selectedSourceElementId );
+
+    [Parameter] public string AriaLabel { get; set; } = "Code alternatives";
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
+}

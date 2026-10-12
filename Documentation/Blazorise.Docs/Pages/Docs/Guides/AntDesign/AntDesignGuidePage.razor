@@ -53,28 +53,24 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    Modify your project's HTML template to include the necessary CSS files. Blazorise Ant Design ships the Ant Design stylesheet as a package static asset, so reference it from <Code>_content/Blazorise.AntDesign/antd.css</Code> instead of an external Ant Design CDN file. The host file you update depends on whether you're working with a WebAssembly or Server project:
-</DocsPageParagraph>
-
-<DocsPageParagraph>
-    <DocsPageUnorderedList>
-        <DocsPageUnorderedListItem>
-            For <Strong>WebAssembly</Strong>, update <Strong>index.html</Strong>.
-        </DocsPageUnorderedListItem>
-        <DocsPageUnorderedListItem>
-            For <Strong>Server</Strong>, update <Strong>_Layout.cshtml</Strong> or <Strong>_Host.cshtml</Strong>.
-        </DocsPageUnorderedListItem>
-        <DocsPageUnorderedListItem>
-            For <Strong>.NET 8</Strong>, update <Strong>App.razor</Strong>.
-        </DocsPageUnorderedListItem>
-    </DocsPageUnorderedList>
+    Blazorise Ant Design ships its stylesheet as a package static asset. Reference <Code>_content/Blazorise.AntDesign/antd.css</Code> instead of an external Ant Design CDN file.
 </DocsPageParagraph>
 
 <DocsPageSection>
     <DocsPageSectionHeader>
         Add these lines inside the <Code Tag>head</Code> section:
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="AntDesignGuideSourceFilesExample" />
+    <DocsPageSectionSourceGroup AriaLabel="Blazor project type">
+        <DocsPageSectionSource Code="AntDesignGuideSourceFilesExample" CodeTitle="WebAssembly">
+            Update <Code>wwwroot/index.html</Code>.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="AntDesignGuideSourceFilesExample" CodeTitle="Blazor Server">
+            Update <Code>_Layout.cshtml</Code> or <Code>_Host.cshtml</Code>, depending on your project template.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="AntDesignGuideSourceFilesExample" CodeTitle="Blazor Web App">
+            Update <Code>Components/App.razor</Code> in the server project.
+        </DocsPageSectionSource>
+    </DocsPageSectionSourceGroup>
 </DocsPageSection>
 
 <DocsPageParagraph>

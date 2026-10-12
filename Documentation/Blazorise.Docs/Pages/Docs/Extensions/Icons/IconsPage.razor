@@ -28,76 +28,56 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="NuGet">
-        Install extension from NuGet.
+        Install the package for the icon provider you want to use.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="IconsNugetInstallExample" />
-</DocsPageSection>
-
-<DocsPageParagraph>
-    Now based on the icon library you want to use, you will need to setup the CSS files.
-</DocsPageParagraph>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="AntDesign Icons CSS">
-        Note: If you use AntDesign icons, define <Code>blazorise.icons.antdesign.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="AntDesignIconsCSSExample"></DocsPageSectionSource>
+    <DocsPageSectionSourceGroup AriaLabel="Icon provider package">
+        <DocsPageSectionSource Code="IconsNugetInstallExample" CodeTitle="Font Awesome" />
+        <DocsPageSectionSource Code="AntDesignIconsNugetInstallExample" CodeTitle="AntDesign" />
+        <DocsPageSectionSource Code="BootstrapIconsNugetInstallExample" CodeTitle="Bootstrap" />
+        <DocsPageSectionSource Code="FluentUIIconsNugetInstallExample" CodeTitle="Fluent UI" />
+        <DocsPageSectionSource Code="MaterialIconsNugetInstallExample" CodeTitle="Material" />
+        <DocsPageSectionSource Code="LucideIconsNugetInstallExample" CodeTitle="Lucide" />
+    </DocsPageSectionSourceGroup>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Bootstrap Icons CSS">
-        Note: If you use Bootstrap icons, define <Code>bootstrap-icons.min.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file. This file is required for some custom icon styles to work.
+    <DocsPageSectionHeader Title="CSS">
+        Add the stylesheet for your icon provider inside the <Code Tag>head</Code> section of <Code>wwwroot/index.html</Code> for standalone WebAssembly, <Code>_Layout.cshtml</Code> or <Code>_Host.cshtml</Code> for Blazor Server, or <Code>Components/App.razor</Code> for a Blazor Web App.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="BootstrapIconsCSSExample"></DocsPageSectionSource>
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Fluent Icons CSS">
-        Fluent icons use the CSS font by default and render at a default size of 20px. For this mode, define <Code>FluentSystemIcons-Resizable.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="FluentIconsCSSExample"></DocsPageSectionSource>
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Fluent SVG CSS">
-        As an alternative to the CSS font, Fluent icons can render as inline SVG, also at a default size of 20px. Replace <Code>FluentSystemIcons-Resizable.css</Code> with the SVG icon stylesheet.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="FluentSvgIconsCSSExample" />
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Fluent SVG Registration">
-        Enable SVG rendering when registering the Fluent UI icon provider. Existing <Code>Icon</Code> component usage remains the same.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="FluentSvgIconsRegistrationExample" />
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Font Awesome CSS">
-        Include CSS link into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you're using a Blazor WebAssembly or Blazor Server side project.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="FontAwesomeCSSExample"></DocsPageSectionSource>
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Material Icons CSS">
-        Note: If you use Material icons, define <Code>blazorise.icons.material.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file. This file is required for some custom icon styles to work.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="MaterialCSSExample"></DocsPageSectionSource>
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Lucide Icons CSS">
-        Note: If you use Lucide icons, define <Code>blazorise.icons.lucide.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file.
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="LucideIconsCSSExample"></DocsPageSectionSource>
+    <DocsPageSectionSourceGroup AriaLabel="Icon provider stylesheets">
+        <DocsPageSectionSource Code="FontAwesomeCSSExample" CodeTitle="Font Awesome" />
+        <DocsPageSectionSource Code="AntDesignIconsCSSExample" CodeTitle="AntDesign" />
+        <DocsPageSectionSource Code="BootstrapIconsCSSExample" CodeTitle="Bootstrap">
+            The Bootstrap Icons stylesheet is required for some custom icon styles to work.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="FluentIconsCSSExample" CodeTitle="Fluent Font">
+            Fluent icons use the CSS font by default and render at a default size of 20px.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="FluentSvgIconsCSSExample" CodeTitle="Fluent SVG">
+            Replace the Fluent font stylesheet with this SVG stylesheet and enable SVG rendering in the registration below. Icons render at a default size of 20px.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="MaterialCSSExample" CodeTitle="Material">
+            The Material icon stylesheet is required for some custom icon styles to work.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="LucideIconsCSSExample" CodeTitle="Lucide" />
+    </DocsPageSectionSourceGroup>
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Registrations">
-        Register the icon provider that matches the package you installed, such as <Code>AddFontAwesomeIcons</Code> or <Code>AddLucideIcons</Code>.
+        Register the icon provider that matches the package and stylesheet you selected. Keep your existing Blazorise and CSS provider registration.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="RegistrationsExample" />
+    <DocsPageSectionSourceGroup AriaLabel="Icon provider registration">
+        <DocsPageSectionSource Code="RegistrationsExample" CodeTitle="Font Awesome" />
+        <DocsPageSectionSource Code="AntDesignIconsRegistrationExample" CodeTitle="AntDesign" />
+        <DocsPageSectionSource Code="BootstrapIconsRegistrationExample" CodeTitle="Bootstrap" />
+        <DocsPageSectionSource Code="FluentUIIconsRegistrationExample" CodeTitle="Fluent Font" />
+        <DocsPageSectionSource Code="FluentSvgIconsRegistrationExample" CodeTitle="Fluent SVG">
+            Enable SVG rendering when registering Fluent icons. Existing <Code>Icon</Code> component usage remains the same.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="MaterialIconsRegistrationExample" CodeTitle="Material" />
+        <DocsPageSectionSource Code="LucideIconsRegistrationExample" CodeTitle="Lucide" />
+    </DocsPageSectionSourceGroup>
 </DocsPageSection>
 
 <DocsPageSection>
@@ -113,20 +93,36 @@
     <DocsPageSectionHeader Title="Custom">
         You can also use a real icon name instead of predefined enum. Note that this is not the preferred way of using icons, but it can be useful in some cases.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="IconCustomExample" Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth>
         <IconCustomExample />
     </DocsPageSectionContent>
+    <DocsPageSectionSourceGroup AriaLabel="Custom icon name">
+        <DocsPageSectionSource Code="IconCustomExample" CodeTitle="Font Awesome" />
+        <DocsPageSectionSource Code="AntDesignIconCustomExample" CodeTitle="AntDesign" />
+        <DocsPageSectionSource Code="BootstrapIconCustomExample" CodeTitle="Bootstrap" />
+        <DocsPageSectionSource Code="FluentUIIconCustomExample" CodeTitle="Fluent UI" />
+        <DocsPageSectionSource Code="MaterialIconCustomExample" CodeTitle="Material" />
+        <DocsPageSectionSource Code="LucideIconCustomExample" CodeTitle="Lucide" />
+    </DocsPageSectionSourceGroup>
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Icon Names">
         Preferred way to define icon is to use an enum <Code>IconName</Code>. That way every icon will be applied automatically based on the icon package that you're using.
 
-        In case you cannot find an icon in the provided enum, you can also use prebuilt list of icon names that comes with every icon package. For example for Ant Design you would use <Code>AntDesignIcons</Code>, for font-awesome you would use <Code>FontAwesomeIcons</Code>, for material that would be <Code>MaterialIcons</Code>, while for Lucide that would be <Code>LucideIcons</Code>.
+        When the shared enum does not contain the icon you need, use a constant from your provider's icon-name class. Select your provider below to see its syntax.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="IconNamesExample" Outlined FullWidth>
+    <DocsPageSectionContent Outlined FullWidth>
         <IconNamesExample />
     </DocsPageSectionContent>
+    <DocsPageSectionSourceGroup AriaLabel="Provider icon constants">
+        <DocsPageSectionSource Code="IconNamesExample" CodeTitle="Font Awesome" />
+        <DocsPageSectionSource Code="AntDesignIconNamesExample" CodeTitle="AntDesign" />
+        <DocsPageSectionSource Code="BootstrapIconNamesExample" CodeTitle="Bootstrap" />
+        <DocsPageSectionSource Code="FluentUIIconNamesExample" CodeTitle="Fluent UI" />
+        <DocsPageSectionSource Code="MaterialIconNamesExample" CodeTitle="Material" />
+        <DocsPageSectionSource Code="LucideIconNamesExample" CodeTitle="Lucide" />
+    </DocsPageSectionSourceGroup>
 </DocsPageSection>
 
 <DocsPageSection>

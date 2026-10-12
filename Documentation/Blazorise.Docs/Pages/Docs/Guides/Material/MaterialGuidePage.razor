@@ -56,25 +56,21 @@
     3. Add static file references in your app host file. The Material provider stylesheet loads its packaged Material Symbols fonts from <Code>_content/Blazorise.Material/fonts/</Code>. The Google Material Icons stylesheet is needed only when you use <Code>Blazorise.Icons.Material</Code>.
 </DocsPageParagraph>
 
-<DocsPageParagraph>
-    <DocsPageUnorderedList>
-        <DocsPageUnorderedListItem>
-            For <Strong>WebAssembly</Strong>, update <Strong>index.html</Strong>.
-        </DocsPageUnorderedListItem>
-        <DocsPageUnorderedListItem>
-            For <Strong>Server</Strong>, update <Strong>_Layout.cshtml</Strong> or <Strong>_Host.cshtml</Strong>.
-        </DocsPageUnorderedListItem>
-        <DocsPageUnorderedListItem>
-            For <Strong>.NET 8</Strong>, update <Strong>App.razor</Strong>.
-        </DocsPageUnorderedListItem>
-    </DocsPageUnorderedList>
-</DocsPageParagraph>
-
 <DocsPageSection>
     <DocsPageSectionHeader>
         Add the styles inside the <Code Tag>head</Code> section, and place <Code>blazorise.material.js</Code> near the end of <Code Tag>body</Code> before the Blazor script:
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="MaterialGuideSourceFilesExample" />
+    <DocsPageSectionSourceGroup AriaLabel="Blazor project type">
+        <DocsPageSectionSource Code="MaterialGuideSourceFilesExample" CodeTitle="WebAssembly">
+            Update <Code>wwwroot/index.html</Code>.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="MaterialGuideSourceFilesExample" CodeTitle="Blazor Server">
+            Update <Code>_Layout.cshtml</Code> or <Code>_Host.cshtml</Code>, depending on your project template.
+        </DocsPageSectionSource>
+        <DocsPageSectionSource Code="MaterialGuideSourceFilesExample" CodeTitle="Blazor Web App">
+            Update <Code>Components/App.razor</Code> in the server project.
+        </DocsPageSectionSource>
+    </DocsPageSectionSourceGroup>
 </DocsPageSection>
 
 <Alert Color="Color.Info" Visible>

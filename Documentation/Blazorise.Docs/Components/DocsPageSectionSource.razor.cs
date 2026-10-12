@@ -17,9 +17,43 @@ public partial class DocsPageSectionSource
 
     private bool expandedApplied;
 
+    private bool shouldMeasureSourceOverflow = true;
+
     #endregion
 
     #region Methods
+
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        var codeTitleChanged = parameters.TryGetValue<string>( nameof( CodeTitle ), out var paramCodeTitle ) && paramCodeTitle != CodeTitle;
+        var codeChanged = parameters.TryGetValue<string>( nameof( Code ), out var paramCode ) && paramCode != Code;
+        var showCodeChanged = parameters.TryGetValue<bool>( nameof( ShowCode ), out var paramShowCode ) && paramShowCode != ShowCode;
+        var copyFullExampleChanged = parameters.TryGetValue<bool>( nameof( CopyFullExample ), out var paramCopyFullExample ) && paramCopyFullExample != CopyFullExample;
+
+        await base.SetParametersAsync( parameters );
+
+        if ( showCodeChanged )
+        {
+            IsCodeVisible = ShowCode;
+        }
+
+        if ( codeChanged || showCodeChanged )
+        {
+            RequestSourceOverflowMeasure();
+        }
+
+        if ( codeTitleChanged || codeChanged || showCodeChanged || copyFullExampleChanged )
+        {
+            ParentSourceGroup?.NotifySourceChanged( this );
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        ParentSourceGroup?.RegisterSource( this );
+
+        base.OnInitialized();
+    }
 
     protected override void OnParametersSet()
     {
@@ -38,17 +72,31 @@ public partial class DocsPageSectionSource
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        if ( ShowCode && !SourceExpanded && shouldMeasureSourceOverflow )
+        if ( ParentSourceGroup is null )
+        {
+            await MeasureSourceOverflowAsync();
+        }
+    }
+
+    public void Dispose()
+    {
+        ParentSourceGroup?.UnregisterSource( this );
+    }
+
+    internal async Task MeasureSourceOverflowAsync()
+    {
+        if ( IsCodeVisible && !SourceExpanded && shouldMeasureSourceOverflow )
         {
             shouldMeasureSourceOverflow = false;
 
             try
             {
-                bool canExpandSource = await JSRuntime.InvokeAsync<bool>( "blazoriseDocs.code.hasVerticalOverflow", SourceCodeElementId );
+                var canExpandSource = await JSRuntime.InvokeAsync<bool>( "blazoriseDocs.code.hasVerticalOverflow", SourceCodeElementId );
 
                 if ( CanExpandSource != canExpandSource )
                 {
                     CanExpandSource = canExpandSource;
+                    ParentSourceGroup?.NotifySourceChanged( this );
                     await InvokeAsync( StateHasChanged );
                 }
             }
@@ -61,20 +109,22 @@ public partial class DocsPageSectionSource
         }
     }
 
-    private Task OnToggleCode()
+    private Task OnToggleCodeHandler()
     {
-        ShowCode = !ShowCode;
+        IsCodeVisible = !IsCodeVisible;
 
-        if ( ShowCode )
+        if ( IsCodeVisible )
         {
             SourceExpanded = false;
             RequestSourceOverflowMeasure();
         }
 
+        ParentSourceGroup?.NotifySourceChanged( this );
+
         return Task.CompletedTask;
     }
 
-    private Task OnToggleSourceExpanded()
+    private Task OnToggleSourceExpandedHandler()
     {
         SourceExpanded = !SourceExpanded;
 
@@ -83,16 +133,18 @@ public partial class DocsPageSectionSource
             RequestSourceOverflowMeasure();
         }
 
+        ParentSourceGroup?.NotifySourceChanged( this );
+
         return Task.CompletedTask;
     }
 
-    private async Task OnCopyCode()
+    private async Task OnCopyCodeHandler()
     {
         await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", Snippets.GetCode( CopyFullExample ? Code : CurrentCode ) );
         await NotificationService.Info( CopyFullExample ? "Copied full example!" : "Copied code example!" );
     }
 
-    private Task OnSelectCodeSource( string code )
+    private Task OnSelectCodeSourceHandler( string code )
     {
         if ( CurrentCode != code )
         {
@@ -101,10 +153,12 @@ public partial class DocsPageSectionSource
             RequestSourceOverflowMeasure();
         }
 
+        ParentSourceGroup?.NotifySourceChanged( this );
+
         return Task.CompletedTask;
     }
 
-    private void RequestSourceOverflowMeasure()
+    internal void RequestSourceOverflowMeasure()
     {
         if ( !SourceExpanded )
         {
@@ -113,12 +167,6 @@ public partial class DocsPageSectionSource
 
         shouldMeasureSourceOverflow = true;
     }
-
-    private TextColor SourceSelectorTextColor( string code )
-        => CurrentCode == code ? TextColor.Primary : TextColor.Body;
-
-    private TextWeight SourceSelectorTextWeight( string code )
-        => CurrentCode == code ? TextWeight.SemiBold : TextWeight.Normal;
 
     private RenderFragment CodeComponent( string code ) => builder =>
     {
@@ -142,25 +190,29 @@ public partial class DocsPageSectionSource
 
     #region Properties
 
-    private IFluentDisplay SourceCodeDisplay => ShowCode ? Display.Block : Display.None;
+    private IFluentDisplay SourceCodeDisplay => IsCodeVisible ? Display.Block : Display.None;
 
     private IFluentSizing SourceCodeHeight => SourceExpanded ? null : Height.Px().Max( 280 );
 
-    private IFluentSpacing SourceActionEndMargin => CanExpandSource ? Margin.Is2.FromEnd : null;
+    private IFluentSizing SourceActionWidth => HasSourceSelector ? Width.Rem( 2.5 ) : null;
+
+    private IFluentSizing SourceActionHeight => HasSourceSelector ? Height.Rem( 2.5 ) : null;
+
+    private IFluentSpacing SourceActionEndMargin => CanExpandSource && !HasSourceSelector ? Margin.Is2.FromEnd : null;
 
     private bool SourceExpanded { get; set; }
 
+    private bool IsCodeVisible { get; set; } = true;
+
     private bool CanExpandSource { get; set; }
 
-    private bool shouldMeasureSourceOverflow = true;
-
-    private string SourceCodeElementId { get; } = $"b-docs-page-section-source-{Guid.NewGuid():N}";
+    internal string SourceCodeElementId { get; } = $"b-docs-page-section-source-{Guid.NewGuid():N}";
 
     private IReadOnlyList<DocsCodeSource> CodeSources
     {
         get
         {
-            List<DocsCodeSource> sources = new()
+            var sources = new List<DocsCodeSource>
             {
                 new( Code, CodeTitle )
             };
@@ -175,6 +227,8 @@ public partial class DocsPageSectionSource
     }
 
     private bool HasMultipleCodeSources => CodeSources.Count > 1;
+
+    private bool HasSourceSelector => ParentSourceGroup is not null || HasMultipleCodeSources;
 
     private string CurrentCode { get; set; }
 
@@ -196,6 +250,10 @@ public partial class DocsPageSectionSource
     /// Specifies whether the source code block is expanded by default.
     /// </summary>
     [Parameter] public bool Expanded { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [CascadingParameter] protected DocsPageSectionSourceGroup ParentSourceGroup { get; set; }
 
     #endregion
 }

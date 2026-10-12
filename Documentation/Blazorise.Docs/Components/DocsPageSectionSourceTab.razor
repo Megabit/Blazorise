@@ -1,0 +1,62 @@
+@using Blazorise.States
+@using Blazorise.Utilities
+
+<Tab Name="@Name" Classes="@SourceTabClasses" Border="@SourceTabBorder" Flex="Flex.Shrink.Is0" Margin="Margin.Is0.FromBottom">
+    <Span TextColor="@(IsSelected ? TextColor.Primary : TextColor.Secondary)" TextSize="TextSize.Small" TextOverflow="TextOverflow.NoWrap" Height="Height.Rem( 3 )" Flex="Flex.AlignItems.Center">@Title</Span>
+</Tab>
+
+@code {
+    #region Members
+
+    private readonly ClassBuilder linkClassBuilder;
+
+    #endregion
+
+    #region Constructors
+
+    public DocsPageSectionSourceTab()
+    {
+        linkClassBuilder = new( BuildLinkClasses );
+    }
+
+    #endregion
+
+    #region Methods
+
+    private void BuildLinkClasses( ClassBuilder builder )
+    {
+        builder.Append( Border.Is0.RoundedZero.Class( ClassProvider ) );
+        builder.Append( Padding.Is3.OnX.Is0.OnY.Class( ClassProvider ) );
+        builder.Append( ClassProvider.BackgroundColor( Background.Transparent ) );
+    }
+
+    #endregion
+
+    #region Properties
+
+    private bool IsSelected => ParentTabsState?.SelectedTab == Name;
+
+    private IFluentBorder SourceTabBorder
+    {
+        get
+        {
+            var border = new FluentBorder();
+            border.WithSize( BorderSize.Is2 );
+            border.WithColor( IsSelected ? BorderColor.Primary : new BorderColor( "transparent" ) );
+
+            return border.OnBottom;
+        }
+    }
+
+    private TabClasses SourceTabClasses => new() { Link = linkClassBuilder.Class };
+
+    [Inject] public IClassProvider ClassProvider { get; set; }
+
+    [Parameter] public string Name { get; set; }
+
+    [Parameter] public string Title { get; set; }
+
+    [CascadingParameter] protected TabsState ParentTabsState { get; set; }
+
+    #endregion
+}
