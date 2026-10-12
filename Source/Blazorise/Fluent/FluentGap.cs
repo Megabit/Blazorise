@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -116,6 +117,8 @@ public class FluentGap :
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentGap> cachedOperations = new( static ( _, cache ) => new() { cache = cache }, static builder => ref builder.cache );
+
     private class GapDefinition
     {
         public GapSide Side { get; set; }
@@ -123,13 +126,17 @@ public class FluentGap :
 
     private GapDefinition currentGap;
 
-    private readonly Dictionary<GapSize, List<GapDefinition>> rules = new();
+    private Dictionary<GapSize, List<GapDefinition>> rules;
 
     private List<string> customRules;
 
     private bool dirty = true;
 
     private string classNames;
+
+    private FluentUtilityState<FluentGap> cache;
+
+    private UtilityTarget? utilityTarget;
 
     #endregion
 
@@ -138,26 +145,41 @@ public class FluentGap :
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
     {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Class( (IClassProvider)provider ) );
+        }
+
         if ( dirty )
         {
-            void BuildClasses( ClassBuilder builder )
-            {
-                if ( rules.Count > 0 )
-                    builder.Append( rules.Select( r => classProvider.Gap( r.Key, r.Value.Select( v => v.Side ) ) ) );
-
-                if ( customRules?.Count > 0 )
-                    builder.Append( customRules );
-            }
-
-            var classBuilder = new ClassBuilder( BuildClasses );
-
-            classNames = classBuilder.Class;
-
+            classNames = BuildClassNames( classProvider );
             dirty = false;
         }
 
         return classNames;
     }
+
+    private string BuildClassNames( IClassProvider classProvider )
+    {
+        void BuildClasses( ClassBuilder builder )
+        {
+            if ( rules?.Count > 0 )
+            {
+                builder.Append( rules.Select( r => classProvider.Gap( r.Key, r.Value.Select( v => v.Side ) ) ) );
+            }
+
+            if ( customRules?.Count > 0 )
+            {
+                builder.Append( customRules );
+            }
+        }
+
+        var classBuilder = new ClassBuilder( BuildClasses );
+
+        return classBuilder.Class;
+    }
+
+    internal static FluentGap CreateCached() => cachedOperations.CreateRoot();
 
     private void Dirty()
     {
@@ -166,7 +188,13 @@ public class FluentGap :
 
     private IFluentGap WithUtilityTarget( UtilityTarget target )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.UtilityTarget = (UtilityTarget)value, value: (int)target, target: target );
+        }
+
         UtilityTarget = target;
+
         return this;
     }
 
@@ -177,12 +205,22 @@ public class FluentGap :
     /// <returns>Next rule reference.</returns>
     public IFluentGapWithSideAndSize WithSize( GapSize gapSize )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithSize( (GapSize)value ), value: (int)gapSize );
+        }
+
         var gapDefinition = new GapDefinition { Side = GapSide.All };
+        rules ??= new();
 
         if ( rules.TryGetValue( gapSize, out var rule ) )
+        {
             rule.Add( gapDefinition );
+        }
         else
+        {
             rules.Add( gapSize, new() { gapDefinition } );
+        }
 
         currentGap = gapDefinition;
         Dirty();
@@ -197,6 +235,11 @@ public class FluentGap :
     /// <returns>Next rule reference.</returns>
     public IFluentGapWithSideAndSize WithSide( GapSide side )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithSide( (GapSide)value ), value: (int)side );
+        }
+
         currentGap.Side = side;
         Dirty();
 
@@ -205,10 +248,19 @@ public class FluentGap :
 
     private IFluentGapWithSize WithSize( string value )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, data ) => builder.WithSize( (string)data ), data: value, retain: false );
+        }
+
         if ( customRules is null )
+        {
             customRules = new() { value };
+        }
         else
+        {
             customRules.Add( value );
+        }
 
         Dirty();
 
@@ -228,7 +280,19 @@ public class FluentGap :
     /// <summary>
     /// Gets or sets the utility target override.
     /// </summary>
-    public UtilityTarget? UtilityTarget { get; set; }
+    public UtilityTarget? UtilityTarget
+    {
+        get => cache.IsCached ? cache.Target : utilityTarget;
+        set
+        {
+            if ( cache.IsCached )
+            {
+                throw new InvalidOperationException( "Cached fluent utilities are immutable. Use OnSelf or OnWrapper to change the utility target." );
+            }
+
+            utilityTarget = value;
+        }
+    }
 
     /// <summary>
     /// Targets the utility output to the component element.
@@ -293,35 +357,37 @@ public class FluentGap :
 /// </summary>
 public static class Gap
 {
+    private static readonly FluentGap cached = FluentGap.CreateCached();
+
     /// <summary>
     /// for classes that eliminate the margin by setting it to 0
     /// </summary>
-    public static IFluentGapWithSideAndSize Is0 => new FluentGap().Is0;
+    public static IFluentGapWithSideAndSize Is0 => cached.Is0;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer * .25
     /// </summary>
-    public static IFluentGapWithSideAndSize Is1 => new FluentGap().Is1;
+    public static IFluentGapWithSideAndSize Is1 => cached.Is1;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer * .5
     /// </summary>
-    public static IFluentGapWithSideAndSize Is2 => new FluentGap().Is2;
+    public static IFluentGapWithSideAndSize Is2 => cached.Is2;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer
     /// </summary>
-    public static IFluentGapWithSideAndSize Is3 => new FluentGap().Is3;
+    public static IFluentGapWithSideAndSize Is3 => cached.Is3;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer * 1.5
     /// </summary>
-    public static IFluentGapWithSideAndSize Is4 => new FluentGap().Is4;
+    public static IFluentGapWithSideAndSize Is4 => cached.Is4;
 
     /// <summary>
     /// (by default) for classes that set the margin to $spacer * 3
     /// </summary>
-    public static IFluentGapWithSideAndSize Is5 => new FluentGap().Is5;
+    public static IFluentGapWithSideAndSize Is5 => cached.Is5;
 
     /// <summary>
     /// Defines the gap size in pixels.
@@ -376,5 +442,5 @@ public static class Gap
     /// Add custom margin rule.
     /// </summary>
     /// <param name="value">Custom css classname.</param>
-    public static IFluentGapWithSize Is( string value ) => new FluentGap().Is( value );
+    public static IFluentGapWithSize Is( string value ) => cached.Is( value );
 }

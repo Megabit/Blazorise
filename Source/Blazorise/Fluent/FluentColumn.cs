@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -216,9 +217,15 @@ public class FluentColumn :
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentColumn> cachedOperations = new( static ( _, cache ) => new() { cache = cache }, static builder => ref builder.cache );
+
+    private FluentUtilityState<FluentColumn> cache;
+
+    private bool hasSizes;
+
     private ColumnDefinition currentColumnDefinition;
 
-    private readonly List<ColumnDefinition> columnDefinitions = new();
+    private List<ColumnDefinition> columnDefinitions;
 
     private List<string> customRules;
 
@@ -230,8 +237,22 @@ public class FluentColumn :
 
     #region Methods
 
+    internal static FluentColumn CreateCached() => cachedOperations.CreateRoot();
+
     /// <inheritdoc/>
     public string Class( bool grid, IClassProvider classProvider )
+    {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider,
+                grid ? static ( builder, provider ) => cachedOperations.Build( builder ).Class( true, (IClassProvider)provider )
+                     : static ( builder, provider ) => cachedOperations.Build( builder ).Class( false, (IClassProvider)provider ), alternate: grid );
+        }
+
+        return BuildClassNames( grid, classProvider );
+    }
+
+    private string BuildClassNames( bool grid, IClassProvider classProvider )
     {
         if ( dirty )
         {
@@ -243,7 +264,9 @@ public class FluentColumn :
                 }
 
                 if ( customRules?.Count > 0 )
+                {
                     builder.Append( customRules );
+                }
             }
 
             var classBuilder = new ClassBuilder( BuildClasses );
@@ -289,8 +312,17 @@ public class FluentColumn :
     /// <returns>Next rule reference.</returns>
     public IFluentColumnOnBreakpointWithOffsetAndSize WithColumnSize( ColumnWidth columnSize )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithColumnSize( (ColumnWidth)value ), value: (int)columnSize );
+        }
+
+        columnDefinitions ??= new();
+
         if ( columnSize != ColumnWidth.Default )
+        {
             HasSizes = true;
+        }
 
         currentColumnDefinition = new ColumnDefinition { ColumnWidth = columnSize, Breakpoint = Breakpoint.None };
 
@@ -308,10 +340,19 @@ public class FluentColumn :
     /// <returns>Next rule reference.</returns>
     public IFluentColumnWithSize WithColumnSize( string value )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, data ) => builder.WithColumnSize( (string)data ), data: value, retain: false );
+        }
+
         if ( customRules is null )
+        {
             customRules = new() { value };
+        }
         else
+        {
             customRules.Add( value );
+        }
 
         Dirty();
 
@@ -325,6 +366,11 @@ public class FluentColumn :
     /// <returns>Next rule reference.</returns>
     public IFluentColumnWithSize WithBreakpoint( Breakpoint breakpoint )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithBreakpoint( (Breakpoint)value ), value: (int)breakpoint );
+        }
+
         currentColumnDefinition.Breakpoint = breakpoint;
         Dirty();
 
@@ -344,7 +390,11 @@ public class FluentColumn :
     /// <summary>
     /// Defines if column has any size rule defined.
     /// </summary>
-    public bool HasSizes { get; private set; }
+    public bool HasSizes
+    {
+        get => cache.IsCached ? cachedOperations.HasOperation( this, nameof( WithColumnSize ), (int)ColumnWidth.Default ) : hasSizes;
+        private set => hasSizes = value;
+    }
 
     /// <summary>
     /// Valid on all devices. (extra small)
@@ -379,92 +429,106 @@ public class FluentColumn :
     /// <summary>
     /// Move columns to the right.
     /// </summary>
-    public IFluentColumnOnBreakpoint WithOffset { get { currentColumnDefinition.Offset = true; Dirty(); return this; } }
+    public IFluentColumnOnBreakpoint WithOffset
+    {
+        get
+        {
+            if ( cache.IsCached )
+            {
+                return cachedOperations.With( this, cache, static ( builder, _, _ ) => _ = builder.WithOffset );
+            }
+
+            currentColumnDefinition.Offset = true;
+            Dirty();
+
+            return this;
+        }
+    }
 
     /// <summary>
     /// One column width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize Is1 { get { return WithColumnSize( ColumnWidth.Is1 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize Is1 => WithColumnSize( ColumnWidth.Is1 );
 
     /// <summary>
     /// Two columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize Is2 { get { return WithColumnSize( ColumnWidth.Is2 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize Is2 => WithColumnSize( ColumnWidth.Is2 );
 
     /// <summary>
     /// Three columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize Is3 { get { return WithColumnSize( ColumnWidth.Is3 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize Is3 => WithColumnSize( ColumnWidth.Is3 );
 
     /// <summary>
     /// Four columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize Is4 { get { return WithColumnSize( ColumnWidth.Is4 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize Is4 => WithColumnSize( ColumnWidth.Is4 );
 
     /// <summary>
     /// Five columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize Is5 { get { return WithColumnSize( ColumnWidth.Is5 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize Is5 => WithColumnSize( ColumnWidth.Is5 );
 
     /// <summary>
     /// Six columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize Is6 { get { return WithColumnSize( ColumnWidth.Is6 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize Is6 => WithColumnSize( ColumnWidth.Is6 );
 
     /// <summary>
     /// Seven columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize Is7 { get { return WithColumnSize( ColumnWidth.Is7 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize Is7 => WithColumnSize( ColumnWidth.Is7 );
 
     /// <summary>
     /// Eight columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize Is8 { get { return WithColumnSize( ColumnWidth.Is8 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize Is8 => WithColumnSize( ColumnWidth.Is8 );
 
     /// <summary>
     /// Nine columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize Is9 { get { return WithColumnSize( ColumnWidth.Is9 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize Is9 => WithColumnSize( ColumnWidth.Is9 );
 
     /// <summary>
     /// Ten columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize Is10 { get { return WithColumnSize( ColumnWidth.Is10 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize Is10 => WithColumnSize( ColumnWidth.Is10 );
 
     /// <summary>
     /// Eleven columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize Is11 { get { return WithColumnSize( ColumnWidth.Is11 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize Is11 => WithColumnSize( ColumnWidth.Is11 );
 
     /// <summary>
     /// Twelve columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize Is12 { get { return WithColumnSize( ColumnWidth.Is12 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize Is12 => WithColumnSize( ColumnWidth.Is12 );
 
     /// <summary>
     /// Twelve columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize IsFull { get { return WithColumnSize( ColumnWidth.Is12 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize IsFull => WithColumnSize( ColumnWidth.Is12 );
 
     /// <summary>
     /// Six columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize IsHalf { get { return WithColumnSize( ColumnWidth.Is6 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize IsHalf => WithColumnSize( ColumnWidth.Is6 );
 
     /// <summary>
     /// Four columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize IsThird { get { return WithColumnSize( ColumnWidth.Is4 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize IsThird => WithColumnSize( ColumnWidth.Is4 );
 
     /// <summary>
     /// Three columns width.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize IsQuarter { get { return WithColumnSize( ColumnWidth.Is3 ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize IsQuarter => WithColumnSize( ColumnWidth.Is3 );
 
     /// <summary>
     /// Fill all available space.
     /// </summary>
-    public IFluentColumnOnBreakpointWithOffsetAndSize IsAuto { get { return WithColumnSize( ColumnWidth.Auto ); } }
+    public IFluentColumnOnBreakpointWithOffsetAndSize IsAuto => WithColumnSize( ColumnWidth.Auto );
 
     #endregion
 }
@@ -474,94 +538,96 @@ public class FluentColumn :
 /// </summary>
 public static class ColumnSize
 {
+    private static readonly FluentColumn cached = FluentColumn.CreateCached();
+
     /// <summary>
     /// One column width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize Is1 { get { return new FluentColumn().Is1; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize Is1 => cached.Is1;
 
     /// <summary>
     /// Two columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize Is2 { get { return new FluentColumn().Is2; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize Is2 => cached.Is2;
 
     /// <summary>
     /// Three columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize Is3 { get { return new FluentColumn().Is3; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize Is3 => cached.Is3;
 
     /// <summary>
     /// Four columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize Is4 { get { return new FluentColumn().Is4; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize Is4 => cached.Is4;
 
     /// <summary>
     /// Five columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize Is5 { get { return new FluentColumn().Is5; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize Is5 => cached.Is5;
 
     /// <summary>
     /// Six columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize Is6 { get { return new FluentColumn().Is6; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize Is6 => cached.Is6;
 
     /// <summary>
     /// Seven columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize Is7 { get { return new FluentColumn().Is7; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize Is7 => cached.Is7;
 
     /// <summary>
     /// Eight columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize Is8 { get { return new FluentColumn().Is8; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize Is8 => cached.Is8;
 
     /// <summary>
     /// Nine columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize Is9 { get { return new FluentColumn().Is9; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize Is9 => cached.Is9;
 
     /// <summary>
     /// Ten columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize Is10 { get { return new FluentColumn().Is10; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize Is10 => cached.Is10;
 
     /// <summary>
     /// Eleven columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize Is11 { get { return new FluentColumn().Is11; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize Is11 => cached.Is11;
 
     /// <summary>
     /// Twelve columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize Is12 { get { return new FluentColumn().Is12; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize Is12 => cached.Is12;
 
     /// <summary>
     /// Twelve columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize IsFull { get { return new FluentColumn().IsFull; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize IsFull => cached.IsFull;
 
     /// <summary>
     /// Six columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize IsHalf { get { return new FluentColumn().IsHalf; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize IsHalf => cached.IsHalf;
 
     /// <summary>
     /// Four columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize IsThird { get { return new FluentColumn().IsThird; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize IsThird => cached.IsThird;
 
     /// <summary>
     /// Three columns width.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize IsQuarter { get { return new FluentColumn().IsQuarter; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize IsQuarter => cached.IsQuarter;
 
     /// <summary>
     /// Fill all available space.
     /// </summary>
-    public static IFluentColumnOnBreakpointWithOffsetAndSize IsAuto { get { return new FluentColumn().IsAuto; } }
+    public static IFluentColumnOnBreakpointWithOffsetAndSize IsAuto => cached.IsAuto;
 
     /// <summary>
     /// Add custom column rule.
     /// </summary>
     /// <param name="value">Custom css classname.</param>
-    public static IFluentColumnWithSize Is( string value ) => new FluentColumn().Is( value );
+    public static IFluentColumnWithSize Is( string value ) => cached.Is( value );
 }

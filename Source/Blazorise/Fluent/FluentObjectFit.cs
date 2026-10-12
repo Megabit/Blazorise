@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -115,9 +116,15 @@ public class FluentObjectFit :
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentObjectFit> cachedOperations = new( static ( _, cache ) => new() { cache = cache }, static builder => ref builder.cache );
+
+    private FluentUtilityState<FluentObjectFit> cache;
+
+    private UtilityTarget? utilityTarget;
+
     private ObjectFitDefinition currentObjectFitDefinition;
 
-    private readonly Dictionary<ObjectFitType, ObjectFitDefinition> rules = new();
+    private Dictionary<ObjectFitType, ObjectFitDefinition> rules;
 
     private bool dirty = true;
 
@@ -127,17 +134,31 @@ public class FluentObjectFit :
 
     #region Methods
 
+    internal static FluentObjectFit CreateCached() => cachedOperations.CreateRoot();
+
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
+    {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Class( (IClassProvider)provider ) );
+        }
+
+        return BuildClassNames( classProvider );
+    }
+
+    private string BuildClassNames( IClassProvider classProvider )
     {
         if ( dirty )
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules.Count > 0 )
+                if ( rules?.Count > 0 )
+                {
                     builder.Append( rules
                         .Where( r => r.Key != ObjectFitType.Default || r.Value.Breakpoint != Breakpoint.None )
                         .Select( r => classProvider.ObjectFit( r.Key, r.Value ) ) );
+                }
             }
 
             var classBuilder = new ClassBuilder( BuildClasses );
@@ -157,7 +178,13 @@ public class FluentObjectFit :
 
     private IFluentObjectFit WithUtilityTarget( UtilityTarget target )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.UtilityTarget = (UtilityTarget)value, value: (int)target, target: target );
+        }
+
         UtilityTarget = target;
+
         return this;
     }
 
@@ -168,6 +195,13 @@ public class FluentObjectFit :
     /// <returns>Next rule reference.</returns>
     public IFluentObjectFitOnBreakpoint WithSize( ObjectFitType objectFit )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithSize( (ObjectFitType)value ), value: (int)objectFit );
+        }
+
+        rules ??= new();
+
         var objectFitDefinition = new ObjectFitDefinition { Breakpoint = Breakpoint.None };
 
         rules.Add( objectFit, objectFitDefinition );
@@ -185,6 +219,11 @@ public class FluentObjectFit :
     /// <returns>Next rule reference.</returns>
     public IFluentObjectFitWithSize WithBreakpoint( Breakpoint breakpoint )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithBreakpoint( (Breakpoint)value ), value: (int)breakpoint );
+        }
+
         currentObjectFitDefinition.Breakpoint = breakpoint;
         Dirty();
 
@@ -198,7 +237,19 @@ public class FluentObjectFit :
     /// <summary>
     /// Gets or sets the utility target override.
     /// </summary>
-    public UtilityTarget? UtilityTarget { get; set; }
+    public UtilityTarget? UtilityTarget
+    {
+        get => cache.IsCached ? cache.Target : utilityTarget;
+        set
+        {
+            if ( cache.IsCached )
+            {
+                throw new InvalidOperationException( "Cached fluent utilities are immutable. Use OnSelf or OnWrapper to change the utility target." );
+            }
+
+            utilityTarget = value;
+        }
+    }
 
     /// <summary>
     /// Targets the utility output to the component element.
@@ -254,34 +305,36 @@ public class FluentObjectFit :
 /// </summary>
 public static class ObjectFit
 {
+    private static readonly FluentObjectFit cached = FluentObjectFit.CreateCached();
+
     /// <summary>
     /// The default object fit behavior.
     /// </summary>
-    public static IFluentObjectFitOnBreakpoint Default => new FluentObjectFit().Default;
+    public static IFluentObjectFitOnBreakpoint Default => cached.Default;
 
     /// <summary>
     /// The object does not scale to fit the container and may be clipped.
     /// </summary>
-    public static IFluentObjectFitOnBreakpoint None => new FluentObjectFit().None;
+    public static IFluentObjectFitOnBreakpoint None => cached.None;
 
     /// <summary>
     /// The object is scaled to maintain its aspect ratio while fitting within the container.
     /// </summary>
-    public static IFluentObjectFitOnBreakpoint Contain => new FluentObjectFit().Contain;
+    public static IFluentObjectFitOnBreakpoint Contain => cached.Contain;
 
     /// <summary>
     /// The object is scaled to cover the entire container, possibly clipping some parts.
     /// </summary>
-    public static IFluentObjectFitOnBreakpoint Cover => new FluentObjectFit().Cover;
+    public static IFluentObjectFitOnBreakpoint Cover => cached.Cover;
 
     /// <summary>
     /// The object is scaled to completely fill the container. 
     /// Its aspect ratio is not preserved, and the object may be stretched or compressed.
     /// </summary>
-    public static IFluentObjectFitOnBreakpoint Fill => new FluentObjectFit().Fill;
+    public static IFluentObjectFitOnBreakpoint Fill => cached.Fill;
 
     /// <summary>
     /// The object is scaled to fill the container without preserving its aspect ratio.
     /// </summary>
-    public static IFluentObjectFitOnBreakpoint Scale => new FluentObjectFit().Scale;
+    public static IFluentObjectFitOnBreakpoint Scale => cached.Scale;
 }

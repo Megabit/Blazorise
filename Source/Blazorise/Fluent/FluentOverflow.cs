@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise;
@@ -58,6 +59,12 @@ public class FluentOverflow :
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentOverflow> cachedOperations = new( static ( _, cache ) => new() { cache = cache }, static builder => ref builder.cache );
+
+    private FluentUtilityState<FluentOverflow> cache;
+
+    private UtilityTarget? utilityTarget;
+
     /// <summary>
     /// Holds the default overflow type.
     /// </summary>
@@ -82,9 +89,16 @@ public class FluentOverflow :
 
     #region Methods
 
+    internal static FluentOverflow CreateCached() => cachedOperations.CreateRoot();
+
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
     {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Class( (IClassProvider)provider ) );
+        }
+
         if ( dirty )
         {
             if ( overflowType != OverflowType.Default )
@@ -108,7 +122,13 @@ public class FluentOverflow :
 
     private IFluentOverflow WithUtilityTarget( UtilityTarget target )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.UtilityTarget = (UtilityTarget)value, value: (int)target, target: target );
+        }
+
         UtilityTarget = target;
+
         return this;
     }
 
@@ -119,6 +139,11 @@ public class FluentOverflow :
     /// <returns>Next rule reference.</returns>
     public IFluentOverflowSecondRule WithOverflow( OverflowType overflowType )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithOverflow( (OverflowType)value ), value: (int)overflowType );
+        }
+
         this.overflowType = overflowType;
         Dirty();
 
@@ -132,6 +157,11 @@ public class FluentOverflow :
     /// <returns>Next rule reference.</returns>
     public IFluentOverflowSecondRule WithSecondOverflow( OverflowType overflowType )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithSecondOverflow( (OverflowType)value ), value: (int)overflowType );
+        }
+
         this.secondOverflowType = overflowType;
         Dirty();
 
@@ -145,7 +175,19 @@ public class FluentOverflow :
     /// <summary>
     /// Gets or sets the utility target override.
     /// </summary>
-    public UtilityTarget? UtilityTarget { get; set; }
+    public UtilityTarget? UtilityTarget
+    {
+        get => cache.IsCached ? cache.Target : utilityTarget;
+        set
+        {
+            if ( cache.IsCached )
+            {
+                throw new InvalidOperationException( "Cached fluent utilities are immutable. Use OnSelf or OnWrapper to change the utility target." );
+            }
+
+            utilityTarget = value;
+        }
+    }
 
     /// <summary>
     /// Targets the utility output to the component element.
@@ -177,23 +219,25 @@ public class FluentOverflow :
 /// </summary>
 public static class Overflow
 {
+    private static readonly FluentOverflow cached = FluentOverflow.CreateCached();
+
     /// <summary>
     /// The overflow is not clipped. The content renders outside the element's box.
     /// </summary>
-    public static IFluentOverflowSecondRule Visible => new FluentOverflow().WithOverflow( OverflowType.Visible );
+    public static IFluentOverflowSecondRule Visible => cached.WithOverflow( OverflowType.Visible );
 
     /// <summary>
     /// The overflow is clipped, and the rest of the content will be invisible.
     /// </summary>
-    public static IFluentOverflowSecondRule Hidden => new FluentOverflow().WithOverflow( OverflowType.Hidden );
+    public static IFluentOverflowSecondRule Hidden => cached.WithOverflow( OverflowType.Hidden );
 
     /// <summary>
     /// The overflow is clipped, and a scrollbar is added to see the rest of the content.
     /// </summary>
-    public static IFluentOverflowSecondRule Scroll => new FluentOverflow().WithOverflow( OverflowType.Scroll );
+    public static IFluentOverflowSecondRule Scroll => cached.WithOverflow( OverflowType.Scroll );
 
     /// <summary>
     /// Similar to scroll, but it adds scrollbars only when necessary.
     /// </summary>
-    public static IFluentOverflowSecondRule Auto => new FluentOverflow().WithOverflow( OverflowType.Auto );
+    public static IFluentOverflowSecondRule Auto => cached.WithOverflow( OverflowType.Auto );
 }

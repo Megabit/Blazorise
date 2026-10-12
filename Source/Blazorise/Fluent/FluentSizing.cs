@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -36,6 +37,10 @@ public interface IFluentSizing : IFluentUtilityTarget<IFluentSizing>
 /// <summary>
 /// Contains all the allowed sizing style rules.
 /// </summary>
+/// <remarks>
+/// Chains created by <see cref="Width"/>, <see cref="Height"/>, and numeric shorthand extensions are immutable.
+/// Use the value returned by <see cref="Min"/> and <see cref="Max"/> to keep the added sizing rules.
+/// </remarks>
 public interface IFluentSizingStyle :
     IFluentSizing
 {
@@ -290,6 +295,12 @@ public class FluentSizing :
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentSizing> cachedOperations = new( static ( root, cache ) => new( (SizingType)root ) { cache = cache }, static builder => ref builder.cache );
+
+    private FluentUtilityState<FluentSizing> cache;
+
+    private UtilityTarget? utilityTarget;
+
     /// <summary>
     /// Currently used sizing type.
     /// </summary>
@@ -303,7 +314,7 @@ public class FluentSizing :
     /// <summary>
     /// Holds the list of defined sizing rules.
     /// </summary>
-    private readonly Dictionary<SizingSize, List<SizingDefinition>> rules = new();
+    private Dictionary<SizingSize, List<SizingDefinition>> rules;
 
     /// <summary>
     /// Holds the sizing rules for the style.
@@ -357,15 +368,29 @@ public class FluentSizing :
 
     #region Methods
 
+    internal static FluentSizing CreateCached( SizingType sizingType ) => cachedOperations.CreateRoot( (int)sizingType );
+
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
+    {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Class( (IClassProvider)provider ) );
+        }
+
+        return BuildClassNames( classProvider );
+    }
+
+    private string BuildClassNames( IClassProvider classProvider )
     {
         if ( dirty )
         {
             void BuildClasses( ClassBuilder builder )
             {
                 if ( !rules.IsNullOrEmpty() )
+                {
                     builder.Append( rules.Select( r => classProvider.Sizing( sizingType, r.Key, r.Value ) ) );
+                }
             }
 
             var classBuilder = new ClassBuilder( BuildClasses );
@@ -381,6 +406,11 @@ public class FluentSizing :
     /// <inheritdoc/>
     public string Style( IStyleProvider styleProvider )
     {
+        if ( cache.IsCached )
+        {
+            return cache.GetStyle( this, styleProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Style( (IStyleProvider)provider ) );
+        }
+
         if ( styleDirty )
         {
             void BuildStyles( StyleBuilder builder )
@@ -422,7 +452,13 @@ public class FluentSizing :
 
     private IFluentSizing WithUtilityTarget( UtilityTarget target )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.UtilityTarget = (UtilityTarget)value, value: (int)target, target: target );
+        }
+
         UtilityTarget = target;
+
         return this;
     }
 
@@ -431,19 +467,27 @@ public class FluentSizing :
         var value = GetSizingValue( sizingDefinition );
 
         if ( !string.IsNullOrEmpty( value ) )
+        {
             builder.Append( $"{propertyName}: {value}" );
+        }
     }
 
     private static string GetSizingValue( FixedSizingDefiniton sizingDefinition )
     {
         if ( sizingDefinition is null )
+        {
             return null;
+        }
 
         if ( !string.IsNullOrEmpty( sizingDefinition.Value ) )
+        {
             return sizingDefinition.Value;
+        }
 
         if ( sizingDefinition.Size.HasValue && !string.IsNullOrEmpty( sizingDefinition.Unit ) )
+        {
             return $"{sizingDefinition.Size.Value.ToString( "G29", CultureInfo.InvariantCulture )}{sizingDefinition.Unit}";
+        }
 
         return null;
     }
@@ -451,15 +495,21 @@ public class FluentSizing :
     private static string GetCssVariableValue( string variable )
     {
         if ( string.IsNullOrWhiteSpace( variable ) )
+        {
             return null;
+        }
 
         var trimmedVariable = variable.Trim();
 
         if ( trimmedVariable.StartsWith( "var(", System.StringComparison.Ordinal ) )
+        {
             return trimmedVariable;
+        }
 
         if ( !trimmedVariable.StartsWith( "--", System.StringComparison.Ordinal ) )
+        {
             trimmedVariable = $"--{trimmedVariable}";
+        }
 
         return $"var({trimmedVariable})";
     }
@@ -467,12 +517,16 @@ public class FluentSizing :
     private static string GetCalcValue( string expression )
     {
         if ( string.IsNullOrWhiteSpace( expression ) )
+        {
             return null;
+        }
 
-        string trimmedExpression = expression.Trim();
+        var trimmedExpression = expression.Trim();
 
         if ( trimmedExpression.StartsWith( "calc(", System.StringComparison.OrdinalIgnoreCase ) )
+        {
             return trimmedExpression;
+        }
 
         return $"calc({trimmedExpression})";
     }
@@ -484,12 +538,23 @@ public class FluentSizing :
     /// <returns>Next rule reference.</returns>
     public IFluentSizingMinMaxViewportOnBreakpoint WithSize( SizingSize sizingSize )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithSize( (SizingSize)value ), value: (int)sizingSize );
+        }
+
+        rules ??= new();
+
         var sizingDefinition = new SizingDefinition { Breakpoint = Breakpoint.None };
 
         if ( rules.TryGetValue( sizingSize, out var rule ) )
+        {
             rule.Add( sizingDefinition );
+        }
         else
+        {
             rules.Add( sizingSize, new() { sizingDefinition } );
+        }
 
         currentSizingDefinition = sizingDefinition;
         Dirty();
@@ -505,6 +570,11 @@ public class FluentSizing :
     /// <returns>Next rule reference.</returns>
     public IFluentSizingStyle WithSize( string unit, double size )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, data ) => builder.WithSize( ((ValueTuple<string, long>)data).Item1, BitConverter.Int64BitsToDouble( ((ValueTuple<string, long>)data).Item2 ) ), data: (unit, BitConverter.DoubleToInt64Bits( size )) );
+        }
+
         styleRule = new()
         {
             Unit = unit,
@@ -525,6 +595,11 @@ public class FluentSizing :
     /// <returns>Next rule reference.</returns>
     public IFluentSizingStyle WithUnit( string unit )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, data ) => builder.WithUnit( (string)data ), data: unit, retain: false );
+        }
+
         styleRule = new()
         {
             Unit = unit,
@@ -547,7 +622,14 @@ public class FluentSizing :
         var value = GetCssVariableValue( variable );
 
         if ( string.IsNullOrEmpty( value ) )
+        {
             return this;
+        }
+
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, data ) => builder.WithVariable( (string)data ), data: variable, retain: false );
+        }
 
         styleRule = new()
         {
@@ -568,10 +650,17 @@ public class FluentSizing :
     /// <returns>Next rule reference.</returns>
     public IFluentSizingStyle WithCalc( string expression )
     {
-        string value = GetCalcValue( expression );
+        var value = GetCalcValue( expression );
 
         if ( string.IsNullOrEmpty( value ) )
+        {
             return this;
+        }
+
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, data ) => builder.WithCalc( (string)data ), data: expression, retain: false );
+        }
 
         styleRule = new()
         {
@@ -592,8 +681,15 @@ public class FluentSizing :
     /// <returns>Next rule reference.</returns>
     public IFluentSizingStyle Min( double size )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, data ) => builder.Min( BitConverter.Int64BitsToDouble( (long)data ) ), data: BitConverter.DoubleToInt64Bits( size ) );
+        }
+
         if ( string.IsNullOrEmpty( styleRule?.Unit ) )
+        {
             return this;
+        }
 
         minStyleRule = new()
         {
@@ -613,8 +709,15 @@ public class FluentSizing :
     /// <returns>Next rule reference.</returns>
     public IFluentSizingStyle Max( double size )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, data ) => builder.Max( BitConverter.Int64BitsToDouble( (long)data ) ), data: BitConverter.DoubleToInt64Bits( size ) );
+        }
+
         if ( string.IsNullOrEmpty( styleRule?.Unit ) )
+        {
             return this;
+        }
 
         maxStyleRule = new()
         {
@@ -633,6 +736,11 @@ public class FluentSizing :
     /// <returns>Next rule reference.</returns>
     public IFluentSizingViewport WithMin()
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, _ ) => builder.WithMin() );
+        }
+
         currentSizingDefinition.IsMin = true;
         Dirty();
 
@@ -645,6 +753,11 @@ public class FluentSizing :
     /// <returns>Next rule reference.</returns>
     public IFluentSizingWithSizeOnBreakpoint WithMax()
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, _ ) => builder.WithMax() );
+        }
+
         currentSizingDefinition.IsMax = true;
         Dirty();
 
@@ -657,6 +770,11 @@ public class FluentSizing :
     /// <returns>Next rule reference.</returns>
     public IFluentSizing WithViewport()
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, _, _ ) => builder.WithViewport() );
+        }
+
         currentSizingDefinition.IsViewport = true;
         Dirty();
 
@@ -670,6 +788,11 @@ public class FluentSizing :
     /// <returns>Next rule reference.</returns>
     public IFluentSizingWithSizeWithMinMaxWithViewportAll WithBreakpoint( Breakpoint breakpoint )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithBreakpoint( (Breakpoint)value ), value: (int)breakpoint );
+        }
+
         currentSizingDefinition.Breakpoint = breakpoint;
         Dirty();
 
@@ -678,7 +801,20 @@ public class FluentSizing :
 
     /// <inheritdoc/>
     public double? FixedSize
-        => styleRule?.Size;
+    {
+        get
+        {
+            if ( !cache.IsCached )
+            {
+                return styleRule?.Size;
+            }
+
+            var data = cachedOperations.GetData( this, static step => step.Operation is nameof( WithUnit ) or nameof( WithVariable ) or nameof( WithCalc )
+                || step.Operation == nameof( WithSize ) && step.Data is ValueTuple<string, long> );
+
+            return data is ValueTuple<string, long> size ? BitConverter.Int64BitsToDouble( size.Item2 ) : null;
+        }
+    }
 
     #endregion
 
@@ -687,7 +823,19 @@ public class FluentSizing :
     /// <summary>
     /// Gets or sets the utility target override.
     /// </summary>
-    public UtilityTarget? UtilityTarget { get; set; }
+    public UtilityTarget? UtilityTarget
+    {
+        get => cache.IsCached ? cache.Target : utilityTarget;
+        set
+        {
+            if ( cache.IsCached )
+            {
+                throw new InvalidOperationException( "Cached fluent utilities are immutable. Use OnSelf or OnWrapper to change the utility target." );
+            }
+
+            utilityTarget = value;
+        }
+    }
 
     /// <summary>
     /// Targets the utility output to the component element.
@@ -757,40 +905,42 @@ public class FluentSizing :
 /// </summary>
 public static class Width
 {
+    private static readonly FluentSizing cached = FluentSizing.CreateCached( SizingType.Width );
+
     /// <summary>
     /// An element will occupy 25% of its parent space.
     /// </summary>
-    public static IFluentSizingMinMaxViewportOnBreakpoint Is25 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is25 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is25 => cached.WithSize( SizingSize.Is25 );
 
     /// <summary>
     /// An element will occupy third of its parent space.
     /// </summary>
-    public static IFluentSizingMinMaxViewportOnBreakpoint Is33 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is33 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is33 => cached.WithSize( SizingSize.Is33 );
 
     /// <summary>
     /// An element will occupy 50% of its parent space.
     /// </summary>
-    public static IFluentSizingMinMaxViewportOnBreakpoint Is50 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is50 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is50 => cached.WithSize( SizingSize.Is50 );
 
     /// <summary>
     /// An element will occupy two thirds of its parent space.
     /// </summary>
-    public static IFluentSizingMinMaxViewportOnBreakpoint Is66 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is66 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is66 => cached.WithSize( SizingSize.Is66 );
 
     /// <summary>
     /// An element will occupy 75% of its parent space.
     /// </summary>
-    public static IFluentSizingMinMaxViewportOnBreakpoint Is75 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is75 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is75 => cached.WithSize( SizingSize.Is75 );
 
     /// <summary>
     /// An element will occupy 100% of its parent space.
     /// </summary>
-    public static IFluentSizingMinMaxViewportOnBreakpoint Is100 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is100 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is100 => cached.WithSize( SizingSize.Is100 );
 
     /// <summary>
     /// The browser calculates the size.
     /// </summary>
-    public static IFluentSizingMinMaxViewportOnBreakpoint Auto => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Auto );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Auto => cached.WithSize( SizingSize.Auto );
 
     /// <summary>
     /// Defines the element size in pixels (1px = 1/96th of 1in).
@@ -800,97 +950,97 @@ public static class Width
     /// Pixels (px) are relative to the viewing device. For low-dpi devices, 1px is one device pixel (dot) of the display. For printers and high resolution screens 1px implies multiple device pixels.
     /// </remarks>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Px( double size ) => new FluentSizing( SizingType.Width ).WithSize( "px", size );
+    public static IFluentSizingStyle Px( double size ) => cached.WithSize( "px", size );
 
     /// <summary>
     /// Defines the element size in pixels (1px = 1/96th of 1in).
     /// </summary>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Px() => new FluentSizing( SizingType.Width ).WithUnit( "px" );
+    public static IFluentSizingStyle Px() => cached.WithUnit( "px" );
 
     /// <summary>
     /// Defines the element width as a percentage of its containing block.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Percent( double size ) => new FluentSizing( SizingType.Width ).WithSize( "%", size );
+    public static IFluentSizingStyle Percent( double size ) => cached.WithSize( "%", size );
 
     /// <summary>
     /// Defines the element width as a percentage of its containing block.
     /// </summary>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Percent() => new FluentSizing( SizingType.Width ).WithUnit( "%" );
+    public static IFluentSizingStyle Percent() => cached.WithUnit( "%" );
 
     /// <summary>
     /// Defines the element size, relative to font-size of the root element.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Rem( double size ) => new FluentSizing( SizingType.Width ).WithSize( "rem", size );
+    public static IFluentSizingStyle Rem( double size ) => cached.WithSize( "rem", size );
 
     /// <summary>
     /// Defines the element size, relative to font-size of the root element.
     /// </summary>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Rem() => new FluentSizing( SizingType.Width ).WithUnit( "rem" );
+    public static IFluentSizingStyle Rem() => cached.WithUnit( "rem" );
 
     /// <summary>
     /// Defines the element size, relative to the font-size of the element (2em means 2 times the size of the current font).
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Em( double size ) => new FluentSizing( SizingType.Width ).WithSize( "em", size );
+    public static IFluentSizingStyle Em( double size ) => cached.WithSize( "em", size );
 
     /// <summary>
     /// Defines the element size, relative to the font-size of the element (2em means 2 times the size of the current font).
     /// </summary>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Em() => new FluentSizing( SizingType.Width ).WithUnit( "em" );
+    public static IFluentSizingStyle Em() => cached.WithUnit( "em" );
 
     /// <summary>
     /// Defines the advance measure (width) of the glyph "0" of the element's font.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Ch( double size ) => new FluentSizing( SizingType.Width ).WithSize( "ch", size );
+    public static IFluentSizingStyle Ch( double size ) => cached.WithSize( "ch", size );
 
     /// <summary>
     /// Defines the advance measure (width) of the glyph "0" of the element's font.
     /// </summary>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Ch() => new FluentSizing( SizingType.Width ).WithUnit( "ch" );
+    public static IFluentSizingStyle Ch() => cached.WithUnit( "ch" );
 
     /// <summary>
     /// Defines the element size, relative to the viewport's width.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Vw( double size ) => new FluentSizing( SizingType.Width ).WithSize( "vw", size );
+    public static IFluentSizingStyle Vw( double size ) => cached.WithSize( "vw", size );
 
     /// <summary>
     /// Defines the element size, relative to the viewport's width.
     /// </summary>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Vw() => new FluentSizing( SizingType.Width ).WithUnit( "vw" );
+    public static IFluentSizingStyle Vw() => cached.WithUnit( "vw" );
 
     /// <summary>
     /// Defines the element size with a CSS variable.
     /// </summary>
     /// <param name="variable">CSS variable name.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Var( string variable ) => new FluentSizing( SizingType.Width ).WithVariable( variable );
+    public static IFluentSizingStyle Var( string variable ) => cached.WithVariable( variable );
 
     /// <summary>
     /// Defines the element width with a CSS calculation.
     /// </summary>
     /// <param name="expression">CSS calculation expression.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Calc( string expression ) => new FluentSizing( SizingType.Width ).WithCalc( expression );
+    public static IFluentSizingStyle Calc( string expression ) => cached.WithCalc( expression );
 
     /// <summary>
     /// Defines the maximum allowed element width. Shorthand for "Width.Is100.Max".
     /// </summary>
-    public static IFluentSizingWithSizeOnBreakpoint Max100 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is100 ).Max;
+    public static IFluentSizingWithSizeOnBreakpoint Max100 => cached.WithSize( SizingSize.Is100 ).Max;
 }
 
 /// <summary>
@@ -898,40 +1048,42 @@ public static class Width
 /// </summary>
 public static class Height
 {
+    private static readonly FluentSizing cached = FluentSizing.CreateCached( SizingType.Height );
+
     /// <summary>
     /// An element will occupy 25% of its parent space.
     /// </summary>
-    public static IFluentSizingMinMaxViewportOnBreakpoint Is25 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is25 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is25 => cached.WithSize( SizingSize.Is25 );
 
     /// <summary>
     /// An element will occupy third of its parent space.
     /// </summary>
-    public static IFluentSizingMinMaxViewportOnBreakpoint Is33 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is33 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is33 => cached.WithSize( SizingSize.Is33 );
 
     /// <summary>
     /// An element will occupy 50% of its parent space.
     /// </summary>
-    public static IFluentSizingMinMaxViewportOnBreakpoint Is50 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is50 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is50 => cached.WithSize( SizingSize.Is50 );
 
     /// <summary>
     /// An element will occupy two thirds of its parent space.
     /// </summary>
-    public static IFluentSizingMinMaxViewportOnBreakpoint Is66 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is66 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is66 => cached.WithSize( SizingSize.Is66 );
 
     /// <summary>
     /// An element will occupy 75% of its parent space.
     /// </summary>
-    public static IFluentSizingMinMaxViewportOnBreakpoint Is75 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is75 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is75 => cached.WithSize( SizingSize.Is75 );
 
     /// <summary>
     /// An element will occupy 100% of its parent space.
     /// </summary>
-    public static IFluentSizingMinMaxViewportOnBreakpoint Is100 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is100 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is100 => cached.WithSize( SizingSize.Is100 );
 
     /// <summary>
     /// The browser calculates the size.
     /// </summary>
-    public static IFluentSizingMinMaxViewportOnBreakpoint Auto => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Auto );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Auto => cached.WithSize( SizingSize.Auto );
 
     /// <summary>
     /// Defines the element size in pixels (1px = 1/96th of 1in).
@@ -941,95 +1093,95 @@ public static class Height
     /// Pixels (px) are relative to the viewing device. For low-dpi devices, 1px is one device pixel (dot) of the display. For printers and high resolution screens 1px implies multiple device pixels.
     /// </remarks>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Px( double size ) => new FluentSizing( SizingType.Height ).WithSize( "px", size );
+    public static IFluentSizingStyle Px( double size ) => cached.WithSize( "px", size );
 
     /// <summary>
     /// Defines the element size in pixels (1px = 1/96th of 1in).
     /// </summary>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Px() => new FluentSizing( SizingType.Height ).WithUnit( "px" );
+    public static IFluentSizingStyle Px() => cached.WithUnit( "px" );
 
     /// <summary>
     /// Defines the element height as a percentage of its containing block.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Percent( double size ) => new FluentSizing( SizingType.Height ).WithSize( "%", size );
+    public static IFluentSizingStyle Percent( double size ) => cached.WithSize( "%", size );
 
     /// <summary>
     /// Defines the element height as a percentage of its containing block.
     /// </summary>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Percent() => new FluentSizing( SizingType.Height ).WithUnit( "%" );
+    public static IFluentSizingStyle Percent() => cached.WithUnit( "%" );
 
     /// <summary>
     /// Defines the element size, relative to font-size of the root element.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Rem( double size ) => new FluentSizing( SizingType.Height ).WithSize( "rem", size );
+    public static IFluentSizingStyle Rem( double size ) => cached.WithSize( "rem", size );
 
     /// <summary>
     /// Defines the element size, relative to font-size of the root element.
     /// </summary>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Rem() => new FluentSizing( SizingType.Height ).WithUnit( "rem" );
+    public static IFluentSizingStyle Rem() => cached.WithUnit( "rem" );
 
     /// <summary>
     /// Defines the element size, relative to the font-size of the element (2em means 2 times the size of the current font).
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Em( double size ) => new FluentSizing( SizingType.Height ).WithSize( "em", size );
+    public static IFluentSizingStyle Em( double size ) => cached.WithSize( "em", size );
 
     /// <summary>
     /// Defines the element size, relative to the font-size of the element (2em means 2 times the size of the current font).
     /// </summary>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Em() => new FluentSizing( SizingType.Height ).WithUnit( "em" );
+    public static IFluentSizingStyle Em() => cached.WithUnit( "em" );
 
     /// <summary>
     /// Defines the advance measure (width) of the glyph "0" of the element's font.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Ch( double size ) => new FluentSizing( SizingType.Height ).WithSize( "ch", size );
+    public static IFluentSizingStyle Ch( double size ) => cached.WithSize( "ch", size );
 
     /// <summary>
     /// Defines the advance measure (width) of the glyph "0" of the element's font.
     /// </summary>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Ch() => new FluentSizing( SizingType.Height ).WithUnit( "ch" );
+    public static IFluentSizingStyle Ch() => cached.WithUnit( "ch" );
 
     /// <summary>
     /// Defines the element size, relative to the viewport's height.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Vh( double size ) => new FluentSizing( SizingType.Height ).WithSize( "vh", size );
+    public static IFluentSizingStyle Vh( double size ) => cached.WithSize( "vh", size );
 
     /// <summary>
     /// Defines the element size, relative to the viewport's height.
     /// </summary>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Vh() => new FluentSizing( SizingType.Height ).WithUnit( "vh" );
+    public static IFluentSizingStyle Vh() => cached.WithUnit( "vh" );
 
     /// <summary>
     /// Defines the element size with a CSS variable.
     /// </summary>
     /// <param name="variable">CSS variable name.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Var( string variable ) => new FluentSizing( SizingType.Height ).WithVariable( variable );
+    public static IFluentSizingStyle Var( string variable ) => cached.WithVariable( variable );
 
     /// <summary>
     /// Defines the element height with a CSS calculation.
     /// </summary>
     /// <param name="expression">CSS calculation expression.</param>
     /// <returns>Returns the <see cref="IFluentSizingStyle"/> reference.</returns>
-    public static IFluentSizingStyle Calc( string expression ) => new FluentSizing( SizingType.Height ).WithCalc( expression );
+    public static IFluentSizingStyle Calc( string expression ) => cached.WithCalc( expression );
 
     /// <summary>
     /// Defines the maximum allowed element height. Shorthand for "Height.Is100.Max".
     /// </summary>
-    public static IFluentSizingWithSizeOnBreakpoint Max100 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is100 ).Max;
+    public static IFluentSizingWithSizeOnBreakpoint Max100 => cached.WithSize( SizingSize.Is100 ).Max;
 }

@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -194,6 +195,12 @@ public class FluentDisplay :
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentDisplay> cachedOperations = new( static ( _, cache ) => new() { cache = cache }, static builder => ref builder.cache );
+
+    private FluentUtilityState<FluentDisplay> cache;
+
+    private UtilityTarget? utilityTarget;
+
     /// <summary>
     /// Currently used display rules.
     /// </summary>
@@ -202,7 +209,7 @@ public class FluentDisplay :
     /// <summary>
     /// List of all display rules to build.
     /// </summary>
-    private readonly Dictionary<DisplayType, List<DisplayDefinition>> rules = new();
+    private Dictionary<DisplayType, List<DisplayDefinition>> rules;
 
     /// <summary>
     /// Indicates if the rules have changed.
@@ -218,15 +225,29 @@ public class FluentDisplay :
 
     #region Methods
 
+    internal static FluentDisplay CreateCached() => cachedOperations.CreateRoot();
+
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
+    {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Class( (IClassProvider)provider ) );
+        }
+
+        return BuildClassNames( classProvider );
+    }
+
+    private string BuildClassNames( IClassProvider classProvider )
     {
         if ( dirty )
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules.Count( x => x.Key != DisplayType.Always ) > 0 )
+                if ( rules?.Any( x => x.Key != DisplayType.Always ) == true )
+                {
                     builder.Append( rules.Select( r => classProvider.Display( r.Key, r.Value.Where( x => x.Condition ?? true ).Select( v => v ) ) ) );
+                }
             }
 
             var classBuilder = new ClassBuilder( BuildClasses );
@@ -249,7 +270,13 @@ public class FluentDisplay :
 
     private IFluentDisplay WithUtilityTarget( UtilityTarget target )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.UtilityTarget = (UtilityTarget)value, value: (int)target, target: target );
+        }
+
         UtilityTarget = target;
+
         return this;
     }
 
@@ -260,12 +287,23 @@ public class FluentDisplay :
     /// <returns>Next rule reference.</returns>
     public IFluentDisplayWithDisplayOnBreakpointWithDirection WithDisplay( DisplayType displayType )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithDisplay( (DisplayType)value ), value: (int)displayType );
+        }
+
+        rules ??= new();
+
         var columnDefinition = new DisplayDefinition { Breakpoint = Breakpoint.None };
 
         if ( rules.TryGetValue( displayType, out var rule ) )
+        {
             rule.Add( columnDefinition );
+        }
         else
+        {
             rules.Add( displayType, new() { columnDefinition } );
+        }
 
         currentDisplay = columnDefinition;
         Dirty();
@@ -280,12 +318,23 @@ public class FluentDisplay :
     /// <returns>Next rule reference.</returns>
     public IFluentDisplayWithDisplayFlexWithDirection WithFlex( DisplayType displayType )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithFlex( (DisplayType)value ), value: (int)displayType );
+        }
+
+        rules ??= new();
+
         var columnDefinition = new DisplayDefinition { Breakpoint = Breakpoint.None };
 
         if ( rules.TryGetValue( displayType, out var rule ) )
+        {
             rule.Add( columnDefinition );
+        }
         else
+        {
             rules.Add( displayType, new() { columnDefinition } );
+        }
 
         currentDisplay = columnDefinition;
         Dirty();
@@ -300,6 +349,11 @@ public class FluentDisplay :
     /// <returns>Next rule reference.</returns>
     public IFluentDisplayWithDisplay WithBreakpoint( Breakpoint breakpoint )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithBreakpoint( (Breakpoint)value ), value: (int)breakpoint );
+        }
+
         currentDisplay.Breakpoint = breakpoint;
         Dirty();
 
@@ -313,6 +367,11 @@ public class FluentDisplay :
     /// <returns>Next rule reference.</returns>
     public IFluentDisplayWithDisplayOnBreakpointWithDirection WithDirection( DisplayDirection direction )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithDirection( (DisplayDirection)value ), value: (int)direction );
+        }
+
         currentDisplay.Direction = direction;
         Dirty();
 
@@ -322,6 +381,11 @@ public class FluentDisplay :
     /// <inheritdoc/>
     public IFluentDisplayWithDisplayOnBreakpointWithDirection If( bool condition )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.If( value != 0 ), value: condition ? 1 : 0 );
+        }
+
         currentDisplay.Condition = condition;
         Dirty();
 
@@ -335,7 +399,19 @@ public class FluentDisplay :
     /// <summary>
     /// Gets or sets the utility target override.
     /// </summary>
-    public UtilityTarget? UtilityTarget { get; set; }
+    public UtilityTarget? UtilityTarget
+    {
+        get => cache.IsCached ? cache.Target : utilityTarget;
+        set
+        {
+            if ( cache.IsCached )
+            {
+                throw new InvalidOperationException( "Cached fluent utilities are immutable. Use OnSelf or OnWrapper to change the utility target." );
+            }
+
+            utilityTarget = value;
+        }
+    }
 
     /// <summary>
     /// Targets the utility output to the component element.
@@ -380,12 +456,12 @@ public class FluentDisplay :
     /// <summary>
     /// Display will not be applied, meaning an element will be visible.
     /// </summary>
-    public IFluentDisplayWithDisplayOnBreakpointWithDirection Always { get { return WithDisplay( DisplayType.Always ); } }
+    public IFluentDisplayWithDisplayOnBreakpointWithDirection Always => WithDisplay( DisplayType.Always );
 
     /// <summary>
     /// Hides an element.
     /// </summary>
-    public IFluentDisplayWithDisplayOnBreakpointWithDirection None { get { return WithDisplay( DisplayType.None ); } }
+    public IFluentDisplayWithDisplayOnBreakpointWithDirection None => WithDisplay( DisplayType.None );
 
     /// <summary>
     /// Displays an element as a block element.
@@ -393,7 +469,7 @@ public class FluentDisplay :
     /// <remarks>
     /// It starts on a new line, and takes up the whole width.
     /// </remarks>
-    public IFluentDisplayWithDisplayOnBreakpointWithDirection Block { get { return WithDisplay( DisplayType.Block ); } }
+    public IFluentDisplayWithDisplayOnBreakpointWithDirection Block => WithDisplay( DisplayType.Block );
 
     /// <summary>
     /// Displays an element as an inline element.
@@ -401,7 +477,7 @@ public class FluentDisplay :
     /// <remarks>
     /// Any height and width properties will have no effect.
     /// </remarks>
-    public IFluentDisplayWithDisplayOnBreakpointWithDirection Inline { get { return WithDisplay( DisplayType.Inline ); } }
+    public IFluentDisplayWithDisplayOnBreakpointWithDirection Inline => WithDisplay( DisplayType.Inline );
 
     /// <summary>
     /// Displays an element as an inline-level block container.
@@ -409,52 +485,52 @@ public class FluentDisplay :
     /// <remarks>
     /// The element itself is formatted as an inline element, but you can apply height and width values
     /// </remarks>
-    public IFluentDisplayWithDisplayOnBreakpointWithDirection InlineBlock { get { return WithDisplay( DisplayType.InlineBlock ); } }
+    public IFluentDisplayWithDisplayOnBreakpointWithDirection InlineBlock => WithDisplay( DisplayType.InlineBlock );
 
     /// <summary>
     /// Let the element behave like a table element.
     /// </summary>
-    public IFluentDisplayWithDisplayOnBreakpointWithDirection Table { get { return WithDisplay( DisplayType.Table ); } }
+    public IFluentDisplayWithDisplayOnBreakpointWithDirection Table => WithDisplay( DisplayType.Table );
 
     /// <summary>
     /// Let the element behave like a tr element.
     /// </summary>
-    public IFluentDisplayWithDisplayOnBreakpointWithDirection TableRow { get { return WithDisplay( DisplayType.TableRow ); } }
+    public IFluentDisplayWithDisplayOnBreakpointWithDirection TableRow => WithDisplay( DisplayType.TableRow );
 
     /// <summary>
     /// Let the element behave like a td element.
     /// </summary>
-    public IFluentDisplayWithDisplayOnBreakpointWithDirection TableCell { get { return WithDisplay( DisplayType.TableCell ); } }
+    public IFluentDisplayWithDisplayOnBreakpointWithDirection TableCell => WithDisplay( DisplayType.TableCell );
 
     /// <summary>
     /// Displays an element as a block-level flex container.
     /// </summary>
-    public IFluentDisplayWithDisplayFlexWithDirection Flex { get { return WithFlex( DisplayType.Flex ); } }
+    public IFluentDisplayWithDisplayFlexWithDirection Flex => WithFlex( DisplayType.Flex );
 
     /// <summary>
     /// Displays an element as an inline-level flex container.
     /// </summary>
-    public IFluentDisplayWithDisplayFlexWithDirection InlineFlex { get { return WithFlex( DisplayType.InlineFlex ); } }
+    public IFluentDisplayWithDisplayFlexWithDirection InlineFlex => WithFlex( DisplayType.InlineFlex );
 
     /// <summary>
     /// The flex container's main-axis is defined to be the same as the text direction. The main-start and main-end points are the same as the content direction.
     /// </summary>
-    public IFluentDisplayWithDisplayOnBreakpointWithDirection Row { get { return WithDirection( DisplayDirection.Row ); } }
+    public IFluentDisplayWithDisplayOnBreakpointWithDirection Row => WithDirection( DisplayDirection.Row );
 
     /// <summary>
     /// The flex container's main-axis is the same as the block-axis. The main-start and main-end points are the same as the before and after points of the writing-mode.
     /// </summary>
-    public IFluentDisplayWithDisplayOnBreakpointWithDirection Column { get { return WithDirection( DisplayDirection.Column ); } }
+    public IFluentDisplayWithDisplayOnBreakpointWithDirection Column => WithDirection( DisplayDirection.Column );
 
     /// <summary>
     /// Behaves the same as row but the main-start and main-end points are permuted.
     /// </summary>
-    public IFluentDisplayWithDisplayOnBreakpointWithDirection ReverseRow { get { return WithDirection( DisplayDirection.ReverseRow ); } }
+    public IFluentDisplayWithDisplayOnBreakpointWithDirection ReverseRow => WithDirection( DisplayDirection.ReverseRow );
 
     /// <summary>
     /// Behaves the same as column but the main-start and main-end are permuted.
     /// </summary>
-    public IFluentDisplayWithDisplayOnBreakpointWithDirection ReverseColumn { get { return WithDirection( DisplayDirection.ReverseColumn ); } }
+    public IFluentDisplayWithDisplayOnBreakpointWithDirection ReverseColumn => WithDirection( DisplayDirection.ReverseColumn );
 
     #endregion
 }
@@ -464,15 +540,17 @@ public class FluentDisplay :
 /// </summary>
 public static class Display
 {
+    private static readonly FluentDisplay cached = FluentDisplay.CreateCached();
+
     /// <summary>
     /// The element is always present.
     /// </summary>
-    public static IFluentDisplayWithDisplayOnBreakpointWithDirection Always { get { return new FluentDisplay().Always; } }
+    public static IFluentDisplayWithDisplayOnBreakpointWithDirection Always => cached.Always;
 
     /// <summary>
     /// The element is completely removed.
     /// </summary>
-    public static IFluentDisplayWithDisplayOnBreakpointWithDirection None { get { return new FluentDisplay().None; } }
+    public static IFluentDisplayWithDisplayOnBreakpointWithDirection None => cached.None;
 
     /// <summary>
     /// Displays an element as a block element.
@@ -480,7 +558,7 @@ public static class Display
     /// <remarks>
     /// It starts on a new line, and takes up the whole width.
     /// </remarks>
-    public static IFluentDisplayWithDisplayOnBreakpointWithDirection Block { get { return new FluentDisplay().Block; } }
+    public static IFluentDisplayWithDisplayOnBreakpointWithDirection Block => cached.Block;
 
     /// <summary>
     /// Displays an element as an inline element.
@@ -488,7 +566,7 @@ public static class Display
     /// <remarks>
     /// Any height and width properties will have no effect.
     /// </remarks>
-    public static IFluentDisplayWithDisplayOnBreakpointWithDirection Inline { get { return new FluentDisplay().Inline; } }
+    public static IFluentDisplayWithDisplayOnBreakpointWithDirection Inline => cached.Inline;
 
     /// <summary>
     /// Displays an element as an inline-level block container.
@@ -496,30 +574,30 @@ public static class Display
     /// <remarks>
     /// The element itself is formatted as an inline element, but you can apply height and width values
     /// </remarks>
-    public static IFluentDisplayWithDisplayOnBreakpointWithDirection InlineBlock { get { return new FluentDisplay().InlineBlock; } }
+    public static IFluentDisplayWithDisplayOnBreakpointWithDirection InlineBlock => cached.InlineBlock;
 
     /// <summary>
     /// Let the element behave like a table element.
     /// </summary>
-    public static IFluentDisplayWithDisplayOnBreakpointWithDirection Table { get { return new FluentDisplay().Table; } }
+    public static IFluentDisplayWithDisplayOnBreakpointWithDirection Table => cached.Table;
 
     /// <summary>
     /// Let the element behave like a tr element.
     /// </summary>
-    public static IFluentDisplayWithDisplayOnBreakpointWithDirection TableRow { get { return new FluentDisplay().TableRow; } }
+    public static IFluentDisplayWithDisplayOnBreakpointWithDirection TableRow => cached.TableRow;
 
     /// <summary>
     /// Let the element behave like a td element.
     /// </summary>
-    public static IFluentDisplayWithDisplayOnBreakpointWithDirection TableCell { get { return new FluentDisplay().TableCell; } }
+    public static IFluentDisplayWithDisplayOnBreakpointWithDirection TableCell => cached.TableCell;
 
     /// <summary>
     /// Displays an element as a block-level flex container.
     /// </summary>
-    public static IFluentDisplayWithDisplayFlexWithDirection Flex { get { return new FluentDisplay().Flex; } }
+    public static IFluentDisplayWithDisplayFlexWithDirection Flex => cached.Flex;
 
     /// <summary>
     /// Displays an element as an inline-level flex container.
     /// </summary>
-    public static IFluentDisplayWithDisplayFlexWithDirection InlineFlex { get { return new FluentDisplay().InlineFlex; } }
+    public static IFluentDisplayWithDisplayFlexWithDirection InlineFlex => cached.InlineFlex;
 }

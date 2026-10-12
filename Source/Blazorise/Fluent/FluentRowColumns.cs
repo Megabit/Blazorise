@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Utilities;
@@ -130,9 +131,15 @@ public class FluentRowColumns :
 {
     #region Members
 
+    private static readonly FluentUtilityBuilderCache<FluentRowColumns> cachedOperations = new( static ( _, cache ) => new() { cache = cache }, static builder => ref builder.cache );
+
+    private FluentUtilityState<FluentRowColumns> cache;
+
+    private bool hasSizes;
+
     private RowColumnsDefinition currentRowColumnsDefinition;
 
-    private readonly Dictionary<RowColumnsSize, RowColumnsDefinition> rules = new();
+    private Dictionary<RowColumnsSize, RowColumnsDefinition> rules;
 
     private bool dirty = true;
 
@@ -142,15 +149,29 @@ public class FluentRowColumns :
 
     #region Methods
 
+    internal static FluentRowColumns CreateCached() => cachedOperations.CreateRoot();
+
     /// <inheritdoc/>
     public string Class( IClassProvider classProvider )
+    {
+        if ( cache.IsCached )
+        {
+            return cache.GetClass( this, classProvider, static ( builder, provider ) => cachedOperations.Build( builder ).Class( (IClassProvider)provider ) );
+        }
+
+        return BuildClassNames( classProvider );
+    }
+
+    private string BuildClassNames( IClassProvider classProvider )
     {
         if ( dirty )
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules.Any( x => x.Key != RowColumnsSize.Default ) )
+                if ( rules?.Any( x => x.Key != RowColumnsSize.Default ) == true )
+                {
                     builder.Append( string.Join( " ", rules.Select( r => classProvider.RowColumns( r.Key, r.Value ) ) ) );
+                }
             }
 
             var classBuilder = new ClassBuilder( BuildClasses );
@@ -178,6 +199,13 @@ public class FluentRowColumns :
     /// <returns>Next rule reference.</returns>
     public IFluentRowColumnsAll WithRowColumnsSize( RowColumnsSize rowColumnsSize )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithRowColumnsSize( (RowColumnsSize)value ), value: (int)rowColumnsSize );
+        }
+
+        rules ??= new();
+
         HasSizes = true;
 
         var rowColumnsDefinition = new RowColumnsDefinition { Breakpoint = Breakpoint.None };
@@ -197,6 +225,11 @@ public class FluentRowColumns :
     /// <returns>Next rule reference.</returns>
     public IFluentRowColumnsSize WithBreakpoint( Breakpoint breakpoint )
     {
+        if ( cache.IsCached )
+        {
+            return cachedOperations.With( this, cache, static ( builder, value, _ ) => builder.WithBreakpoint( (Breakpoint)value ), value: (int)breakpoint );
+        }
+
         currentRowColumnsDefinition.Breakpoint = breakpoint;
         Dirty();
 
@@ -208,7 +241,11 @@ public class FluentRowColumns :
     #region Properties
 
     /// <inheritdoc/>
-    public bool HasSizes { get; private set; }
+    public bool HasSizes
+    {
+        get => cache.IsCached ? cachedOperations.HasOperation( this, nameof( WithRowColumnsSize ) ) : hasSizes;
+        private set => hasSizes = value;
+    }
 
     /// <inheritdoc/>
     public IFluentRowColumnsAll Are1 => WithRowColumnsSize( RowColumnsSize.Are1 );
@@ -254,33 +291,35 @@ public class FluentRowColumns :
 /// </summary>
 public static class RowColumns
 {
+    private static readonly FluentRowColumns cached = FluentRowColumns.CreateCached();
+
     /// <summary>
     /// One column per row.
     /// </summary>
-    public static IFluentRowColumnsAll Are1 { get { return new FluentRowColumns().Are1; } }
+    public static IFluentRowColumnsAll Are1 => cached.Are1;
 
     /// <summary>
     /// Two columns per row.
     /// </summary>
-    public static IFluentRowColumnsAll Are2 { get { return new FluentRowColumns().Are2; } }
+    public static IFluentRowColumnsAll Are2 => cached.Are2;
 
     /// <summary>
     /// Three columns per row.
     /// </summary>
-    public static IFluentRowColumnsAll Are3 { get { return new FluentRowColumns().Are3; } }
+    public static IFluentRowColumnsAll Are3 => cached.Are3;
 
     /// <summary>
     /// Four columns per row.
     /// </summary>
-    public static IFluentRowColumnsAll Are4 { get { return new FluentRowColumns().Are4; } }
+    public static IFluentRowColumnsAll Are4 => cached.Are4;
 
     /// <summary>
     /// Five columns per row.
     /// </summary>
-    public static IFluentRowColumnsAll Are5 { get { return new FluentRowColumns().Are5; } }
+    public static IFluentRowColumnsAll Are5 => cached.Are5;
 
     /// <summary>
     /// Six columns per row.
     /// </summary>
-    public static IFluentRowColumnsAll Are6 { get { return new FluentRowColumns().Are6; } }
+    public static IFluentRowColumnsAll Are6 => cached.Are6;
 }
