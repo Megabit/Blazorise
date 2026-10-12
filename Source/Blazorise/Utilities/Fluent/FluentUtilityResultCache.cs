@@ -53,10 +53,7 @@ internal struct FluentUtilityResultCache<TProvider>
                 return previous.Item2;
             }
 
-            var result = buildResult( utility, provider );
-            Volatile.Write( ref uncachedResult, Tuple.Create( provider, result ) );
-
-            return result;
+            return AddUncachedResult( utility, provider, buildResult );
         }
 
         var first = Volatile.Read( ref firstResult );
@@ -67,7 +64,22 @@ internal struct FluentUtilityResultCache<TProvider>
             return first.Result;
         }
 
-        if ( first is null && provider is not null )
+        return AddCachedResult( utility, provider, buildResult, first );
+    }
+
+    private string AddUncachedResult<TUtility>( TUtility utility, TProvider provider, Func<TUtility, TProvider, string> buildResult )
+        where TUtility : class
+    {
+        var result = buildResult( utility, provider );
+        Volatile.Write( ref uncachedResult, Tuple.Create( provider, result ) );
+
+        return result;
+    }
+
+    private string AddCachedResult<TUtility>( TUtility utility, TProvider provider, Func<TUtility, TProvider, string> buildResult, ProviderResult first )
+        where TUtility : class
+    {
+        if ( first is null )
         {
             // Most chains use one provider; allocate a weak table only for additional providers.
             var result = buildResult( utility, provider );

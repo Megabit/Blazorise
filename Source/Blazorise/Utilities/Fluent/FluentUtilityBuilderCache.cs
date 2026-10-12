@@ -12,6 +12,7 @@ namespace Blazorise.Utilities;
 /// </summary>
 /// <remarks>
 /// Operation callbacks must be reused static delegates; optional key data must be immutable.
+/// Numeric key data stays unboxed during lookup and is materialized only on a miss.
 /// </remarks>
 internal sealed class FluentUtilityBuilderCache<TUtility>
     where TUtility : class
@@ -22,7 +23,7 @@ internal sealed class FluentUtilityBuilderCache<TUtility>
 
     private const int MaximumDataOperations = 256;
 
-    private const int BucketCount = 256;
+    private const int BucketCount = 512;
 
     private readonly object cacheLock = new();
 
@@ -40,17 +41,44 @@ internal sealed class FluentUtilityBuilderCache<TUtility>
 
     private sealed record Entry( Transition Key, TUtility Utility, Entry Next );
 
-    private readonly record struct Transition( int Parent, Action<TUtility, int, object> Apply, int Value, object Data )
+    private enum DataKind
     {
-        private readonly int hashCode = HashCode.Combine( Parent, RuntimeHelpers.GetHashCode( Apply ), Value, Data );
+        Object,
+        Number,
+        NumberWithUnit,
+    }
+
+    [InlineArray( 8 )]
+    private struct OperationBuffer
+    {
+        private TUtility element;
+    }
+
+    private readonly record struct Transition( int Parent, Action<TUtility, int, object> Apply, int Value, object Data, long Number = 0, DataKind Kind = DataKind.Object )
+    {
+        private readonly int hashCode = Kind == DataKind.Object
+            ? HashCode.Combine( Parent, RuntimeHelpers.GetHashCode( Apply ), Value, Data )
+            : HashCode.Combine( Parent, RuntimeHelpers.GetHashCode( Apply ), Value, Data, Number, Kind );
 
         public bool Equals( Transition other )
             => Parent == other.Parent
                 && ReferenceEquals( Apply, other.Apply )
                 && Value == other.Value
+                && Number == other.Number
+                && Kind == other.Kind
                 && Equals( Data, other.Data );
 
         public override int GetHashCode() => hashCode;
+
+        public object GetData()
+            => Kind switch
+            {
+                DataKind.Number => Number,
+                DataKind.NumberWithUnit => ((string)Data, Number),
+                _ => Data,
+            };
+
+        public bool HasData => Data is not null || Kind != DataKind.Object;
     }
 
     #endregion
@@ -73,48 +101,74 @@ internal sealed class FluentUtilityBuilderCache<TUtility>
     {
         if ( retain && state.IsCacheEntry )
         {
-            var key = new Transition( state.Id, apply, value, data );
-            var bucket = key.GetHashCode() & (BucketCount - 1);
-            var cached = Find( Volatile.Read( ref operations[bucket] ), key );
+            return GetOrAdd( parent, state, new( state.Id, apply, value, data ), target, operation );
+        }
 
-            if ( cached is not null )
+        return CreateTransition( parent, state, apply, value, data, target, operation, 0 );
+    }
+
+    public TUtility With( TUtility parent, in FluentUtilityState<TUtility> state, Action<TUtility, int, object> apply, long data, [CallerMemberName] string operation = null )
+    {
+        if ( state.IsCacheEntry )
+        {
+            return GetOrAdd( parent, state, new( state.Id, apply, 0, null, data, DataKind.Number ), null, operation );
+        }
+
+        return CreateTransition( parent, state, apply, 0, data, null, operation, 0 );
+    }
+
+    public TUtility With( TUtility parent, in FluentUtilityState<TUtility> state, Action<TUtility, int, object> apply, (string Unit, long Number) data, [CallerMemberName] string operation = null )
+    {
+        if ( state.IsCacheEntry )
+        {
+            return GetOrAdd( parent, state, new( state.Id, apply, 0, data.Unit, data.Number, DataKind.NumberWithUnit ), null, operation );
+        }
+
+        return CreateTransition( parent, state, apply, 0, data, null, operation, 0 );
+    }
+
+    private TUtility GetOrAdd( TUtility parent, in FluentUtilityState<TUtility> state, in Transition key, UtilityTarget? target, string operation )
+    {
+        var bucket = key.GetHashCode() & (BucketCount - 1);
+        var cached = Find( Volatile.Read( ref operations[bucket] ), key );
+
+        return cached ?? AddTransition( parent, state, key, bucket, target, operation );
+    }
+
+    private TUtility AddTransition( TUtility parent, in FluentUtilityState<TUtility> state, in Transition key, int bucket, UtilityTarget? target, string operation )
+    {
+        // Chains with key data use a separate budget and ID range, including their descendants.
+        var hasData = key.HasData || state.Id > MaximumOperations;
+        var maximumOperations = hasData ? MaximumDataOperations : MaximumOperations;
+        ref var count = ref ( hasData ? ref dataOperationCount : ref operationCount );
+
+        if ( Volatile.Read( ref count ) < maximumOperations )
+        {
+            lock ( cacheLock )
             {
-                return cached;
-            }
+                var cached = Find( operations[bucket], key );
 
-            // Chains with key data use a separate budget and ID range, including their descendants.
-            var hasData = data is not null || state.Id > MaximumOperations;
-            var maximumOperations = hasData ? MaximumDataOperations : MaximumOperations;
-            ref var count = ref ( hasData ? ref dataOperationCount : ref operationCount );
-
-            if ( Volatile.Read( ref count ) < maximumOperations )
-            {
-                lock ( cacheLock )
+                if ( cached is not null )
                 {
-                    cached = Find( operations[bucket], key );
+                    return cached;
+                }
 
-                    if ( cached is not null )
-                    {
-                        return cached;
-                    }
+                if ( count < maximumOperations )
+                {
+                    var nextCount = count + 1;
+                    var id = hasData ? MaximumOperations + nextCount : nextCount;
+                    var utility = CreateTransition( parent, state, key.Apply, key.Value, key.GetData(), target, operation, id );
 
-                    if ( count < maximumOperations )
-                    {
-                        var nextCount = count + 1;
-                        var id = hasData ? MaximumOperations + nextCount : nextCount;
-                        var utility = CreateTransition( parent, state, apply, value, data, target, operation, id );
+                    // Immutable entries are published once; readers need no insertion lock.
+                    Volatile.Write( ref operations[bucket], new( key, utility, operations[bucket] ) );
+                    Volatile.Write( ref count, nextCount );
 
-                        // Immutable entries are published once; readers need no insertion lock.
-                        Volatile.Write( ref operations[bucket], new( key, utility, operations[bucket] ) );
-                        Volatile.Write( ref count, nextCount );
-
-                        return utility;
-                    }
+                    return utility;
                 }
             }
         }
 
-        return CreateTransition( parent, state, apply, value, data, target, operation, 0 );
+        return CreateTransition( parent, state, key.Apply, key.Value, key.GetData(), target, operation, 0 );
     }
 
     public TUtility Build( TUtility utility )
@@ -127,7 +181,9 @@ internal sealed class FluentUtilityBuilderCache<TUtility>
             return builder;
         }
 
-        var steps = ArrayPool<TUtility>.Shared.Rent( 16 );
+        var buffer = default( OperationBuffer );
+        Span<TUtility> steps = buffer;
+        TUtility[] rentedSteps = null;
         var count = 0;
 
         try
@@ -137,9 +193,15 @@ internal sealed class FluentUtilityBuilderCache<TUtility>
                 if ( count == steps.Length )
                 {
                     var expanded = ArrayPool<TUtility>.Shared.Rent( steps.Length * 2 );
-                    Array.Copy( steps, expanded, count );
-                    ArrayPool<TUtility>.Shared.Return( steps, clearArray: true );
-                    steps = expanded;
+                    steps.CopyTo( expanded );
+
+                    if ( rentedSteps is not null )
+                    {
+                        ArrayPool<TUtility>.Shared.Return( rentedSteps, clearArray: true );
+                    }
+
+                    rentedSteps = expanded;
+                    steps = rentedSteps;
                 }
 
                 steps[count++] = utility;
@@ -157,7 +219,10 @@ internal sealed class FluentUtilityBuilderCache<TUtility>
         }
         finally
         {
-            ArrayPool<TUtility>.Shared.Return( steps, clearArray: true );
+            if ( rentedSteps is not null )
+            {
+                ArrayPool<TUtility>.Shared.Return( rentedSteps, clearArray: true );
+            }
         }
     }
 
