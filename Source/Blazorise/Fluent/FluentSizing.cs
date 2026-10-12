@@ -37,6 +37,10 @@ public interface IFluentSizing : IFluentUtilityTarget<IFluentSizing>
 /// <summary>
 /// Contains all the allowed sizing style rules.
 /// </summary>
+/// <remarks>
+/// Chains created by <see cref="Width"/>, <see cref="Height"/>, and numeric shorthand extensions are immutable.
+/// Use the value returned by <see cref="Min"/> and <see cref="Max"/> to keep the added sizing rules.
+/// </remarks>
 public interface IFluentSizingStyle :
     IFluentSizing
 {

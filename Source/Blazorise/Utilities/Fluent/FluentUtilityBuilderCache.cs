@@ -121,6 +121,12 @@ internal sealed class FluentUtilityBuilderCache<TUtility>
     {
         ref var state = ref getState( utility );
         var builder = createUtility( state.Root, default );
+
+        if ( state.Parent is null )
+        {
+            return builder;
+        }
+
         var steps = ArrayPool<TUtility>.Shared.Rent( 16 );
         var count = 0;
 

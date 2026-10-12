@@ -10,6 +10,9 @@ namespace Blazorise;
 /// <summary>
 /// Represents a numeric CSS value that can be applied to compatible fluent utility parameters.
 /// </summary>
+/// <remarks>
+/// Numeric shorthand extensions return immutable cached values. Use the returned value when adding min/max rules or changing the utility target.
+/// </remarks>
 public sealed class FluentCssValue :
     IFluentSizingStyle,
     IFluentGap,

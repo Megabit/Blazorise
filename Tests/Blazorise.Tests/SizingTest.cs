@@ -143,11 +143,9 @@ public class SizingTest
     [Fact]
     public void RemShorthand_PreservesSizingMinMax()
     {
-        FluentCssValue sizing = 8.Rem();
+        var sizing = 8.Rem().Min( 4 ).Max( 12 );
 
-        sizing.Min( 4 ).Max( 12 );
-
-        Assert.Equal( "width: 8rem; min-width: 4rem; max-width: 12rem", sizing.Style( "width", true ) );
+        Assert.Equal( "width: 8rem; min-width: 4rem; max-width: 12rem", sizing.Style( styleProvider ) );
     }
 
     [Fact]
@@ -165,12 +163,13 @@ public class SizingTest
     [InlineData( SizingType.Height, "height: 8rem; min-height: 4rem; max-height: 12rem" )]
     public void ExplicitSizingBuilders_PreserveMinMax( SizingType sizingType, string expected )
     {
-        IFluentSizingStyle sizing = sizingType == SizingType.Width
+        var sizing = sizingType == SizingType.Width
             ? Width.Rem( 8 )
             : Height.Rem( 8 );
 
-        sizing.Min( 4 ).Max( 12 );
+        var boundedSizing = sizing.Min( 4 ).Max( 12 );
 
-        Assert.Equal( expected, sizing.Style( styleProvider ) );
+        Assert.Equal( expected, boundedSizing.Style( styleProvider ) );
+        Assert.Equal( sizingType == SizingType.Width ? "width: 8rem" : "height: 8rem", sizing.Style( styleProvider ) );
     }
 }
