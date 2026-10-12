@@ -56,9 +56,30 @@ internal sealed class FluentUtilityBuilderCache<TUtility>
 
     private readonly record struct Transition( int Parent, Action<TUtility, int, object> Apply, int Value, object Data, long Number = 0, DataKind Kind = DataKind.Object )
     {
-        private readonly int hashCode = Kind == DataKind.Object
-            ? HashCode.Combine( Parent, RuntimeHelpers.GetHashCode( Apply ), Value, Data )
-            : HashCode.Combine( Parent, RuntimeHelpers.GetHashCode( Apply ), Value, Data, Number, Kind );
+        private readonly int hashCode = CreateHashCode( Parent, Apply, Value, Data, Number, Kind );
+
+        private static int CreateHashCode( int parent, Action<TUtility, int, object> apply, int value, object data, long number, DataKind kind )
+        {
+            const int FieldMultiplier = 397;
+            const int MixingMultiplier = 0x7feb352d;
+
+            // Common enum steps need only parent, callback identity and value.
+            var hash = unchecked( ( parent * FieldMultiplier ^ RuntimeHelpers.GetHashCode( apply ) ) * FieldMultiplier ^ value );
+
+            if ( data is not null )
+            {
+                hash = unchecked( hash * FieldMultiplier ^ data.GetHashCode() );
+            }
+
+            if ( kind != DataKind.Object )
+            {
+                hash = unchecked( ( hash * FieldMultiplier ^ (int)number ) * FieldMultiplier ^ (int)( number >> 32 ) ^ (int)kind );
+            }
+
+            // Numeric bits can be concentrated in the upper half; include them in the bucket index.
+            hash = unchecked( ( hash ^ ( hash >>> 16 ) ) * MixingMultiplier );
+            return hash ^ ( hash >>> 16 );
+        }
 
         public bool Equals( Transition other )
             => Parent == other.Parent
