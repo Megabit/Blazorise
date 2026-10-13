@@ -2,33 +2,219 @@
 
 # Blazorise: Blazor UI Components for .NET
 
-[![NuGet](https://img.shields.io/nuget/vpre/Blazorise.svg)](https://www.nuget.org/profiles/Megabit)
-![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
+[![NuGet](https://img.shields.io/nuget/vpre/Blazorise.svg)](https://www.nuget.org/packages/Blazorise)
+[![NuGet downloads](https://img.shields.io/nuget/dt/Blazorise.svg)](https://www.nuget.org/packages/Blazorise)
 [![Discord](https://img.shields.io/discord/761589226965696552?color=%237289da&label=Discord&logo=discord&logoColor=%237289da&style=flat-square)](https://discord.gg/cVmq8xBSnG)
 [![License](https://img.shields.io/badge/License-Dual%20License-blue.svg)](LICENSE.md)
 
-Blazorise is a source-available Blazor UI component library for building modern .NET web applications in C#. It provides a consistent, strongly-typed component API across popular CSS frameworks, allowing you to build with Bootstrap 5, Tailwind CSS, Bulma, Material, AntDesign, or Fluent UI 2 without rewriting your application.
+Blazorise is a source-available Blazor UI component library for building .NET web applications in C#. Its consistent component API lets you choose the CSS framework that fits your application, from Bootstrap and Tailwind CSS to Bulma, Material, Ant Design, and Fluent 2.
+
+[Documentation](https://blazorise.com/docs/) · [Quick start](#quick-start) · [Demos](#css-providers-and-demos) · [Contributing](CONTRIBUTING.md)
 
 ## Highlights
 
-- Provider-agnostic components with multiple CSS framework providers.
-- C#-first development with a consistent API across providers.
-- Works in Blazor WebAssembly and Blazor Server apps.
-- Optional commercial themes, blocks, and priority support.
+- Forms, validation, navigation, dialogs, and other everyday UI components.
+- DataGrid, charts, and extensions for applications that work with data.
+- A consistent C# API across CSS framework providers.
+- Theming and support for right-to-left layouts.
+- Blazor WebAssembly, Blazor Server, and interactive Blazor Web Apps.
 
-## Commercial licensing
+## Documentation
 
-Blazorise is dual-licensed. Use is governed by the terms in [LICENSE.md](LICENSE.md) or a commercial license, depending on your scenario. For teams that need premium assets and support, commercial subscriptions are available.
+Browse the [component documentation](https://blazorise.com/docs/), follow a [provider integration guide](https://blazorise.com/docs/usage), or start a new application with the [Blazorise templates](https://blazorise.com/docs/templates).
 
-Commercial subscriptions include:
+## CSS providers and demos
 
-- Access to [Blazorise Themes](https://blazorise.com/themes).
-- Access to [Blazorise Blocks](https://blazorise.com/blocks).
-- Premium support via [Blazorise Support](https://blazorise.com/support) forum.
-- Dedicated customer support with response times of either 24 or 16 hours, depending on plan.
-- Priority fixes and feature requests.
+Choose a provider package, then follow its integration guide. Each provider has a live WebAssembly demo.
 
-> \* Some features may be exclusive to specific subscription tiers.
+| CSS framework | NuGet package | Setup | Demo |
+| --- | --- | --- | --- |
+| Bootstrap 5 | `Blazorise.Bootstrap5` | [Guide](https://blazorise.com/docs/usage/bootstrap5) | [Demo](https://demos.blazorise.com/wasm/bootstrap5/) |
+| Bootstrap 4 | `Blazorise.Bootstrap` | [Guide](https://blazorise.com/docs/usage/bootstrap4) | [Demo](https://demos.blazorise.com/wasm/bootstrap4/) |
+| Tailwind CSS | `Blazorise.Tailwind` | [Guide](https://blazorise.com/docs/usage/tailwind) | [Demo](https://demos.blazorise.com/wasm/tailwind/) |
+| Bulma | `Blazorise.Bulma` | [Guide](https://blazorise.com/docs/usage/bulma) | [Demo](https://demos.blazorise.com/wasm/bulma/) |
+| Material | `Blazorise.Material` | [Guide](https://blazorise.com/docs/usage/material) | [Demo](https://demos.blazorise.com/wasm/material/) |
+| Ant Design | `Blazorise.AntDesign` | [Guide](https://blazorise.com/docs/usage/ant-design) | [Demo](https://demos.blazorise.com/wasm/antdesign/) |
+| Fluent 2 | `Blazorise.FluentUI2` | [Guide](https://blazorise.com/docs/usage/fluent2) | [Demo](https://demos.blazorise.com/wasm/fluentui2/) |
+
+A [Bootstrap 4 Blazor Server demo](https://demos.blazorise.com/server/bootstrap4/) is also available.
+
+## Quick start
+
+This example adds **Bootstrap 5** and **FontAwesome 6** icons to an existing Blazor project.
+
+### Prerequisites
+
+Use a Blazor project targeting .NET 8, .NET 9, .NET 10, or .NET 11, with an SDK and IDE that support your chosen target framework. Keep the Blazorise provider and icon packages on the same version. The library targets in this checkout are maintained in [Build/Blazorise.props](Build/Blazorise.props).
+
+For a new project, see the [Blazorise templates](https://blazorise.com/docs/templates). Building this repository has separate SDK requirements; see [Local development](#local-development).
+
+### 1. Install packages
+
+Run these commands in your application's project directory:
+
+```bash
+dotnet add package Blazorise.Bootstrap5
+dotnet add package Blazorise.Icons.FontAwesome
+```
+
+### 2. Add stylesheets
+
+Add these links inside the host page's `<head>` section:
+
+| Project type | Host file |
+| --- | --- |
+| Blazor WebAssembly | `wwwroot/index.html` |
+| Blazor Server | `_Host.cshtml` or `_Layout.cshtml`, depending on the template |
+| Blazor Web App (.NET 8+) | `Components/App.razor` in the server project |
+
+```html
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.3.3.0" rel="stylesheet">
+
+<link href="_content/Blazorise/blazorise.css?v=2.3.3.0" rel="stylesheet" />
+<link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.3.3.0" rel="stylesheet" />
+```
+
+Replace older Bootstrap or FontAwesome stylesheet references supplied by your project template with these links.
+
+The `?v=2.3.3.0` query values correspond to Blazorise package version `2.3.3`. Use the four-part numeric version of your installed packages and update it when upgrading to refresh cached assets. Append `.0` to a three-part version or retain an existing fourth part. In Razor host files, you can inject `@inject Blazorise.IVersionProvider VersionProvider` and use `?v=@VersionProvider.Version` instead. Keep `@page` first in `_Host.cshtml`.
+
+Blazorise loads its component JavaScript modules automatically. Keep your host's static asset setup enabled so package resources can be served. See the [integration guide](https://blazorise.com/docs/usage#javascript-resources) for troubleshooting and the [PWA guide](https://blazorise.com/docs/pwa) for offline support.
+
+### 3. Add imports
+
+Add this namespace to your application's `_Imports.razor`:
+
+```razor
+@using Blazorise
+```
+
+### 4. Register services
+
+In `Program.cs`, add the namespaces and register Blazorise before `builder.Build()`:
+
+```csharp
+using Blazorise;
+using Blazorise.Bootstrap5;
+using Blazorise.Icons.FontAwesome;
+
+builder.Services
+    .AddBlazorise()
+    .AddBootstrap5Providers()
+    .AddFontAwesomeIcons();
+```
+
+Register these services in the project where the components run. For Blazor Web Apps using Interactive WebAssembly or Auto with prerendering, register them in both the server and `.Client` projects.
+
+### 5. Check your project's interactivity
+
+Follow the guidance for your project type:
+
+| Project type | Next step |
+| --- | --- |
+| Standalone Blazor WebAssembly | Continue to step 6. The app already runs interactively in the browser. |
+| Blazor Server | Continue to step 6. The app already uses interactive server rendering. |
+| Blazor Web App (.NET 8+) | Ensure the pages using Blazorise have an interactive render mode. If this is already configured, continue to step 6. |
+
+For a Blazor Web App, the expandable example below configures **Interactive Server** for the whole app. If you chose **Interactive WebAssembly** or **Auto**, follow Microsoft's [render mode guidance](https://learn.microsoft.com/aspnet/core/blazor/components/render-modes) for that mode and use the service registrations from step 4.
+
+<details>
+<summary>Blazor Web App: Interactive Server setup</summary>
+
+In the server project's `Program.cs`, update the existing Razor component service registration before `builder.Build()`:
+
+```csharp
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+```
+
+In the same file, update the existing endpoint mapping after `builder.Build()`:
+
+```csharp
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
+```
+
+In the server project's `Components/App.razor`, set the render mode on `HeadOutlet` and `Routes`:
+
+```razor
+<HeadOutlet @rendermode="RenderMode.InteractiveServer" />
+<Routes @rendermode="RenderMode.InteractiveServer" />
+```
+
+`RenderMode` is in the `Microsoft.AspNetCore.Components.Web` namespace, which the standard Blazor Web App template imports.
+
+</details>
+
+### 6. Try the components
+
+Add a page such as `Profile.razor` to your application's pages folder. This example binds a labeled input to C# state and displays the saved name:
+
+```razor
+@page "/profile"
+
+<Heading Size="HeadingSize.Is3">Profile</Heading>
+
+<Field>
+    <FieldLabel>Display name</FieldLabel>
+    <TextInput @bind-Value="displayName" Placeholder="Ada Lovelace" />
+    <FieldHelp>Choose the name shown on your profile.</FieldHelp>
+</Field>
+
+<Button Color="Color.Primary" Clicked="OnSaveHandler" Disabled="@string.IsNullOrWhiteSpace( displayName )">
+    Save
+</Button>
+
+<Alert Color="Color.Success" Visible="@(!string.IsNullOrWhiteSpace( savedName ))" Margin="Margin.Is3.FromTop">
+    Saved name: @savedName
+</Alert>
+
+@code
+{
+    private string displayName = string.Empty;
+    private string savedName = string.Empty;
+
+    private void OnSaveHandler()
+    {
+        savedName = displayName;
+    }
+}
+```
+
+`FieldLabel` and `FieldHelp` are associated with the input through Blazorise's [default accessibility integrations](https://blazorise.com/docs/usage#accessibility-defaults).
+
+## Licensing
+
+Blazorise is dual-licensed. Use is governed by [LICENSE.md](LICENSE.md) or a commercial license, depending on your scenario.
+
+Commercial plans provide support and additional benefits according to the selected tier. [Themes](https://blazorise.com/themes) and [Blocks](https://blazorise.com/blocks) are available with Enterprise and Enterprise Plus. See [pricing and plan details](https://blazorise.com/pricing) for the current features and support terms.
+
+## Local development
+
+To build this checkout, install the .NET SDK used by [CI](.github/workflows/blazorise-ci-basic.yml), currently `11.0.100-rc.1.26425.128`.
+
+Use the `DebugNet11` configuration to build libraries, providers, and extensions only for `net11.0`, with debugging symbols and hot reload support for demos. Generators, analyzers, and weavers retain their existing target frameworks. Standard `Debug` and `Release` configurations target .NET 8 through .NET 11.
+
+From the repository root:
+
+```powershell
+dotnet build Blazorise.slnx -c DebugNet11
+
+dotnet run --project Demos/Blazorise.Demo.Bootstrap5/Blazorise.Demo.Bootstrap5.csproj -c DebugNet11
+```
+
+The development framework is defined by `PrimaryTargetFramework` in [Directory.Build.props](Directory.Build.props). See [CONTRIBUTING.md](CONTRIBUTING.md) for documentation and test workflows.
+
+### Development packages
+
+Development builds are published to the [MyGet feed](https://www.myget.org/gallery/blazorise) for trying upcoming changes and providing feedback. Use stable NuGet packages for production applications.
+
+## Contributing
+
+Contributions, bug reports, and feature requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, branch selection, and the pull request workflow. The [contributing wiki](https://github.com/Megabit/Blazorise/wiki/Contributing) covers coding conventions.
+
+Contributors must agree to the [Contributor License Agreement](https://gist.github.com/stsrki/abfa5ce0f4a5cf1e6ac67b92f8eb5d63), which is presented when a pull request is submitted.
 
 ## Supporting Blazorise
 
@@ -55,199 +241,6 @@ Blazorise is a source-available project, and its ongoing development is made pos
   </tbody>
 </table>
 <!--platinum end-->
-
-## Demos
-
-### Blazor WebAssembly
-
-- [Tailwind Demo](https://demos.blazorise.com/wasm/tailwind/)
-- [Bootstrap 4 Demo](https://demos.blazorise.com/wasm/bootstrap4/)
-- [Bootstrap 5 Demo](https://demos.blazorise.com/wasm/bootstrap5/)
-- [Material Demo](https://demos.blazorise.com/wasm/material/)
-- [Bulma Demo](https://demos.blazorise.com/wasm/bulma/)
-- [AntDesign Demo](https://demos.blazorise.com/wasm/antdesign/)
-- [Fluent 2 Demo](https://demos.blazorise.com/wasm/fluentui2/)
-
-### Blazor Server
-
-- [Bootstrap Demo](https://demos.blazorise.com/server/bootstrap4/)
-
-## Documentation
-
-For full documentation, component API references, and detailed guides, visit the Blazorise [official documentation pages](https://blazorise.com/docs/).
-
-Continue reading below for a quick start guide.
-
-## Installation
-
-### Prerequisites
-
-Before you continue, make sure you have a recent .NET SDK and a supported IDE (Visual Studio or VS Code). Visit the official [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/client) site to learn more.
-
-### Provider packages
-
-There are currently 7 provider packages, one per supported CSS framework.
-
-Available Blazorise packages are:
-
-```
-- Blazorise.Tailwind
-- Blazorise.Bootstrap
-- Blazorise.Bootstrap5
-- Blazorise.Bulma
-- Blazorise.Material
-- Blazorise.AntDesign
-- Blazorise.FluentUI2
-```
-
-This guide shows how to set up Blazorise with **Bootstrap 5** and **FontAwesome 6** icons. To set up Blazorise for other CSS frameworks, refer to the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
-
-### 1. NuGet packages
-
-Install a provider package and any icon package you want to use. Example for Bootstrap 5 and FontAwesome:
-
-```bash
-dotnet add package Blazorise.Bootstrap5
-```
-
-And FontAwesome icon package:
-
-```bash
-dotnet add package Blazorise.Icons.FontAwesome
-```
-
-### 2. Source files
-
-Add the following to `index.html` (Blazor WebAssembly), `_Host.cshtml` (Blazor Server), or `App.razor` (.NET 8+ Blazor Web App) in the `head` section.
-
-```html
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-<link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.3.3.0" rel="stylesheet">
-
-<link href="_content/Blazorise/blazorise.css?v=2.3.3.0" rel="stylesheet" />
-<link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.3.3.0" rel="stylesheet" />
-```
-
-The URLs above use `2.3.3.0` as an example for Blazorise package version `2.3.3`. Replace the query version with the four-part numeric version of your installed packages: append `.0` to a three-part version, or keep an existing fourth part. Update it when upgrading packages to prevent browsers from using cached assets from an older release.
-
-In Razor host files (`_Host.cshtml` or `App.razor`), inject `Blazorise.IVersionProvider` as `VersionProvider` and use `?v=@VersionProvider.Version` instead to resolve the version automatically. In `_Host.cshtml`, keep the `@page` directive first:
-
-```razor
-@inject Blazorise.IVersionProvider VersionProvider
-
-<link href="_content/Blazorise/blazorise.css?v=@VersionProvider.Version" rel="stylesheet" />
-```
-
-If you use a different provider, swap the Bootstrap CSS and provider-specific Blazorise CSS file accordingly.
-
-#### 2.1 JavaScript resources
-
-Blazorise loads any additional JavaScript it needs dynamically once a component needs it. Make sure the resources are available and served relative to the app root. For Blazor Server, enable static files with `app.UseStaticFiles();`.
-
-If you're having any difficulties, please refer to the following issues:
-
-- [#3122](https://github.com/Megabit/Blazorise/issues/3122)
-- [#3150](https://github.com/Megabit/Blazorise/issues/3150)
-
-We are also aware that there might need to be extra setup when dealing with PWA and offline capabilities if you want your app to remain responsive. Please check our [PWA docs](https://blazorise.com/docs/pwa) for more information.
-
-### 3. Usings
-
-In your main `_Imports.razor`, add:
-
-```cs
-@using Blazorise
-```
-
-### 4. Service registration
-
-Add the following lines to the relevant sections of `Program.cs`.
-
-```cs
-using Blazorise;
-using Blazorise.Bootstrap5;
-using Blazorise.Icons.FontAwesome;
-```
-
-```cs
-builder.Services
-  .AddBlazorise()
-  .AddBootstrap5Providers()
-  .AddFontAwesomeIcons();
-```
-
-## Examples
-
-### Counter page
-
-```razor
-@page "/counter"
-
-<Heading Size="HeadingSize.Is1">Counter</Heading>
-
-<Paragraph>Current count: @currentCount</Paragraph>
-
-<Button Color="Color.Primary" Clicked="IncrementCount">Click me</Button>
-
-@code {
-    private int currentCount;
-
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
-}
-```
-
-### Simple form
-
-```razor
-@page "/profile"
-
-<Heading Size="HeadingSize.Is3">Profile</Heading>
-
-<TextInput @bind-Value="displayName" Placeholder="Ada Lovelace" />
-
-<Button Color="Color.Primary" Clicked="Save">Save</Button>
-
-<Alert Color="Color.Success" Visible="isSaved">
-    Saved!
-</Alert>
-
-@code {
-    private string displayName = string.Empty;
-    private bool isSaved;
-
-    private void Save()
-    {
-        isSaved = true;
-    }
-}
-```
-
-## Development builds
-
-We release a development version of Blazorise on a regular basis. This version is available on the [MyGet](https://www.myget.org/gallery/blazorise) feed.
-This release is not recommended for production use, but it's a great way to test the latest features and bug fixes and give us feedback ahead of the next release.
-
-## Local development
-
-Select the `DebugNet11` configuration in Visual Studio to build Blazorise libraries, providers, and extensions only for `net11.0`. This configuration includes debugging symbols, disables optimization, and enables hot reload for the demo apps. Generators, analyzers, and weavers retain their existing target frameworks. The standard `Debug` and `Release` configurations continue to target .NET 8 through .NET 11.
-
-`PrimaryTargetFramework` in `Directory.Build.props` defines the development framework, currently `net11.0`. Demos, documentation, shared app code, tests, benchmarks, and the `DebugNet11` library build use this property. The supported library framework list and framework-specific dependency versions are maintained separately.
-
-From the repository root, build the solution or run an individual demo with:
-
-```powershell
-dotnet build Blazorise.slnx -c DebugNet11
-dotnet run --project Demos/Blazorise.Demo.Bootstrap5/Blazorise.Demo.Bootstrap5.csproj -c DebugNet11
-```
-
-## Contributing
-
-We welcome contributions and any suggestions or feature requests you might have. Contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. This will be signed once you submit a PullRequest on our repository. For details about our CLA, please visit: [Contributor License Agreement](https://gist.github.com/stsrki/abfa5ce0f4a5cf1e6ac67b92f8eb5d63).
-
-For our code conventions and guidelines please visit: [Contributing Guide](https://github.com/Megabit/Blazorise/wiki/Contributing)
 
 ## Copyright
 
