@@ -1,72 +1,106 @@
-## Open Development
+# Contributing to Blazorise
 
-All work on Blazorise happens directly on GitHub. All external contributors must send pull requests which will go through the review process.
+Contributions to Blazorise are reviewed through GitHub pull requests. You can help with bug fixes, features, documentation, and examples. Follow our [Code of Conduct](CODE_OF_CONDUCT.md), and report security vulnerabilities privately using the [security policy](SECURITY.md).
 
-## Setup Development Environment
+## Getting started
 
-To get the development and test environment set up on your local machine, you need to do the following:
+1. Fork the repository and clone your fork.
+2. Install the .NET SDK used by [CI](workflows/blazorise-ci-basic.yml), currently `11.0.100-rc.2.26504.105`. An editor or IDE must support this SDK to build the solution.
+3. Create a working branch from the appropriate target branch:
 
-1. Ensure recent build of Chrome browser installed: https://www.google.com/chrome/.
-2. For E2E tests, install Playwright browser dependencies as described in the **Testing** section below.
+| Change | PR target | Working branch example |
+| --- | --- | --- |
+| New features and fixes for ongoing development | `master` | `dev-datagrid-keyboard-navigation` |
+| Maintenance fixes for an existing release | The applicable `rel-X.Y` branch | `rel-X.Y-datagrid-selection-fix` |
 
-You are now ready to build and test Blazorise:
+Make changes on your working branch, then submit the PR to its corresponding target branch.
 
-## How to Write a Community Blog?
+Run the following commands from the repository root to build the solution and start the Bootstrap 5 demo:
 
-To write a community article, go to the dedicated repository: https://github.com/Blazorise/Blazorise.Articles.
+```powershell
+dotnet build Blazorise.slnx -c DebugNet11
+dotnet run --project Demos/Blazorise.Demo.Bootstrap5/Blazorise.Demo.Bootstrap5.csproj -c DebugNet11
+```
 
-All article authoring details, structure, and submission instructions are maintained there.
+`DebugNet11` builds libraries, providers, and extensions for `net11.0` only, with debugging symbols and hot reload support. Generators, analyzers, and weavers retain their existing target frameworks. Standard `Debug` and `Release` configurations build the libraries for .NET 8 through .NET 11. The development framework is defined in [Directory.Build.props](../Directory.Build.props).
 
-## Running the Documentation
+Open the local URL shown by the application.
 
-1. Start a command prompt and navigate to the `\Documentation\Blazorise.Docs.Server` folder under Blazorise root.
-2. Run command: `dotnet watch run`.
-4. Wait for build to finish and your browser will automatically be opened
+## Repository layout
+
+| Location | Contents |
+| --- | --- |
+| [Source/Blazorise](../Source/Blazorise) | Core components and shared library infrastructure |
+| `Source/Blazorise.*` | CSS providers |
+| [Source/Extensions](../Source/Extensions) | Extension components |
+| [Source/Shared](../Source/Shared) | Sample data and models shared by demos, documentation, and tests |
+| [Demos](../Demos) | Sample applications for the supported providers |
+| [Tests](../Tests) | Unit tests, E2E tests, and test applications |
+| [Documentation](../Documentation) | Documentation pages, examples, tooling, and the docs server |
+| [Build](../Build) | Shared MSBuild configuration |
+
+## Making changes
+
+Keep each PR focused on one problem or feature. For a substantial change, discuss the proposed behavior in an issue before investing in the implementation.
+
+Follow [.editorconfig](../.editorconfig), the coding conventions in [AGENTS.md](../AGENTS.md), and the surrounding code. In particular:
+
+- Add focused tests for changed behavior, and update documentation or examples when the public API or usage changes.
+- For changes that affect multiple CSS providers, check the affected providers and describe what you verified.
+- Edit provider `.scss` sources; do not manually edit generated `.css` files. The team generates the CSS.
+- Edit handwritten documentation `.razor`, `.snippet`, and `.csharp` sources. Generated examples, snippets, API documentation, and search indexes belong under `obj/.../DocsGenerated/`; do not edit them or recreate generated files in the source tree. Blog HTML follows a separate workflow.
+- Manage dependency versions in [Directory.Packages.props](../Directory.Packages.props).
+
+### Running the documentation
+
+From the repository root:
+
+```powershell
+dotnet watch --project Documentation/Blazorise.Docs.Server/Blazorise.Docs.Server.csproj run --configuration DebugNet11
+```
+
+Open the local URL shown by the server and check the pages and examples affected by your change.
 
 ## Testing
 
-Blazorise uses:
+Run the tests relevant to your change and include the commands and results in your PR. The following commands run from the repository root.
 
-- Unit tests (xUnit + bUnit) in `Tests/Blazorise.Tests`
-- E2E tests (Playwright + NUnit) in `Tests/Blazorise.E2E.Tests`
+### Unit tests
 
-For Playwright E2E tests:
-
-1. Build `Tests/Blazorise.E2E.Tests` so the Playwright script is generated.
-2. From `Tests/Blazorise.E2E.Tests`, install Playwright dependencies:
+Component unit tests use xUnit and bUnit:
 
 ```powershell
-powershell .\bin\Debug\net10.0\playwright.ps1 install --with-deps
+dotnet test Tests/Blazorise.Tests/Blazorise.Tests.csproj -c Release
 ```
 
-3. To record and generate test code with Playwright Inspector (target: **.NET C# NUnit**):
+For analyzer changes, run the tests in [Tests/Blazorise.Analyzers.Tests](../Tests/Blazorise.Analyzers.Tests). Add only the focused coverage needed to verify the behavior.
+
+### E2E tests
+
+Browser tests use Playwright and NUnit. Build the test project first so the browser installation script is available, then install its dependencies and run the tests. The installation command requires PowerShell (`pwsh`).
 
 ```powershell
-powershell .\bin\Debug\net10.0\playwright.ps1 codegen http://localhost:14696
+dotnet build Tests/Blazorise.E2E.Tests/Blazorise.E2E.Tests.csproj -c Release
+pwsh ./Tests/Blazorise.E2E.Tests/bin/Release/net11.0/playwright.ps1 install --with-deps
+dotnet test Tests/Blazorise.E2E.Tests/Blazorise.E2E.Tests.csproj -c Release --no-build
 ```
 
-4. Run the `BasicTestApp.Client` demo app when implementing E2E tests, inherit new page tests from `BlazorisePageTest`, and navigate with `RootUri` (or use `SelectTestComponent` when applicable).
-5. For debugging UI behavior, run tests in headed mode (for example `dotnet test -- Playwright.LaunchOptions.Headless=false`), or use `PWDEBUG=1` and `await Page.PauseAsync();` to inspect step-by-step.
+See the [E2E guide](../Tests/Blazorise.E2E.Tests/ReadMe.md) for recording tests, using the test application, and debugging browser interactions. The [CI workflow](workflows/blazorise-ci-basic.yml) contains the full restore, build, and test sequence.
 
-For full and up-to-date Playwright guidance, see `Tests\Blazorise.E2E.Tests\ReadMe.md`.
+## Submitting a PR
 
-## Branch Organization
+Push your working branch to your fork and open a pull request against the target branch selected above. Complete the [PR template](pull_request_template.md) and include:
 
-We use `master` branch for all development and for all new features and bug fixes that are going into the ongoing milestone.
+- The problem being solved and the resulting behavior, with a linked issue when applicable, such as `Closes #123`.
+- The tests and checks you ran, their results, and any checks you could not run.
+- Relevant documentation or example updates.
+- Screenshots for visual changes.
+- Any public API changes or compatibility considerations reviewers should assess.
 
-Once we finish the work for the current milestone, we will create a new **support** branch named `rel-X.Y`, where all the bug fixes will go. Also, we regularly publish our web from the latest `rel-X.Y` branch, so if you plan to write a blog, this is the recommended way and place to create it.
+Use descriptive commit subjects, such as `DataGrid: fix keyboard selection`.
 
-Branch naming must follow this guidelines:
+Contributors must agree to the [Contributor License Agreement](https://gist.github.com/stsrki/abfa5ce0f4a5cf1e6ac67b92f8eb5d63). The CLA Assistant provides signing instructions on your pull request. Respond to review feedback and keep follow-up changes focused on the PR's purpose.
 
-- `dev-` prefix for new features based on `master` branch
-- `rel-` prefix for fixed on existing release branch
+## How to write a community blog
 
-## Pull requests
-
-When submitting a pull request:
-
-1. Fork the repository.
-2. Create a branch from `master` or `rel-X.Y` and give it a meaningful name (e.g. `rel-{version-num}-my-awesome-new-feature`) and describe the feature or fix.  
-4. Open a pull request on GitHub.
-
-> :warning: **Don't make any changes on master branch**: You must always create a feature branch by following our guidelines or we will close the PR until the changes are properly organized.
+Submit community articles to the dedicated [Blazorise.Articles repository](https://github.com/Blazorise/Blazorise.Articles). It contains the authoring, structure, and submission instructions.
