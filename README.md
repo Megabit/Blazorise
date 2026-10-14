@@ -117,10 +117,9 @@ Follow the guidance for your project type:
 | Blazor Server | Continue to step 6. The app already uses interactive server rendering. |
 | Blazor Web App (.NET 8+) | Ensure the pages using Blazorise have an interactive render mode. If this is already configured, continue to step 6. |
 
-For a Blazor Web App, the expandable example below configures **Interactive Server** for the whole app. If you chose **Interactive WebAssembly** or **Auto**, follow Microsoft's [render mode guidance](https://learn.microsoft.com/aspnet/core/blazor/components/render-modes) for that mode and use the service registrations from step 4.
+For a Blazor Web App, the example below configures **Interactive Server** for the whole app. If you chose **Interactive WebAssembly** or **Auto**, follow Microsoft's [render mode guidance](https://learn.microsoft.com/aspnet/core/blazor/components/render-modes) for that mode and use the service registrations from step 4.
 
-<details>
-<summary>Blazor Web App: Interactive Server setup</summary>
+#### 5.1. Configure Interactive Server for a Blazor Web App
 
 In the server project's `Program.cs`, update the existing Razor component service registration before `builder.Build()`:
 
@@ -144,8 +143,6 @@ In the server project's `Components/App.razor`, set the render mode on `HeadOutl
 ```
 
 `RenderMode` is in the `Microsoft.AspNetCore.Components.Web` namespace, which the standard Blazor Web App template imports.
-
-</details>
 
 ### 6. Try the components
 
