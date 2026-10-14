@@ -43,13 +43,14 @@
            Text="Generated documentation indexes are missing. Build with GenerateDocs=true first." />
 
     <ItemGroup>
-      <Content Include="$(DocsGeneratedOutputPath)/Resources/docs*-index.json"
+      <_GeneratedDocsIndex Include="$(DocsGeneratedOutputPath)/Resources/docs*-index.json" />
+      <Content Include="@(_GeneratedDocsIndex)"
                CopyToOutputDirectory="PreserveNewest"
                CopyToPublishDirectory="PreserveNewest"
                Pack="true"
                PackagePath="/">
-        <Link>%(Filename)%(Extension)</Link>
-        <TargetPath>%(Filename)%(Extension)</TargetPath>
+        <Link>%(_GeneratedDocsIndex.Filename)%(_GeneratedDocsIndex.Extension)</Link>
+        <TargetPath>%(_GeneratedDocsIndex.Filename)%(_GeneratedDocsIndex.Extension)</TargetPath>
       </Content>
       <FileWrites Include="$(DocsGeneratedOutputPath)/**/*" />
     </ItemGroup>
