@@ -126,6 +126,7 @@ public static class ManualPageEntries
     new( "docs/extensions/datagrid/features/header-group", "Data Grid Header Group", "Header Group feature for Blazorise DataGrid allows you to easily group a set of defined columns by rendering a top row header which groups the columns by the defined Caption" ),
     new( "docs/extensions/datagrid/features/state-management", "Data Grid State Management", "You are able to manage the state of the DataGrid by using the provided GetState and LoadState methods." ),
     new( "docs/extensions/datagrid/features/mobile-mode", "Data Grid Mobile Mode", "The table will have a dedicated layout for mobile devices where the columns are stacked on top of each other." ),
+    new( "docs/extensions/datagrid/features/hierarchy", "Data Grid Hierarchy" ),
     new( "docs/extensions/datagrid/features/hierarchy/detail-row", "Data Grid Templates : Detail Row", "Easily expand and display additional information for each row using the Blazorise DataGrid's detail row template feature." ),
     new( "docs/extensions/datagrid/features/hierarchy/self-reference", "Data Grid Self Reference", "Render hierarchical rows and load child data on demand with expand/collapse triggers and programmatic row control." ),
 

@@ -3,7 +3,9 @@
     <Breadcrumb>
         @{
             var pathValues = Path.Split( '/' ).Where( x => !string.IsNullOrEmpty( x ) ).ToList();
-            var isLast = pathValues.Count == 0 || ( pathValues.IndexOf( "docs" ) == pathValues.Count - 1 );
+            var routeValues = ( RoutePath ?? Path ).Split( '/' ).Where( x => !string.IsNullOrEmpty( x ) ).ToList();
+
+            var isLast = pathValues.Count == 0;
             var url = "docs";
         }
 
@@ -13,10 +15,12 @@
 
         @if ( pathValues.Count > 0 )
         {
-            @foreach ( var pathValue in pathValues )
+            @for ( var i = 0; i < pathValues.Count; i++ )
             {
-                isLast = pathValues.IndexOf( pathValue ) == pathValues.Count - 1;
-                url = $"{url}/{pathValue.ToLowerInvariant()}";
+                var pathValue = pathValues[i];
+                var routeValue = i < routeValues.Count ? routeValues[i] : pathValue;
+                isLast = i == pathValues.Count - 1;
+                url = $"{url}/{routeValue.ToLowerInvariant()}";
                 var currentUrl = url;
 
                 <BreadcrumbItem Active="@isLast">
@@ -45,6 +49,12 @@ else
     [Parameter] public bool Display { get; set; }
 
     [Parameter] public string Path { get; set; }
+
+    /// <summary>
+    /// Gets or sets the route segments relative to docs, matching the labels in <see cref="Path"/>.
+    /// Missing route segments fall back to their corresponding labels.
+    /// </summary>
+    [Parameter] public string RoutePath { get; set; }
 
     [Parameter] public string AddedVersion { get; set; }
 

@@ -1,0 +1,25 @@
+@page "/docs/extensions/datagrid/features/hierarchy"
+@using Blazorise.Docs.Services.Search
+
+<Seo Canonical="/docs/extensions/datagrid/features/hierarchy" Title="Blazorise DataGrid Hierarchy" Description="Explore related records and nested data with Blazorise DataGrid detail rows and self-referencing hierarchies." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Features/Hierarchy">
+    Blazorise DataGrid Hierarchy
+</DocsPageTitle>
+
+<DocsPageLead>
+    Help users explore related records and nested data without leaving the grid. Use detail rows to show additional information for a record, or self-referencing rows to display parent-child relationships such as organizational structures and categories.
+</DocsPageLead>
+
+<Row RowColumns="RowColumns.Are2.OnTablet.Are1.OnMobile">
+    @foreach ( var info in ManualPageEntries.WithDescriptionAndUrl( "docs/extensions/datagrid/features/hierarchy/" ) )
+    {
+        <Column @key="@info" Margin="Margin.Is3.FromBottom">
+            <DocsPageComponentInfo Name="@info.Name" Description="@info.Description" To="@info.Url" />
+        </Column>
+    }
+</Row>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>
