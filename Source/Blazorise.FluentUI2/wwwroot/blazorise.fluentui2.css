@@ -3465,10 +3465,6 @@ button {
   transition-timing-function: var(--curveEasyEase);
   user-select: none;
 }
-.fui-Button:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
-  inline-size: 32px;
-  padding-inline: 0;
-}
 .fui-Button:hover {
   background-color: var(--colorNeutralBackground1Hover);
   border-color: var(--colorNeutralStroke1Hover);
@@ -3501,10 +3497,6 @@ button {
   line-height: var(--lineHeightBase100);
   border-radius: var(--borderRadiusMedium);
 }
-.fui-Button.fui-Button-xs:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
-  inline-size: 18px;
-  padding-inline: 0;
-}
 .fui-Button.fui-Button-sm {
   min-height: 24px;
   padding-inline: var(--spacingHorizontalS);
@@ -3513,10 +3505,6 @@ button {
   font-size: var(--fontSizeBase200);
   line-height: var(--lineHeightBase200);
   border-radius: var(--borderRadiusMedium);
-}
-.fui-Button.fui-Button-sm:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
-  inline-size: 24px;
-  padding-inline: 0;
 }
 .fui-Button.fui-Button-md {
   min-height: 36px;
@@ -3527,10 +3515,6 @@ button {
   line-height: var(--lineHeightBase400);
   border-radius: var(--borderRadiusMedium);
 }
-.fui-Button.fui-Button-md:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
-  inline-size: 36px;
-  padding-inline: 0;
-}
 .fui-Button.fui-Button-lg {
   min-height: 40px;
   padding-inline: var(--spacingHorizontalL);
@@ -3540,10 +3524,6 @@ button {
   line-height: var(--lineHeightBase400);
   border-radius: var(--borderRadiusMedium);
 }
-.fui-Button.fui-Button-lg:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
-  inline-size: 40px;
-  padding-inline: 0;
-}
 .fui-Button.fui-Button-xl {
   min-height: 48px;
   padding-inline: var(--spacingHorizontalXL);
@@ -3552,10 +3532,6 @@ button {
   font-size: var(--fontSizeBase400);
   line-height: var(--lineHeightBase400);
   border-radius: var(--borderRadiusMedium);
-}
-.fui-Button.fui-Button-xl:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
-  inline-size: 48px;
-  padding-inline: 0;
 }
 .fui-Button-block {
   display: block;
@@ -3946,10 +3922,6 @@ button {
   line-height: var(--lineHeightBase100);
   border-radius: var(--borderRadiusMedium);
 }
-.fui-ButtonGroup-xs .fui-Button:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
-  inline-size: 18px;
-  padding-inline: 0;
-}
 
 .fui-ButtonGroup-sm .fui-Button {
   min-height: 24px;
@@ -3959,10 +3931,6 @@ button {
   font-size: var(--fontSizeBase200);
   line-height: var(--lineHeightBase200);
   border-radius: var(--borderRadiusMedium);
-}
-.fui-ButtonGroup-sm .fui-Button:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
-  inline-size: 24px;
-  padding-inline: 0;
 }
 
 .fui-ButtonGroup-md .fui-Button {
@@ -3974,10 +3942,6 @@ button {
   line-height: var(--lineHeightBase400);
   border-radius: var(--borderRadiusMedium);
 }
-.fui-ButtonGroup-md .fui-Button:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
-  inline-size: 36px;
-  padding-inline: 0;
-}
 
 .fui-ButtonGroup-lg .fui-Button {
   min-height: 40px;
@@ -3988,10 +3952,6 @@ button {
   line-height: var(--lineHeightBase400);
   border-radius: var(--borderRadiusMedium);
 }
-.fui-ButtonGroup-lg .fui-Button:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
-  inline-size: 40px;
-  padding-inline: 0;
-}
 
 .fui-ButtonGroup-xl .fui-Button {
   min-height: 48px;
@@ -4001,10 +3961,6 @@ button {
   font-size: var(--fontSizeBase400);
   line-height: var(--lineHeightBase400);
   border-radius: var(--borderRadiusMedium);
-}
-.fui-ButtonGroup-xl .fui-Button:has(> :is(i, svg):only-child:not([class*=fui-Margin])) {
-  inline-size: 48px;
-  padding-inline: 0;
 }
 
 .fui-Button__spinner {
