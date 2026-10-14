@@ -71,7 +71,8 @@ namespace Blazorise.Build
                     generatedFile.SetMetadata( "Link", "wwwroot/" + relativePath.Replace( '\\', '/' ) );
                     generatedFile.SetMetadata( "TargetPath", "wwwroot/" + relativePath.Replace( '\\', '/' ) );
                     generatedFile.SetMetadata( "ContentRoot", outputRoot );
-                    generatedFile.SetMetadata( "OriginalItemSpec", outputPath );
+                    // The SDK uses the source item to exclude ordinary content copies during publish --no-build.
+                    generatedFile.SetMetadata( "OriginalItemSpec", source.ItemSpec );
 
                     originalFiles.Add( source );
                     generatedFiles.Add( generatedFile );
