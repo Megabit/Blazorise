@@ -1,4 +1,14 @@
-# Contributor Covenant Code of Conduct
+# Blazorise Code of Conduct
+
+This Code of Conduct sets expectations for everyone participating in the Blazorise
+community. It is adapted from Contributor Covenant 2.0.
+
+**Report conduct concerns privately to [support@blazorise.com](mailto:support@blazorise.com).**
+Please do not post incident reports or personal details in public GitHub issues,
+pull requests, or discussions. See [Enforcement](#enforcement) for reporting guidance.
+
+For development and pull request guidance, see [Contributing](CONTRIBUTING.md).
+For software vulnerabilities, follow the [security policy](SECURITY.md).
 
 ## Our Pledge
 
@@ -52,6 +62,9 @@ decisions when appropriate.
 
 This Code of Conduct applies within all community spaces, and also applies when
 an individual is officially representing the community in public spaces.
+Blazorise community spaces include GitHub issues, pull requests, discussions,
+and other spaces managed by the Blazorise team.
+
 Examples of representing our community include using an official e-mail address,
 posting via an official social media account, or acting as an appointed
 representative at an online or offline event.
@@ -60,8 +73,18 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-support@blazorise.com.
+[support@blazorise.com](mailto:support@blazorise.com).
 All complaints will be reviewed and investigated promptly and fairly.
+
+When reporting an incident, include the following information if available:
+
+* A description of what happened and where it occurred.
+* The approximate date and time, including the time zone if known.
+* Relevant links or screenshots, and the people involved.
+* Any immediate concerns or context that would help us understand the situation.
+
+You do not need every detail to make a report. Incomplete reports are welcome;
+share the information you have and are comfortable providing.
 
 All community leaders are obligated to respect the privacy and security of the
 reporter of any incident.
@@ -106,7 +129,7 @@ Violating these terms may lead to a permanent ban.
 ### 4. Permanent Ban
 
 **Community Impact**: Demonstrating a pattern of violation of community
-standards, including sustained inappropriate behavior,  harassment of an
+standards, including sustained inappropriate behavior, harassment of an
 individual, or aggression toward or disparagement of classes of individuals.
 
 **Consequence**: A permanent ban from any sort of public interaction within
@@ -114,15 +137,12 @@ the community.
 
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor Covenant][homepage],
-version 2.0, available at
-https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.
+This Code of Conduct is adapted from the
+[Contributor Covenant, version 2.0](https://www.contributor-covenant.org/version/2/0/code_of_conduct/).
 
 Community Impact Guidelines were inspired by [Mozilla's code of conduct
 enforcement ladder](https://github.com/mozilla/diversity).
 
-[homepage]: https://www.contributor-covenant.org
-
-For answers to common questions about this code of conduct, see the FAQ at
-https://www.contributor-covenant.org/faq. Translations are available at
-https://www.contributor-covenant.org/translations.
+For answers to common questions about this code of conduct, see the
+[Contributor Covenant FAQ](https://www.contributor-covenant.org/faq).
+[Translations](https://www.contributor-covenant.org/translations) are also available.
