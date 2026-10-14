@@ -545,7 +545,7 @@ internal sealed class SvgChartModelBuilder<TItem>
 
         var timeZone = ResolveTimeZone( timeAxis.TimeZone );
 
-        List<double> values = visibleSeries
+        var values = visibleSeries
             .SelectMany( GetPlottedXValues )
             .ToList();
 
@@ -562,10 +562,16 @@ internal sealed class SvgChartModelBuilder<TItem>
             return null;
 
         var axis = SvgChartGeometry.ApplyPointXAxisViewport( categoryAxisOptions, zoom, viewport );
-        axis.BeginAtZero = false;
-        var range = SvgChartGeometry.BuildScale( values, axis );
+        var min = axis.Min ?? values.Min();
+        var max = axis.Max ?? values.Max();
 
-        return BuildTimeScale( range.Min, range.Max, Math.Max( 2, axis.TickCount ), timeAxis );
+        if ( Math.Abs( max - min ) < double.Epsilon )
+        {
+            min -= 1;
+            max += 1;
+        }
+
+        return BuildTimeScale( min, max, Math.Max( 2, axis.TickCount ), timeAxis );
     }
 
     private static string ResolveTimeFormat( SvgChartTimeAxis<TItem> axis )
@@ -622,7 +628,9 @@ internal sealed class SvgChartModelBuilder<TItem>
         var ticks = new List<double>();
 
         while ( current < minDate )
+        {
             current = AddTimeUnit( current, unit, step, timeZone );
+        }
 
         for ( var i = 0; current <= maxDate && i < tickCount * 4; i++ )
         {
@@ -630,11 +638,11 @@ internal sealed class SvgChartModelBuilder<TItem>
             current = AddTimeUnit( current, unit, step, timeZone );
         }
 
-        if ( ticks.Count == 0 || ticks[0] > min )
-            ticks.Insert( 0, min );
-
-        if ( ticks[^1] < max )
+        if ( ticks.Count == 0 )
+        {
+            ticks.Add( min );
             ticks.Add( max );
+        }
 
         return new()
         {
