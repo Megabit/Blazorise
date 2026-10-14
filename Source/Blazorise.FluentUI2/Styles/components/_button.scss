@@ -10,11 +10,6 @@
     font-size: map-get($properties, font-size);
     line-height: map-get($properties, line-height);
     border-radius: var(--borderRadiusMedium);
-
-    &:has(> :is(i, svg):only-child:not([class*="fui-Margin"])) {
-        inline-size: map-get($properties, height);
-        padding-inline: 0;
-    }
 }
 
 .fui-Button {
@@ -41,11 +36,6 @@
     transition-property: background-color, border-color, color, box-shadow;
     transition-timing-function: var(--curveEasyEase);
     user-select: none;
-
-    &:has(> :is(i, svg):only-child:not([class*="fui-Margin"])) {
-        inline-size: 32px;
-        padding-inline: 0;
-    }
 
     &:hover {
         background-color: var(--colorNeutralBackground1Hover);
@@ -350,18 +340,7 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
     }
 }
 
-@mixin fui-button-ghost-variant(
-    $color,
-    $hover-color,
-    $pressed-color,
-    $hover-background,
-    $pressed-background,
-    $selected-color,
-    $selected-background,
-    $hover-icon-color: $hover-color,
-    $pressed-icon-color: $pressed-color,
-    $selected-icon-color: $selected-color
-) {
+@mixin fui-button-ghost-variant( $color, $hover-color, $pressed-color, $hover-background, $pressed-background, $selected-color, $selected-background, $hover-icon-color: $hover-color, $pressed-icon-color: $pressed-color, $selected-icon-color: $selected-color ) {
     color: $color;
 
     &:not(:disabled):not(.fui-Button-disabled):not(.fui-MenuButton-disabled):not([aria-disabled="true"]) {
@@ -459,18 +438,7 @@ label.fui-Button.fui-Button-custom:has(input:focus-visible) {
         }
     }
 
-    @include fui-button-ghost-variant(
-        var(--colorNeutralForeground2),
-        var(--colorNeutralForeground2Hover),
-        var(--colorNeutralForeground2Pressed),
-        var(--colorSubtleBackgroundHover),
-        var(--colorSubtleBackgroundPressed),
-        var(--colorNeutralForeground2Selected),
-        var(--colorSubtleBackgroundSelected),
-        var(--colorNeutralForeground2BrandHover),
-        var(--colorNeutralForeground2BrandPressed),
-        var(--colorNeutralForeground2BrandSelected)
-    );
+    @include fui-button-ghost-variant( var(--colorNeutralForeground2), var(--colorNeutralForeground2Hover), var(--colorNeutralForeground2Pressed), var(--colorSubtleBackgroundHover), var(--colorSubtleBackgroundPressed), var(--colorNeutralForeground2Selected), var(--colorSubtleBackgroundSelected), var(--colorNeutralForeground2BrandHover), var(--colorNeutralForeground2BrandPressed), var(--colorNeutralForeground2BrandSelected) );
 
     @each $name, $colors in $fui-button-ghost-variants {
         &.fui-Button-ghost-#{$name} {
