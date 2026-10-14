@@ -23,7 +23,7 @@ static class PermanentRedirects
         ["/docs/components/time"] = "/docs/components/time-input",
         ["/docs/components/color"] = "/docs/components/color-input",
         ["/docs/components/dragdrop"] = "/docs/components/drag-drop",
-        ["/docs/contributing"] = "https://github.com/Megabit/Blazorise/blob/master/CONTRIBUTING.md",
+        ["/docs/contributing"] = "https://github.com/Megabit/Blazorise/blob/master/.github/CONTRIBUTING.md",
         ["/docs/helpers/utilities/fluent-sizing"] = "/docs/helpers/utilities/sizing",
         ["/docs/licence"] = "/docs/usage/licensing",
         ["/docs/releases"] = "/blog",

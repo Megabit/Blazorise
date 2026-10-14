@@ -9,7 +9,7 @@
 
 Blazorise is a source-available Blazor UI component library for building .NET web applications in C#. Its consistent component API lets you choose the CSS framework that fits your application, from Bootstrap and Tailwind CSS to Bulma, Material, Ant Design, and Fluent 2.
 
-[Documentation](https://blazorise.com/docs/) · [Quick start](#quick-start) · [Demos](#css-providers-and-demos) · [Contributing](CONTRIBUTING.md)
+[Documentation](https://blazorise.com/docs/) · [Quick start](#quick-start) · [Demos](#css-providers-and-demos) · [Contributing](.github/CONTRIBUTING.md)
 
 ## Highlights
 
@@ -204,7 +204,7 @@ dotnet build Blazorise.slnx -c DebugNet11
 dotnet run --project Demos/Blazorise.Demo.Bootstrap5/Blazorise.Demo.Bootstrap5.csproj -c DebugNet11
 ```
 
-The development framework is defined by `PrimaryTargetFramework` in [Directory.Build.props](Directory.Build.props). See [CONTRIBUTING.md](CONTRIBUTING.md) for documentation and test workflows.
+The development framework is defined by `PrimaryTargetFramework` in [Directory.Build.props](Directory.Build.props). See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for documentation and test workflows.
 
 ### Development packages
 
@@ -212,7 +212,7 @@ Development builds are published to the [MyGet feed](https://www.myget.org/galle
 
 ## Contributing
 
-Contributions, bug reports, and feature requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, branch selection, and the pull request workflow. The [contributing wiki](https://github.com/Megabit/Blazorise/wiki/Contributing) covers coding conventions.
+Contributions, bug reports, and feature requests are welcome. Read [CONTRIBUTING.md](.github/CONTRIBUTING.md) for development setup, branch selection, and the pull request workflow. The [contributing wiki](https://github.com/Megabit/Blazorise/wiki/Contributing) covers coding conventions.
 
 Contributors must agree to the [Contributor License Agreement](https://gist.github.com/stsrki/abfa5ce0f4a5cf1e6ac67b92f8eb5d63), which is presented when a pull request is submitted.
 

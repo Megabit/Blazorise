@@ -132,5 +132,5 @@ For C# changes, read the shared [formatting examples](.agents/skills/blazorise-c
 
 ## Security & Configuration
 
-- Report vulnerabilities via `SECURITY.md`; do not commit secrets or private keys.
+- Report vulnerabilities via `.github/SECURITY.md`; do not commit secrets or private keys.
 - If working on platform-specific demos (e.g., MAUI/Tizen), check `workload-install.ps1` for workload setup.
