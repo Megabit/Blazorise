@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
+    <ProjectReference Include="..\..\..\Source\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
     <ProjectReference Include="..\..\..\Source\Blazorise\Blazorise.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Animate\Blazorise.Animate.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Barcode\Blazorise.Barcode.csproj" />

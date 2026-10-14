@@ -3,7 +3,7 @@
   <Import Project="..\..\..\Build\Blazorise.Demo.props" />
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
+    <ProjectReference Include="..\..\..\Source\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
     <ProjectReference Include="..\Blazorise.Demo.Charts\Blazorise.Demo.Charts.csproj" />
     <ProjectReference Include="..\Blazorise.Demo.Components\Blazorise.Demo.Components.csproj" />
     <ProjectReference Include="..\Blazorise.Demo.DataGrid\Blazorise.Demo.DataGrid.csproj" />

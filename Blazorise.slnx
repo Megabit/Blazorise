@@ -36,9 +36,6 @@
     <Project Path="Documentation/Blazorise.Docs.Server/Blazorise.Docs.Server.csproj" />
     <Project Path="Documentation/Blazorise.Docs/Blazorise.Docs.csproj" />
   </Folder>
-  <Folder Name="/Shared/">
-    <Project Path="Shared/Blazorise.Shared/Blazorise.Shared.csproj" />
-  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path=".runsettings" />
@@ -110,7 +107,10 @@
     <Project Path="Source/Helpers/Blazorise.Analyzers/Blazorise.Analyzers.csproj" />
     <Project Path="Source/Helpers/Blazorise.Tests.bUnit/Blazorise.Tests.bUnit.csproj" />
   </Folder>
-  <Folder Name="/SourceGenerators/">
+  <Folder Name="/Source/Shared/">
+    <Project Path="Source/Shared/Blazorise.Shared/Blazorise.Shared.csproj" />
+  </Folder>
+  <Folder Name="/Source/SourceGenerators/">
     <File Path="Source/SourceGenerators/README.md" />
     <Project Path="Source/SourceGenerators/Blazorise.Generator.Features/Blazorise.Generator.Features.csproj" />
     <Project Path="Source/SourceGenerators/Blazorise.Generator/Blazorise.Generator.csproj" />
