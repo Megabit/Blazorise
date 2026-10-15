@@ -56,6 +56,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting.DataSources.WebApi\Blazorise.Reporting.DataSources.WebApi.csproj" />
     <PackageReference Include="MailKit" />
     <PackageReference Include="MimeKit" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" />
     <PackageReference Include="Blazored.LocalStorage" />
     <PackageReference Include="ColorCode.HTML" />
   </ItemGroup>
