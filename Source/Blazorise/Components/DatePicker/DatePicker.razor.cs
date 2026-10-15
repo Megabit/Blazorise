@@ -401,6 +401,14 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         base.BuildStyles( builder );
     }
 
+    /// <summary>
+    /// Handles changes through input binding so rendering preserves the mask's caret position.
+    /// </summary>
+    /// <param name="value">Text reported by the input.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task OnInputTextChangedHandler( string value )
+        => OnChangeHandler( new ChangeEventArgs { Value = value } );
+
     /// <inheritdoc/>
     protected override Task OnChangeHandler( ChangeEventArgs eventArgs )
     {
@@ -409,13 +417,21 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     private async Task ProcessInputTextAsync( string value, bool formatParsedValue )
     {
+        // A completed mask can still contain a suggested year that subsequent typing overwrites.
+        var isMaskedEditing = inputFocused && InputMaskInitialized;
+
         inputText = value;
 
         if ( string.IsNullOrWhiteSpace( inputText ) )
         {
             await CurrentValueHandler( null );
             inputText = null;
-            await FinishMaskedEditingAsync();
+
+            if ( !isMaskedEditing )
+            {
+                await FinishMaskedEditingAsync();
+            }
+
             pendingRangeStart = null;
             hoveredRangeEnd = null;
             hoveredWeekStart = null;
@@ -426,8 +442,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         if ( TryNormalizeInputValue( inputText, out string normalizedValue ) )
         {
             await CurrentValueHandler( normalizedValue );
-            SynchronizeStateFromValue( resetVisibleMonth: true, updateInputText: formatParsedValue );
-            await FinishMaskedEditingAsync();
+            SynchronizeStateFromValue( resetVisibleMonth: true, updateInputText: formatParsedValue && !isMaskedEditing );
+
+            if ( !isMaskedEditing )
+            {
+                await FinishMaskedEditingAsync();
+            }
         }
         else if ( ParentValidation is not null )
         {
