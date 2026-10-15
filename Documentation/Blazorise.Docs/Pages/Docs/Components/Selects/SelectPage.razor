@@ -7,36 +7,29 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Selects allow you to choose one or more items from a dropdown menu.
+    Let users choose one or more values from a list of options.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    <Code Tag>Select</Code> components are used for collecting user provided information from a list of options.
+    Use the <Code>Select</Code> component when users need to choose from a defined set of values. Related options can be grouped to make longer lists easier to scan.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
     Structure
 </DocsPageSectionTitle>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Select</Code> The main input.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>SelectItem</Code> The select item, used for defining the options.
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>SelectGroup</Code> The select group, used for grouping items.
-                </Paragraph>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageParagraph>
+    A <Code>Select</Code> contains <Code>SelectItem</Code> options directly or inside a <Code>SelectGroup</Code>.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Select component anatomy">
+    <DocsAnatomyRegion Label="Select" Description="The selection input.">
+        <DocsAnatomyRegion Label="SelectItem" Description="One selectable option." />
+        <DocsAnatomyRegion Label="SelectGroup" Description="An optional group of related options.">
+            <DocsAnatomyRegion Label="SelectItem" Description="An option within the group." />
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageParagraph>
     <Code>Select</Code> and <Code>SelectItem</Code> are generic components and they support all of the basic value

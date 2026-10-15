@@ -7,11 +7,11 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Add a full-featured source editor to a Blazorise application, starting with two-way binding and growing into custom language tooling.
+    Let users edit source code with syntax highlighting and language guidance.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    <Code>CodeEditor</Code> provides syntax highlighting, diagnostics, completion, formatting, keyboard commands, and strongly typed APIs for common editing scenarios.
+    Use the <Code>CodeEditor</Code> component for configuration files, scripts, or other source content that users need to edit within your application.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -22,44 +22,23 @@
     Structure
 </DocsPageSectionTitle>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>CodeEditor</Code> is the main editor component. It binds the document value and exposes options, events, diagnostics, completion, formatting, and programmatic commands.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>Feedback</Code> displays validation feedback when the editor is used inside a <Code>Validation</Code> component.
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>CodeEditorCustomLanguage</Code> optionally declares a custom language inside the editor.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>CodeEditorTokenizer</Code> contains the syntax-highlighting rules for the custom language.
-                        </Paragraph>
-                        <UnorderedList>
-                            <UnorderedListItem>
-                                <Paragraph>
-                                    <Code Tag>CodeEditorToken</Code> defines a regular-expression rule and the token name applied to matching text.
-                                </Paragraph>
-                            </UnorderedListItem>
-                            <UnorderedListItem>
-                                <Paragraph>
-                                    <Code Tag>CodeEditorTokenizerState</Code> groups rules for a named tokenizer state, such as a quoted string or multiline comment.
-                                </Paragraph>
-                            </UnorderedListItem>
-                        </UnorderedList>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageParagraph>
+    A <Code>CodeEditor</Code> can include validation feedback and custom language definitions. A custom language uses a tokenizer to describe how its text is highlighted.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="CodeEditor component anatomy">
+    <DocsAnatomyRegion Label="CodeEditor" Description="Hosts the source editor.">
+        <DocsAnatomyRegion Label="Feedback" Description="The named fragment for validation messages." />
+        <DocsAnatomyRegion Label="CodeEditorCustomLanguage" Description="An optional custom language definition.">
+            <DocsAnatomyRegion Label="CodeEditorTokenizer" Description="Contains the highlighting rules.">
+                <DocsAnatomyRegion Label="CodeEditorToken" Description="A regular-expression rule and its token name." />
+                <DocsAnatomyRegion Label="CodeEditorTokenizerState" Description="A named group of tokenizer rules.">
+                    <DocsAnatomyRegion Label="CodeEditorToken" Description="A token rule within the state." />
+                </DocsAnatomyRegion>
+            </DocsAnatomyRegion>
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Installation

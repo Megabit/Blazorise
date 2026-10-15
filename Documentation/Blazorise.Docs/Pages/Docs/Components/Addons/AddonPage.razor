@@ -7,7 +7,7 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Easily extend form controls by adding text, or buttons on either side of textual inputs, custom selects, and custom file inputs.
+    Place labels, text, or buttons beside an input as a single control group.
 </DocsPageLead>
 
 <DocsPageSectionTitle>
@@ -15,29 +15,22 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    The <Code Tag>Addon</Code> component is the easiest way to add some structure to forms. Its purpose is to pair
-    form controls with a legend or label, and to provide help text and invalid/valid feedback text, as well as
-    visual (color) contextual state feedback.
+    Use addons for input prefixes, units, search buttons, or other content that helps explain or act on a form value.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
     Structure
 </DocsPageSectionTitle>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Addons</Code> main container, used to wrap the input field and the addon content.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>Addon</Code> wrapper for addon content, such as labels, buttons, or icons.
-                </Paragraph>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageParagraph>
+    An <Code>Addons</Code> container groups the input and its adjacent content. Each <Code>Addon</Code> defines one part of the group.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Addon component anatomy">
+    <DocsAnatomyRegion Label="Addons" Description="Groups the input and addon content.">
+        <DocsAnatomyRegion Label="Addon" Description="Wraps an input, label, button, or icon." />
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageParagraph>
     To define addon location you have to set the <Code>AddonType</Code> attribute:

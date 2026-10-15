@@ -1,0 +1,22 @@
+<UnorderedListItem Class="b-docs-anatomy-item">
+    <Div Class="b-docs-anatomy-box" Border="Border.Is1.Rounded" Background="Background.Body" Padding="Padding.Is2" Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is2">
+        <Code Tag Class="b-docs-anatomy-label">@Label</Code>
+        @if ( !string.IsNullOrWhiteSpace( Description ) )
+        {
+            <Small TextColor="TextColor.Secondary">@Description</Small>
+        }
+    </Div>
+    @if ( ChildContent is not null )
+    {
+        <UnorderedList Class="b-docs-anatomy-children" Unstyled Margin="Margin.Is0" Padding="Padding.Is0" role="list">
+            @ChildContent
+        </UnorderedList>
+    }
+</UnorderedListItem>
+@code {
+    [Parameter] public string Label { get; set; }
+
+    [Parameter] public string Description { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

@@ -8,7 +8,7 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    The <Code>DataGrid</Code> component is used for displaying tabular data. Features include sorting, filtering, paging, inline editing, and row selection.
+    Help users explore and edit tabular data with sorting, filtering, and paging.
 </DocsPageLead>
 
 <DocsPageParagraph>
@@ -19,34 +19,29 @@
     <LicenseLimitationAlert LimitText="@($"{Licensing.BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_DATAGRID_MAX_ROWS} items")" />
 </DocsPageParagraph>
 
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
 <DocsPageParagraph>
-    To create a basic grid in Blazorise, define the columns that describe the grid structure and behavior.
+    A <Code>DataGrid</Code> defines its columns in the <Code>DataGridColumns</Code> fragment. Add a <Code>DataGridAggregates</Code> fragment when the grid needs summary values.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Code Tag>DataGrid</Code> the main <Strong>container</Strong>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Code Tag>DataGridColumns</Code> container for datagrid columns
-                <UnorderedList>
-                    <UnorderedListItem><Code Tag>DataGridColumn</Code> column template for text editor</UnorderedListItem>
-                    <UnorderedListItem><Code Tag>DataGridNumericColumn</Code> column template for numeric values</UnorderedListItem>
-                    <UnorderedListItem><Code Tag>DataGridDateColumn</Code> column template for datetime values</UnorderedListItem>
-                    <UnorderedListItem><Code Tag>DataGridCheckColumn</Code> column template for boolean values</UnorderedListItem>
-                    <UnorderedListItem><Code Tag>DataGridSelectColumn</Code> column template for selectable values</UnorderedListItem>
-                    <UnorderedListItem><Code Tag>DataGridCommandColumn</Code> column template for editing commands like Edit, Save, Cancel, etc.</UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Code Tag>DataGridAggregates</Code> container for datagrid aggregates
-                <UnorderedList>
-                    <UnorderedListItem><Code Tag>DataGridAggregate</Code> defines the column and aggregation function type</UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsAnatomy Label="DataGrid component anatomy">
+    <DocsAnatomyRegion Label="DataGrid" Description="Displays and manages the records.">
+        <DocsAnatomyRegion Label="DataGridColumns" Description="The named fragment containing column definitions.">
+            <DocsAnatomyRegion Label="DataGridColumn" Description="A column with a text editor or custom templates." />
+            <DocsAnatomyRegion Label="DataGridNumericColumn" Description="A column for numeric values." />
+            <DocsAnatomyRegion Label="DataGridDateColumn" Description="A column for date and time values." />
+            <DocsAnatomyRegion Label="DataGridCheckColumn" Description="A column for Boolean values." />
+            <DocsAnatomyRegion Label="DataGridSelectColumn" Description="A column with selectable values." />
+            <DocsAnatomyRegion Label="DataGridCommandColumn" Description="A column with editing commands, such as Save or Cancel." />
+        </DocsAnatomyRegion>
+        <DocsAnatomyRegion Label="DataGridAggregates" Description="The named fragment containing aggregate definitions.">
+            <DocsAnatomyRegion Label="DataGridAggregate" Description="Defines a column and its aggregation function." />
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageParagraph>
     To use the <Code>DataGrid</Code> component, install the <Code>Blazorise.DataGrid</Code> package first.

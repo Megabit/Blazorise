@@ -7,11 +7,11 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Push notifications to your visitors with a toast, a lightweight and easily customizable alert message.
+    Give users brief notifications without interrupting their current task.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Toasts are brief alerts made to resemble push notifications, which are more common on desktop and mobile devices. Since they are flexbox-built, they are simple to align and reposition.
+    Use the <Code>Toast</Code> component for confirmations, status updates, and other messages that can appear alongside the current page.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
@@ -38,6 +38,25 @@
         </UnorderedListItem>
     </UnorderedList>
 </DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    A <Code>Toaster</Code> positions one or more <Code>Toast</Code> notifications. Each toast can contain a header and a message body.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Toast component anatomy">
+    <DocsAnatomyRegion Label="Toaster" Description="Positions and groups the notifications.">
+        <DocsAnatomyRegion Label="Toast" Description="Controls one notification and its visibility.">
+            <DocsAnatomyRegion Label="ToastHeader" Description="Contains the heading and optional supporting details.">
+                <DocsAnatomyRegion Label="CloseButton" Description="An optional control for dismissing the notification." />
+            </DocsAnatomyRegion>
+            <DocsAnatomyRegion Label="ToastBody" Description="Contains the message." />
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Examples

@@ -7,53 +7,35 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Dropdowns expose additional content that "drops down" in a menu.
+    Keep related links and actions together in a menu that opens on demand.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Dropdowns are toggleable, contextual overlays for displaying lists of links and actions in a dropdown menu format.
+    Use the <Code>Dropdown</Code> component for action menus, navigation choices, or controls with additional options.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
     Dropdowns are designed to work well with menus to provide a list of options the user can select from. However, dropdowns can also be used in lower-level applications (e.g. color picker and select). The API gives you complete control over showing, hiding, and positioning the menu.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code>Dropdown</Code> the main container.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>DropdownToggle</Code> the button that toggles the dropdown menu.
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>DropdownMenu</Code> the container for the dropdown menu. Hidden by default.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>DropdownItem</Code> a clickable item in the dropdown menu.
-                        </Paragraph>
-                    </UnorderedListItem>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>DropdownDivider</Code> a horizontal line to separate dropdown items.
-                        </Paragraph>
-                    </UnorderedListItem>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>DropdownHeader</Code> a non-clickable header in the dropdown menu.
-                        </Paragraph>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    A <Code>Dropdown</Code> combines a toggle with a menu. The menu can contain clickable items, dividers, and headings.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Dropdown component anatomy">
+    <DocsAnatomyRegion Label="Dropdown" Description="Coordinates the toggle and menu.">
+        <DocsAnatomyRegion Label="DropdownToggle" Description="Opens or closes the menu." />
+        <DocsAnatomyRegion Label="DropdownMenu" Description="Contains the menu content; hidden until opened.">
+            <DocsAnatomyRegion Label="DropdownItem" Description="A clickable link or action." />
+            <DocsAnatomyRegion Label="DropdownDivider" Description="Separates groups of items." />
+            <DocsAnatomyRegion Label="DropdownHeader" Description="A heading for a group of items." />
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Examples

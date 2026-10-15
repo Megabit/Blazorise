@@ -7,39 +7,37 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    The Sidebar component provides an expandable container for navigation and secondary content alongside the main page.
+    Keep navigation and secondary content beside the main page.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The sidebar extension is composed of several components:
+    Use a sidebar to give users access to application areas while keeping the current view available.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Code Tag>Sidebar</Code> main sidebar component
-        <UnorderedList>
-            <UnorderedListItem>
-                <Code Tag>SidebarContent</Code> container for the sidebar brand and navigation
-                <UnorderedList>
-                    <UnorderedListItem><Code Tag>SidebarBrand</Code> brand logo or link located in the sidebar header</UnorderedListItem>
-                    <UnorderedListItem>
-                        <Code Tag>SidebarNavigation</Code> container for the sidebar navigation items
-                        <UnorderedList>
-                            <UnorderedListItem><Code Tag>SidebarLabel</Code> simple label to separate navigation items</UnorderedListItem>
-                            <UnorderedListItem>
-                                <Code Tag>SidebarItem</Code> navigation item that holds the link or subitems
-                                <UnorderedList>
-                                    <UnorderedListItem><Code Tag>SidebarLink</Code> simple label to separate navigation items</UnorderedListItem>
-                                    <UnorderedListItem><Code Tag>SidebarSubItem</Code> simple label to separate navigation items</UnorderedListItem>
-                                </UnorderedList>
-                            </UnorderedListItem>
-                        </UnorderedList>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    A <Code>Sidebar</Code> contains branding and navigation inside <Code>SidebarContent</Code>. Navigation items can link to a destination or contain nested items.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Sidebar component anatomy">
+    <DocsAnatomyRegion Label="Sidebar" Description="The sidebar container.">
+        <DocsAnatomyRegion Label="SidebarContent" Description="Contains the branding and navigation.">
+            <DocsAnatomyRegion Label="SidebarBrand" Description="The sidebar's brand or home link." />
+            <DocsAnatomyRegion Label="SidebarNavigation" Description="Groups navigation entries.">
+                <DocsAnatomyRegion Label="SidebarLabel" Description="Labels a group of entries." />
+                <DocsAnatomyRegion Label="SidebarItem" Description="Contains a navigation link or nested entries.">
+                    <DocsAnatomyRegion Label="SidebarLink" Description="A link to a navigation destination." />
+                    <DocsAnatomyRegion Label="SidebarSubItem" Description="A container for nested navigation entries.">
+                        <DocsAnatomyRegion Label="SidebarItem" Description="A nested entry using the same item structure." />
+                    </DocsAnatomyRegion>
+                </DocsAnatomyRegion>
+            </DocsAnatomyRegion>
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <Alert Color="Color.Warning" Visible>
     <AlertDescription>

@@ -7,34 +7,28 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    A responsive, usable, and flexible pagination.
+    Help users move through a large collection one page at a time.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <Code Tag>Pagination</Code> component enables the user to select a specific page from a range of pages.
+    Use the <Code>Pagination</Code> component for tables, search results, or lists that are divided into pages.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Pagination</Code> the main container.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>PaginationItem</Code> the pagination item, which can be active or not.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>PaginationLink</Code> the link to the destination page, which will trigger the <Code Tag>Clicked</Code> event.
-                        </Paragraph>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    A <Code>Pagination</Code> contains items for page numbers or navigation actions. Each item wraps a <Code>PaginationLink</Code>.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Pagination component anatomy">
+    <DocsAnatomyRegion Label="Pagination" Description="Groups the page navigation items.">
+        <DocsAnatomyRegion Label="PaginationItem" Description="One page or navigation action; can mark the current page.">
+            <DocsAnatomyRegion Label="PaginationLink" Description="Triggers the Clicked event when selected." />
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Examples

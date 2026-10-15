@@ -7,7 +7,7 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Add expandable sections to your Blazor apps. Use <Code>Collapse</Code> to reveal or hide content-perfect for menus, filters, FAQs, and additional details.
+    Keep supporting content available without taking up space until users need it.
 </DocsPageLead>
 
 <DocsPageSectionTitle>
@@ -15,7 +15,7 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    The <Code>Collapse</Code> component provides an accessible way to show and hide content in Blazor applications. It's ideal for progressive disclosure patterns, such as "read more" areas, filter panels, or navigation sections. Pair it with a toggle (like a <Code>Button</Code>) in the header to control visibility through user interaction or programmatically.
+    Use the <Code>Collapse</Code> component for filter panels, additional details, and other sections that users can expand or hide. A visible header provides a place for the control that toggles the content.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -27,28 +27,15 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    The <Code>Collapse</Code> structure is simple and intuitive:
+    A <Code>Collapse</Code> contains an always-visible header and a body that expands or collapses.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Collapse</Code> - the root container that manages the expanded or collapsed state.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>CollapseHeader</Code> - always visible header; place your toggle control here (commonly a <Code>Button</Code> or clickable heading).
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>CollapseBody</Code> - the collapsible region that holds the main content.
-                </Paragraph>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsAnatomy Label="Collapse component anatomy">
+    <DocsAnatomyRegion Label="Collapse" Description="Manages the expanded or collapsed state.">
+        <DocsAnatomyRegion Label="CollapseHeader" Description="The visible header; can contain a toggle button." />
+        <DocsAnatomyRegion Label="CollapseBody" Description="Contains the content that expands or collapses." />
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Examples

@@ -7,31 +7,26 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Progress bars are used to show the status of an ongoing operation.
+    Show users how much of an operation has completed.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Use our progress component for displaying simple or complex progress bars, featuring support for horizontally stacked bars, animated backgrounds, and text labels.
+    Use the <Code>Progress</Code> component for uploads, form submissions, or other tasks where a visual indication of progress helps users understand what is happening.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
     Structure
 </DocsPageSectionTitle>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Progress</Code> main component for single progress value or wrapper for multiple bars.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>ProgressBar</Code> progress bar for single progress value.
-                </Paragraph>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageParagraph>
+    A <Code>Progress</Code> can display a value directly or contain multiple <Code>ProgressBar</Code> components for stacked progress.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Progress component anatomy">
+    <DocsAnatomyRegion Label="Progress" Description="Displays progress or groups multiple bars.">
+        <DocsAnatomyRegion Label="ProgressBar" Description="Displays one progress value within the group." />
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Examples

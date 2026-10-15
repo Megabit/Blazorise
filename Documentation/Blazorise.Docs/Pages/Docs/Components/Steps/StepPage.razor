@@ -7,72 +7,38 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    The <Code>Step</Code> component displays progress through numbered steps.
+    Guide users through a sequence of tasks with numbered steps.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Similar to <Anchor To="docs/components/tab" Title="Link to tabs component">Tabs</Anchor> component, the step component have the same structure and usage.
+    Use the <Code>Steps</Code> component for forms, setup flows, or other processes where users benefit from seeing their current position and what comes next.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Steps</Code> container for Step items.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>Items</Code> collection of step items.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>Step</Code> individual step item, which can be clicked to navigate to the step content.
-                        </Paragraph>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>Content</Code> container for step content.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>StepPanel</Code> individual step content, which is displayed when the step item is clicked.
-                        </Paragraph>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    The <Code>Steps</Code> component is container for <Code>Step</Code> items. The <Code>Name</Code> of each step
-    item should match the <Code>Name</Code> of a step panel(if panels are used).
+    Like <Anchor To="docs/components/tab" Title="Link to tabs component">Tabs</Anchor>, <Code>Steps</Code> combines selectable items with matching content panels.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Code Tag>StepsContent</Code> container for step panels
-        <UnorderedList>
-            <UnorderedListItem>
-                <Code Tag>StepPanel</Code> container for step content
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsAnatomy Label="Steps component anatomy">
+    <DocsAnatomyRegion Label="Steps" Description="Coordinates the steps and their panels.">
+        <DocsAnatomyRegion Label="Items" Description="The named fragment containing step controls.">
+            <DocsAnatomyRegion Label="Step" Description="A selectable step." />
+        </DocsAnatomyRegion>
+        <DocsAnatomyRegion Label="Content" Description="The named fragment containing step panels.">
+            <DocsAnatomyRegion Label="StepPanel" Description="The content associated with a step." />
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageParagraph>
-    The step content container is used to hold step panels. Each content pane also has a unique <Code>Name</Code>,
-    which is targeted by a link in the step-strip.
+    Give each <Code>Step</Code> and its <Code>StepPanel</Code> the same <Code>Name</Code> so selection displays the matching panel.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Most of the time you will only need to use <Code>Steps</Code> component as it is crafted to hold both clickable
-    step items and step content. Only in the advanced scenario where the content will be separated from the step items
-    you will need to use <Code>StepsContent</Code> component.
+    Use <Code>StepsContent</Code> to hold <Code>StepPanel</Code> components when their content needs to be rendered outside <Code>Steps</Code>.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>

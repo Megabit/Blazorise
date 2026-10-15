@@ -7,38 +7,32 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    A simple breadcrumb component to improve your navigation experience.
+    Help users see where they are and return to a parent page.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Breadcrumbs are used to indicate the current page's location.
+    Use breadcrumbs for pages within a hierarchy, such as product categories, documentation sections, or nested administration screens.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
     You can inform the current page using the <Code>Active</Code> attribute in a <Code>BreadcrumbItem</Code>.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Breadcrumb</Code> the main container.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>BreadcrumbItem</Code> the breadcrumb item, which can be active or not.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>BreadcrumbLink</Code> the link to the destination page.
-                        </Paragraph>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    A <Code>Breadcrumb</Code> contains items for the current page and its ancestors. Each item can include a link to its destination.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Breadcrumb component anatomy">
+    <DocsAnatomyRegion Label="Breadcrumb" Description="Contains the navigation trail.">
+        <DocsAnatomyRegion Label="BreadcrumbItem" Description="One location in the trail; can mark the current page.">
+            <DocsAnatomyRegion Label="BreadcrumbLink" Description="A link to the destination page." />
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Examples

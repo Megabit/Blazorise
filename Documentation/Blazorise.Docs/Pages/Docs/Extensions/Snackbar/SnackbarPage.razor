@@ -7,26 +7,27 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Snackbars provide brief messages about app processes. The component is also known as a toast.
+    Give users brief feedback with an optional action.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The snackbar extension is composed of several components:
+    Use a snackbar for status updates, confirmations, or a short message with an action such as Undo.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Code Tag>Snackbar</Code> main snackbar component
-        <UnorderedList>
-            <UnorderedListItem>
-                <Code Tag>SnackbarBody</Code> container for the snackbar content
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Code Tag>SnackbarAction</Code> snackbar action button
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    A <Code>Snackbar</Code> combines a message body with an optional action button.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Snackbar component anatomy">
+    <DocsAnatomyRegion Label="Snackbar" Description="Controls the notification and its visibility.">
+        <DocsAnatomyRegion Label="SnackbarBody" Description="Contains the message." />
+        <DocsAnatomyRegion Label="SnackbarAction" Description="An optional action button." />
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageParagraph>
     To use the <Code>Snackbar</Code> component, install the <Code>Blazorise.Snackbar</Code> package first.

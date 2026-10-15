@@ -7,56 +7,33 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Dialog is a small window that can be used to present information and user interface elements in an overlay.
+    Bring a focused task or important message into a dialog above the page.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The modal component provides a solid foundation for creating dialogs, popovers, lightboxes, or whatever else.
+    Use the <Code>Modal</Code> component for confirmations, short forms, or details that users need without leaving their current page.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Modal</Code> the main container.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>ModalContent</Code> a horizontally and vertically centered container, in which you can include any content.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>ModalHeader</Code> top part of the modal, usually contains a title and close button.
-                        </Paragraph>
-                        <UnorderedList>
-                            <UnorderedListItem>
-                                <Paragraph>
-                                    <Code Tag>ModalTitle</Code> a title of the modal.
-                                </Paragraph>
-                            </UnorderedListItem>
-                            <UnorderedListItem>
-                                <Paragraph>
-                                    <Code Tag>CloseButton</Code> a simple close button located in the top right corner.
-                                </Paragraph>
-                            </UnorderedListItem>
-                        </UnorderedList>
-                    </UnorderedListItem>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>ModalBody</Code> main part of the modal, holds the input fields, images, etc.
-                        </Paragraph>
-                    </UnorderedListItem>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>ModalFooter</Code> bottom part of the modal, usually contains the action buttons.
-                        </Paragraph>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    A <Code>Modal</Code> contains a <Code>ModalContent</Code> surface with a header, body, and optional footer.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Modal component anatomy">
+    <DocsAnatomyRegion Label="Modal" Description="Controls the dialog overlay and visibility.">
+        <DocsAnatomyRegion Label="ModalContent" Description="Contains the dialog surface.">
+            <DocsAnatomyRegion Label="ModalHeader" Description="The heading area.">
+                <DocsAnatomyRegion Label="ModalTitle" Description="The dialog title." />
+                <DocsAnatomyRegion Label="CloseButton" Description="An optional control for dismissing the dialog." />
+            </DocsAnatomyRegion>
+            <DocsAnatomyRegion Label="ModalBody" Description="The main dialog content." />
+            <DocsAnatomyRegion Label="ModalFooter" Description="An optional area for actions." />
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Examples

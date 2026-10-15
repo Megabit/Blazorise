@@ -7,7 +7,7 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Display and edit related values in a compact inspector with grouping, sorting, search, and contextual help.
+    Review and edit related values in a compact inspector.
 </DocsPageLead>
 
 <DocsPageSectionTitle>
@@ -15,8 +15,7 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    A property grid presents a large set of editable values without the space and visual weight of a conventional form.
-    It is well suited to designer surfaces, object inspectors, settings panels, and other interfaces where users need to review and adjust many related options.
+    Use a property grid for object inspectors, settings panels, and designer surfaces where users need to adjust many related values without a large form.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -28,59 +27,28 @@
     Structure
 </DocsPageSectionTitle>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>PropertyGrid</Code> is the main container for a manually composed property grid.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>PropertyGridToolbar</Code> is the container for commands and search controls.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>PropertyGridToolbarButton</Code> is a toolbar command, such as switching the property view mode.
-                        </Paragraph>
-                    </UnorderedListItem>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>PropertyGridToolbarSearch</Code> is a search input that captures property filter text.
-                        </Paragraph>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>PropertyGridGroup</Code> is an expandable group of related property rows.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>PropertyGridItem</Code> is a property row with a label, editor content, and optional action.
-                        </Paragraph>
-                    </UnorderedListItem>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>PropertyGridTextItem</Code>, <Code Tag>PropertyGridBooleanItem</Code>, <Code>PropertyGridNumericItem&lt;TValue&gt;</Code>, <Code>PropertyGridSelectItem&lt;TValue&gt;</Code>, <Code Tag>PropertyGridStringSelectItem</Code>, and <Code Tag>PropertyGridColorItem</Code> are ready-to-use property rows for common value types.
-                        </Paragraph>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>PropertyGridHelp</Code> is the panel that displays the selected property's name and description.
-                </Paragraph>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>PropertyGridView</Code> is a higher-level component that builds the toolbar, groups, rows, and help panel from a <Code>PropertyGridSchema</Code>.
-        </Paragraph>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageParagraph>
+    Compose a <Code>PropertyGrid</Code> from a toolbar, groups of property rows, and an optional help panel. Use <Code>PropertyGridView</Code> to generate these parts from a <Code>PropertyGridSchema</Code> instead.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="PropertyGrid component anatomy">
+    <DocsAnatomyRegion Label="PropertyGrid" Description="The container for a manually composed inspector.">
+        <DocsAnatomyRegion Label="PropertyGridToolbar" Description="Contains commands and search controls.">
+            <DocsAnatomyRegion Label="PropertyGridToolbarButton" Description="A toolbar command." />
+            <DocsAnatomyRegion Label="PropertyGridToolbarSearch" Description="Captures property filter text." />
+        </DocsAnatomyRegion>
+        <DocsAnatomyRegion Label="PropertyGridGroup" Description="An expandable group of related rows.">
+            <DocsAnatomyRegion Label="PropertyGridItem" Description="A row with a label, custom editor, and optional action." />
+            <DocsAnatomyRegion Label="PropertyGridTextItem" Description="A text editor row." />
+            <DocsAnatomyRegion Label="PropertyGridBooleanItem" Description="A Boolean editor row." />
+            <DocsAnatomyRegion Label="PropertyGridNumericItem" Description="A generic numeric editor row." />
+            <DocsAnatomyRegion Label="PropertyGridSelectItem" Description="A generic selection editor row." />
+            <DocsAnatomyRegion Label="PropertyGridStringSelectItem" Description="A string selection editor row." />
+            <DocsAnatomyRegion Label="PropertyGridColorItem" Description="A color editor row." />
+        </DocsAnatomyRegion>
+        <DocsAnatomyRegion Label="PropertyGridHelp" Description="Displays the selected property's name and description." />
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Choosing an approach

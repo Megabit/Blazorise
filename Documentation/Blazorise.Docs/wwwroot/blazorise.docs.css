@@ -557,6 +557,73 @@ body[data-bs-theme=dark] .home-customer-feedback-customer-cards:hover {
   color: var(--b-theme-primary);
 }
 
+.b-docs-anatomy {
+  --b-docs-anatomy-indent: 1.5rem;
+  --b-docs-anatomy-gap: .5rem;
+  --b-docs-anatomy-line-color: color-mix(in srgb, var(--bs-secondary-color, currentColor) 50%, transparent);
+}
+.b-docs-anatomy .b-docs-anatomy-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.b-docs-anatomy .b-docs-anatomy-box {
+  min-inline-size: 0;
+}
+.b-docs-anatomy .b-docs-anatomy-label {
+  overflow-wrap: anywhere;
+}
+.b-docs-anatomy .b-docs-anatomy-children > .b-docs-anatomy-item {
+  grid-template-columns: var(--b-docs-anatomy-indent) minmax(0, 1fr);
+  padding-block-start: var(--b-docs-anatomy-gap);
+}
+.b-docs-anatomy .b-docs-anatomy-children > .b-docs-anatomy-item > .b-docs-anatomy-box,
+.b-docs-anatomy .b-docs-anatomy-children > .b-docs-anatomy-item > .b-docs-anatomy-children {
+  grid-column: 2;
+}
+.b-docs-anatomy .b-docs-anatomy-children > .b-docs-anatomy-item > .b-docs-anatomy-box {
+  position: relative;
+}
+.b-docs-anatomy .b-docs-anatomy-children > .b-docs-anatomy-item > .b-docs-anatomy-box::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: -3px;
+  inline-size: 5px;
+  block-size: 5px;
+  box-sizing: border-box;
+  border: 1px solid var(--b-docs-anatomy-line-color);
+  border-radius: 50%;
+  background-color: inherit;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.b-docs-anatomy .b-docs-anatomy-children > .b-docs-anatomy-item::before, .b-docs-anatomy .b-docs-anatomy-children > .b-docs-anatomy-item::after {
+  content: "";
+  grid-column: 1;
+  pointer-events: none;
+}
+.b-docs-anatomy .b-docs-anatomy-children > .b-docs-anatomy-item::before {
+  grid-row: 1/span 2;
+  justify-self: start;
+  margin-block-start: calc(-1 * var(--b-docs-anatomy-gap));
+  border-inline-start: 1px dashed var(--b-docs-anatomy-line-color);
+}
+.b-docs-anatomy .b-docs-anatomy-children > .b-docs-anatomy-item::after {
+  grid-row: 1;
+  align-self: center;
+  border-block-start: 1px dashed var(--b-docs-anatomy-line-color);
+}
+.b-docs-anatomy .b-docs-anatomy-children > .b-docs-anatomy-item:last-child::before {
+  grid-row: 1;
+  align-self: start;
+  block-size: calc(50% + var(--b-docs-anatomy-gap));
+}
+@media (max-width: 575.98px) {
+  .b-docs-anatomy {
+    --b-docs-anatomy-indent: .75rem;
+  }
+}
+
 .b-docs .b-docs-sidebar {
   border-inline-end: 1px solid var(--bs-border-color);
 }
