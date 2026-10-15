@@ -849,23 +849,24 @@ public class DatePickerComponentTest : BunitContext
     }
 
     [Fact]
-    public async Task InputFormatUsesExistingMaskAndParsesText()
+    public async Task InputFormatKeepsMaskWhileFocusedAndFormatsOnBlur()
     {
         // setup
-        IRenderedComponent<DatePicker<DateTime?>> comp = Render<DatePicker<DateTime?>>( parameters => parameters
+        var comp = Render<DatePicker<DateTime?>>( parameters => parameters
             .Add( x => x.InputFormat, "dd.MM.yyyy" )
             .Add( x => x.DisplayFormat, "yyyy-MM-dd" ) );
-        IElement input = comp.Find( "input" );
+        var input = comp.Find( "input" );
 
         // test
         await input.FocusAsync( new FocusEventArgs() );
         await input.ChangeAsync( new Microsoft.AspNetCore.Components.ChangeEventArgs { Value = "27.07.2026" } );
 
         // validate
-        JSRuntimeInvocation inputMaskInitialization = Assert.Single(
+        var inputMaskInitialization = Assert.Single(
             JSInterop.Invocations["initialize"],
             invocation => invocation.Arguments.Count > 3 && invocation.Arguments[3] is InputMaskJSOptions );
-        InputMaskJSOptions options = Assert.IsType<InputMaskJSOptions>( inputMaskInitialization.Arguments[3] );
+
+        var options = Assert.IsType<InputMaskJSOptions>( inputMaskInitialization.Arguments[3] );
 
         Assert.Equal( "datetime", options.Alias );
         Assert.Equal( "dd.mm.yyyy", options.InputFormat );
@@ -873,10 +874,28 @@ public class DatePickerComponentTest : BunitContext
         Assert.True( options.ShowMaskOnFocus );
         Assert.True( options.ShowMaskOnHover );
         Assert.True( options.DispatchChangeOnComplete );
+        JSInterop.VerifyNotInvoke( "destroy" );
+        JSInterop.VerifyNotInvoke( "setTextValue" );
+        Assert.Equal( new DateTime( 2026, 7, 27 ), comp.Instance.Value );
+        Assert.Equal( "27.07.2026", comp.Find( "input" ).GetAttribute( "value" ) );
+
+        // test
+        await input.ChangeAsync( new ChangeEventArgs { Value = "27.07.2025" } );
+
+        // validate
+        JSInterop.VerifyNotInvoke( "destroy" );
+        JSInterop.VerifyNotInvoke( "setTextValue" );
+        Assert.Equal( new DateTime( 2025, 7, 27 ), comp.Instance.Value );
+        Assert.Equal( "27.07.2025", comp.Find( "input" ).GetAttribute( "value" ) );
+
+        // test
+        await input.BlurAsync( new FocusEventArgs() );
+
+        // validate
         JSInterop.VerifyInvoke( "destroy", 1 );
         JSInterop.VerifyInvoke( "setTextValue", 1 );
-        Assert.Equal( new DateTime( 2026, 7, 27 ), comp.Instance.Value );
-        Assert.Equal( "2026-07-27", comp.Find( "input" ).GetAttribute( "value" ) );
+        Assert.Equal( new DateTime( 2025, 7, 27 ), comp.Instance.Value );
+        Assert.Equal( "2025-07-27", comp.Find( "input" ).GetAttribute( "value" ) );
     }
 
     [Fact]

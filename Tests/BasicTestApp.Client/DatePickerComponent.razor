@@ -1,4 +1,6 @@
-﻿<h3>DatePicker - DateTime</h3>
+﻿@using System.Globalization
+
+<h3>DatePicker - DateTime</h3>
 
 <p id="date-event-initially-undefined">
     <DatePicker id="date-control" TValue="DateTime" Value="@DateValue" ValueChanged="@((v)=> { DateValue = v; } )" />
@@ -14,6 +16,12 @@
 
     <span id="nullable-date-event-initially-null-result">@NullableDateValue</span>
 </p>
+
+<Div>
+    <DatePicker ElementId="masked-date-control" TValue="DateTime?" @bind-Value="MaskedDateValue" InputFormat="dd.MM.yyyy" DisplayFormat="dd.MM.yyyy" DisableMobile />
+    <DatePicker ElementId="masked-date-display-control" TValue="DateTime?" @bind-Value="MaskedDateValue" InputFormat="dd.MM.yyyy" DisplayFormat="yyyy-MM-dd" DisableMobile />
+    <Span ElementId="masked-date-result">@(MaskedDateValue?.ToString( "yyyy-MM-dd", CultureInfo.InvariantCulture ) ?? "null")</Span>
+</Div>
 
 <h3>DatePicker - DateOnly</h3>
 
@@ -65,6 +73,8 @@
 @code {
     public DateTime DateValue { get; set; }
     public DateTime? NullableDateValue { get; set; }
+
+    public DateTime? MaskedDateValue { get; set; }
 
     public DateOnly DateOnlyValue { get; set; }
     public DateOnly? NullableDateOnlyValue { get; set; }
