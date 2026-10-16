@@ -3,14 +3,15 @@
 <Button id="memo-set-long-value" Clicked="@SetLongValue">Set long value</Button>
 <Button id="memo-toggle-autosize" Clicked="@ToggleAutoSize">Toggle auto size</Button>
 
-<MemoInput id="memo-replace-tab" ReplaceTab="@replaceTab" TabSize="@tabSize" SoftTabs="@softTabs" ReadOnly="@readOnly" Immediate="@replaceTabImmediate" Value="@replaceTabValue" ValueChanged="@OnReplaceTabValueChangedHandler" KeyPress="@OnEditingKeyPressHandler" />
-<Span id="memo-replace-tab-result" data-value="@replaceTabValue" data-keypress-count="@keyPressCount">@replaceTabChangedCount</Span>
-<Button id="memo-toggle-immediate" Clicked="@OnToggleImmediateHandler">Toggle immediate</Button>
-
-<Button id="memo-toggle-replace-tab" Clicked="@OnToggleReplaceTabHandler">Toggle replace tab</Button>
-<Button id="memo-change-tab-size" Clicked="@OnChangeTabSizeHandler">Change tab size</Button>
-<Button id="memo-toggle-soft-tabs" Clicked="@OnToggleSoftTabsHandler">Toggle soft tabs</Button>
-<Button id="memo-toggle-readonly" Clicked="@OnToggleReadOnlyHandler">Toggle readonly</Button>
+<Div ElementId="memo-editing">
+    <MemoInput ElementId="memo-replace-tab" ReplaceTab="@replaceTab" TabSize="@tabSize" SoftTabs="@softTabs" ReadOnly="@readOnly" Immediate="@replaceTabImmediate" Value="@replaceTabValue" ValueChanged="@OnReplaceTabValueChangedHandler" KeyPress="@OnEditingKeyPressHandler" />
+    <Span ElementId="memo-replace-tab-result" data-value="@replaceTabValue" data-keypress-count="@keyPressCount">@replaceTabChangedCount</Span>
+    <Button ElementId="memo-toggle-immediate" Clicked="@OnToggleImmediateHandler">Immediate: @replaceTabImmediate</Button>
+    <Button ElementId="memo-toggle-replace-tab" Clicked="@OnToggleReplaceTabHandler">Replace tab: @replaceTab</Button>
+    <Button ElementId="memo-change-tab-size" Clicked="@OnChangeTabSizeHandler">Tab size: @tabSize</Button>
+    <Button ElementId="memo-toggle-soft-tabs" Clicked="@OnToggleSoftTabsHandler">Soft tabs: @softTabs</Button>
+    <Button ElementId="memo-toggle-readonly" Clicked="@OnToggleReadOnlyHandler">Readonly: @readOnly</Button>
+</Div>
 
 @code {
     private bool replaceTab = true;

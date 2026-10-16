@@ -78,15 +78,21 @@ public class MemoInputTests : BlazorisePageTest
     {
         await SelectTestComponent<MemoInputComponent>();
 
-        var textarea = Page.Locator( "#memo-replace-tab" );
-        var result = Page.Locator( "#memo-replace-tab-result" );
+        var sut = Page.Locator( "#memo-editing" );
+        var textarea = sut.GetByRole( AriaRole.Textbox );
+        var result = sut.Locator( "#memo-replace-tab-result" );
+
+        await Expect( textarea ).ToBeEditableAsync();
 
         if ( !immediate )
         {
-            await Page.Locator( "#memo-toggle-immediate" ).ClickAsync();
+            await sut.Locator( "#memo-toggle-immediate" ).ClickAsync();
+            await Expect( sut.Locator( "#memo-toggle-immediate" ) ).ToHaveTextAsync( "Immediate: False" );
         }
 
-        await textarea.PressAsync( key );
+        await textarea.ClickAsync();
+        await Expect( textarea ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( key );
         await Expect( textarea ).ToHaveValueAsync( expectedValue );
 
         if ( immediate )
@@ -110,22 +116,26 @@ public class MemoInputTests : BlazorisePageTest
     {
         await SelectTestComponent<MemoInputComponent>();
 
-        var textarea = Page.Locator( "#memo-replace-tab" );
-        var result = Page.Locator( "#memo-replace-tab-result" );
+        var sut = Page.Locator( "#memo-editing" );
+        var textarea = sut.GetByRole( AriaRole.Textbox );
+        var result = sut.Locator( "#memo-replace-tab-result" );
         var originalValue = "first\nsecond";
         var indentedValue = "    first\n    second";
 
+        await Expect( textarea ).ToBeEditableAsync();
+
+        await textarea.ClickAsync();
         await textarea.FillAsync( originalValue );
         await Expect( result ).ToHaveTextAsync( "1" );
 
         await textarea.SelectTextAsync();
-        await textarea.PressAsync( "Tab" );
+        await Page.Keyboard.PressAsync( "Tab" );
 
         await Expect( textarea ).ToHaveValueAsync( indentedValue );
         await Expect( result ).ToHaveTextAsync( "2" );
         await Expect( result ).ToHaveAttributeAsync( "data-value", indentedValue );
 
-        await textarea.PressAsync( "Shift+Tab" );
+        await Page.Keyboard.PressAsync( "Shift+Tab" );
 
         await Expect( textarea ).ToHaveValueAsync( originalValue );
         await Expect( result ).ToHaveTextAsync( "3" );
@@ -141,26 +151,30 @@ public class MemoInputTests : BlazorisePageTest
     {
         await SelectTestComponent<MemoInputComponent>();
 
-        var textarea = Page.Locator( "#memo-replace-tab" );
-        var result = Page.Locator( "#memo-replace-tab-result" );
+        var sut = Page.Locator( "#memo-editing" );
+        var textarea = sut.GetByRole( AriaRole.Textbox );
+        var result = sut.Locator( "#memo-replace-tab-result" );
 
-        await textarea.PressAsync( opening );
+        await Expect( textarea ).ToBeEditableAsync();
+        await textarea.ClickAsync();
+        await Expect( textarea ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( opening );
 
         await Expect( textarea ).ToHaveValueAsync( opening + closing );
         await Expect( result ).ToHaveAttributeAsync( "data-value", opening + closing );
         await Expect( result ).ToHaveTextAsync( "1" );
         await Expect( result ).ToHaveAttributeAsync( "data-keypress-count", "1" );
-        Assert.That( await textarea.EvaluateAsync<int>( "element => element.selectionStart" ), Is.EqualTo( 1 ) );
+        await Expect( textarea ).ToHaveJSPropertyAsync( "selectionStart", 1 );
 
-        await textarea.PressAsync( closing );
+        await Page.Keyboard.PressAsync( closing );
 
         await Expect( textarea ).ToHaveValueAsync( opening + closing );
         await Expect( result ).ToHaveTextAsync( "1" );
         await Expect( result ).ToHaveAttributeAsync( "data-keypress-count", "2" );
-        Assert.That( await textarea.EvaluateAsync<int>( "element => element.selectionStart" ), Is.EqualTo( 2 ) );
+        await Expect( textarea ).ToHaveJSPropertyAsync( "selectionStart", 2 );
 
-        await textarea.PressAsync( "ArrowLeft" );
-        await textarea.PressAsync( "Backspace" );
+        await Page.Keyboard.PressAsync( "ArrowLeft" );
+        await Page.Keyboard.PressAsync( "Backspace" );
 
         await Expect( textarea ).ToHaveValueAsync( string.Empty );
         await Expect( result ).ToHaveTextAsync( "2" );
@@ -176,17 +190,27 @@ public class MemoInputTests : BlazorisePageTest
     {
         await SelectTestComponent<MemoInputComponent>();
 
-        var textarea = Page.Locator( "#memo-replace-tab" );
-        var result = Page.Locator( "#memo-replace-tab-result" );
+        var sut = Page.Locator( "#memo-editing" );
+        var textarea = sut.GetByRole( AriaRole.Textbox );
+        var result = sut.Locator( "#memo-replace-tab-result" );
 
+        await Expect( textarea ).ToBeEditableAsync();
+        await textarea.ClickAsync();
         await textarea.FillAsync( initialValue );
         await Expect( result ).ToHaveAttributeAsync( "data-value", initialValue );
-        await textarea.EvaluateAsync( "(element, caret) => element.setSelectionRange(caret, caret)", caret );
-        await textarea.PressAsync( "Enter" );
+        await Page.Keyboard.PressAsync( "Home" );
+
+        for ( var index = 0; index < caret; index++ )
+        {
+            await Page.Keyboard.PressAsync( "ArrowRight" );
+        }
+
+        await Expect( textarea ).ToHaveJSPropertyAsync( "selectionStart", caret );
+        await Page.Keyboard.PressAsync( "Enter" );
 
         await Expect( textarea ).ToHaveValueAsync( expectedValue );
         await Expect( result ).ToHaveAttributeAsync( "data-value", expectedValue );
-        Assert.That( await textarea.EvaluateAsync<int>( "element => element.selectionStart" ), Is.EqualTo( expectedCaret ) );
+        await Expect( textarea ).ToHaveJSPropertyAsync( "selectionStart", expectedCaret );
     }
 
     [Test]
@@ -194,34 +218,48 @@ public class MemoInputTests : BlazorisePageTest
     {
         await SelectTestComponent<MemoInputComponent>();
 
-        var textarea = Page.Locator( "#memo-replace-tab" );
+        var sut = Page.Locator( "#memo-editing" );
+        var textarea = sut.GetByRole( AriaRole.Textbox );
 
-        await textarea.PressAsync( "Tab" );
+        await Expect( textarea ).ToBeEditableAsync();
+        await textarea.ClickAsync();
+        await Expect( textarea ).ToBeFocusedAsync();
+        await Page.Keyboard.PressAsync( "Tab" );
         await Expect( textarea ).ToHaveValueAsync( "    " );
-        await textarea.PressAsync( "Shift+Tab" );
+        await Page.Keyboard.PressAsync( "Shift+Tab" );
         await Expect( textarea ).ToHaveValueAsync( string.Empty );
 
-        await Page.Locator( "#memo-change-tab-size" ).ClickAsync();
-        await textarea.PressAsync( "Tab" );
+        await sut.Locator( "#memo-change-tab-size" ).ClickAsync();
+        await Expect( sut.Locator( "#memo-change-tab-size" ) ).ToHaveTextAsync( "Tab size: 2" );
+        await textarea.ClickAsync();
+        await Page.Keyboard.PressAsync( "Tab" );
         await Expect( textarea ).ToHaveValueAsync( "  " );
-        await textarea.PressAsync( "Shift+Tab" );
+        await Page.Keyboard.PressAsync( "Shift+Tab" );
         await Expect( textarea ).ToHaveValueAsync( string.Empty );
 
-        await Page.Locator( "#memo-toggle-soft-tabs" ).ClickAsync();
-        await textarea.PressAsync( "Tab" );
+        await sut.Locator( "#memo-toggle-soft-tabs" ).ClickAsync();
+        await Expect( textarea ).ToHaveCSSAsync( "tab-size", "2" );
+        await textarea.ClickAsync();
+        await Page.Keyboard.PressAsync( "Tab" );
         await Expect( textarea ).ToHaveValueAsync( "\t" );
-        await textarea.PressAsync( "Shift+Tab" );
+        await Page.Keyboard.PressAsync( "Shift+Tab" );
         await Expect( textarea ).ToHaveValueAsync( string.Empty );
 
-        await Page.Locator( "#memo-toggle-replace-tab" ).ClickAsync();
-        await textarea.PressAsync( "Tab" );
+        await sut.Locator( "#memo-toggle-replace-tab" ).ClickAsync();
+        await Expect( sut.Locator( "#memo-toggle-replace-tab" ) ).ToHaveTextAsync( "Replace tab: False" );
+        await textarea.ClickAsync();
+        await Page.Keyboard.PressAsync( "Tab" );
         await Expect( textarea ).Not.ToBeFocusedAsync();
-        await textarea.PressAsync( "(" );
+
+        await textarea.ClickAsync();
+        await Page.Keyboard.PressAsync( "(" );
         await Expect( textarea ).ToHaveValueAsync( "(" );
 
-        await Page.Locator( "#memo-toggle-replace-tab" ).ClickAsync();
+        await sut.Locator( "#memo-toggle-replace-tab" ).ClickAsync();
+        await Expect( sut.Locator( "#memo-toggle-replace-tab" ) ).ToHaveTextAsync( "Replace tab: True" );
+        await Expect( textarea ).ToBeEditableAsync();
         await textarea.FillAsync( string.Empty );
-        await textarea.PressAsync( "Tab" );
+        await Page.Keyboard.PressAsync( "Tab" );
         await Expect( textarea ).ToHaveValueAsync( "\t" );
     }
 
@@ -231,24 +269,29 @@ public class MemoInputTests : BlazorisePageTest
     {
         await SelectTestComponent<MemoInputComponent>();
 
-        var textarea = Page.Locator( "#memo-replace-tab" );
-        var result = Page.Locator( "#memo-replace-tab-result" );
+        var sut = Page.Locator( "#memo-editing" );
+        var textarea = sut.GetByRole( AriaRole.Textbox );
+        var result = sut.Locator( "#memo-replace-tab-result" );
 
+        await Expect( textarea ).ToBeEditableAsync();
+        await textarea.ClickAsync();
         await textarea.FillAsync( initialValue );
         await Expect( result ).ToHaveAttributeAsync( "data-value", initialValue );
-        await textarea.PressAsync( "Home" );
-        await textarea.PressAsync( "Backspace" );
+        await Page.Keyboard.PressAsync( "Home" );
+        await Page.Keyboard.PressAsync( "Backspace" );
         await Expect( textarea ).ToHaveValueAsync( initialValue );
 
-        await textarea.PressAsync( "End" );
-        await textarea.PressAsync( "Backspace" );
+        await Page.Keyboard.PressAsync( "End" );
+        await Page.Keyboard.PressAsync( "Backspace" );
         await Expect( textarea ).ToHaveValueAsync( string.Empty );
         await Expect( result ).ToHaveAttributeAsync( "data-value", string.Empty );
 
-        await Page.Locator( "#memo-toggle-readonly" ).ClickAsync();
-        await textarea.PressAsync( "(" );
-        await textarea.PressAsync( "Enter" );
-        await textarea.PressAsync( "Tab" );
+        await sut.Locator( "#memo-toggle-readonly" ).ClickAsync();
+        await Expect( textarea ).ToHaveJSPropertyAsync( "readOnly", true );
+        await textarea.ClickAsync();
+        await Page.Keyboard.PressAsync( "(" );
+        await Page.Keyboard.PressAsync( "Enter" );
+        await Page.Keyboard.PressAsync( "Tab" );
 
         await Expect( textarea ).ToHaveValueAsync( string.Empty );
         await Expect( textarea ).Not.ToBeFocusedAsync();
