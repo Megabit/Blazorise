@@ -3,9 +3,64 @@
 <Button id="memo-set-long-value" Clicked="@SetLongValue">Set long value</Button>
 <Button id="memo-toggle-autosize" Clicked="@ToggleAutoSize">Toggle auto size</Button>
 
+<MemoInput id="memo-replace-tab" ReplaceTab="@replaceTab" TabSize="@tabSize" SoftTabs="@softTabs" ReadOnly="@readOnly" Immediate="@replaceTabImmediate" Value="@replaceTabValue" ValueChanged="@OnReplaceTabValueChangedHandler" KeyPress="@OnEditingKeyPressHandler" />
+<Span id="memo-replace-tab-result" data-value="@replaceTabValue" data-keypress-count="@keyPressCount">@replaceTabChangedCount</Span>
+<Button id="memo-toggle-immediate" Clicked="@OnToggleImmediateHandler">Toggle immediate</Button>
+
+<Button id="memo-toggle-replace-tab" Clicked="@OnToggleReplaceTabHandler">Toggle replace tab</Button>
+<Button id="memo-change-tab-size" Clicked="@OnChangeTabSizeHandler">Change tab size</Button>
+<Button id="memo-toggle-soft-tabs" Clicked="@OnToggleSoftTabsHandler">Toggle soft tabs</Button>
+<Button id="memo-toggle-readonly" Clicked="@OnToggleReadOnlyHandler">Toggle readonly</Button>
+
 @code {
+    private bool replaceTab = true;
+    private int tabSize = 4;
+    private bool softTabs = true;
+    private bool readOnly;
+
+    private bool replaceTabImmediate = true;
+    private string replaceTabValue = string.Empty;
+    private int replaceTabChangedCount;
+    private int keyPressCount;
+
     private bool autoSize = true;
     private string value = "Short value";
+
+    private void OnReplaceTabValueChangedHandler( string value )
+    {
+        replaceTabValue = value;
+        replaceTabChangedCount++;
+    }
+
+    private void OnEditingKeyPressHandler()
+    {
+        keyPressCount++;
+    }
+
+    private void OnToggleImmediateHandler()
+    {
+        replaceTabImmediate = !replaceTabImmediate;
+    }
+
+    private void OnToggleReplaceTabHandler()
+    {
+        replaceTab = !replaceTab;
+    }
+
+    private void OnChangeTabSizeHandler()
+    {
+        tabSize = 2;
+    }
+
+    private void OnToggleSoftTabsHandler()
+    {
+        softTabs = !softTabs;
+    }
+
+    private void OnToggleReadOnlyHandler()
+    {
+        readOnly = !readOnly;
+    }
 
     private void SetLongValue()
     {
