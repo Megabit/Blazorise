@@ -1,0 +1,30 @@
+@namespace Blazorise.Docs.Docs.Examples
+@using System.IO
+@using System.Text
+
+<Field>
+    <FilePicker @bind-Files="files" Multiple MaxFileSize="10485760" Upload="OnFileUploadHandler" />
+</Field>
+<Paragraph>Bytes read: @bytesRead</Paragraph>
+
+@code {
+    private long bytesRead;
+
+    private IFileEntry[] files =
+    {
+        new FileEntry
+        {
+            Name = "Draft.txt",
+            Type = "text/plain",
+            Data = Encoding.UTF8.GetBytes( "A draft restored from the local cache." ),
+            Status = FileEntryStatus.Ready,
+        },
+    };
+
+    private async Task OnFileUploadHandler( FileUploadEventArgs e )
+    {
+        await using var destination = new MemoryStream();
+        await e.File.WriteToStreamAsync( destination );
+        bytesRead = destination.Length;
+    }
+}

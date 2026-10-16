@@ -45,6 +45,10 @@ public class JSFileInputModule : BaseJSModule, IJSFileInputModule
         => InvokeSafeVoidAsync( "removeFile", elementRef, elementId, fileId );
 
     /// <inheritdoc/>
+    public virtual ValueTask RemoveFiles( ElementReference elementRef, string elementId, int[] fileIds )
+        => InvokeSafeVoidAsync( "removeFiles", elementRef, elementId, fileIds );
+
+    /// <inheritdoc/>
     public virtual ValueTask OpenFileDialog( ElementReference elementRef, string elementId )
         => InvokeSafeVoidAsync( "open", elementRef, elementId );
 

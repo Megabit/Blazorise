@@ -53,16 +53,46 @@ export function destroy(element, elementId) {
     }
 }
 
+export function removeFiles(element, elementId, fileIds) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element) {
+        return;
+    }
+
+    const removedIds = new Set(fileIds);
+    const dt = new DataTransfer();
+
+    for (const file of element.files) {
+        if (!removedIds.has(file.id)) {
+            dt.items.add(file);
+        }
+    }
+
+    element.files = dt.files;
+
+    for (const fileId of fileIds) {
+        if (element._blazorFilesById) {
+            delete element._blazorFilesById[fileId];
+        }
+    }
+
+    if (element.files.length === 0) {
+        element.value = '';
+    }
+}
+
 export function reset(element, elementId) {
     element = getRequiredElement(element, elementId);
 
     if (element) {
         element.value = '';
+        removeAllFileEntries(element);
 
         var fileInputInfo = _instances[elementId];
 
         if (fileInputInfo) {
-            fileInputInfo.adapter.invokeMethodAsync('NotifyChange', []).then(null, function (err) {
+            return fileInputInfo.adapter.invokeMethodAsync('NotifyChange', []).then(null, function (err) {
                 throw new Error(err);
             });
         }
