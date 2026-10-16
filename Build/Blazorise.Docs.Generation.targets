@@ -33,9 +33,10 @@
 
   <Target Name="BuildDocsCompiler"
           Condition="'$(DesignTimeBuild)' != 'true' and '$(NoBuild)' != 'true' and '$(GenerateDocs)' == 'true' and '$(ProjectDocsCompiler)' == ''">
-    <!-- MSBuild shares this build between Docs and MCP; no nested restore or CLI build. -->
+    <!-- Keep global properties aligned with solution builds. The compiler imports the
+         shared version defaults and inherits command-line version overrides. -->
     <MSBuild Projects="$(_DocsCompilerProject)" Targets="Build"
-             Properties="Configuration=$(Configuration);BlazoriseVersion=$(BlazoriseVersion)" RemoveProperties="$(_DocsCompilerGlobalPropertiesToRemove)">
+             Properties="Configuration=$(Configuration)" RemoveProperties="$(_DocsCompilerGlobalPropertiesToRemove)">
       <Output TaskParameter="TargetOutputs" ItemName="_DocsCompilerOutput" />
     </MSBuild>
     <PropertyGroup>

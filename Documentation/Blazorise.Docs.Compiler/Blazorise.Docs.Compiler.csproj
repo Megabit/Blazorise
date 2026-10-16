@@ -6,6 +6,8 @@
     <Version>$(BlazoriseVersion)</Version>
     <OutputType>Exe</OutputType>
     <TargetFramework>$(PrimaryTargetFramework)</TargetFramework>
+    <!-- This build tool is invoked through dotnet with its assembly path. -->
+    <UseAppHost>false</UseAppHost>
   </PropertyGroup>
 
   <ItemGroup>
