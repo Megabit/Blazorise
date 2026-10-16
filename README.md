@@ -70,15 +70,15 @@ Add these links inside the host page's `<head>` section:
 
 ```html
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-<link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.3.3.0" rel="stylesheet">
+<link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.4.0.0" rel="stylesheet">
 
-<link href="_content/Blazorise/blazorise.css?v=2.3.3.0" rel="stylesheet" />
-<link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.3.3.0" rel="stylesheet" />
+<link href="_content/Blazorise/blazorise.css?v=2.4.0.0" rel="stylesheet" />
+<link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.4.0.0" rel="stylesheet" />
 ```
 
 Replace older Bootstrap or FontAwesome stylesheet references supplied by your project template with these links.
 
-The `?v=2.3.3.0` query values correspond to Blazorise package version `2.3.3`. Use the four-part numeric version of your installed packages and update it when upgrading to refresh cached assets. Append `.0` to a three-part version or retain an existing fourth part. In Razor host files, you can inject `@inject Blazorise.IVersionProvider VersionProvider` and use `?v=@VersionProvider.Version` instead. Keep `@page` first in `_Host.cshtml`.
+The `?v=2.4.0.0` query values correspond to Blazorise package version `2.4.0`. Use the four-part numeric version of your installed packages and update it when upgrading to refresh cached assets. Append `.0` to a three-part version or retain an existing fourth part. In Razor host files, you can inject `@inject Blazorise.IVersionProvider VersionProvider` and use `?v=@VersionProvider.Version` instead. Keep `@page` first in `_Host.cshtml`.
 
 Blazorise loads its component JavaScript modules automatically. Keep your host's static asset setup enabled so package resources can be served. See the [integration guide](https://blazorise.com/docs/usage#javascript-resources) for troubleshooting and the [PWA guide](https://blazorise.com/docs/pwa) for offline support.
 
