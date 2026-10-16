@@ -5,7 +5,13 @@ const supportsNativeFieldSizing = typeof CSS !== "undefined"
     && typeof CSS.supports === "function"
     && CSS.supports("field-sizing", "content");
 
-let behaveModulePromise;
+const characterPairs = {
+    '"': '"',
+    "'": "'",
+    "(": ")",
+    "[": "]",
+    "{": "}"
+};
 
 export async function initialize(element, elementId, options) {
     element = getRequiredElement(element, elementId);
@@ -15,13 +21,11 @@ export async function initialize(element, elementId, options) {
 
     const instance = {
         element: element,
-        elementId: elementId,
         replaceTab: options.replaceTab ?? false,
         tabSize: options.tabSize ?? 4,
         softTabs: options.softTabs ?? true,
         autoSize: false,
-        behave: null,
-        behaveRevision: 0,
+        keyHandler: null,
         hasFallbackInputListener: false,
         originalHeight: "",
         originalOverflowY: ""
@@ -30,7 +34,7 @@ export async function initialize(element, elementId, options) {
     _instances[elementId] = instance;
 
     setAutoSize(instance, options.autoSize ?? false);
-    await updateBehave(instance);
+    updateEditing(instance);
 }
 
 export function destroy(element, elementId) {
@@ -39,7 +43,7 @@ export function destroy(element, elementId) {
     if (!instance)
         return;
 
-    destroyBehave(instance);
+    destroyEditing(instance);
     disableAutoSizeFallback(instance);
     delete _instances[elementId];
 }
@@ -55,7 +59,7 @@ export async function updateOptions(element, elementId, options) {
         instance.tabSize = options.tabSize.value;
         instance.softTabs = options.softTabs.value;
 
-        await updateBehave(instance);
+        updateEditing(instance);
     }
 
     if (options.autoSize.changed)
@@ -96,42 +100,178 @@ export function refreshDisplay(element, elementId) {
     });
 }
 
-async function updateBehave(instance) {
-    const revision = ++instance.behaveRevision;
+function updateEditing(instance) {
+    destroyEditing(instance);
 
-    destroyBehave(instance);
-
-    if (!instance.replaceTab)
+    if (!instance.replaceTab) {
         return;
+    }
 
-    behaveModulePromise ??= import("./vendors/Behave.js?v=__BLAZORISE_VERSION__");
+    if (!instance.softTabs) {
+        instance.element.style.tabSize = instance.tabSize;
+    }
 
-    const { Behave } = await behaveModulePromise;
-
-    if (_instances[instance.elementId] !== instance
-        || instance.behaveRevision !== revision
-        || !instance.replaceTab)
-        return;
-
-    instance.behave = new Behave({
-        textarea: instance.element,
-        replaceTab: instance.replaceTab,
-        softTabs: instance.softTabs,
-        tabSize: instance.tabSize,
-        autoOpen: true,
-        overwrite: true,
-        autoStrip: true,
-        autoIndent: true,
-        fence: false
-    });
+    instance.keyHandler = event => onEditingKey(event, instance);
+    instance.element.addEventListener("keydown", instance.keyHandler);
+    instance.element.addEventListener("keypress", instance.keyHandler);
+    instance.element.addEventListener("blur", onEditingBlur);
 }
 
-function destroyBehave(instance) {
-    if (!instance.behave)
+function destroyEditing(instance) {
+    if (!instance.keyHandler) {
         return;
+    }
 
-    instance.behave.destroy();
-    instance.behave = null;
+    instance.element.removeEventListener("keydown", instance.keyHandler);
+    instance.element.removeEventListener("keypress", instance.keyHandler);
+    instance.element.removeEventListener("blur", onEditingBlur);
+    instance.keyHandler = null;
+}
+
+function onEditingBlur(event) {
+    // Scripted edits do not produce the native change event used by deferred binding.
+    event.currentTarget.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+function onEditingKey(event, instance) {
+    const element = instance.element;
+
+    if (event.defaultPrevented || event.isComposing
+        || event.ctrlKey || event.metaKey || event.altKey
+        || element.readOnly || element.disabled) {
+        return;
+    }
+
+    const start = element.selectionStart;
+    const end = element.selectionEnd;
+    const value = element.value;
+
+    if (event.type === "keydown") {
+        if (event.key === "Tab") {
+            event.preventDefault();
+            replaceTab(instance, event.shiftKey);
+        }
+        else if (event.key === "Enter") {
+            event.preventDefault();
+            insertNewLine(instance);
+        }
+        else if (event.key === "Backspace" && start === end && start > 0
+            && start < value.length && characterPairs[value[start - 1]] === value[start]) {
+            event.preventDefault();
+            replaceText(element, start - 1, start + 1, "");
+        }
+
+        return;
+    }
+
+    if (start === end && Object.values(characterPairs).includes(event.key) && value[start] === event.key) {
+        event.preventDefault();
+        element.setSelectionRange(start + 1, start + 1);
+        return;
+    }
+
+    const closingCharacter = characterPairs[event.key];
+
+    if (closingCharacter) {
+        event.preventDefault();
+        replaceText(element, start, end, event.key + closingCharacter, start + 1);
+    }
+}
+
+function getTabString(instance) {
+    return instance.softTabs ? " ".repeat(Math.max(0, instance.tabSize)) : "\t";
+}
+
+function replaceTab(instance, unindent) {
+    const element = instance.element;
+    const start = element.selectionStart;
+    const end = element.selectionEnd;
+    const value = element.value;
+    const tab = getTabString(instance);
+
+    if (!tab.length) {
+        return;
+    }
+
+    if (start !== end) {
+        const lineStart = value.slice(0, start).lastIndexOf("\n") + 1;
+        const replacement = value.slice(lineStart, end).split("\n")
+            .map(line => unindent ? (line.startsWith(tab) ? line.slice(tab.length) : line) : tab + line)
+            .join("\n");
+
+        replaceText(element, lineStart, end, replacement, lineStart, lineStart + replacement.length);
+        return;
+    }
+
+    if (!unindent) {
+        replaceText(element, start, end, tab);
+        return;
+    }
+
+    if (start >= tab.length && value.slice(start - tab.length, start) === tab) {
+        replaceText(element, start - tab.length, start, "");
+    }
+}
+
+function insertNewLine(instance) {
+    const element = instance.element;
+    const start = element.selectionStart;
+    const end = element.selectionEnd;
+    const value = element.value;
+    const tab = getTabString(instance);
+    const depth = getIndentationDepth(value.slice(0, start));
+    const indentation = tab.repeat(depth);
+    let replacement = "\n" + indentation;
+
+    if (depth > 0 && end < value.length && characterPairs[value[start - 1]] === value[end]) {
+        replacement += "\n" + tab.repeat(depth - 1);
+    }
+
+    replaceText(element, start, end, replacement, start + 1 + indentation.length);
+}
+
+function getIndentationDepth(text) {
+    let depth = 0;
+    let quote = "";
+
+    for (let index = 0; index < text.length; index++) {
+        const character = text[index];
+
+        if (quote) {
+            if (character === "\\") {
+                index++;
+            }
+            else if (character === quote) {
+                quote = "";
+            }
+        }
+        else if (character === '"' || character === "'") {
+            quote = character;
+        }
+        else if (character === "[" || character === "{") {
+            depth++;
+        }
+        else if (character === "]" || character === "}") {
+            depth--;
+        }
+    }
+
+    return Math.max(0, depth);
+}
+
+function replaceText(element, start, end, text, selectionStart = start + text.length, selectionEnd = selectionStart) {
+    const previousValue = element.value;
+    const value = previousValue.slice(0, start) + text + previousValue.slice(end);
+
+    if (value !== previousValue) {
+        element.value = value;
+    }
+
+    element.setSelectionRange(selectionStart, selectionEnd);
+
+    if (value !== previousValue) {
+        element.dispatchEvent(new Event("input", { bubbles: true }));
+    }
 }
 
 function setAutoSize(instance, autoSize) {
