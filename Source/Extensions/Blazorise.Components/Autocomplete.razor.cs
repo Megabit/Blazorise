@@ -235,9 +235,9 @@ public partial class Autocomplete<TItem, TValue>
 
         if ( hasSelectedValueParam )
         {
-            // A bound value already applied internally must not reset free-typed text when the parent echoes it back.
+            // A value-only echo must preserve free-typed text, but stale bound text must synchronize with the new selection.
             selectedValueParamChanged = !selectedValueParamDefined
-                || ( paramSelectedValue.Changed && !paramSelectedValue.Value.IsEqual( selectedValueParam ) );
+                || ( ( paramSelectedValue.Changed || paramSelectedText.Changed ) && !paramSelectedValue.Value.IsEqual( selectedValueParam ) );
             selectedValueParam = paramSelectedValue.Value;
             selectedValueParamDefined = true;
         }
