@@ -7,31 +7,26 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    The <Code>Radio</Code> allow the user to select a single option from a group.
+    Let users choose one option from a visible set of related choices.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Radio Button Group allows the user to select exactly one value from a list of related, but mutually exclusive, options.
+    Use radio buttons when users should compare a small set of mutually exclusive options before choosing one.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
     Structure
 </DocsPageSectionTitle>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>RadioGroup</Code> main component for grouping radios.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>Radio</Code> radio button, used as an option inside a <Code>RadioGroup</Code>.
-                </Paragraph>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageParagraph>
+    A <Code>RadioGroup</Code> groups <Code>Radio</Code> components that share a single selected value.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Radio component anatomy">
+    <DocsAnatomyRegion Label="RadioGroup" Description="Coordinates selection across the options.">
+        <DocsAnatomyRegion Label="Radio" Description="One selectable option." />
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Examples

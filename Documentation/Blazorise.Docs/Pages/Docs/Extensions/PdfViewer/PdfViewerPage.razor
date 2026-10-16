@@ -7,7 +7,7 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Display PDF documents with built-in navigation and zoom controls.
+    Let users read and navigate PDF documents without leaving your application.
 </DocsPageLead>
 
 <DocsPageSectionTitle>
@@ -15,7 +15,7 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    The PdfViewer component in Blazorise allows users to display and navigate PDF documents directly within a Blazor application, supporting features like zoom, page navigation, and printing.
+    Use the <Code>PdfViewer</Code> component for documents such as reports, invoices, or instructions that users need to read alongside application content.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
@@ -23,18 +23,15 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    <UnorderedList>
-        <UnorderedListItem>
-            <Code Tag>PdfViewerContainer</Code>: Acts as the main container for both the toolbar and the PDF viewer. It ensures proper layout and scrolling if needed.
-        </UnorderedListItem>
-        <UnorderedListItem>
-            <Code Tag>PdfViewerToolbar</Code>: A toolbar component is included within the container.
-        </UnorderedListItem>
-        <UnorderedListItem>
-            <Code Tag>PdfViewer</Code>: The main component for displaying the PDF document.
-        </UnorderedListItem>
-    </UnorderedList>
+    Use <Code>PdfViewer</Code> on its own, or place it with <Code>PdfViewerToolbar</Code> inside <Code>PdfViewerContainer</Code> for a viewer with navigation controls.
 </DocsPageParagraph>
+
+<DocsAnatomy Label="PdfViewer component anatomy">
+    <DocsAnatomyRegion Label="PdfViewerContainer" Description="An optional layout container for the toolbar and viewer.">
+        <DocsAnatomyRegion Label="PdfViewerToolbar" Description="Provides document navigation and viewer controls." />
+        <DocsAnatomyRegion Label="PdfViewer" Description="Displays the PDF document." />
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageParagraph>
     To use the <Code>PdfViewer</Code> component, install the <Code>Blazorise.PdfViewer</Code> package first.

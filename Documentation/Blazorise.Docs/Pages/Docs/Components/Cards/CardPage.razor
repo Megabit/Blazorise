@@ -7,67 +7,37 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Blazorise cards provide a flexible and extensible content container with multiple variants and options.
+    Group related information and actions in a flexible content container.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <Code Tag>Card</Code> component is a versatile component that can be used for anything from a panel to a static image. The <Strong>card</Strong> component has numerous helper components to make markup as easy as possible.
+    Use the <Code>Card</Code> component for summaries, product previews, profiles, and other content that benefits from a clear visual boundary.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Card</Code> the main container.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>CardHeader</Code> optional header within a card.
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>CardImage</Code> optional image within a card.
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>CardBody</Code> The building block of a card.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>CardTitle</Code> required title within a card.
-                        </Paragraph>
-                    </UnorderedListItem>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>CardSubtitle</Code> optional subtitle within a card.
-                        </Paragraph>
-                    </UnorderedListItem>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>CardText</Code> optional text within a card.
-                        </Paragraph>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Code Tag>CardFooter</Code> optional footer within a card.
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>CardGroup</Code> groups cards together.
-        </Paragraph>
-    </UnorderedListItem>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>CardDeck</Code> groups cards together with equal width and height.
-        </Paragraph>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    A <Code>Card</Code> can combine a header, image, body, and footer. Add the parts your content needs.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Card component anatomy">
+    <DocsAnatomyRegion Label="Card" Description="Contains related content and actions.">
+        <DocsAnatomyRegion Label="CardHeader" Description="An optional header." />
+        <DocsAnatomyRegion Label="CardImage" Description="An optional image." />
+        <DocsAnatomyRegion Label="CardBody" Description="The main content area.">
+            <DocsAnatomyRegion Label="CardTitle" Description="A title for the content." />
+            <DocsAnatomyRegion Label="CardSubtitle" Description="An optional subtitle." />
+            <DocsAnatomyRegion Label="CardText" Description="Descriptive text." />
+        </DocsAnatomyRegion>
+        <DocsAnatomyRegion Label="CardFooter" Description="An optional footer for actions or supporting information." />
+    </DocsAnatomyRegion>
+</DocsAnatomy>
+
+<DocsPageParagraph>
+    Wrap multiple cards in <Code>CardGroup</Code> to join them together, or <Code>CardDeck</Code> to arrange them with equal width and height.
+</DocsPageParagraph>
 
 <DocsPageSectionTitle>
     Examples

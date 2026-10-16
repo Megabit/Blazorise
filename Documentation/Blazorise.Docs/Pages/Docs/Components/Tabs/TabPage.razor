@@ -7,26 +7,31 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Tabs organize related content into panels, allowing users to switch between them without leaving the page.
+    Organize related content into panels that users can switch between.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Use tabs for related sections that do not need to appear together, such as account settings.
-    The <Code Tag>Tabs</Code> component manages selection and shows one panel at a time:
+    Use tabs for sections such as account settings or record details that users need in the same place but do not need to view together.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Items</Code> contains the <Code Tag>Tab</Code> components that users select to switch panels.
-        </Paragraph>
-    </UnorderedListItem>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Content</Code> contains the <Code Tag>TabPanel</Code> components that hold each tab's content.
-        </Paragraph>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    The <Code>Tabs</Code> component uses an <Code>Items</Code> fragment for selectable tabs and a <Code>Content</Code> fragment for their panels.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Tabs component anatomy">
+    <DocsAnatomyRegion Label="Tabs" Description="Coordinates the selected tab and its panel.">
+        <DocsAnatomyRegion Label="Items" Description="The named fragment containing tab controls.">
+            <DocsAnatomyRegion Label="Tab" Description="A selectable tab." />
+        </DocsAnatomyRegion>
+        <DocsAnatomyRegion Label="Content" Description="The named fragment containing the tab panels.">
+            <DocsAnatomyRegion Label="TabPanel" Description="The content associated with a tab." />
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageParagraph>
     Give each <Code>Tab</Code> and its <Code>TabPanel</Code> the same <Code>Name</Code>. Use <Code>SelectedTab</Code>

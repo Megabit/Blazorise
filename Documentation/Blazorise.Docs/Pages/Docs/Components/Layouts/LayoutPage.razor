@@ -7,12 +7,11 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Structure application pages with headers, sidebars, content regions, and footers.
+    Arrange application pages with consistent headers, sidebars, content, and footers.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <Code Tag>Layout</Code> component is the outer structure for common application shells.
-    It composes with <Code Tag>Bar</Code>, utility parameters, and normal content components to create page layouts without custom wrapper markup.
+    Use the <Code>Layout</Code> components to keep application navigation and shared page regions consistent while individual views change.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -24,44 +23,24 @@
     Layout adjusts to desktop, tablet, and mobile screen sizes, while utility parameters handle most visual spacing, sizing, background, and alignment needs.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Layout</Code> The main container.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Paragraph>
-                        <Code Tag>LayoutHeader</Code> The top container for a Bar or navigation.
-                    </Paragraph>
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>LayoutContent</Code> The main content area.
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>LayoutFooter</Code> The bottom container for a Bar or navigation.
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>LayoutSider</Code> The sidebar container.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>LayoutSiderContent</Code> The main content area of the sidebar.
-                        </Paragraph>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    A <Code>Layout</Code> combines the page regions your application needs. Layouts can also be nested to arrange a sidebar beside the main page content.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Layout component anatomy">
+    <DocsAnatomyRegion Label="Layout" Description="Contains the page layout and optional nested layouts.">
+        <DocsAnatomyRegion Label="LayoutHeader" Description="The header area for navigation or shared controls." />
+        <DocsAnatomyRegion Label="LayoutSider" Description="An optional sidebar.">
+            <DocsAnatomyRegion Label="LayoutSiderContent" Description="Contains the sidebar navigation or content." />
+        </DocsAnatomyRegion>
+        <DocsAnatomyRegion Label="LayoutContent" Description="The main page content." />
+        <DocsAnatomyRegion Label="LayoutFooter" Description="The footer area." />
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Examples

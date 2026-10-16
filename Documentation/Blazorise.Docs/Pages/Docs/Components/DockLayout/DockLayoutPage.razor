@@ -11,8 +11,7 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <Code Tag>DockLayout</Code> component owns the docking tree and state for a workspace.
-    Use <Code Tag>DockPane</Code> for tool and document panes, and give each pane a stable <Code>Name</Code> so state can be saved and restored later.
+    Use the <Code>DockLayout</Code> component for editors, monitoring tools, and other workspaces where users need to rearrange related panes around their main content.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -20,10 +19,25 @@
     Users can move panes by dragging their headers, resize panes with splitters, group panes as tabs, auto-hide side panes, and close panes when enabled.
 </DocsPageParagraph>
 
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
 <DocsPageParagraph>
-    For simple layouts, place panes directly inside <Code>DockLayout</Code>.
-    For advanced starting layouts, combine <Code>DockSplit</Code> and <Code>DockTabs</Code> to predefine the initial split and tab structure.
+    Place <Code>DockPane</Code> components directly inside <Code>DockLayout</Code> for a simple workspace, or use <Code>DockSplit</Code> and <Code>DockTabs</Code> to define the initial arrangement.
 </DocsPageParagraph>
+
+<DocsAnatomy Label="DockLayout component anatomy">
+    <DocsAnatomyRegion Label="DockLayout" Description="Owns the workspace layout and state.">
+        <DocsAnatomyRegion Label="DockPane" Description="A tool or document pane placed directly in the workspace." />
+        <DocsAnatomyRegion Label="DockSplit" Description="An optional split between two layout nodes.">
+            <DocsAnatomyRegion Label="DockTabs" Description="An optional group of tabbed panes.">
+                <DocsAnatomyRegion Label="DockPane" Description="One pane in the tab group." />
+            </DocsAnatomyRegion>
+            <DocsAnatomyRegion Label="DockPane" Description="A pane on the other side of the split." />
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Examples

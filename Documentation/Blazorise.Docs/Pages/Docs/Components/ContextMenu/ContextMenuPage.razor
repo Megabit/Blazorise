@@ -11,9 +11,36 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <Code Tag>ContextMenu</Code> component uses the shared document observer to listen for right-click events on a toggle or target selector.
-    Use <Code Tag>ContextMenuBody</Code> for the menu surface and <Code Tag>ContextMenuItem</Code>, <Code Tag>ContextMenuDivider</Code>, <Code Tag>ContextMenuHeader</Code>, and <Code Tag>ContextMenuSubmenu</Code> for commands.
+    Use the <Code>ContextMenu</Code> component for actions that apply to a selected object, row, or workspace area. The menu can open from a target element or from application code.
 </DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    A <Code>ContextMenu</Code> combines an optional toggle target with a <Code>ContextMenuBody</Code>. The body can contain commands, groups, separators, and submenus.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="ContextMenu component anatomy">
+    <DocsAnatomyRegion Label="ContextMenu" Description="Controls the target, position, and visibility.">
+        <DocsAnatomyRegion Label="ContextMenuToggle" Description="An optional target declared inside the menu." />
+        <DocsAnatomyRegion Label="ContextMenuBody" Description="Contains the menu surface.">
+            <DocsAnatomyRegion Label="ContextMenuHeader" Description="Labels a group of commands." />
+            <DocsAnatomyRegion Label="ContextMenuItem" Description="A command or selectable option." />
+            <DocsAnatomyRegion Label="ContextMenuDivider" Description="Separates groups of commands." />
+            <DocsAnatomyRegion Label="ContextMenuGroup" Description="Groups related selection options.">
+                <DocsAnatomyRegion Label="ContextMenuItem" Description="An option within the group." />
+            </DocsAnatomyRegion>
+            <DocsAnatomyRegion Label="ContextMenuToolbar" Description="Arranges compact commands in a row.">
+                <DocsAnatomyRegion Label="ContextMenuToolbarItem" Description="A toolbar command." />
+            </DocsAnatomyRegion>
+            <DocsAnatomyRegion Label="ContextMenuSubmenu" Description="Contains a nested menu.">
+                <DocsAnatomyRegion Label="ContextMenuItem" Description="A command in the submenu." />
+            </DocsAnatomyRegion>
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Examples

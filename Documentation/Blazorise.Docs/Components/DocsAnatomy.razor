@@ -1,0 +1,18 @@
+<Figure Class="b-docs-anatomy" Display="Display.Block" Margin="Margin.Is4.FromBottom" aria-label="@Label">
+    <UnorderedList Class="b-docs-anatomy-tree" Unstyled Margin="Margin.Is0" Padding="Padding.Is0" role="list">
+        @ChildContent
+    </UnorderedList>
+    @if ( !string.IsNullOrWhiteSpace( Caption ) )
+    {
+        <FigureCaption TextSize="TextSize.Small" TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+            @Caption
+        </FigureCaption>
+    }
+</Figure>
+@code {
+    [Parameter] public string Label { get; set; } = "Component anatomy";
+
+    [Parameter] public string Caption { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

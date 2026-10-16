@@ -7,40 +7,38 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    The <Code>RichTextEdit</Code> component allows you to add a WYSIWYG rich text editor.
+    Let users write and format rich text within your application.
 </DocsPageLead>
 
 <DocsPageParagraph>
     The Blazorise RichTextEdit is based on the <Anchor To="https://quilljs.com/" Target="Target.Blank">QuillJS</Anchor> JavaScript library.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Code>RichTextEdit</Code> the root editor component
-        <UnorderedList>
-            <UnorderedListItem><Code>Value</Code> (Optional) the bound HTML content</UnorderedListItem>
-            <UnorderedListItem><Code>Editor</Code> (Optional) initial editor content when <Code>Value</Code> is not set</UnorderedListItem>
-            <UnorderedListItem>
-                <Code>Toolbar</Code> (Optional) the editor toolbar definition
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Code>RichTextEditToolbarGroup</Code> toolbar group
-                        <UnorderedList>
-                            <UnorderedListItem><Code>RichTextEditToolbarButton</Code> toolbar button</UnorderedListItem>
-                            <UnorderedListItem>
-                                <Code>RichTextEditToolbarSelect</Code> toolbar selection dropdown
-                                <UnorderedList>
-                                    <UnorderedListItem><Code>RichTextEditToolbarSelectItem</Code> toolbar selection item</UnorderedListItem>
-                                </UnorderedList>
-                            </UnorderedListItem>
-                            <UnorderedListItem>any custom button or component</UnorderedListItem>
-                        </UnorderedList>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    A <Code>RichTextEdit</Code> can define initial content in its <Code>Editor</Code> fragment and formatting controls in its <Code>Toolbar</Code> fragment.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="RichTextEdit component anatomy">
+    <DocsAnatomyRegion Label="RichTextEdit" Description="Hosts the rich text editor.">
+        <DocsAnatomyRegion Label="Editor" Description="An optional named fragment for initial editor content." />
+        <DocsAnatomyRegion Label="Toolbar" Description="An optional named fragment for formatting controls.">
+            <DocsAnatomyRegion Label="RichTextEditToolbarGroup" Description="Groups related controls; also accepts custom buttons or components.">
+                <DocsAnatomyRegion Label="RichTextEditToolbarButton" Description="A formatting command." />
+                <DocsAnatomyRegion Label="RichTextEditToolbarSelect" Description="A selection control.">
+                    <DocsAnatomyRegion Label="RichTextEditToolbarSelectItem" Description="One selectable option." />
+                </DocsAnatomyRegion>
+            </DocsAnatomyRegion>
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
+
+<DocsPageParagraph>
+    Bind <Code>Value</Code> to read or update the HTML content. When <Code>Value</Code> is not supplied, the <Code>Editor</Code> fragment can provide the initial content.
+</DocsPageParagraph>
 
 <DocsPageParagraph>
     To use the <Code>RichTextEdit</Code> component, install the <Code>Blazorise.RichTextEdit</Code> package first.

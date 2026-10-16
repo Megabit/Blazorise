@@ -15,6 +15,42 @@
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    A <Code>Ribbon</Code> arranges commands into tabs and groups. An optional <Code>QuickAccessToolbar</Code> fragment holds commands that should remain easy to reach across tabs.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Ribbon component anatomy">
+    <DocsAnatomyRegion Label="Ribbon" Description="Coordinates the command surface and selected tab.">
+        <DocsAnatomyRegion Label="QuickAccessToolbar" Description="An optional named fragment for frequently used commands.">
+            <DocsAnatomyRegion Label="RibbonButton" Description="A quick-access command." />
+        </DocsAnatomyRegion>
+        <DocsAnatomyRegion Label="RibbonTabs" Description="The named fragment containing the tabs.">
+            <DocsAnatomyRegion Label="RibbonTab" Description="One task-oriented set of commands.">
+                <DocsAnatomyRegion Label="RibbonGroup" Description="Groups related commands.">
+                    <DocsAnatomyRegion Label="RibbonButton" Description="A command button." />
+                    <DocsAnatomyRegion Label="RibbonColumn" Description="An optional vertical stack of controls.">
+                        <DocsAnatomyRegion Label="RibbonButton" Description="A command within the column." />
+                    </DocsAnatomyRegion>
+                    <DocsAnatomyRegion Label="RibbonRow" Description="An alternative horizontal arrangement for row-based groups.">
+                        <DocsAnatomyRegion Label="RibbonButton" Description="A command within the row." />
+                    </DocsAnatomyRegion>
+                    <DocsAnatomyRegion Label="RibbonDropdown" Description="A command that opens a menu.">
+                        <DocsAnatomyRegion Label="RibbonDropdownItem" Description="A menu action." />
+                        <DocsAnatomyRegion Label="RibbonDropdownDivider" Description="A separator between actions." />
+                    </DocsAnatomyRegion>
+                    <DocsAnatomyRegion Label="RibbonSplitButton" Description="A default action with a menu of alternatives.">
+                        <DocsAnatomyRegion Label="RibbonDropdownItem" Description="An alternative action." />
+                    </DocsAnatomyRegion>
+                </DocsAnatomyRegion>
+            </DocsAnatomyRegion>
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
+
+<DocsPageSectionTitle>
     Installation
 </DocsPageSectionTitle>
 

@@ -1,13 +1,13 @@
 @page "/docs/components/accordion"
 
-<Seo Canonical="/docs/components/accordion" Title="Blazorise Accordion component" Description="Learn to work with the Blazorise accordion component to build a content area that can be collapsed and expanded." />
+<Seo Canonical="/docs/components/accordion" Title="Blazorise Accordion component" Description="Organize related content into expandable sections with the Blazorise Accordion component. Explore its structure, examples, and expansion behavior." />
 
 <DocsPageTitle Path="Components/Accordion">
     Blazorise Accordion component
 </DocsPageTitle>
 
 <DocsPageLead>
-    An accordion allows users to toggle the display of sections of content.
+    Organize related content into expandable sections to keep pages easier to scan.
 </DocsPageLead>
 
 <DocsPageSectionTitle>
@@ -15,7 +15,8 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    Accordion is a vertically stacked set of expandable panels. It reduces clutter and helps maintain the user's focus by showing only the relevant content at any time.
+    Use the <Code>Accordion</Code> component for FAQs, grouped settings, and supporting details that users can explore as needed.
+    Section headings stay visible, helping users find a topic before expanding its content.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
@@ -23,42 +24,19 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    The <Code>Accordion</Code> structure is very simple:
+    An <Code>Accordion</Code> groups expandable items. Each item has an always-visible header containing a toggle and a body for its collapsible content.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Accordion</Code> the main container.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>AccordionItem</Code> defines a collapsible element - controled by the <Code>Visible</Code> state.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>AccordionHeader</Code> the header that will always be shown - this is where you would put a toggle element (such as a <Code>Button</Code>).
-                        </Paragraph>
-                        <UnorderedList>
-                            <UnorderedListItem>
-                                <Paragraph>
-                                    <Code Tag>AccordionToggle</Code> the specialized button used to toggle the state of accordion and the accordion item components.
-                                </Paragraph>
-                            </UnorderedListItem>
-                        </UnorderedList>
-                    </UnorderedListItem>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>AccordionBody</Code> the main content of the accordion item.
-                        </Paragraph>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsAnatomy Label="Accordion component anatomy">
+    <DocsAnatomyRegion Label="Accordion" Description="Groups the items.">
+        <DocsAnatomyRegion Label="AccordionItem" Description="One expandable section.">
+            <DocsAnatomyRegion Label="AccordionHeader" Description="Remains visible when the item is collapsed.">
+                <DocsAnatomyRegion Label="AccordionToggle" Description="Expands or collapses the item." />
+            </DocsAnatomyRegion>
+            <DocsAnatomyRegion Label="AccordionBody" Description="Contains the collapsible content." />
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Examples

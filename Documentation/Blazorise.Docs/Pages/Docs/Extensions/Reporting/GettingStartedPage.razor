@@ -77,6 +77,33 @@
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    In a declarative report, <Code>Report</Code> contains optional data sources and one or more <Code>ReportPage</Code> components. Each page arranges content into bands, with text, fields, and other elements inside each band.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Report component anatomy">
+    <DocsAnatomyRegion Label="Report" Description="Hosts the report and coordinates its definition and data.">
+        <DocsAnatomyRegion Label="ReportDataSources" Description="An optional container for named data sources.">
+            <DocsAnatomyRegion Label="ReportObjectDataSource" Description="Exposes an application object and its fields." />
+        </DocsAnatomyRegion>
+        <DocsAnatomyRegion Label="ReportPage" Description="Defines a page and its ordered content bands.">
+            <DocsAnatomyRegion Label="ReportHeader" Description="Content at the start of the report.">
+                <DocsAnatomyRegion Label="ReportText" Description="Text or an expression positioned inside the band." />
+            </DocsAnatomyRegion>
+            <DocsAnatomyRegion Label="ReportPageHeader" Description="Content at the top of each page." />
+            <DocsAnatomyRegion Label="ReportDetail" Description="Content that can repeat for collection items.">
+                <DocsAnatomyRegion Label="ReportField" Description="A value from the current data context." />
+            </DocsAnatomyRegion>
+            <DocsAnatomyRegion Label="ReportPageFooter" Description="Content at the bottom of each page." />
+            <DocsAnatomyRegion Label="ReportFooter" Description="Content at the end of the report." />
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
+
+<DocsPageSectionTitle>
     Examples
 </DocsPageSectionTitle>
 

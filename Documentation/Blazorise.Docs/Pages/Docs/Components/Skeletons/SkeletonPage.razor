@@ -7,31 +7,26 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Use loading placeholders for your components or pages to indicate something may still be loading.
+    Show a preview of the page layout while its content is loading.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Skeletons can be used to enhance the experience of your application. They are used to indicate that something is still loading or that the content is not yet available.
+    Use skeleton placeholders when content takes time to load and users benefit from seeing where it will appear.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
     Structure
 </DocsPageSectionTitle>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Skeleton</Code> The main container, used to define the skeleton layout.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>SkeletonItem</Code> used to define the size of the skeleton element.
-                </Paragraph>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageParagraph>
+    A <Code>Skeleton</Code> groups <Code>SkeletonItem</Code> placeholders that define the shapes and sizes of the loading content.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Skeleton component anatomy">
+    <DocsAnatomyRegion Label="Skeleton" Description="Contains the placeholder layout.">
+        <DocsAnatomyRegion Label="SkeletonItem" Description="Defines one placeholder's shape and size." />
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Examples

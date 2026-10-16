@@ -7,11 +7,11 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    The <Code>Validation</Code> component allows you to verify your data, helping you find and correct errors.
+    Help users identify and correct invalid form values.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Validation components are used to provide simple form validation for Blazorise input components.
+    Use validation components to check form input and show feedback beside the controls that need attention.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -25,63 +25,30 @@
     automatic behavior globally through <Code>BlazoriseOptions.AccessibilityOptions</Code>.
 </DocsPageParagraph>
 
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
 <DocsPageParagraph>
-    The basic structure for validation components is:
+    A <Code>Validations</Code> container groups individual <Code>Validation</Code> components and an optional summary. Each input can define messages in its <Code>Feedback</Code> fragment; <Code>TextInput</Code> is shown here as an example.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Validations</Code> is the container for all validations and can contain multiple <Code>Validation</Code> components.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>Validation</Code> contains the validation logic.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>Feedback</Code> displays the validation message.
-                        </Paragraph>
-                        <UnorderedList>
-                            <UnorderedListItem>
-                                <Paragraph>
-                                    <Code Tag>ValidationSuccess</Code> displays the success message.
-                                </Paragraph>
-                            </UnorderedListItem>
-                            <UnorderedListItem>
-                                <Paragraph>
-                                    <Code Tag>ValidationWarning</Code> displays a non-blocking warning message.
-                                </Paragraph>
-                            </UnorderedListItem>
-                            <UnorderedListItem>
-                                <Paragraph>
-                                    <Code Tag>ValidationError</Code> displays the error message.
-                                </Paragraph>
-                            </UnorderedListItem>
-                            <UnorderedListItem>
-                                <Paragraph>
-                                    <Code Tag>ValidationNone</Code> displays a message when nothing has happened.
-                                </Paragraph>
-                            </UnorderedListItem>
-                            <UnorderedListItem>
-                                <Paragraph>
-                                    <Code Tag>ValidationFeedback</Code> groups the <Code>None</Code>, <Code>Warning</Code>, <Code>Success</Code>, and <Code>Error</Code> fragments in one component.
-                                </Paragraph>
-                            </UnorderedListItem>
-                        </UnorderedList>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>ValidationSummary</Code> lists all error messages.
-                </Paragraph>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsAnatomy Label="Validation component anatomy">
+    <DocsAnatomyRegion Label="Validations" Description="Groups related validations.">
+        <DocsAnatomyRegion Label="Validation" Description="Applies validation rules to an input.">
+            <DocsAnatomyRegion Label="TextInput" Description="An example input component.">
+                <DocsAnatomyRegion Label="Feedback" Description="The input's named fragment for validation messages.">
+                    <DocsAnatomyRegion Label="ValidationSuccess" Description="A message for a valid value." />
+                    <DocsAnatomyRegion Label="ValidationWarning" Description="A message for a non-blocking warning." />
+                    <DocsAnatomyRegion Label="ValidationError" Description="A message for an invalid value." />
+                    <DocsAnatomyRegion Label="ValidationNone" Description="A message before validation has run." />
+                    <DocsAnatomyRegion Label="ValidationFeedback" Description="An alternative that groups the feedback templates in one component." />
+                </DocsAnatomyRegion>
+            </DocsAnatomyRegion>
+        </DocsAnatomyRegion>
+        <DocsAnatomyRegion Label="ValidationSummary" Description="Lists the validation errors." />
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageParagraph>
     In most cases, you only need the <Code Tag>Validation</Code> component together

@@ -1,111 +1,56 @@
 @page "/docs/components/bar"
 
-<Seo Canonical="/docs/components/bar" Title="Blazorise Bar component" Description="Learn how to use and work with the Bar component, a responsive and versatile navigation bar that can be used as a top menu." />
+<Seo Canonical="/docs/components/bar" Title="Blazorise Bar component" Description="Build responsive headers and sidebars with the Blazorise Bar component. Explore its structure, dropdowns, and application navigation examples." />
 
 <DocsPageTitle Path="Components/Bar">
     Blazorise Bar component
 </DocsPageTitle>
 
 <DocsPageLead>
-    A responsive navigation component for application headers, sidebars, account menus, and nested navigation.
+    Keep application navigation and common actions within easy reach.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <code>Bar</code> component can be used as a top menu in <strong>Horizontal</strong> mode or as a sidebar in one of the <strong>Vertical</strong> modes.
-    Most applications combine <Code>BarBrand</Code>, <Code>BarStart</Code>, <Code>BarEnd</Code>, links, dropdowns, and one or more togglers.
+    Use the <Code>Bar</Code> component to help users move between the main areas of your application.
+    It works as a horizontal header or a vertical sidebar, bringing navigation, branding, and actions such as search or account access into a consistent location.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Bar</Code> the main container.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>BarBrand</Code> <strong>Horizontal</strong>: the left side, always visible. <strong>Vertical</strong>: top of Bar branding.
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>BarToggler</Code> <strong>Horizontal</strong>: toggles the bar. <strong>Vertical</strong>: read more below.
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>BarMenu</Code> <strong>Horizontal</strong>: the right side, hidden on breakpoint. <strong>Vertical</strong>: contains the core menu elements.
-                </Paragraph>
-                <UnorderedList>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>BarStart</Code> <strong>Horizontal</strong>: left side menu. <strong>Vertical</strong>: sticky top menu.
-                        </Paragraph>
-                    </UnorderedListItem>
-                    <UnorderedListItem>
-                        <Paragraph>
-                            <Code Tag>BarEnd</Code> <strong>Horizontal</strong>: right side menu. <strong>Vertical</strong>: sticky bottom menu.
-                        </Paragraph>
-                        <UnorderedList>
-                            <UnorderedListItem>
-                                <Paragraph>
-                                    <Code Tag>BarItem </Code> each single item of the bar menu
-                                </Paragraph>
-                                <UnorderedList>
-                                    <UnorderedListItem>
-                                        <Paragraph>
-                                            <Code Tag>BarLink</Code> item link or button
-                                        </Paragraph>
-                                        <UnorderedList>
-                                            <UnorderedListItem>
-                                                <Paragraph>
-                                                    <Code Tag>BarIcon</Code> icon for Bar item (required for BarMode.VerticalSmall)
-                                                </Paragraph>
-                                            </UnorderedListItem>
-                                        </UnorderedList>
-                                    </UnorderedListItem>
-                                    <UnorderedListItem>
-                                        <Paragraph>
-                                            <Code Tag>BarDropdown</Code> dropdown container (or popout for BarMode.VerticalPopout)
-                                        </Paragraph>
-                                        <UnorderedList>
-                                            <UnorderedListItem>
-                                                <Paragraph>
-                                                    <Code Tag>BarDropdownToggle</Code> dropdown trigger
-                                                </Paragraph>
-                                            </UnorderedListItem>
-                                            <UnorderedListItem>
-                                                <Paragraph>
-                                                    <Code Tag>BarDropdownMenu</Code> the dropdown menu, which can include bar items and dividers for BarMode.VerticalPopout)
-                                                </Paragraph>
-                                                <UnorderedList>
-                                                    <UnorderedListItem>
-                                                        <Paragraph>
-                                                            <Code Tag>BarDropdownItem</Code> each single item of the dropdown menu
-                                                        </Paragraph>
-                                                    </UnorderedListItem>
-                                                    <UnorderedListItem>
-                                                        <Paragraph>
-                                                            <Code Tag>BarDropdownDivider</Code> Divider that can be placed between <Code>BarDropdownItem</Code>'s.
-                                                        </Paragraph>
-                                                    </UnorderedListItem>
-                                                    <UnorderedListItem>
-                                                        <Paragraph>
-                                                            <Code Tag>BarDropdown</Code> by adding this again inside the menu, you will create nested dropdowns
-                                                        </Paragraph>
-                                                    </UnorderedListItem>
-                                                </UnorderedList>
-                                            </UnorderedListItem>
-                                        </UnorderedList>
-                                    </UnorderedListItem>
-                                </UnorderedList>
-                            </UnorderedListItem>
-                        </UnorderedList>
-                    </UnorderedListItem>
-                </UnorderedList>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageSectionTitle>
+    Structure
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    A typical <Code>Bar</Code> combines branding, a toggler, and a menu. Within <Code>BarMenu</Code>, <Code>BarStart</Code> and <Code>BarEnd</Code> group <Code>BarItem</Code> components that contain links, dropdowns, or other controls.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Bar component anatomy" Caption="BarItem can contain a link, dropdown, or another control. The item structure shown in BarStart also applies to BarEnd.">
+    <DocsAnatomyRegion Label="Bar" Description="The navigation container.">
+        <DocsAnatomyRegion Label="BarBrand" Description="Branding at the start of a horizontal bar or top of a vertical bar." />
+        <DocsAnatomyRegion Label="BarToggler" Description="Controls menu expansion or vertical bar collapse." />
+        <DocsAnatomyRegion Label="BarMenu" Description="Contains navigation groups; collapses at the configured breakpoint in horizontal mode.">
+            <DocsAnatomyRegion Label="BarStart" Description="Start menu in horizontal mode; sticky top menu in vertical mode.">
+                <DocsAnatomyRegion Label="BarItem" Description="One menu item containing a link, dropdown, or another control.">
+                    <DocsAnatomyRegion Label="BarLink" Description="A navigation link or action.">
+                        <DocsAnatomyRegion Label="BarIcon" Description="An icon for the item; required in compact vertical modes." />
+                    </DocsAnatomyRegion>
+                    <DocsAnatomyRegion Label="BarDropdown" Description="An alternative to a link; shown as a popout in BarMode.VerticalPopout.">
+                        <DocsAnatomyRegion Label="BarDropdownToggle" Description="The dropdown trigger.">
+                            <DocsAnatomyRegion Label="BarIcon" Description="An icon for the trigger; required in compact vertical modes." />
+                        </DocsAnatomyRegion>
+                        <DocsAnatomyRegion Label="BarDropdownMenu" Description="The dropdown's contents.">
+                            <DocsAnatomyRegion Label="BarDropdownItem" Description="A link or action within the dropdown." />
+                            <DocsAnatomyRegion Label="BarDropdownDivider" Description="An optional separator between groups of items." />
+                            <DocsAnatomyRegion Label="BarDropdown" Description="An optional nested dropdown that repeats this structure." />
+                        </DocsAnatomyRegion>
+                    </DocsAnatomyRegion>
+                </DocsAnatomyRegion>
+            </DocsAnatomyRegion>
+            <DocsAnatomyRegion Label="BarEnd" Description="End menu in horizontal mode; sticky bottom menu in vertical mode.">
+                <DocsAnatomyRegion Label="BarItem" Description="Uses the same item structure as BarStart." />
+            </DocsAnatomyRegion>
+        </DocsAnatomyRegion>
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     Examples

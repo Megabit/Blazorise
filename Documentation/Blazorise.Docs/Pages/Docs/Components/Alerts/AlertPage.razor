@@ -7,41 +7,28 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages.
+    Draw attention to important information with contextual feedback messages.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <Code Tag>Alert</Code> component is used to convey important information to the user through the use of contextual types, icons, and colors.
+    Use the <Code>Alert</Code> component for confirmations, warnings, and errors that users need to notice within a page.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
-    Overview
+    Structure
 </DocsPageSectionTitle>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Paragraph>
-            <Code Tag>Alert</Code> the main container.
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>AlertMessage</Code> the main content of the Alert.
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>AlertDescription</Code> an optional description of the Alert.
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Code Tag>CloseButton</Code> an optional close button, which will hide the Alert.
-                </Paragraph>
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageParagraph>
+    An <Code>Alert</Code> contains a message, an optional description, and an optional close button.
+</DocsPageParagraph>
+
+<DocsAnatomy Label="Alert component anatomy">
+    <DocsAnatomyRegion Label="Alert" Description="Contains the feedback message.">
+        <DocsAnatomyRegion Label="AlertMessage" Description="The main message." />
+        <DocsAnatomyRegion Label="AlertDescription" Description="Optional supporting details." />
+        <DocsAnatomyRegion Label="CloseButton" Description="An optional control for dismissing the alert." />
+    </DocsAnatomyRegion>
+</DocsAnatomy>
 
 <DocsPageSectionTitle>
     When to use
