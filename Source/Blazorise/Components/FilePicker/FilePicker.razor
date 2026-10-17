@@ -12,15 +12,15 @@
             <Addon AddonType="AddonType.End">
                 <Dropdown EndAligned PositionStrategy="DropdownPositionStrategy.Absolute">
                     <DropdownToggle Color="Color.Light">
-                        (@(FileInputRef.Files?.Count() ?? 0))
+                        (@EffectiveFiles.Length)
                     </DropdownToggle>
 
-                    @if ( !FileInputRef?.Files?.IsNullOrEmpty() ?? false )
+                    @if ( EffectiveFiles.Length > 0 )
                     {
                         <DropdownMenu Class="b-file-picker-files">
-                            @foreach ( var file in FileInputRef.Files )
+                            @foreach ( var file in EffectiveFiles )
                             {
-                                <DropdownItem @key="file.Id" Class="b-file-picker-file">
+                                <DropdownItem @key="file" Class="b-file-picker-file">
                                     @FileContentFragment( file )
                                 </DropdownItem>
                             }
@@ -37,15 +37,15 @@
 
     <Span Class="b-text-drop" Display="Blazorise.Display.Block" TextAlignment="TextAlignment.Center" Margin="Blazorise.Margin.Is2.FromTop">@DragAndDropString</Span>
 
-    @if ( !FileInputRef?.Files?.IsNullOrEmpty() ?? false )
+    @if ( EffectiveFiles.Length > 0 )
     {
         <div Class="b-file-picker-files-container">
             @if ( ShowMode == FilePickerShowMode.List )
             {
                 <ListGroup Class="b-file-picker-files" Margin="Blazorise.Margin.Is2.OnY">
-                    @foreach ( var file in FileInputRef.Files )
+                    @foreach ( var file in EffectiveFiles )
                     {
-                        <ListGroupItem @key="file.Id" Class="b-file-picker-file">
+                        <ListGroupItem @key="file" Class="b-file-picker-file">
                             @FileContentFragment( file )
                         </ListGroupItem>
                     }
@@ -113,7 +113,7 @@
                 <Column ColumnSize="ColumnSize.IsAuto">
                     <Buttons>
                         <Button Size="Blazorise.Size.ExtraSmall" Color="Color.Danger" Float="Blazorise.Float.End" Disabled="IsBusy()" @onclick:stopPropagation Clicked="@(async () => await RemoveFileWithConfirm( file ))"><Icon Name="IconName.Times"></Icon></Button>
-                        @if ( file.Status != FileEntryStatus.Uploaded )
+                        @if ( file.Status != FileEntryStatus.Uploaded && CanUploadFile( file ) )
                         {
                             <Button Size="Blazorise.Size.ExtraSmall" Color="Color.Primary" Float="Blazorise.Float.End" Disabled="IsBusy()" @onclick:stopPropagation Clicked="@(async () => await UploadFile( file ))"><Icon Name="IconName.FileUpload"></Icon></Button>
                         }

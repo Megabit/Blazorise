@@ -1,0 +1,32 @@
+@namespace Blazorise.Docs.Docs.Examples
+@using System.IO
+
+<Field>
+    <FilePicker @bind-Files="files" Multiple MaxFileSize="10485760" Upload="OnFileUploadHandler" />
+</Field>
+<Paragraph>Attachments: @files.Length</Paragraph>
+<Button Color="Color.Secondary" Clicked="OnClearFilesHandler">Clear bound files</Button>
+
+@code {
+    private IFileEntry[] files =
+    {
+        new FileEntry
+        {
+            Name = "Contract.pdf",
+            Size = 24576,
+            Type = "application/pdf",
+            Status = FileEntryStatus.Uploaded,
+        },
+    };
+
+    private async Task OnFileUploadHandler( FileUploadEventArgs e )
+    {
+        await using var stream = e.File.OpenReadStream( 10485760 );
+        await stream.CopyToAsync( Stream.Null );
+    }
+
+    private void OnClearFilesHandler()
+    {
+        files = Array.Empty<IFileEntry>();
+    }
+}

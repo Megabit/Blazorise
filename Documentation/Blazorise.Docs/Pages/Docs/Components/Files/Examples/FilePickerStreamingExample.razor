@@ -1,0 +1,66 @@
+@namespace Blazorise.Docs.Docs.Examples
+@using System.IO
+@using System.Text
+@using System.Threading
+
+<Field>
+    <FilePicker @bind-Files="files" MaxFileSize="10485760" Upload="OnFileUploadHandler" />
+</Field>
+<Paragraph>Bytes read: @bytesRead</Paragraph>
+<Button Color="Color.Secondary" Clicked="RestoreCachedFile">Restore sample file</Button>
+
+@code {
+    private readonly byte[] cachedContent = Encoding.UTF8.GetBytes( "A draft opened through a stream factory." );
+
+    private IFileEntry[] files = Array.Empty<IFileEntry>();
+
+    private long bytesRead;
+
+    protected override void OnInitialized()
+    {
+        RestoreCachedFile();
+    }
+
+    private void RestoreCachedFile()
+    {
+        files = new IFileEntry[]
+        {
+            new FileEntry
+            {
+                Name = "Draft.txt",
+                Type = "text/plain",
+                Size = cachedContent.LongLength,
+                StreamFactory = OpenCachedStreamAsync,
+                Status = FileEntryStatus.Ready,
+            },
+        };
+
+        bytesRead = 0;
+    }
+
+    private Task<Stream> OpenCachedStreamAsync( CancellationToken cancellationToken )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        return Task.FromResult<Stream>( new MemoryStream( cachedContent, writable: false ) );
+    }
+
+    private async Task OnFileUploadHandler( FileUploadEventArgs e )
+    {
+        await using var stream = e.File.OpenReadStream( 10485760 );
+        var buffer = new byte[81920];
+        bytesRead = 0;
+
+        while ( true )
+        {
+            var count = await stream.ReadAsync( buffer.AsMemory() );
+
+            if ( count == 0 )
+            {
+                break;
+            }
+
+            bytesRead += count;
+        }
+    }
+}
