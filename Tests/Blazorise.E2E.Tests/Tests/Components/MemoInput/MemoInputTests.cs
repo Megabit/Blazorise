@@ -76,7 +76,7 @@ public class MemoInputTests : BlazorisePageTest
     [TestCase( "Tab", "    ", false )]
     public async Task ReplaceTab_NotifiesValueChangedAccordingToImmediate( string key, string expectedValue, bool immediate )
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectEditingComponent();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -114,7 +114,7 @@ public class MemoInputTests : BlazorisePageTest
     [Test]
     public async Task ReplaceTab_NotifiesValueChangedWhenIndentingAndUnindentingSelection()
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectEditingComponent();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -149,7 +149,7 @@ public class MemoInputTests : BlazorisePageTest
     [TestCase( "'", "'" )]
     public async Task ReplaceTab_PairsCharactersAndHandlesOverwriteAndBackspace( string opening, string closing )
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectEditingComponent();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -188,7 +188,7 @@ public class MemoInputTests : BlazorisePageTest
     [TestCase( "\"[\"", 3, "\"[\"\n", 4 )]
     public async Task ReplaceTab_IndentsNewLinesAndPreservesCaret( string initialValue, int caret, string expectedValue, int expectedCaret )
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectEditingComponent();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -216,7 +216,7 @@ public class MemoInputTests : BlazorisePageTest
     [Test]
     public async Task ReplaceTab_RespondsToRuntimeOptionsWithoutDuplicateHandlers()
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectEditingComponent();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -267,7 +267,7 @@ public class MemoInputTests : BlazorisePageTest
     [TestCase( "😀" )]
     public async Task ReplaceTab_PreservesNativeBackspaceAndReadOnlyBehavior( string initialValue )
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectEditingComponent();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -295,6 +295,27 @@ public class MemoInputTests : BlazorisePageTest
 
         await Expect( textarea ).ToHaveValueAsync( string.Empty );
         await Expect( textarea ).Not.ToBeFocusedAsync();
+    }
+
+    private async Task SelectEditingComponent()
+    {
+        await SelectTestComponent<MemoInputComponent>();
+
+        var textarea = Page.Locator( "#memo-editing" ).GetByRole( AriaRole.Textbox );
+
+        await Expect( textarea ).ToBeEditableAsync();
+        await Expect( textarea ).ToHaveValueAsync( string.Empty );
+
+        // Shift+Tab leaves an empty value unchanged and keeps focus once editing is initialized.
+        Assert.That( async () =>
+        {
+            await textarea.PressAsync( "Shift+Tab" );
+
+            return await Page.Locator( "#memo-editing textarea:focus" ).CountAsync();
+        }, Is.EqualTo( 1 ).After( 5000, 100 ) );
+
+        await Expect( textarea ).ToHaveValueAsync( string.Empty );
+        await Expect( Page.Locator( "#memo-replace-tab-result" ) ).ToHaveTextAsync( "0" );
     }
 
     private static Task<float> GetHeight( ILocator locator )
