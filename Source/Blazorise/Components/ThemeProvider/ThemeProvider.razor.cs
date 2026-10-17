@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -13,18 +14,44 @@ public partial class ThemeProvider : ComponentBase, IDisposable
 {
     #region Members
 
-    private Theme theme;
+    private Theme subscribedTheme;
 
     #endregion
 
     #region Methods
 
+    /// <inheritdoc />
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        var effectiveTheme = parameters.TryGetValue<Theme>( nameof( Theme ), out var paramTheme ) ? paramTheme : Theme;
+        var cascadedTheme = parameters.TryGetValue<Theme>( nameof( CascadedTheme ), out var paramCascadedTheme ) ? paramCascadedTheme : CascadedTheme;
+
+        effectiveTheme ??= cascadedTheme;
+
+        if ( !ReferenceEquals( subscribedTheme, effectiveTheme ) )
+        {
+            if ( subscribedTheme is not null )
+            {
+                subscribedTheme.Changed -= OnOptionsChanged;
+            }
+
+            subscribedTheme = effectiveTheme;
+
+            if ( subscribedTheme is not null )
+            {
+                subscribedTheme.Changed += OnOptionsChanged;
+            }
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
+
     /// <inheritdoc/>
     public void Dispose()
     {
-        if ( theme is not null )
+        if ( subscribedTheme is not null )
         {
-            theme.Changed -= OnOptionsChanged;
+            subscribedTheme.Changed -= OnOptionsChanged;
         }
     }
 
@@ -34,8 +61,12 @@ public partial class ThemeProvider : ComponentBase, IDisposable
     /// <returns>HTML variables tag element content.</returns>
     public string GetVariablesTag()
     {
-        if ( !theme?.Enabled == true )
+        var effectiveTheme = EffectiveTheme;
+
+        if ( effectiveTheme?.Enabled != true )
+        {
             return null;
+        }
 
         var sb = new StringBuilder();
 
@@ -43,7 +74,7 @@ public partial class ThemeProvider : ComponentBase, IDisposable
         sb.AppendLine( ":root" );
         sb.AppendLine( "{" );
 
-        sb.AppendLine( ThemeGenerator.GenerateVariables( Theme ) );
+        sb.AppendLine( ThemeGenerator.GenerateVariables( effectiveTheme ) );
 
         sb.AppendLine( "}" );
         sb.AppendLine( "</style>" );
@@ -57,14 +88,18 @@ public partial class ThemeProvider : ComponentBase, IDisposable
     /// <returns>HTML variables tag element content.</returns>
     public string GetStylesTag()
     {
-        if ( !theme?.Enabled == true )
+        var effectiveTheme = EffectiveTheme;
+
+        if ( effectiveTheme?.Enabled != true )
+        {
             return null;
+        }
 
         var sb = new StringBuilder();
 
         sb.AppendLine( "<style id='b-theme-styles' type=\"text/css\" scoped>" );
 
-        sb.AppendLine( ThemeGenerator.GenerateStyles( Theme ) );
+        sb.AppendLine( ThemeGenerator.GenerateStyles( effectiveTheme ) );
 
         sb.AppendLine( "</style>" );
 
@@ -81,37 +116,9 @@ public partial class ThemeProvider : ComponentBase, IDisposable
     #region Properties
 
     /// <summary>
-    /// Specifies the theme options.
+    /// Gets the explicit theme or the theme supplied by an ancestor or root-level registration.
     /// </summary>
-    [Parameter]
-    public Theme Theme
-    {
-        get => theme;
-        set
-        {
-            if ( theme == value )
-            {
-                return;
-            }
-
-            if ( theme is not null )
-            {
-                theme.Changed -= OnOptionsChanged;
-            }
-
-            theme = value;
-
-            if ( theme is not null )
-            {
-                theme.Changed += OnOptionsChanged;
-            }
-        }
-    }
-
-    /// <summary>
-    /// If true variables will be written to the page body.
-    /// </summary>
-    [Parameter] public bool WriteVariables { get; set; } = true;
+    protected Theme EffectiveTheme => Theme ?? CascadedTheme;
 
     /// <summary>
     /// Defines the <see cref="IThemeGenerator">Theme Generator</see> used to build the CSS variables and styles.
@@ -119,9 +126,24 @@ public partial class ThemeProvider : ComponentBase, IDisposable
     [Inject] protected IThemeGenerator ThemeGenerator { get; set; }
 
     /// <summary>
+    /// Specifies the theme options. When omitted or null, uses the cascading theme.
+    /// </summary>
+    [Parameter] public Theme Theme { get; set; }
+
+    /// <summary>
+    /// If true variables will be written to the page body.
+    /// </summary>
+    [Parameter] public bool WriteVariables { get; set; } = true;
+
+    /// <summary>
     /// Specifies the content to be rendered inside this <see cref="ThemeProvider"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the theme supplied by an ancestor or root-level registration.
+    /// </summary>
+    [CascadingParameter] protected Theme CascadedTheme { get; set; }
 
     #endregion
 }

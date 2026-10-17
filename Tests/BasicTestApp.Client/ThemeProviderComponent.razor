@@ -1,0 +1,11 @@
+<CascadingValue Value="@CascadedTheme">
+    <ThemeProvider Theme="@Theme">
+        <ThemeConsumerComponent />
+    </ThemeProvider>
+</CascadingValue>
+
+@code {
+    [Parameter] public Theme Theme { get; set; }
+
+    [Parameter] public Theme CascadedTheme { get; set; }
+}
