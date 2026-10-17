@@ -1,0 +1,5 @@
+<Span ElementId="theme-primary">@(Theme?.ColorOptions?.Primary)</Span>
+
+@code {
+    [CascadingParameter] public Theme Theme { get; set; }
+}
