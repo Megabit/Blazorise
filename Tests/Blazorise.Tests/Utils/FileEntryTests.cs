@@ -179,10 +179,10 @@ public class FileEntryTests
     }
 
     [Theory]
-    [InlineData( 0, 1 )]
-    [InlineData( 2, 3 )]
-    [InlineData( 3, 2 )]
-    public async Task RejectsContentWhoseActualLengthDiffersFromTheDeclaredSize( int declaredSize, int actualSize )
+    [InlineData( 0, 1, typeof( InvalidDataException ) )]
+    [InlineData( 2, 3, typeof( InvalidDataException ) )]
+    [InlineData( 3, 2, typeof( EndOfStreamException ) )]
+    public async Task RejectsContentWhoseActualLengthDiffersFromTheDeclaredSize( int declaredSize, int actualSize, Type expectedExceptionType )
     {
         var source = new GeneratedReadStream( actualSize );
         var file = new FileEntry
@@ -191,7 +191,7 @@ public class FileEntryTests
             StreamFactory = _ => Task.FromResult<Stream>( source ),
         };
 
-        await Assert.ThrowsAnyAsync<IOException>( () => file.WriteToStreamAsync( Stream.Null ) );
+        await Assert.ThrowsAsync( expectedExceptionType, () => file.WriteToStreamAsync( Stream.Null ) );
 
         Assert.True( source.IsDisposedAsynchronously );
     }
