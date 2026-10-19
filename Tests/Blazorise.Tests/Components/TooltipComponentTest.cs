@@ -174,6 +174,28 @@ public class TooltipComponentTest : BunitContext
     }
 
     [Fact]
+    public void ThemeTooltipOptions_WhenOnlyBackgroundIsSet_ShouldPreserveProviderZIndex()
+    {
+        var theme = new Theme
+        {
+            TooltipOptions = new()
+            {
+                BackgroundColor = "#a0a0a0f0",
+            },
+        };
+
+        var component = Render<Tooltip>( parameters => parameters
+            .AddCascadingValue( theme )
+            .Add( x => x.Text, "Tooltip text" )
+            .AddChildContent( "Target" ) );
+
+        var style = component.Find( ".tooltip-host" ).GetAttribute( "style" );
+
+        Assert.Contains( "--tooltip-bg: #a0a0a0f0", style );
+        Assert.DoesNotContain( "--tooltip-z-index", style );
+    }
+
+    [Fact]
     public void ThemeTooltipOptions_ShouldApplyToTooltipHost()
     {
         Theme theme = new()

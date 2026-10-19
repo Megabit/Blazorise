@@ -38,5 +38,8 @@ public record ThemeTooltipOptions : ThemeBasicOptions
     /// <summary>
     /// Gets or sets the tooltip z-index.
     /// </summary>
-    public string ZIndex { get; set; } = "1020";
+    /// <remarks>
+    /// When <see langword="null"/>, the CSS provider's default tooltip z-index is used.
+    /// </remarks>
+    public string ZIndex { get; set; }
 }
