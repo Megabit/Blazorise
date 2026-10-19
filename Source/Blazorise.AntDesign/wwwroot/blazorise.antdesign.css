@@ -15171,7 +15171,7 @@ body .b-report {
   padding-left: var(--ant-padding-xs);
   padding-right: var(--ant-padding-xs);
 }
-.ant-row > .ant-col:not([class*=ant-col-]) {
+:where(.ant-row > .ant-col:not([class*=ant-col-])) {
   flex: 1 0 0%;
   max-width: 100%;
 }
