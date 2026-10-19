@@ -1,11 +1,11 @@
 ﻿<Div Margin="Margin.Is4.FromBottom">
     @if ( Title != null )
     {
-        <Heading Class="b-docs-heading" Size="HeadingSize.Is3" ElementId="@ElementId">
+        <Heading Class="b-docs-heading" Size="HeadingSize.Is3" ElementId="@ElementId" Flex="Flex.JustifyContent.Between.AlignItems.Center">
             @Title
-            @if ( New )
+            @if ( !string.IsNullOrEmpty( AddedVersion ) )
             {
-                <DocsSectionNewFeatureBadge />
+                <DocsSectionNewFeatureBadge AddedVersion="@AddedVersion" AddedDate="@AddedDate" />
             }
         </Heading>
     }
@@ -15,7 +15,15 @@
 @code {
     [Parameter] public string Title { get; set; }
 
-    [Parameter] public bool New { get; set; }
+    /// <summary>
+    /// Gets or sets the version that introduced the section, without the display prefix.
+    /// </summary>
+    [Parameter] public string AddedVersion { get; set; }
+
+    /// <summary>
+    /// Gets or sets the date the section was added, in yyyy-MM-dd format.
+    /// </summary>
+    [Parameter] public string AddedDate { get; set; }
 
     [Parameter] public string ElementId { get; set; }
 

@@ -1,1 +1,13 @@
-﻿<Span Class="b-docs-section-feature-badge" Display="Display.InlineFlex" Flex="Flex.AlignItems.Center" Background="Background.Success.Subtle" TextColor="TextColor.Success.Emphasis" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1" Margin="Margin.Is2.FromStart" VerticalAlignment="VerticalAlignment.Middle" data-toc-ignore="true">New</Span>
+﻿<Span Class="b-docs-section-feature-badge" Display="Display.InlineFlex" Flex="Flex.AlignItems.Center.Shrink.Is0" Background="Background.Success.Subtle" TextColor="TextColor.Success.Emphasis" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1" Margin="Margin.Is2.FromStart" VerticalAlignment="VerticalAlignment.Middle" data-toc-ignore="true" title="@AddedDate">Added in v@( AddedVersion )</Span>
+
+@code {
+    /// <summary>
+    /// Gets or sets the version that introduced the section, without the display prefix.
+    /// </summary>
+    [Parameter] public string AddedVersion { get; set; }
+
+    /// <summary>
+    /// Gets or sets the date the section was added, in yyyy-MM-dd format.
+    /// </summary>
+    [Parameter] public string AddedDate { get; set; }
+}
