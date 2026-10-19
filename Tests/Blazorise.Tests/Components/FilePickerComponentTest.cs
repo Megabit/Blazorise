@@ -165,6 +165,33 @@ public class FilePickerComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task UnrelatedParameterUpdatesDoNotReconcileBrowserFiles()
+    {
+        var selected = new FileEntry { Id = 1, Name = "selected.txt" };
+        var existing = new FileEntry { Name = "existing.pdf", Status = FileEntryStatus.Uploaded };
+        var comp = Render<FilePicker>();
+
+        await comp.InvokeAsync( () => comp.Instance.FileInputRef.NotifyChange( new[] { selected } ) );
+
+        var files = comp.Instance.Files;
+        files[0] = existing;
+
+        await comp.InvokeAsync( () => comp.Instance.SetParametersAsync( ParameterView.FromDictionary( new Dictionary<string, object>
+        {
+            [nameof( FilePicker.Disabled )] = true,
+        } ) ) );
+
+        Assert.Same( selected, Assert.Single( comp.Instance.FileInputRef.Files ) );
+        Assert.Empty( JSInterop.Invocations["removeFiles"] );
+
+        comp.Render( parameters => parameters.Add( x => x.Files, files ) );
+
+        comp.WaitForAssertion( () => Assert.Empty( comp.Instance.FileInputRef.Files ) );
+        Assert.Single( JSInterop.Invocations["removeFiles"] );
+        Assert.Same( existing, Assert.Single( comp.Instance.Files ) );
+    }
+
+    [Fact]
     public async Task RenderDuringValidationDoesNotDiscardAnIncomingSelection()
     {
         var continueValidation = new TaskCompletionSource( TaskCreationOptions.RunContinuationsAsynchronously );
@@ -189,7 +216,7 @@ public class FilePickerComponentTest : BunitContext
         try
         {
             comp.WaitForAssertion( () => Assert.True( validationStarted.Task.IsCompleted ) );
-            picker.Render();
+            picker.Render( parameters => parameters.Add( x => x.Files, Array.Empty<IFileEntry>() ) );
 
             Assert.Same( selected, Assert.Single( picker.Instance.FileInputRef.Files ) );
             Assert.Empty( JSInterop.Invocations["removeFiles"] );

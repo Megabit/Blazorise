@@ -66,6 +66,12 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
             }
         }
 
+        if ( Rendered && paramFiles.Defined
+            && ShouldReconcileFiles( paramFiles.Value ?? Array.Empty<IFileEntry>() ) )
+        {
+            ExecuteAfterRender( ReconcileFiles );
+        }
+
         return base.SetParametersAsync( parameters );
     }
 
@@ -84,34 +90,6 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
         await JSFilePickerModule.Initialize( ElementRef, ElementContainerId );
 
         await base.OnFirstAfterRenderAsync();
-    }
-
-    /// <inheritdoc/>
-    protected override async Task OnAfterRenderAsync( bool firstRender )
-    {
-        await base.OnAfterRenderAsync( firstRender );
-
-        if ( fileBeingUploaded is { Status: FileEntryStatus.Uploading }
-            && !EffectiveFiles.Any( file => ReferenceEquals( file, fileBeingUploaded ) ) )
-        {
-            await Cancel();
-        }
-
-        if ( FileInputRef is not null )
-        {
-            var removedFiles = reconciledBrowserFiles
-                .Where( file => !EffectiveFiles.Any( entry => ReferenceEquals( entry, file ) ) )
-                .ToArray();
-
-            if ( removedFiles.Length > 0 )
-            {
-                reconciledBrowserFiles = reconciledBrowserFiles
-                    .Where( file => !removedFiles.Any( entry => ReferenceEquals( entry, file ) ) )
-                    .ToArray();
-
-                await FileInputRef.RemoveFiles( removedFiles );
-            }
-        }
     }
 
     /// <inheritdoc/>
@@ -433,10 +411,15 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="fileStartedEventArgs"></param>
     /// <returns></returns>
-    protected Task OnStarted( FileStartedEventArgs fileStartedEventArgs )
+    protected async Task OnStarted( FileStartedEventArgs fileStartedEventArgs )
     {
         fileBeingUploaded = fileStartedEventArgs.File;
-        return Started.InvokeAsync( fileStartedEventArgs );
+        await Started.InvokeAsync( fileStartedEventArgs );
+
+        if ( ShouldReconcileFiles( EffectiveFiles ) )
+        {
+            ExecuteAfterRender( ReconcileFiles );
+        }
     }
 
     /// <summary>
@@ -467,7 +450,54 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
         }
 
         await Changed.InvokeAsync( new( files ) );
+
+        if ( ShouldReconcileFiles( EffectiveFiles ) )
+        {
+            ExecuteAfterRender( ReconcileFiles );
+        }
+
         await InvokeAsync( StateHasChanged );
+    }
+
+    private bool ShouldReconcileFiles( IFileEntry[] files )
+    {
+        if ( fileBeingUploaded is { Status: FileEntryStatus.Uploading }
+            && !files.Any( file => ReferenceEquals( file, fileBeingUploaded ) ) )
+        {
+            return true;
+        }
+
+        return FileInputRef is not null
+            && reconciledBrowserFiles.Any( file => !files.Any( entry => ReferenceEquals( entry, file ) ) );
+    }
+
+    private async Task ReconcileFiles()
+    {
+        if ( fileBeingUploaded is { Status: FileEntryStatus.Uploading }
+            && !EffectiveFiles.Any( file => ReferenceEquals( file, fileBeingUploaded ) ) )
+        {
+            await Cancel();
+        }
+
+        if ( FileInputRef is null || reconciledBrowserFiles.Length == 0 )
+        {
+            return;
+        }
+
+        var removedFiles = reconciledBrowserFiles
+            .Where( file => !EffectiveFiles.Any( entry => ReferenceEquals( entry, file ) ) )
+            .ToArray();
+
+        if ( removedFiles.Length == 0 )
+        {
+            return;
+        }
+
+        reconciledBrowserFiles = reconciledBrowserFiles
+            .Where( file => !removedFiles.Any( entry => ReferenceEquals( entry, file ) ) )
+            .ToArray();
+
+        await FileInputRef.RemoveFiles( removedFiles );
     }
 
     /// <summary>
