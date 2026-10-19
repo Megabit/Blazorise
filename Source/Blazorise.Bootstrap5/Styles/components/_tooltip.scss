@@ -41,7 +41,7 @@
     }
 
     &[data-tooltip-inline='true'],
-    &[data-tooltip-inline='auto']:has(> :is(button, input, select, textarea, label, [role='button'])) {
+    &[data-tooltip-inline='auto']:has( > :is(.custom-control-input, .btn), > :not(.tooltip) :is(.custom-control-input, .btn) ) {
         display: inline-block;
     }
 

@@ -33,7 +33,7 @@
     }
 
     &[data-tooltip-inline='true'],
-    &[data-tooltip-inline='auto']:has(> :is(button, input, select, textarea, label, [role='button'])) {
+    &[data-tooltip-inline='auto']:has( > .ant-btn, > :not(.ant-tooltip) .ant-btn ) {
         display: inline-block;
     }
 

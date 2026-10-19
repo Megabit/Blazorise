@@ -29,7 +29,7 @@
     }
 
     &[data-tooltip-inline='true'],
-    &[data-tooltip-inline='auto']:has(> :is(button, input, select, textarea, label, [role='button'])) {
+    &[data-tooltip-inline='auto']:has( > :is(.checkbox, .button), > :not(.bulma-tooltip-content) :is(.checkbox, .button) ) {
         display: inline-block;
     }
 
@@ -55,6 +55,10 @@
         max-width: var(--bulma-tooltip-max-width, 15rem);
         white-space: normal;
     }
+}
+
+.field-body:has(> .bulma-tooltip-host[data-tooltip-inline='auto']) {
+    display: block;
 }
 
 .bulma-tooltip-content {
@@ -196,7 +200,6 @@
     font-size: var(--bulma-tooltip-font-size, #{$size-small});
     font-weight: $weight-normal;
     line-height: 1.5;
-
     overflow-wrap: anywhere;
     text-align: start;
     white-space: nowrap;

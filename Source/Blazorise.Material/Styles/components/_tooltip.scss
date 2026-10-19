@@ -37,7 +37,7 @@ $mui-tooltip-arrow-height: .5rem;
     }
 
     &[data-tooltip-inline='true'],
-    &[data-tooltip-inline='auto']:has(> :is(button, input, select, textarea, label, [role='button'])) {
+    &[data-tooltip-inline='auto']:has( > :is(.mui-check > input, .mui-radio > input, .mui-switch > input, .mui-button, button), > :not(.mui-tooltip-content) :is(.mui-check > input, .mui-radio > input, .mui-switch > input, .mui-button, button) ) {
         display: inline-block;
     }
 
@@ -213,7 +213,6 @@ $mui-tooltip-arrow-height: .5rem;
     font-weight: 400;
     letter-spacing: .025rem;
     line-height: 1rem;
-
     overflow-wrap: anywhere;
     text-align: start;
     white-space: nowrap;

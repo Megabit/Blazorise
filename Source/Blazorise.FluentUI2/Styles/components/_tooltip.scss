@@ -29,7 +29,7 @@
     }
 
     &[data-tooltip-inline='true'],
-    &[data-tooltip-inline='auto']:has(> :is(button, input, select, textarea, label, [role='button'])) {
+    &[data-tooltip-inline='auto']:has( > button, > :not(.fui-Tooltip__content) button ) {
         display: inline-block;
     }
 
@@ -198,7 +198,6 @@
     font-size: var(--fui-tooltip-font-size, var(--fontSizeBase200));
     font-weight: var(--fontWeightRegular);
     line-height: var(--lineHeightBase200);
-
     overflow-wrap: break-word;
     text-align: start;
     white-space: normal;
