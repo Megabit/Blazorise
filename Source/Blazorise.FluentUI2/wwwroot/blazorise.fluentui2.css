@@ -16847,6 +16847,11 @@ td:focus {
   transition-behavior: allow-discrete;
 }
 @starting-style {
+  .fui-Tooltip__content {
+    visibility: hidden;
+  }
+}
+@starting-style {
   .fui-Tooltip:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .fui-Tooltip__content {
     opacity: 0;
   }

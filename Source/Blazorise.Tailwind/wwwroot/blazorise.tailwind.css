@@ -13412,6 +13412,11 @@ td:focus {
   transition-behavior: allow-discrete;
 }
 @starting-style {
+  .tw-tooltip-content {
+    visibility: hidden;
+  }
+}
+@starting-style {
   .tw-tooltip:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .tw-tooltip-content {
     opacity: 0;
   }

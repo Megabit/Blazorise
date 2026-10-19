@@ -6673,6 +6673,11 @@ td:focus {
   transition-behavior: allow-discrete;
 }
 @starting-style {
+  .bulma-tooltip-content {
+    visibility: hidden;
+  }
+}
+@starting-style {
   .bulma-tooltip-host:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .bulma-tooltip-content {
     opacity: 0;
   }

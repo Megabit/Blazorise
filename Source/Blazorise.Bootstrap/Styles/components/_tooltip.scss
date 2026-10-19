@@ -79,6 +79,10 @@
     transition-timing-function: linear, linear, linear, linear, linear, linear;
     transition-behavior: allow-discrete;
 
+    @starting-style {
+        visibility: hidden;
+    }
+
     .tooltip-host:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) > & {
         @starting-style {
             opacity: 0;

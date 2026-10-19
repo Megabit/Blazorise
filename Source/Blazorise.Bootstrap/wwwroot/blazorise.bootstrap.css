@@ -5428,6 +5428,11 @@ td:focus {
   transition-behavior: allow-discrete;
 }
 @starting-style {
+  .tooltip {
+    visibility: hidden;
+  }
+}
+@starting-style {
   .tooltip-host:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .tooltip {
     opacity: 0;
   }

@@ -104,6 +104,10 @@
     transition-timing-function: cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), linear, linear;
     transition-behavior: allow-discrete;
 
+    @starting-style {
+        visibility: hidden;
+    }
+
     .tooltip-host:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) > & {
         @starting-style {
             opacity: 0;

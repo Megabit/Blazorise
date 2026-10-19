@@ -74,6 +74,10 @@
     transition-timing-function: cubic-bezier(.4, 0, .2, 1), cubic-bezier(.4, 0, .2, 1), cubic-bezier(.4, 0, .2, 1), cubic-bezier(.4, 0, .2, 1), linear, linear;
     transition-behavior: allow-discrete;
 
+    @starting-style {
+        visibility: hidden;
+    }
+
     .tw-tooltip:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) > & {
         @starting-style {
             opacity: 0;

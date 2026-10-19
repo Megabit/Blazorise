@@ -171,6 +171,10 @@
     transition-timing-function: var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), linear, linear;
     transition-behavior: allow-discrete;
 
+    @starting-style {
+        visibility: hidden;
+    }
+
     .ant-tooltip-host:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) > & {
         @starting-style {
             opacity: 0;
