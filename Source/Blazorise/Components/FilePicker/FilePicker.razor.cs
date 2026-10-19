@@ -46,6 +46,30 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     #region Methods
 
     /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Files, out var paramFiles );
+        parameters.TryGetParameter( MaxFileSize, out var paramMaxFileSize );
+
+        // Supplied collections can contain entries whose content changed in place.
+        if ( paramFiles.Defined || paramMaxFileSize.Changed )
+        {
+            var effectiveFiles = paramFiles.GetValueOrDefault( Files ) ?? Array.Empty<IFileEntry>();
+            var effectiveMaxFileSize = paramMaxFileSize.GetValueOrDefault( MaxFileSize );
+
+            foreach ( var file in effectiveFiles.OfType<FileEntry>() )
+            {
+                if ( file.HasSuppliedContent && file.Status is FileEntryStatus.Ready or FileEntryStatus.ExceedsMaximumSize )
+                {
+                    file.Status = file.Size > effectiveMaxFileSize ? FileEntryStatus.ExceedsMaximumSize : FileEntryStatus.Ready;
+                }
+            }
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         ElementContainerId = IdGenerator.Generate;
@@ -53,21 +77,6 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
 
         base.OnInitialized();
     }
-
-    /// <inheritdoc/>
-    protected override void OnParametersSet()
-    {
-        foreach ( var file in EffectiveFiles.OfType<FileEntry>() )
-        {
-            if ( file.HasSuppliedContent && file.Status is FileEntryStatus.Ready or FileEntryStatus.ExceedsMaximumSize )
-            {
-                file.Status = file.Size > MaxFileSize ? FileEntryStatus.ExceedsMaximumSize : FileEntryStatus.Ready;
-            }
-        }
-
-        base.OnParametersSet();
-    }
-
 
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()

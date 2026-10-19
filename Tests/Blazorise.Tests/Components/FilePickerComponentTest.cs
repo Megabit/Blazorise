@@ -9,6 +9,7 @@ using Blazorise.Docs.Docs.Examples;
 using Blazorise.Modules;
 using Blazorise.Tests.TestServices;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 #endregion
@@ -518,6 +519,58 @@ public class FilePickerComponentTest : BunitContext
 
         Assert.Equal( 1, uploads );
         Assert.Equal( FileEntryStatus.Uploaded, file.Status );
+    }
+
+    [Fact]
+    public void ResupplyingTheSameFilesRefreshesStatusesAfterContentChanges()
+    {
+        var file = new FileEntry { Name = "cached.bin", Data = new byte[2] };
+        var files = new IFileEntry[] { file };
+        var comp = Render<FilePicker>( parameters => parameters
+            .Add( x => x.Files, files )
+            .Add( x => x.MaxFileSize, 3 ) );
+
+        Assert.Equal( FileEntryStatus.Ready, file.Status );
+
+        file.Data = new byte[4];
+        comp.Render( parameters => parameters.Add( x => x.Files, files ) );
+
+        Assert.Equal( FileEntryStatus.ExceedsMaximumSize, file.Status );
+        Assert.Equal( "File size is too large", comp.Find( ".b-file-picker-file-status" ).TextContent );
+
+        file.Data = new byte[2];
+        comp.Render( parameters => parameters.Add( x => x.Files, files ) );
+
+        Assert.Equal( FileEntryStatus.Ready, file.Status );
+        Assert.Equal( "Ready to upload", comp.Find( ".b-file-picker-file-status" ).TextContent );
+    }
+
+    [Fact]
+    public async Task PartialParameterUpdatesRefreshStatusesOnlyWhenTheSizeLimitChanges()
+    {
+        var file = new FileEntry { Name = "cached.bin", Data = new byte[2] };
+        var comp = Render<FilePicker>( parameters => parameters
+            .Add( x => x.Files, new IFileEntry[] { file } )
+            .Add( x => x.MaxFileSize, 3 ) );
+
+        file.Data = new byte[4];
+
+        // Deliver only these parameters without resupplying the mutable Files collection.
+        await comp.InvokeAsync( () => comp.Instance.SetParametersAsync( ParameterView.FromDictionary( new Dictionary<string, object>
+        {
+            [nameof( FilePicker.Disabled )] = true,
+            [nameof( FilePicker.MaxFileSize )] = 3L,
+        } ) ) );
+
+        Assert.Equal( FileEntryStatus.Ready, file.Status );
+
+        await comp.InvokeAsync( () => comp.Instance.SetParametersAsync( ParameterView.FromDictionary( new Dictionary<string, object>
+        {
+            [nameof( FilePicker.MaxFileSize )] = 2L,
+        } ) ) );
+
+        Assert.Equal( FileEntryStatus.ExceedsMaximumSize, file.Status );
+        Assert.Equal( "File size is too large", comp.Find( ".b-file-picker-file-status" ).TextContent );
     }
 
     [Fact]
