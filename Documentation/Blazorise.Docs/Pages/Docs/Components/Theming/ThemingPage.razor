@@ -1,4 +1,4 @@
-﻿@page "/docs/theming"
+@page "/docs/theming"
 
 <Seo Canonical="/docs/theming" Title="Blazorise Theming" Description="Easily change the colors of your application programmatically with the Blazorise Theming. Rebuild the default stylesheet and customize various aspects of the framework for your particular needs." />
 
@@ -7,7 +7,7 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Customize Blazorise with your theme. You can change the colors, the typography and much more.
+    Give your application a consistent appearance with shared colors, typography, and component styles.
 </DocsPageLead>
 
 <DocsPageSectionTitle>
@@ -15,14 +15,14 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    Easily change the colors of your application programmatically. Rebuild the default stylesheet and customize various
-    aspects of the framework for your particular needs.
+    Use a theme to match your brand or let users choose their preferred appearance.
+    Define the settings in one place so pages and components share the same visual choices as your application grows.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Blazorise offers its own theme provider to control your application look and feel. Generally, if you stick
-    to the built-in provider(s) and it's CSS classes and variants, there isn't anything else you need to do to
-    use a custom theme with Blazorise. It just works. But we also make coloring outside the lines easy to do.
+    A <Code>ThemeProvider</Code> turns those settings into CSS for your selected Blazorise CSS provider.
+    Start with the defaults and customize the parts you need, such as brand colors, corner shapes, or the page background.
+    You can also change settings at runtime to offer appearance controls without reloading the page.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
@@ -30,61 +30,104 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    To prepare your application for theming you need to wrap your root component with the <Code>ThemeProvider</Code> component tag.
-    The best option is to add it to the <Strong>App.razor</Strong> where you wrap the <Code>Router</Code> tag with the <Code>ThemeProvider</Code> tag.
-    Next you must set the <Code>Theme</Code> attribute where you can configure <i>colors</i>, <i>borders</i>, <i></i>, <i>paddings</i> etc.
+    Define your application's appearance in a <Code>Theme</Code> and pass it to a <Code>ThemeProvider</Code> around your <Code>Router</Code>.
+    Your routed pages can then use the same colors, borders, and spacing without configuring each component separately.
+    In a Blazor Web App with interactive <Code>Routes</Code>, place the provider inside <Strong>Routes.razor</Strong> so it can update the styles while the application is running.
 </DocsPageParagraph>
 
 <DocsPageSection>
     <DocsPageSectionHeader>
-        If no properties are specified, default settings will be used.
+        Start with a <Code>Theme</Code> and add the settings you want to customize.
+        An empty theme uses the default settings, so you can introduce changes gradually as you build your application's design.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ThemingStartExample" />
 </DocsPageSection>
 
 <DocsPageParagraph>
-    What this little peace of code is doing behind the scene? Basically it's generating a fully customized CSS
-    and styles based on the setting provided in the Theme attribute. It will also generate for you a list of CSS
-    variables that you can use later if you want to expand your applications styles even further. The things like
-    colors and element settings will be saved as CSS variables to the <Strong>:root</Strong>.
+    The provider generates the CSS needed to apply your theme and makes its settings available to descendant components.
+    It also exposes CSS variables on <Code>:root</Code>, so your own styles can use the same colors and other theme values as Blazorise components.
 </DocsPageParagraph>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Changing at runtime">
-        To dynamically change theme settings you can use <Code>Theme</Code> from anywhere in your application.
+    <DocsPageSectionHeader Title="Runtime Updates">
+        To build a theme switcher or appearance settings page, update the current <Code>Theme</Code> and call <Code>ThemeHasChanged()</Code>.
+        Changing a property alone does not notify the components that use it; the notification tells them and the interactive <Code>ThemeProvider</Code> to refresh.
+        Apply related changes together, then notify once so the new appearance is applied in one update.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ThemingRuntimeExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Colors">
-        With <Code>ColorOptions</Code> you can customize your application variant colors. Note that colors must be defined in hex format!
-        Blazorise uses <Code>LuminanceThreshold</Code> to choose a readable contrast color for themed variants. In the Bootstrap 5 provider,
-        if the threshold-selected color does not meet Bootstrap's minimum contrast ratio, Blazorise falls back to the highest contrast candidate.
+        Set <Code>ColorOptions</Code> to give named variants such as <Code>Primary</Code> and <Code>Secondary</Code> your brand colors.
+        Components using those variants, such as a button with <Code>Color="Color.Primary"</Code>, then share the chosen colors without individual styling.
+        Use hex values, as shown below. Blazorise uses <Code>LuminanceThreshold</Code> to choose contrasting foreground colors for themed variants.
+        The Bootstrap 5 provider also checks its minimum contrast ratio and uses the available foreground color with the highest contrast when needed.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ThemingColorsExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Gradients">
-        Enables the gradient background colors.
+        Set <Code>IsGradient</Code> to <Code>true</Code> to add a gradual color transition to supported themed backgrounds.
+        Use it when you want more visual depth in colored components; leave it disabled for solid fills.
+        Gradients are derived from your theme colors, so you can change the effect without choosing a separate palette.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ThemingGradientExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Border Radius">
-        Globally enable or disable rounded elements.
+        Use <Code>IsRounded</Code> to choose between rounded and square corners for components styled by the theme.
+        Setting it to <Code>false</Code> removes the theme's corner rounding, which is useful for a design with sharper edges.
+        Leave it enabled to use the default or configured border radii.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ThemingRoundedExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Body Theming">
-        You can also apply some basic styles to the <Code Tag>body</Code> element.
+        Use <Code>BodyOptions</Code> to set the page background, default text color, and base typography together with your component theme.
+        These settings apply to the document's <Code Tag>body</Code> element, giving page content a consistent starting appearance without styling every container.
+        Text inherits the body's color and font settings unless an element or component supplies its own styles.
+        The example creates a light gray page background with a larger default font, useful when you want more readable page text alongside your themed components.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ThemingBodyOptions" />
 </DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Render Modes" New>
+        In a Blazor Web App, a layout can render statically while individual pages or components are interactive.
+        A <Code>ThemeProvider</Code> outside those interactive roots cannot pass its theme across the render mode boundary,
+        so interactive components may receive no theme even when the page already has themed CSS.
+        Use <Code>AddBlazoriseTheme</Code> in <Strong>Program.cs</Strong> after registering Blazorise to make the theme available to each interactive root.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ThemingRegistrationExample" CodeTitle="Program.cs" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    Registration lets components use the theme through an existing <Code>[CascadingParameter]</Code> or dependency injection,
+    without adding a wrapper just to supply the settings to each interactive root.
+    The theme is scoped, so users in separate server circuits can change their appearance settings independently.
+    Use the factory overload when you need another service to choose the initial theme, such as a service holding the user's saved preferences.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Theme CSS" New>
+        Registering the theme gives components access to its settings. The browser also needs the CSS generated by <Code>ThemeProvider</Code> to display those settings.
+        Keep the provider inside an interactive root, such as interactive <Code>Routes</Code>, so a theme switcher can update the page's styles.
+        Omit its <Code>Theme</Code> parameter to use the cascading theme, which comes from the nearest ancestor or your registration.
+        Use one provider to generate the page's theme CSS: its styles apply to the whole page, even when the provider wraps only part of it.
+        An explicit <Code>Theme</Code> overrides the cascading settings for descendant components, but does not isolate the generated CSS to those descendants.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ThemingRegisteredProviderExample" CodeTitle="Routes.razor" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    For Interactive WebAssembly or Interactive Auto, register the theme in both the server and client projects so it is available during server rendering and when the application runs in the browser.
+    Each environment creates its own theme. Initialize them from the same saved preferences to keep the appearance consistent when rendering moves to the browser.
+    Save and restore later changes if you want to reuse them across environments or visits.
+</DocsPageParagraph>
 
 <DocsPageApi>
     <DocsPageApiItem Url="docs/theming/api" Name="Theme" />

@@ -8,7 +8,7 @@
               @bind-SelectedValue="SelectedValue"
               @bind-SelectedText="SelectedText"
               Placeholder="Search..."
-              FreeTyping
+              FreeTyping="@FreeTyping"
               MinSearchLength="@MinSearchLength"
               AutoPreSelect="@AutoPreSelect">
     <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
@@ -40,6 +40,8 @@
 
     [Parameter]
     public bool AutoPreSelect { get; set; } = true;
+
+    [Parameter] public bool FreeTyping { get; set; } = true;
 
     private Task OnHandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
     {

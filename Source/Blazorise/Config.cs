@@ -62,6 +62,48 @@ public static class Config
     }
 
     /// <summary>
+    /// Registers a scoped theme and makes it available as a root-level cascading value.
+    /// </summary>
+    /// <param name="serviceCollection">The services to configure.</param>
+    /// <param name="configureTheme">An optional callback to configure the theme for each scope.</param>
+    /// <returns>The service collection.</returns>
+    /// <remarks>
+    /// Register this in both server and client projects when using Interactive WebAssembly or Interactive Auto.
+    /// Render a <see cref="ThemeProvider"/> to generate the theme CSS. Call <see cref="Theme.ThemeHasChanged"/> after changing theme settings.
+    /// </remarks>
+    public static IServiceCollection AddBlazoriseTheme( this IServiceCollection serviceCollection, Action<Theme> configureTheme = null )
+    {
+        return serviceCollection.AddBlazoriseTheme( _ =>
+        {
+            var theme = new Theme();
+            configureTheme?.Invoke( theme );
+
+            return theme;
+        } );
+    }
+
+    /// <summary>
+    /// Registers a scoped theme factory and makes its theme available as a root-level cascading value.
+    /// </summary>
+    /// <param name="serviceCollection">The services to configure.</param>
+    /// <param name="themeFactory">A factory that creates the theme for each scope.</param>
+    /// <returns>The service collection.</returns>
+    /// <remarks>
+    /// The factory should create a separate theme for each scope so that user-specific settings remain isolated.
+    /// Root-level registration does not transfer theme state between static rendering, server circuits, and WebAssembly.
+    /// </remarks>
+    public static IServiceCollection AddBlazoriseTheme( this IServiceCollection serviceCollection, Func<IServiceProvider, Theme> themeFactory )
+    {
+        ArgumentNullException.ThrowIfNull( serviceCollection );
+        ArgumentNullException.ThrowIfNull( themeFactory );
+
+        serviceCollection.AddScoped( themeFactory );
+        serviceCollection.TryAddCascadingValue<Theme>( serviceProvider => new ThemeCascadingValueSource( serviceProvider.GetRequiredService<Theme>() ) );
+
+        return serviceCollection;
+    }
+
+    /// <summary>
     /// Gets the list of localization services that are ready for DI registration.
     /// </summary>
     public static IDictionary<Type, Type> LocalizationMap => new Dictionary<Type, Type>

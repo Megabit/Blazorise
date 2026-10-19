@@ -42,6 +42,58 @@ public class AutocompleteReadDataComponentTest : AutocompleteBaseComponentTest
     }
 
     [Theory]
+    [InlineData( false, false )]
+    [InlineData( false, true )]
+    [InlineData( true, false )]
+    [InlineData( true, true )]
+    public async Task SelectPartialMatch_ShouldPreserveBoundValueAndText( bool freeTyping, bool useKeyboard )
+    {
+        var comp = Render<AutocompleteReadDataComponent>( parameters => parameters
+            .Add( x => x.FreeTyping, freeTyping ) );
+
+        foreach ( var ( search, expectedValue, expectedText ) in new[]
+        {
+            ( "Port", "PT", "Portugal" ),
+            ( "Chin", "CN", "China" ),
+        } )
+        {
+            var input = comp.Find( ".b-is-autocomplete input" );
+            await input.FocusAsync( new() );
+            await input.InputAsync( search );
+
+            if ( useKeyboard )
+            {
+                await input.KeyDownAsync( Key.Enter );
+            }
+            else
+            {
+                await comp.Find( ".b-is-autocomplete-suggestion" ).ClickAsync( new() );
+            }
+
+            await input.BlurAsync( new() );
+
+            comp.WaitForAssertion( () =>
+            {
+                Assert.Equal( expectedValue, comp.Instance.SelectedValue );
+                Assert.Equal( expectedText, comp.Instance.SelectedText );
+                Assert.Equal( expectedText, comp.Find( ".b-is-autocomplete input" ).GetAttribute( "value" ) );
+            }, TestExtensions.WaitTime );
+        }
+
+        var editedInput = comp.Find( ".b-is-autocomplete input" );
+        await editedInput.FocusAsync( new() );
+        await editedInput.InputAsync( "Chinx" );
+        await editedInput.BlurAsync( new() );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Null( comp.Instance.SelectedValue );
+            Assert.Equal( freeTyping ? "Chinx" : null, comp.Instance.SelectedText );
+            Assert.Equal( freeTyping ? "Chinx" : string.Empty, comp.Find( ".b-is-autocomplete input" ).GetAttribute( "value" ) );
+        }, TestExtensions.WaitTime );
+    }
+
+    [Theory]
     [InlineData( "MyCustomValue" )]
     public Task FreeTypedValue_ShouldSet( string freeTyped )
     {

@@ -98,6 +98,7 @@ For C# changes, read the shared [formatting examples](.agents/skills/blazorise-c
 - Separate a multiline local declaration or assignment from adjacent statements with a blank line, including between consecutive multiline Boolean expressions. Keep related short, single-line declarations together.
 - Keep homogeneous operation sequences together, such as consecutive `builder.Append` calls or related event subscriptions. Add a blank line before a distinct operation such as a `base` call, return, or a new logical phase.
 - Separate fields and documented members with blank lines instead of creating dense declaration blocks. Do not use multiple declarations on one line.
+- Format XML documentation blocks such as `<summary>` and `<remarks>` with the opening tag, content, and closing tag on separate `///` lines, even for a single sentence. Self-closing tags such as `<inheritdoc />` and inline references such as `<see cref="..."/>` may remain compact.
 - Wrap explicit C# `using` directives in a `Using directives` region. Sort `System` directives first and do not create blank-line subgroups inside that region.
 - Use regions to organize substantial component and service types in this order: `Events` when applicable, `Members`, `Constructors`, `Methods`, and `Properties`. Small data-only types do not need empty or artificial regions.
 - Place simple parameter and injected auto-properties on one line with their attribute, for example `[Parameter] public bool Disabled { get; set; }`. Put the attribute on its own line when the property has a custom accessor body.
@@ -108,6 +109,7 @@ For C# changes, read the shared [formatting examples](.agents/skills/blazorise-c
 - Wrap LINQ and render-tree fluent chains with one operation per line once the chain no longer reads clearly as a single expression.
 - When editing `*.scss` files, do not manually edit generated `*.css` files; CSS will be generated manually by the team.
 - In Razor markup, prefer Blazorise components (for example `Div`, `Span`) and Blazorise utility parameters (for example `Flex`, `Gap`, `Margin`, `Padding`) instead of raw HTML layout tags and inline styles whenever possible.
+- Avoid adding custom CSS when Blazorise components and utilities can provide the required appearance. Especially avoid scoped CSS (`*.razor.css`); add styling only where existing components and utilities cannot express the requirement, following the provider styling skill when applicable.
 - Naming: PascalCase for types, methods, and properties; camelCase for private fields and local variables; interfaces start with `I`.
 - Use `Effective{Name}` for the final semantic value after resolving parameters, parent state, global options, theme settings, and defaults. Do not use `Effective` for string formatting or serialization.
 - Prefix computed boolean members according to intent: `Is{Name}` for current state, `Has{Name}` for presence or ownership, `Can{Verb}` for capability, and `Should{Verb}` for an operation decision. `Should` must be followed by a verb such as `ShouldApply`, `ShouldRender`, or `ShouldSubscribe`.
@@ -117,6 +119,13 @@ For C# changes, read the shared [formatting examples](.agents/skills/blazorise-c
 - Reserve `Value` for an actual component or domain value, `Name` for an actual name or identifier, and `State` for aggregate state. Do not use these suffixes for serialized attribute strings or individual boolean conditions.
 - Keep private names context-aware and avoid repeating the component type unless needed to remove ambiguity.
 - Dependency versions are centrally managed in `Directory.Packages.props` (don’t hardcode `Version=` in `PackageReference`).
+
+## Component Development
+
+- Never fetch, refresh, or reload data from `OnParametersSet` or `OnParametersSetAsync`. Do not rebuild scenes or recalculate geometry unconditionally in these hooks. Detect relevant changes in `SetParametersAsync` using `ParameterViewExtensions`, and perform updates only when their inputs change or an explicit operation requests them. Moving unconditional work to another lifecycle hook does not satisfy this rule.
+- Prefer native C# and Blazor for component logic, state, layout calculations, and rendering wherever practical. Keep JavaScript interop limited to browser capabilities that require it, and reuse existing interop modules before adding new JavaScript.
+- Use the existing document observer services where document or window events are needed, including pointer tracking, outside interactions, and focus handling. Reuse the shared subscription and disposal patterns instead of adding component-specific global JavaScript listeners.
+- When adding a new component, include simple examples in the appropriate demo app. When introducing its demo page, add the sidebar entry and mark it as "New" using the existing sidebar convention.
 
 ## Testing Guidelines
 
