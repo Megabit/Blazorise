@@ -1,0 +1,14 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="DebugNet11" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Project Path="Blazorise.Demo.Bootstrap/Blazorise.Demo.Bootstrap.csproj" />
+  <Project Path="Blazorise.Demo.Bootstrap5/Blazorise.Demo.Bootstrap5.csproj" />
+  <Project Path="Blazorise.Demo.Bulma/Blazorise.Demo.Bulma.csproj" />
+  <Project Path="Blazorise.Demo.Material/Blazorise.Demo.Material.csproj" />
+  <Project Path="Blazorise.Demo.Tailwind/Blazorise.Demo.Tailwind.csproj" />
+  <Project Path="Blazorise.Demo.AntDesign/Blazorise.Demo.AntDesign.csproj" />
+  <Project Path="Blazorise.Demo.FluentUI2/Blazorise.Demo.FluentUI2.csproj" />
+</Solution>

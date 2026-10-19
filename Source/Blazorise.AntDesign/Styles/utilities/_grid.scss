@@ -6,7 +6,7 @@
         padding-left: var(--ant-padding-xs);
         padding-right: var(--ant-padding-xs);
 
-        &:not([class*="ant-col-"]) {
+        :where(&:not([class*="ant-col-"])) {
             flex: 1 0 0%;
             max-width: 100%;
         }

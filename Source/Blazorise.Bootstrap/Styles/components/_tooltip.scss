@@ -29,7 +29,7 @@
     }
 
     &[data-tooltip-inline='true'],
-    &[data-tooltip-inline='auto']:has(> :is(button, input, select, textarea, label, [role='button'])) {
+    &[data-tooltip-inline='auto']:has( > :is(.custom-control-input, .btn), > :not(.tooltip) :is(.custom-control-input, .btn) ) {
         display: inline-block;
     }
 
@@ -78,6 +78,10 @@
     transition-delay: var(--tooltip-state-opacity-delay), var(--tooltip-state-opacity-delay), var(--tooltip-state-opacity-delay), var(--tooltip-state-opacity-delay), var(--tooltip-state-visibility-delay), var(--tooltip-state-visibility-delay);
     transition-timing-function: linear, linear, linear, linear, linear, linear;
     transition-behavior: allow-discrete;
+
+    @starting-style {
+        visibility: hidden;
+    }
 
     .tooltip-host:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) > & {
         @starting-style {
