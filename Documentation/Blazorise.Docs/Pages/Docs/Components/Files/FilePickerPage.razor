@@ -60,7 +60,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Existing attachments">
+    <DocsPageSectionHeader Title="Existing attachments" New>
         Let users reopen a saved record and manage its attachments without uploading existing files again.
         Use <Code>@("@bind-Files")</Code> to show saved attachments alongside new files, so users can keep, remove, or replace documents in one place.
     </DocsPageSectionHeader>
@@ -85,7 +85,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Cached uploads">
+    <DocsPageSectionHeader Title="Cached uploads" New>
         Let users keep files locally, refresh the page, and upload when they are ready.
         Restore the file's bytes from your application's cache into <Code>FileEntry.Data</Code> and bind the entry with <Code>Status</Code> set to <Code>FileEntryStatus.Ready</Code>.
         Users can then upload it just like a newly selected file, with progress, cancellation, and retry support.
@@ -107,7 +107,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Streamed uploads">
+    <DocsPageSectionHeader Title="Streamed uploads" New>
         Upload large cached files without loading the entire file into memory.
         Use <Code>StreamFactory</Code> to open content from your application's cache when uploading starts, and set <Code>Size</Code> to the saved file length.
         Each read or retry opens a fresh stream, so files remain available after a failed or cancelled upload.
