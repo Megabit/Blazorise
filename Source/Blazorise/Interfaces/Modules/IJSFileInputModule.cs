@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -37,6 +37,14 @@ public interface IJSFileInputModule : IBaseJSModule,
     /// <param name="fileId">ID of the file to remove.</param>
     /// <returns></returns>
     ValueTask RemoveFile( ElementReference elementRef, string elementId, int fileId );
+
+    /// <summary>
+    /// Removes files and their browser data without notifying the component of a selection change.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <param name="elementId">ID of the rendered element.</param>
+    /// <param name="fileIds">IDs of the files to remove.</param>
+    ValueTask RemoveFiles( ElementReference elementRef, string elementId, int[] fileIds );
 
     /// <summary>
     /// Opens the file dialog.

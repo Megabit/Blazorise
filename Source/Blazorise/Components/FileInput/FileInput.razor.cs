@@ -144,6 +144,14 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
+        if ( disposing )
+        {
+            foreach ( var file in Files?.OfType<FileEntry>() ?? Enumerable.Empty<FileEntry>() )
+            {
+                file.HasBrowserFileData = false;
+            }
+        }
+
         if ( disposing && Rendered )
         {
             await JSFileInputModule.SafeDestroy( ElementRef, ElementId );
@@ -171,12 +179,19 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
         // update logic here.
 
         var updatedFiles = Value?.Where( x => files.Any( file => file.Id == x.Id ) ).ToList() ?? new();
+
+        foreach ( var file in Value?.OfType<FileEntry>() ?? Enumerable.Empty<FileEntry>() )
+        {
+            file.HasBrowserFileData = files.Any( entry => entry.Id == file.Id );
+        }
+
         foreach ( var file in files )
         {
             if ( !updatedFiles.Any( x => x.Id == file.Id ) )
             {
                 // So that method invocations on the file can be dispatched back here
                 file.Owner = (IFileEntryOwner)(object)this;
+                file.HasBrowserFileData = true;
 
                 if ( MaxFileSize < file.Size )
                     file.Status = FileEntryStatus.ExceedsMaximumSize;
@@ -227,7 +242,9 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
         else
             fileEntry.Status = FileEntryStatus.Error;
 
-        if ( AutoReset )
+        var ownsBrowserFile = fileEntry is FileEntry entry && ReferenceEquals( entry.Owner, this );
+
+        if ( AutoReset && ( fileEntry is not FileEntry || ownsBrowserFile ) )
         {
             await InvokeAsync( () => Reset().AsTask() );
         }
@@ -252,7 +269,7 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
 
         ProgressProgress += progressProgress;
 
-        var progress = Math.Round( (double)ProgressProgress / ProgressTotal, 3 );
+        var progress = ProgressTotal == 0 ? 1d : Math.Round( (double)ProgressProgress / ProgressTotal, 3 );
 
         if ( Math.Abs( progress - Progress ) > double.Epsilon )
         {
@@ -281,6 +298,49 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
     public async Task RemoveFileEntry( IFileEntry fileEntry, CancellationToken cancellationToken = default )
     {
         await JSFileModule.RemoveFileEntry( ElementRef, fileEntry.Id );
+
+        if ( fileEntry is FileEntry entry )
+        {
+            entry.HasBrowserFileData = false;
+        }
+    }
+
+    /// <summary>
+    /// Removes browser selections without raising a second change event in the owning picker.
+    /// </summary>
+    internal async Task RemoveFiles( IFileEntry[] files )
+    {
+        var removedFiles = ( Files ?? Array.Empty<IFileEntry>() )
+            .Where( file => files.Any( entry => ReferenceEquals( entry, file ) ) )
+            .ToArray();
+
+        if ( removedFiles.Length == 0 )
+        {
+            return;
+        }
+
+        Value = Files.Where( file => !removedFiles.Any( entry => ReferenceEquals( entry, file ) ) ).ToArray();
+
+        foreach ( var file in removedFiles.OfType<FileEntry>() )
+        {
+            file.HasBrowserFileData = false;
+        }
+
+        if ( Value.Length == 0 )
+        {
+            ProgressProgress = 0;
+            ProgressTotal = 0;
+            Progress = 0;
+        }
+
+        await JSFileInputModule.RemoveFiles( ElementRef, ElementId, removedFiles.Select( file => file.Id ).ToArray() );
+
+        if ( ParentValidation is not null )
+        {
+            await ParentValidation.NotifyInputChanged<IFileEntry[]>( Value );
+        }
+
+        await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>

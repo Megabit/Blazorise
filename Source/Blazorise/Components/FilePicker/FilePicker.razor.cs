@@ -31,6 +31,12 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     IFileEntry fileBeingUploaded;
 
     /// <summary>
+    /// Tracks the browser selection already reconciled with Files. FileInput can render during
+    /// validation before delivering Changed, so its newer selection must not be pruned yet.
+    /// </summary>
+    private IFileEntry[] reconciledBrowserFiles = Array.Empty<IFileEntry>();
+
+    /// <summary>
     /// Holds the reference to the confirmation dialog component.
     /// </summary>
     protected _FilePickerConfirmModal filePickerConfirmModalRef;
@@ -40,6 +46,36 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     #region Methods
 
     /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Files, out var paramFiles );
+        parameters.TryGetParameter( MaxFileSize, out var paramMaxFileSize );
+
+        // Supplied collections can contain entries whose content changed in place.
+        if ( paramFiles.Defined || paramMaxFileSize.Changed )
+        {
+            var effectiveFiles = paramFiles.GetValueOrDefault( Files ) ?? Array.Empty<IFileEntry>();
+            var effectiveMaxFileSize = paramMaxFileSize.GetValueOrDefault( MaxFileSize );
+
+            foreach ( var file in effectiveFiles.OfType<FileEntry>() )
+            {
+                if ( file.HasSuppliedContent && file.Status is FileEntryStatus.Ready or FileEntryStatus.ExceedsMaximumSize )
+                {
+                    file.Status = file.Size > effectiveMaxFileSize ? FileEntryStatus.ExceedsMaximumSize : FileEntryStatus.Ready;
+                }
+            }
+        }
+
+        if ( Rendered && paramFiles.Defined
+            && ShouldReconcileFiles( paramFiles.Value ?? Array.Empty<IFileEntry>() ) )
+        {
+            ExecuteAfterRender( ReconcileFiles );
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         ElementContainerId = IdGenerator.Generate;
@@ -47,7 +83,6 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
 
         base.OnInitialized();
     }
-
 
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
@@ -60,6 +95,11 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
+        if ( disposing )
+        {
+            await Cancel();
+        }
+
         if ( disposing && Rendered )
         {
             await JSFilePickerModule.SafeDestroy( ElementRef, ElementId );
@@ -107,7 +147,20 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <returns></returns>
     public bool IsUploadReady()
-        => FileInputRef?.Files?.Any( x => x.Status == FileEntryStatus.Ready ) ?? false;
+        => EffectiveFiles.Any( file => ShouldUploadFile( file ) && CanUploadFile( file ) );
+
+    /// <summary>
+    /// Determines whether the file has content available for upload.
+    /// </summary>
+    /// <param name="file">The file to upload.</param>
+    protected bool CanUploadFile( IFileEntry file )
+        => file is not null && file.Size <= MaxFileSize && ( file is not FileEntry entry || entry.HasContent );
+
+    private bool IsBrowserFile( IFileEntry file )
+        => file is FileEntry entry && FileInputRef is not null && ReferenceEquals( entry.Owner, FileInputRef );
+
+    private static bool ShouldUploadFile( IFileEntry file )
+        => file.Status == FileEntryStatus.Ready || file is FileEntry { HasSuppliedContent: true, Status: FileEntryStatus.Error };
 
     /// <summary>
     /// Converts the file size in bytes into a proper human readable format.
@@ -155,22 +208,42 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
         return Localizer.GetString( name );
     }
     /// <summary>
-    /// Removes the file from FileInput.
+    /// Removes the file from the displayed collection and releases its browser data when present.
     /// </summary>
     /// <param name="file">The file entry to remove.</param>
     /// <param name="confirm">Wether to show a confirmation popup.</param>
     public Task RemoveFile( IFileEntry file, bool confirm = false )
     {
-        var removeFileAction = () => FileInputRef.RemoveFile( file.Id ).AsTask();
+        var removeFileAction = async () =>
+        {
+            if ( !EffectiveFiles.Any( entry => ReferenceEquals( entry, file ) ) )
+            {
+                return;
+            }
+
+            if ( ReferenceEquals( file, fileBeingUploaded ) )
+            {
+                await Cancel();
+            }
+
+            if ( IsBrowserFile( file ) )
+            {
+                await FileInputRef.RemoveFiles( new[] { file } );
+            }
+
+            await UpdateFiles( EffectiveFiles.Where( entry => !ReferenceEquals( entry, file ) ).ToArray() );
+        };
 
         if ( confirm )
+        {
             return filePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.RemoveFile, removeFileAction );
-        else
-            return removeFileAction.Invoke();
+        }
+
+        return removeFileAction.Invoke();
     }
 
     /// <summary>
-    /// Clears the FileInput by resetting the state.
+    /// Clears all displayed files, including preloaded attachments, and resets the browser selection.
     /// </summary>
     /// <param name="confirm">Wether to show a confirmation popup.</param>
     public Task Clear( bool confirm = false )
@@ -178,13 +251,21 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
         var clearAction = async () =>
         {
             await Cancel();
-            await FileInputRef.Reset();
+
+            if ( FileInputRef?.Files is not null )
+            {
+                await FileInputRef.RemoveFiles( FileInputRef.Files );
+            }
+
+            await UpdateFiles( Array.Empty<IFileEntry>() );
         };
 
         if ( confirm )
+        {
             return filePickerConfirmModalRef.OpenModal( _FilePickerConfirmModal.ConfirmOperation.Clear, clearAction );
-        else
-            return clearAction.Invoke();
+        }
+
+        return clearAction.Invoke();
     }
 
     /// <summary>
@@ -193,30 +274,93 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// <returns></returns>
     public async Task UploadAll()
     {
-        if ( Upload.HasDelegate && !FileInputRef.Files.IsNullOrEmpty() )
+        if ( Upload.HasDelegate && EffectiveFiles.Length > 0 )
         {
             cts = new();
-            foreach ( var file in FileInputRef.Files )
+            foreach ( var file in EffectiveFiles.ToArray() )
             {
+                if ( cts.IsCancellationRequested )
+                {
+                    break;
+                }
+
+                if ( !EffectiveFiles.Any( entry => ReferenceEquals( entry, file ) ) || !CanUploadFile( file ) )
+                {
+                    continue;
+                }
+
                 await UploadFile( file );
 
-                if ( FileInputRef is IFileEntryOwner fileEntryOwner )
-                    await fileEntryOwner.RemoveFileEntry( file );
+                if ( IsBrowserFile( file ) && file.Status == FileEntryStatus.Uploaded )
+                {
+                    await FileInputRef.RemoveFileEntry( file );
+                }
             }
         }
     }
 
     /// <summary>
-    /// Uploads a single file if the status is set to ready.
+    /// Uploads a ready file or retries a cached file whose previous upload failed.
     /// </summary>
     /// <param name="file">The file to upload.</param>
-    /// <param name="forceUpload">Forces file upload attempt.</param>
+    /// <param name="forceUpload">Forces a file upload attempt regardless of status. The file must still have available content.</param>
     /// <returns></returns>
     public async Task UploadFile( IFileEntry file, bool forceUpload = false )
     {
-        cts ??= new();
-        if ( forceUpload || ( file.Status == FileEntryStatus.Ready && !cts.IsCancellationRequested ) )
+        if ( !CanUploadFile( file ) )
+        {
+            return;
+        }
+
+        if ( cts is null || ( cts.IsCancellationRequested && !IsBusy() ) )
+        {
+            cts?.Dispose();
+            cts = new();
+        }
+
+        if ( forceUpload || ( ShouldUploadFile( file ) && !cts.IsCancellationRequested ) )
+        {
+            if ( file is FileEntry { HasSuppliedContent: true } entry )
+            {
+                await UploadCachedFile( entry, cts.Token );
+            }
+            else
+            {
+                await Upload.InvokeAsync( new( file ) );
+            }
+        }
+    }
+
+    private async Task UploadCachedFile( FileEntry file, CancellationToken cancellationToken )
+    {
+        file.UploadNotifier = FileInputRef;
+        file.UploadCancellationToken = cancellationToken;
+
+        try
+        {
+            await FileInputRef.UpdateFileStartedAsync( file );
+            cancellationToken.ThrowIfCancellationRequested();
+
             await Upload.InvokeAsync( new( file ) );
+            cancellationToken.ThrowIfCancellationRequested();
+        }
+        catch ( OperationCanceledException )
+        {
+            await FileInputRef.UpdateFileEndedAsync( file, false, FileInvalidReason.TaskCancelled );
+            return;
+        }
+        catch
+        {
+            await FileInputRef.UpdateFileEndedAsync( file, false, FileInvalidReason.UnexpectedError );
+            throw;
+        }
+        finally
+        {
+            file.UploadNotifier = null;
+            file.UploadCancellationToken = default;
+        }
+
+        await FileInputRef.UpdateFileEndedAsync( file, true, FileInvalidReason.None );
     }
 
     /// <summary>
@@ -267,10 +411,15 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="fileStartedEventArgs"></param>
     /// <returns></returns>
-    protected Task OnStarted( FileStartedEventArgs fileStartedEventArgs )
+    protected async Task OnStarted( FileStartedEventArgs fileStartedEventArgs )
     {
         fileBeingUploaded = fileStartedEventArgs.File;
-        return Started.InvokeAsync( fileStartedEventArgs );
+        await Started.InvokeAsync( fileStartedEventArgs );
+
+        if ( ShouldReconcileFiles( EffectiveFiles ) )
+        {
+            ExecuteAfterRender( ReconcileFiles );
+        }
     }
 
     /// <summary>
@@ -279,17 +428,94 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// <param name="fileChangedEventArgs"></param>
     /// <returns></returns>
     protected Task OnChanged( FileChangedEventArgs fileChangedEventArgs )
-        => Changed.InvokeAsync( fileChangedEventArgs );
+    {
+        reconciledBrowserFiles = FileInputRef.Files ?? Array.Empty<IFileEntry>();
+
+        var files = EffectiveFiles
+            .Where( file => !IsBrowserFile( file ) )
+            .Concat( reconciledBrowserFiles )
+            .ToArray();
+
+        return UpdateFiles( files );
+    }
+
+    private async Task UpdateFiles( IFileEntry[] files )
+    {
+        var filesChanged = !Enumerable.SequenceEqual<IFileEntry>( EffectiveFiles, files, ReferenceEqualityComparer.Instance );
+        Files = files;
+
+        if ( filesChanged )
+        {
+            await FilesChanged.InvokeAsync( files );
+        }
+
+        await Changed.InvokeAsync( new( files ) );
+
+        if ( ShouldReconcileFiles( EffectiveFiles ) )
+        {
+            ExecuteAfterRender( ReconcileFiles );
+        }
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private bool ShouldReconcileFiles( IFileEntry[] files )
+    {
+        if ( fileBeingUploaded is { Status: FileEntryStatus.Uploading }
+            && !files.Any( file => ReferenceEquals( file, fileBeingUploaded ) ) )
+        {
+            return true;
+        }
+
+        return FileInputRef is not null
+            && reconciledBrowserFiles.Any( file => !files.Any( entry => ReferenceEquals( entry, file ) ) );
+    }
+
+    private async Task ReconcileFiles()
+    {
+        if ( fileBeingUploaded is { Status: FileEntryStatus.Uploading }
+            && !EffectiveFiles.Any( file => ReferenceEquals( file, fileBeingUploaded ) ) )
+        {
+            await Cancel();
+        }
+
+        if ( FileInputRef is null || reconciledBrowserFiles.Length == 0 )
+        {
+            return;
+        }
+
+        var removedFiles = reconciledBrowserFiles
+            .Where( file => !EffectiveFiles.Any( entry => ReferenceEquals( entry, file ) ) )
+            .ToArray();
+
+        if ( removedFiles.Length == 0 )
+        {
+            return;
+        }
+
+        reconciledBrowserFiles = reconciledBrowserFiles
+            .Where( file => !removedFiles.Any( entry => ReferenceEquals( entry, file ) ) )
+            .ToArray();
+
+        await FileInputRef.RemoveFiles( removedFiles );
+    }
 
     /// <summary>
     /// FilePicker's handling of the Ended Event.
     /// </summary>
     /// <param name="fileEndedEventArgs"></param>
     /// <returns></returns>
-    protected Task OnEnded( FileEndedEventArgs fileEndedEventArgs )
+    protected async Task OnEnded( FileEndedEventArgs fileEndedEventArgs )
     {
         fileBeingUploaded = null;
-        return Ended.InvokeAsync( fileEndedEventArgs );
+
+        if ( AutoReset && fileEndedEventArgs.Success
+            && !IsBrowserFile( fileEndedEventArgs.File ) )
+        {
+            await UpdateFiles( EffectiveFiles.Where( file => !ReferenceEquals( file, fileEndedEventArgs.File ) ).ToArray() );
+        }
+
+        await Ended.InvokeAsync( fileEndedEventArgs );
     }
 
     /// <summary>
@@ -318,6 +544,11 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Gets the files displayed by the picker, including preloaded attachments.
+    /// </summary>
+    protected IFileEntry[] EffectiveFiles => Files ?? Array.Empty<IFileEntry>();
 
     /// <summary>
     /// Gets the localized browse button text.
@@ -358,6 +589,19 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     [Parameter] public RenderFragment Feedback { get; set; }
 
     /// <summary>
+    /// Gets or sets the displayed files. Preloaded attachments can be supplied with
+    /// <see cref="FileEntryStatus.Uploaded"/> status and do not require browser file data.
+    /// Supply <see cref="FileEntry.Data"/> or <see cref="FileEntry.StreamFactory"/> and <see cref="FileEntryStatus.Ready"/> status to upload files restored from a local cache.
+    /// Supplying file metadata alone does not make its contents available for streaming or upload.
+    /// </summary>
+    [Parameter] public IFileEntry[] Files { get; set; } = Array.Empty<IFileEntry>();
+
+    /// <summary>
+    /// Occurs when files are selected, removed, or cleared. Supports two-way binding of <see cref="Files"/>.
+    /// </summary>
+    [Parameter] public EventCallback<IFileEntry[]> FilesChanged { get; set; }
+
+    /// <summary>
     /// Enables the multiple file selection.
     /// </summary>
     [Parameter] public bool Multiple { get; set; }
@@ -389,7 +633,8 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     [Parameter] public TimeSpan SegmentFetchTimeout { get; set; } = TimeSpan.FromMinutes( 1 );
 
     /// <summary>
-    /// Occurs every time the selected file has changed, including when the reset operation is executed.
+    /// Occurs when the displayed collection changes through selection, removal, or reset.
+    /// Includes preloaded attachments. Assigning <see cref="Files"/> from the parent does not raise this event.
     /// </summary>
     [Parameter] public EventCallback<FileChangedEventArgs> Changed { get; set; }
 

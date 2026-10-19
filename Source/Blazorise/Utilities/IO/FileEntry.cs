@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -19,6 +19,10 @@ public class FileEntry : IFileEntry
     CancellationTokenSource writeToStreamcancellationTokenSource;
     CancellationTokenSource openReadStreamcancellationTokenSource;
 
+    private long size;
+
+    private byte[] data;
+
     #endregion
 
     #region Methods
@@ -35,20 +39,54 @@ public class FileEntry : IFileEntry
     /// <inheritdoc/>
     public async Task WriteToStreamAsync( Stream stream, CancellationToken cancellationToken = default )
     {
-        writeToStreamcancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+        EnsureHasContent();
+
+        writeToStreamcancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken, UploadCancellationToken );
+
+        if ( HasSuppliedContent )
+        {
+            var maxAllowedSize = UploadNotifier is FileInput input ? input.MaxFileSize : long.MaxValue;
+            await using var source = CreateSuppliedReadStream( maxAllowedSize, writeToStreamcancellationTokenSource.Token );
+            var bufferSize = UploadNotifier is FileInput fileInput ? fileInput.MaxChunkSize : 81920;
+
+            await source.CopyToAsync( stream, bufferSize, writeToStreamcancellationTokenSource.Token );
+            return;
+        }
+
         await Owner.WriteToStreamAsync( this, stream, writeToStreamcancellationTokenSource.Token );
     }
 
     /// <inheritdoc/>
     public Stream OpenReadStream( long maxAllowedSize = 512000, CancellationToken cancellationToken = default )
     {
-        openReadStreamcancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+        EnsureHasContent();
+
+        openReadStreamcancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken, UploadCancellationToken );
         if ( Size > maxAllowedSize )
         {
             throw new IOException( $"Supplied file with size {Size} bytes exceeds the maximum of {maxAllowedSize} bytes." );
         }
 
-        return Owner.OpenReadStream( this, openReadStreamcancellationTokenSource.Token );
+        return HasSuppliedContent
+            ? CreateSuppliedReadStream( maxAllowedSize, openReadStreamcancellationTokenSource.Token )
+            : Owner.OpenReadStream( this, openReadStreamcancellationTokenSource.Token );
+    }
+
+    private Stream CreateSuppliedReadStream( long maxAllowedSize, CancellationToken cancellationToken )
+    {
+        var suppliedData = Data;
+        var streamFactory = StreamFactory;
+
+        if ( suppliedData is not null )
+        {
+            streamFactory = _ => Task.FromResult<Stream>( new MemoryStream( suppliedData, writable: false ) );
+        }
+
+        var maxChunkSize = UploadNotifier is FileInput fileInput ? fileInput.MaxChunkSize : 81920;
+        var effectiveMaxAllowedSize = UploadNotifier is FileInput input ? Math.Min( maxAllowedSize, input.MaxFileSize ) : maxAllowedSize;
+        var notifier = UploadNotifier is FileInput { DisableProgressReport: true } ? null : UploadNotifier;
+
+        return new FileEntryReadStream( streamFactory, this, notifier, effectiveMaxAllowedSize, maxChunkSize, cancellationToken );
     }
 
     /// <inheritdoc/>
@@ -60,9 +98,47 @@ public class FileEntry : IFileEntry
         return Task.CompletedTask;
     }
 
+    private void EnsureHasContent()
+    {
+        if ( Data is not null && StreamFactory is not null )
+        {
+            throw new InvalidOperationException( "Supply either Data or StreamFactory for a file entry, not both." );
+        }
+
+        if ( !HasContent )
+        {
+            throw new InvalidOperationException( "The file entry has no available content. Supply Data or StreamFactory for cached files, or select a file in the browser. Metadata alone does not provide file data." );
+        }
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Tracks whether the browser still retains this entry's file data.
+    /// </summary>
+    internal bool HasBrowserFileData { get; set; }
+
+    /// <summary>
+    /// Gets whether the entry has supplied bytes or an application-provided stream source.
+    /// </summary>
+    internal bool HasSuppliedContent => Data is not null || StreamFactory is not null;
+
+    /// <summary>
+    /// Gets whether the entry can supply its content.
+    /// </summary>
+    internal bool HasContent => HasSuppliedContent || ( Owner is not null && ( Owner is not FileInput || HasBrowserFileData ) );
+
+    /// <summary>
+    /// Gets or sets the notifier used while the picker uploads supplied content.
+    /// </summary>
+    internal IFileEntryNotifier UploadNotifier { get; set; }
+
+    /// <summary>
+    /// Gets or sets the cancellation token for the current picker upload.
+    /// </summary>
+    internal CancellationToken UploadCancellationToken { get; set; }
 
     /// <summary>
     /// Gets or sets the file-entry parent component.
@@ -85,7 +161,40 @@ public class FileEntry : IFileEntry
     public string RelativePath { get; set; }
 
     /// <inheritdoc/>
-    public long Size { get; set; }
+    public long Size
+    {
+        get => Data?.LongLength ?? size;
+        set => size = value;
+    }
+
+    /// <summary>
+    /// Gets or sets optional file contents, for example bytes restored from a local cache.
+    /// When supplied, these bytes are used by the streaming methods and determine <see cref="Size"/>.
+    /// Browser-selected files are not automatically loaded into this property.
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public byte[] Data
+    {
+        get => data;
+        set
+        {
+            data = value;
+
+            if ( data is not null )
+            {
+                size = data.LongLength;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets an asynchronous factory that opens a fresh readable stream for each read or upload attempt.
+    /// Use this instead of <see cref="Data"/> to stream large cached files without loading all their bytes into memory.
+    /// Set <see cref="Size"/> to the expected content length. Returned streams are disposed by the entry's read stream.
+    /// The factory is not serialized and must be assigned again after restoring cached file details.
+    /// </summary>
+    [JsonIgnore]
+    public Func<CancellationToken, Task<Stream>> StreamFactory { get; set; }
 
     /// <inheritdoc/>
     public string Type { get; set; }

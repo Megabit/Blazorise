@@ -16,9 +16,9 @@
                     @if ( HasFiles )
                     {
                         <Blazorise.DropdownMenu Class="ant-file-picker-files ant-file-picker-dropdown-menu">
-                            @foreach ( var file in FileInputRef.Files )
+                            @foreach ( var file in EffectiveFiles )
                             {
-                                <Blazorise.DropdownItem @key="file.Id" Class="ant-file-picker-file ant-file-picker-dropdown-item">
+                                <Blazorise.DropdownItem @key="file" Class="ant-file-picker-file ant-file-picker-dropdown-item">
                                     @FileContentFragment( file )
                                 </Blazorise.DropdownItem>
                             }
@@ -41,9 +41,9 @@
             @if ( ShowMode == FilePickerShowMode.List )
             {
                 <div class="ant-file-picker-files">
-                    @foreach ( var file in FileInputRef.Files )
+                    @foreach ( var file in EffectiveFiles )
                     {
-                        <div @key="file.Id" class="ant-file-picker-file">
+                        <div @key="file" class="ant-file-picker-file">
                             @FileContentFragment( file )
                         </div>
                     }
@@ -73,7 +73,7 @@
 @code {
     private bool HasFiles => FileCount > 0;
 
-    private int FileCount => FileInputRef?.Files?.Length ?? 0;
+    private int FileCount => EffectiveFiles.Length;
 
     private RenderFragment FileInputChildContent => ChildTemplate is null
         ? null
@@ -134,7 +134,7 @@
                                       Clicked="@(async () => await RemoveFileWithConfirm( file ))">
                         <Blazorise.Icon Name="IconName.Times" />
                     </Blazorise.Button>
-                    @if ( file.Status != FileEntryStatus.Uploaded )
+                    @if ( file.Status != FileEntryStatus.Uploaded && CanUploadFile( file ) )
                     {
                         <Blazorise.Button Class="ant-file-picker-item-action ant-file-picker-item-action-upload"
                                           Disabled="@IsBusy()"

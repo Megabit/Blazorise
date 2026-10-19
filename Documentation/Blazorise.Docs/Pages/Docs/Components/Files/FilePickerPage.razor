@@ -59,6 +59,79 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Existing attachments" New>
+        Let users reopen a saved record and manage its attachments without uploading existing files again.
+        Use <Code>@("@bind-Files")</Code> to show saved attachments alongside new files, so users can keep, remove, or replace documents in one place.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="FilePickerBindingExample" Outlined FullWidth>
+        <FilePickerBindingExample />
+    </DocsPageSectionContent>
+    <DocsPageParagraph>
+        The bound <Code>Files</Code> collection stays in sync as users select, remove, or clear attachments.
+        Your application can use this list when saving the form to retain existing attachments and upload new files.
+        You can also update the list from your application code, and the picker will reflect those changes.
+    </DocsPageParagraph>
+    <DocsPageParagraph>
+        Saved attachments remain in the list when users choose new files. Choosing files again replaces the previous selection of new files.
+        With <Code>AutoReset</Code>, newly selected files leave the list after uploading, while saved attachments remain visible.
+        The picker's Clear action removes all attachments from the list.
+    </DocsPageParagraph>
+    <DocsPageParagraph>
+        Attachments supplied with metadata alone display details of files your application has already saved.
+        Use your application's storage or download service to open or download them.
+        Removing an attachment from the list does not delete the stored file. Your application decides when to save those changes and delete files from storage.
+    </DocsPageParagraph>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Cached uploads" New>
+        Let users keep files locally, refresh the page, and upload when they are ready.
+        Restore the file's bytes from your application's cache into <Code>FileEntry.Data</Code> and bind the entry with <Code>Status</Code> set to <Code>FileEntryStatus.Ready</Code>.
+        Users can then upload it just like a newly selected file, with progress, cancellation, and retry support.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="FilePickerCachedExample" Outlined FullWidth>
+        <FilePickerCachedExample />
+    </DocsPageSectionContent>
+    <DocsPageParagraph>
+        This example uses sample bytes to represent a restored file and reads them locally without sending anything to a server.
+        In your application, use the <Code>Upload</Code> callback to send the contents through <Code>OpenReadStream</Code> or <Code>WriteToStreamAsync</Code>.
+        You can mix cached files, previously uploaded attachments, and newly selected files in the same list.
+    </DocsPageParagraph>
+    <DocsPageParagraph>
+        Your application saves and reloads the bytes and file details using persistent browser storage to keep them across refreshes.
+        FilePicker does not save files to a cache or automatically copy browser-selected files into <Code>Data</Code>.
+        Supplied bytes determine the file size and follow <Code>MaxFileSize</Code>. Failed or cancelled uploads keep their bytes available for another attempt.
+        With <Code>AutoReset</Code>, each cached file leaves the list after a successful upload while the remaining files stay available.
+    </DocsPageParagraph>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Streamed uploads" New>
+        Upload large cached files without loading the entire file into memory.
+        Use <Code>StreamFactory</Code> to open content from your application's cache when uploading starts, and set <Code>Size</Code> to the saved file length.
+        Each read or retry opens a fresh stream, so files remain available after a failed or cancelled upload.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="FilePickerStreamingExample" Outlined FullWidth>
+        <FilePickerStreamingExample />
+    </DocsPageSectionContent>
+    <DocsPageParagraph>
+        The example restores a sample entry during initialization. Click Upload to read its content in chunks and see the byte count, or Restore sample file to add it again.
+        It uses a small in-memory sample to keep the example self-contained; no files are sent to a server or saved between refreshes.
+        In your application, replace <Code>OpenCachedStreamAsync</Code> with a method that opens your cached file directly.
+    </DocsPageParagraph>
+    <DocsPageParagraph>
+        Choose <Code>Data</Code> for bytes already in memory or <Code>StreamFactory</Code> for content read on demand.
+        For large files, open the cached content without first loading it into a byte array. Return a fresh readable stream positioned at the beginning of the file.
+        FilePicker reads it in chunks and disposes it when the read stream is disposed. The stream can be non-seekable, and its content must match the declared <Code>Size</Code>.
+        Save the file details and cache identifier between sessions, then reconnect the factory after reloading them; the callback itself is not saved.
+    </DocsPageParagraph>
+    <DocsPageParagraph>
+        When sending large files from Blazor WebAssembly to a server, also enable HTTP request streaming to avoid buffering the complete upload body.
+        See Microsoft's <Anchor To="https://learn.microsoft.com/aspnet/core/blazor/file-uploads#file-size-read-and-upload-limits" Target="Target.Blank">file upload guidance</Anchor> for browser and connection requirements.
+    </DocsPageParagraph>
+</DocsPageSection>
+
 <DocsPageSectionTitle>
     Best Practices
 </DocsPageSectionTitle>
