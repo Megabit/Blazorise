@@ -174,6 +174,28 @@ public class TooltipComponentTest : BunitContext
     }
 
     [Fact]
+    public void ThemeTooltipOptions_WhenOnlyBackgroundIsSet_ShouldPreserveProviderZIndex()
+    {
+        var theme = new Theme
+        {
+            TooltipOptions = new()
+            {
+                BackgroundColor = "#a0a0a0f0",
+            },
+        };
+
+        var component = Render<Tooltip>( parameters => parameters
+            .AddCascadingValue( theme )
+            .Add( x => x.Text, "Tooltip text" )
+            .AddChildContent( "Target" ) );
+
+        var style = component.Find( ".tooltip-host" ).GetAttribute( "style" );
+
+        Assert.Contains( "--tooltip-bg: #a0a0a0f0", style );
+        Assert.DoesNotContain( "--tooltip-z-index", style );
+    }
+
+    [Fact]
     public void ThemeTooltipOptions_ShouldApplyToTooltipHost()
     {
         Theme theme = new()
@@ -239,7 +261,7 @@ public class TooltipComponentTest : BunitContext
     [Fact]
     public void Inline_WhenNotDefined_ShouldUseAutoDetection()
     {
-        IRenderedComponent<Tooltip> component = Render<Tooltip>( parameters => parameters
+        var component = Render<Tooltip>( parameters => parameters
             .Add( x => x.Text, "Tooltip text" )
             .AddChildContent( "Target" ) );
 
@@ -251,12 +273,18 @@ public class TooltipComponentTest : BunitContext
     [InlineData( false, "false" )]
     public void Inline_WhenExplicitlyDefined_ShouldUseParameterValue( bool inline, string expected )
     {
-        IRenderedComponent<Tooltip> component = Render<Tooltip>( parameters => parameters
+        var component = Render<Tooltip>( parameters => parameters
             .Add( x => x.Text, "Tooltip text" )
             .Add( x => x.Inline, inline )
             .AddChildContent( "Target" ) );
 
         Assert.Equal( expected, component.Find( ".tooltip-host" ).GetAttribute( "data-tooltip-inline" ) );
+        Assert.Equal( inline, component.Find( ".tooltip-host" ).ClassList.Contains( "tooltip-host-inline" ) );
+
+        component.Render( parameters => parameters.Add( x => x.Inline, !inline ) );
+
+        Assert.Equal( inline ? "false" : "true", component.Find( ".tooltip-host" ).GetAttribute( "data-tooltip-inline" ) );
+        Assert.Equal( !inline, component.Find( ".tooltip-host" ).ClassList.Contains( "tooltip-host-inline" ) );
     }
 
     [Fact]

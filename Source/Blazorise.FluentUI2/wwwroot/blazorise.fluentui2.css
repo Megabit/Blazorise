@@ -16809,7 +16809,7 @@ td:focus {
 .fui-Tooltip[data-tooltip-animation~=blur] {
   --fui-tooltip-animation-blur: 2px;
 }
-.fui-Tooltip[data-tooltip-inline=true], .fui-Tooltip[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
+.fui-Tooltip[data-tooltip-inline=true], .fui-Tooltip[data-tooltip-inline=auto]:has(> button, > :not(.fui-Tooltip__content) button) {
   display: inline-block;
 }
 .fui-Tooltip[data-tooltip-active=true], .fui-Tooltip[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-visible, :has(:focus-visible)), .fui-Tooltip[data-tooltip-trigger=focus]:focus-within, .fui-Tooltip[data-tooltip-trigger=mouse-enter-click]:hover {
@@ -16845,6 +16845,11 @@ td:focus {
   transition-delay: var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-visibility-delay), var(--fui-tooltip-state-visibility-delay);
   transition-timing-function: cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), linear, linear;
   transition-behavior: allow-discrete;
+}
+@starting-style {
+  .fui-Tooltip__content {
+    visibility: hidden;
+  }
 }
 @starting-style {
   .fui-Tooltip:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .fui-Tooltip__content {

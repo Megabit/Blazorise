@@ -5509,7 +5509,7 @@ td:focus {
 .tooltip-host[data-tooltip-animation~=blur] {
   --bs-tooltip-animation-blur: 2px;
 }
-.tooltip-host[data-tooltip-inline=true], .tooltip-host[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
+.tooltip-host[data-tooltip-inline=true], .tooltip-host[data-tooltip-inline=auto]:has(> :is(.custom-control-input, .btn), > :not(.tooltip) :is(.custom-control-input, .btn)) {
   display: inline-block;
 }
 .tooltip-host[data-tooltip-active=true], .tooltip-host[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-visible, :has(:focus-visible)), .tooltip-host[data-tooltip-trigger=focus]:focus-within, .tooltip-host[data-tooltip-trigger=mouse-enter-click]:hover {
@@ -5577,6 +5577,11 @@ td:focus {
   transition-delay: var(--bs-tooltip-state-opacity-delay), var(--bs-tooltip-state-opacity-delay), var(--bs-tooltip-state-opacity-delay), var(--bs-tooltip-state-opacity-delay), var(--bs-tooltip-state-visibility-delay), var(--bs-tooltip-state-visibility-delay);
   transition-timing-function: cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), linear, linear;
   transition-behavior: allow-discrete;
+}
+@starting-style {
+  .tooltip {
+    visibility: hidden;
+  }
 }
 @starting-style {
   .tooltip-host:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .tooltip {

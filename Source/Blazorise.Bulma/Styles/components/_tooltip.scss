@@ -29,7 +29,7 @@
     }
 
     &[data-tooltip-inline='true'],
-    &[data-tooltip-inline='auto']:has(> :is(button, input, select, textarea, label, [role='button'])) {
+    &[data-tooltip-inline='auto']:has( > :is(.checkbox, .button), > :not(.bulma-tooltip-content) :is(.checkbox, .button) ) {
         display: inline-block;
     }
 
@@ -57,6 +57,10 @@
     }
 }
 
+.field-body:has(> .bulma-tooltip-host[data-tooltip-inline='auto']) {
+    display: block;
+}
+
 .bulma-tooltip-content {
     position: fixed;
     position-anchor: var(--bulma-tooltip-anchor);
@@ -75,6 +79,10 @@
     transition-delay: var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-visibility-delay), var(--bulma-tooltip-state-visibility-delay);
     transition-timing-function: cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), linear, linear;
     transition-behavior: allow-discrete;
+
+    @starting-style {
+        visibility: hidden;
+    }
 
     .bulma-tooltip-host:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) > & {
         @starting-style {
@@ -196,7 +204,6 @@
     font-size: var(--bulma-tooltip-font-size, #{$size-small});
     font-weight: $weight-normal;
     line-height: 1.5;
-
     overflow-wrap: anywhere;
     text-align: start;
     white-space: nowrap;

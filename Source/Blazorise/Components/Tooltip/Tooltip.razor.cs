@@ -54,45 +54,51 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        ComponentParameterInfo<bool> previousParamInline = paramInline;
-        ComponentParameterInfo<int> previousParamFadeDuration = paramFadeDuration;
-        ComponentParameterInfo<TooltipAnimation> previousParamAnimation = paramAnimation;
+        parameters.TryGetParameter( Inline, out var paramInline );
+        parameters.TryGetParameter( FadeDuration, out var paramFadeDuration );
+        parameters.TryGetParameter( Animation, out var paramAnimation );
 
-        parameters.TryGetParameter( Inline, out paramInline );
-        parameters.TryGetParameter( FadeDuration, out paramFadeDuration );
-        parameters.TryGetParameter( Animation, out paramAnimation );
+        var classesChanged = parameters.IsParameterChanged( Placement )
+            || parameters.IsParameterChanged( Multiline )
+            || parameters.IsParameterChanged( AlwaysActive )
+            || parameters.IsParameterChanged( Fade )
+            || paramAnimation.Changed
+            || this.paramAnimation.Defined != paramAnimation.Defined
+            || paramInline.Changed
+            || this.paramInline.Defined != paramInline.Defined;
 
-        bool classesChanged = parameters.IsParameterChanged( Placement )
-                              || parameters.IsParameterChanged( Multiline )
-                              || parameters.IsParameterChanged( AlwaysActive )
-                              || parameters.IsParameterChanged( Fade )
-                              || paramAnimation.Changed
-                              || previousParamAnimation.Defined != paramAnimation.Defined
-                              || paramInline.Changed
-                              || previousParamInline.Defined != paramInline.Defined;
+        var stylesChanged = parameters.IsParameterChanged( Fade )
+            || paramAnimation.Changed
+            || this.paramAnimation.Defined != paramAnimation.Defined
+            || parameters.IsParameterChanged( ShowDelay )
+            || parameters.IsParameterChanged( HideDelay )
+            || paramFadeDuration.Changed
+            || this.paramFadeDuration.Defined != paramFadeDuration.Defined
+            || parameters.TryGetValue<Theme>( nameof( Theme ), out _ );
 
-        bool stylesChanged = parameters.IsParameterChanged( Fade )
-                             || paramAnimation.Changed
-                             || previousParamAnimation.Defined != paramAnimation.Defined
-                             || parameters.IsParameterChanged( ShowDelay )
-                             || parameters.IsParameterChanged( HideDelay )
-                             || paramFadeDuration.Changed
-                             || previousParamFadeDuration.Defined != paramFadeDuration.Defined
-                             || parameters.TryGetValue<Theme>( nameof( Theme ), out _ );
-
-        bool triggerChanged = parameters.IsParameterChanged( Trigger )
+        var triggerChanged = parameters.IsParameterChanged( Trigger )
             || parameters.IsParameterChanged( TriggerTargetId );
+
+        this.paramInline = paramInline;
+        this.paramFadeDuration = paramFadeDuration;
+        this.paramAnimation = paramAnimation;
 
         await base.SetParametersAsync( parameters );
 
         if ( triggerChanged )
+        {
             ResetTriggerState();
+        }
 
         if ( classesChanged )
+        {
             DirtyClasses();
+        }
 
         if ( stylesChanged )
+        {
             DirtyStyles();
+        }
     }
 
     /// <inheritdoc/>
@@ -529,8 +535,8 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     /// Forces the tooltip host to use inline-block layout.
     /// </summary>
     /// <remarks>
-    /// When this parameter is not supplied, inline layout is automatically detected from the target element.
-    /// Explicitly setting it to <see langword="false"/> disables automatic detection.
+    /// When omitted, the CSS provider automatically detects inline layout using its target selectors.
+    /// Explicitly setting it to <see langword="false"/> uses block layout and disables automatic detection.
     /// </remarks>
     [Parameter] public bool Inline { get; set; }
 

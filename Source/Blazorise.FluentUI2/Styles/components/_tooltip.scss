@@ -29,7 +29,7 @@
     }
 
     &[data-tooltip-inline='true'],
-    &[data-tooltip-inline='auto']:has(> :is(button, input, select, textarea, label, [role='button'])) {
+    &[data-tooltip-inline='auto']:has( > button, > :not(.fui-Tooltip__content) button ) {
         display: inline-block;
     }
 
@@ -71,6 +71,10 @@
     transition-delay: var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-opacity-delay), var(--fui-tooltip-state-visibility-delay), var(--fui-tooltip-state-visibility-delay);
     transition-timing-function: cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), cubic-bezier(.2, 0, 0, 1), linear, linear;
     transition-behavior: allow-discrete;
+
+    @starting-style {
+        visibility: hidden;
+    }
 
     .fui-Tooltip:is([data-tooltip-animation='auto'], [data-tooltip-animation~='fade']) > & {
         @starting-style {
@@ -198,7 +202,6 @@
     font-size: var(--fui-tooltip-font-size, var(--fontSizeBase200));
     font-weight: var(--fontWeightRegular);
     line-height: var(--lineHeightBase200);
-
     overflow-wrap: break-word;
     text-align: start;
     white-space: normal;

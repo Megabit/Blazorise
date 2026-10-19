@@ -6628,7 +6628,7 @@ td:focus {
 .bulma-tooltip-host[data-tooltip-animation~=blur] {
   --bulma-tooltip-animation-blur: 2px;
 }
-.bulma-tooltip-host[data-tooltip-inline=true], .bulma-tooltip-host[data-tooltip-inline=auto]:has(> :is(button, input, select, textarea, label, [role=button])) {
+.bulma-tooltip-host[data-tooltip-inline=true], .bulma-tooltip-host[data-tooltip-inline=auto]:has(> :is(.checkbox, .button), > :not(.bulma-tooltip-content) :is(.checkbox, .button)) {
   display: inline-block;
 }
 .bulma-tooltip-host[data-tooltip-active=true], .bulma-tooltip-host[data-tooltip-trigger=mouse-enter-focus]:is(:hover, :focus-visible, :has(:focus-visible)), .bulma-tooltip-host[data-tooltip-trigger=focus]:focus-within, .bulma-tooltip-host[data-tooltip-trigger=mouse-enter-click]:hover {
@@ -6649,6 +6649,10 @@ td:focus {
   white-space: normal;
 }
 
+.field-body:has(> .bulma-tooltip-host[data-tooltip-inline=auto]) {
+  display: block;
+}
+
 .bulma-tooltip-content {
   position: fixed;
   position-anchor: var(--bulma-tooltip-anchor);
@@ -6667,6 +6671,11 @@ td:focus {
   transition-delay: var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-opacity-delay), var(--bulma-tooltip-state-visibility-delay), var(--bulma-tooltip-state-visibility-delay);
   transition-timing-function: cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), linear, linear;
   transition-behavior: allow-discrete;
+}
+@starting-style {
+  .bulma-tooltip-content {
+    visibility: hidden;
+  }
 }
 @starting-style {
   .bulma-tooltip-host:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .bulma-tooltip-content {
