@@ -1,25 +1,27 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Autocomplete TItem="Country"
-              TValue="string"
-              Data="@Countries"
-              TextField="@(( item ) => item.Name)"
-              ValueField="@(( item ) => item.Iso)"
-              @bind-SelectedValue="@selectedSearchValue"
-              @bind-SelectedText="selectedAutoCompleteText"
-              Placeholder="Search..."
-              Filter="AutocompleteFilter.StartsWith"
-              FreeTyping
-              CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
-    <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
-    <ItemContent>
-        <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
-            <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
-            <Small>@context.Item.Capital</Small>
-        </Div>
-        <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
-    </ItemContent>
-</Autocomplete>
+<Field>
+    <Autocomplete TItem="Country"
+                  TValue="string"
+                  Data="@Countries"
+                  TextField="@(( item ) => item.Name)"
+                  ValueField="@(( item ) => item.Iso)"
+                  @bind-SelectedValue="@selectedSearchValue"
+                  @bind-SelectedText="selectedAutoCompleteText"
+                  Placeholder="Search..."
+                  Filter="AutocompleteFilter.StartsWith"
+                  FreeTyping
+                  CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+        <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
+        <ItemContent>
+            <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+                <Small>@context.Item.Capital</Small>
+            </Div>
+            <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+        </ItemContent>
+    </Autocomplete>
+</Field>
 
 <Field Horizontal>
     <FieldBody ColumnSize="ColumnSize.Is12">

@@ -7,7 +7,7 @@
 <DataGrid TItem="Employee"
           Data="@items"
           Responsive>
-    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
+    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false" />
 </DataGrid>
 @code {
     private ObservableCollection<Employee> items = new() {

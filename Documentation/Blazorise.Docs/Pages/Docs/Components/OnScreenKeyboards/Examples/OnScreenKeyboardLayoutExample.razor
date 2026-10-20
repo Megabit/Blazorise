@@ -3,15 +3,21 @@
 <Fields>
     <Field ColumnSize="ColumnSize.Is4.OnDesktop">
         <FieldLabel>Email layout</FieldLabel>
-        <TextInput @bind-Value="@emailValue" Placeholder="name@example.com" Role="TextRole.Email" OnScreenKeyboard="true" />
+        <FieldBody>
+            <TextInput @bind-Value="@emailValue" Placeholder="name@example.com" Role="TextRole.Email" OnScreenKeyboard="true" />
+        </FieldBody>
     </Field>
     <Field ColumnSize="ColumnSize.Is4.OnDesktop">
         <FieldLabel>Numeric layout</FieldLabel>
-        <NumericInput TValue="int?" @bind-Value="@numberValue" Placeholder="123" OnScreenKeyboard="true" />
+        <FieldBody>
+            <NumericInput TValue="int?" @bind-Value="@numberValue" Placeholder="123" OnScreenKeyboard="true" />
+        </FieldBody>
     </Field>
     <Field ColumnSize="ColumnSize.Is4.OnDesktop">
         <FieldLabel>Explicit layout</FieldLabel>
-        <TextInput @bind-Value="@urlValue" Placeholder="https://example.com" OnScreenKeyboard="true" OnScreenKeyboardLayout="OnScreenKeyboardLayout.Url" />
+        <FieldBody>
+            <TextInput @bind-Value="@urlValue" Placeholder="https://example.com" OnScreenKeyboard="true" OnScreenKeyboardLayout="OnScreenKeyboardLayout.Url" />
+        </FieldBody>
     </Field>
 </Fields>
 

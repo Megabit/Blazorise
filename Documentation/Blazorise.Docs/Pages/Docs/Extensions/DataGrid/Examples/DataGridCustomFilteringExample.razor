@@ -1,13 +1,18 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
- Custom Filter: <TextInput Value="@customFilterValue" ValueChanged="@OnCustomFilterValueChanged"></TextInput>
+<Field>
+    <FieldLabel>Custom Filter:</FieldLabel>
+    <FieldBody>
+        <TextInput Value="@customFilterValue" ValueChanged="@OnCustomFilterValueChanged" />
+    </FieldBody>
+</Field>
 
 <DataGrid @ref="dataGrid"
           TItem="Employee"
           Data="@employeeList"
           CustomFilter="@OnCustomFilter"
           Responsive>
-    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
+    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false" />
 </DataGrid>
 
 @code {

@@ -1,6 +1,8 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<NumericInput @bind-Value="@value" />
+<Field>
+    <NumericInput @bind-Value="@value" />
+</Field>
 @code {
     decimal? value = 123;
 }

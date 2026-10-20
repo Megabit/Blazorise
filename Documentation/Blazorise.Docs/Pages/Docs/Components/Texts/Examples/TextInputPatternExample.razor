@@ -1,9 +1,11 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <Validation UsePattern>
-    <TextInput Pattern="[A-Za-z]{3}">
-        <Feedback>
-            <ValidationError>Pattern does not match!</ValidationError>
-        </Feedback>
-    </TextInput>
+    <Field>
+        <TextInput Pattern="[A-Za-z]{3}">
+            <Feedback>
+                <ValidationError>Pattern does not match!</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Field>
 </Validation>

@@ -3,14 +3,20 @@
 <Fields>
     <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is4.OnTablet">
         <FieldLabel>Indigo</FieldLabel>
-        <NumericInput TValue="int" Value="42" Color="@("#312E81")" />
+        <FieldBody>
+            <NumericInput TValue="int" Value="42" Color="@("#312E81")" />
+        </FieldBody>
     </Field>
     <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is4.OnTablet">
         <FieldLabel>Teal</FieldLabel>
-        <NumericInput TValue="int" Value="65" Color="@(new Color( CssColor.Rgb( 15, 118, 110 ) ))" />
+        <FieldBody>
+            <NumericInput TValue="int" Value="65" Color="@(new Color( CssColor.Rgb( 15, 118, 110 ) ))" />
+        </FieldBody>
     </Field>
     <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is4.OnTablet">
         <FieldLabel>Explicit text color</FieldLabel>
-        <NumericInput TValue="int" Value="80" Color="@CssColor.Variable( "--input-accent", "#7C3AED" )" TextColor="@(new TextColor( "#0F766E" ))" />
+        <FieldBody>
+            <NumericInput TValue="int" Value="80" Color="@CssColor.Variable( "--input-accent", "#7C3AED" )" TextColor="@(new TextColor( "#0F766E" ))" />
+        </FieldBody>
     </Field>
 </Fields>

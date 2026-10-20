@@ -1,18 +1,20 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Addons>
-    <Addon AddonType="AddonType.Body">
-        <Validation Validator="ValidationRule.IsNotEmpty">
-            <TextInput Placeholder="Enter name">
-                <Feedback>
-                    <ValidationNone />
-                    <ValidationSuccess />
-                    <ValidationError>Enter valid name!</ValidationError>
-                </Feedback>
-            </TextInput>
-        </Validation>
-    </Addon>
-    <Addon AddonType="AddonType.End">
-        <AddonLabel>This is a label</AddonLabel>
-    </Addon>
-</Addons>
+<Validation Validator="ValidationRule.IsNotEmpty">
+    <Field>
+        <Addons>
+            <Addon AddonType="AddonType.Body">
+                <TextInput Placeholder="Enter name">
+                    <Feedback>
+                        <ValidationNone />
+                        <ValidationSuccess />
+                        <ValidationError>Enter valid name!</ValidationError>
+                    </Feedback>
+                </TextInput>
+            </Addon>
+            <Addon AddonType="AddonType.End">
+                <AddonLabel>This is a label</AddonLabel>
+            </Addon>
+        </Addons>
+    </Field>
+</Validation>
