@@ -44,17 +44,13 @@
     Before we proceed we need to cover some fundamentals on how Scheduler is working.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Using TItem
-</Heading>
+<DocsPageSubsectionTitle Title="Using TItem" />
 
 <DocsPageParagraph>
     The <Code>Scheduler&lt;TItem&gt;</Code> component is generic and can theoretically work with any type. However, the type must contain properties for <Code>Title</Code>, <Code>Start</Code>, and <Code>End</Code> at minimum. These property names can be overridden using property mappings.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Editing
-</Heading>
+<DocsPageSubsectionTitle Title="Editing" />
 
 <DocsPageParagraph>
     Editing of scheduler items can be enabled or disabled by setting <Code>Editable</Code> parameter:
@@ -75,9 +71,7 @@
     Set <Code>DefaultItemDuration="@@TimeSpan.FromMinutes( 60 )"</Code> on <Code>Scheduler</Code> to give new appointments a one-hour duration when clicking a timed slot, independently of the slot size. When omitted, zero, or negative, the clicked slot's duration is used. Explicit range selections and all-day appointments keep their existing behavior.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Customizing the Editor
-</Heading>
+<DocsPageSubsectionTitle Title="Customizing the Editor" />
 
 <DocsPageParagraph>
     Use <Code>SchedulerColumns</Code> and <Code>SchedulerColumn</Code> to add custom fields to the built-in Add/Edit Appointment modal or to replace the editor for a native scheduler field.
@@ -87,9 +81,7 @@
     A column whose <Code>Field</Code> maps to an additional model property, such as <Code>Color</Code>, is rendered after the native scheduler fields. Its value is copied together with the rest of the appointment when the modal is saved. Additional fields are rendered in a <Code>Fields</Code> layout and can use <Code>ColumnSize</Code> to control their width. A column whose <Code>Field</Code> maps to a native scheduler property, such as <Code>Title</Code>, replaces the native editor in the modal but still uses the scheduler's built-in state, validation, and save flow.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Drag and Drop
-</Heading>
+<DocsPageSubsectionTitle Title="Drag and Drop" />
 
 <DocsPageParagraph>
     Drag and drop functionality for scheduler items can be toggled using <Code>Draggable</Code> parameter:
@@ -106,9 +98,7 @@
     </UnorderedList>
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Recurring Appointments
-</Heading>
+<DocsPageSubsectionTitle Title="Recurring Appointments" />
 
 <DocsPageParagraph>
     The <Code>Scheduler</Code> component supports recurring appointments based on RFC-5545 recurrence rules. Recurrences are dynamically displayed based on these rules and are not persisted by the component itself. Persistence of recurrence data must be managed by the developer and backend.

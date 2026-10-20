@@ -1,7 +1,9 @@
-﻿<Div Margin="Margin.Is4.FromBottom">
+﻿@inherits DocsTocComponent
+
+<Div Margin="Margin.Is4.FromBottom">
     @if ( Title != null )
     {
-        <Heading Class="b-docs-heading" Size="HeadingSize.Is3" ElementId="@ElementId" Flex="Flex.JustifyContent.Between.AlignItems.Center">
+        <Heading Class="b-docs-heading" Size="HeadingSize.Is3" ElementId="@HeadingElementId" Flex="Flex.JustifyContent.Between.AlignItems.Center">
             @Title
             @if ( !string.IsNullOrEmpty( AddedVersion ) )
             {
@@ -13,7 +15,9 @@
 </Div>
 
 @code {
-    [Parameter] public string Title { get; set; }
+    protected override int TocLevel => 3;
+
+    protected override RenderFragment TocContent => Title is null ? null : builder => builder.AddContent( 0, Title );
 
     /// <summary>
     /// Gets or sets the version that introduced the section, without the display prefix.
@@ -24,8 +28,4 @@
     /// Gets or sets the date the section was added, in yyyy-MM-dd format.
     /// </summary>
     [Parameter] public string AddedDate { get; set; }
-
-    [Parameter] public string ElementId { get; set; }
-
-    [Parameter] public RenderFragment ChildContent { get; set; }
 }

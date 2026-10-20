@@ -1,57 +1,32 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿#region Using directives
+using System;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
+#endregion
 
-namespace Blazorise.Docs.Components
+namespace Blazorise.Docs.Components;
+
+public partial class Toc : IDisposable
 {
-    public partial class Toc : IDisposable
+    #region Methods
+
+    protected override void OnInitialized()
     {
-        ElementReference elementRef;
+        ParentToc.Changed += OnHeadingsChanged;
 
-        protected override void OnInitialized()
-        {
-            if ( NavigationManager is not null )
-            {
-                NavigationManager.LocationChanged += OnLocationChanged;
-            }
-
-            base.OnInitialized();
-        }
-
-        protected override async Task OnAfterRenderAsync( bool firstRender )
-        {
-            if ( firstRender )
-            {
-                await GenerateToc();
-            }
-
-            await base.OnAfterRenderAsync( firstRender );
-        }
-
-        private void OnLocationChanged( object sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e )
-        {
-            InvokeAsync( () => GenerateToc() );
-        }
-
-        private async Task GenerateToc()
-        {
-            await JSRuntime.InvokeVoidAsync( "blazoriseDocs.navigation.generateToc", elementRef, new
-            {
-                BasePath = NavigationManager.Uri
-            } );
-        }
-
-        public void Dispose()
-        {
-            if ( NavigationManager is not null )
-            {
-                NavigationManager.LocationChanged -= OnLocationChanged;
-            }
-        }
-
-        [Inject] private IJSRuntime JSRuntime { get; set; }
-
-        [Inject] private NavigationManager NavigationManager { get; set; }
+        base.OnInitialized();
     }
+
+    private void OnHeadingsChanged() => _ = InvokeAsync( StateHasChanged );
+
+    public void Dispose() => ParentToc.Changed -= OnHeadingsChanged;
+
+    #endregion
+
+    #region Properties
+
+    [CascadingParameter] private DocsTocNode ParentToc { get; set; }
+
+    [Inject] private NavigationManager NavigationManager { get; set; }
+
+    #endregion
 }

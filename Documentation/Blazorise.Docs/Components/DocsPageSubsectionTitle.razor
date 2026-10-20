@@ -1,13 +1,13 @@
-<Heading ElementId="@ElementId" Size="HeadingSize.Is3" Class="@TocClass">
-    @ChildContent
+@inherits DocsTocComponent
+
+<Heading ElementId="@HeadingElementId" Size="@Size" Margin="@Margin">
+    @TocContent
 </Heading>
 
 @code {
-    [Parameter] public bool IncludeInToc { get; set; } = true;
+    protected override int TocLevel => (int)Size + 1;
 
-    [Parameter] public string ElementId { get; set; }
+    [Parameter] public HeadingSize Size { get; set; } = HeadingSize.Is3;
 
-    [Parameter] public RenderFragment ChildContent { get; set; }
-
-    private string TocClass => IncludeInToc ? null : "js-toc-ignore";
+    [Parameter] public IFluentSpacing Margin { get; set; }
 }

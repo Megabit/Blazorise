@@ -5,7 +5,6 @@ using Blazorise.Docs.Models;
 using Blazorise.Docs.Services.Search;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Docs.Layouts;
@@ -25,8 +24,6 @@ public partial class DocsLayout
     public string selectedSearchText { get; set; }
 
     private bool isRouterTabsExample;
-
-    private bool scrollToLocationAfterRender;
 
     #endregion
 
@@ -87,21 +84,7 @@ public partial class DocsLayout
             isRouterTabsExample = isRouterTabsPage;
         }
 
-        scrollToLocationAfterRender = true;
-
         await InvokeAsync( StateHasChanged );
-    }
-
-    protected override async Task OnAfterRenderAsync( bool firstRender )
-    {
-        if ( firstRender || scrollToLocationAfterRender )
-        {
-            scrollToLocationAfterRender = false;
-
-            await JSRuntime.InvokeVoidAsync( "blazoriseDocs.navigation.scrollToLocation" );
-        }
-
-        await base.OnAfterRenderAsync( firstRender );
     }
 
     private async Task ComponentSearchSelectedValueChanged( string value )
@@ -176,8 +159,6 @@ public partial class DocsLayout
     [Inject] public SearchEntriesProvider SearchMenuProvider { get; set; }
 
     [Inject] private NavigationManager NavigationManager { get; set; }
-
-    [Inject] private IJSRuntime JSRuntime { get; set; }
 
     #endregion
 }
