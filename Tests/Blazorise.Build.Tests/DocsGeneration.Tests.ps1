@@ -25,7 +25,7 @@ function Get-SourceSnapshot {
     $snapshot = @{}
     Get-ChildItem -LiteralPath $docsRoot -Recurse -File | Where-Object {
         $_.FullName -notmatch '[/\\](obj|bin)[/\\]' -and
-        ($_.Extension -eq '.html' -or $_.Name -in @('Snippets.generated.cs', 'docs-index.json', 'docs-api-index.json', 'NewFilesToBuild.txt') -or $_.Name.EndsWith('.ApiDocs.cs'))
+        ($_.Extension -eq '.html' -or $_.Name -in @('Snippets.generated.cs', 'DocsPageChanges.generated.cs', 'docs-index.json', 'docs-api-index.json', 'NewFilesToBuild.txt') -or $_.Name.EndsWith('.ApiDocs.cs'))
     } | ForEach-Object {
         $snapshot[$_.FullName] = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash
     }
@@ -123,12 +123,17 @@ try {
     # Missing files must be repaired even when all inputs are unchanged.
     $missingExample = Join-Path $generatedRoot $examplePath
     $missingApi = Join-Path $generatedRoot 'ApiDocs/Blazorise.ApiDocs.cs'
+    $missingPageChanges = Join-Path $generatedRoot 'Models/DocsPageChanges.generated.cs'
     [System.IO.File]::Delete($missingExample)
     [System.IO.File]::Delete($missingApi)
+    [System.IO.File]::Delete($missingPageChanges)
     Invoke-DotNet run --configuration Debug --no-build --project $compilerProject -- --output-path $generatedRoot
     Assert-Version ([System.IO.File]::ReadAllText($missingExample)) '2.3.3.1'
     if (!(Test-Path -LiteralPath $missingApi)) {
         throw 'Cached generation did not restore a missing API documentation file.'
+    }
+    if (!(Test-Path -LiteralPath $missingPageChanges)) {
+        throw 'Cached generation did not restore the missing page changes list.'
     }
 
     # MCP needs the same indexes as full generation, without HTML or C# outputs.
@@ -249,6 +254,22 @@ using ( var stream = assembly.GetManifestResourceStream( resourceName ) )
 }
 
 AssertVersion( Snippets.AntDesignScriptsExample, "2.3.3.1" );
+
+if ( DocsPageChanges.CurrentVersion != "2.3.3.1" )
+{
+    throw new InvalidOperationException( "Sidebar badges must receive the configured NuGet package version." );
+}
+
+if ( !DocsPageChanges.All.Any( change => change.Route == "docs/extensions/ribbon" && change.Version == "2.4" && change.IsNew )
+    || !DocsPageChanges.All.Any( change => change.Route == "docs/components/button" && change.Version == "2.4" && !change.IsNew ) )
+{
+    throw new InvalidOperationException( "The generated list must include new pages and section updates, including future releases." );
+}
+
+if ( DocsPageChanges.All.Any( change => !DateOnly.TryParseExact( change.Date, "yyyy-MM-dd", out _ ) ) )
+{
+    throw new InvalidOperationException( "Page change dates must use the documented date format." );
+}
 
 var packageSnippet = Snippets.AnalyzerPackageReferenceExample;
 if ( !packageSnippet.Contains( "Version=\"2.3.3.1\"" ) || packageSnippet.Contains( "__BLAZORISE_PACKAGE_VERSION__" ) )
