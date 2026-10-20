@@ -9,8 +9,16 @@
                 @foreach ( var heading in ParentToc.Headings )
                 {
                     <UnorderedListItem @key="heading" Margin="Margin.Is1.FromBottom" Padding="@(heading.Level > 3 ? Padding.Is4.FromStart : heading.Level > 2 ? Padding.Is3.FromStart : null)">
-                        <Anchor To="@($"{NavigationManager.Uri.Split( '#' )[0]}#{Uri.EscapeDataString( heading.ElementId )}")" Unstyled>
-                            @heading.Content
+                        <Anchor To="@($"{NavigationManager.Uri.Split( '#' )[0]}#{Uri.EscapeDataString( heading.ElementId )}")" Unstyled
+                                Display="Display.Flex" Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is2">
+                            @if ( heading.IsNew )
+                            {
+                                <DocsNewFeatureBadge>@heading.Content</DocsNewFeatureBadge>
+                            }
+                            else
+                            {
+                                @heading.Content
+                            }
                         </Anchor>
                     </UnorderedListItem>
                 }

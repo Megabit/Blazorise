@@ -26,9 +26,9 @@ public abstract class DocsTocComponent : ComponentBase, IDisposable
         parameters.SetParameterProperties( this );
         TocNode ??= ParentToc?.Add();
 
-        if ( TocNode is not null && ( changed || previousLevel != TocLevel ) )
+        if ( TocNode is not null && ( changed || previousLevel != TocLevel || TocNode.IsNew != IsNewTocEntry ) )
         {
-            TocNode.Update( Title, TocContent, IncludeInToc ? TocLevel : 0, ElementId );
+            TocNode.Update( Title, TocContent, IncludeInToc ? TocLevel : 0, ElementId, IsNewTocEntry );
         }
 
         return base.SetParametersAsync( ParameterView.Empty );
@@ -55,6 +55,8 @@ public abstract class DocsTocComponent : ComponentBase, IDisposable
     protected string HeadingElementId => ElementId ?? TocNode?.ElementId;
 
     protected virtual int TocLevel => 0;
+
+    protected virtual bool IsNewTocEntry => false;
 
     protected virtual RenderFragment TocContent => Title is null ? ChildContent : builder => builder.AddContent( 0, Title );
 

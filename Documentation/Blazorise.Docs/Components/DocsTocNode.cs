@@ -42,10 +42,11 @@ public sealed partial class DocsTocNode
         return child;
     }
 
-    public void Update( string title, RenderFragment content, int level, string elementId )
+    public void Update( string title, RenderFragment content, int level, string elementId, bool isNew )
     {
         Content = content;
         Level = level;
+        IsNew = isNew;
 
         var baseId = string.IsNullOrWhiteSpace( title )
             ? $"toc{Path}"
@@ -75,6 +76,8 @@ public sealed partial class DocsTocNode
     public RenderFragment Content { get; private set; }
 
     public int Level { get; private set; }
+
+    public bool IsNew { get; private set; }
 
     public IEnumerable<DocsTocNode> Headings
     {

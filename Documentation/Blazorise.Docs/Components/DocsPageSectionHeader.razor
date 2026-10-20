@@ -15,7 +15,14 @@
 </Div>
 
 @code {
+    private static readonly Version currentVersion = Version.Parse( Models.DocsPageChanges.CurrentVersion.Split( '-', '+' )[0] );
+
     protected override int TocLevel => 3;
+
+    protected override bool IsNewTocEntry
+        => Version.TryParse( AddedVersion, out var version )
+            && version.Major == currentVersion.Major
+            && ( version.Minor == currentVersion.Minor || version.Minor == currentVersion.Minor - 1 );
 
     protected override RenderFragment TocContent => Title is null ? null : builder => builder.AddContent( 0, Title );
 
