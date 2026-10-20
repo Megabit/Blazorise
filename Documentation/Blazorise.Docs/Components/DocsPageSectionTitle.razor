@@ -1,6 +1,8 @@
-<Heading Class="b-docs-heading" Size="HeadingSize.Is2" Border="Border.Is1.OnBottom" Padding="Padding.Is2.FromBottom">
-    @ChildContent
+@inherits DocsTocComponent
+
+<Heading ElementId="@HeadingElementId" Class="b-docs-heading" Size="HeadingSize.Is2" Border="Border.Is1.OnBottom" Padding="Padding.Is2.FromBottom">
+    @TocContent
 </Heading>
 @code {
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    protected override int TocLevel => 2;
 }

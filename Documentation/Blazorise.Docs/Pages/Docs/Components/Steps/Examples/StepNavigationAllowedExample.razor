@@ -13,12 +13,14 @@
                 <Validation Validator="ValidationRule.IsEmail">
                     <Field Margin="Margin.Is0.FromBottom">
                         <FieldLabel>Email address</FieldLabel>
-                        <TextInput @bind-Value="email" Role="TextRole.Email" Placeholder="e.g. alex@example.com">
-                            <Feedback>
-                                <ValidationError>Enter a valid email address to continue.</ValidationError>
-                            </Feedback>
-                        </TextInput>
-                        <FieldHelp>You can return to this step to change your email address.</FieldHelp>
+                        <FieldBody>
+                            <TextInput @bind-Value="email" Role="TextRole.Email" Placeholder="e.g. alex@example.com">
+                                <Feedback>
+                                    <ValidationError>Enter a valid email address to continue.</ValidationError>
+                                </Feedback>
+                            </TextInput>
+                            <FieldHelp>You can return to this step to change your email address.</FieldHelp>
+                        </FieldBody>
                     </Field>
                 </Validation>
             </Validations>

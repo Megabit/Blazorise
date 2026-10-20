@@ -1,12 +1,18 @@
 @namespace Blazorise.Docs.Docs.Examples
 
 <Div Flex="Flex.Row.Wrap.AlignItems.Center" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
-    <Select TValue="RibbonDisplayMode" @bind-Value="@displayMode" Width="Width.Rem( 12 )" aria-label="Ribbon layout">
-        <SelectItem Value="RibbonDisplayMode.Classic">Classic</SelectItem>
-        <SelectItem Value="RibbonDisplayMode.Simplified">Simplified</SelectItem>
-    </Select>
-    <Switch TValue="bool" @bind-Value="@showTableTools">Show table tools</Switch>
-    <Switch TValue="bool" @bind-Value="@collapsed">Collapse ribbon</Switch>
+    <Field Margin="Margin.Is0">
+        <Select TValue="RibbonDisplayMode" @bind-Value="@displayMode" Width="Width.Rem( 12 )" aria-label="Ribbon layout">
+            <SelectItem Value="RibbonDisplayMode.Classic">Classic</SelectItem>
+            <SelectItem Value="RibbonDisplayMode.Simplified">Simplified</SelectItem>
+        </Select>
+    </Field>
+    <Field Margin="Margin.Is0">
+        <Switch TValue="bool" @bind-Value="@showTableTools">Show table tools</Switch>
+    </Field>
+    <Field Margin="Margin.Is0">
+        <Switch TValue="bool" @bind-Value="@collapsed">Collapse ribbon</Switch>
+    </Field>
 </Div>
 
 <Ribbon @bind-SelectedTab="@selectedTab" @bind-Collapsed="@collapsed" DisplayMode="@displayMode" ActiveContextualGroups="@ActiveContextualGroups" Border="Border.Is1.Rounded">

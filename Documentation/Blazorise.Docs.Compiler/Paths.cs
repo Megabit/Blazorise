@@ -45,6 +45,9 @@ public static class Paths
     public static string SnippetsFilePath() => Path.Join( DocsStringSnippetsDirPath(), "Snippets.generated.cs" );
 
     public static string DocsIndexFilePath() => Path.Join( GeneratedOutputPath, "Resources", "docs-index.json" );
+
+    public static string DocsPageChangesFilePath() => Path.Join( DocsStringSnippetsDirPath(), "DocsPageChanges.generated.cs" );
+
     public static string DocsApiIndexFilePath() => Path.Join( GeneratedOutputPath, "Resources", "docs-api-index.json" );
 
     public static string ExampleCodeFilesPath() => Path.Join( GeneratedOutputPath, "ExampleCodeFiles.txt" );

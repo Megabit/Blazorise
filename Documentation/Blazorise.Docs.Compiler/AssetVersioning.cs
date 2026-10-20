@@ -15,6 +15,8 @@ internal static class AssetVersioning
         .GetCustomAttributes<AssemblyMetadataAttribute>()
         .Single( attribute => attribute.Key == "BlazorisePackageVersion" ).Value;
 
+    public static string PackageVersion => packageVersion;
+
     public static string ReplaceVersionToken( string source )
         => source.Replace( VersionToken, typeof( AssetVersioning ).Assembly.GetName().Version.ToString( 4 ) )
             .Replace( PackageVersionToken, packageVersion );

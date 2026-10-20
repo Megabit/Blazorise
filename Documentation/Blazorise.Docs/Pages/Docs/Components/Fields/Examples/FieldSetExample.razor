@@ -2,11 +2,13 @@
 
 <Field Group>
     <FieldLabel RequiredIndicator>Preferred contact method</FieldLabel>
-    <RadioGroup TValue="string" Name="contact-method" @bind-Value="@contactMethod">
-        <Radio Value="@("email")">Email</Radio>
-        <Radio Value="@("phone")">Phone</Radio>
-        <Radio Value="@("sms")">SMS</Radio>
-    </RadioGroup>
+    <FieldBody>
+        <RadioGroup TValue="string" Name="contact-method" @bind-Value="@contactMethod">
+            <Radio Value="@("email")">Email</Radio>
+            <Radio Value="@("phone")">Phone</Radio>
+            <Radio Value="@("sms")">SMS</Radio>
+        </RadioGroup>
+    </FieldBody>
 </Field>
 
 <Div Margin="Margin.Is4.FromTop">
@@ -14,11 +16,15 @@
         <FieldsLabel>Shipping address</FieldsLabel>
         <Field>
             <FieldLabel>Street</FieldLabel>
-            <TextInput Placeholder="1234 Main St" />
+            <FieldBody>
+                <TextInput Placeholder="1234 Main St" />
+            </FieldBody>
         </Field>
         <Field>
             <FieldLabel>City</FieldLabel>
-            <TextInput Placeholder="Zagreb" />
+            <FieldBody>
+                <TextInput Placeholder="Zagreb" />
+            </FieldBody>
         </Field>
     </Fields>
 </Div>

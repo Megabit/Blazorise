@@ -2,18 +2,20 @@
 
 @using System.Collections.Generic
 
-<Check TValue="bool" Value="@AreAllSelected" Indeterminate="@AreSomeSelected" ValueChanged="@OnSelectAllChanged">
-    Select all
-</Check>
+<Field>
+    <Check TValue="bool" Value="@AreAllSelected" Indeterminate="@AreSomeSelected" ValueChanged="@OnSelectAllChanged">
+        Select all
+    </Check>
 
-<Div Display="Display.Flex" Flex="Flex.Column" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
-    @foreach ( string item in Items )
-    {
-        <Check TValue="bool" Value="@selectedItems.Contains( item )" ValueChanged="@(( bool value ) => OnItemChanged( item, value ))">
-            @item
-        </Check>
-    }
-</Div>
+    <Div Display="Display.Flex" Flex="Flex.Column" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
+        @foreach ( var item in Items )
+        {
+            <Check TValue="bool" Value="@selectedItems.Contains( item )" ValueChanged="@(( bool value ) => OnItemChanged( item, value ))">
+                @item
+            </Check>
+        }
+    </Div>
+</Field>
 
 @code {
     private static readonly string[] Items =

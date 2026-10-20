@@ -1,11 +1,13 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Select @bind-Value="@selectedValue">
-    <SelectItem Value="1">One</SelectItem>
-    <SelectItem Value="2">Two</SelectItem>
-    <SelectItem Value="3">Three</SelectItem>
-    <SelectItem Value="4">Four</SelectItem>
-</Select>
+<Field>
+    <Select @bind-Value="@selectedValue">
+        <SelectItem Value="1">One</SelectItem>
+        <SelectItem Value="2">Two</SelectItem>
+        <SelectItem Value="3">Three</SelectItem>
+        <SelectItem Value="4">Four</SelectItem>
+    </Select>
+</Field>
 
 @code{
     int selectedValue;
