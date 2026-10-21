@@ -47,7 +47,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Condition="'$(TargetFramework)' != '' and $([MSBuild]::VersionLessThan($([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')), '11.0'))" />
   </ItemGroup>
 
   <Import Project="Blazorise.Assets.targets" />
