@@ -110,6 +110,11 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
                 }
             }
         }
+        catch ( JSException ) when ( moduleTask?.IsFaulted == true )
+        {
+            // Initialization already failed; there is no module reference to dispose.
+            moduleTask = null;
+        }
         catch ( Exception exc )
         {
             await Task.FromException( exc );
