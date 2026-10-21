@@ -121,9 +121,10 @@
 .b-visual-hero-description { max-width: 35rem; color: #d0cbd5; margin-block: 1.75rem; font-size: 1.125rem; }
 .b-visual-hero-note { margin: 1.25rem 0 0; color: #bcb5c5; font-size: .875rem; }
 .b-visual-hero-copy { position: relative; z-index: 1; }
-/* Crop the brand mark at the viewport edge and keep it above the statistics. */
-.b-visual-hero-art { position: absolute; inset: 0 calc((100% - 100vw) / 2) 2rem; overflow: hidden; pointer-events: none; }
-.b-visual-hero-mark { position: absolute; top: -5rem; right: -7rem; display: block; width: clamp(32rem, 44vw, 40rem); height: auto; }
+/* Let the translucent brand mark extend below the hero copy, behind the statistics. */
+.b-visual-hero-art { position: absolute; inset: 0 calc((100% - 100vw) / 2) -10rem; overflow: hidden; opacity: .22; pointer-events: none; }
+/* Extend the visible logo edge beyond the content panel, accounting for the SVG's internal whitespace. */
+.b-visual-hero-mark { position: absolute; top: .5rem; right: max(var(--b-visual-gutter), calc((100vw - var(--b-visual-container)) / 2 + var(--b-visual-gutter))); display: block; width: clamp(34rem, 48vw, 44rem); height: auto; transform: translateX(calc(15.5% + 12rem)); }
 [data-bs-theme="dark"] .b-visual-hero { --b-visual-hero-mark-front: #9152bc; --b-visual-hero-mark-side: #513163; }
 .b-visual-facts { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; align-items: center; border-top: 1px solid #423a49; padding-block: 2rem; }
 .b-visual-facts > div { display: flex; gap: .4rem; flex-direction: column; }
@@ -383,8 +384,8 @@
     .b-visual-hero-grid { grid-template-columns: 1fr; }
     .b-visual-hero-copy { max-width: 42rem; }
     .b-visual-hero h1 { font-size: clamp(2.65rem, 7vw, 4.75rem); }
-    .b-visual-hero-art { bottom: auto; height: 16rem; opacity: .12; }
-    .b-visual-hero-mark { top: -9rem; right: -9rem; width: 24rem; }
+    .b-visual-hero-art { bottom: -4rem; opacity: .12; }
+    .b-visual-hero-mark { right: -3rem; width: 24rem; transform: none; }
     .b-visual-hero-copy { position: relative; z-index: 1; }
     .b-visual-facts { gap: 1rem; }
     .b-visual-trust .container > .row:last-child { grid-template-columns: repeat(5, minmax(0, 1fr)); }
