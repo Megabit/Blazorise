@@ -21,7 +21,7 @@
     </Div>
 
     <Row>
-        @foreach ( ServicePath item in ServicePaths )
+        @foreach ( var item in ServicePaths )
         {
             <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
                 <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
@@ -63,7 +63,7 @@
     </Heading>
 
     <Row Gutter="Gutter.Is3">
-        @foreach ( EngagementStep item in EngagementSteps )
+        @foreach ( var item in EngagementSteps )
         {
             <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop" Margin="Margin.Is4.FromBottom">
                 <Card Border="Border.Rounded" Height="Height.Is100">
@@ -123,7 +123,7 @@
     [
         new( IconName.Headset, TextColor.Info, "Solve a technical problem", "Work directly with an expert on troubleshooting, code review, or implementation guidance. Live sessions start at one hour.", "/custom-work#expert-support", "Explore live expert support" ),
         new( IconName.Briefcase, TextColor.Primary, "Build for your application", "Get help with company-specific integrations, bespoke components, theming, or migration. Development engagements start at 16-24 hours.", "/custom-work#custom-development", "Explore custom development" ),
-        new( IconName.Lightbulb, TextColor.Warning, "Sponsor a Blazorise feature", "Fund a generally useful feature under a fixed-price proposal, with agreed scope and acceptance criteria.", "/custom-work#feature-sponsorship", "Explore feature sponsorship" )
+        new( IconName.Lightbulb, TextColor.Warning, "Sponsor a Blazorise feature", "Fund a generally useful feature under a fixed-price proposal, with agreed scope and acceptance criteria.", "/custom-work#feature-sponsorship", "Explore feature sponsorship" ),
     ];
 
     private static readonly EngagementStep[] EngagementSteps =
@@ -131,7 +131,7 @@
         new( "1", "Request", "Share the goal, target timeline, versions, providers, dependencies, and acceptance criteria." ),
         new( "2", "Qualify", "We confirm whether the request fits a live expert session, Feature Sponsorship, Time and Materials, or the Priority Development Queue." ),
         new( "3", "Confirm", "We schedule the session or provide a proposal with scope, assumptions, timeline, and commercial terms." ),
-        new( "4", "Begin", "The live session takes place or delivery proceeds against the agreed scope and milestones." )
+        new( "4", "Begin", "The live session takes place or delivery proceeds against the agreed scope and milestones." ),
     ];
 
     private sealed record ServicePath( IconName Icon, TextColor TextColor, string Title, string Description, string To, string Action );

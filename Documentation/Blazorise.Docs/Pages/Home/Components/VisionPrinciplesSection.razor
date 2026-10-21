@@ -9,7 +9,7 @@
     </Div>
 
     <Row>
-        @foreach ( VisionPrinciple item in VisionPrinciples )
+        @foreach ( var item in VisionPrinciples )
         {
             <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
                 <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
@@ -32,7 +32,7 @@
         new( IconName.Globe, TextColor.Info, "Provider independence", "Let teams choose the visual foundation that fits their project without changing how they think about UI." ),
         new( IconName.Shield, TextColor.Success, "Accessible by default", "Keep accessibility and cross-browser behavior part of the foundation, not an afterthought." ),
         new( IconName.Code, TextColor.Primary, "Developer joy", "Keep APIs understandable, discoverable, and productive for both new and experienced Blazor developers." ),
-        new( IconName.Users, TextColor.Info, "Community learning", "Build an environment where customers, contributors, and maintainers learn from one another." )
+        new( IconName.Users, TextColor.Info, "Community learning", "Build an environment where customers, contributors, and maintainers learn from one another." ),
     ];
 
     private sealed record VisionPrinciple( IconName Icon, TextColor TextColor, string Title, string Description );

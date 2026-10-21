@@ -23,7 +23,7 @@
             <Card Border="Border.Rounded" Shadow="Shadow.Small">
                 <CardBody Padding="Padding.Is4.Is5.OnDesktop">
                     <Row>
-                        @foreach ( LicenseBenefit item in LicenseBenefits )
+                        @foreach ( var item in LicenseBenefits )
                         {
                             <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet" Margin="Margin.Is3.FromBottom">
                                 <Icon Name="@item.Icon" IconSize="IconSize.Large" TextColor="TextColor.Primary" Margin="Margin.Is3.FromBottom" />
@@ -47,7 +47,7 @@
         new( IconName.Users, "Per-developer licensing", "Choose the number of developers using Blazorise, with monthly or annual billing." ),
         new( IconName.Key, "Royalty-free deployment", "Deploy your applications without per-application royalties, subject to the license terms." ),
         new( IconName.Headset, "Direct product support", "Get help with product questions and issues through the support channels included in your plan." ),
-        new( IconName.LayerGroup, "A consistent UI foundation", "Use Blazorise components, theming, and utilities across your team's applications." )
+        new( IconName.LayerGroup, "A consistent UI foundation", "Use Blazorise components, theming, and utilities across your team's applications." ),
     ];
 
     private sealed record LicenseBenefit( IconName Icon, string Title, string Description );

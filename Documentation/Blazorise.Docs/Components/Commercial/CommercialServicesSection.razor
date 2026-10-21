@@ -15,7 +15,7 @@
     </Div>
 
     <Row>
-        @foreach ( ServiceOffering item in ServiceOfferings )
+        @foreach ( var item in ServiceOfferings )
         {
             <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
                 <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
@@ -47,7 +47,7 @@
         new( IconName.Sync, "Application migration", "Plan and implement a move to Blazor and Blazorise, with guidance on your existing application." ),
         new( IconName.Code, "Custom development", "Discuss specialized components, integrations, and workflows, or sponsor a feature for Blazorise." ),
         new( IconName.Book, "Team training", "Build your team's Blazor and Blazorise skills through practical, hands-on guidance." ),
-        new( IconName.Check, "Project onboarding", "Get help with project structure, provider configuration, and development practices as your team gets started." )
+        new( IconName.Check, "Project onboarding", "Get help with project structure, provider configuration, and development practices as your team gets started." ),
     ];
 
     private sealed record ServiceOffering( IconName Icon, string Title, string Description );
