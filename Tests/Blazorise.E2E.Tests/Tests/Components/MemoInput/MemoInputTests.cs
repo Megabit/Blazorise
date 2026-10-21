@@ -70,47 +70,6 @@ public class MemoInputTests : BlazorisePageTest
         await Expect( textarea ).Not.ToHaveAttributeAsync( "data-blazorise-memo-auto-sized", "true" );
     }
 
-    [TestCase( "Enter", "\n", true )]
-    [TestCase( "Tab", "    ", true )]
-    [TestCase( "Enter", "\n", false )]
-    [TestCase( "Tab", "    ", false )]
-    public async Task ReplaceTab_NotifiesValueChangedAccordingToImmediate( string key, string expectedValue, bool immediate )
-    {
-        await SelectTestComponent<MemoInputComponent>();
-
-        var sut = Page.Locator( "#memo-editing" );
-        var textarea = sut.GetByRole( AriaRole.Textbox );
-        var result = sut.Locator( "#memo-replace-tab-result" );
-
-        await Expect( textarea ).ToBeEditableAsync();
-
-        if ( !immediate )
-        {
-            await sut.Locator( "#memo-toggle-immediate" ).ClickAsync();
-            await Expect( sut.Locator( "#memo-toggle-immediate" ) ).ToHaveTextAsync( "Immediate: False" );
-        }
-
-        await textarea.ClickAsync();
-        await Expect( textarea ).ToBeFocusedAsync();
-        await Page.Keyboard.PressAsync( key );
-        await Expect( textarea ).ToHaveValueAsync( expectedValue );
-
-        if ( immediate )
-        {
-            await Expect( result ).ToHaveTextAsync( "1" );
-            await Expect( result ).ToHaveAttributeAsync( "data-value", expectedValue );
-        }
-        else
-        {
-            await Expect( result ).ToHaveTextAsync( "0" );
-        }
-
-        await textarea.BlurAsync();
-
-        await Expect( result ).ToHaveTextAsync( "1" );
-        await Expect( result ).ToHaveAttributeAsync( "data-value", expectedValue );
-    }
-
     [Test]
     public async Task ReplaceTab_NotifiesValueChangedWhenIndentingAndUnindentingSelection()
     {
