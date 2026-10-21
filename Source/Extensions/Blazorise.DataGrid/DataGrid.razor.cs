@@ -667,6 +667,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await CheckMultipleSelectionSetEmpty( parameters );
 
         var dataChanged = false;
+        var totalItemsChanged = parameters.TryGetValue<int?>( nameof( TotalItems ), out var paramTotalItems ) && paramTotalItems != TotalItems;
         var expandedRowsChanged = parameters.TryGetValue<IList<TItem>>( nameof( ExpandedRows ), out var changedExpandedRows );
 
         if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) )
@@ -703,6 +704,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( expandedRowsChanged && ApplyExpandedRows( changedExpandedRows ) )
         {
             SetDirty();
+        }
+
+        if ( Rendered && ManualReadMode && totalItemsChanged && TotalItems.HasValue )
+        {
+            var lastPage = Math.Max( (int)Math.Ceiling( TotalItems.Value / (double)PageSize ), 1 );
+
+            if ( Page > lastPage )
+            {
+                // Changing the page reloads data even when an empty template hides the pager.
+                Page = lastPage;
+            }
         }
     }
 
