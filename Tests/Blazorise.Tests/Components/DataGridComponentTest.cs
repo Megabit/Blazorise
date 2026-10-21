@@ -100,6 +100,64 @@ public class DataGridComponentTest : BunitContext
         Assert.Equal( "2", emptyFilterTemplateCell.GetAttribute( "colspan" ) );
     }
 
+    [Theory]
+    [InlineData( 15, 2 )]
+    [InlineData( 45, 5 )]
+    [InlineData( 0, 1 )]
+    public async Task FilterChange_Should_ReloadOnlyWhenPageExceedsUpdatedTotal( int filteredTotal, int expectedPage )
+    {
+        var requestedPages = new List<int>();
+        var changedPages = new List<int>();
+
+        var comp = Render<DataGrid<Employee>>( parameters =>
+        {
+            parameters.Add( x => x.Data, new[] { new Employee { Name = "John", Fraction = "1/2" } } );
+            parameters.Add( x => x.DataGridColumns, CreateColumnSpanColumns() );
+            parameters.Add( x => x.Filterable, true );
+            parameters.Add( x => x.ShowPager, true );
+            parameters.Add( x => x.Page, 5 );
+            parameters.Add( x => x.PageSize, 10 );
+            parameters.Add( x => x.TotalItems, 50 );
+            parameters.Add( x => x.EmptyTemplate, (Microsoft.AspNetCore.Components.RenderFragment)( builder => builder.AddContent( 0, "No Records..." ) ) );
+            parameters.Add( x => x.ReadData, args => requestedPages.Add( args.Page ) );
+            parameters.Add( x => x.PageChanged, page => changedPages.Add( page ) );
+        } );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Equal( new[] { 5 }, requestedPages );
+            Assert.False( comp.Instance.IsLoading );
+        } );
+
+        requestedPages.Clear();
+
+        var column = comp.FindComponents<DataGridColumn<Employee>>()
+            .Single( x => x.Instance.Field == nameof( Employee.Name ) ).Instance;
+
+        await comp.InvokeAsync( () => column.Filter.TriggerFilterChange( "John" ) );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Equal( new[] { 5 }, requestedPages );
+            Assert.False( comp.Instance.IsLoading );
+        } );
+
+        // Apply the filtered backend response; an empty page must not prevent recovery.
+        comp.Render( parameters =>
+        {
+            parameters.Add( x => x.Data, Array.Empty<Employee>() );
+            parameters.Add( x => x.TotalItems, filteredTotal );
+        } );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Equal( expectedPage, comp.Instance.Page );
+            Assert.Equal( expectedPage == 5 ? new[] { 5 } : new[] { 5, expectedPage }, requestedPages );
+            Assert.Equal( expectedPage == 5 ? Array.Empty<int>() : new[] { expectedPage }, changedPages );
+            Assert.False( comp.Instance.IsLoading );
+        } );
+    }
+
     [Fact]
     public void SortByField_Should_CorrectlySortRows()
     {
