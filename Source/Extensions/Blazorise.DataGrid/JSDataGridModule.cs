@@ -95,6 +95,16 @@ public class JSDataGridModule : BaseJSModule
     }
 
     /// <summary>
+    /// Scrolls to an index in the complete virtualized data set.
+    /// </summary>
+    public virtual async ValueTask ScrollToVirtualizedRow( ElementReference elementRef, string elementId, int rowIndex, int totalRows )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "scrollToVirtualizedRow", elementRef, elementId, rowIndex, totalRows );
+    }
+
+    /// <summary>
     /// Brings a virtualized row into the visible grid viewport.
     /// </summary>
     public virtual async ValueTask ScrollVirtualizedRowIntoView( ElementReference elementRef, string elementId, int rowIndex )

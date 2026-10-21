@@ -3,6 +3,7 @@ import { getRequiredElement } from "../Blazorise/utilities.js?v=__BLAZORISE_VERS
 const QUERYSELECTOR_ALL_COLUMNS = "tbody tr td";
 const QUERYSELECTOR_ALL_TABLE_HEAD_INPUT = "tbody tr td";
 const TAG_NAME_TABLE = "TABLE";
+const virtualizedScrolls = new WeakMap();
 export function initialize(element, elementId) {
     element = getRequiredElement(element, elementId);
 
@@ -74,6 +75,90 @@ function findScrollContainer(table) {
     return table.parentElement;
 }
 
+export function scrollToVirtualizedRow(table, elementId, rowIndex, totalRows) {
+    table = getRequiredElement(table, elementId);
+
+    if (!table || rowIndex < 0 || rowIndex >= totalRows) {
+        return;
+    }
+
+    const body = table.tBodies[0];
+    const container = findScrollContainer(table);
+    if (!body || !container || totalRows <= 0) {
+        return;
+    }
+
+    virtualizedScrolls.get(table)?.();
+
+    let frame;
+    const finish = () => {
+        observer.disconnect();
+        cancelAnimationFrame(frame);
+        clearTimeout(timeout);
+        virtualizedScrolls.delete(table);
+    };
+
+    const align = () => {
+        if (!table.isConnected) {
+            finish();
+            return;
+        }
+
+        // Loaded rows can coexist with placeholders; measure only the indexed data rows.
+        const rows = Array.from(body.querySelectorAll(":scope > tr[data-virtual-row-index]"));
+        if (rows.length === 0) {
+            return;
+        }
+
+        const firstIndex = Number(rows[0].dataset.virtualRowIndex);
+        if (firstIndex < 0 || rows.some((row, index) => Number(row.dataset.virtualRowIndex) !== firstIndex + index)) {
+            return;
+        }
+
+        const target = rows.find(row => Number(row.dataset.virtualRowIndex) === rowIndex);
+        const firstRect = rows[0].getBoundingClientRect();
+        const lastRect = rows[rows.length - 1].getBoundingClientRect();
+        const rowHeight = (lastRect.bottom - firstRect.top) / rows.length;
+        if (rowHeight <= 0) {
+            return;
+        }
+
+        const containerRect = container.getBoundingClientRect();
+        const viewportTop = containerRect.top + container.clientTop;
+        const viewportBottom = viewportTop + container.clientHeight;
+        let visibleTop = viewportTop;
+
+        table.querySelectorAll(":scope > thead > tr > th").forEach(cell => {
+            visibleTop = Math.max(visibleTop, cell.getBoundingClientRect().bottom);
+        });
+
+        const targetRect = target?.getBoundingClientRect();
+        const rowTop = targetRect ? targetRect.top : firstRect.top + (rowIndex - firstIndex) * rowHeight;
+        if (targetRect && rowTop >= visibleTop - 1 && targetRect.bottom <= viewportBottom + 1) {
+            finish();
+            return;
+        }
+
+        container.scrollTop += rowTop - visibleTop;
+
+        if (target) {
+            cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(align);
+        }
+    };
+
+    // The virtualizer can revise its size estimate when it renders a new window.
+    const observer = new MutationObserver(() => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(align);
+    });
+
+    const timeout = setTimeout(finish, 5000);
+    virtualizedScrolls.set(table, finish);
+    observer.observe(body, { childList: true, subtree: true, attributes: true, characterData: true });
+    align();
+}
+
 export function scrollVirtualizedRowIntoView(table, elementId, rowIndex) {
     table = getRequiredElement(table, elementId);
 
@@ -131,6 +216,8 @@ export function destroy(element, elementId) {
     element = getRequiredElement(element, elementId);
 
     if (element) {
+        virtualizedScrolls.get(element)?.();
+
         element.removeEventListener("click", clickCellNavigation);
         element.removeEventListener("keydown", KeyDownCellNavigation)
 
