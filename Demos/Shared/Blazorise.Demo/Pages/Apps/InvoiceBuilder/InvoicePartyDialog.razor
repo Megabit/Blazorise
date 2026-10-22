@@ -1,0 +1,235 @@
+@namespace Blazorise.Demo.Pages.Apps.InvoiceBuilder
+@inject CountryData CountryData
+
+<Modal @ref="modal" Size="ModalSize.Large" Centered Scrollable aria-label="@(editingSender ? "Sender information" : "Recipient information")">
+    <ModalContent>
+        <ModalHeader Border="Border.Is0">
+            @if ( !editingSender )
+            {
+                <ModalTitle>Recipient Information</ModalTitle>
+            }
+            else
+            {
+                <Span />
+            }
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Validations @key="editRevision" @ref="validations" Mode="ValidationMode.Manual" ValidateOnLoad="false">
+                <Fields>
+                    <Validation Validator="ValidationRule.IsNotEmpty">
+                        <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                            <FieldLabel RequiredIndicator>@(editingSender ? "Company / Sender name" : "Company name")</FieldLabel>
+                            <TextInput @bind-Value="party.CompanyName" MaxLength="100">
+                                <Feedback>
+                                    <ValidationError>Enter a company name.</ValidationError>
+                                </Feedback>
+                            </TextInput>
+                        </Field>
+                    </Validation>
+                    @if ( editingSender )
+                    {
+                        <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                            <FieldLabel>
+                                <Icon Name="IconName.Edit" TextColor="TextColor.Primary" Margin="Margin.Is1.FromEnd" />
+                                Tax Registration Number
+                            </FieldLabel>
+                            <TextInput @bind-Value="party.TaxRegistrationNumber" MaxLength="100" />
+                        </Field>
+                    }
+                    else
+                    {
+                        @CountryField
+                    }
+                </Fields>
+                <Fields>
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                        <FieldLabel>First name</FieldLabel>
+                        <TextInput @bind-Value="party.FirstName" MaxLength="100" />
+                    </Field>
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                        <FieldLabel>Last Name</FieldLabel>
+                        <TextInput @bind-Value="party.LastName" MaxLength="100" />
+                    </Field>
+                </Fields>
+                @if ( !editingSender )
+                {
+                    <Fields>
+                        @EmailField
+                        @PhoneField
+                    </Fields>
+                }
+                <Fields>
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                        <FieldLabel>Address line 1</FieldLabel>
+                        <TextInput @bind-Value="party.AddressLine1" MaxLength="200" />
+                    </Field>
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                        <FieldLabel>Address line 2</FieldLabel>
+                        <TextInput @bind-Value="party.AddressLine2" MaxLength="200" />
+                    </Field>
+                </Fields>
+                <Fields>
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                        <FieldLabel>Postal code</FieldLabel>
+                        <TextInput @bind-Value="party.PostalCode" MaxLength="30" />
+                    </Field>
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                        <FieldLabel>City</FieldLabel>
+                        <TextInput @bind-Value="party.City" MaxLength="100" />
+                    </Field>
+                </Fields>
+                @if ( editingSender )
+                {
+                    <Fields>
+                        @CountryField
+                        @PhoneField
+                    </Fields>
+                }
+                <Fields>
+                    @if ( editingSender )
+                    {
+                        @EmailField
+                    }
+                    <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                        <FieldLabel>Web site</FieldLabel>
+                        <TextInput @bind-Value="party.Website" Role="TextRole.Url" MaxLength="200" />
+                    </Field>
+                    @if ( !editingSender )
+                    {
+                        <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+                            <FieldLabel>Invoice currency</FieldLabel>
+                            <Select TValue="string" @bind-Value="party.Currency">
+                                <SelectItem Value="@string.Empty">-</SelectItem>
+                                <SelectItem Value="@("USD")">USD</SelectItem>
+                                <SelectItem Value="@("EUR")">EUR</SelectItem>
+                                <SelectItem Value="@("GBP")">GBP</SelectItem>
+                            </Select>
+                        </Field>
+                    }
+                </Fields>
+                @if ( !editingSender )
+                {
+                    <Field>
+                        <FieldLabel>Additional info</FieldLabel>
+                        <MemoInput @bind-Value="party.AdditionalInfo" Rows="3" MaxLength="1000" />
+                    </Field>
+                }
+                <Div Flex="Flex.JustifyContent.Between" Gap="Gap.Is3">
+                    <Button Color="Color.Secondary" Outline Clicked="@(() => modal.Hide())">Cancel</Button>
+                    <Button Color="Color.Primary" Clicked="Apply">
+                        <Icon Name="IconName.Save" Margin="Margin.Is1.FromEnd" />
+                        @(editingSender ? "Set sender data" : "Set Recipient Data")
+                    </Button>
+                </Div>
+            </Validations>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+@code {
+    #region Members
+
+    private static readonly string[] callingCodes = ["+93", "+1", "+33", "+44", "+49", "+61", "+81", "+86", "+91", "+385"];
+
+    private Modal modal;
+
+    private Validations validations;
+
+    private InvoiceParty party = new();
+
+    private IEnumerable<Country> countries = [];
+
+    private bool editingSender;
+
+    private int editRevision;
+
+    #endregion
+
+    #region Methods
+
+    protected override async Task OnInitializedAsync()
+    {
+        countries = await CountryData.GetDataAsync();
+    }
+
+    public Task Show( InvoiceParty original, bool sender )
+    {
+        party = original with { };
+        editingSender = sender;
+        editRevision++;
+
+        StateHasChanged();
+
+        return modal.Show();
+    }
+
+    private async Task Apply()
+    {
+        if ( !await validations.ValidateAll() )
+        {
+            return;
+        }
+
+        await ( editingSender ? SenderChanged : RecipientChanged ).InvokeAsync( party );
+        await modal.Hide();
+    }
+
+    private void ValidateEmail( ValidatorEventArgs eventArgs )
+    {
+        var email = eventArgs.Value?.ToString();
+        var isOptionalEmpty = editingSender && string.IsNullOrWhiteSpace( email );
+
+        eventArgs.Status = isOptionalEmpty || ValidationRule.IsEmail( email ) ? ValidationStatus.Success : ValidationStatus.Error;
+    }
+
+    #endregion
+
+    #region Properties
+
+    [Parameter] public EventCallback<InvoiceParty> SenderChanged { get; set; }
+
+    [Parameter] public EventCallback<InvoiceParty> RecipientChanged { get; set; }
+
+    private RenderFragment CountryField => @<Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+        <FieldLabel>Country</FieldLabel>
+        <Select TValue="string" @bind-Value="party.Country">
+            <SelectItem Value="@string.Empty">-</SelectItem>
+            @foreach ( var country in countries )
+            {
+                <SelectItem @key="country.Iso" Value="@country.Name">@country.Name</SelectItem>
+            }
+        </Select>
+    </Field>;
+
+    private RenderFragment EmailField => @<Validation Validator="ValidateEmail">
+        <Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+            <FieldLabel RequiredIndicator="@(!editingSender)">@(editingSender ? "Email" : "Email address")</FieldLabel>
+            <TextInput @bind-Value="party.Email" Role="TextRole.Email" MaxLength="200">
+                <Feedback>
+                    <ValidationError>Enter a valid email address.</ValidationError>
+                </Feedback>
+            </TextInput>
+        </Field>
+    </Validation>;
+
+    private RenderFragment PhoneField => @<Field ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet">
+        <FieldLabel>Phone number</FieldLabel>
+        <Addons>
+            <Addon AddonType="AddonType.Start">
+                <Select TValue="string" @bind-Value="party.CallingCode" aria-label="Country calling code">
+                    @foreach ( var callingCode in callingCodes )
+                    {
+                        <SelectItem Value="@callingCode">@callingCode</SelectItem>
+                    }
+                </Select>
+            </Addon>
+            <Addon AddonType="AddonType.Body">
+                <TextInput @bind-Value="party.PhoneNumber" Role="TextRole.Telephone" MaxLength="30" Placeholder="70 123 4567" />
+            </Addon>
+        </Addons>
+    </Field>;
+
+    #endregion
+
+}

@@ -1,0 +1,562 @@
+@page "/apps/invoice-builder"
+@namespace Blazorise.Demo.Pages.Apps.InvoiceBuilder
+@using System.Globalization
+@using System.IO
+@using System.Text.Json
+@using Blazorise.Pdf
+@inject IPdfGenerator PdfGenerator
+@inject IMessageService MessageService
+
+<Row Margin="Margin.Is3.OnY">
+    <Column ColumnSize="ColumnSize.Is8.OnDesktop.Is12.OnMobile">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardBody Padding="Padding.Is4">
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is6.OnTablet.Is12.OnMobile">
+                        <Button Color="Color.Primary" Outline Block Padding="Padding.Is2" TextAlignment="TextAlignment.Start" Clicked="@(() => logoModal.Show())">
+                            @if ( string.IsNullOrEmpty( invoice.Logo ) )
+                            {
+                                <Icon Name="IconName.Image" IconSize="IconSize.x2" Margin="Margin.Is2.FromEnd" />
+                                <Span>Choose logo</Span>
+                            }
+                            else
+                            {
+                                <Image Source="@invoice.Logo" Text="Company logo. Click to change." Height="Height.Px( 48 )" Width="Width.Auto" />
+                            }
+                        </Button>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is6.OnTablet.Is12.OnMobile">
+                        <Row>
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <Select TValue="string" @bind-Value="invoice.DocumentType" aria-label="Document type">
+                                    <SelectItem Value="@("Invoice")">Invoice</SelectItem>
+                                    <SelectItem Value="@("Quote")">Quote</SelectItem>
+                                </Select>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <TextInput @bind-Value="invoice.Number" Placeholder="0001" MaxLength="30" aria-label="Invoice number" />
+                            </Column>
+                        </Row>
+                    </Column>
+                </Row>
+
+                <Divider Margin="Margin.Is4.OnY" />
+
+                <Row Margin="Margin.Is3.FromBottom">
+                    <Column ColumnSize="ColumnSize.Is6.OnTablet.Is12.OnMobile">
+                        <Div Flex="Flex.Column" Gap="Gap.Is3">
+                            <Div Border="Border.Is1.Rounded" TextColor="TextColor.Body" Style="cursor: pointer"
+                                 Flex="Flex.Column.AlignItems.Start" TextAlignment="TextAlignment.Start" Padding="Padding.Is2" Margin="Margin.Is3.FromBottom"
+                                 @onclick="@(() => EditParty( true ))">
+                                <Strong Display="Display.Block" Margin="Margin.Is2.FromBottom">From</Strong>
+                                <Span Flex="Flex.AlignItems.Center" Gap="Gap.Is3">
+                                    <Icon Name="IconName.Building" IconSize="IconSize.x2" />
+                                    <Span>
+                                        <Span Display="Display.Block">@(string.IsNullOrWhiteSpace( invoice.Sender.CompanyName ) ? "Sender name" : invoice.Sender.CompanyName)</Span>
+                                        <Small Display="Display.Block" TextColor="TextColor.Body">
+                                            @(string.IsNullOrWhiteSpace( invoice.Sender.FormatContactDetails() ) ? "Sender contact details" : invoice.Sender.FormatContactDetails())
+                                        </Small>
+                                    </Span>
+                                </Span>
+                            </Div>
+                            <Div Border="Border.Is1.Rounded" TextColor="TextColor.Body" Style="cursor: pointer"
+                                 Flex="Flex.Column.AlignItems.Start" TextAlignment="TextAlignment.Start" Padding="Padding.Is2"
+                                 @onclick="@(() => EditParty( false ))">
+                                <Strong Display="Display.Block" Margin="Margin.Is2.FromBottom">To</Strong>
+                                <Span Flex="Flex.AlignItems.Center" Gap="Gap.Is3">
+                                    <Icon Name="IconName.UserCircle" IconSize="IconSize.x2" />
+                                    <Span>
+                                        <Span Display="Display.Block">@(string.IsNullOrWhiteSpace( invoice.Recipient.CompanyName ) ? "Recipient name" : invoice.Recipient.CompanyName)</Span>
+                                        <Small Display="Display.Block" TextColor="TextColor.Body">
+                                            @(string.IsNullOrWhiteSpace( invoice.Recipient.FormatContactDetails() ) ? "Recipient contact details" : invoice.Recipient.FormatContactDetails())
+                                        </Small>
+                                    </Span>
+                                </Span>
+                            </Div>
+                        </Div>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is6.OnTablet.Is12.OnMobile">
+                        <Row Flex="Flex.AlignItems.Center" Margin="Margin.Is3.FromBottom">
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <Label For="invoice-issue-date" TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">Issue date</Label>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <DatePicker ElementId="invoice-issue-date" TValue="DateOnly" @bind-Value="invoice.IssueDate" Width="Width.Is100" />
+                            </Column>
+                        </Row>
+                        <Row Flex="Flex.AlignItems.Center" Margin="Margin.Is3.FromBottom">
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <Label For="invoice-due-date" TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">Due date</Label>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <DatePicker ElementId="invoice-due-date" TValue="DateOnly" @bind-Value="invoice.DueDate"
+                                            Min="@(new DateTimeOffset( invoice.IssueDate.ToDateTime( TimeOnly.MinValue ) ))" Width="Width.Is100" />
+                            </Column>
+                        </Row>
+                        <Row Flex="Flex.AlignItems.Center" Margin="Margin.Is3.FromBottom">
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <Label For="invoice-po-number" TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">PO number</Label>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <TextInput ElementId="invoice-po-number" @bind-Value="invoice.PurchaseOrderNumber" MaxLength="50" Width="Width.Is100" />
+                            </Column>
+                        </Row>
+                        <Row Flex="Flex.AlignItems.Center">
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <Label For="invoice-payment-terms" TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">Payment Terms</Label>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <TextInput ElementId="invoice-payment-terms" @bind-Value="invoice.PaymentTerms" MaxLength="100" Placeholder="e.g. Net 30" Width="Width.Is100" />
+                            </Column>
+                        </Row>
+                    </Column>
+                </Row>
+
+                @foreach ( var field in invoice.CustomFields )
+                {
+                    <Div @key="field" Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Margin="Margin.Is2.OnY">
+                        <TextInput @bind-Value="field.Name" Placeholder="Field name" MaxLength="80" aria-label="Custom field name" />
+                        <TextInput @bind-Value="field.Text" Placeholder="Field value" MaxLength="200" aria-label="Custom field value" />
+                        <Button Color="Color.Secondary" Outline Clicked="@(() => invoice.CustomFields.Remove( field ))" aria-label="Remove custom field">
+                            <Icon Name="IconName.Times" />
+                        </Button>
+                    </Div>
+                }
+                @if ( showDescription )
+                {
+                    <Field Margin="Margin.Is3.OnY">
+                        <FieldLabel>Description</FieldLabel>
+                        <MemoInput @bind-Value="invoice.Description" Rows="2" MaxLength="1000" Placeholder="Invoice description" />
+                    </Field>
+                }
+
+                <Table Responsive Bordered Margin="Margin.Is0">
+                    <TableHeader ThemeContrast="ThemeContrast.Dark">
+                        <TableRow>
+                            <TableHeaderCell Width="Width.Is25">Name</TableHeaderCell>
+                            <TableHeaderCell>Quantity</TableHeaderCell>
+                            <TableHeaderCell>Unit price</TableHeaderCell>
+                            <TableHeaderCell>Tax</TableHeaderCell>
+                            <TableHeaderCell TextAlignment="TextAlignment.End">Subtotal</TableHeaderCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        @foreach ( var item in invoice.Items )
+                        {
+                            <TableRow @key="item">
+                                <TableRowCell>
+                                    <TextInput @bind-Value="item.Name" MaxLength="100" aria-label="Item name" />
+                                </TableRowCell>
+                                <TableRowCell>
+                                    <NumericInput TValue="decimal?" @bind-Value="item.Quantity" Min="0" Max="1000000" Step="0.01m" aria-label="Quantity" />
+                                </TableRowCell>
+                                <TableRowCell>
+                                    <NumericInput TValue="decimal?" @bind-Value="item.UnitPrice" Min="0" Max="1000000" Step="0.01m" aria-label="Unit price" />
+                                </TableRowCell>
+                                <TableRowCell>
+                                    <Select TValue="decimal" @bind-Value="item.TaxRate" aria-label="Tax rate">
+                                        <SelectItem TValue="decimal" Value="0m">Non Taxable</SelectItem>
+                                        <SelectItem TValue="decimal" Value="5m">5%</SelectItem>
+                                        <SelectItem TValue="decimal" Value="10m">10%</SelectItem>
+                                        <SelectItem TValue="decimal" Value="20m">20%</SelectItem>
+                                        <SelectItem TValue="decimal" Value="25m">25%</SelectItem>
+                                    </Select>
+                                </TableRowCell>
+                                <TableRowCell TextAlignment="TextAlignment.End" VerticalAlignment="VerticalAlignment.Middle">
+                                    @if ( item.Quantity.HasValue && item.UnitPrice.HasValue )
+                                    {
+                                        @FormatMoney( item.Subtotal )
+                                    }
+                                </TableRowCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableRowCell ColumnSpan="4" Padding="Padding.Is2.FromBottom">
+                                    <MemoInput @bind-Value="item.Description" Rows="2" MaxLength="500" Placeholder="Description" aria-label="Item description" />
+                                </TableRowCell>
+                                <TableRowCell TextAlignment="TextAlignment.End" VerticalAlignment="VerticalAlignment.Middle">
+                                    <Button Color="Color.Danger" Ghost Clicked="@(() => invoice.Items.Remove( item ))" aria-label="Remove invoice item">
+                                        <Icon Name="IconName.Delete" />
+                                    </Button>
+                                </TableRowCell>
+                            </TableRow>
+                        }
+                    </TableBody>
+                </Table>
+                
+                <Button Color="Color.Light" Block TextColor="TextColor.Body" Border="Border.Is1.Rounded"
+                        TextWeight="TextWeight.SemiBold" Padding="Padding.Is2" Margin="Margin.Is4.OnY" Clicked="AddItem">
+                    <Icon Name="IconName.Plus" Margin="Margin.Is1.FromEnd" />
+                    Add new Invoice Item
+                </Button>
+
+                <Row Margin="Margin.Is4.OnY">
+                    <Column ColumnSize="ColumnSize.Is6.OnTablet.Is12.OnMobile">
+                        @if ( showPayment )
+                        {
+                            <Field>
+                                <FieldLabel>Amount paid</FieldLabel>
+                                <NumericInput TValue="decimal" @bind-Value="invoice.AmountPaid" Min="0" Max="Total" Step="0.01m" />
+                            </Field>
+                            <Field>
+                                <FieldLabel>Payment details</FieldLabel>
+                                <TextInput @bind-Value="invoice.PaymentDetails" MaxLength="200" Placeholder="Method or reference" />
+                            </Field>
+                        }
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is5.OnTablet.Is1.WithOffset.OnTablet">
+                        <Row Flex="Flex.AlignItems.Center" Margin="Margin.Is3.FromBottom">
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <Strong>Invoice summary</Strong>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <Select TValue="string" @bind-Value="invoice.Currency" @bind-Value:after="SynchronizeRecipientCurrency" Width="Width.Is100" aria-label="Currency">
+                                    <SelectItem Value="@("USD")">USD</SelectItem>
+                                    <SelectItem Value="@("EUR")">EUR</SelectItem>
+                                    <SelectItem Value="@("GBP")">GBP</SelectItem>
+                                </Select>
+                            </Column>
+                        </Row>
+                        <Row Margin="Margin.Is1.FromBottom">
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <Strong>Subtotal</Strong>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6" TextAlignment="TextAlignment.End">
+                                <Strong>@FormatMoney( Subtotal )</Strong>
+                            </Column>
+                        </Row>
+                        <Row Margin="Margin.Is1.FromBottom">
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <Strong>Tax</Strong>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6" TextAlignment="TextAlignment.End">
+                                <Strong>@FormatMoney( Tax )</Strong>
+                            </Column>
+                        </Row>
+                        <Row>
+                            <Column ColumnSize="ColumnSize.Is6">
+                                <Strong>Total</Strong>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is6" TextAlignment="TextAlignment.End">
+                                <Strong>@FormatMoney( Total )</Strong>
+                            </Column>
+                        </Row>
+                        @if ( showPayment )
+                        {
+                            <Divider />
+                            <Row Margin="Margin.Is1.FromBottom">
+                                <Column ColumnSize="ColumnSize.Is6">
+                                    <Span>Paid</Span>
+                                </Column>
+                                <Column ColumnSize="ColumnSize.Is6" TextAlignment="TextAlignment.End">
+                                    <Span>@FormatMoney( invoice.AmountPaid )</Span>
+                                </Column>
+                            </Row>
+                            <Row>
+                                <Column ColumnSize="ColumnSize.Is6">
+                                    <Strong>Balance due</Strong>
+                                </Column>
+                                <Column ColumnSize="ColumnSize.Is6" TextAlignment="TextAlignment.End">
+                                    <Strong>@FormatMoney( Total - invoice.AmountPaid )</Strong>
+                                </Column>
+                            </Row>
+                        }
+                    </Column>
+                </Row>
+
+                <Divider Margin="Margin.Is4.OnY" />
+                <MemoInput @bind-Value="invoice.Terms" Rows="2" MaxLength="2000" Placeholder="Invoice terms" aria-label="Invoice terms" />
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is4.OnDesktop.Is12.OnMobile">
+        <Div Flex="Flex.Column" Gap="Gap.Is3">
+            <Button Color="Color.Primary" Outline Block TextWeight="TextWeight.SemiBold" Clicked="AddCustomField">
+                <Icon Name="IconName.Plus" Margin="Margin.Is1.FromEnd" /> Add custom field
+            </Button>
+            <Button Color="Color.Primary" Outline Block TextWeight="TextWeight.SemiBold" Clicked="@(() => EditParty( true ))">
+                <Icon Name="IconName.FileAlt" Margin="Margin.Is1.FromEnd" /> Add company Info
+            </Button>
+            <Button Color="Color.Primary" Outline Block TextWeight="TextWeight.SemiBold" Clicked="@(() => EditParty( false ))">
+                <Icon Name="IconName.User" Margin="Margin.Is1.FromEnd" /> Add client Info
+            </Button>
+            <Button Color="Color.Primary" Outline Block TextWeight="TextWeight.SemiBold" Clicked="@(() => showDescription = !showDescription)">
+                <Icon Name="IconName.FileAlt" Margin="Margin.Is1.FromEnd" /> @(showDescription ? "Hide description" : "Add description")
+            </Button>
+            <Button Color="Color.Primary" Outline Block TextWeight="TextWeight.SemiBold" Clicked="@(() => showPayment = !showPayment)">
+                <Icon Name="IconName.DollarSign" Margin="Margin.Is1.FromEnd" /> @(showPayment ? "Hide payment" : "Add payment")
+            </Button>
+            <Divider Margin="Margin.Is3.OnY" />
+            <Button Color="Color.Primary" Block TextWeight="TextWeight.SemiBold" Clicked="DeleteInvoice">
+                <Icon Name="IconName.Delete" Margin="Margin.Is1.FromEnd" /> Delete Invoice
+            </Button>
+            <Button Color="Color.Primary" Block TextWeight="TextWeight.SemiBold" Loading="isExporting" Disabled="isExporting" Clicked="ExportPdf">
+                <Icon Name="IconName.Download" Margin="Margin.Is1.FromEnd" /> Download PDF
+            </Button>
+            <Button Color="Color.Primary" Block TextWeight="TextWeight.SemiBold" Clicked="SaveInvoice">
+                <Icon Name="IconName.Save" Margin="Margin.Is1.FromEnd" /> Save
+            </Button>
+        </Div>
+    </Column>
+</Row>
+
+<InvoicePartyDialog @ref="partyDialog" SenderChanged="SetSender" RecipientChanged="SetRecipient" />
+
+<Modal @ref="logoModal" Centered>
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>Company logo</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <FilePicker Filter=".png,.jpg,.jpeg" MaxFileSize="512000" Changed="LoadLogo" />
+            <FieldHelp>Choose or drop a PNG or JPEG image, up to 500 KB.</FieldHelp>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Outline Clicked="RemoveLogo">Remove logo</Button>
+            <Button Color="Color.Primary" Clicked="@(() => logoModal.Hide())">Done</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+<Modal @ref="downloadModal" Centered>
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>@downloadTitle</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Paragraph>@downloadDescription</Paragraph>
+            <Button Type="ButtonType.Link" To="@downloadUrl" download="@downloadFileName" Color="Color.Primary">
+                <Icon Name="IconName.Download" Margin="Margin.Is1.FromEnd" /> Download @downloadFileName
+            </Button>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+@code {
+    #region Members
+
+    private InvoiceDraft invoice = new();
+
+    private InvoicePartyDialog partyDialog;
+
+    private Modal logoModal;
+
+    private Modal downloadModal;
+
+    private bool showDescription;
+
+    private bool showPayment;
+
+    private bool isExporting;
+
+    private string downloadTitle;
+
+    private string downloadDescription;
+
+    private string downloadUrl;
+
+    private string downloadFileName;
+
+    #endregion
+
+    #region Methods
+
+    private void AddItem()
+    {
+        invoice.Items.Add( new InvoiceItem() );
+    }
+
+    private void AddCustomField()
+    {
+        invoice.CustomFields.Add( new CustomField() );
+    }
+
+    private Task EditParty( bool sender ) => partyDialog.Show( sender ? invoice.Sender : invoice.Recipient, sender );
+
+    private void SetSender( InvoiceParty sender )
+    {
+        invoice.Sender = sender;
+    }
+
+    private void SetRecipient( InvoiceParty recipient )
+    {
+        invoice.Recipient = recipient;
+
+        if ( !string.IsNullOrEmpty( recipient.Currency ) )
+        {
+            invoice.Currency = recipient.Currency;
+        }
+    }
+
+    private void SynchronizeRecipientCurrency()
+    {
+        invoice.Recipient.Currency = invoice.Currency;
+    }
+
+    private async Task LoadLogo( FileChangedEventArgs eventArgs )
+    {
+        var file = eventArgs.Files.FirstOrDefault();
+
+        if ( file is null )
+        {
+            return;
+        }
+
+        if ( file.Size > 512000 || ( file.Type != "image/png" && file.Type != "image/jpeg" ) )
+        {
+            await MessageService.Warning( "Choose a PNG or JPEG image up to 500 KB." );
+            return;
+        }
+
+        try
+        {
+            using var source = file.OpenReadStream( 512000 );
+            using var buffer = new MemoryStream();
+
+            await source.CopyToAsync( buffer );
+            invoice.Logo = $"data:{file.Type};base64,{Convert.ToBase64String( buffer.ToArray() )}";
+
+            await logoModal.Hide();
+        }
+        catch ( IOException )
+        {
+            await MessageService.Error( "The logo could not be read. Please choose the image again." );
+        }
+    }
+
+    private void RemoveLogo()
+    {
+        invoice.Logo = null;
+    }
+
+    private async Task DeleteInvoice()
+    {
+        if ( !await MessageService.Confirm( "Clear this invoice and start a new one?", "Delete invoice" ) )
+        {
+            return;
+        }
+
+        invoice = new InvoiceDraft();
+        showDescription = false;
+        showPayment = false;
+        downloadUrl = null;
+    }
+
+    private async Task SaveInvoice()
+    {
+        downloadTitle = "Save invoice";
+        downloadDescription = "Download a JSON copy of your invoice data. This demo does not store invoices after you leave the page.";
+        downloadFileName = "invoice.json";
+        downloadUrl = $"data:application/json;base64,{Convert.ToBase64String( JsonSerializer.SerializeToUtf8Bytes( invoice ) )}";
+
+        await downloadModal.Show();
+    }
+
+    private async Task ExportPdf()
+    {
+        isExporting = true;
+
+        try
+        {
+            var document = new InvoicePdfBuilder( invoice, FormatMoney ).Build();
+            var result = await PdfGenerator.GenerateAsync( document );
+
+            downloadTitle = "Download PDF";
+            downloadDescription = "Your invoice PDF is ready.";
+            downloadFileName = "invoice.pdf";
+            downloadUrl = $"data:application/pdf;base64,{Convert.ToBase64String( result.Content )}";
+
+            await downloadModal.Show();
+        }
+        catch ( Exception )
+        {
+            await MessageService.Error( "The PDF could not be generated. Check the invoice details and logo, then try again." );
+        }
+        finally
+        {
+            isExporting = false;
+        }
+    }
+
+    private string FormatMoney( decimal amount )
+    {
+        var symbol = invoice.Currency switch
+        {
+            "EUR" => "€",
+            "GBP" => "£",
+            _ => "$",
+        };
+
+        return $"{symbol} {amount.ToString( "N2", CultureInfo.InvariantCulture )}";
+    }
+
+    #endregion
+
+    #region Properties
+
+    private decimal Subtotal => invoice.Items.Sum( item => item.Subtotal );
+
+    private decimal Tax => invoice.Items.Sum( item => decimal.Round( item.Subtotal * item.TaxRate / 100, 2 ) );
+
+    private decimal Total => Subtotal + Tax;
+
+    #endregion
+
+    public class InvoiceDraft
+    {
+        public string DocumentType { get; set; } = "Invoice";
+
+        public string Number { get; set; } = "0001";
+
+        public DateOnly IssueDate { get; set; } = DateOnly.FromDateTime( DateTime.Today );
+
+        public DateOnly DueDate { get; set; } = DateOnly.FromDateTime( DateTime.Today.AddDays( 30 ) );
+
+        public string PurchaseOrderNumber { get; set; }
+
+        public string PaymentTerms { get; set; }
+
+        public string Currency { get; set; } = "USD";
+
+        public string Logo { get; set; }
+
+        public InvoiceParty Sender { get; set; } = new();
+
+        public InvoiceParty Recipient { get; set; } = new();
+
+        public string Description { get; set; }
+
+        public string Terms { get; set; }
+
+        public decimal AmountPaid { get; set; }
+
+        public string PaymentDetails { get; set; }
+
+        public List<InvoiceItem> Items { get; set; } = [new()];
+
+        public List<CustomField> CustomFields { get; set; } = [];
+    }
+
+    public class InvoiceItem
+    {
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal? Quantity { get; set; }
+
+        public decimal? UnitPrice { get; set; }
+
+        public decimal TaxRate { get; set; }
+
+        public decimal Subtotal => decimal.Round( ( Quantity ?? 0 ) * ( UnitPrice ?? 0 ), 2 );
+    }
+
+    public class CustomField
+    {
+        public string Name { get; set; }
+
+        public string Text { get; set; }
+    }
+}
