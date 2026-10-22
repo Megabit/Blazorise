@@ -4,7 +4,7 @@
           Data="@employeeList"
           Filterable
           Responsive>
-    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
+    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false" />
     <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name Length" Editable="false" CustomFilter="@OnNameLengthFilter">
         <DisplayTemplate>
             @context.Item.FirstName.Length chars

@@ -3,14 +3,20 @@
 <Fields>
     <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is4.OnTablet">
         <FieldLabel>Indigo</FieldLabel>
-        <InputMask Mask="99-9999999" Value="12-3456789" Color="@("#312E81")" />
+        <FieldBody>
+            <InputMask Mask="99-9999999" Value="12-3456789" Color="@("#312E81")" />
+        </FieldBody>
     </Field>
     <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is4.OnTablet">
         <FieldLabel>Teal</FieldLabel>
-        <InputMask Mask="99-9999999" Value="12-3456789" Color="@(new Color( CssColor.Rgb( 15, 118, 110 ) ))" />
+        <FieldBody>
+            <InputMask Mask="99-9999999" Value="12-3456789" Color="@(new Color( CssColor.Rgb( 15, 118, 110 ) ))" />
+        </FieldBody>
     </Field>
     <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is4.OnTablet">
         <FieldLabel>Explicit text color</FieldLabel>
-        <InputMask Mask="99-9999999" Value="12-3456789" Color="@CssColor.Variable( "--input-accent", "#7C3AED" )" TextColor="@(new TextColor( "#0F766E" ))" />
+        <FieldBody>
+            <InputMask Mask="99-9999999" Value="12-3456789" Color="@CssColor.Variable( "--input-accent", "#7C3AED" )" TextColor="@(new TextColor( "#0F766E" ))" />
+        </FieldBody>
     </Field>
 </Fields>

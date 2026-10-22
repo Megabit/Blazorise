@@ -1,9 +1,16 @@
 <Switch ElementId="groupHeaders" @bind-Value="groupHeaders">Group headers</Switch>
+<Switch ElementId="virtualize" @bind-Value="virtualize">Virtualize</Switch>
+<Switch ElementId="manualRead" @bind-Value="manualRead">Read data</Switch>
 
 <DataGrid @ref="dataGrid"
+          @key="(virtualize, manualRead)"
           ElementId="scrollGrid"
           TItem="ScrollItem"
-          Data="items"
+          Data="@(manualRead ? loadedItems : items)"
+          ReadData="@(manualRead ? OnReadData : null)"
+          TotalItems="@(manualRead ? items.Count : null)"
+          Virtualize="virtualize"
+          VirtualizeOptions="@(new() { DataGridHeight = "250px", DataGridMaxHeight = "250px", OverscanCount = 3 })"
           PageSize="30"
           FixedHeader
           FixedHeaderDataGridMaxHeight="200px"
@@ -15,7 +22,7 @@
     </DataGridColumns>
 </DataGrid>
 
-@foreach ( int index in new[] { 0, 5, 6, 10, 20, 29 } )
+@foreach ( var index in new[] { 0, 5, 6, 10, 20, 29, 40, 500, 999 } )
 {
     <Button ElementId="@($"scrollTo{index}")" Clicked="@(() => ScrollToRow( index ))">Scroll to @index</Button>
 }
@@ -25,9 +32,30 @@
     private ScrollItem selectedRow;
     private bool groupHeaders;
 
-    private readonly List<ScrollItem> items = Enumerable.Range( 0, 30 )
+    private bool virtualize;
+
+    private bool manualRead;
+
+    private IEnumerable<ScrollItem> loadedItems = [];
+
+    private readonly List<ScrollItem> items = Enumerable.Range( 0, 1000 )
         .Select( index => new ScrollItem { Id = index, Name = $"Item {index}" } )
         .ToList();
+
+    private Task OnReadData( DataGridReadDataEventArgs<ScrollItem> eventArgs )
+    {
+        var startIndex = eventArgs.ReadDataMode == DataGridReadDataMode.Virtualize
+            ? eventArgs.VirtualizeOffset
+            : ( eventArgs.Page - 1 ) * eventArgs.PageSize;
+
+        var count = eventArgs.ReadDataMode == DataGridReadDataMode.Virtualize
+            ? eventArgs.VirtualizeCount
+            : eventArgs.PageSize;
+
+        loadedItems = items.Skip( startIndex ).Take( count ).ToList();
+
+        return Task.CompletedTask;
+    }
 
     private async Task ScrollToRow( int index )
     {

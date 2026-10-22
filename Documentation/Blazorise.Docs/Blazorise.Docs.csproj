@@ -56,7 +56,6 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Reporting.DataSources.WebApi\Blazorise.Reporting.DataSources.WebApi.csproj" />
     <PackageReference Include="MailKit" />
     <PackageReference Include="MimeKit" />
-    <PackageReference Include="System.Security.Cryptography.Pkcs" />
     <PackageReference Include="Blazored.LocalStorage" />
     <PackageReference Include="ColorCode.HTML" />
   </ItemGroup>
@@ -72,7 +71,7 @@
   <!-- Read the complete current manifest rather than globbing stale output from deleted examples. -->
   <Target Name="IncludeGeneratedDocs" BeforeTargets="AssignTargetPaths"
           DependsOnTargets="InitializeDocsGeneration;CompileDocs">
-    <Error Condition="'$(DesignTimeBuild)' != 'true' and (!Exists('$(DocsGeneratedOutputPath)/ExampleCodeFiles.txt') or !Exists('$(DocsGeneratedOutputPath)/Models/Snippets.generated.cs'))"
+    <Error Condition="'$(DesignTimeBuild)' != 'true' and (!Exists('$(DocsGeneratedOutputPath)/ExampleCodeFiles.txt') or !Exists('$(DocsGeneratedOutputPath)/Models/Snippets.generated.cs') or !Exists('$(DocsGeneratedOutputPath)/Models/DocsPageChanges.generated.cs'))"
            Text="Generated documentation is missing. Build with GenerateDocs=true first." />
 
     <ReadLinesFromFile File="$(DocsGeneratedOutputPath)/ExampleCodeFiles.txt"
@@ -88,6 +87,8 @@
       </EmbeddedResource>
       <Compile Include="$(DocsGeneratedOutputPath)/Models/Snippets.generated.cs"
                Condition="Exists('$(DocsGeneratedOutputPath)/Models/Snippets.generated.cs')" />
+      <Compile Include="$(DocsGeneratedOutputPath)/Models/DocsPageChanges.generated.cs"
+               Condition="Exists('$(DocsGeneratedOutputPath)/Models/DocsPageChanges.generated.cs')" />
       <Compile Include="$(ApiDocsIntermediatePath)/**/*.ApiDocs.cs" />
       <FileWrites Include="$(DocsGeneratedOutputPath)/**/*;$(ApiDocsIntermediatePath)/**/*.ApiDocs.cs" />
     </ItemGroup>

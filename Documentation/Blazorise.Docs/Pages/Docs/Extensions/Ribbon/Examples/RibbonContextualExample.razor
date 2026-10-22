@@ -1,13 +1,19 @@
 @namespace Blazorise.Docs.Docs.Examples
 
 <Div Flex="Flex.Row.Wrap.AlignItems.Center" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
-    <Switch TValue="bool" Value="@activeContextualGroups.Contains( "table" )" ValueChanged="@OnTableSelectionChangedHandler">Table selected</Switch>
-    <Switch TValue="bool" Value="@activeContextualGroups.Contains( "picture" )" ValueChanged="@OnPictureSelectionChangedHandler">Picture selected</Switch>
-    <Select TValue="Color" @bind-Value="@contextualColor" Width="Width.Rem( 9 )" aria-label="Table tools color">
-        <SelectItem Value="Color.Primary">Primary</SelectItem>
-        <SelectItem Value="Color.Success">Success</SelectItem>
-        <SelectItem Value="Color.Danger">Danger</SelectItem>
-    </Select>
+    <Field Margin="Margin.Is0">
+        <Switch TValue="bool" Value="@activeContextualGroups.Contains( "table" )" ValueChanged="@OnTableSelectionChangedHandler">Table selected</Switch>
+    </Field>
+    <Field Margin="Margin.Is0">
+        <Switch TValue="bool" Value="@activeContextualGroups.Contains( "picture" )" ValueChanged="@OnPictureSelectionChangedHandler">Picture selected</Switch>
+    </Field>
+    <Field Margin="Margin.Is0">
+        <Select TValue="Color" @bind-Value="@contextualColor" Width="Width.Rem( 9 )" aria-label="Table tools color">
+            <SelectItem Value="Color.Primary">Primary</SelectItem>
+            <SelectItem Value="Color.Success">Success</SelectItem>
+            <SelectItem Value="Color.Danger">Danger</SelectItem>
+        </Select>
+    </Field>
     <Button Ghost Color="Color.Secondary" Clicked="@OnClearContextsHandler">Clear contexts</Button>
 </Div>
 

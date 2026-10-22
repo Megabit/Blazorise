@@ -1,6 +1,8 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<TimeInput TValue="TimeSpan?" Value="@selectedTime" ValueChanged="@OnValueChanged" />
+<Field>
+    <TimeInput TValue="TimeSpan?" Value="@selectedTime" ValueChanged="@OnValueChanged" />
+</Field>
 
 @code{
     TimeSpan? selectedTime;

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Forms;
 #endregion
 
@@ -25,13 +26,10 @@ internal static class EditContextExtensions
     /// </summary>
     /// <param name="editContext">The <see cref="EditContext"/> to use.</param>
     /// <param name="fieldIdentifier">The field for which to clear messages.</param>
-    /// <param name="revalidate">
-    /// Specifies whether the <see cref="EditContext"/> should revalidate after all validation messages have been cleared.
-    /// </param>
     /// <param name="markAsUnmodified">
     /// Specifies whether the <see cref="EditContext"/> should be marked as unmodified. This will affect the assignment of css classes to a form's input controls in Blazor.
     /// </param>
-    public static void ClearValidationMessages( this EditContext editContext, FieldIdentifier fieldIdentifier, bool revalidate = false, bool markAsUnmodified = false )
+    public static void ClearValidationMessages( this EditContext editContext, FieldIdentifier fieldIdentifier, bool markAsUnmodified = false )
     {
         fieldStatesGetter ??= ExpressionCompiler.CreateFieldGetter<IDictionary>( editContext, FIELD_STATES );
 
@@ -54,11 +52,8 @@ internal static class EditContextExtensions
         }
 
         if ( markAsUnmodified )
+        {
             editContext.MarkAsUnmodified();
-
-        if ( revalidate )
-            editContext.Validate();
+        }
     }
-
-
 }

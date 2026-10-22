@@ -72,9 +72,7 @@
     <DocsPageSectionSource Code="LicensingGuideAddKeyExample" />
 </DocsPageSection>
 
-<Heading Size="HeadingSize.Is3">
-    Local development
-</Heading>
+<DocsPageSubsectionTitle Title="Local development" />
 
 <DocsPageParagraph>
     Use .NET User Secrets for local development. Run this command from the application project directory:
@@ -88,9 +86,7 @@
     User Secrets keep the ProductToken outside the project directory. Do not put a real ProductToken in a committed <Code>appsettings.json</Code> file.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    Production
-</Heading>
+<DocsPageSubsectionTitle Title="Production" />
 
 <DocsPageParagraph>
     Use an environment variable or a secret-management service. The environment variable for the configuration key used above is:
@@ -104,9 +100,7 @@
     ASP.NET Core automatically maps double underscores in environment-variable names to configuration section separators. Set the value in the deployment environment, not in a source-controlled file.
 </DocsPageParagraph>
 
-<Heading Size="HeadingSize.Is3">
-    CI/CD
-</Heading>
+<DocsPageSubsectionTitle Title="CI/CD" />
 
 <DocsPageParagraph>
     Store the ProductToken in GitHub Actions Secrets, Azure DevOps secret variables, GitLab CI/CD variables, or the equivalent secret store for your platform. Inject it into the build or deployment environment. Do not write the value directly in a workflow YAML file or another pipeline file.

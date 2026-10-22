@@ -169,6 +169,12 @@
 }
 
 .b-docs {
+    @media (prefers-reduced-motion: no-preference) {
+        > .b-layout {
+            scroll-behavior: smooth;
+        }
+    }
+
     .b-docs-sidebar {
         border-inline-end: 1px solid var(--bs-border-color);
 

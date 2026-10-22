@@ -2,7 +2,9 @@
 
 <Card>
     <CardBody>
-        <Switch TValue="bool" @bind-Value="@focusTrapActive">Active</Switch>
+        <Field>
+            <Switch TValue="bool" @bind-Value="@focusTrapActive">Active</Switch>
+        </Field>
     </CardBody>
     <CardBody>
         <FocusTrap Active="@focusTrapActive">

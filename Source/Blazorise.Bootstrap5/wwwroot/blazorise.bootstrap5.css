@@ -5682,7 +5682,7 @@ td:focus {
   background-color: var(--bs-tooltip-bg);
   color: var(--bs-tooltip-color);
   overflow-wrap: anywhere;
-  text-align: center;
+  text-align: start;
   white-space: nowrap;
   cursor: default;
 }

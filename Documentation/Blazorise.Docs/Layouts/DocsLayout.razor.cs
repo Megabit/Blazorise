@@ -1,10 +1,10 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Docs.Models;
 using Blazorise.Docs.Services.Search;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Docs.Layouts;
@@ -12,6 +12,8 @@ namespace Blazorise.Docs.Layouts;
 public partial class DocsLayout
 {
     #region Members
+
+    private static readonly Version sidebarVersion = Version.Parse( DocsPageChanges.CurrentVersion.Split( '-', '+' )[0] );
 
     private Bar sideBar;
 
@@ -23,11 +25,48 @@ public partial class DocsLayout
 
     private bool isRouterTabsExample;
 
-    private bool scrollToLocationAfterRender;
-
     #endregion
 
     #region Methods
+
+    private static (bool IsNew, bool IsUpdated) ResolveSidebarBadges( string route, bool isGroup )
+    {
+        var pageRoute = route.Trim( '/' );
+        var hasUpdate = false;
+
+        foreach ( var change in DocsPageChanges.All )
+        {
+            var isPageRoute = string.Equals( change.Route, pageRoute, StringComparison.OrdinalIgnoreCase );
+
+            var isChildRoute = isGroup
+                && ( change.Route.StartsWith( pageRoute + "/", StringComparison.OrdinalIgnoreCase )
+                    || change.Route.StartsWith( pageRoute + "-", StringComparison.OrdinalIgnoreCase ) );
+
+            if ( !isPageRoute && !isChildRoute )
+            {
+                continue;
+            }
+
+            if ( !Version.TryParse( change.Version, out var version )
+                || version.Major != sidebarVersion.Major
+                || ( version.Minor != sidebarVersion.Minor && version.Minor != sidebarVersion.Minor - 1 ) )
+            {
+                continue;
+            }
+
+            if ( change.IsNew && isPageRoute )
+            {
+                return (true, false);
+            }
+
+            if ( version.Minor == sidebarVersion.Minor )
+            {
+                hasUpdate = true;
+            }
+        }
+
+        return (false, hasUpdate);
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -45,21 +84,7 @@ public partial class DocsLayout
             isRouterTabsExample = isRouterTabsPage;
         }
 
-        scrollToLocationAfterRender = true;
-
         await InvokeAsync( StateHasChanged );
-    }
-
-    protected override async Task OnAfterRenderAsync( bool firstRender )
-    {
-        if ( firstRender || scrollToLocationAfterRender )
-        {
-            scrollToLocationAfterRender = false;
-
-            await JSRuntime.InvokeVoidAsync( "blazoriseDocs.navigation.scrollToLocation" );
-        }
-
-        await base.OnAfterRenderAsync( firstRender );
     }
 
     private async Task ComponentSearchSelectedValueChanged( string value )
@@ -134,8 +159,6 @@ public partial class DocsLayout
     [Inject] public SearchEntriesProvider SearchMenuProvider { get; set; }
 
     [Inject] private NavigationManager NavigationManager { get; set; }
-
-    [Inject] private IJSRuntime JSRuntime { get; set; }
 
     #endregion
 }

@@ -45,7 +45,10 @@ class Program
             () => new ComponentsApiDocsGenerator( apiOutputRoot ).Execute( searchDataOnly ), context: apiOutputRoot + searchDataOnly );
 
         var searchResult = GenerationCache.Run( "search", docsInputs,
-            () => new[] { Paths.DocsIndexFilePath() }, () => new DocsIndexGenerator().Execute() );
+            () => searchDataOnly
+                ? new[] { Paths.DocsIndexFilePath() }
+                : new[] { Paths.DocsIndexFilePath(), Paths.DocsPageChangesFilePath() },
+            () => new DocsIndexGenerator().Execute( !searchDataOnly ) );
 
         Console.WriteLine( $"Blazorise.Docs.Compiler completed in {stopWatch.ElapsedMilliseconds} milliseconds." );
         return examplesResult && apiResult && searchResult ? 0 : 1;

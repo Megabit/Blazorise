@@ -2,7 +2,9 @@
 
 <Field>
     <FieldLabel>Text input</FieldLabel>
-    <TextInput @bind-Value="@textValue" Placeholder="Focus to show the keyboard" OnScreenKeyboard />
+    <FieldBody>
+        <TextInput @bind-Value="@textValue" Placeholder="Focus to show the keyboard" OnScreenKeyboard />
+    </FieldBody>
 </Field>
 
 @code {

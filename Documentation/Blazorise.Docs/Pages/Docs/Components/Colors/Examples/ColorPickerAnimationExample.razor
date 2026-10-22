@@ -5,18 +5,22 @@
 </Field>
 <Field>
     <FieldLabel>Animation duration</FieldLabel>
-    <Select TValue="int?" @bind-Value="animationDuration">
-        <SelectItem TValue="int?" Value="@((int?)null)">Provider default</SelectItem>
-        <SelectItem TValue="int?" Value="0">Immediate</SelectItem>
-        <SelectItem TValue="int?" Value="100">100 ms</SelectItem>
-        <SelectItem TValue="int?" Value="200">200 ms</SelectItem>
-        <SelectItem TValue="int?" Value="400">400 ms</SelectItem>
-        <SelectItem TValue="int?" Value="1000">1000 ms</SelectItem>
-    </Select>
+    <FieldBody>
+        <Select TValue="int?" @bind-Value="animationDuration">
+            <SelectItem TValue="int?" Value="@((int?)null)">Provider default</SelectItem>
+            <SelectItem TValue="int?" Value="0">Immediate</SelectItem>
+            <SelectItem TValue="int?" Value="100">100 ms</SelectItem>
+            <SelectItem TValue="int?" Value="200">200 ms</SelectItem>
+            <SelectItem TValue="int?" Value="400">400 ms</SelectItem>
+            <SelectItem TValue="int?" Value="1000">1000 ms</SelectItem>
+        </Select>
+    </FieldBody>
 </Field>
 <Field>
     <FieldLabel>Color</FieldLabel>
-    <ColorPicker @bind-Value="@colorValue" Animated="@animated" AnimationDuration="@animationDuration" />
+    <FieldBody>
+        <ColorPicker @bind-Value="@colorValue" Animated="@animated" AnimationDuration="@animationDuration" />
+    </FieldBody>
 </Field>
 
 @code {

@@ -1,16 +1,18 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Autocomplete TItem="Country"
-              TValue="string"
-              Data="@Countries"
-              TextField="@(( item ) => item.Name)"
-              ValueField="@(( item ) => item.Iso)"
-              Placeholder="Search..."
-              SelectionMode="AutocompleteSelectionMode.Multiple"
-              FreeTyping
-              @bind-SelectedValues="multipleSelectionData"
-              @bind-SelectedTexts="multipleSelectionTexts">
-</Autocomplete>
+<Field>
+    <Autocomplete TItem="Country"
+                  TValue="string"
+                  Data="@Countries"
+                  TextField="@(( item ) => item.Name)"
+                  ValueField="@(( item ) => item.Iso)"
+                  Placeholder="Search..."
+                  SelectionMode="AutocompleteSelectionMode.Multiple"
+                  FreeTyping
+                  @bind-SelectedValues="multipleSelectionData"
+                  @bind-SelectedTexts="multipleSelectionTexts">
+    </Autocomplete>
+</Field>
 
 <Field Horizontal>
     <FieldBody ColumnSize="ColumnSize.Is12">

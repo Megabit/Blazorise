@@ -9,7 +9,7 @@
     </Div>
 
     <Row>
-        @foreach ( AboutPrinciple item in AboutPrinciples )
+        @foreach ( var item in AboutPrinciples )
         {
             <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
                 <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
@@ -32,7 +32,7 @@
         new( IconName.Palette, TextColor.Secondary, "Design-system fit", "Make it practical to align Blazor applications with product-specific visual standards." ),
         new( IconName.Shield, TextColor.Success, "Source available", "Give teams visibility into the library they depend on and a path to commercial support." ),
         new( IconName.Book, TextColor.Primary, "Practical docs", "Maintain examples, guidance, and API details that help teams build real features." ),
-        new( IconName.Users, TextColor.Info, "Community shaped", "Use feedback from customers and the wider Blazor community to guide roadmap priorities." )
+        new( IconName.Users, TextColor.Info, "Community shaped", "Use feedback from customers and the wider Blazor community to guide roadmap priorities." ),
     ];
 
     private sealed record AboutPrinciple( IconName Icon, TextColor TextColor, string Title, string Description );

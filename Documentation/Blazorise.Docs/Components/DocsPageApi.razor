@@ -1,17 +1,15 @@
-﻿<DocsPageSectionTitle>
-    API
-</DocsPageSectionTitle>
+﻿@inherits DocsTocComponent
 
-<DocsPageParagraph>
-    See the API reference for the parameters, events, methods, and related types available to the components covered on this page.
-</DocsPageParagraph>
+<CascadingValue Value="TocNode" IsFixed>
+    <DocsPageSectionTitle Title="API" />
 
-<DocsPageParagraph>
-    <UnorderedList>
-        @ChildContent
-    </UnorderedList>
-</DocsPageParagraph>
+    <DocsPageParagraph>
+        See the API reference for the parameters, events, methods, and related types available to the components covered on this page.
+    </DocsPageParagraph>
 
-@code{
-    [Parameter] public RenderFragment ChildContent { get; set; }
-}
+    <DocsPageParagraph>
+        <UnorderedList>
+            @ChildContent
+        </UnorderedList>
+    </DocsPageParagraph>
+</CascadingValue>

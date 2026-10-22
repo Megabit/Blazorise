@@ -17,8 +17,7 @@
           PagerPosition="DataGridPagerPosition.Top">
     <DataGridColumns>
         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="Width.Px(60)" />
-        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
-        </DataGridColumn>
+        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" />
         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" />
         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" />
         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City">
@@ -26,13 +25,11 @@
                 <Icon Name="IconName.City" /> @context.Caption
             </CaptionTemplate>
         </DataGridColumn>
-        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip">
-        </DataGridColumn>
+        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" />
         <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="dd.MM.yyyy" Caption="Birth Date" Editable />
         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" ReverseSorting="true" Editable Filterable="false" />
         <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
-        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="Width.Px(140)" DisplayFormat="C" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
-        </DataGridColumn>
+        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="Width.Px(140)" DisplayFormat="C" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End" />
         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
             <DisplayTemplate>
                 <Check TValue="bool" Value="context.Item.IsActive" Disabled ReadOnly />

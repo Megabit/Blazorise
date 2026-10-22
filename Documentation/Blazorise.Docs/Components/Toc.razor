@@ -1,7 +1,28 @@
-﻿<Div Class="b-docs-toc" Margin="Margin.Is3.FromTop.Is5.FromBottom.Is0.OnY.OnWidescreen" Padding="Padding.Is3.FromStart.OnWidescreen">
-    <Heading Size="HeadingSize.Is6" Display="Display.None.Block.OnDesktop" Margin="Margin.Is2.OnY">On this page</Heading>
-    <Divider Display="Display.None.Block.OnDesktop" Margin="Margin.Is2.OnY" />
-    <nav @ref="@elementRef" id="TableOfContents" class="toc">
-
-    </nav>
-</Div>
+﻿@if ( ParentToc.Headings.Any() )
+{
+    <Div Position="Position.Sticky" Overflow="Overflow.Auto" Style="top: 5rem; max-height: calc(100vh - 5rem)"
+         Margin="Margin.Is3.FromTop.Is5.FromBottom.Is0.OnY.OnWidescreen" Padding="Padding.Is3.FromStart.OnWidescreen">
+        <Heading Size="HeadingSize.Is6" Display="Display.None.Block.OnDesktop" Margin="Margin.Is2.OnY">On this page</Heading>
+        <Divider Display="Display.None.Block.OnDesktop" Margin="Margin.Is2.OnY" />
+        <nav id="TableOfContents" aria-label="On this page">
+            <UnorderedList Unstyled TextSize="TextSize.Small">
+                @foreach ( var heading in ParentToc.Headings )
+                {
+                    <UnorderedListItem @key="heading" Margin="Margin.Is1.FromBottom" Padding="@(heading.Level > 3 ? Padding.Is4.FromStart : heading.Level > 2 ? Padding.Is3.FromStart : null)">
+                        <Anchor To="@($"{NavigationManager.Uri.Split( '#' )[0]}#{Uri.EscapeDataString( heading.ElementId )}")" Unstyled
+                                Display="Display.Flex" Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is2">
+                            @if ( heading.IsNew )
+                            {
+                                <DocsNewFeatureBadge>@heading.Content</DocsNewFeatureBadge>
+                            }
+                            else
+                            {
+                                @heading.Content
+                            }
+                        </Anchor>
+                    </UnorderedListItem>
+                }
+            </UnorderedList>
+        </nav>
+    </Div>
+}

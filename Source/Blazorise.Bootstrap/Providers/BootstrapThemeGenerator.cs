@@ -645,6 +645,20 @@ public class BootstrapThemeGenerator : ThemeGenerator
 
     protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
+        var focusBorderColor = ToHex( Lighten( options.CheckColor, 50f ) );
+        var focusShadowColor = ToHexRGBA( Transparency( options.CheckColor, 64 ) );
+
+        sb
+            .Append( ".custom-control-input:focus ~ .custom-control-label::before" ).Append( "{" )
+            .Append( $"box-shadow: 0 0 0 {theme.ButtonOptions?.BoxShadowSize ?? ".2rem"} {focusShadowColor};" )
+            .AppendLine( "}" );
+
+        // Exclude validation states without increasing specificity over explicit switch colors.
+        sb
+            .Append( ".custom-control-input:focus:not(:checked):where(:not(.is-valid, .is-invalid, .was-validated *)) ~ .custom-control-label::before" ).Append( "{" )
+            .Append( $"border-color: {focusBorderColor};" )
+            .AppendLine( "}" );
+
         sb
             .Append( ".custom-checkbox .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
             .Append( $"background-color: {options.CheckColor};" )

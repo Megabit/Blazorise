@@ -29,6 +29,8 @@
             ParentDataGrid.RowBatchEditStyling?.Invoke( BatchEditItem, rowBatchEditStyling );
         }
 
+        var rowIndex = ParentDataGrid.ResolveItemIndex( Item );
+
         <TableRow @ref="TableRowRef"
                   Clicked="@HandleClick"
                   MouseOver="BindMouseOver() ? HandleMouseOver : null"
@@ -44,7 +46,8 @@
                   HoverCursor="@GetHoverCursor()"
                   @onkeydown="@(ParentDataGrid.IsRowNavigable? HandleKeyDown : null)"
                   tabindex="@(ParentDataGrid.IsRowNavigable || ParentDataGrid.IsCellEdit ? 0 : null)"
-                  data-row-index="@ParentDataGrid.ResolveItemIndex( Item )">
+                  data-row-index="@rowIndex"
+                  data-virtual-row-index="@(ParentDataGrid.Virtualize ? ParentDataGrid.ResolveVirtualRowIndex( rowIndex ) : (int?)null)">
 
             @ParentDataGrid.groupIndentationFragment
 

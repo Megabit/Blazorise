@@ -11,7 +11,7 @@
     </Row>
 
     <Row Gutter="Gutter.Is3" TextAlignment="TextAlignment.Start">
-        @foreach ( AssuranceItem item in AssuranceItems )
+        @foreach ( var item in AssuranceItems )
         {
             <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop" Margin="Margin.Is3.FromBottom">
                 <Card Height="Height.Is100" Border="Border.Rounded" Shadow="Shadow.Small">
@@ -35,12 +35,10 @@
                 <Image Source="img/logos/microsoft-icon.svg" Text="Microsoft logo" Width="Width.Rem( 1.5 )" Height="Height.Rem( 1.5 )" />
                 <Span>Purchase on Azure</Span>
             </Button>
-            <Button Type="ButtonType.Link" To="purchase-order" Color="Color.Primary" Outline Gap="Gap.Is2" Flex="Flex.InlineFlex">
-                <Icon Name="IconName.Receipt" />
+            <Button Type="ButtonType.Link" To="purchase-order" Color="Color.Primary" Outline>
                 Request a purchase order
             </Button>
-            <Button Type="ButtonType.Link" To="contact" Color="Color.Light" Gap="Gap.Is2" Flex="Flex.InlineFlex">
-                <Icon Name="IconName.Headset" />
+            <Button Type="ButtonType.Link" To="contact" Color="Color.Light">
                 Contact sales
             </Button>
         </Column>

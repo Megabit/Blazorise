@@ -18,7 +18,9 @@
     <Div Padding="Padding.Is4">
         <Field>
             <FieldLabel>Document title</FieldLabel>
-            <TextInput @bind-Value="@documentTitle" />
+            <FieldBody>
+                <TextInput @bind-Value="@documentTitle" />
+            </FieldBody>
         </Field>
         <Paragraph>Change the title, then open and close File. The editor remains mounted beneath backstage.</Paragraph>
     </Div>

@@ -667,6 +667,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await CheckMultipleSelectionSetEmpty( parameters );
 
         var dataChanged = false;
+        var totalItemsChanged = parameters.TryGetValue<int?>( nameof( TotalItems ), out var paramTotalItems ) && paramTotalItems != TotalItems;
         var expandedRowsChanged = parameters.TryGetValue<IList<TItem>>( nameof( ExpandedRows ), out var changedExpandedRows );
 
         if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) )
@@ -703,6 +704,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( expandedRowsChanged && ApplyExpandedRows( changedExpandedRows ) )
         {
             SetDirty();
+        }
+
+        if ( Rendered && ManualReadMode && totalItemsChanged && TotalItems.HasValue )
+        {
+            var lastPage = Math.Max( (int)Math.Ceiling( TotalItems.Value / (double)PageSize ), 1 );
+
+            if ( Page > lastPage )
+            {
+                // Changing the page reloads data even when an empty template hides the pager.
+                Page = lastPage;
+            }
         }
     }
 
@@ -2388,7 +2400,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <param name="row">Zero-based index of DataGrid row to scroll to.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask ScrollToRow( int row )
-        => tableRef.ScrollToRow( row );
+    {
+        if ( Virtualize )
+        {
+            var totalRows = VirtualizeManualReadMode ? TotalItems.GetValueOrDefault() : DisplayData.Count();
+
+            return JSModule.ScrollToVirtualizedRow( tableRef.ElementRef, ElementId, row, totalRows );
+        }
+
+        return tableRef.ScrollToRow( row );
+    }
 
     /// <summary>
     /// Forces the active cell editor to blur so pending change events are dispatched.
@@ -2544,14 +2565,32 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     protected internal int ResolveItemIndex( TItem item )
     {
-        short index = 0;
+        var index = 0;
+
         foreach ( var displayItem in DisplayData )
         {
             if ( item.IsEqual( displayItem ) )
+            {
                 break;
+            }
+
             index++;
         }
+
         return index;
+    }
+
+    /// <summary>
+    /// Resolves the row index across the complete virtualized data set.
+    /// </summary>
+    internal int ResolveVirtualRowIndex( int rowIndex )
+    {
+        if ( rowIndex < 0 || ( VirtualizeManualReadMode && virtualizeState.StartIndex < 0 ) )
+        {
+            return -1;
+        }
+
+        return rowIndex + ( VirtualizeManualReadMode ? virtualizeState.StartIndex : 0 );
     }
 
     internal async Task OnMultiSelectCommand( DataGridMultiSelectionChangedEventArgs<TItem> eventArgs )
@@ -2833,13 +2872,20 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             ? Math.Min( request.Count, TotalItems.Value - request.StartIndex )
             : request.Count;
 
+        // Data may cause a render before the provider has committed the new window.
+        virtualizeState.StartIndex = -1;
+
         await HandleVirtualizeReadData( request.StartIndex, requestCount, request.CancellationToken );
         await Task.Yield(); // This line makes sure SetParametersAsync catches up, since we depend upon Data Parameter.
 
         if ( request.CancellationToken.IsCancellationRequested )
+        {
             return default;
-        else
-            return new( Data.ToList(), TotalItems.Value );
+        }
+
+        virtualizeState.StartIndex = request.StartIndex;
+
+        return new( Data.ToList(), TotalItems.Value );
     }
 
     internal async Task HandleSelectedCell( TItem item, DataGridRowInfo<TItem> rowInfo, DataGridColumn<TItem> column )

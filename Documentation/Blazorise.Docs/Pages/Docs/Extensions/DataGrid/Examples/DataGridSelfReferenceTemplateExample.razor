@@ -13,7 +13,7 @@
                 <Span Display="Display.InlineFlex" VerticalAlignment="VerticalAlignment.Middle" TextOverflow="TextOverflow.NoWrap">
                     @if ( row.Level > 0 )
                     {
-                        <Span Display="Display.InlineBlock" Width="@Width.Rem( row.Level )"></Span>
+                        <Span Display="Display.InlineBlock" Width="@Width.Rem( row.Level )" />
                     }
 
                     @if ( row.Expandable )
@@ -27,7 +27,7 @@
                     }
                     else
                     {
-                        <Span Display="Display.InlineBlock" Width="@Width.Rem( 1 )" Margin="Margin.Is2.FromEnd"></Span>
+                        <Span Display="Display.InlineBlock" Width="@Width.Rem( 1 )" Margin="Margin.Is2.FromEnd" />
                     }
                 </Span>
             </ExpandTemplate>

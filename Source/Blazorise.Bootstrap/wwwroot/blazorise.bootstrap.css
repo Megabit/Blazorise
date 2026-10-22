@@ -5531,7 +5531,7 @@ td:focus {
   background-color: var(--tooltip-bg, #000);
   color: var(--tooltip-color, #fff);
   overflow-wrap: anywhere;
-  text-align: center;
+  text-align: start;
   white-space: nowrap;
   cursor: default;
 }

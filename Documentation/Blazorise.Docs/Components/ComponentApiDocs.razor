@@ -1,41 +1,41 @@
 ﻿@using Blazorise.Docs.Models.ApiDocsDtos
-<DocsPageSectionTitle>
-    API
-</DocsPageSectionTitle>
+@inherits DocsTocComponent
 
-@if ( hasComponentTypes )
-{
-    <ComponentApiDocsProperty ApiDocsForComponents="apiDocsForComponents"
-                              MultipleComponentTypes="multipleComponentTypes"
-                              PropertyType="ComponentApiDocsProperty.PropertyTypes.Parameters" />
+<CascadingValue Value="TocNode" IsFixed>
+    <DocsPageSectionTitle Title="API" />
 
-    <ComponentApiDocsProperty ApiDocsForComponents="apiDocsForComponents"
-                              MultipleComponentTypes="multipleComponentTypes"
-                              PropertyType="ComponentApiDocsProperty.PropertyTypes.Events" />
-}
-
-@if ( apiDocsForComponentsMethods.Any() )
-{
-    <Heading Margin="Margin.Is2.FromTop.Is3.FromBottom" Size="HeadingSize.Is3">
-        Methods
-    </Heading>
-
-    @foreach ( var apiDocsForComponent in apiDocsForComponentsMethods )
+    @if ( hasComponentTypes )
     {
-        <DocsMethods Name="Method"
-                     Title="@(multipleComponentTypes ? apiDocsForComponent.TypeName : null)"
-                     ElementId="@GetMethodsElementId(apiDocsForComponent)">
-            @foreach ( var method in apiDocsForComponent.Methods )
-            {
-                <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName"
-                                 Parameters="@(string.Join(", ", method.Parameters.Select(x => $"{x.TypeName} {x.Name}")))">
-                    @((MarkupString)method.Summary)
-                    <ComponentApiDocsRemarks Value="@method.Remarks" />
-                </DocsMethodsItem>
-            }
-        </DocsMethods>
+        <ComponentApiDocsProperty ApiDocsForComponents="apiDocsForComponents"
+                                  MultipleComponentTypes="multipleComponentTypes"
+                                  PropertyType="ComponentApiDocsProperty.PropertyTypes.Parameters" />
+
+        <ComponentApiDocsProperty ApiDocsForComponents="apiDocsForComponents"
+                                  MultipleComponentTypes="multipleComponentTypes"
+                                  PropertyType="ComponentApiDocsProperty.PropertyTypes.Events" />
     }
-}
+
+    @if ( apiDocsForComponentsMethods.Any() )
+    {
+        <DocsPageSubsectionTitle Title="Methods" Margin="Margin.Is2.FromTop.Is3.FromBottom" />
+
+        @foreach ( var apiDocsForComponent in apiDocsForComponentsMethods )
+        {
+            <DocsMethods Name="Method"
+                         Title="@(multipleComponentTypes ? apiDocsForComponent.TypeName : null)"
+                         ElementId="@GetMethodsElementId(apiDocsForComponent)">
+                @foreach ( var method in apiDocsForComponent.Methods )
+                {
+                    <DocsMethodsItem Name="@method.Name" ReturnType="@method.ReturnTypeName"
+                                     Parameters="@(string.Join(", ", method.Parameters.Select(x => $"{x.TypeName} {x.Name}")))">
+                        @((MarkupString)method.Summary)
+                        <ComponentApiDocsRemarks Value="@method.Remarks" />
+                    </DocsMethodsItem>
+                }
+            </DocsMethods>
+        }
+    }
+</CascadingValue>
 @code {
     [Parameter] public List<Type> ComponentTypes { get; set; } = [];
 

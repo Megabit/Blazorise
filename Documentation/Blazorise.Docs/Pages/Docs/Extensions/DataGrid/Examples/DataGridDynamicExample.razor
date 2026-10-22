@@ -21,10 +21,9 @@
         <DataGridAggregate Field="Childrens" Aggregate="DataGridAggregateType.Sum" />
     </DataGridAggregates>
     <DataGridColumns>
-        <DataGridCommandColumn></DataGridCommandColumn>
+        <DataGridCommandColumn />
         <DataGridColumn Editable TextAlignment="TextAlignment.Center" Field="@nameof( Employee.Id )" Caption="#" Width="Width.Px( 60 )" />
-        <DataGridColumn Editable Field="FirstName" Caption="First Name">
-        </DataGridColumn>
+        <DataGridColumn Editable Field="FirstName" Caption="First Name" />
         <DataGridColumn Editable Field="LastName" Caption="Last Name" />
         <DataGridColumn Editable Field="Email" Caption="Email" />
         <DataGridColumn Editable Field="City" Caption="City">
@@ -32,13 +31,11 @@
                 <Icon Name="IconName.City" /> @context.Caption
             </CaptionTemplate>
         </DataGridColumn>
-        <DataGridColumn Editable Field="Zip" Caption="Zip">
-        </DataGridColumn>
+        <DataGridColumn Editable Field="Zip" Caption="Zip" />
         <DataGridDateColumn Field="DateOfBirth" DisplayFormat="dd.MM.yyyy" Caption="Birth Date" Editable />
         <DataGridNumericColumn Field="Childrens" Caption="Childrens" ReverseSorting="true" Editable Filterable="false" />
         <DataGridSelectColumn Field="Gender" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="( x ) => ( (Gender)x ).Code" TextField="( x ) => ( (Gender)x ).Description" />
-        <DataGridColumn Field="Salary" Caption="Salary" Editable Width="Width.Px( 140 )" DisplayFormat="C" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" TextAlignment="TextAlignment.End">
-        </DataGridColumn>
+        <DataGridColumn Field="Salary" Caption="Salary" Editable Width="Width.Px( 140 )" DisplayFormat="C" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" TextAlignment="TextAlignment.End" />
         <DataGridCheckColumn Field="IsActive" Caption="Active" Editable Filterable="false">
             <DisplayTemplate>
                 <Check TValue="bool" Value="@(((dynamic)context.Item).IsActive)" Disabled ReadOnly />

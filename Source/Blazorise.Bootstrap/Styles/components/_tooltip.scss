@@ -199,7 +199,7 @@
     background-color: var(--tooltip-bg, #{$tooltip-bg});
     color: var(--tooltip-color, #{$tooltip-color});
     overflow-wrap: anywhere;
-    text-align: center;
+    text-align: start;
     white-space: nowrap;
     cursor: default;
 

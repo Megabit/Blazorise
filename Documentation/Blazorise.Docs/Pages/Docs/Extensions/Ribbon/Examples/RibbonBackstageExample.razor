@@ -34,7 +34,9 @@
     <Div Padding="Padding.Is4">
         <Heading Size="HeadingSize.Is4">Quarterly report</Heading>
         <Paragraph>Open File to view document information or choose a save format.</Paragraph>
-        <MemoInput @bind-Value="@documentText" Rows="3" aria-label="Document text" />
+        <Field Margin="Margin.Is0">
+            <MemoInput @bind-Value="@documentText" Rows="3" aria-label="Document text" />
+        </Field>
     </Div>
     <RibbonBackstage @ref="@backstageRef" @bind-SelectedItem="@selectedItem">
         <RibbonBackstageItem Name="info" Text="Info" Icon="IconName.InfoCircle">

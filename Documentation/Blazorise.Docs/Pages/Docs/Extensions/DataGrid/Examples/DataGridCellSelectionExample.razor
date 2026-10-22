@@ -5,7 +5,7 @@
           NavigationMode="DataGridNavigationMode.Cell"
           @bind-Selectedcell="@selectedCell"
           Responsive>
-    <DataGridMultiSelectColumn Width="Width.Px( 30 )"></DataGridMultiSelectColumn>
+    <DataGridMultiSelectColumn Width="Width.Px( 30 )" />
     <DataGridCommandColumn />
     <DataGridColumn Field="@nameof( Employee.Id )" Caption="#" Sortable="false" />
     <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Editable />
@@ -29,18 +29,20 @@
                     <Field>
                         <FieldLabel>Row Index</FieldLabel>
                         <FieldBody>
-                            <TextInput ReadOnly Value="@selectedCell?.RowIndex.ToString()"></TextInput>
+                            <TextInput ReadOnly Value="@selectedCell?.RowIndex.ToString()" />
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Field</FieldLabel>
                         <FieldBody>
-                            <TextInput ReadOnly Value="@selectedCell?.ColumnInfo?.Field"></TextInput>
+                            <TextInput ReadOnly Value="@selectedCell?.ColumnInfo?.Field" />
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Value</FieldLabel>
-                        <TextInput ReadOnly Value="@selectedCell?.Column?.FormatDisplayValue( selectedCell?.Item )"></TextInput>
+                        <FieldBody>
+                            <TextInput ReadOnly Value="@selectedCell?.Column?.FormatDisplayValue( selectedCell?.Item )" />
+                        </FieldBody>
                     </Field>
                 </Fields>
             </CardBody>

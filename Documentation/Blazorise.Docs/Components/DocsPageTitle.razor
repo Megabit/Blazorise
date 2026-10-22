@@ -34,8 +34,8 @@
 @if ( !string.IsNullOrEmpty( AddedVersion ) )
 {
     <Div Flex="Flex.Default.OnDesktop.Flex.ReverseRow.OnDesktop.JustifyContent.Between.AlignItems.Center">
-        <Alert Visible Flex="Flex.InlineFlex" Color="Color.Success" Padding="Padding.Is2.OnX.Is1.OnY" TextWeight="TextWeight.SemiBold">
-            @AddedVersion
+        <Alert Visible Flex="Flex.InlineFlex" Color="Color.Success" Padding="Padding.Is2.OnX.Is1.OnY" TextWeight="TextWeight.SemiBold" title="@AddedDate">
+            Added in v@( AddedVersion )
         </Alert>
         @HeadingFragment
     </Div>
@@ -56,7 +56,15 @@ else
     /// </summary>
     [Parameter] public string RoutePath { get; set; }
 
+    /// <summary>
+    /// Gets or sets the version that introduced the page, without the display prefix.
+    /// </summary>
     [Parameter] public string AddedVersion { get; set; }
+
+    /// <summary>
+    /// Gets or sets the date the page was added, in yyyy-MM-dd format.
+    /// </summary>
+    [Parameter] public string AddedDate { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 

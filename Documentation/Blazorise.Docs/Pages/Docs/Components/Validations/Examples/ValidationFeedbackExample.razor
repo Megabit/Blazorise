@@ -1,27 +1,31 @@
 @namespace Blazorise.Docs.Docs.Examples
 
 <Validation Validator="@ValidateDisplayName">
-    <TextInput Placeholder="Enter display name">
-        <Feedback>
-            <ValidationNone>Please enter a display name.</ValidationNone>
-            <ValidationWarning>Short display names are allowed, but longer names are easier to recognize.</ValidationWarning>
-            <ValidationSuccess>Display name looks good.</ValidationSuccess>
-            <ValidationError>Display name is required.</ValidationError>
-        </Feedback>
-    </TextInput>
+    <Field>
+        <TextInput Placeholder="Enter display name">
+            <Feedback>
+                <ValidationNone>Please enter a display name.</ValidationNone>
+                <ValidationWarning>Short display names are allowed, but longer names are easier to recognize.</ValidationWarning>
+                <ValidationSuccess>Display name looks good.</ValidationSuccess>
+                <ValidationError>Display name is required.</ValidationError>
+            </Feedback>
+        </TextInput>
+    </Field>
 </Validation>
 
 <Validation Validator="@ValidateUserName">
-    <TextInput Placeholder="Enter username">
-        <Feedback>
-            <ValidationFeedback>
-                <None>Please enter a username.</None>
-                <Warning>Short usernames are allowed, but longer usernames are easier to identify.</Warning>
-                <Success>Username looks good.</Success>
-                <Error>Username is required.</Error>
-            </ValidationFeedback>
-        </Feedback>
-    </TextInput>
+    <Field>
+        <TextInput Placeholder="Enter username">
+            <Feedback>
+                <ValidationFeedback>
+                    <None>Please enter a username.</None>
+                    <Warning>Short usernames are allowed, but longer usernames are easier to identify.</Warning>
+                    <Success>Username looks good.</Success>
+                    <Error>Username is required.</Error>
+                </ValidationFeedback>
+            </Feedback>
+        </TextInput>
+    </Field>
 </Validation>
 @code{
     void ValidateDisplayName( ValidatorEventArgs e )

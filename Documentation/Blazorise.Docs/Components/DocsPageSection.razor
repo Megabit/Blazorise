@@ -1,6 +1,7 @@
-﻿<Div Margin="Margin.Is5.FromBottom">
-    @ChildContent
-</Div>
-@code {
-    [Parameter] public RenderFragment ChildContent { get; set; }
-}
+﻿@inherits DocsTocComponent
+
+<CascadingValue Value="TocNode" IsFixed>
+    <Div Margin="Margin.Is5.FromBottom">
+        @ChildContent
+    </Div>
+</CascadingValue>

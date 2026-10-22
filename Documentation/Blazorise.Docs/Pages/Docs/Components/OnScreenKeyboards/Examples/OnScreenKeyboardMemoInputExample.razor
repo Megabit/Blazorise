@@ -2,7 +2,9 @@
 
 <Field>
     <FieldLabel>Memo input</FieldLabel>
-    <MemoInput @bind-Value="@memoValue" Placeholder="Focus to enter multiple lines" OnScreenKeyboard="true" />
+    <FieldBody>
+        <MemoInput @bind-Value="@memoValue" Placeholder="Focus to enter multiple lines" OnScreenKeyboard="true" />
+    </FieldBody>
 </Field>
 
 @code {

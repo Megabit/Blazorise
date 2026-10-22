@@ -40,15 +40,15 @@
                                     <BarIcon IconName="IconName.Directions" FixedWidth /> Guides
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs">Overview</BarDropdownItem>
-                                    <BarDropdownItem To="docs/start">Quick Start</BarDropdownItem>
-                                    <BarDropdownItem To="docs/templates">Templates</BarDropdownItem>
-                                    <BarDropdownItem To="docs/testing">Testing</BarDropdownItem>
-                                    <BarDropdownItem To="docs/theming">Theming</BarDropdownItem>
-                                    <BarDropdownItem To="docs/analyzer">Analyzer</BarDropdownItem>
-                                    <BarDropdownItem To="docs/mcp">AI Tools</BarDropdownItem>
-                                    <BarDropdownItem To="docs/migration">Migration</BarDropdownItem>
-                                    <BarDropdownItem To="docs/usage/licensing/register-product-token">Licensing</BarDropdownItem>
+                                    <BarDropdownItem To="docs">@RenderSidebarLabel( "docs", "Overview" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/start">@RenderSidebarLabel( "docs/start", "Quick Start" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/templates">@RenderSidebarLabel( "docs/templates", "Templates" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/testing">@RenderSidebarLabel( "docs/testing", "Testing" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/theming">@RenderSidebarLabel( "docs/theming", "Theming" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/analyzer">@RenderSidebarLabel( "docs/analyzer", "Analyzer" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/mcp">@RenderSidebarLabel( "docs/mcp", "AI Tools" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/migration">@RenderSidebarLabel( "docs/migration", "Migration" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/licensing/register-product-token">@RenderSidebarLabel( "docs/usage/licensing/register-product-token", "Licensing" )</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -58,26 +58,14 @@
                                     <BarIcon IconName="IconName.BookReader" FixedWidth /> UI Providers
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/usage">Overview</BarDropdownItem>
-                                    <BarDropdownItem To="docs/usage/ant-design">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Ant Design</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/usage/bootstrap4">Bootstrap 4</BarDropdownItem>
-                                    <BarDropdownItem To="docs/usage/bootstrap5">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsUpdatedFeatureBadge>Bootstrap 5</DocsUpdatedFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/usage/bulma">Bulma</BarDropdownItem>
-                                    <BarDropdownItem To="docs/usage/fluent2">Fluent 2</BarDropdownItem>
-                                    <BarDropdownItem To="docs/usage/material">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Material</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/usage/tailwind">Tailwind</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage">@RenderSidebarLabel( "docs/usage", "Overview" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/ant-design">@RenderSidebarLabel( "docs/usage/ant-design", "Ant Design" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/bootstrap4">@RenderSidebarLabel( "docs/usage/bootstrap4", "Bootstrap 4" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/bootstrap5">@RenderSidebarLabel( "docs/usage/bootstrap5", "Bootstrap 5" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/bulma">@RenderSidebarLabel( "docs/usage/bulma", "Bulma" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/fluent2">@RenderSidebarLabel( "docs/usage/fluent2", "Fluent 2" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/material">@RenderSidebarLabel( "docs/usage/material", "Material" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/tailwind">@RenderSidebarLabel( "docs/usage/tailwind", "Tailwind" )</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -87,105 +75,69 @@
                                     <BarIcon IconName="IconName.Wrench" FixedWidth /> Components
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/components/accordion">Accordion</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/addon">Addon</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/alert">Alert</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/badge">Badge</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/bar">Bar</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/breadcrumb">Breadcrumb</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/breakpoint-observer">Breakpoint Observer</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/button">Button</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/card">Card</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/carousel">Carousel</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/check">Check</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/close-button">Close Button</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/collapse">Collapse</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/color-input">Color Input</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/color-picker">Color Picker</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/context-menu">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Context Menu</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/date-input">Date Input</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/date-picker">Date Picker</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/divider">Divider</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/dock-layout">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Dock Layout</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/drag-drop">Drag & Drop</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/dropdown">Dropdown</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/field">Field</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/figure">Figure</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/file-input">File Input</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/file-picker">File Picker</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/focus-trap">Focus Trap</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/gestures">Gestures</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/highlighter">Highlighter</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/image">Image</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/input-mask">Input Mask</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/jumbotron">Jumbotron</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/layout">Layout</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/link">Link</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/list-group">List Group</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/memo-input">Memo Input</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/modal">Modal</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/numeric-input">Numeric Input</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/numeric-picker">Numeric Picker</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/offcanvas">Offcanvas</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/on-screen-keyboard">On-screen Keyboard</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/pagination">Pagination</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/progress">Progress</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/property-grid">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Property Grid</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/radio">Radio</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/range-slider">Range Slider</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/rating">Rating</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/repeater">Repeater</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/resizer">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Resizer</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/select">Select</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/skeleton">Skeleton</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/slider">Slider</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/step">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsUpdatedFeatureBadge>Step</DocsUpdatedFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/switch">Switch</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/tab">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsUpdatedFeatureBadge>Tab</DocsUpdatedFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/table">Table</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/text-input">Text Input</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/time-input">Time Input</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/time-picker">Time Picker</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/toast">Toast</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/tooltip">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsUpdatedFeatureBadge>Tooltip</DocsUpdatedFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/typography">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsUpdatedFeatureBadge>Typography</DocsUpdatedFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/validation">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsUpdatedFeatureBadge>Validation</DocsUpdatedFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/accordion">@RenderSidebarLabel( "docs/components/accordion", "Accordion" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/addon">@RenderSidebarLabel( "docs/components/addon", "Addon" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/alert">@RenderSidebarLabel( "docs/components/alert", "Alert" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/badge">@RenderSidebarLabel( "docs/components/badge", "Badge" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/bar">@RenderSidebarLabel( "docs/components/bar", "Bar" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/breadcrumb">@RenderSidebarLabel( "docs/components/breadcrumb", "Breadcrumb" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/breakpoint-observer">@RenderSidebarLabel( "docs/components/breakpoint-observer", "Breakpoint Observer" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/button">@RenderSidebarLabel( "docs/components/button", "Button" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/card">@RenderSidebarLabel( "docs/components/card", "Card" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/carousel">@RenderSidebarLabel( "docs/components/carousel", "Carousel" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/check">@RenderSidebarLabel( "docs/components/check", "Check" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/close-button">@RenderSidebarLabel( "docs/components/close-button", "Close Button" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/collapse">@RenderSidebarLabel( "docs/components/collapse", "Collapse" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/color-input">@RenderSidebarLabel( "docs/components/color-input", "Color Input" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/color-picker">@RenderSidebarLabel( "docs/components/color-picker", "Color Picker" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/context-menu">@RenderSidebarLabel( "docs/components/context-menu", "Context Menu" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/date-input">@RenderSidebarLabel( "docs/components/date-input", "Date Input" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/date-picker">@RenderSidebarLabel( "docs/components/date-picker", "Date Picker" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/divider">@RenderSidebarLabel( "docs/components/divider", "Divider" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/dock-layout">@RenderSidebarLabel( "docs/components/dock-layout", "Dock Layout" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/drag-drop">@RenderSidebarLabel( "docs/components/drag-drop", "Drag & Drop" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/dropdown">@RenderSidebarLabel( "docs/components/dropdown", "Dropdown" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/field">@RenderSidebarLabel( "docs/components/field", "Field" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/figure">@RenderSidebarLabel( "docs/components/figure", "Figure" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/file-input">@RenderSidebarLabel( "docs/components/file-input", "File Input" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/file-picker">@RenderSidebarLabel( "docs/components/file-picker", "File Picker" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/focus-trap">@RenderSidebarLabel( "docs/components/focus-trap", "Focus Trap" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/gestures">@RenderSidebarLabel( "docs/components/gestures", "Gestures" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/highlighter">@RenderSidebarLabel( "docs/components/highlighter", "Highlighter" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/image">@RenderSidebarLabel( "docs/components/image", "Image" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/input-mask">@RenderSidebarLabel( "docs/components/input-mask", "Input Mask" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/jumbotron">@RenderSidebarLabel( "docs/components/jumbotron", "Jumbotron" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/layout">@RenderSidebarLabel( "docs/components/layout", "Layout" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/link">@RenderSidebarLabel( "docs/components/link", "Link" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/list-group">@RenderSidebarLabel( "docs/components/list-group", "List Group" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/memo-input">@RenderSidebarLabel( "docs/components/memo-input", "Memo Input" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/modal">@RenderSidebarLabel( "docs/components/modal", "Modal" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/numeric-input">@RenderSidebarLabel( "docs/components/numeric-input", "Numeric Input" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/numeric-picker">@RenderSidebarLabel( "docs/components/numeric-picker", "Numeric Picker" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/offcanvas">@RenderSidebarLabel( "docs/components/offcanvas", "Offcanvas" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/on-screen-keyboard">@RenderSidebarLabel( "docs/components/on-screen-keyboard", "On-screen Keyboard" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/pagination">@RenderSidebarLabel( "docs/components/pagination", "Pagination" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/progress">@RenderSidebarLabel( "docs/components/progress", "Progress" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/property-grid">@RenderSidebarLabel( "docs/components/property-grid", "Property Grid" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/radio">@RenderSidebarLabel( "docs/components/radio", "Radio" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/range-slider">@RenderSidebarLabel( "docs/components/range-slider", "Range Slider" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/rating">@RenderSidebarLabel( "docs/components/rating", "Rating" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/repeater">@RenderSidebarLabel( "docs/components/repeater", "Repeater" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/resizer">@RenderSidebarLabel( "docs/components/resizer", "Resizer" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/select">@RenderSidebarLabel( "docs/components/select", "Select" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/skeleton">@RenderSidebarLabel( "docs/components/skeleton", "Skeleton" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/slider">@RenderSidebarLabel( "docs/components/slider", "Slider" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/step">@RenderSidebarLabel( "docs/components/step", "Step" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/switch">@RenderSidebarLabel( "docs/components/switch", "Switch" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/tab">@RenderSidebarLabel( "docs/components/tab", "Tab" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/table">@RenderSidebarLabel( "docs/components/table", "Table" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/text-input">@RenderSidebarLabel( "docs/components/text-input", "Text Input" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/time-input">@RenderSidebarLabel( "docs/components/time-input", "Time Input" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/time-picker">@RenderSidebarLabel( "docs/components/time-picker", "Time Picker" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/toast">@RenderSidebarLabel( "docs/components/toast", "Toast" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/tooltip">@RenderSidebarLabel( "docs/components/tooltip", "Tooltip" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/typography">@RenderSidebarLabel( "docs/components/typography", "Typography" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/validation">@RenderSidebarLabel( "docs/components/validation", "Validation" )</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -195,107 +147,77 @@
                                     <BarIcon IconName="IconName.Table" FixedWidth /> Data Grid
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/extensions/datagrid/getting-started">Getting Started</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/datagrid/getting-started">@RenderSidebarLabel( "docs/extensions/datagrid/getting-started", "Getting Started" )</BarDropdownItem>
 
                                     <BarDropdown>
-                                        <BarDropdownToggle To="docs/extensions/datagrid/binding-data" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                            Binding Data
-                                        </BarDropdownToggle>
+                                        <BarDropdownToggle To="docs/extensions/datagrid/binding-data" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">@RenderSidebarLabel( "docs/extensions/datagrid/binding-data", "Binding Data", isGroup: true )</BarDropdownToggle>
                                         <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/in-memory">In Memory</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/large-data">From an External Source</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/virtualize">Virtualize</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/observable">Observable Collections</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/dynamic">Dynamic</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/in-memory">@RenderSidebarLabel( "docs/extensions/datagrid/binding-data/in-memory", "In Memory" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/large-data">@RenderSidebarLabel( "docs/extensions/datagrid/binding-data/large-data", "From an External Source" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/virtualize">@RenderSidebarLabel( "docs/extensions/datagrid/binding-data/virtualize", "Virtualize" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/observable">@RenderSidebarLabel( "docs/extensions/datagrid/binding-data/observable", "Observable Collections" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/dynamic">@RenderSidebarLabel( "docs/extensions/datagrid/binding-data/dynamic", "Dynamic" )</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
 
-                                    <BarDropdownItem To="docs/extensions/datagrid/aggregates">Aggregates</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/datagrid/aggregates">@RenderSidebarLabel( "docs/extensions/datagrid/aggregates", "Aggregates" )</BarDropdownItem>
 
-                                    <BarDropdownItem To="docs/extensions/datagrid/columns">Columns</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/datagrid/columns">@RenderSidebarLabel( "docs/extensions/datagrid/columns", "Columns" )</BarDropdownItem>
 
                                     <BarDropdown>
-                                        <BarDropdownToggle To="docs/extensions/datagrid/features" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                            Features
-                                        </BarDropdownToggle>
+                                        <BarDropdownToggle To="docs/extensions/datagrid/features" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">@RenderSidebarLabel( "docs/extensions/datagrid/features", "Features", isGroup: true )</BarDropdownToggle>
                                         <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/paging">Paging</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/sorting">Sorting</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/editing">
-                                                <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                                    <DocsNewFeatureBadge>Editing</DocsNewFeatureBadge>
-                                                </Span>
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/filtering">Filtering</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/reordering">
-                                                <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                                    <DocsNewFeatureBadge>Reordering</DocsNewFeatureBadge>
-                                                </Span>
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/resizing">Resizing</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/auto-generate-columns">Auto Generate Columns</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/column-chooser">Column Chooser</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/fixed-columns">Fixed Columns</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/fixed-header">Fixed Header</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/context-menu">Context Menu</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/grouping">Grouping</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/header-group">Header Group</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/state-management">State Management</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/mobile-mode">
-                                                <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between.AlignItems.Center" Width="Width.Is100">
-                                                    <DocsNewFeatureBadge>Mobile Mode</DocsNewFeatureBadge>
-                                                </Span>
-                                            </BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/accessibility">
-                                                <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between.AlignItems.Center" Width="Width.Is100">
-                                                    <DocsNewFeatureBadge>Accessibility</DocsNewFeatureBadge>
-                                                </Span>
-                                            </BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/paging">@RenderSidebarLabel( "docs/extensions/datagrid/features/paging", "Paging" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/sorting">@RenderSidebarLabel( "docs/extensions/datagrid/features/sorting", "Sorting" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/editing">@RenderSidebarLabel( "docs/extensions/datagrid/features/editing", "Editing" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/filtering">@RenderSidebarLabel( "docs/extensions/datagrid/features/filtering", "Filtering" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/reordering">@RenderSidebarLabel( "docs/extensions/datagrid/features/reordering", "Reordering" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/resizing">@RenderSidebarLabel( "docs/extensions/datagrid/features/resizing", "Resizing" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/auto-generate-columns">@RenderSidebarLabel( "docs/extensions/datagrid/features/auto-generate-columns", "Auto Generate Columns" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/column-chooser">@RenderSidebarLabel( "docs/extensions/datagrid/features/column-chooser", "Column Chooser" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/fixed-columns">@RenderSidebarLabel( "docs/extensions/datagrid/features/fixed-columns", "Fixed Columns" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/fixed-header">@RenderSidebarLabel( "docs/extensions/datagrid/features/fixed-header", "Fixed Header" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/context-menu">@RenderSidebarLabel( "docs/extensions/datagrid/features/context-menu", "Context Menu" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/grouping">@RenderSidebarLabel( "docs/extensions/datagrid/features/grouping", "Grouping" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/header-group">@RenderSidebarLabel( "docs/extensions/datagrid/features/header-group", "Header Group" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/state-management">@RenderSidebarLabel( "docs/extensions/datagrid/features/state-management", "State Management" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/mobile-mode">@RenderSidebarLabel( "docs/extensions/datagrid/features/mobile-mode", "Mobile Mode" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/accessibility">@RenderSidebarLabel( "docs/extensions/datagrid/features/accessibility", "Accessibility" )</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
 
                                     <BarDropdown>
-                                        <BarDropdownToggle To="docs/extensions/datagrid/features/hierarchy" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                            Hierarchy
-                                        </BarDropdownToggle>
+                                        <BarDropdownToggle To="docs/extensions/datagrid/features/hierarchy" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">@RenderSidebarLabel( "docs/extensions/datagrid/features/hierarchy", "Hierarchy", isGroup: true )</BarDropdownToggle>
                                         <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/hierarchy/detail-row">Detail Row</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features/hierarchy/self-reference">
-                                                <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                                    <DocsNewFeatureBadge>Self Reference</DocsNewFeatureBadge>
-                                                </Span>
-                                            </BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/hierarchy/detail-row">@RenderSidebarLabel( "docs/extensions/datagrid/features/hierarchy/detail-row", "Detail Row" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/hierarchy/self-reference">@RenderSidebarLabel( "docs/extensions/datagrid/features/hierarchy/self-reference", "Self Reference" )</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
 
                                     <BarDropdown>
-                                        <BarDropdownToggle To="docs/extensions/datagrid/selection" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                            Selection
-                                        </BarDropdownToggle>
+                                        <BarDropdownToggle To="docs/extensions/datagrid/selection" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">@RenderSidebarLabel( "docs/extensions/datagrid/selection", "Selection", isGroup: true )</BarDropdownToggle>
                                         <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/extensions/datagrid/selection/single">Single</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/selection/multiple">Multiple</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/selection/cell">Cell</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/selection/custom-row-colors">Custom Row Colors</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/selection/single">@RenderSidebarLabel( "docs/extensions/datagrid/selection/single", "Single" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/selection/multiple">@RenderSidebarLabel( "docs/extensions/datagrid/selection/multiple", "Multiple" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/selection/cell">@RenderSidebarLabel( "docs/extensions/datagrid/selection/cell", "Cell" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/selection/custom-row-colors">@RenderSidebarLabel( "docs/extensions/datagrid/selection/custom-row-colors", "Custom Row Colors" )</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
 
                                     <BarDropdown>
-                                        <BarDropdownToggle To="docs/extensions/datagrid/templates" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                            Templates
-                                        </BarDropdownToggle>
+                                        <BarDropdownToggle To="docs/extensions/datagrid/templates" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">@RenderSidebarLabel( "docs/extensions/datagrid/templates", "Templates", isGroup: true )</BarDropdownToggle>
                                         <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/extensions/datagrid/templates/display">Display</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/templates/edit">Edit</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/templates/commands">Commands</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/templates/loading">Loading</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/templates/button-row">Button Row</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/templates/row-overlay">Row Overlay</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/templates/display">@RenderSidebarLabel( "docs/extensions/datagrid/templates/display", "Display" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/templates/edit">@RenderSidebarLabel( "docs/extensions/datagrid/templates/edit", "Edit" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/templates/commands">@RenderSidebarLabel( "docs/extensions/datagrid/templates/commands", "Commands" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/templates/loading">@RenderSidebarLabel( "docs/extensions/datagrid/templates/loading", "Loading" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/templates/button-row">@RenderSidebarLabel( "docs/extensions/datagrid/templates/button-row", "Button Row" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/templates/row-overlay">@RenderSidebarLabel( "docs/extensions/datagrid/templates/row-overlay", "Row Overlay" )</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
 
-                                    <BarDropdownItem To="docs/extensions/datagrid/validations">Validations</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/datagrid/api">API</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/datagrid/validations">@RenderSidebarLabel( "docs/extensions/datagrid/validations", "Validations" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/datagrid/api">@RenderSidebarLabel( "docs/extensions/datagrid/api", "API" )</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -308,14 +230,14 @@
                                     </Span>
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/extensions/reporting/getting-started">Getting Started</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/reporting/designer">Designer</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/reporting/layout">Layout</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/reporting/data-sources">Data Sources</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/reporting/expressions">Expressions</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/reporting/pdf-export">PDF Export</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/reporting/plugins">Plugins</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/reporting/api">API</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/getting-started">@RenderSidebarLabel( "docs/extensions/reporting/getting-started", "Getting Started" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/designer">@RenderSidebarLabel( "docs/extensions/reporting/designer", "Designer" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/layout">@RenderSidebarLabel( "docs/extensions/reporting/layout", "Layout" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/data-sources">@RenderSidebarLabel( "docs/extensions/reporting/data-sources", "Data Sources" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/expressions">@RenderSidebarLabel( "docs/extensions/reporting/expressions", "Expressions" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/pdf-export">@RenderSidebarLabel( "docs/extensions/reporting/pdf-export", "PDF Export" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/plugins">@RenderSidebarLabel( "docs/extensions/reporting/plugins", "Plugins" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/reporting/api">@RenderSidebarLabel( "docs/extensions/reporting/api", "API" )</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -328,20 +250,16 @@
                                     </Span>
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/extensions/svg-chart">Overview</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/svg-chart-plugins">Plugins</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/svg-chart-animation">Animation</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/svg-chart-annotations">Annotations</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/svg-chart-data-drag">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Data Drag</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/svg-chart-datalabels">Data Labels</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/svg-chart-streaming">Streaming</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/svg-chart-trendline">Trendline</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/svg-chart-zoom">Zoom/Pan</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/svg-chart/api">API</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart">@RenderSidebarLabel( "docs/extensions/svg-chart", "Overview" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-plugins">@RenderSidebarLabel( "docs/extensions/svg-chart-plugins", "Plugins" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-animation">@RenderSidebarLabel( "docs/extensions/svg-chart-animation", "Animation" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-annotations">@RenderSidebarLabel( "docs/extensions/svg-chart-annotations", "Annotations" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-data-drag">@RenderSidebarLabel( "docs/extensions/svg-chart-data-drag", "Data Drag" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-datalabels">@RenderSidebarLabel( "docs/extensions/svg-chart-datalabels", "Data Labels" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-streaming">@RenderSidebarLabel( "docs/extensions/svg-chart-streaming", "Streaming" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-trendline">@RenderSidebarLabel( "docs/extensions/svg-chart-trendline", "Trendline" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-zoom">@RenderSidebarLabel( "docs/extensions/svg-chart-zoom", "Zoom/Pan" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart/api">@RenderSidebarLabel( "docs/extensions/svg-chart/api", "API" )</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -351,91 +269,69 @@
                                     <BarIcon IconName="IconName.PuzzlePiece" FixedWidth /> Extensions
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/extensions/animate">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsUpdatedFeatureBadge>Animate</DocsUpdatedFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/autocomplete">Autocomplete</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/barcode">Barcode</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/captcha">Captcha</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/animate">@RenderSidebarLabel( "docs/extensions/animate", "Animate" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/autocomplete">@RenderSidebarLabel( "docs/extensions/autocomplete", "Autocomplete" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/barcode">@RenderSidebarLabel( "docs/extensions/barcode", "Barcode" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/captcha">@RenderSidebarLabel( "docs/extensions/captcha", "Captcha" )</BarDropdownItem>
                                     <BarDropdown>
-                                        <BarDropdownToggle To="docs/extensions/chart" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                            Chart
-                                        </BarDropdownToggle>
+                                        <BarDropdownToggle To="docs/extensions/chart" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">@RenderSidebarLabel( "docs/extensions/chart", "Chart", isGroup: true )</BarDropdownToggle>
                                         <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/extensions/chart">Overview</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/chart-annotation">Annotation</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/chart-datalabels">Data Labels</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/chart-live">Live Chart</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/chart-trendline">Trendline</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/chart-zoom">Zoom</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/chart/api">API</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart">@RenderSidebarLabel( "docs/extensions/chart", "Overview" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart-annotation">@RenderSidebarLabel( "docs/extensions/chart-annotation", "Annotation" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart-datalabels">@RenderSidebarLabel( "docs/extensions/chart-datalabels", "Data Labels" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart-live">@RenderSidebarLabel( "docs/extensions/chart-live", "Live Chart" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart-trendline">@RenderSidebarLabel( "docs/extensions/chart-trendline", "Trendline" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart-zoom">@RenderSidebarLabel( "docs/extensions/chart-zoom", "Zoom" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart/api">@RenderSidebarLabel( "docs/extensions/chart/api", "API" )</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
-                                    <BarDropdownItem To="docs/extensions/code-editor">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Code Editor</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/cropper">Cropper</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/dropdownlist">Dropdown List</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/fluent-validation">Fluent Validation</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/code-editor">@RenderSidebarLabel( "docs/extensions/code-editor", "Code Editor" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/cropper">@RenderSidebarLabel( "docs/extensions/cropper", "Cropper" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/dropdownlist">@RenderSidebarLabel( "docs/extensions/dropdownlist", "Dropdown List" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/fluent-validation">@RenderSidebarLabel( "docs/extensions/fluent-validation", "Fluent Validation" )</BarDropdownItem>
                                     <BarDropdown>
-                                        <BarDropdownToggle To="docs/extensions/gantt" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                            Gantt
-                                        </BarDropdownToggle>
+                                        <BarDropdownToggle To="docs/extensions/gantt" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">@RenderSidebarLabel( "docs/extensions/gantt", "Gantt", isGroup: true )</BarDropdownToggle>
                                         <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/extensions/gantt/getting-started">Getting Started</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/gantt/data-binding">Data Binding</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/gantt/columns">Columns</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/gantt/editing">Editing</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/gantt/views">Views</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/gantt/timeline">Timeline</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/gantt/api">API</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/gantt/getting-started">@RenderSidebarLabel( "docs/extensions/gantt/getting-started", "Getting Started" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/gantt/data-binding">@RenderSidebarLabel( "docs/extensions/gantt/data-binding", "Data Binding" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/gantt/columns">@RenderSidebarLabel( "docs/extensions/gantt/columns", "Columns" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/gantt/editing">@RenderSidebarLabel( "docs/extensions/gantt/editing", "Editing" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/gantt/views">@RenderSidebarLabel( "docs/extensions/gantt/views", "Views" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/gantt/timeline">@RenderSidebarLabel( "docs/extensions/gantt/timeline", "Timeline" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/gantt/api">@RenderSidebarLabel( "docs/extensions/gantt/api", "API" )</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
                                     <BarDropdown>
-                                        <BarDropdownToggle To="docs/extensions/icons" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                            Icons
-                                        </BarDropdownToggle>
+                                        <BarDropdownToggle To="docs/extensions/icons" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">@RenderSidebarLabel( "docs/extensions/icons", "Icons", isGroup: true )</BarDropdownToggle>
                                         <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/extensions/icons">Usage</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/icons-available">Available Icons</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/icons">@RenderSidebarLabel( "docs/extensions/icons", "Usage" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/icons-available">@RenderSidebarLabel( "docs/extensions/icons-available", "Available Icons" )</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
-                                    <BarDropdownItem To="docs/extensions/list-view">List View</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/loadingindicator">Loading Indicator</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/lottie-animation">Lottie Animation</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/maps">Maps</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/markdown">Markdown</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/onetimeinput">One Time Input</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/passwordstrength">Password Strength</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/pdf">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>PDF</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/pdfviewer">PDF Viewer</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/pivotgrid">Pivot Grid</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/qrcode">QR Code</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/ribbon">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Ribbon</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/richtextedit">Rich Text Edit</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/routertabs">Router Tabs</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/scheduler">Scheduler</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/selectlist">Select List</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/sidebar">Sidebar</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/signaturepad">Signature Pad</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/snackbar">Snackbar</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/spinkit">Spin Kit</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/splitter">Splitter</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/transferlist">Transfer List</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/treeview">Tree View</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/video">Video</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/list-view">@RenderSidebarLabel( "docs/extensions/list-view", "List View" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/loadingindicator">@RenderSidebarLabel( "docs/extensions/loadingindicator", "Loading Indicator" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/lottie-animation">@RenderSidebarLabel( "docs/extensions/lottie-animation", "Lottie Animation" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/maps">@RenderSidebarLabel( "docs/extensions/maps", "Maps" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/markdown">@RenderSidebarLabel( "docs/extensions/markdown", "Markdown" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/onetimeinput">@RenderSidebarLabel( "docs/extensions/onetimeinput", "One Time Input" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/passwordstrength">@RenderSidebarLabel( "docs/extensions/passwordstrength", "Password Strength" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/pdf">@RenderSidebarLabel( "docs/extensions/pdf", "PDF" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/pdfviewer">@RenderSidebarLabel( "docs/extensions/pdfviewer", "PDF Viewer" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/pivotgrid">@RenderSidebarLabel( "docs/extensions/pivotgrid", "Pivot Grid" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/qrcode">@RenderSidebarLabel( "docs/extensions/qrcode", "QR Code" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/ribbon">@RenderSidebarLabel( "docs/extensions/ribbon", "Ribbon" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/richtextedit">@RenderSidebarLabel( "docs/extensions/richtextedit", "Rich Text Edit" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/routertabs">@RenderSidebarLabel( "docs/extensions/routertabs", "Router Tabs" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/scheduler">@RenderSidebarLabel( "docs/extensions/scheduler", "Scheduler" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/selectlist">@RenderSidebarLabel( "docs/extensions/selectlist", "Select List" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/sidebar">@RenderSidebarLabel( "docs/extensions/sidebar", "Sidebar" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/signaturepad">@RenderSidebarLabel( "docs/extensions/signaturepad", "Signature Pad" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/snackbar">@RenderSidebarLabel( "docs/extensions/snackbar", "Snackbar" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/spinkit">@RenderSidebarLabel( "docs/extensions/spinkit", "Spin Kit" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/splitter">@RenderSidebarLabel( "docs/extensions/splitter", "Splitter" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/transferlist">@RenderSidebarLabel( "docs/extensions/transferlist", "Transfer List" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/treeview">@RenderSidebarLabel( "docs/extensions/treeview", "Tree View" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/video">@RenderSidebarLabel( "docs/extensions/video", "Video" )</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -445,12 +341,12 @@
                                     <BarIcon IconName="IconName.Comment" FixedWidth /> Services
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/services/message-provider">Message Provider</BarDropdownItem>
-                                    <BarDropdownItem To="docs/services/modal-provider">Modal Provider</BarDropdownItem>
-                                    <BarDropdownItem To="docs/services/notification-provider">Notification Provider</BarDropdownItem>
-                                    <BarDropdownItem To="docs/services/offcanvas-provider">Offcanvas Provider</BarDropdownItem>
-                                    <BarDropdownItem To="docs/services/page-progress-provider">Page Progress Provider</BarDropdownItem>
-                                    <BarDropdownItem To="docs/services/toast-provider">Toast Providers</BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/message-provider">@RenderSidebarLabel( "docs/services/message-provider", "Message Provider" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/modal-provider">@RenderSidebarLabel( "docs/services/modal-provider", "Modal Provider" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/notification-provider">@RenderSidebarLabel( "docs/services/notification-provider", "Notification Provider" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/offcanvas-provider">@RenderSidebarLabel( "docs/services/offcanvas-provider", "Offcanvas Provider" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/page-progress-provider">@RenderSidebarLabel( "docs/services/page-progress-provider", "Page Progress Provider" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/toast-provider">@RenderSidebarLabel( "docs/services/toast-provider", "Toast Providers" )</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -461,59 +357,45 @@
                                     Helpers
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/helpers/utilities/border">Border</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/colors">Colors</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/column-size">Column Size</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/css-grid">
-                                        CSS Grid
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/display">Display</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/border">@RenderSidebarLabel( "docs/helpers/utilities/border", "Border" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/colors">@RenderSidebarLabel( "docs/helpers/colors", "Colors" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/column-size">@RenderSidebarLabel( "docs/helpers/utilities/column-size", "Column Size" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/css-grid">@RenderSidebarLabel( "docs/helpers/utilities/css-grid", "CSS Grid" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/display">@RenderSidebarLabel( "docs/helpers/utilities/display", "Display" )</BarDropdownItem>
                                     <BarDropdown>
-                                        <BarDropdownToggle To="docs/helpers/enums" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                            Enums
-                                        </BarDropdownToggle>
+                                        <BarDropdownToggle To="docs/helpers/enums" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">@RenderSidebarLabel( "docs/helpers/enums", "Enums", isGroup: true )</BarDropdownToggle>
                                         <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/helpers/enums/bar">Bar</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/button">Button</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/common">Common</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/datagrid">Data Grid</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/date">Date</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/divider">Divider</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/dropdown">Dropdown</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/heading">Heading</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/icon">Icon</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/listgroup">List Group</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/snackbar">Snackbar</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/spinkit">Spin Kit</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/table">Table</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/tabs">Tabs</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/text">Text</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/tooltip">Tooltip</BarDropdownItem>
-                                            <BarDropdownItem To="docs/helpers/enums/validation">Validation</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/bar">@RenderSidebarLabel( "docs/helpers/enums/bar", "Bar" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/button">@RenderSidebarLabel( "docs/helpers/enums/button", "Button" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/common">@RenderSidebarLabel( "docs/helpers/enums/common", "Common" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/datagrid">@RenderSidebarLabel( "docs/helpers/enums/datagrid", "Data Grid" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/date">@RenderSidebarLabel( "docs/helpers/enums/date", "Date" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/divider">@RenderSidebarLabel( "docs/helpers/enums/divider", "Divider" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/dropdown">@RenderSidebarLabel( "docs/helpers/enums/dropdown", "Dropdown" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/heading">@RenderSidebarLabel( "docs/helpers/enums/heading", "Heading" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/icon">@RenderSidebarLabel( "docs/helpers/enums/icon", "Icon" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/listgroup">@RenderSidebarLabel( "docs/helpers/enums/listgroup", "List Group" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/snackbar">@RenderSidebarLabel( "docs/helpers/enums/snackbar", "Snackbar" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/spinkit">@RenderSidebarLabel( "docs/helpers/enums/spinkit", "Spin Kit" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/table">@RenderSidebarLabel( "docs/helpers/enums/table", "Table" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/tabs">@RenderSidebarLabel( "docs/helpers/enums/tabs", "Tabs" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/text">@RenderSidebarLabel( "docs/helpers/enums/text", "Text" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/tooltip">@RenderSidebarLabel( "docs/helpers/enums/tooltip", "Tooltip" )</BarDropdownItem>
+                                            <BarDropdownItem To="docs/helpers/enums/validation">@RenderSidebarLabel( "docs/helpers/enums/validation", "Validation" )</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
-                                    <BarDropdownItem To="docs/helpers/utilities/flex">Flex</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/grid">Grid</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/gutters">Gutters</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/localization">Localization</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/object-fit">
-                                        Object Fit
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/overflow">Overflow</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/position">Position</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/sizes">Sizes</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/sizing">Sizing</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/spacing">Spacing</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/styling">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Styling</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/z-index">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Z-Index</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/flex">@RenderSidebarLabel( "docs/helpers/utilities/flex", "Flex" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/grid">@RenderSidebarLabel( "docs/helpers/utilities/grid", "Grid" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/gutters">@RenderSidebarLabel( "docs/helpers/utilities/gutters", "Gutters" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/localization">@RenderSidebarLabel( "docs/helpers/localization", "Localization" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/object-fit">@RenderSidebarLabel( "docs/helpers/utilities/object-fit", "Object Fit" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/overflow">@RenderSidebarLabel( "docs/helpers/utilities/overflow", "Overflow" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/position">@RenderSidebarLabel( "docs/helpers/utilities/position", "Position" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/sizes">@RenderSidebarLabel( "docs/helpers/sizes", "Sizes" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/sizing">@RenderSidebarLabel( "docs/helpers/utilities/sizing", "Sizing" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/spacing">@RenderSidebarLabel( "docs/helpers/utilities/spacing", "Spacing" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/styling">@RenderSidebarLabel( "docs/helpers/utilities/styling", "Styling" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/z-index">@RenderSidebarLabel( "docs/helpers/utilities/z-index", "Z-Index" )</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -523,12 +405,12 @@
                                     <BarIcon IconName="IconName.Book" FixedWidth /> Specifications
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/specifications">Introduction</BarDropdownItem>
-                                    <BarDropdownItem To="docs/specifications/autocomplete">Autocomplete</BarDropdownItem>
-                                    <BarDropdownItem To="docs/specifications/datagrid">Data Grid</BarDropdownItem>
-                                    <BarDropdownItem To="docs/specifications/treeview">Tree View</BarDropdownItem>
-                                    <BarDropdownItem To="docs/specifications/charts">Charts</BarDropdownItem>
-                                    <BarDropdownItem To="docs/specifications/scheduler">Scheduler</BarDropdownItem>
+                                    <BarDropdownItem To="docs/specifications">@RenderSidebarLabel( "docs/specifications", "Introduction" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/specifications/autocomplete">@RenderSidebarLabel( "docs/specifications/autocomplete", "Autocomplete" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/specifications/datagrid">@RenderSidebarLabel( "docs/specifications/datagrid", "Data Grid" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/specifications/treeview">@RenderSidebarLabel( "docs/specifications/treeview", "Tree View" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/specifications/charts">@RenderSidebarLabel( "docs/specifications/charts", "Charts" )</BarDropdownItem>
+                                    <BarDropdownItem To="docs/specifications/scheduler">@RenderSidebarLabel( "docs/specifications/scheduler", "Scheduler" )</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -538,8 +420,8 @@
                                     <BarIcon IconName="IconName.QuestionCircle" FixedWidth /> Meta
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/faq">FAQ</BarDropdownItem>
-                                    <BarDropdownItem To="license">License</BarDropdownItem>
+                                    <BarDropdownItem To="docs/faq">@RenderSidebarLabel( "docs/faq", "FAQ" )</BarDropdownItem>
+                                    <BarDropdownItem To="license">@RenderSidebarLabel( "license", "License" )</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -548,7 +430,7 @@
             </Bar>
         </LayoutSiderContent>
     </LayoutSider>
-    <Layout>
+    <Layout @key="NavigationManager.Uri.Split( '#' )[0]">
         <LayoutHeader ElementId="b-docs-layout-header">
             <Bar Class="b-top-bar" @ref="@topBar" @bind-Visible="@topBarVisible"
                  Breakpoint="Breakpoint.Desktop" Background="@ThemeService.BarBackground" ThemeContrast="@ThemeService.BarThemeContrast">
@@ -572,21 +454,23 @@
         <CascadingValue Value="@this" IsFixed>
             <LayoutContent Padding="Padding.Is0.OnX.Is4.OnY.Is4.OnWidescreen">
                 <Container Breakpoint="Breakpoint.Widescreen">
-                    <Row>
-                        <Column ColumnSize="ColumnSize.Is12.Is10.OnDesktop" Class="b-docs-page">
-                            @if ( isRouterTabsExample )
-                            {
-                                <RouterTabs />
-                            }
-                            else
-                            {
-                                @Body
-                            }
-                        </Column>
-                        <Column ColumnSize="ColumnSize.Is2.OnDesktop">
-                            <Toc />
-                        </Column>
-                    </Row>
+                    <DocsTocContext>
+                        <Row>
+                            <Column ColumnSize="ColumnSize.Is12.Is10.OnDesktop" Class="b-docs-page">
+                                @if ( isRouterTabsExample )
+                                {
+                                    <RouterTabs />
+                                }
+                                else
+                                {
+                                    @Body
+                                }
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is2.OnDesktop">
+                                <Toc />
+                            </Column>
+                        </Row>
+                    </DocsTocContext>
                 </Container>
             </LayoutContent>
         </CascadingValue>
@@ -594,4 +478,26 @@
 </Layout>
 @code {
     RenderFragment customIcon = @<Image Source="/img/logos/blazorise-small.svg" Text="Small Blazorise logo" Width="Width.Px( 32 )" Height="Height.Px( 32 )" />;
+
+    private RenderFragment RenderSidebarLabel( string route, string text, bool isGroup = false ) => __builder =>
+    {
+        var badges = ResolveSidebarBadges( route, isGroup );
+
+        if ( badges.IsNew )
+        {
+            <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                <DocsNewFeatureBadge>@text</DocsNewFeatureBadge>
+            </Span>
+        }
+        else if ( badges.IsUpdated )
+        {
+            <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                <DocsUpdatedFeatureBadge>@text</DocsUpdatedFeatureBadge>
+            </Span>
+        }
+        else
+        {
+            <text>@text</text>
+        }
+    };
 }

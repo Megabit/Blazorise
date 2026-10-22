@@ -1,15 +1,17 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Addons>
-    <Addon AddonType="AddonType.Body">
-        <DatePicker @ref="@datePicker" TValue="DateTime?" @bind-Value="@value" />
-    </Addon>
-    <Addon AddonType="AddonType.End">
-        <Button Color="Color.Light" Clicked="@(()=>datePicker.ToggleAsync())">
-            <Icon Name="IconName.CalendarDay" />
-        </Button>
-    </Addon>
-</Addons>
+<Field>
+    <Addons>
+        <Addon AddonType="AddonType.Body">
+            <DatePicker @ref="@datePicker" TValue="DateTime?" @bind-Value="@value" />
+        </Addon>
+        <Addon AddonType="AddonType.End">
+            <Button Color="Color.Light" Clicked="@(()=>datePicker.ToggleAsync())">
+                <Icon Name="IconName.CalendarDay" />
+            </Button>
+        </Addon>
+    </Addons>
+</Field>
 @code {
     DatePicker<DateTime?> datePicker;
 
