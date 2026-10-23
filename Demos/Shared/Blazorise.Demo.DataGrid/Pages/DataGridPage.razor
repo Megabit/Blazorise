@@ -218,6 +218,7 @@
             <CardBody>
                 <DataGrid @ref="dataGrid"
                           TItem="Employee"
+                          LoadingDisplayMode="DataGridLoadingDisplayMode.Overlay"
                           ReadData="@(readDataMode ? OnReadData : null)"
                           Data="@(readDataMode ? employeeList : dataModels)"
                           TotalItems="@(readDataMode ? totalEmployees : null)"
@@ -391,6 +392,27 @@
                     <EmptyCellTemplate>
                         <Text Style="opacity: .5;">--</Text>
                     </EmptyCellTemplate>
+                    <LoadingTemplate>
+                        <Div Position="Position.Absolute.Top.Is0.Start.Is0"
+                             Background="@(new Background( "rgba(0, 0, 0, 0.18)" ))"
+                             Width="Width.Is100"
+                             Height="Height.Is100"
+                             Flex="Flex.Column.AlignItems.Center.JustifyContent.Center"
+                             Gap="Gap.Is2">
+                            <Div Background="Background.Light"
+                                 Padding="Padding.Is3"
+                                 Border="Border.Rounded"
+                                 Shadow="Shadow.Small"
+                                 Width="Width.Is50">
+                                <Div Margin="Margin.Is2.FromBottom">
+                                    Loading data…
+                                </Div>
+                                <Progress Color="Color.Primary"
+                                          Indeterminate
+                                          ShowValue="false" />
+                            </Div>
+                        </Div>
+                    </LoadingTemplate>
                     <ButtonRowTemplate>
                         @if ( showButtonRow )
                         {

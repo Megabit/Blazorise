@@ -168,4 +168,9 @@ public class DataGridLocalizers
     /// Custom localization handler for column chooser text.
     /// </summary>
     public TextLocalizerHandler ColumnChooserLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for the loading indicator label.
+    /// </summary>
+    public TextLocalizerHandler LoadingLocalizer { get; set; }
 }

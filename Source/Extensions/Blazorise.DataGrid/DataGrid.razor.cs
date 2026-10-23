@@ -4142,14 +4142,32 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     protected bool ShowAggregatesOnBottom => AggregateRowPosition == DataGridAggregateRowPosition.Bottom || AggregateRowPosition == DataGridAggregateRowPosition.TopAndBottom;
 
     /// <summary>
-    /// Returns true if data is not empty, data is not loaded, empty and loading template is not set.
+    /// Returns true if the data rows should be displayed, including while a loading overlay is visible.
     /// </summary>
-    protected bool IsDisplayDataVisible => !IsLoadingTemplateVisible && !IsEmptyTemplateVisible;
+    protected bool IsDisplayDataVisible => !IsLoadingReplacementVisible && !IsEmptyTemplateVisible;
 
     /// <summary>
-    /// Returns true if LoadingTemplate is set and IsLoading is true.
+    /// Resolves the default loading display mode based on whether a loading template is supplied.
     /// </summary>
-    protected bool IsLoadingTemplateVisible => !IsNewItemInGrid && LoadingTemplate != null && IsLoading && !Virtualize;
+    protected DataGridLoadingDisplayMode EffectiveLoadingDisplayMode
+        => LoadingDisplayMode == DataGridLoadingDisplayMode.Default
+            ? LoadingTemplate is not null ? DataGridLoadingDisplayMode.Replace : DataGridLoadingDisplayMode.None
+            : LoadingDisplayMode;
+
+    /// <summary>
+    /// Returns true if custom or default loading content should be displayed in a non-virtualized grid.
+    /// </summary>
+    protected bool IsLoadingTemplateVisible => !IsNewItemInGrid && IsLoading && !Virtualize && EffectiveLoadingDisplayMode != DataGridLoadingDisplayMode.None;
+
+    /// <summary>
+    /// Returns true if loading content should overlay the grid.
+    /// </summary>
+    protected bool IsLoadingOverlayVisible => IsLoadingTemplateVisible && EffectiveLoadingDisplayMode == DataGridLoadingDisplayMode.Overlay;
+
+    /// <summary>
+    /// Returns true if loading content should replace the data rows.
+    /// </summary>
+    protected bool IsLoadingReplacementVisible => IsLoadingTemplateVisible && EffectiveLoadingDisplayMode == DataGridLoadingDisplayMode.Replace;
 
     /// <summary>
     /// Returns true if ReadData will be invoked.
@@ -4175,10 +4193,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     protected bool VirtualizeRendered => !Virtualize || ( Virtualize && Rendered );
 
     /// <summary>
-    /// Returns true if ShowPager is true and grid is not empty or loading.
+    /// Returns true if the pager or column chooser should be displayed, including while a loading overlay is visible.
     /// </summary>
     protected bool IsPagerVisible
-        => ( ShowPager || ShowColumnChooser ) && !IsLoadingTemplateVisible && ( ( IsButtonRowVisible && ButtonRowTemplate != null ) || !IsEmptyTemplateVisible );
+        => ( ShowPager || ShowColumnChooser ) && !IsLoadingReplacementVisible && ( ( IsButtonRowVisible && ButtonRowTemplate != null ) || !IsEmptyTemplateVisible );
 
     /// <summary>
     /// Returns true if current state is for new item and editing fields are shown on datagrid.
@@ -4556,9 +4574,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public RenderFragment<CellDisplayContext<TItem>> EmptyCellTemplate { get; set; }
 
     /// <summary>
-    /// Defines content of table body for handle ReadData.
+    /// Defines custom content displayed while loading.
     /// </summary>
+    /// <remarks>
+    /// Placement is controlled by <see cref="LoadingDisplayMode"/>. Overlay mode centers the content;
+    /// virtualized grids render it inside placeholder rows. When omitted, Overlay and Replace modes
+    /// use a built-in spinner, with a backdrop in Overlay mode.
+    /// </remarks>
     [Parameter] public RenderFragment LoadingTemplate { get; set; }
+
+    /// <summary>
+    /// Specifies how loading content is displayed. Defaults to <see cref="DataGridLoadingDisplayMode.Default"/>.
+    /// </summary>
+    /// <remarks>
+    /// Default mode replaces rows only when <see cref="LoadingTemplate"/> is supplied.
+    /// None disables loading content. Virtualized grids use placeholder rows for enabled loading content.
+    /// </remarks>
+    [Parameter] public DataGridLoadingDisplayMode LoadingDisplayMode { get; set; } = DataGridLoadingDisplayMode.Default;
 
     /// <summary>
     /// Defines content of button row of pager.
