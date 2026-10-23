@@ -1,0 +1,40 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<DataGrid TItem="Employee" Data="@employeeList" Responsive ShowPager PageSize="5">
+    <DataGridAggregates>
+        <DataGridAggregateRow>
+            <DataGridAggregate Field="@nameof( Employee.FirstName )">
+                <DisplayTemplate>
+                    <Strong>Total salary</Strong>
+                </DisplayTemplate>
+            </DataGridAggregate>
+            <DataGridAggregate Field="@nameof( Employee.Salary )" Aggregate="DataGridAggregateType.Sum" DisplayFormat="C" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" />
+        </DataGridAggregateRow>
+        <DataGridAggregateRow>
+            <DataGridAggregate Field="@nameof( Employee.FirstName )">
+                <DisplayTemplate>
+                    <Strong>Average salary</Strong>
+                </DisplayTemplate>
+            </DataGridAggregate>
+            <DataGridAggregate Field="@nameof( Employee.Salary )" Aggregate="DataGridAggregateType.Average" DisplayFormat="C" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" />
+        </DataGridAggregateRow>
+    </DataGridAggregates>
+    <DataGridColumns>
+        <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" />
+        <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" />
+        <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" DisplayFormat="C" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" />
+    </DataGridColumns>
+</DataGrid>
+
+@code {
+    private List<Employee> employeeList;
+
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+
+        await base.OnInitializedAsync();
+    }
+}

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -145,6 +146,17 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
         base.OnInitialized();
     }
 
+    /// <inheritdoc />
+    protected override ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentDataGrid?.RemoveAggregate( this );
+        }
+
+        return base.DisposeAsync( disposing );
+    }
+
     /// <summary>
     /// Gets the formatted display value.
     /// </summary>
@@ -255,6 +267,11 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
     /// Specifies the parent <see cref="DataGrid{TItem}"/> of the this component.
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
+
+    /// <summary>
+    /// Optional row containing this aggregate. Unwrapped aggregates share a single row.
+    /// </summary>
+    [CascadingParameter] public DataGridAggregateRow ParentAggregateRow { get; set; }
 
     #endregion
 }

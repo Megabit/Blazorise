@@ -405,6 +405,9 @@
 
     protected RenderFragment aggregateRowFragment => __builder =>
     {
-        <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@AggregateRowStyling?.Class" Style="@AggregateRowStyling?.Style" Background="@(AggregateRowStyling?.Background ?? Background.Default)" Color="@(AggregateRowStyling?.Color ?? Color.Default)" />
+        @foreach ( var aggregateRow in Aggregates.GroupBy( x => x.ParentAggregateRow ) )
+        {
+            <_DataGridAggregateRow @key="aggregateRow.Key" TItem="TItem" Aggregates="@aggregateRow" Columns="@DisplayableColumns" Class="@AggregateRowStyling?.Class" Style="@AggregateRowStyling?.Style" Background="@(AggregateRowStyling?.Background ?? Background.Default)" Color="@(AggregateRowStyling?.Color ?? Color.Default)" />
+        }
     };
 }
