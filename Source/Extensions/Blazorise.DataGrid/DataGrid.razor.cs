@@ -575,6 +575,20 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     public void AddAggregate( DataGridAggregate<TItem> aggregate )
     {
         Aggregates.Add( aggregate );
+
+        InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Unlinks an aggregate from this datagrid.
+    /// </summary>
+    /// <param name="aggregate">Aggregate to remove.</param>
+    internal void RemoveAggregate( DataGridAggregate<TItem> aggregate )
+    {
+        if ( Aggregates.Remove( aggregate ) && !Disposed && !AsyncDisposed )
+        {
+            InvokeAsync( StateHasChanged );
+        }
     }
 
     /// <summary>

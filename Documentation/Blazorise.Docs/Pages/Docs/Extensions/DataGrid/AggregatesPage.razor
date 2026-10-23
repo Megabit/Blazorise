@@ -44,6 +44,15 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple Rows">
+        Wrap aggregates in <Code>DataGridAggregateRow</Code> components inside <Code>DataGridAggregates</Code> to display separate summary rows. This example shows the total and average salary in the same column. Aggregates without a row wrapper continue to share a single row.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="DataGridAggregatesMultipleRowsExample" FullWidth AdditionalCodes="@DocsCodeSources.DataGridSharedData" CopyFullExample>
+        <DataGridAggregatesMultipleRowsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Large Data">
         By default all aggregate operations are run on in-memory <Code>Data</Code>. When working with large datasets that is not possible. So just as in the previous examples for large datasets you need to work with <Code>ReadData</Code> and set the <Code>AggregateData</Code> property.
     </DocsPageSectionHeader>
