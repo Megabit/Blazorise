@@ -6441,6 +6441,9 @@ td:focus {
     border-bottom: 1px solid;
   }
 }
+.table > thead.table-thead-theme.has-background-dark {
+  --bulma-table-head-cell-color: var(--bulma-dark-invert);
+}
 .table > :is(tbody, thead, tfoot) > tr.is-custom > :is(th, td):not(.has-background-primary, .has-background-secondary, .has-background-success, .has-background-danger, .has-background-warning, .has-background-info, .has-background-light, .has-background-dark, .has-background-link) {
   background-color: var(--bulma-table-cell-background-color);
   color: var(--bulma-text);

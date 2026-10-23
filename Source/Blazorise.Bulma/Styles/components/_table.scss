@@ -157,6 +157,10 @@ td:focus {
 }
 
 .table {
+    > thead.table-thead-theme.has-background-dark {
+        --bulma-table-head-cell-color: var(--bulma-dark-invert);
+    }
+
     > :is(tbody, thead, tfoot) > tr.is-custom {
         > :is(th, td):not(#{$table-contextual-cell-selectors}) {
             background-color: var(--bulma-table-cell-background-color);

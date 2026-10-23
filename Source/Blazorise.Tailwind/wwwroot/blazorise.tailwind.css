@@ -13249,6 +13249,12 @@ textarea[data-autosize=true] {
   user-select: none;
   z-index: 1;
 }
+.b-table > thead > tr {
+  background-color: inherit;
+}
+.b-table > thead > tr > th {
+  background-color: inherit;
+}
 tr.b-table-row.b-table-row-selectable:focus[tabindex="0"] {
   outline: none;
 }
@@ -13258,9 +13264,6 @@ tr.b-table-row.b-table-row-selectable:focus[tabindex="0"] {
 .b-table-fixed-header > .b-table {
   border-collapse: separate;
   border-spacing: 0;
-}
-.b-table-fixed-header > .b-table > thead:not(.table-thead-theme) > tr > th {
-  background: white;
 }
 .b-table-fixed-header > .b-table > thead > tr > th {
   border-top: none;
