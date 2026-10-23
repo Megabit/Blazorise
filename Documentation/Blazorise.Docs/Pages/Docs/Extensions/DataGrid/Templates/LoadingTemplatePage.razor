@@ -6,8 +6,12 @@
     Blazorise DataGrid: Loading Template
 </DocsPageTitle>
 
+<DocsPageLead>
+    Keep users informed while data loads, refreshes, or returns no results.
+</DocsPageLead>
+
 <DocsPageParagraph>
-    Blazor includes templated components that can accept one or more UI segments as input and render them as part of the component during component rendering. DataGrid is a templated Blazor component that lets you customize various parts of the user interface with template parameters. It enables you to generate custom components or content using your own logic.
+    Paging through records or refreshing a table should not leave users guessing whether their action worked. DataGrid loading and empty templates provide feedback for each stage of a request. An overlay can keep the current results in view while new data arrives, while an empty-state message can explain why there is nothing to display and suggest what to do next.
 </DocsPageParagraph>
 
 <DocsPageSectionTitle>
@@ -17,12 +21,23 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Loading Templates">
         <Paragraph>
-            If you want to change display of content, while grid is empty or <Code>ReadData</Code> is executing, you can use following templates:
+            A blank grid can leave users wondering whether data is still loading or no records were found. <Code>LoadingTemplate</Code> provides feedback while a request is running, and <Code>EmptyTemplate</Code> explains the empty result once loading finishes. Both let you use messages and visuals that fit your application.
         </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem><Code>EmptyTemplate</Code></UnorderedListItem>
-            <UnorderedListItem><Code>LoadingTemplate</Code></UnorderedListItem>
-        </UnorderedList>
+        <Paragraph>
+            For paging and refreshing, <Code>DataGridLoadingDisplayMode.Overlay</Code> keeps the current rows and pager visible beneath centered loading content. This reduces layout jumps and helps users keep their place while waiting. Interaction with the covered grid is temporarily disabled so users cannot act on data that is being refreshed. Keep the current <Code>Data</Code> until the request completes to retain these benefits.
+        </Paragraph>
+        <Paragraph>
+            When keeping old results visible would be confusing, <Code>DataGridLoadingDisplayMode.Replace</Code> gives the loading content the space normally occupied by the rows and hides the pager until the request completes. Headers and filters remain available.
+        </Paragraph>
+        <Paragraph>
+            You do not need a custom template to provide loading feedback. <Code>Overlay</Code> and <Code>Replace</Code> include a compact spinner with an accessible loading label. The built-in overlay also adds a translucent backdrop across the grid and pager. A custom template can add context, such as “Loading employees…”, and provide its own backdrop.
+        </Paragraph>
+        <Paragraph>
+            Existing grids keep their behavior through <Code>DataGridLoadingDisplayMode.Default</Code>: a supplied template replaces the rows while loading; without one, no loading indicator appears. <Code>None</Code> disables loading content even when a template is supplied, which is useful when your page already provides feedback elsewhere.
+        </Paragraph>
+        <Paragraph>
+            With virtualization, loading feedback appears in placeholder rows rather than covering the whole grid, keeping it close to the records being loaded.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="DataGridLoadingEmptyTemplateExample" FullWidth AdditionalCodes="@DocsCodeSources.DataGridSharedData" CopyFullExample>
         <DataGridLoadingEmptyTemplateExample />

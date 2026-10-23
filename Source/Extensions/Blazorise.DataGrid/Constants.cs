@@ -1,7 +1,7 @@
 namespace Blazorise.DataGrid;
 
 /// <summary>
-/// Contains static readonly properties for various display, margin, flex, padding, and gap settings used in UI layouts.
+/// Contains shared utility values used in DataGrid layouts.
 /// </summary>
 static class Constants
 {
@@ -27,6 +27,8 @@ static class Constants
 
     // Flex
     internal static readonly IFluentFlex FlexRow = Flex.Row;
+    internal static readonly IFluentFlex FlexColumn = Flex.Column;
+    internal static readonly IFluentFlex FlexColumnAlignItemsCenterJustifyContentCenter = Flex.Column.AlignItems.Center.JustifyContent.Center;
     internal static readonly IFluentFlex FlexJustifyContentBetween = Flex.JustifyContent.Between;
     internal static readonly IFluentFlex FlexJustifyContentEndAlignItemsCenter = Flex.JustifyContent.End.AlignItems.Center;
     internal static readonly IFluentFlex FlexRowAlignItemsCenterJustifyContentEnd = Flex.Row.AlignItems.Center.JustifyContent.End;
@@ -48,6 +50,28 @@ static class Constants
     internal static readonly IFluentColumn ColumnSizeIsAuto = ColumnSize.IsAuto;
     internal static readonly IFluentColumn ColumnSizeIs12 = ColumnSize.Is12;
     internal static readonly IFluentColumn ColumnSizeIsHalfOnDesktop = ColumnSize.IsHalf.OnDesktop;
+
+    // Sizing
+    internal static readonly IFluentSizing WidthRem1_5 = Width.Rem( 1.5 );
+
+    internal static readonly IFluentSizing HeightRem1_5 = Height.Rem( 1.5 );
+
+    // Position
+    internal static readonly IFluentPosition PositionRelative = Position.Relative;
+    internal static readonly IFluentPosition PositionAbsoluteTopIs0BottomIs0StartIs0EndIs0 = Position.Absolute.Top.Is0.Bottom.Is0.Start.Is0.End.Is0;
+
+    // ZIndex
+    internal static readonly ZIndex ZIndexDefault = ZIndex.Default;
+    internal static readonly ZIndex ZIndexIs0 = ZIndex.Is0;
+    internal static readonly ZIndex ZIndexIs1 = ZIndex.Is1;
+
+    // TextAlignment
+    internal const TextAlignment TextAlignmentCenter = TextAlignment.Center;
+
+    // Background
+    internal static readonly Background BackgroundDefault = Background.Default;
+
+    internal static readonly Background BackgroundLoadingOverlay = new( "rgba(0, 0, 0, 0.18)" );
 
     // Border
     internal static readonly IFluentBorder BorderIs1Rounded = Border.Is1.Rounded;

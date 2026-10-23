@@ -1,70 +1,62 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<DataGrid @ref="datagridRef"
-          TItem="Employee"
-          Data="@employeeList"
-          @bind-SelectedRow="@selectedEmployee"
-          TotalItems="@totalEmployees"
-          ReadData="@LoadEmployeesFromService"
+<DataGrid TItem="Employee"
+          Data="employees"
+          TotalItems="totalEmployees"
+          ReadData="OnReadDataHandler"
+          LoadingDisplayMode="DataGridLoadingDisplayMode.Overlay"
+          PageSize="5"
+          Sortable="false"
+          ShowPager
           Responsive>
     <DataGridColumns>
-        <DataGridCommandColumn />
-        <DataGridColumn Field="@nameof( Employee.Id )" Caption="#" Sortable="false" />
-        <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Editable />
-        <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable />
-        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable />
-        <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" DisplayFormat="C" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" Editable>
-            <EditTemplate>
-                <NumericInput TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@(v => context.CellValue = v)" />
-            </EditTemplate>
-        </DataGridColumn>
+        <DataGridColumn Field="@nameof( Employee.Id )" Caption="#" />
+        <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" />
+        <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" />
+        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" />
     </DataGridColumns>
-    <EmptyTemplate>
-        <div class="box">
-            No employees were found!
-        </div>
-    </EmptyTemplate>
     <LoadingTemplate>
-        <Progress @ref="progressRef" Color="Color.Primary" Max="100" Value="progress" />
+        <Div Width="Width.Is100"
+             Height="Height.Is100"
+             Flex="Flex.Column.AlignItems.Center.JustifyContent.Center"
+             Background="@(new Background( "rgba(0, 0, 0, 0.18)" ))"
+             Padding="Padding.Is3">
+            <Div Background="Background.Body" Padding="Padding.Is3" Border="Border.Rounded" Shadow="Shadow.Small" Width="Width.Rem( 16 )" TextAlignment="TextAlignment.Center">
+                <Div TextWeight="TextWeight.SemiBold" Margin="Margin.Is2.FromBottom">Loading employees…</Div>
+                <Progress Color="Color.Primary" Indeterminate ShowValue="false" />
+            </Div>
+        </Div>
     </LoadingTemplate>
+    <EmptyTemplate>
+        <Div Padding="Padding.Is4" TextAlignment="TextAlignment.Center">
+            No employees found.
+        </Div>
+    </EmptyTemplate>
 </DataGrid>
 
-<Button Color="Color.Primary" Clicked="() => datagridRef.Reload()">Load</Button>
-
 @code {
-    protected DataGrid.DataGrid<Employee> datagridRef;
-    protected Progress progressRef;
-    protected int progress;
-    protected Employee selectedEmployee;
-    protected int totalEmployees = 0;
-    protected List<Employee> employeeList;
+    [Inject] EmployeeData EmployeeData { get; set; }
 
-    public async Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
+    private List<Employee> employees = new();
+
+    private int totalEmployees;
+
+    private async Task OnReadDataHandler( DataGridReadDataEventArgs<Employee> e )
     {
-        /*
-        * This can be call to anything like calling an api to load employees.
-        * During execution 'LoadingTemplate' will be displayed.
-        * If your api call returns empty result, then 'EmptyTemplate' will be displayed,
-        * this way you have proper feedback, for when your datagrid is loading or empty.
-        */
-        progress = 0;
-        await InvokeAsync( StateHasChanged );
+        // Simulate a request while keeping the current rows visible.
+        await Task.Delay( 1500 );
 
-        await Task.Delay( 500 );
-        progress = 25;
-        await InvokeAsync( StateHasChanged );
+        var result = await EmployeeData.GetDataAsync();
 
-        await Task.Delay( 500 );
-        progress = 50;
-        await InvokeAsync( StateHasChanged );
+        if ( e.CancellationToken.IsCancellationRequested )
+        {
+            return;
+        }
 
-        await Task.Delay( 500 );
-        progress = 75;
-        await InvokeAsync( StateHasChanged );
-
-
-        await Task.Delay( 500 );
-        progress = 100;
-        await InvokeAsync( StateHasChanged );
+        totalEmployees = result.Count;
+        employees = result
+            .Skip( ( e.Page - 1 ) * e.PageSize )
+            .Take( e.PageSize )
+            .ToList();
     }
 }

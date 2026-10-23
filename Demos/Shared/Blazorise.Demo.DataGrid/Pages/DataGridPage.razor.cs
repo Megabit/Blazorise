@@ -62,7 +62,14 @@ public partial class DataGridPage
 
     protected async Task OnReadDataModeChanged( bool readDataMode )
     {
+        if ( readDataMode && !this.readDataMode )
+        {
+            employeeList = dataGrid.DisplayData.ToList();
+            totalEmployees = dataGrid.FilteredData.Count();
+        }
+
         this.readDataMode = readDataMode;
+
         await InvokeAsync( StateHasChanged );
         await Task.Yield();
         await dataGrid.Reload();

@@ -1,6 +1,7 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
 <DataGrid TItem="Employee"
+          LoadingDisplayMode="DataGridLoadingDisplayMode.Overlay"
           Data="@employeeList"
           @bind-SelectedRow="@selectedEmployee"
           TotalItems="@totalEmployees"
