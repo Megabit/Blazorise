@@ -1,9 +1,68 @@
-<Button ElementId="toggle-animation" Clicked="@(() => animated = !animated)">Toggle animation</Button>
-<Button ElementId="toggle-placeholder" Clicked="@(() => showPlaceholder = !( showPlaceholder ?? !animated ))">Toggle placeholder</Button>
-<DropZoneReorderComponent Animated="@animated" AnimationDuration="1000" ShowPlaceholder="@showPlaceholder" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+<Div ElementId="drop-editing">
+    <Button ElementId="toggle-animation" Clicked="@OnToggleAnimationHandler">Animated: @animated</Button>
+    <Button ElementId="toggle-placeholder" Clicked="@OnTogglePlaceholderHandler">Show placeholder: @( showPlaceholder ?? !animated )</Button>
+
+    <DropContainer ElementId="drop-board" TItem="DropItem" Items="@items" ItemsFilter="@(( item, zone ) => item.Group == zone )" ItemDropped="@OnItemDroppedHandler" Flex="Flex.Wrap.Grow.Is1">
+        <ChildContent>
+            <DropZone ElementId="drop-zone-1" TItem="DropItem" Name="1" AllowReorder Animated="@animated" ShowPlaceholder="@showPlaceholder" Classes="@zoneClasses" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1" />
+            <DropZone ElementId="drop-zone-2" TItem="DropItem" Name="2" AllowReorder Animated="@animated" ShowPlaceholder="@showPlaceholder" Classes="@zoneClasses" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1" />
+            <DropZone ElementId="drop-zone-3" TItem="DropItem" Name="3" AllowReorder Animated="@animated" ShowPlaceholder="@showPlaceholder" Classes="@zoneClasses" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1" />
+        </ChildContent>
+        <ItemTemplate>
+            <Card Class="drop-item" Shadow="Shadow.Default" Margin="Margin.Is3.OnY">
+                <CardBody>@context.Name</CardBody>
+            </Card>
+        </ItemTemplate>
+    </DropContainer>
+
+    <Span ElementId="drop-result">@lastDrop</Span>
+    <Span ElementId="drop-count">@dropCount</Span>
+</Div>
 
 @code {
     private bool animated = true;
 
     private bool? showPlaceholder;
+
+    private string lastDrop = string.Empty;
+
+    private int dropCount;
+
+    private readonly DropZoneClasses zoneClasses = new() { Placeholder = "drop-placeholder" };
+
+    private readonly List<DropItem> items = new()
+    {
+        new() { Name = "Item 1", Group = "1" },
+        new() { Name = "Item 2", Group = "1" },
+        new() { Name = "Item 3", Group = "1" },
+        new() { Name = "Item 4", Group = "1" },
+        new() { Name = "Item 5", Group = "2" },
+        new() { Name = "Item 6", Group = "2" },
+    };
+
+    private void OnToggleAnimationHandler()
+    {
+        animated = !animated;
+    }
+
+    private void OnTogglePlaceholderHandler()
+    {
+        showPlaceholder = !( showPlaceholder ?? !animated );
+    }
+
+    private void OnItemDroppedHandler( DraggableDroppedEventArgs<DropItem> args )
+    {
+        args.Item.Group = args.DropZoneName;
+        lastDrop = $"{args.Item.Name}: {args.SourceDropZoneName} -> {args.DropZoneName} ({args.IndexInZone})";
+        dropCount++;
+    }
+
+    public class DropItem
+    {
+        public string Name { get; init; }
+
+        public string Group { get; set; }
+    }
 }
