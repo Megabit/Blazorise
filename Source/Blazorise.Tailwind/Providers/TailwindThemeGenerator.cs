@@ -1159,8 +1159,37 @@ public class TailwindThemeGenerator : ThemeGenerator
 
     protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
     {
-        GenerateHorizontalBarStyles( sb, theme, options?.LightColors, "light" );
-        GenerateHorizontalBarStyles( sb, theme, options?.DarkColors, "dark" );
+        if ( options is null )
+        {
+            return;
+        }
+
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Horizontal ) )
+        {
+            GenerateHorizontalBarStyles( sb, theme, options.LightColors, "light" );
+            GenerateHorizontalBarStyles( sb, theme, options.DarkColors, "dark" );
+        }
+
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Vertical ) )
+        {
+            GenerateCssRule( sb, ".b-bar:is(.b-bar-vertical-inline, .b-bar-vertical-popout, .b-bar-vertical-small)",
+                (ThemeVariables.BarDarkBackground, Var( ThemeVariables.BarDarkBackground )),
+                (ThemeVariables.BarDarkColor, Var( ThemeVariables.BarDarkColor )),
+                (ThemeVariables.BarItemDarkActiveBackground, Var( ThemeVariables.BarItemDarkActiveBackground )),
+                (ThemeVariables.BarItemDarkActiveColor, Var( ThemeVariables.BarItemDarkActiveColor )),
+                (ThemeVariables.BarItemDarkHoverBackground, Var( ThemeVariables.BarItemDarkHoverBackground )),
+                (ThemeVariables.BarItemDarkHoverColor, Var( ThemeVariables.BarItemDarkHoverColor )),
+                (ThemeVariables.BarDropdownDarkBackground, Var( ThemeVariables.BarDropdownDarkBackground )),
+                (ThemeVariables.BarBrandDarkBackground, Var( ThemeVariables.BarBrandDarkBackground )),
+                (ThemeVariables.BarLightBackground, Var( ThemeVariables.BarLightBackground )),
+                (ThemeVariables.BarLightColor, Var( ThemeVariables.BarLightColor )),
+                (ThemeVariables.BarItemLightActiveBackground, Var( ThemeVariables.BarItemLightActiveBackground )),
+                (ThemeVariables.BarItemLightActiveColor, Var( ThemeVariables.BarItemLightActiveColor )),
+                (ThemeVariables.BarItemLightHoverBackground, Var( ThemeVariables.BarItemLightHoverBackground )),
+                (ThemeVariables.BarItemLightHoverColor, Var( ThemeVariables.BarItemLightHoverColor )),
+                (ThemeVariables.BarDropdownLightBackground, Var( ThemeVariables.BarDropdownLightBackground )),
+                (ThemeVariables.BarBrandLightBackground, Var( ThemeVariables.BarBrandLightBackground )) );
+        }
     }
 
     private void GenerateHorizontalBarStyles( StringBuilder sb, Theme theme, ThemeBarColorOptions colors, string contrast )

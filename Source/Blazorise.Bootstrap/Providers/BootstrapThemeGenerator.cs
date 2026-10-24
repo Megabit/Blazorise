@@ -1163,19 +1163,50 @@ public class BootstrapThemeGenerator : ThemeGenerator
 
     protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
     {
-        GenerateHorizontalBarStyles( sb, theme, options?.LightColors, "light" );
-        GenerateHorizontalBarStyles( sb, theme, options?.DarkColors, "dark" );
-
         foreach ( var (variant, _) in theme.ValidBackgroundColors )
         {
             var yiqColor = Var( ThemeVariables.BackgroundYiqColor( variant ) );
 
             if ( string.IsNullOrEmpty( yiqColor ) )
+            {
                 continue;
+            }
 
             sb.Append( $".navbar.bg-{variant} .navbar-brand .nav-item .nav-link" ).Append( "{" )
                 .Append( $"color: {yiqColor};" )
                 .AppendLine( "}" );
+        }
+
+        if ( options is null )
+        {
+            return;
+        }
+
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Horizontal ) )
+        {
+            GenerateHorizontalBarStyles( sb, theme, options.LightColors, "light" );
+            GenerateHorizontalBarStyles( sb, theme, options.DarkColors, "dark" );
+        }
+
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Vertical ) )
+        {
+            GenerateCssRule( sb, ".navbar:is(.b-bar-vertical-inline, .b-bar-vertical-popout, .b-bar-vertical-small)",
+                (ThemeVariables.BarDarkBackground, Var( ThemeVariables.BarDarkBackground )),
+                (ThemeVariables.BarDarkColor, Var( ThemeVariables.BarDarkColor )),
+                (ThemeVariables.BarItemDarkActiveBackground, Var( ThemeVariables.BarItemDarkActiveBackground )),
+                (ThemeVariables.BarItemDarkActiveColor, Var( ThemeVariables.BarItemDarkActiveColor )),
+                (ThemeVariables.BarItemDarkHoverBackground, Var( ThemeVariables.BarItemDarkHoverBackground )),
+                (ThemeVariables.BarItemDarkHoverColor, Var( ThemeVariables.BarItemDarkHoverColor )),
+                (ThemeVariables.BarDropdownDarkBackground, Var( ThemeVariables.BarDropdownDarkBackground )),
+                (ThemeVariables.BarBrandDarkBackground, Var( ThemeVariables.BarBrandDarkBackground )),
+                (ThemeVariables.BarLightBackground, Var( ThemeVariables.BarLightBackground )),
+                (ThemeVariables.BarLightColor, Var( ThemeVariables.BarLightColor )),
+                (ThemeVariables.BarItemLightActiveBackground, Var( ThemeVariables.BarItemLightActiveBackground )),
+                (ThemeVariables.BarItemLightActiveColor, Var( ThemeVariables.BarItemLightActiveColor )),
+                (ThemeVariables.BarItemLightHoverBackground, Var( ThemeVariables.BarItemLightHoverBackground )),
+                (ThemeVariables.BarItemLightHoverColor, Var( ThemeVariables.BarItemLightHoverColor )),
+                (ThemeVariables.BarDropdownLightBackground, Var( ThemeVariables.BarDropdownLightBackground )),
+                (ThemeVariables.BarBrandLightBackground, Var( ThemeVariables.BarBrandLightBackground )) );
         }
     }
 

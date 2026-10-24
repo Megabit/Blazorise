@@ -89,9 +89,31 @@ public abstract class ThemeGenerator : IThemeGenerator
 
         GenerateSpinKitVariables( theme, theme.SpinKitOptions );
 
-        // apply variables
+        // Providers emit bar colors on the selected orientations.
         foreach ( var kv in Variables )
+        {
+            if ( kv.Key is ThemeVariables.BarDarkBackground
+                or ThemeVariables.BarDarkColor
+                or ThemeVariables.BarItemDarkActiveBackground
+                or ThemeVariables.BarItemDarkActiveColor
+                or ThemeVariables.BarItemDarkHoverBackground
+                or ThemeVariables.BarItemDarkHoverColor
+                or ThemeVariables.BarDropdownDarkBackground
+                or ThemeVariables.BarBrandDarkBackground
+                or ThemeVariables.BarLightBackground
+                or ThemeVariables.BarLightColor
+                or ThemeVariables.BarItemLightActiveBackground
+                or ThemeVariables.BarItemLightActiveColor
+                or ThemeVariables.BarItemLightHoverBackground
+                or ThemeVariables.BarItemLightHoverColor
+                or ThemeVariables.BarDropdownLightBackground
+                or ThemeVariables.BarBrandLightBackground )
+            {
+                continue;
+            }
+
             sb.AppendLine( $"{kv.Key}: {kv.Value};" );
+        }
 
         var generatedVariables = sb.ToString();
 
@@ -410,95 +432,145 @@ public abstract class ThemeGenerator : IThemeGenerator
     protected virtual void GenerateBarVariables( Theme theme, ThemeBarOptions barOptions )
     {
         if ( !string.IsNullOrEmpty( barOptions.VerticalWidth ) )
+        {
             Variables[ThemeVariables.VerticalBarWidth] = barOptions.VerticalWidth;
+        }
 
         if ( !string.IsNullOrEmpty( barOptions.VerticalSmallWidth ) )
+        {
             Variables[ThemeVariables.VerticalBarSmallWidth] = barOptions.VerticalSmallWidth;
+        }
 
         if ( !string.IsNullOrEmpty( barOptions.VerticalBrandHeight ) )
+        {
             Variables[ThemeVariables.VerticalBarBrandHeight] = barOptions.VerticalBrandHeight;
+        }
 
         if ( !string.IsNullOrEmpty( barOptions.VerticalPopoutMenuWidth ) )
+        {
             Variables[ThemeVariables.VerticalPopoutMenuWidth] = barOptions.VerticalPopoutMenuWidth;
+        }
 
         if ( !string.IsNullOrEmpty( barOptions.HorizontalHeight ) )
+        {
             Variables[ThemeVariables.HorizontalBarHeight] = barOptions.HorizontalHeight;
+        }
 
         if ( barOptions.FontOptions is not null )
         {
-            ThemeFontOptions fontOptions = barOptions.FontOptions;
+            var fontOptions = barOptions.FontOptions;
 
             if ( !string.IsNullOrEmpty( fontOptions.Family ) )
+            {
                 Variables[ThemeVariables.BarFontFamily] = fontOptions.Family;
+            }
 
             if ( !string.IsNullOrEmpty( fontOptions.Style ) )
+            {
                 Variables[ThemeVariables.BarFontStyle] = fontOptions.Style;
+            }
 
             if ( !string.IsNullOrEmpty( fontOptions.Size ) )
+            {
                 Variables[ThemeVariables.BarFontSize] = fontOptions.Size;
+            }
 
             if ( !string.IsNullOrEmpty( fontOptions.Weight ) )
+            {
                 Variables[ThemeVariables.BarFontWeight] = fontOptions.Weight;
+            }
         }
 
         if ( barOptions?.DarkColors is not null )
         {
             if ( !string.IsNullOrEmpty( barOptions.DarkColors.BackgroundColor ) )
+            {
                 Variables[ThemeVariables.BarDarkBackground] = GetGradientBgValue( theme, barOptions.DarkColors.BackgroundColor, barOptions.DarkColors.GradientBlendPercentage );
+            }
 
             if ( !string.IsNullOrEmpty( barOptions.DarkColors.Color ) )
+            {
                 Variables[ThemeVariables.BarDarkColor] = ToHex( ParseColor( barOptions.DarkColors.Color ) );
+            }
 
             if ( barOptions.DarkColors.ItemColorOptions is not null )
             {
                 if ( !string.IsNullOrEmpty( barOptions.DarkColors.ItemColorOptions.ActiveBackgroundColor ) )
+                {
                     Variables[ThemeVariables.BarItemDarkActiveBackground] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.ActiveBackgroundColor ) );
+                }
 
                 if ( !string.IsNullOrEmpty( barOptions.DarkColors.ItemColorOptions.ActiveColor ) )
+                {
                     Variables[ThemeVariables.BarItemDarkActiveColor] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.ActiveColor ) );
+                }
 
                 if ( !string.IsNullOrEmpty( barOptions.DarkColors.ItemColorOptions.HoverBackgroundColor ) )
+                {
                     Variables[ThemeVariables.BarItemDarkHoverBackground] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.HoverBackgroundColor ) );
+                }
 
                 if ( !string.IsNullOrEmpty( barOptions.DarkColors.ItemColorOptions.HoverColor ) )
+                {
                     Variables[ThemeVariables.BarItemDarkHoverColor] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.HoverColor ) );
+                }
             }
 
             if ( !string.IsNullOrEmpty( barOptions.DarkColors.DropdownColorOptions?.BackgroundColor ) )
+            {
                 Variables[ThemeVariables.BarDropdownDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.DropdownColorOptions.BackgroundColor ) );
+            }
 
             if ( !string.IsNullOrEmpty( barOptions.DarkColors.BrandColorOptions?.BackgroundColor ) )
+            {
                 Variables[ThemeVariables.BarBrandDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.BrandColorOptions.BackgroundColor ) );
+            }
         }
 
         if ( barOptions?.LightColors is not null )
         {
             if ( !string.IsNullOrEmpty( barOptions.LightColors.BackgroundColor ) )
+            {
                 Variables[ThemeVariables.BarLightBackground] = GetGradientBgValue( theme, barOptions.LightColors.BackgroundColor, barOptions.LightColors.GradientBlendPercentage );
+            }
 
             if ( !string.IsNullOrEmpty( barOptions.LightColors.Color ) )
+            {
                 Variables[ThemeVariables.BarLightColor] = ToHex( ParseColor( barOptions.LightColors.Color ) );
+            }
 
             if ( barOptions.LightColors.ItemColorOptions is not null )
             {
                 if ( !string.IsNullOrEmpty( barOptions.LightColors.ItemColorOptions.ActiveBackgroundColor ) )
+                {
                     Variables[ThemeVariables.BarItemLightActiveBackground] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.ActiveBackgroundColor ) );
+                }
 
                 if ( !string.IsNullOrEmpty( barOptions.LightColors.ItemColorOptions.ActiveColor ) )
+                {
                     Variables[ThemeVariables.BarItemLightActiveColor] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.ActiveColor ) );
+                }
 
                 if ( !string.IsNullOrEmpty( barOptions.LightColors.ItemColorOptions.HoverBackgroundColor ) )
+                {
                     Variables[ThemeVariables.BarItemLightHoverBackground] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.HoverBackgroundColor ) );
+                }
 
                 if ( !string.IsNullOrEmpty( barOptions.LightColors.ItemColorOptions.HoverColor ) )
+                {
                     Variables[ThemeVariables.BarItemLightHoverColor] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.HoverColor ) );
+                }
             }
 
             if ( !string.IsNullOrEmpty( barOptions.LightColors.DropdownColorOptions?.BackgroundColor ) )
+            {
                 Variables[ThemeVariables.BarDropdownLightBackground] = ToHex( ParseColor( barOptions.LightColors.DropdownColorOptions.BackgroundColor ) );
+            }
 
             if ( !string.IsNullOrEmpty( barOptions.LightColors.BrandColorOptions?.BackgroundColor ) )
+            {
                 Variables[ThemeVariables.BarBrandLightBackground] = ToHex( ParseColor( barOptions.LightColors.BrandColorOptions.BackgroundColor ) );
+            }
         }
     }
 

@@ -97,18 +97,21 @@ public class AntDesignThemeGenerator : ThemeGenerator
         base.GenerateBarVariables( theme, barOptions );
 
         if ( barOptions is null )
+        {
             return;
+        }
 
         GenerateBarFontVariableAliases( barOptions, "--ant-menu" );
 
         if ( !string.IsNullOrEmpty( barOptions.HorizontalHeight ) && barOptions.HorizontalHeight != "auto" )
+        {
             SetAntToken( "--ant-menu-horizontal-line-height", barOptions.HorizontalHeight );
+        }
 
         if ( !string.IsNullOrEmpty( barOptions.VerticalSmallWidth ) )
+        {
             SetAntToken( "--ant-menu-collapsed-width", barOptions.VerticalSmallWidth );
-
-        GenerateBarColorTokens( barOptions.DarkColors, isDark: true );
-        GenerateBarColorTokens( barOptions.LightColors, isDark: false );
+        }
     }
 
     private void GenerateAntPrimaryColorVariables( Theme theme, string color )
@@ -198,41 +201,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
         SetAntToken( "--ant-color-link", color );
         SetAntToken( "--ant-color-link-hover", ToHex( Lighten( baseColor, 20f ) ) );
         SetAntToken( "--ant-color-link-active", ToHex( Darken( baseColor, 15f ) ) );
-    }
-
-    private void GenerateBarColorTokens( ThemeBarColorOptions barColors, bool isDark )
-    {
-        if ( barColors is null )
-            return;
-
-        if ( isDark )
-        {
-            SetAntToken( "--ant-layout-sider-bg", barColors.BackgroundColor );
-            SetAntToken( "--ant-menu-dark-item-bg", barColors.BackgroundColor );
-            SetAntToken( "--ant-menu-dark-popup-bg", barColors.DropdownColorOptions?.BackgroundColor ?? barColors.BackgroundColor );
-            SetAntToken( "--ant-menu-dark-sub-menu-item-bg", barColors.DropdownColorOptions?.BackgroundColor ?? barColors.BackgroundColor );
-            SetAntToken( "--ant-layout-trigger-bg", barColors.BrandColorOptions?.BackgroundColor ?? barColors.BackgroundColor );
-            SetAntToken( "--ant-menu-dark-item-color", barColors.Color );
-            SetAntToken( "--ant-layout-trigger-color", barColors.Color );
-            SetAntToken( "--ant-menu-dark-item-selected-bg", barColors.ItemColorOptions?.ActiveBackgroundColor );
-            SetAntToken( "--ant-menu-dark-item-selected-color", barColors.ItemColorOptions?.ActiveColor );
-            SetAntToken( "--ant-menu-dark-item-hover-bg", barColors.ItemColorOptions?.HoverBackgroundColor );
-            SetAntToken( "--ant-menu-dark-item-hover-color", barColors.ItemColorOptions?.HoverColor );
-        }
-        else
-        {
-            SetAntToken( "--ant-layout-light-sider-bg", barColors.BackgroundColor );
-            SetAntToken( "--ant-layout-light-trigger-bg", barColors.BrandColorOptions?.BackgroundColor ?? barColors.BackgroundColor );
-            SetAntToken( "--ant-layout-light-trigger-color", barColors.Color );
-            SetAntToken( "--ant-menu-item-bg", barColors.BackgroundColor );
-            SetAntToken( "--ant-menu-popup-bg", barColors.DropdownColorOptions?.BackgroundColor ?? barColors.BackgroundColor );
-            SetAntToken( "--ant-menu-sub-menu-item-bg", barColors.DropdownColorOptions?.BackgroundColor ?? barColors.BackgroundColor );
-            SetAntToken( "--ant-menu-item-color", barColors.Color );
-            SetAntToken( "--ant-menu-item-selected-bg", barColors.ItemColorOptions?.ActiveBackgroundColor );
-            SetAntToken( "--ant-menu-item-selected-color", barColors.ItemColorOptions?.ActiveColor );
-            SetAntToken( "--ant-menu-item-hover-bg", barColors.ItemColorOptions?.HoverBackgroundColor );
-            SetAntToken( "--ant-menu-item-hover-color", barColors.ItemColorOptions?.HoverColor );
-        }
     }
 
     private void SetAntToken( string name, string value )
@@ -1008,15 +976,49 @@ public class AntDesignThemeGenerator : ThemeGenerator
             return;
         }
 
-        GenerateHorizontalBarStyles( sb, options.LightColors, "light" );
-        GenerateHorizontalBarStyles( sb, options.DarkColors, "dark" );
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Horizontal ) )
+        {
+            GenerateCssRule( sb, ".ant-menu.ant-menu-root.ant-menu-horizontal",
+                (ThemeVariables.BarItemDarkActiveBackground, Var( ThemeVariables.BarItemDarkActiveBackground )),
+                (ThemeVariables.BarItemDarkActiveColor, Var( ThemeVariables.BarItemDarkActiveColor )),
+                (ThemeVariables.BarItemDarkHoverBackground, Var( ThemeVariables.BarItemDarkHoverBackground )),
+                (ThemeVariables.BarItemDarkHoverColor, Var( ThemeVariables.BarItemDarkHoverColor )),
+                (ThemeVariables.BarItemLightActiveBackground, Var( ThemeVariables.BarItemLightActiveBackground )),
+                (ThemeVariables.BarItemLightActiveColor, Var( ThemeVariables.BarItemLightActiveColor )),
+                (ThemeVariables.BarItemLightHoverBackground, Var( ThemeVariables.BarItemLightHoverBackground )),
+                (ThemeVariables.BarItemLightHoverColor, Var( ThemeVariables.BarItemLightHoverColor )) );
+
+            GenerateBarColorStyles( sb, ".ant-menu.ant-menu-root.ant-menu-horizontal", options.LightColors, isDark: false );
+            GenerateBarColorStyles( sb, ".ant-menu.ant-menu-root.ant-menu-horizontal", options.DarkColors, isDark: true );
+
+            GenerateHorizontalBarStyles( sb, options.LightColors, "light" );
+            GenerateHorizontalBarStyles( sb, options.DarkColors, "dark" );
+        }
+
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Vertical ) )
+        {
+            GenerateCssRule( sb, ".ant-menu.ant-menu-root:not(.ant-menu-horizontal)",
+                (ThemeVariables.BarItemDarkActiveBackground, Var( ThemeVariables.BarItemDarkActiveBackground )),
+                (ThemeVariables.BarItemDarkActiveColor, Var( ThemeVariables.BarItemDarkActiveColor )),
+                (ThemeVariables.BarItemDarkHoverBackground, Var( ThemeVariables.BarItemDarkHoverBackground )),
+                (ThemeVariables.BarItemDarkHoverColor, Var( ThemeVariables.BarItemDarkHoverColor )),
+                (ThemeVariables.BarItemLightActiveBackground, Var( ThemeVariables.BarItemLightActiveBackground )),
+                (ThemeVariables.BarItemLightActiveColor, Var( ThemeVariables.BarItemLightActiveColor )),
+                (ThemeVariables.BarItemLightHoverBackground, Var( ThemeVariables.BarItemLightHoverBackground )),
+                (ThemeVariables.BarItemLightHoverColor, Var( ThemeVariables.BarItemLightHoverColor )) );
+
+            GenerateBarColorStyles( sb, ".ant-menu.ant-menu-root:not(.ant-menu-horizontal)", options.LightColors, isDark: false );
+            GenerateBarColorStyles( sb, ".ant-menu.ant-menu-root:not(.ant-menu-horizontal)", options.DarkColors, isDark: true );
+        }
 
         foreach ( var (variant, _) in theme.ValidBackgroundColors )
         {
             var yiqColor = Var( ThemeVariables.BackgroundYiqColor( variant ) );
 
             if ( string.IsNullOrEmpty( yiqColor ) )
+            {
                 continue;
+            }
 
             sb
                 .Append( $".ant-menu.bg-{variant} .ant-menu-item .ant-menu-link," )
@@ -1024,6 +1026,45 @@ public class AntDesignThemeGenerator : ThemeGenerator
                 .Append( "{" )
                 .Append( $"color: {yiqColor};" )
                 .AppendLine( "}" );
+        }
+    }
+
+    private void GenerateBarColorStyles( StringBuilder sb, string selector, ThemeBarColorOptions barColors, bool isDark )
+    {
+        if ( barColors is null )
+        {
+            return;
+        }
+
+        if ( isDark )
+        {
+            GenerateCssRule( sb, selector,
+                ("--ant-layout-sider-bg", Var( ThemeVariables.BarDarkBackground )),
+                ("--ant-menu-dark-item-bg", Var( ThemeVariables.BarDarkBackground )),
+                ("--ant-menu-dark-popup-bg", Var( ThemeVariables.BarDropdownDarkBackground, Var( ThemeVariables.BarDarkBackground ) )),
+                ("--ant-menu-dark-sub-menu-item-bg", Var( ThemeVariables.BarDropdownDarkBackground, Var( ThemeVariables.BarDarkBackground ) )),
+                ("--ant-layout-trigger-bg", Var( ThemeVariables.BarBrandDarkBackground, Var( ThemeVariables.BarDarkBackground ) )),
+                ("--ant-menu-dark-item-color", Var( ThemeVariables.BarDarkColor )),
+                ("--ant-layout-trigger-color", Var( ThemeVariables.BarDarkColor )),
+                ("--ant-menu-dark-item-selected-bg", Var( ThemeVariables.BarItemDarkActiveBackground )),
+                ("--ant-menu-dark-item-selected-color", Var( ThemeVariables.BarItemDarkActiveColor )),
+                ("--ant-menu-dark-item-hover-bg", Var( ThemeVariables.BarItemDarkHoverBackground )),
+                ("--ant-menu-dark-item-hover-color", Var( ThemeVariables.BarItemDarkHoverColor )) );
+        }
+        else
+        {
+            GenerateCssRule( sb, selector,
+                ("--ant-layout-light-sider-bg", Var( ThemeVariables.BarLightBackground )),
+                ("--ant-layout-light-trigger-bg", Var( ThemeVariables.BarBrandLightBackground, Var( ThemeVariables.BarLightBackground ) )),
+                ("--ant-layout-light-trigger-color", Var( ThemeVariables.BarLightColor )),
+                ("--ant-menu-item-bg", Var( ThemeVariables.BarLightBackground )),
+                ("--ant-menu-popup-bg", Var( ThemeVariables.BarDropdownLightBackground, Var( ThemeVariables.BarLightBackground ) )),
+                ("--ant-menu-sub-menu-item-bg", Var( ThemeVariables.BarDropdownLightBackground, Var( ThemeVariables.BarLightBackground ) )),
+                ("--ant-menu-item-color", Var( ThemeVariables.BarLightColor )),
+                ("--ant-menu-item-selected-bg", Var( ThemeVariables.BarItemLightActiveBackground )),
+                ("--ant-menu-item-selected-color", Var( ThemeVariables.BarItemLightActiveColor )),
+                ("--ant-menu-item-hover-bg", Var( ThemeVariables.BarItemLightHoverBackground )),
+                ("--ant-menu-item-hover-color", Var( ThemeVariables.BarItemLightHoverColor )) );
         }
     }
 

@@ -380,18 +380,33 @@ public class MaterialThemeGenerator : ThemeGenerator
 
     protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
     {
-        GenerateHorizontalBarStyles( sb, options?.LightColors, "light" );
-        GenerateHorizontalBarStyles( sb, options?.DarkColors, "dark" );
+        if ( options is null )
+        {
+            return;
+        }
+
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Horizontal ) )
+        {
+            GenerateBarColorStyles( sb, options.LightColors, ".mui-bar.mui-bar-horizontal:not(.mui-bar-dark)" );
+            GenerateBarColorStyles( sb, options.DarkColors, ".mui-bar.mui-bar-horizontal.mui-bar-dark" );
+        }
+
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Vertical ) )
+        {
+            var selector = ".mui-bar:is(.mui-bar-vertical-inline, .mui-bar-vertical-popout, .mui-bar-vertical-small)";
+
+            GenerateBarColorStyles( sb, options.LightColors, $"{selector}:not(.mui-bar-dark)" );
+            GenerateBarColorStyles( sb, options.DarkColors, $"{selector}.mui-bar-dark" );
+        }
     }
 
-    private void GenerateHorizontalBarStyles( StringBuilder sb, ThemeBarColorOptions colors, string contrast )
+    private void GenerateBarColorStyles( StringBuilder sb, ThemeBarColorOptions colors, string selector )
     {
         if ( colors is null )
         {
             return;
         }
 
-        var selector = $".mui-bar.mui-bar-horizontal.mui-bar-{contrast}";
         var itemColors = colors.ItemColorOptions;
 
         GenerateCssRule( sb, selector,
@@ -410,6 +425,7 @@ public class MaterialThemeGenerator : ThemeGenerator
             ("background-color", itemColors?.ActiveBackgroundColor) );
 
         GenerateCssRule( sb, $"{selector} .mui-bar-brand", ("background-color", colors.BrandColorOptions?.BackgroundColor) );
+        GenerateCssRule( sb, $"{selector} .mui-bar-dropdown-menu", ("background-color", colors.DropdownColorOptions?.BackgroundColor) );
     }
 
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
