@@ -1,4 +1,4 @@
-@if ( !string.IsNullOrWhiteSpace( FrameUrl ) )
+@if ( HasFrame )
 {
     <Div Flex="Flex.JustifyContent.Center.AlignItems.Center" Gap="Gap.Is3" Padding="Padding.Is3" Border="Border.Is0.OnBottom.Is1.OnTop.Is1.RoundedTop.OnStart.Is1.OnEnd">
         <Tooltip Text="Desktop View" Inline>
@@ -20,15 +20,15 @@
 }
 <Div Padding="@ContentPadding" Display="Display.Flex" Flex="Flex.JustifyContent.Start" Position="Position.Relative" Border="@ContentBorder">
     <Div Width="@ContentWidth" Position="Position.Relative">
-        @if ( FrameView == "desktop" )
+        @if ( !HasFrame || ( FrameView == "desktop" && ChildContent is not null ) )
         {
             @ChildContent
         }
         else
         {
-            <Div Height="Height.Px(500)" Background="Background.Light" Flex="Flex.JustifyContent.Center" Width="Width.Is100">
+            <Div Height="Height.Px( FrameHeight )" Background="Background.Light" Flex="Flex.JustifyContent.Center" Width="Width.Is100">
                 <Div Height="Height.Is100" Width="@FrameWidth">
-                    <iframe src="@FrameUrl" width="100%" height="100%"></iframe>
+                    <iframe src="@FrameUrl" title="@FrameTitle" width="100%" height="100%"></iframe>
                 </Div>
             </Div>
         }
