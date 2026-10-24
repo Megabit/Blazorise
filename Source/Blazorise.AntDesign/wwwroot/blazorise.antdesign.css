@@ -2311,18 +2311,12 @@ template {
   height: 100%;
   line-height: var(--ant-menu-horizontal-line-height);
 }
-
-.ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-item:has(> a > .ant-menu-title-content > :only-child),
-.ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-submenu:has(> .ant-menu-submenu-title > .ant-menu-title-content > :only-child) {
-  min-width: calc(var(--ant-menu-item-height) + var(--ant-menu-item-padding-inline) * 2);
-  padding-inline: var(--ant-menu-item-padding-inline);
-}
-
-.ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-item:has(> a > .ant-menu-title-content > :only-child) > a,
-.ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-submenu:has(> .ant-menu-submenu-title > .ant-menu-title-content > :only-child) > .ant-menu-submenu-title {
+.ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-item > a,
+.ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-submenu > .ant-menu-submenu-title {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   height: 100%;
 }
 
@@ -11763,6 +11757,11 @@ a.ant-typography-disabled[aria-disabled=true] {
   transition-delay: var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-opacity-delay), var(--ant-tooltip-state-visibility-delay), var(--ant-tooltip-state-visibility-delay);
   transition-timing-function: var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), var(--ant-motion-ease-out-circ), linear, linear;
   transition-behavior: allow-discrete;
+}
+@starting-style {
+  .ant-tooltip {
+    visibility: hidden;
+  }
 }
 @starting-style {
   .ant-tooltip-host:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .ant-tooltip {
