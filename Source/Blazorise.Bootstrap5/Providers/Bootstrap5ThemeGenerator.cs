@@ -1101,6 +1101,9 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
     {
+        GenerateHorizontalBarStyles( sb, theme, options?.LightColors, "light" );
+        GenerateHorizontalBarStyles( sb, theme, options?.DarkColors, "dark" );
+
         foreach ( var (variant, _) in theme.ValidBackgroundColors )
         {
             var yiqColor = Var( ThemeVariables.BackgroundYiqColor( variant ) );
@@ -1129,6 +1132,45 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
             ".navbar[data-mode^=vertical].navbar-dark",
             ThemeVariables.BarItemDarkActiveBackground,
             ThemeVariables.BarItemDarkActiveColor );
+    }
+
+    private void GenerateHorizontalBarStyles( StringBuilder sb, Theme theme, ThemeBarColorOptions colors, string contrast )
+    {
+        if ( colors is null )
+        {
+            return;
+        }
+
+        var selector = $".navbar[data-mode=horizontal].navbar-{contrast}";
+        var itemColors = colors.ItemColorOptions;
+
+        GenerateCssRule( sb, selector,
+            ("background", string.IsNullOrEmpty( colors.BackgroundColor ) ? null : GetGradientBgValue( theme, colors.BackgroundColor, colors.GradientBlendPercentage )),
+            ("color", colors.Color),
+            ("--bs-navbar-color", colors.Color),
+            ("--bs-navbar-brand-color", colors.Color),
+            ("--bs-navbar-brand-hover-color", colors.Color),
+            ("--bs-navbar-hover-color", itemColors?.HoverColor),
+            ("--bs-navbar-active-color", itemColors?.ActiveColor) );
+
+        var linkSelector = $"{selector} .navbar-nav .nav-item:not(.disabled) .nav-link:not(.disabled):not([aria-disabled=true])";
+
+        GenerateCssRule( sb, $"{linkSelector}:hover, {linkSelector}:focus",
+            ("background-color", itemColors?.HoverBackgroundColor) );
+
+        GenerateCssRule( sb, $"{linkSelector}.active, {selector} .navbar-nav .nav-item.active:not(.disabled) .nav-link:not(.disabled):not([aria-disabled=true])",
+            ("color", string.IsNullOrEmpty( itemColors?.ActiveColor ) ? null : "var(--bs-navbar-active-color)"),
+            ("background-color", itemColors?.ActiveBackgroundColor) );
+
+        GenerateCssRule( sb, $"{selector} .navbar-brand", ("background-color", colors.BrandColorOptions?.BackgroundColor) );
+        GenerateCssRule( sb, $"{selector} .navbar-brand .nav-link:not(.disabled)", ("color", colors.Color) );
+        GenerateCssRule( sb, $"{selector} .dropdown-menu",
+            ("--bs-dropdown-bg", colors.DropdownColorOptions?.BackgroundColor),
+            ("--bs-dropdown-link-color", colors.Color),
+            ("--bs-dropdown-link-hover-color", itemColors?.HoverColor),
+            ("--bs-dropdown-link-hover-bg", itemColors?.HoverBackgroundColor),
+            ("--bs-dropdown-link-active-color", itemColors?.ActiveColor),
+            ("--bs-dropdown-link-active-bg", itemColors?.ActiveBackgroundColor) );
     }
 
     private void GenerateVerticalBarActiveStyles(

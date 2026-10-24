@@ -36,12 +36,12 @@ public record ThemeBarOptions
     public ThemeFontOptions FontOptions { get; set; }
 
     /// <summary>
-    /// Gets or sets the theme settings for the <see cref="Bar"/> dark color scheme.
+    /// Gets or sets the dark color scheme for horizontal and vertical bars with <see cref="ThemeContrast.Dark"/>.
     /// </summary>
     public ThemeBarColorOptions DarkColors { get; set; }
 
     /// <summary>
-    /// Gets or sets the theme settings for the <see cref="Bar"/> light color scheme.
+    /// Gets or sets the light color scheme for horizontal and vertical bars with <see cref="ThemeContrast.Light"/>.
     /// </summary>
     public ThemeBarColorOptions LightColors { get; set; }
 

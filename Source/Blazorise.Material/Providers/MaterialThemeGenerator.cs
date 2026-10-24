@@ -380,6 +380,36 @@ public class MaterialThemeGenerator : ThemeGenerator
 
     protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
     {
+        GenerateHorizontalBarStyles( sb, options?.LightColors, "light" );
+        GenerateHorizontalBarStyles( sb, options?.DarkColors, "dark" );
+    }
+
+    private void GenerateHorizontalBarStyles( StringBuilder sb, ThemeBarColorOptions colors, string contrast )
+    {
+        if ( colors is null )
+        {
+            return;
+        }
+
+        var selector = $".mui-bar.mui-bar-horizontal.mui-bar-{contrast}";
+        var itemColors = colors.ItemColorOptions;
+
+        GenerateCssRule( sb, selector,
+            ("--mui-bar-bg", colors.BackgroundColor),
+            ("--mui-bar-color", colors.Color),
+            ("--mui-bar-menu-bg", colors.DropdownColorOptions?.BackgroundColor),
+            ("--mui-bar-hover-bg", itemColors?.HoverBackgroundColor),
+            ("--mui-bar-active-bg", itemColors?.ActiveBackgroundColor),
+            ("--mui-bar-active-color", itemColors?.ActiveColor) );
+
+        var linkSelector = $"{selector} :is(.mui-bar-link, .mui-bar-dropdown-toggle, .mui-bar-dropdown-item):not(.disabled):not([aria-disabled=true])";
+
+        GenerateCssRule( sb, $"{linkSelector}:hover, {linkSelector}:focus-visible", ("color", itemColors?.HoverColor) );
+        GenerateCssRule( sb, $"{linkSelector}.active, {selector} .mui-bar-item.active:not(.disabled) > .mui-bar-link:not(.disabled)",
+            ("color", itemColors?.ActiveColor),
+            ("background-color", itemColors?.ActiveBackgroundColor) );
+
+        GenerateCssRule( sb, $"{selector} .mui-bar-brand", ("background-color", colors.BrandColorOptions?.BackgroundColor) );
     }
 
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )

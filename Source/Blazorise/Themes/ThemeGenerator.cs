@@ -1355,6 +1355,38 @@ public abstract class ThemeGenerator : IThemeGenerator
     #region Helpers
 
     /// <summary>
+    /// Emits a CSS rule for declarations with non-empty values. Omits the rule when all values are null or empty.
+    /// </summary>
+    /// <param name="sb">Target string builder.</param>
+    /// <param name="selector">The CSS selector or selector list.</param>
+    /// <param name="declarations">CSS properties, including custom properties, and their values.</param>
+    protected static void GenerateCssRule( StringBuilder sb, string selector, params (string Property, string Value)[] declarations )
+    {
+        var hasDeclarations = false;
+
+        foreach ( var (property, value) in declarations )
+        {
+            if ( string.IsNullOrEmpty( value ) )
+            {
+                continue;
+            }
+
+            if ( !hasDeclarations )
+            {
+                sb.Append( selector ).Append( "{" );
+                hasDeclarations = true;
+            }
+
+            sb.Append( property ).Append( ": " ).Append( value ).Append( ";" );
+        }
+
+        if ( hasDeclarations )
+        {
+            sb.AppendLine( "}" );
+        }
+    }
+
+    /// <summary>
     /// Handles the adding of color into the list of CSS variables.
     /// </summary>
     /// <param name="name">Variable name.</param>

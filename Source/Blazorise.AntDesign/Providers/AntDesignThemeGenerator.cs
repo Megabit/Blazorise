@@ -1004,7 +1004,12 @@ public class AntDesignThemeGenerator : ThemeGenerator
     protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
     {
         if ( options is null )
+        {
             return;
+        }
+
+        GenerateHorizontalBarStyles( sb, options.LightColors, "light" );
+        GenerateHorizontalBarStyles( sb, options.DarkColors, "dark" );
 
         foreach ( var (variant, _) in theme.ValidBackgroundColors )
         {
@@ -1020,6 +1025,38 @@ public class AntDesignThemeGenerator : ThemeGenerator
                 .Append( $"color: {yiqColor};" )
                 .AppendLine( "}" );
         }
+    }
+
+    private void GenerateHorizontalBarStyles( StringBuilder sb, ThemeBarColorOptions colors, string contrast )
+    {
+        if ( colors is null )
+        {
+            return;
+        }
+
+        var selector = $".ant-menu.ant-menu-root.ant-menu-horizontal.ant-menu-{contrast}";
+        var itemColors = colors.ItemColorOptions;
+
+        GenerateCssRule( sb, selector,
+            ("--ant-menu-horizontal-item-hover-bg", itemColors?.HoverBackgroundColor),
+            ("--ant-menu-horizontal-item-selected-bg", itemColors?.ActiveBackgroundColor),
+            ("--ant-menu-horizontal-item-selected-color", itemColors?.ActiveColor) );
+
+        var itemSelector = $"{selector} > .ant-menu-item:not(.ant-menu-item-disabled):not(.ant-menu-brand-item)";
+        var toggleSelector = $"{selector} > .ant-menu-submenu:not(.ant-menu-submenu-disabled) > .ant-menu-submenu-title";
+
+        GenerateCssRule( sb, $"{itemSelector}:hover > a, {toggleSelector}:hover, {toggleSelector}:focus-visible",
+            ("color", itemColors?.HoverColor) );
+
+        // Route matching marks the anchor active; explicit BarItem.Active marks its container selected.
+        GenerateCssRule( sb, $"{itemSelector}:has(> a.active), {itemSelector}.ant-menu-item-selected, {toggleSelector}.active",
+            ("color", itemColors?.ActiveColor),
+            ("background-color", itemColors?.ActiveBackgroundColor) );
+
+        GenerateCssRule( sb, $"{itemSelector} > a.active, {itemSelector}.ant-menu-item-selected > a",
+            ("color", itemColors?.ActiveColor) );
+
+        GenerateCssRule( sb, $"{selector} > .ant-menu-brand-item", ("background-color", colors.BrandColorOptions?.BackgroundColor) );
     }
 
     protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
