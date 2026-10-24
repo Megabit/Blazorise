@@ -226,8 +226,14 @@ public class DragDropAnimationTests : BlazorisePageTest
         // Wait for the actual item to receive pointer events before starting the native drag.
         await sourceItem.HoverAsync();
 
-        // The drag module loads after rendering. Let pending module requests finish before dragging.
-        await Page.WaitForLoadStateAsync( LoadState.NetworkIdle );
+        // Network idle can precede component initialization. Wait for the zone's native
+        // dragover handler, which is registered together with its dragstart handler.
+        await Page.WaitForFunctionAsync( """
+            elementId => {
+                const element = document.getElementById(elementId);
+                return element && !element.dispatchEvent(new DragEvent('dragover', { cancelable: true }));
+            }
+            """, await zone.GetAttributeAsync( "id" ) );
         var source = await sourceItem.BoundingBoxAsync();
 
         await Page.Mouse.MoveAsync( source.X + source.Width / 2, source.Y + source.Height / 2 );
