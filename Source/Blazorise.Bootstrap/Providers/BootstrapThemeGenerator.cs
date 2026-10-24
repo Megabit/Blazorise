@@ -1168,12 +1168,89 @@ public class BootstrapThemeGenerator : ThemeGenerator
             var yiqColor = Var( ThemeVariables.BackgroundYiqColor( variant ) );
 
             if ( string.IsNullOrEmpty( yiqColor ) )
+            {
                 continue;
+            }
 
             sb.Append( $".navbar.bg-{variant} .navbar-brand .nav-item .nav-link" ).Append( "{" )
                 .Append( $"color: {yiqColor};" )
                 .AppendLine( "}" );
         }
+
+        if ( options is null )
+        {
+            return;
+        }
+
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Horizontal ) )
+        {
+            GenerateHorizontalBarStyles( sb, theme, options.LightColors, "light" );
+            GenerateHorizontalBarStyles( sb, theme, options.DarkColors, "dark" );
+        }
+
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Vertical ) )
+        {
+            GenerateCssRule( sb, ".navbar:is(.b-bar-vertical-inline, .b-bar-vertical-popout, .b-bar-vertical-small)",
+                (ThemeVariables.BarDarkBackground, Var( ThemeVariables.BarDarkBackground )),
+                (ThemeVariables.BarDarkColor, Var( ThemeVariables.BarDarkColor )),
+                (ThemeVariables.BarItemDarkActiveBackground, Var( ThemeVariables.BarItemDarkActiveBackground )),
+                (ThemeVariables.BarItemDarkActiveColor, Var( ThemeVariables.BarItemDarkActiveColor )),
+                (ThemeVariables.BarItemDarkHoverBackground, Var( ThemeVariables.BarItemDarkHoverBackground )),
+                (ThemeVariables.BarItemDarkHoverColor, Var( ThemeVariables.BarItemDarkHoverColor )),
+                (ThemeVariables.BarDropdownDarkBackground, Var( ThemeVariables.BarDropdownDarkBackground )),
+                (ThemeVariables.BarBrandDarkBackground, Var( ThemeVariables.BarBrandDarkBackground )),
+                (ThemeVariables.BarLightBackground, Var( ThemeVariables.BarLightBackground )),
+                (ThemeVariables.BarLightColor, Var( ThemeVariables.BarLightColor )),
+                (ThemeVariables.BarItemLightActiveBackground, Var( ThemeVariables.BarItemLightActiveBackground )),
+                (ThemeVariables.BarItemLightActiveColor, Var( ThemeVariables.BarItemLightActiveColor )),
+                (ThemeVariables.BarItemLightHoverBackground, Var( ThemeVariables.BarItemLightHoverBackground )),
+                (ThemeVariables.BarItemLightHoverColor, Var( ThemeVariables.BarItemLightHoverColor )),
+                (ThemeVariables.BarDropdownLightBackground, Var( ThemeVariables.BarDropdownLightBackground )),
+                (ThemeVariables.BarBrandLightBackground, Var( ThemeVariables.BarBrandLightBackground )) );
+        }
+    }
+
+    private void GenerateHorizontalBarStyles( StringBuilder sb, Theme theme, ThemeBarColorOptions colors, string contrast )
+    {
+        if ( colors is null )
+        {
+            return;
+        }
+
+        var selector = $".navbar.b-bar-horizontal.navbar-{contrast}";
+        var linkSelector = $"{selector} .navbar-nav .nav-item:not(.disabled) .nav-link:not(.disabled):not([aria-disabled=true])";
+        var itemColors = colors.ItemColorOptions;
+
+        GenerateCssRule( sb, selector,
+            ("background", string.IsNullOrEmpty( colors.BackgroundColor ) ? null : GetGradientBgValue( theme, colors.BackgroundColor, colors.GradientBlendPercentage )),
+            ("color", colors.Color) );
+
+        GenerateCssRule( sb, $"{linkSelector}:not(.active):not(:hover):not(:focus):not(.nav-item.active *)", ("color", colors.Color) );
+        GenerateCssRule( sb, $"{linkSelector}:hover, {linkSelector}:focus",
+            ("color", itemColors?.HoverColor),
+            ("background-color", itemColors?.HoverBackgroundColor) );
+
+        GenerateCssRule( sb, $"{linkSelector}.active, {selector} .navbar-nav .nav-item.active:not(.disabled) .nav-link:not(.disabled):not([aria-disabled=true])",
+            ("color", itemColors?.ActiveColor),
+            ("background-color", itemColors?.ActiveBackgroundColor) );
+
+        GenerateCssRule( sb, $"{selector} .navbar-brand",
+            ("color", colors.Color),
+            ("background-color", colors.BrandColorOptions?.BackgroundColor) );
+
+        GenerateCssRule( sb, $"{selector} .navbar-brand .nav-link:not(.disabled)", ("color", colors.Color) );
+        GenerateCssRule( sb, $"{selector} .dropdown-menu", ("background-color", colors.DropdownColorOptions?.BackgroundColor) );
+
+        var dropdownSelector = $"{selector} .dropdown-item:not(.disabled):not([aria-disabled=true])";
+
+        GenerateCssRule( sb, $"{dropdownSelector}:not(.active):not(:hover):not(:focus):not(:active)", ("color", colors.Color) );
+        GenerateCssRule( sb, $"{dropdownSelector}:hover, {dropdownSelector}:focus",
+            ("color", itemColors?.HoverColor),
+            ("background-color", itemColors?.HoverBackgroundColor) );
+
+        GenerateCssRule( sb, $"{dropdownSelector}.active",
+            ("color", itemColors?.ActiveColor),
+            ("background-color", itemColors?.ActiveBackgroundColor) );
     }
 
     protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )

@@ -36,12 +36,20 @@ public record ThemeBarOptions
     public ThemeFontOptions FontOptions { get; set; }
 
     /// <summary>
-    /// Gets or sets the theme settings for the <see cref="Bar"/> dark color scheme.
+    /// Gets or sets which bar orientations receive <see cref="LightColors"/> and <see cref="DarkColors"/>. Defaults to <see cref="ThemeBarColorScope.Both"/>.
+    /// </summary>
+    /// <remarks>
+    /// Includes item, brand, and dropdown colors. Does not affect sizing, fonts, or dropdown behavior.
+    /// </remarks>
+    public ThemeBarColorScope ColorScope { get; set; } = ThemeBarColorScope.Both;
+
+    /// <summary>
+    /// Gets or sets the dark color scheme for bars with <see cref="ThemeContrast.Dark"/>, applied to the orientations selected by <see cref="ColorScope"/>.
     /// </summary>
     public ThemeBarColorOptions DarkColors { get; set; }
 
     /// <summary>
-    /// Gets or sets the theme settings for the <see cref="Bar"/> light color scheme.
+    /// Gets or sets the light color scheme for bars with <see cref="ThemeContrast.Light"/>, applied to the orientations selected by <see cref="ColorScope"/>.
     /// </summary>
     public ThemeBarColorOptions LightColors { get; set; }
 

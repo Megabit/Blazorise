@@ -380,6 +380,52 @@ public class MaterialThemeGenerator : ThemeGenerator
 
     protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
     {
+        if ( options is null )
+        {
+            return;
+        }
+
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Horizontal ) )
+        {
+            GenerateBarColorStyles( sb, options.LightColors, ".mui-bar.mui-bar-horizontal:not(.mui-bar-dark)" );
+            GenerateBarColorStyles( sb, options.DarkColors, ".mui-bar.mui-bar-horizontal.mui-bar-dark" );
+        }
+
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Vertical ) )
+        {
+            var selector = ".mui-bar:is(.mui-bar-vertical-inline, .mui-bar-vertical-popout, .mui-bar-vertical-small)";
+
+            GenerateBarColorStyles( sb, options.LightColors, $"{selector}:not(.mui-bar-dark)" );
+            GenerateBarColorStyles( sb, options.DarkColors, $"{selector}.mui-bar-dark" );
+        }
+    }
+
+    private void GenerateBarColorStyles( StringBuilder sb, ThemeBarColorOptions colors, string selector )
+    {
+        if ( colors is null )
+        {
+            return;
+        }
+
+        var itemColors = colors.ItemColorOptions;
+
+        GenerateCssRule( sb, selector,
+            ("--mui-bar-bg", colors.BackgroundColor),
+            ("--mui-bar-color", colors.Color),
+            ("--mui-bar-menu-bg", colors.DropdownColorOptions?.BackgroundColor),
+            ("--mui-bar-hover-bg", itemColors?.HoverBackgroundColor),
+            ("--mui-bar-active-bg", itemColors?.ActiveBackgroundColor),
+            ("--mui-bar-active-color", itemColors?.ActiveColor) );
+
+        var linkSelector = $"{selector} :is(.mui-bar-link, .mui-bar-dropdown-toggle, .mui-bar-dropdown-item):not(.disabled):not([aria-disabled=true])";
+
+        GenerateCssRule( sb, $"{linkSelector}:hover, {linkSelector}:focus-visible", ("color", itemColors?.HoverColor) );
+        GenerateCssRule( sb, $"{linkSelector}.active, {selector} .mui-bar-item.active:not(.disabled) > .mui-bar-link:not(.disabled)",
+            ("color", itemColors?.ActiveColor),
+            ("background-color", itemColors?.ActiveBackgroundColor) );
+
+        GenerateCssRule( sb, $"{selector} .mui-bar-brand", ("background-color", colors.BrandColorOptions?.BackgroundColor) );
+        GenerateCssRule( sb, $"{selector} .mui-bar-dropdown-menu", ("background-color", colors.DropdownColorOptions?.BackgroundColor) );
     }
 
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )

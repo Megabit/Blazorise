@@ -1,7 +1,7 @@
 ﻿namespace Blazorise;
 
 /// <summary>
-/// Defines the color options for the <see cref="BarDropdownItem"/> component.
+/// Defines the hover and selected colors for bar navigation items.
 /// </summary>
 public record ThemeBarItemColorOptions
 {

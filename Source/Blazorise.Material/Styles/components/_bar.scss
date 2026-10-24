@@ -142,6 +142,11 @@
         border-radius: var(--mui-bar-item-radius);
         transition: border-radius var(--mui-duration-normal), background-color var(--mui-duration-normal), color var(--mui-duration-normal);
     }
+
+    &-dropdown-item > span {
+        flex: 1 1 auto;
+        min-inline-size: 0;
+    }
 }
 
 // Bar dropdown indicators are rendered through Blazorise <Icon>, not pseudo-elements.

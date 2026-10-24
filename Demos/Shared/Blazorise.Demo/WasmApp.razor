@@ -13,7 +13,7 @@
 @inject IJSRuntime JSRuntime
 @inject IVersionProvider VersionProvider
 
-<Blazorise.ThemeProvider Theme="@theme">
+<AppProviders>
     <Router AppAssembly="typeof( App ).Assembly"
             AdditionalAssemblies="@lazyAssemblies"
             OnNavigateAsync="@OnNavigateAsync">
@@ -26,13 +26,7 @@
             <p>Sorry, there's nothing at this address.</p>
         </NotFound>
     </Router>
-    <MessageProvider />
-    <NotificationProvider />
-    <PageProgressProvider />
-    <ModalProvider UseModalStructure Animated Size="ModalSize.ExtraLarge" />
-    <OnScreenKeyboardProvider />
-    <ApplicationLoadingIndicator />
-</Blazorise.ThemeProvider>
+</AppProviders>
 
 @code {
     private static readonly string[] chartAssemblies =
@@ -242,55 +236,4 @@
             await reCaptchaLoader.DisposeAsync();
         }
     }
-
-    private Theme theme = new()
-    {
-        Enabled = false,
-        BarOptions = new()
-        {
-            HorizontalHeight = "72px",
-            VerticalWidth = "270px",
-        },
-        BreakpointOptions = new()
-        {
-        },
-        ColorOptions = new()
-        {
-            Primary = "#6200ea",
-            Secondary = "#6B7280",
-            Success = "#0E9F6E",
-            Danger = "#F05252",
-            Warning = "#C27803",
-            Info = "#03A9F4",
-            Light = "#F3F4F6",
-            Dark = "#1F2937",
-        },
-        BackgroundOptions = new()
-        {
-            Primary = "#6200ea",
-            Secondary = "#6B7280",
-            Success = "#0E9F6E",
-            Danger = "#F05252",
-            Warning = "#C27803",
-            Info = "#03A9F4",
-            Light = "#F3F4F6",
-            Dark = "#1F2937",
-        },
-        TextColorOptions = new()
-        {
-            Primary = "#6200ea",
-            Secondary = "#6B7280",
-            Success = "#0E9F6E",
-            Danger = "#F05252",
-            Warning = "#C27803",
-            Info = "#03A9F4",
-            Light = "#F3F4F6",
-            Dark = "#1F2937",
-        },
-        InputOptions = new()
-        {
-            CheckColor = "#6200ea",
-            SliderColor = "#6200ea",
-        },
-    };
 }

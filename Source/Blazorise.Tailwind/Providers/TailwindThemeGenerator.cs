@@ -1159,17 +1159,66 @@ public class TailwindThemeGenerator : ThemeGenerator
 
     protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
     {
-        //foreach ( var (variant, _) in theme.ValidBackgroundColors )
-        //{
-        //    var yiqColor = Var( ThemeVariables.BackgroundYiqColor( variant ) );
+        if ( options is null )
+        {
+            return;
+        }
 
-        //    if ( string.IsNullOrEmpty( yiqColor ) )
-        //        continue;
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Horizontal ) )
+        {
+            GenerateHorizontalBarStyles( sb, theme, options.LightColors, "light" );
+            GenerateHorizontalBarStyles( sb, theme, options.DarkColors, "dark" );
+        }
 
-        //    sb.Append( $".navbar.bg-{variant} .navbar-brand .nav-item .nav-link" ).Append( "{" )
-        //        .Append( $"color: {yiqColor};" )
-        //        .AppendLine( "}" );
-        //}
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Vertical ) )
+        {
+            GenerateCssRule( sb, ".b-bar:is(.b-bar-vertical-inline, .b-bar-vertical-popout, .b-bar-vertical-small)",
+                (ThemeVariables.BarDarkBackground, Var( ThemeVariables.BarDarkBackground )),
+                (ThemeVariables.BarDarkColor, Var( ThemeVariables.BarDarkColor )),
+                (ThemeVariables.BarItemDarkActiveBackground, Var( ThemeVariables.BarItemDarkActiveBackground )),
+                (ThemeVariables.BarItemDarkActiveColor, Var( ThemeVariables.BarItemDarkActiveColor )),
+                (ThemeVariables.BarItemDarkHoverBackground, Var( ThemeVariables.BarItemDarkHoverBackground )),
+                (ThemeVariables.BarItemDarkHoverColor, Var( ThemeVariables.BarItemDarkHoverColor )),
+                (ThemeVariables.BarDropdownDarkBackground, Var( ThemeVariables.BarDropdownDarkBackground )),
+                (ThemeVariables.BarBrandDarkBackground, Var( ThemeVariables.BarBrandDarkBackground )),
+                (ThemeVariables.BarLightBackground, Var( ThemeVariables.BarLightBackground )),
+                (ThemeVariables.BarLightColor, Var( ThemeVariables.BarLightColor )),
+                (ThemeVariables.BarItemLightActiveBackground, Var( ThemeVariables.BarItemLightActiveBackground )),
+                (ThemeVariables.BarItemLightActiveColor, Var( ThemeVariables.BarItemLightActiveColor )),
+                (ThemeVariables.BarItemLightHoverBackground, Var( ThemeVariables.BarItemLightHoverBackground )),
+                (ThemeVariables.BarItemLightHoverColor, Var( ThemeVariables.BarItemLightHoverColor )),
+                (ThemeVariables.BarDropdownLightBackground, Var( ThemeVariables.BarDropdownLightBackground )),
+                (ThemeVariables.BarBrandLightBackground, Var( ThemeVariables.BarBrandLightBackground )) );
+        }
+    }
+
+    private void GenerateHorizontalBarStyles( StringBuilder sb, Theme theme, ThemeBarColorOptions colors, string contrast )
+    {
+        if ( colors is null )
+        {
+            return;
+        }
+
+        var selector = $".b-bar.b-bar-horizontal.b-bar-{contrast}";
+        var itemColors = colors.ItemColorOptions;
+
+        GenerateCssRule( sb, selector,
+            ("background", string.IsNullOrEmpty( colors.BackgroundColor ) ? null : GetGradientBgValue( theme, colors.BackgroundColor, colors.GradientBlendPercentage )),
+            ("color", colors.Color) );
+
+        var linkSelector = $"{selector} :is(.b-bar-link, .b-bar-dropdown-toggle, .b-bar-dropdown-item):not(.disabled):not([aria-disabled=true])";
+
+        GenerateCssRule( sb, $"{linkSelector}:not(.active):not(:hover):not(:focus-visible):not(.b-bar-item.active *)", ("color", colors.Color) );
+        GenerateCssRule( sb, $"{linkSelector}:hover, {linkSelector}:focus-visible",
+            ("color", itemColors?.HoverColor),
+            ("background-color", itemColors?.HoverBackgroundColor) );
+
+        GenerateCssRule( sb, $"{linkSelector}.active, {selector} .b-bar-item.active:not(.disabled) > .b-bar-link:not(.disabled)",
+            ("color", itemColors?.ActiveColor),
+            ("background-color", itemColors?.ActiveBackgroundColor) );
+
+        GenerateCssRule( sb, $"{selector} .b-bar-brand", ("background-color", colors.BrandColorOptions?.BackgroundColor) );
+        GenerateCssRule( sb, $"{selector} .b-bar-dropdown-menu", ("background-color", colors.DropdownColorOptions?.BackgroundColor) );
     }
 
     protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )

@@ -1106,7 +1106,9 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
             var yiqColor = Var( ThemeVariables.BackgroundYiqColor( variant ) );
 
             if ( string.IsNullOrEmpty( yiqColor ) )
+            {
                 continue;
+            }
 
             sb.Append( $".navbar.bg-{variant} .navbar-brand .nav-item .nav-link" ).Append( "{" )
                 .Append( $"color: {yiqColor};" )
@@ -1114,32 +1116,102 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
         }
 
         if ( options is null )
+        {
             return;
+        }
 
-        GenerateVerticalBarActiveStyles(
-            sb,
-            theme,
-            ".navbar[data-mode^=vertical].navbar-light",
-            ThemeVariables.BarItemLightActiveBackground,
-            ThemeVariables.BarItemLightActiveColor );
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Horizontal ) )
+        {
+            GenerateHorizontalBarStyles( sb, theme, options.LightColors, "light" );
+            GenerateHorizontalBarStyles( sb, theme, options.DarkColors, "dark" );
+        }
 
-        GenerateVerticalBarActiveStyles(
-            sb,
-            theme,
-            ".navbar[data-mode^=vertical].navbar-dark",
-            ThemeVariables.BarItemDarkActiveBackground,
-            ThemeVariables.BarItemDarkActiveColor );
+        if ( options.ColorScope.HasFlag( ThemeBarColorScope.Vertical ) )
+        {
+            GenerateCssRule( sb, ".navbar[data-mode^=vertical]",
+                (ThemeVariables.BarDarkBackground, Var( ThemeVariables.BarDarkBackground )),
+                (ThemeVariables.BarDarkColor, Var( ThemeVariables.BarDarkColor )),
+                (ThemeVariables.BarItemDarkActiveBackground, Var( ThemeVariables.BarItemDarkActiveBackground )),
+                (ThemeVariables.BarItemDarkActiveColor, Var( ThemeVariables.BarItemDarkActiveColor )),
+                (ThemeVariables.BarItemDarkHoverBackground, Var( ThemeVariables.BarItemDarkHoverBackground )),
+                (ThemeVariables.BarItemDarkHoverColor, Var( ThemeVariables.BarItemDarkHoverColor )),
+                (ThemeVariables.BarDropdownDarkBackground, Var( ThemeVariables.BarDropdownDarkBackground )),
+                (ThemeVariables.BarBrandDarkBackground, Var( ThemeVariables.BarBrandDarkBackground )),
+                (ThemeVariables.BarLightBackground, Var( ThemeVariables.BarLightBackground )),
+                (ThemeVariables.BarLightColor, Var( ThemeVariables.BarLightColor )),
+                (ThemeVariables.BarItemLightActiveBackground, Var( ThemeVariables.BarItemLightActiveBackground )),
+                (ThemeVariables.BarItemLightActiveColor, Var( ThemeVariables.BarItemLightActiveColor )),
+                (ThemeVariables.BarItemLightHoverBackground, Var( ThemeVariables.BarItemLightHoverBackground )),
+                (ThemeVariables.BarItemLightHoverColor, Var( ThemeVariables.BarItemLightHoverColor )),
+                (ThemeVariables.BarDropdownLightBackground, Var( ThemeVariables.BarDropdownLightBackground )),
+                (ThemeVariables.BarBrandLightBackground, Var( ThemeVariables.BarBrandLightBackground )) );
+
+            GenerateVerticalBarActiveStyles(
+                sb,
+                theme,
+                ".navbar[data-mode^=vertical].navbar-light",
+                options.LightColors?.ItemColorOptions );
+
+            GenerateVerticalBarActiveStyles(
+                sb,
+                theme,
+                ".navbar[data-mode^=vertical].navbar-dark",
+                options.DarkColors?.ItemColorOptions );
+        }
+    }
+
+    private void GenerateHorizontalBarStyles( StringBuilder sb, Theme theme, ThemeBarColorOptions colors, string contrast )
+    {
+        if ( colors is null )
+        {
+            return;
+        }
+
+        var selector = $".navbar[data-mode=horizontal].navbar-{contrast}";
+        var itemColors = colors.ItemColorOptions;
+
+        GenerateCssRule( sb, selector,
+            ("background", string.IsNullOrEmpty( colors.BackgroundColor ) ? null : GetGradientBgValue( theme, colors.BackgroundColor, colors.GradientBlendPercentage )),
+            ("color", colors.Color),
+            ("--bs-navbar-color", colors.Color),
+            ("--bs-navbar-brand-color", colors.Color),
+            ("--bs-navbar-brand-hover-color", colors.Color),
+            ("--bs-navbar-hover-color", itemColors?.HoverColor),
+            ("--bs-navbar-active-color", itemColors?.ActiveColor) );
+
+        var linkSelector = $"{selector} .navbar-nav .nav-item:not(.disabled) .nav-link:not(.disabled):not([aria-disabled=true])";
+
+        GenerateCssRule( sb, $"{linkSelector}:hover, {linkSelector}:focus",
+            ("background-color", itemColors?.HoverBackgroundColor) );
+
+        GenerateCssRule( sb, $"{linkSelector}.active, {selector} .navbar-nav .nav-item.active:not(.disabled) .nav-link:not(.disabled):not([aria-disabled=true])",
+            ("color", string.IsNullOrEmpty( itemColors?.ActiveColor ) ? null : "var(--bs-navbar-active-color)"),
+            ("background-color", itemColors?.ActiveBackgroundColor) );
+
+        GenerateCssRule( sb, $"{selector} .navbar-brand", ("background-color", colors.BrandColorOptions?.BackgroundColor) );
+        GenerateCssRule( sb, $"{selector} .navbar-brand .nav-link:not(.disabled)", ("color", colors.Color) );
+        GenerateCssRule( sb, $"{selector} .dropdown-menu",
+            ("--bs-dropdown-bg", colors.DropdownColorOptions?.BackgroundColor),
+            ("--bs-dropdown-link-color", colors.Color),
+            ("--bs-dropdown-link-hover-color", itemColors?.HoverColor),
+            ("--bs-dropdown-link-hover-bg", itemColors?.HoverBackgroundColor),
+            ("--bs-dropdown-link-active-color", itemColors?.ActiveColor),
+            ("--bs-dropdown-link-active-bg", itemColors?.ActiveBackgroundColor) );
     }
 
     private void GenerateVerticalBarActiveStyles(
         StringBuilder sb,
         Theme theme,
         string selector,
-        string activeBackgroundVariable,
-        string activeColorVariable )
+        ThemeBarItemColorOptions colors )
     {
-        var activeBackground = Var( activeBackgroundVariable, Var( ThemeVariables.Color( "primary" ), "#0d6efd" ) );
-        var activeColor = Var( activeColorVariable, ToHex( GetContrastColor( theme, activeBackground ) ) );
+        var activeBackground = string.IsNullOrEmpty( colors?.ActiveBackgroundColor )
+            ? Var( ThemeVariables.Color( "primary" ), "#0d6efd" )
+            : ToHex( ParseColor( colors.ActiveBackgroundColor ) );
+
+        var activeColor = string.IsNullOrEmpty( colors?.ActiveColor )
+            ? ToHex( GetContrastColor( theme, activeBackground ) )
+            : ToHex( ParseColor( colors.ActiveColor ) );
 
         sb.Append( selector ).Append( " .dropdown[data-visible] > .dropdown-menu-container > .dropdown-menu .dropdown-item.active," )
             .Append( selector ).Append( " .dropdown[data-visible] > .dropdown-menu-container > .dropdown-menu .dropdown-item:active," )
