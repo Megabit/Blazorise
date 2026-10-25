@@ -241,10 +241,15 @@ public class DragDropAnimationTests : BlazorisePageTest
             placeholder = SlotAfter( zone, precedingItem );
         }
 
+        var dropTarget = precedingItem is null
+            ? zone
+            : zone.Locator( ItemSelector ).Filter( new() { HasText = precedingItem } );
+
+        // Follow the settled item and send dragover before releasing on the browser's current target.
+        await MoveOver( dropTarget );
         await Expect( placeholder ).ToHaveCountAsync( 1 );
         await Expect( placeholder ).Not.ToHaveCSSAsync( "display", "none" );
 
-        // Release where the drag selected this slot; another move can select a different item.
         await Page.Mouse.UpAsync();
     }
 
