@@ -20,7 +20,7 @@ public class DragDropAnimationTests : BlazorisePageTest
         await Expect( items ).ToHaveTextAsync( new[] { "Item 1", "Item 2", "Item 3", "Item 4" } );
         await Expect( sut.Locator( "#drop-count" ) ).ToHaveTextAsync( "0" );
 
-        await DropIntoSlot( zone, "Item 3" );
+        await CompleteDrop( zone, "Item 3" );
 
         await Expect( items ).ToHaveTextAsync( new[] { "Item 2", "Item 3", "Item 1", "Item 4" } );
         await Expect( items.Nth( 2 ) ).ToHaveAttributeAsync( "id", sourceId );
@@ -37,7 +37,7 @@ public class DragDropAnimationTests : BlazorisePageTest
         var zone = sut.Locator( "#drop-zone-1" );
 
         await DragFirstItemOverThird( zone );
-        await DropIntoSlot( zone, "Item 3" );
+        await CompleteDrop( zone, "Item 3" );
 
         await Expect( zone.Locator( ItemSelector ) ).ToHaveTextAsync( new[] { "Item 2", "Item 3", "Item 1", "Item 4" } );
         await Expect( sut.Locator( "#drop-result" ) ).ToHaveTextAsync( "Item 1: 1 -> 1 (2)" );
@@ -94,7 +94,7 @@ public class DragDropAnimationTests : BlazorisePageTest
             await Expect( placeholder ).ToHaveCSSAsync( "outline-style", "dashed" );
         }
 
-        await DropIntoSlot( zone, "Item 3" );
+        await CompleteDrop( zone, "Item 3" );
 
         await Expect( zone.Locator( ItemSelector ) ).ToHaveTextAsync( new[] { "Item 2", "Item 3", "Item 1", "Item 4" } );
         await Expect( sut.Locator( "#drop-count" ) ).ToHaveTextAsync( "1" );
@@ -110,7 +110,7 @@ public class DragDropAnimationTests : BlazorisePageTest
 
         await StartDrag( sourceZone.Locator( ItemSelector ).Nth( 0 ) );
         await MoveOver( targetZone.Locator( ItemSelector ).Nth( 0 ) );
-        await DropIntoSlot( targetZone, "Item 5" );
+        await CompleteDrop( targetZone, "Item 5" );
 
         await Expect( sourceZone.Locator( ItemSelector ) ).ToHaveTextAsync( new[] { "Item 2", "Item 3", "Item 4" } );
         await Expect( targetZone.Locator( ItemSelector ) ).ToHaveTextAsync( new[] { "Item 5", "Item 1", "Item 6" } );
@@ -128,7 +128,7 @@ public class DragDropAnimationTests : BlazorisePageTest
 
         await StartDrag( sourceZone.Locator( ItemSelector ).Nth( 0 ) );
         await MoveOver( targetZone );
-        await DropIntoSlot( targetZone );
+        await CompleteDrop( targetZone );
 
         await Expect( sourceZone.Locator( ItemSelector ) ).ToHaveTextAsync( new[] { "Item 2", "Item 3", "Item 4" } );
         await Expect( targetZone.Locator( ItemSelector ) ).ToHaveTextAsync( new[] { "Item 1" } );
@@ -232,27 +232,19 @@ public class DragDropAnimationTests : BlazorisePageTest
         await Expect( SlotAfter( zone, "Item 3" ) ).ToHaveCountAsync( 1 );
     }
 
-    private async Task DropIntoSlot( ILocator zone, string precedingItem = null )
+    private async Task CompleteDrop( ILocator zone, string precedingItem = null )
     {
         var placeholder = zone.Locator( ".drop-placeholder" );
 
         if ( precedingItem is not null )
         {
             placeholder = SlotAfter( zone, precedingItem );
-            await Expect( placeholder ).ToHaveCountAsync( 1 );
-
-            // Hover waits for the neighboring item to settle before measuring the slot.
-            await zone.Locator( ItemSelector ).Filter( new() { HasText = precedingItem } ).HoverAsync();
         }
 
+        await Expect( placeholder ).ToHaveCountAsync( 1 );
         await Expect( placeholder ).Not.ToHaveCSSAsync( "display", "none" );
 
-        // Hidden placeholders still occupy layout space, so measure their DOM bounds.
-        var slot = await placeholder.BoundingBoxAsync();
-        Assert.That( slot, Is.Not.Null );
-        await Page.Mouse.MoveAsync( slot.X + slot.Width / 2, slot.Y + slot.Height / 2 );
-        await Page.Mouse.MoveAsync( slot.X + slot.Width / 2 + 1, slot.Y + slot.Height / 2 );
-        await Expect( placeholder ).ToHaveCountAsync( 1 );
+        // Release where the drag selected this slot; another move can select a different item.
         await Page.Mouse.UpAsync();
     }
 
