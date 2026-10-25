@@ -11,7 +11,7 @@ public class MemoInputTests : BlazorisePageTest
     [Test]
     public async Task CanChangeText()
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectExample();
 
         var textarea = Page.Locator( "#memo-basic" ).GetByRole( AriaRole.Textbox );
         await Expect( textarea ).ToHaveValueAsync( string.Empty );
@@ -24,7 +24,7 @@ public class MemoInputTests : BlazorisePageTest
     [TestCase( "memo-event" )]
     public async Task CanChangeTextUsingBindingOrEvent( string exampleId )
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectExample();
 
         var sut = Page.Locator( $"#{exampleId}" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -43,7 +43,7 @@ public class MemoInputTests : BlazorisePageTest
     [Test]
     public async Task CanValidateTextWithBind()
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectExample();
 
         var sut = Page.Locator( "#memo-validation" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -64,7 +64,7 @@ public class MemoInputTests : BlazorisePageTest
     [Test]
     public async Task AutoSize_GrowsAndShrinksWithContent()
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectExample();
 
         var sut = Page.Locator( "#memo-sizing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -90,7 +90,7 @@ public class MemoInputTests : BlazorisePageTest
     [Test]
     public async Task AutoSize_RespondsToProgrammaticValuesAndRuntimeToggling()
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectExample();
 
         var sut = Page.Locator( "#memo-sizing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -116,7 +116,7 @@ public class MemoInputTests : BlazorisePageTest
     [Test]
     public async Task ReplaceTab_NotifiesValueChangedWhenIndentingAndUnindentingSelection()
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectExample();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -148,7 +148,7 @@ public class MemoInputTests : BlazorisePageTest
     [TestCase( "'", "'" )]
     public async Task ReplaceTab_PairsCharactersAndHandlesOverwriteAndBackspace( string opening, string closing )
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectExample();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -186,7 +186,7 @@ public class MemoInputTests : BlazorisePageTest
     [TestCase( "\"[\"", 3, "\"[\"\n", 4 )]
     public async Task ReplaceTab_IndentsNewLinesAndPreservesCaret( string initialValue, int caret, string expectedValue, int expectedCaret )
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectExample();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -211,7 +211,7 @@ public class MemoInputTests : BlazorisePageTest
     [Test]
     public async Task ReplaceTab_RespondsToRuntimeOptionsWithoutDuplicateHandlers()
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectExample();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -255,7 +255,7 @@ public class MemoInputTests : BlazorisePageTest
     [Test]
     public async Task ReplaceTab_UpdatesDeferredValueOnBlur()
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectExample();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -277,7 +277,7 @@ public class MemoInputTests : BlazorisePageTest
     [TestCase( "😀" )]
     public async Task ReplaceTab_PreservesNativeBackspaceAndReadOnlyBehavior( string initialValue )
     {
-        await SelectTestComponent<MemoInputComponent>();
+        await SelectExample();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -302,6 +302,14 @@ public class MemoInputTests : BlazorisePageTest
         await Expect( textarea ).ToHaveValueAsync( string.Empty );
         await Expect( result ).ToHaveTextAsync( string.Empty );
         await Expect( textarea ).Not.ToBeFocusedAsync();
+    }
+
+    private async Task SelectExample()
+    {
+        await SelectTestComponent<MemoInputComponent>();
+
+        // Autofocus is applied after MemoInput has initialized its editing handlers.
+        await Expect( Page.Locator( "#memo-editing" ).GetByRole( AriaRole.Textbox ) ).ToBeFocusedAsync();
     }
 
     private static async Task WaitForHeight( ILocator textarea, double previousHeight, bool grows )
