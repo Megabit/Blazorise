@@ -116,7 +116,7 @@ public class MemoInputTests : BlazorisePageTest
     [Test]
     public async Task ReplaceTab_NotifiesValueChangedWhenIndentingAndUnindentingSelection()
     {
-        await SelectEditingComponent();
+        await SelectTestComponent<MemoInputComponent>();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -148,7 +148,7 @@ public class MemoInputTests : BlazorisePageTest
     [TestCase( "'", "'" )]
     public async Task ReplaceTab_PairsCharactersAndHandlesOverwriteAndBackspace( string opening, string closing )
     {
-        await SelectEditingComponent();
+        await SelectTestComponent<MemoInputComponent>();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -186,7 +186,7 @@ public class MemoInputTests : BlazorisePageTest
     [TestCase( "\"[\"", 3, "\"[\"\n", 4 )]
     public async Task ReplaceTab_IndentsNewLinesAndPreservesCaret( string initialValue, int caret, string expectedValue, int expectedCaret )
     {
-        await SelectEditingComponent();
+        await SelectTestComponent<MemoInputComponent>();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -211,7 +211,7 @@ public class MemoInputTests : BlazorisePageTest
     [Test]
     public async Task ReplaceTab_RespondsToRuntimeOptionsWithoutDuplicateHandlers()
     {
-        await SelectEditingComponent();
+        await SelectTestComponent<MemoInputComponent>();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
@@ -277,7 +277,7 @@ public class MemoInputTests : BlazorisePageTest
     [TestCase( "😀" )]
     public async Task ReplaceTab_PreservesNativeBackspaceAndReadOnlyBehavior( string initialValue )
     {
-        await SelectEditingComponent();
+        await SelectTestComponent<MemoInputComponent>();
 
         var sut = Page.Locator( "#memo-editing" );
         var textarea = sut.GetByRole( AriaRole.Textbox );
