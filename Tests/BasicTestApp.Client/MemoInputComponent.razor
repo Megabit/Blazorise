@@ -31,7 +31,7 @@
 </Div>
 
 <Div ElementId="memo-editing">
-    <MemoInput ElementId="memo-replace-tab" ReplaceTab="@replaceTab" TabSize="@tabSize" SoftTabs="@softTabs" ReadOnly="@readOnly" Immediate="@immediate" Value="@editingValue" ValueChanged="@OnEditingValueChangedHandler" KeyPress="@OnEditingKeyPressHandler" />
+    <MemoInput ElementId="memo-replace-tab" Autofocus ReplaceTab="@replaceTab" TabSize="@tabSize" SoftTabs="@softTabs" ReadOnly="@readOnly" Immediate="@immediate" Value="@editingValue" ValueChanged="@OnEditingValueChangedHandler" KeyPress="@OnEditingKeyPressHandler" />
     <Span ElementId="memo-editing-result">@editingValue</Span>
     <Span ElementId="memo-change-count">@changeCount</Span>
     <Span ElementId="memo-keypress-count">@keyPressCount</Span>
