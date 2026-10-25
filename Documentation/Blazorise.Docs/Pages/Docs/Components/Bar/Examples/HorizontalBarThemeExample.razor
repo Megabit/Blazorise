@@ -1,0 +1,72 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<ThemeProvider Theme="@theme">
+    @foreach ( var contrast in new[] { ThemeContrast.Light, ThemeContrast.Dark } )
+    {
+        <Bar Mode="BarMode.Horizontal" ThemeContrast="@contrast" Breakpoint="Breakpoint.Desktop" Margin="Margin.Is3.FromBottom">
+            <BarBrand>
+                <BarItem>
+                    <BarLink>Atlas</BarLink>
+                </BarItem>
+            </BarBrand>
+            <BarToggler />
+            <BarMenu>
+                <BarStart>
+                    <BarItem Active>
+                        <BarLink>Overview</BarLink>
+                    </BarItem>
+                    <BarItem>
+                        <BarLink>Projects</BarLink>
+                    </BarItem>
+                    <BarItem Disabled>
+                        <BarLink>Archived</BarLink>
+                    </BarItem>
+                    <BarItem>
+                        <BarDropdown>
+                            <BarDropdownToggle>Reports</BarDropdownToggle>
+                            <BarDropdownMenu>
+                                <BarDropdownItem>Sales</BarDropdownItem>
+                                <BarDropdownItem>Activity</BarDropdownItem>
+                            </BarDropdownMenu>
+                        </BarDropdown>
+                    </BarItem>
+                </BarStart>
+            </BarMenu>
+        </Bar>
+    }
+</ThemeProvider>
+
+@code {
+    private readonly Theme theme = new()
+    {
+        BarOptions = new()
+        {
+            LightColors = new()
+            {
+                BackgroundColor = "#FFFFFF",
+                Color = "#28489F",
+                ItemColorOptions = new()
+                {
+                    HoverColor = "#ED1C24",
+                    HoverBackgroundColor = "#FFF0F0",
+                    ActiveColor = "#ED1C24",
+                    ActiveBackgroundColor = "#FFE0E0",
+                },
+                DropdownColorOptions = new() { BackgroundColor = "#FFFFFF" },
+            },
+            DarkColors = new()
+            {
+                BackgroundColor = "#11203A",
+                Color = "#DCE5F5",
+                ItemColorOptions = new()
+                {
+                    HoverColor = "#FFFFFF",
+                    HoverBackgroundColor = "#30466A",
+                    ActiveColor = "#FFFFFF",
+                    ActiveBackgroundColor = "#4365A0",
+                },
+                DropdownColorOptions = new() { BackgroundColor = "#11203A" },
+            },
+        },
+    };
+}

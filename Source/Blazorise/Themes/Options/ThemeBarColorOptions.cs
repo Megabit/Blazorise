@@ -21,7 +21,7 @@ public record ThemeBarColorOptions
     public string Color { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="BarDropdownItem"/> color options.
+    /// Gets or sets the interaction colors for bar links, dropdown toggles, and dropdown items.
     /// </summary>
     public ThemeBarItemColorOptions ItemColorOptions { get; set; }
 

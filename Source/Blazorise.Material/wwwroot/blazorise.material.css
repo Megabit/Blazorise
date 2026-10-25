@@ -1514,6 +1514,10 @@ body {
   border-radius: var(--mui-bar-item-radius);
   transition: border-radius var(--mui-duration-normal), background-color var(--mui-duration-normal), color var(--mui-duration-normal);
 }
+.mui-bar-dropdown-item > span {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
 
 .mui-bar-dropdown-toggle::after {
   content: none !important;
@@ -10758,6 +10762,11 @@ body.modal-open {
   transition-delay: var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-opacity-delay), var(--mui-tooltip-state-visibility-delay), var(--mui-tooltip-state-visibility-delay);
   transition-timing-function: cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), cubic-bezier(0.2, 0, 0, 1), linear, linear;
   transition-behavior: allow-discrete;
+}
+@starting-style {
+  .mui-tooltip-content {
+    visibility: hidden;
+  }
 }
 @starting-style {
   .mui-tooltip:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .mui-tooltip-content {

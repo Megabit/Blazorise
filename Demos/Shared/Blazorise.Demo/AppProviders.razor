@@ -1,0 +1,90 @@
+<Blazorise.ThemeProvider Theme="@theme">
+    @ChildContent
+    <MessageProvider />
+    <NotificationProvider />
+    <PageProgressProvider />
+    <ModalProvider UseModalStructure Animated Size="ModalSize.ExtraLarge" />
+    <OnScreenKeyboardProvider />
+    <ApplicationLoadingIndicator />
+</Blazorise.ThemeProvider>
+
+@code {
+    private readonly Theme theme = new()
+    {
+        Enabled = false,
+        BarOptions = new()
+        {
+            HorizontalHeight = "72px",
+            VerticalWidth = "270px",
+            // LightColors = new()
+            // {
+            //     BackgroundColor = "#FFFFFF",
+            //     Color = "#28489F",
+            //     ItemColorOptions = new()
+            //     {
+            //         HoverColor = "#ED1C24",
+            //         HoverBackgroundColor = "#FFF0F0",
+            //         ActiveColor = "#ED1C24",
+            //         ActiveBackgroundColor = "#FFE0E0",
+            //     },
+            //     DropdownColorOptions = new() { BackgroundColor = "#FFFFFF" },
+            // },
+            // DarkColors = new()
+            // {
+            //     BackgroundColor = "#11203A",
+            //     Color = "#DCE5F5",
+            //     ItemColorOptions = new()
+            //     {
+            //         HoverColor = "#FFFFFF",
+            //         HoverBackgroundColor = "#30466A",
+            //         ActiveColor = "#FFFFFF",
+            //         ActiveBackgroundColor = "#4365A0",
+            //     },
+            //     DropdownColorOptions = new() { BackgroundColor = "#11203A" },
+            // },
+        },
+        BreakpointOptions = new()
+        {
+        },
+        ColorOptions = new()
+        {
+            Primary = "#6200ea",
+            Secondary = "#6B7280",
+            Success = "#0E9F6E",
+            Danger = "#F05252",
+            Warning = "#C27803",
+            Info = "#03A9F4",
+            Light = "#F3F4F6",
+            Dark = "#1F2937",
+        },
+        BackgroundOptions = new()
+        {
+            Primary = "#6200ea",
+            Secondary = "#6B7280",
+            Success = "#0E9F6E",
+            Danger = "#F05252",
+            Warning = "#C27803",
+            Info = "#03A9F4",
+            Light = "#F3F4F6",
+            Dark = "#1F2937",
+        },
+        TextColorOptions = new()
+        {
+            Primary = "#6200ea",
+            Secondary = "#6B7280",
+            Success = "#0E9F6E",
+            Danger = "#F05252",
+            Warning = "#C27803",
+            Info = "#03A9F4",
+            Light = "#F3F4F6",
+            Dark = "#1F2937",
+        },
+        InputOptions = new()
+        {
+            CheckColor = "#6200ea",
+            SliderColor = "#6200ea",
+        },
+    };
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

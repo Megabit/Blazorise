@@ -167,18 +167,26 @@ a {
   border-radius: var(--bs-border-radius-lg);
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
 }
-.b-top-bar .navbar-nav .nav-link:hover, .b-top-bar .navbar-nav .nav-link.active {
-  color: var(--b-theme-primary);
-  background-color: rgba(124, 58, 237, 0.08);
-}
 .b-top-bar .navbar-nav .nav-link:focus-visible {
   outline: 2px solid var(--b-theme-primary);
   outline-offset: 2px;
 }
 
-body[data-bs-theme=dark] .b-top-bar .navbar-nav .nav-link:hover, body[data-bs-theme=dark] .b-top-bar .navbar-nav .nav-link.active {
-  color: #c4b5fd;
-  background-color: rgba(196, 181, 253, 0.12);
+.b-top-bar.navbar[data-mode=horizontal]:is(.navbar-light, .navbar-dark) {
+  --bs-navbar-hover-color: var(--b-theme-primary);
+  --bs-navbar-active-color: var(--b-theme-primary);
+  --b-top-bar-item-background: rgba(124, 58, 237, .08);
+}
+.b-top-bar.navbar[data-mode=horizontal]:is(.navbar-light, .navbar-dark) .navbar-nav > .nav-item:not(.disabled) > .nav-link:not(.disabled):not([aria-disabled=true]):is(:hover, :focus-visible, .active, .nav-item.active .nav-link),
+.b-top-bar.navbar[data-mode=horizontal]:is(.navbar-light, .navbar-dark) .navbar-nav > .nav-item:not(.disabled) > .dropdown > .nav-link:not(.disabled):not([aria-disabled=true]):is(:hover, :focus-visible, .active, .nav-item.active .nav-link) {
+  color: var(--bs-navbar-hover-color);
+  background-color: var(--b-top-bar-item-background);
+}
+
+body[data-bs-theme=dark] .b-top-bar.navbar[data-mode=horizontal]:is(.navbar-light, .navbar-dark) {
+  --bs-navbar-hover-color: #c4b5fd;
+  --bs-navbar-active-color: #c4b5fd;
+  --b-top-bar-item-background: rgba(196, 181, 253, .12);
 }
 body[data-bs-theme=dark] .b-top-bar .navbar-nav .nav-link:focus-visible {
   outline-color: #c4b5fd;

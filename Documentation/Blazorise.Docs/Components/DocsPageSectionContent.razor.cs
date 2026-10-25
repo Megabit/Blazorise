@@ -60,10 +60,10 @@ public partial class DocsPageSectionContent
     private IFluentSizing ContentWidth => FullWidth ? Width.Is100 : null;
 
     private IFluentBorder ContentBorder => Outlined
-        ? ShowFrame ? Border.Is1.OnAll : Border.Is1.RoundedTop
+        ? HasFrame ? Border.Is1.OnAll : Border.Is1.RoundedTop
         : null;
 
-    bool ShowFrame => !string.IsNullOrEmpty( FrameUrl );
+    private bool HasFrame => !string.IsNullOrWhiteSpace( FrameUrl );
 
     [Parameter] public bool Outlined { get; set; }
 
@@ -71,7 +71,20 @@ public partial class DocsPageSectionContent
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    /// <summary>
+    /// Gets or sets the responsive preview URL. Used for desktop previews too when no child content is supplied.
+    /// </summary>
     [Parameter] public string FrameUrl { get; set; }
+
+    /// <summary>
+    /// Gets or sets the preview height in pixels.
+    /// </summary>
+    [Parameter] public int FrameHeight { get; set; } = 500;
+
+    /// <summary>
+    /// Gets or sets the accessible title of the preview frame.
+    /// </summary>
+    [Parameter] public string FrameTitle { get; set; } = "Example preview";
 
     [Parameter] public string Code { get; set; }
 
