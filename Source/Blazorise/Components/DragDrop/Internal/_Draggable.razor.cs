@@ -14,13 +14,15 @@ namespace Blazorise;
 /// Internal component that represents the drag item used by the <see cref="DropZone{TItem}"/>.
 /// </summary>
 /// <typeparam name="TItem">Datatype of the item being dragged.</typeparam>
-public partial class _Draggable<TItem> : BaseComponent
+public partial class _Draggable<TItem> : BaseComponent, IDisposable, IDragHandleOwner
 {
     #region Members
 
     private bool disabled;
 
     private bool dragging;
+
+    private readonly HashSet<DragHandle> handles = new();
 
     #endregion
 
@@ -90,6 +92,22 @@ public partial class _Draggable<TItem> : BaseComponent
     {
     }
 
+    void IDragHandleOwner.RegisterHandle( DragHandle handle )
+    {
+        if ( handles.Add( handle ) )
+        {
+            InvokeAsync( StateHasChanged );
+        }
+    }
+
+    void IDragHandleOwner.UnregisterHandle( DragHandle handle )
+    {
+        if ( handles.Remove( handle ) && !Disposed )
+        {
+            InvokeAsync( StateHasChanged );
+        }
+    }
+
     private async Task OnDroppedSucceeded()
     {
         dragging = false;
@@ -116,6 +134,16 @@ public partial class _Draggable<TItem> : BaseComponent
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Gets whether the item contains any drag handles, including disabled handles.
+    /// </summary>
+    protected bool HasHandles => handles.Count > 0;
+
+    /// <summary>
+    /// Gets whether the entire item can be dragged without a handle.
+    /// </summary>
+    protected string DraggableString => !Disabled && !HasHandles ? "true" : "false";
 
     /// <summary>
     /// Gets the dragging state serialized for JavaScript.
