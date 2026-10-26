@@ -53,6 +53,20 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Named Columns">
+        <Paragraph>
+            Show totals for calculated values, such as line amounts, tax, or percentages, without adding properties to your data model. Named columns also let you display different summaries for columns that share the same source property. This example gives line totals and tax their own summaries so users can review both amounts at a glance.
+        </Paragraph>
+        <Paragraph>
+            Column names are optional, case-sensitive, and should be unique within the grid. An aggregate's <Code>ColumnName</Code> matches the column's <Code>Name</Code> and takes priority over field matching. An unmatched name does not fall back to <Code>Field</Code>; aggregates without a name continue to match by field.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="DataGridNamedAggregatesExample" FullWidth CopyFullExample>
+        <DataGridNamedAggregatesExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Large Data">
         Keep summaries meaningful when users browse data one page at a time. With <Code>ReadData</Code> and <Code>AggregateData</Code>, you can supply data for aggregate calculations separately from the current page, so summaries can cover the full set of matching records.
     </DocsPageSectionHeader>

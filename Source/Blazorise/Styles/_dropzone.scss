@@ -15,11 +15,14 @@
     }
 
     &-draggable:not(.draggable-preview-start) {
-        cursor: grab;
-        user-select: none;
+        &[draggable="true"],
+        [data-drag-handle][draggable="true"] {
+            cursor: grab;
+            user-select: none;
 
-        &:active {
-            cursor: grabbing;
+            &:active {
+                cursor: grabbing;
+            }
         }
 
         &[data-reorder-source="true"] {

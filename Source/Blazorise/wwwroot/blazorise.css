@@ -42,11 +42,13 @@ hr.divider.divider-text::before {
 .b-drop-zone.b-drop-zone-drop-not-allowed {
   outline: 1px solid var(--b-theme-danger, #FF0000) !important;
 }
-.b-drop-zone-draggable:not(.draggable-preview-start) {
+.b-drop-zone-draggable:not(.draggable-preview-start)[draggable=true],
+.b-drop-zone-draggable:not(.draggable-preview-start) [data-drag-handle][draggable=true] {
   cursor: grab;
   user-select: none;
 }
-.b-drop-zone-draggable:not(.draggable-preview-start):active {
+.b-drop-zone-draggable:not(.draggable-preview-start)[draggable=true]:active,
+.b-drop-zone-draggable:not(.draggable-preview-start) [data-drag-handle][draggable=true]:active {
   cursor: grabbing;
 }
 .b-drop-zone-draggable:not(.draggable-preview-start)[data-reorder-source=true] {

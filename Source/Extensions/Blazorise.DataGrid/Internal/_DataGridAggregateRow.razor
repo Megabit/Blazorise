@@ -31,7 +31,7 @@
         {
             <TableRowCell Class="@column.AggregateCellClass" Style="@column.BuildAggregateCellStyle()" TextAlignment="@column.AggregateCellTextAlignment" TextTransform="@column.AggregateCellTextTransform" TextDecoration="@column.AggregateCellTextDecoration" TextWeight="@column.AggregateCellTextWeight" TextOverflow="@column.AggregateCellTextOverflow" TextSize="@column.AggregateCellTextSize" VerticalAlignment="@column.AggregateCellVerticalAlignment" Display="@column.AggregateCellDisplay" Flex="@column.AggregateCellFlex" Gap="@column.AggregateCellGap" FixedPosition="@column.FixedPosition" Width="@column.Width">
                 @{
-                    var aggregateColumn = Aggregates.FirstOrDefault( x => x.Field == column.Field );
+                    var aggregateColumn = ResolveAggregate( column );
 
                     if ( aggregateColumn != null )
                     {

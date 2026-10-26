@@ -17,9 +17,9 @@ public class TailwindClassProvider : ClassProvider
     public override string TextInput( bool plaintext ) => TextInput( plaintext, "b-input" );
 
     // Keep the default width below explicit sizing utilities in the cascade.
-    private static string TextInput( bool plaintext, string classNames ) => plaintext
-        ? $"{classNames} text-gray-900 border-none rounded-lg focus:ring-primary-500 focus:border-primary-500 block [:where(&)]:w-full dark:bg-gray-800 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75"
-        : $"{classNames} bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 block [:where(&)]:w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75";
+    private static string TextInput( bool plaintext, string classNames, string display = "block" ) => plaintext
+        ? $"{classNames} text-gray-900 border-none rounded-lg focus:ring-primary-500 focus:border-primary-500 {display} [:where(&)]:w-full dark:bg-gray-800 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75"
+        : $"{classNames} bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 {display} [:where(&)]:w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75";
 
     public override string TextInputSize( Size size )
     {
@@ -227,7 +227,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region ColorPicker
 
-    public override string ColorPicker() => TextInput( false, "inline-flex items-center gap-2 text-left" );
+    public override string ColorPicker() => TextInput( false, "b-input items-center gap-2 text-left", "inline-flex" );
 
     public override string ColorPickerPreview()
         => "absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-secondary-400";
@@ -2907,19 +2907,29 @@ public class TailwindClassProvider : ClassProvider
             : null;
 
         if ( flexDefinition.Direction != FlexDirection.Default )
-            sb.Append( "flex-" ).Append( breakpoint ).Append( ToDirection( flexDefinition.Direction ) );
+        {
+            sb.Append( breakpoint ).Append( "flex-" ).Append( ToDirection( flexDefinition.Direction ) );
+        }
 
         if ( flexDefinition.JustifyContent != FlexJustifyContent.Default )
-            sb.Append( "justify-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
+        {
+            sb.Append( breakpoint ).Append( "justify-" ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
+        }
 
         if ( flexDefinition.AlignItems != FlexAlignItems.Default )
-            sb.Append( "items-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
+        {
+            sb.Append( breakpoint ).Append( "items-" ).Append( ToAlignItems( flexDefinition.AlignItems ) );
+        }
 
         if ( flexDefinition.AlignSelf != FlexAlignSelf.Default )
-            sb.Append( "self-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
+        {
+            sb.Append( breakpoint ).Append( "self-" ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
+        }
 
         if ( flexDefinition.AlignContent != FlexAlignContent.Default )
-            sb.Append( "content-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
+        {
+            sb.Append( breakpoint ).Append( "content-" ).Append( ToAlignContent( flexDefinition.AlignContent ) );
+        }
 
         if ( flexDefinition.GrowShrink != FlexGrowShrink.Default && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.Default )
         {
@@ -2927,16 +2937,24 @@ public class TailwindClassProvider : ClassProvider
         }
 
         if ( flexDefinition.Basis && flexDefinition.BasisSize != FlexBasisSize.Default )
+        {
             sb.Append( breakpoint ).Append( "basis-" ).Append( ToBasisSize( flexDefinition.BasisSize ) );
+        }
 
         if ( flexDefinition.Wrap != FlexWrap.Default )
-            sb.Append( "flex-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
+        {
+            sb.Append( breakpoint ).Append( "flex-" ).Append( ToWrap( flexDefinition.Wrap ) );
+        }
 
         if ( flexDefinition.Order != FlexOrder.Default )
-            sb.Append( "order-" ).Append( breakpoint ).Append( ToOrder( flexDefinition.Order ) );
+        {
+            sb.Append( breakpoint ).Append( "order-" ).Append( ToOrder( flexDefinition.Order ) );
+        }
 
         if ( flexDefinition.Fill )
-            sb.Append( "flex-" ).Append( breakpoint ).Append( "auto" );
+        {
+            sb.Append( breakpoint ).Append( "flex-auto" );
+        }
 
         return sb.ToString();
     }

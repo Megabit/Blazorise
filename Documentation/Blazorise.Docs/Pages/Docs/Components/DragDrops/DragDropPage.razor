@@ -28,8 +28,6 @@
     </DocsAnatomyRegion>
 </DocsAnatomy>
 
-
-
 <DocsPageSectionTitle>
     Examples
 </DocsPageSectionTitle>
@@ -96,6 +94,20 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Drag handles" AddedVersion="2.5" AddedDate="2026-10-26">
+        <Paragraph>
+            Give users a clear place to grab an item while keeping its text, inputs, and buttons easy to use. Handles are useful for editable task cards and lists where dragging the whole item could interfere with everyday interactions. In this example, users can edit a task's name, move it with a button, or drag its grip to reorder it or change its group.
+        </Paragraph>
+        <Paragraph>
+            Place a <Code>DragHandle</Code> inside the item template. Items with handles can only be dragged from an enabled handle; items without handles remain draggable as a whole. Multiple handles are supported. A disabled handle still restricts whole-item dragging, and disabling the item disables all its handles.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="DragDropHandleExample" Outlined FullWidth>
+        <DragDropHandleExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
 <DocsPageSectionTitle>
     Best Practices
 </DocsPageSectionTitle>
@@ -125,4 +137,5 @@
 <DocsPageApi>
     <DocsPageApiItem Url="docs/components/drag-drop/api" Name="<DropContainer />" />
     <DocsPageApiItem Url="docs/components/drag-drop/api" Name="<DropZone />" />
+    <DocsPageApiItem Url="docs/components/drag-drop/api" Name="<DragHandle />" />
 </DocsPageApi>

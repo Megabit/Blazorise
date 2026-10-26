@@ -315,12 +315,21 @@ function dragOverHandler(e) {
 }
 
 function dragStartHandler(e) {
-    e.dataTransfer.setData('', e.target.id);
-
     const source = e.target.closest('.b-drop-zone-draggable');
 
-    if (!source || source.parentElement !== e.currentTarget || source.draggable !== true)
+    if (!source || source.parentElement !== e.currentTarget)
         return;
+
+    const handle = e.target.closest('[data-drag-handle]');
+    const isHandleDrag = handle && source.contains(handle) && handle.draggable === true;
+
+    if (source.dataset.dragDisabled === 'true' || (source.draggable !== true && !isHandleDrag)) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+    }
+
+    e.dataTransfer.setData('', source.id);
 
     clearDragSource();
 
@@ -342,9 +351,9 @@ function dragStartHandler(e) {
     source.addEventListener('dragend', clearDragSource, { once: true });
     dragSource.cleanupId = registerDisconnectCleanup(source, clearDragSource);
 
-    if (reorderZones.has(e.currentTarget)) {
-        // The browser captures the drag image after dragstart. Give it a separate
-        // copy before Blazor hides the connected source element for reordering.
+    if (reorderZones.has(e.currentTarget) || isHandleDrag) {
+        // Preview the whole item when dragging a handle, and keep a separate copy
+        // before Blazor hides the connected source element for reordering.
         const dragImage = source.cloneNode(true);
         dragImage.removeAttribute('id');
         dragImage.removeAttribute('data-reorder-source');

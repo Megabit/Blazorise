@@ -1,0 +1,55 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<DropContainer @ref="dropContainer" TItem="TaskItem" Items="@items" ItemsFilter="@(( item, zone ) => item.Group == zone)" ItemDropped="@OnItemDroppedHandler" Flex="Flex.Column.Row.OnDesktop" Gap="Gap.Is3">
+    <ChildContent>
+        <DropZone TItem="TaskItem" Name="Todo" AllowReorder Border="Border.Is1.Rounded" Padding="Padding.Is3" Flex="Flex.Grow.Is1">
+            <Heading Size="HeadingSize.Is5">To do</Heading>
+        </DropZone>
+        <DropZone TItem="TaskItem" Name="Done" AllowReorder Border="Border.Is1.Rounded" Padding="Padding.Is3" Flex="Flex.Grow.Is1">
+            <Heading Size="HeadingSize.Is5">Done</Heading>
+        </DropZone>
+    </ChildContent>
+    <ItemTemplate>
+        <Card Margin="Margin.Is2.OnY">
+            <CardBody Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                <DragHandle Padding="Padding.Is2">
+                    <Icon Name="IconName.GripVertical" />
+                </DragHandle>
+                <TextInput @bind-Value="@context.Name" />
+                <Button Color="Color.Secondary" Outline Clicked="@(() => OnMoveClickedHandler( context ))">
+                    @( context.Group == "Todo" ? "Complete" : "Reopen" )
+                </Button>
+            </CardBody>
+        </Card>
+    </ItemTemplate>
+</DropContainer>
+
+@code {
+    private DropContainer<TaskItem> dropContainer;
+
+    private readonly List<TaskItem> items = new()
+    {
+        new() { Name = "Review the proposal", Group = "Todo" },
+        new() { Name = "Prepare the demo", Group = "Todo" },
+        new() { Name = "Share the notes", Group = "Done" },
+    };
+
+    private void OnItemDroppedHandler( DraggableDroppedEventArgs<TaskItem> args )
+    {
+        args.Item.Group = args.DropZoneName;
+    }
+
+    private void OnMoveClickedHandler( TaskItem item )
+    {
+        item.Group = item.Group == "Todo" ? "Done" : "Todo";
+
+        dropContainer?.Refresh();
+    }
+
+    public class TaskItem
+    {
+        public string Name { get; set; }
+
+        public string Group { get; set; }
+    }
+}

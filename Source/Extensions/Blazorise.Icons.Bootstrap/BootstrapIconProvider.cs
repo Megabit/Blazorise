@@ -175,6 +175,7 @@ class BootstrapIconProvider : BaseIconProvider
         { IconName.Globe, BootstrapIcons.Globe },
         { IconName.Grin, BootstrapIcons.EmojiWink },
         { IconName.GripLines, BootstrapIcons.GripHorizontal },
+        { IconName.GripVertical, BootstrapIcons.GripVertical },
         { IconName.Headphones, BootstrapIcons.Headphones },
         { IconName.Headset, BootstrapIcons.Headset },
         { IconName.Heart, BootstrapIcons.Heart },
