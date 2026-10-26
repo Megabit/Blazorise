@@ -2907,19 +2907,29 @@ public class TailwindClassProvider : ClassProvider
             : null;
 
         if ( flexDefinition.Direction != FlexDirection.Default )
-            sb.Append( "flex-" ).Append( breakpoint ).Append( ToDirection( flexDefinition.Direction ) );
+        {
+            sb.Append( breakpoint ).Append( "flex-" ).Append( ToDirection( flexDefinition.Direction ) );
+        }
 
         if ( flexDefinition.JustifyContent != FlexJustifyContent.Default )
-            sb.Append( "justify-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
+        {
+            sb.Append( breakpoint ).Append( "justify-" ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
+        }
 
         if ( flexDefinition.AlignItems != FlexAlignItems.Default )
-            sb.Append( "items-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
+        {
+            sb.Append( breakpoint ).Append( "items-" ).Append( ToAlignItems( flexDefinition.AlignItems ) );
+        }
 
         if ( flexDefinition.AlignSelf != FlexAlignSelf.Default )
-            sb.Append( "self-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
+        {
+            sb.Append( breakpoint ).Append( "self-" ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
+        }
 
         if ( flexDefinition.AlignContent != FlexAlignContent.Default )
-            sb.Append( "content-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
+        {
+            sb.Append( breakpoint ).Append( "content-" ).Append( ToAlignContent( flexDefinition.AlignContent ) );
+        }
 
         if ( flexDefinition.GrowShrink != FlexGrowShrink.Default && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.Default )
         {
@@ -2927,16 +2937,24 @@ public class TailwindClassProvider : ClassProvider
         }
 
         if ( flexDefinition.Basis && flexDefinition.BasisSize != FlexBasisSize.Default )
+        {
             sb.Append( breakpoint ).Append( "basis-" ).Append( ToBasisSize( flexDefinition.BasisSize ) );
+        }
 
         if ( flexDefinition.Wrap != FlexWrap.Default )
-            sb.Append( "flex-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
+        {
+            sb.Append( breakpoint ).Append( "flex-" ).Append( ToWrap( flexDefinition.Wrap ) );
+        }
 
         if ( flexDefinition.Order != FlexOrder.Default )
-            sb.Append( "order-" ).Append( breakpoint ).Append( ToOrder( flexDefinition.Order ) );
+        {
+            sb.Append( breakpoint ).Append( "order-" ).Append( ToOrder( flexDefinition.Order ) );
+        }
 
         if ( flexDefinition.Fill )
-            sb.Append( "flex-" ).Append( breakpoint ).Append( "auto" );
+        {
+            sb.Append( breakpoint ).Append( "flex-auto" );
+        }
 
         return sb.ToString();
     }
