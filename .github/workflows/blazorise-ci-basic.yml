@@ -10,10 +10,10 @@ jobs:
     steps:
     - uses: actions/checkout@v5
 
-    - name: Setup .NET 11 RC2
+    - name: Setup .NET 11 RC3
       uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: '11.0.100-rc.2.26504.105'
+        dotnet-version: '11.0.100-rc.3.26522.148'
     
     - name: Restore NuGet Packages
       run: dotnet restore
