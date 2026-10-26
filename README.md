@@ -189,7 +189,7 @@ Commercial plans provide support and additional benefits according to the select
 
 ## Local development
 
-To build this checkout, install the .NET SDK used by [CI](.github/workflows/blazorise-ci-basic.yml), currently `11.0.100-rc.2.26504.105`.
+To build this checkout, install the .NET SDK used by [CI](.github/workflows/blazorise-ci-basic.yml), currently `11.0.100-rc.3.26522.148`.
 
 Use the `DebugNet11` configuration to build libraries, providers, and extensions only for `net11.0`, with debugging symbols and hot reload support for demos. Generators, analyzers, and weavers retain their existing target frameworks. Standard `Debug` and `Release` configurations target .NET 8 through .NET 11.
 

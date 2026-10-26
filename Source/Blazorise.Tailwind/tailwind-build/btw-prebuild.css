@@ -2,6 +2,16 @@
 @import "./btw-colors.css";
 @import "./blazorise.tailwind.css";
 
+/* Flex utilities are assembled dynamically by TailwindClassProvider. */
+@source inline("{sm:,md:,lg:,xl:,2xl:,3xl:,}{flex,inline-flex,flex-row,flex-row-reverse,flex-col,flex-col-reverse,flex-wrap,flex-wrap-reverse,flex-nowrap,flex-auto}");
+@source inline("{sm:,md:,lg:,xl:,2xl:,3xl:,}justify-{start,end,center,between,around}");
+@source inline("{sm:,md:,lg:,xl:,2xl:,3xl:,}items-{start,end,center,baseline,stretch}");
+@source inline("{sm:,md:,lg:,xl:,2xl:,3xl:,}self-{auto,start,end,center,baseline,stretch}");
+@source inline("{sm:,md:,lg:,xl:,2xl:,3xl:,}content-{start,end,center,between,around,stretch}");
+@source inline("{sm:,md:,lg:,xl:,2xl:,3xl:,}{grow,shrink}-{0,1}");
+@source inline("{sm:,md:,lg:,xl:,2xl:,3xl:,}basis-{0,auto,full}");
+@source inline("{sm:,md:,lg:,xl:,2xl:,3xl:,}order-{0..12}");
+
 @utility container {
     margin-right: auto;
     margin-left: auto;
