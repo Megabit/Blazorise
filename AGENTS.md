@@ -47,7 +47,7 @@ Blazorise is a large multi-project repository. Unsolicited command execution:
 
 ---
 
-CI builds with .NET SDK `11.0.100-rc.2.26504.105`. From the repo root:
+CI builds with .NET SDK `11.0.100-rc.3.26522.148`. From the repo root:
 
 ```powershell
 dotnet restore

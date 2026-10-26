@@ -5,7 +5,7 @@ Contributions to Blazorise are reviewed through GitHub pull requests. You can he
 ## Getting started
 
 1. Fork the repository and clone your fork.
-2. Install the .NET SDK used by [CI](workflows/blazorise-ci-basic.yml), currently `11.0.100-rc.2.26504.105`. An editor or IDE must support this SDK to build the solution.
+2. Install the .NET SDK used by [CI](workflows/blazorise-ci-basic.yml), currently `11.0.100-rc.3.26522.148`. An editor or IDE must support this SDK to build the solution.
 3. Create a working branch from the appropriate target branch:
 
 | Change | PR target | Working branch example |
