@@ -213,8 +213,8 @@
                                     <ChildContent>
                                         @rowFragment( item )
                                     </ChildContent>
-                                    <Placeholder>
-                                        <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                                    <Placeholder Context="placeholderContext">
+                                        <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns" Height="@Blazorise.Height.Px( placeholderContext.Size )" RenderUpdates>
                                             &nbsp;@loadingFragment
                                         </_DataGridFullColumnSpanRow>
                                     </Placeholder>
@@ -226,8 +226,8 @@
                                     <ChildContent>
                                         @rowFragment( item )
                                     </ChildContent>
-                                    <Placeholder>
-                                        <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                                    <Placeholder Context="placeholderContext">
+                                        <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns" Height="@Blazorise.Height.Px( placeholderContext.Size )" RenderUpdates>
                                             &nbsp;@loadingFragment
                                         </_DataGridFullColumnSpanRow>
                                     </Placeholder>

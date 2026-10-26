@@ -48,6 +48,11 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
     [Parameter] public IReadOnlyList<DataGridColumn<TItem>> Columns { get; set; }
 
     /// <summary>
+    /// Gets or sets the row height.
+    /// </summary>
+    [Parameter] public IFluentSizing Height { get; set; }
+
+    /// <summary>
     /// Specifies the parent <see cref="DataGrid{TItem}"/> of the this component.
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
