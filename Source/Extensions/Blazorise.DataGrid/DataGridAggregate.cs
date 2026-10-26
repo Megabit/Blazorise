@@ -172,7 +172,12 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
     #region Properties
 
     /// <summary>
-    /// To bind a column to a data source field, set this property to the required data field name.
+    /// Gets or sets the case-sensitive <see cref="BaseDataGridColumn{TItem}.Name"/> of the target column. When non-empty, takes precedence over <see cref="Field"/> and does not fall back to field matching.
+    /// </summary>
+    [Parameter] public string ColumnName { get; set; }
+
+    /// <summary>
+    /// Gets or sets the data field of the target column. Used when <see cref="ColumnName"/> is null or empty.
     /// </summary>
     [Parameter] public string Field { get; set; }
 

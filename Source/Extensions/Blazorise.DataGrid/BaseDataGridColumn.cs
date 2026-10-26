@@ -29,6 +29,11 @@ public class BaseDataGridColumn<TItem> : BaseDataGridComponent
     #region Properties
 
     /// <summary>
+    /// Gets or sets an optional, case-sensitive name that uniquely identifies this column within the grid, independently of <see cref="Field"/>.
+    /// </summary>
+    [Parameter] public string Name { get; set; }
+
+    /// <summary>
     /// To bind a column to a data source field, set this property to the required data field name.
     /// </summary>
     [Parameter] public string Field { get; set; }

@@ -1,0 +1,50 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<DataGrid TItem="OrderLine" Data="@orderLines" Responsive>
+    <DataGridColumns>
+        <DataGridColumn Field="@nameof( OrderLine.Product )" Caption="Product" />
+        <DataGridColumn Field="@nameof( OrderLine.Quantity )" Caption="Quantity" />
+        <DataGridColumn Field="@nameof( OrderLine.UnitPrice )" Caption="Unit price" DisplayFormat="0.00" />
+        <DataGridColumn Name="LineTotal" Caption="Line total" Filterable="false" Sortable="false">
+            <DisplayTemplate>
+                @( CalculateLineTotal( context.Item ).ToString( "0.00" ) )
+            </DisplayTemplate>
+        </DataGridColumn>
+        <DataGridColumn Name="TaxTotal" Caption="Tax (20%)" Filterable="false" Sortable="false">
+            <DisplayTemplate>
+                @( CalculateTaxTotal( context.Item ).ToString( "0.00" ) )
+            </DisplayTemplate>
+        </DataGridColumn>
+    </DataGridColumns>
+    <DataGridAggregates>
+        <DataGridAggregate Field="@nameof( OrderLine.Quantity )" Aggregate="DataGridAggregateType.Sum" />
+        <DataGridAggregate TItem="OrderLine" ColumnName="LineTotal" AggregationFunction="@SumLineTotals" DisplayFormat="0.00" />
+        <DataGridAggregate TItem="OrderLine" ColumnName="TaxTotal" AggregationFunction="@SumTaxTotals" DisplayFormat="0.00" />
+    </DataGridAggregates>
+</DataGrid>
+
+@code {
+    private readonly List<OrderLine> orderLines = new()
+    {
+        new() { Product = "Notebook", Quantity = 3, UnitPrice = 5m },
+        new() { Product = "Pen", Quantity = 4, UnitPrice = 2m },
+        new() { Product = "Folder", Quantity = 2, UnitPrice = 3m },
+    };
+
+    private decimal CalculateLineTotal( OrderLine item ) => item.Quantity * item.UnitPrice;
+
+    private decimal CalculateTaxTotal( OrderLine item ) => CalculateLineTotal( item ) * 0.2m;
+
+    private object SumLineTotals( IEnumerable<OrderLine> data, DataGridColumn<OrderLine> column ) => data.Sum( CalculateLineTotal );
+
+    private object SumTaxTotals( IEnumerable<OrderLine> data, DataGridColumn<OrderLine> column ) => data.Sum( CalculateTaxTotal );
+
+    public class OrderLine
+    {
+        public string Product { get; set; }
+
+        public int Quantity { get; set; }
+
+        public decimal UnitPrice { get; set; }
+    }
+}
