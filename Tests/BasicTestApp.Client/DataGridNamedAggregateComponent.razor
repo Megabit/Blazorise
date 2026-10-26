@@ -1,0 +1,47 @@
+<DataGrid TItem="Item" Data="@items" AggregateRowPosition="DataGridAggregateRowPosition.Bottom">
+    <DataGridColumns>
+        <DataGridColumn Name="Amount" Field="@nameof( Item.Amount )" />
+        <DataGridColumn Name="AlternateAmount" Field="@nameof( Item.Amount )" />
+        <DataGridColumn Name="First" Caption="First" />
+        <DataGridColumn Name="Second" Caption="Second" />
+    </DataGridColumns>
+    <DataGridAggregates>
+        <DataGridAggregateRow>
+            <DataGridAggregate ColumnName="@TargetColumnName" Field="@nameof( Item.Amount )">
+                <DisplayTemplate>Targeted total</DisplayTemplate>
+            </DataGridAggregate>
+            <DataGridAggregate Field="@nameof( Item.Amount )" Aggregate="DataGridAggregateType.Sum" />
+            <DataGridAggregate ColumnName="AlternateAmount" Aggregate="DataGridAggregateType.Max" />
+            <DataGridAggregate TItem="Item" ColumnName="First" AggregationFunction="@CalculateDoubleTotal" />
+            <DataGridAggregate ColumnName="Second">
+                <DisplayTemplate>Custom total</DisplayTemplate>
+            </DataGridAggregate>
+        </DataGridAggregateRow>
+        <DataGridAggregateRow>
+            <DataGridAggregate ColumnName="First">
+                <DisplayTemplate>First summary</DisplayTemplate>
+            </DataGridAggregate>
+            <DataGridAggregate ColumnName="Second">
+                <DisplayTemplate>Second summary</DisplayTemplate>
+            </DataGridAggregate>
+        </DataGridAggregateRow>
+    </DataGridAggregates>
+</DataGrid>
+
+@code {
+    private readonly List<Item> items = new()
+    {
+        new() { Amount = 2 },
+        new() { Amount = 3 },
+    };
+
+    [Parameter] public string TargetColumnName { get; set; } = "Missing";
+
+    private object CalculateDoubleTotal( IEnumerable<Item> data, DataGridColumn<Item> column )
+        => data.Sum( item => item.Amount * 2 );
+
+    public class Item
+    {
+        public int Amount { get; set; }
+    }
+}

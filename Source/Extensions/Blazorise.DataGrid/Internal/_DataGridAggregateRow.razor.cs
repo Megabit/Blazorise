@@ -1,5 +1,6 @@
 #region Using directives
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -11,6 +12,24 @@ namespace Blazorise.DataGrid.Internal;
 public partial class _DataGridAggregateRow<TItem> : BaseDataGridComponent
 {
     #region Methods
+
+    /// <summary>
+    /// Resolves an aggregate by column name before falling back to aggregates that only specify a field.
+    /// </summary>
+    protected DataGridAggregate<TItem> ResolveAggregate( DataGridColumn<TItem> column )
+    {
+        if ( !string.IsNullOrEmpty( column.Name ) )
+        {
+            var namedAggregate = Aggregates.FirstOrDefault( x => x.ColumnName == column.Name );
+
+            if ( namedAggregate is not null )
+            {
+                return namedAggregate;
+            }
+        }
+
+        return Aggregates.FirstOrDefault( x => string.IsNullOrEmpty( x.ColumnName ) && x.Field == column.Field );
+    }
 
     /// <summary>
     /// Calculates aggregate values for the current grid data.
