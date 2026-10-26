@@ -10760,6 +10760,11 @@ body.modal-open {
   transition-behavior: allow-discrete;
 }
 @starting-style {
+  .mui-tooltip-content {
+    visibility: hidden;
+  }
+}
+@starting-style {
   .mui-tooltip:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .mui-tooltip-content {
     opacity: 0;
   }

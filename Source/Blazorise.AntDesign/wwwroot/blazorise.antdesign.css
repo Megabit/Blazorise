@@ -11765,6 +11765,11 @@ a.ant-typography-disabled[aria-disabled=true] {
   transition-behavior: allow-discrete;
 }
 @starting-style {
+  .ant-tooltip {
+    visibility: hidden;
+  }
+}
+@starting-style {
   .ant-tooltip-host:is([data-tooltip-animation=auto], [data-tooltip-animation~=fade]) > .ant-tooltip {
     opacity: 0;
   }
