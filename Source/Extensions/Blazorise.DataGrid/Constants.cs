@@ -17,6 +17,10 @@ static class Constants
     internal static readonly IFluentDisplay DisplayNoneOnMobileInlineFlexRowOnDesktop = Display.None.OnMobile.InlineFlex.Row.OnDesktop;
 
     // Margins
+    internal static readonly IFluentSpacing MarginIs0 = Margin.Is0;
+
+    internal static readonly IFluentSpacing MarginIs3FromBottom = Margin.Is3.FromBottom;
+
     internal static readonly IFluentSpacing MarginIsAutoOnX = Margin.IsAuto.OnX;
     internal static readonly IFluentSpacing MarginIsAutoFromStart = Margin.IsAuto.FromStart;
     internal static readonly IFluentSpacing MarginIs1FromStart = Margin.Is1.FromStart;

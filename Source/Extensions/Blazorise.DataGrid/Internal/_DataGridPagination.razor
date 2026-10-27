@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @inherits BaseComponent
-<Row class="@ClassNames" style="@StyleNames" Flex="FlexJustifyContentBetween" @attributes="@Attributes">
+<Row class="@ClassNames" style="@StyleNames" Flex="FlexJustifyContentBetween" Margin="MarginIs3FromBottom" @attributes="@Attributes">
     <Column ColumnSize="ColumnSizeIsAuto" Flex="FlexRow">
         @if ( GetButtonRowPosition() == PagerElementPosition.Start || GetButtonRowPosition() == PagerElementPosition.Default )
         {
@@ -185,7 +185,7 @@
     {
         @if ( ShowPager && !ParentDataGrid.Virtualize )
         {
-            <Pagination Size="@GetSize()">
+            <Pagination Size="@GetSize()" Margin="MarginIs0">
                 <PaginationItem Disabled="@(PaginationContext.Page <= 1)">
                     <PaginationLink Page="first" Clicked="@OnPaginationItemClick">
                         @if ( FirstPageButtonTemplate is not null )
