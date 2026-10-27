@@ -39,6 +39,7 @@ static class Constants
     internal static readonly IFluentFlex FlexRowAlignItemsCenter = Flex.AlignItems.Center;
 
     // Padding
+    internal static readonly IFluentSpacing PaddingIs1OnXIs0OnY = Padding.Is1.OnX.Is0.OnY;
     internal static readonly IFluentSpacing PaddingIs2OnXIs2OnY = Padding.Is2.OnX.Is2.OnY;
     internal static readonly IFluentSpacing PaddingIs3 = Padding.Is3;
     internal static readonly IFluentSpacing PaddingIs2 = Padding.Is2;

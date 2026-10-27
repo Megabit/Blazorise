@@ -95,38 +95,34 @@
                                     }
                                     else
                                     {
-                                        <TableHeaderCell Draggable="@(( IsGroupableByColumn && column.Groupable ) || column.Reorderable)" DragStart="@(() => OnColumnDragStarted( column ))" DragEnter="@(() => OnColumnDragEnter( column ))" DragEnd="@OnColumnDragEnded" ondragover="event.preventDefault();" Drop="@(() => OnColumnDropped( column ))" Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ))" TextAlignment="@column.HeaderCellTextAlignment" TextTransform="@column.HeaderCellTextTransform" TextDecoration="@column.HeaderCellTextDecoration" TextWeight="@column.HeaderCellTextWeight" TextOverflow="@column.HeaderCellTextOverflow" TextSize="@column.HeaderCellTextSize" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap" FixedPosition="@column.FixedPosition" Width="@column.Width">
+                                        <TableHeaderCell Draggable="@(( IsGroupableByColumn && column.Groupable ) || column.Reorderable)" DragStart="@(() => OnColumnDragStarted( column ))" DragEnter="@(() => OnColumnDragEnter( column ))" DragEnd="@OnColumnDragEnded" ondragover="event.preventDefault();" Drop="@(() => OnColumnDropped( column ))" Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ))" aria-sort="@column.SortDirectionString" TextAlignment="@column.HeaderCellTextAlignment" TextTransform="@column.HeaderCellTextTransform" TextDecoration="@column.HeaderCellTextDecoration" TextWeight="@column.HeaderCellTextWeight" TextOverflow="@column.HeaderCellTextOverflow" TextSize="@column.HeaderCellTextSize" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap" FixedPosition="@column.FixedPosition" Width="@column.Width">
                                             <Div Flex="FlexInlineFlexAlignItemsCenterJustifyContentCenter" Gap="GapIs2">
                                                 @if ( IsGroupableByColumn && column.Groupable )
                                                 {
                                                     <Icon Name="@IconName.GripVertical" Margin="MarginIs1FromEnd" Style="cursor:move" />
                                                 }
-                                                @if ( column.ShowCaption )
-                                                {
-                                                    @if ( column.CaptionTemplate != null )
-                                                    {
-                                                        @column.CaptionTemplate( column )
-                                                    }
-                                                    else
-                                                    {
-                                                        @column.Caption
-                                                    }
-                                                }
-
                                                 @if ( Sortable && column.Sortable )
                                                 {
-                                                    if ( column.SortDirectionTemplate != null )
-                                                    {
-                                                        @column.SortDirectionTemplate( new SortDirectionContext<TItem>( this, column, column.CurrentSortDirection ) )
-                                                    }
-                                                    else if ( column.CurrentSortDirection == SortDirection.Default && ShowDefaultSortIcon )
-                                                    {
-                                                        <Icon Name="@IconName.Sort" />
-                                                    }
-                                                    else if ( column.CurrentSortDirection != SortDirection.Default )
-                                                    {
-                                                        <Icon Name="@(column.CurrentSortDirection == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
-                                                    }
+                                                    <Button Type="ButtonType.Button" Ghost Active="@(column.CurrentSortDirection != SortDirection.Default)" Padding="PaddingIs1OnXIs0OnY" Flex="FlexInlineFlexAlignItemsCenterJustifyContentCenter" Gap="GapIs2" Style="font: inherit;" aria-label="@(column.ShowCaption ? null : column.Caption)">
+                                                        @RenderHeaderCaption( column )
+
+                                                        @if ( column.SortDirectionTemplate != null )
+                                                        {
+                                                            @column.SortDirectionTemplate( new SortDirectionContext<TItem>( this, column, column.CurrentSortDirection ) )
+                                                        }
+                                                        else if ( column.CurrentSortDirection == SortDirection.Default && ShowDefaultSortIcon )
+                                                        {
+                                                            <Icon Name="@IconName.Sort" />
+                                                        }
+                                                        else if ( column.CurrentSortDirection != SortDirection.Default )
+                                                        {
+                                                            <Icon Name="@(column.CurrentSortDirection == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
+                                                        }
+                                                    </Button>
+                                                }
+                                                else
+                                                {
+                                                    @RenderHeaderCaption( column )
                                                 }
 
                                                 @if ( Filterable && column.Filterable && ( ( column.FilterMode.HasValue && column.FilterMode == DataGridFilterMode.Menu ) || ( !column.FilterMode.HasValue && FilterMode == DataGridFilterMode.Menu ) ) )
@@ -323,6 +319,21 @@
             else
             {
                 <_DataGridLoadingIndicator TItem="TItem" />
+            }
+        }
+    };
+
+    private RenderFragment RenderHeaderCaption( DataGridColumn<TItem> column ) => __builder =>
+    {
+        @if ( column.ShowCaption )
+        {
+            @if ( column.CaptionTemplate is not null )
+            {
+                @column.CaptionTemplate( column )
+            }
+            else
+            {
+                @column.Caption
             }
         }
     };

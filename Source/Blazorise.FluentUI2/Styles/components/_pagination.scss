@@ -44,7 +44,7 @@
     vertical-align: middle;
     margin: 0px;
     padding: 0px;
-    overflow: hidden;
+    overflow: visible;
     background-color: var(--colorNeutralBackground1);
     color: var(--colorNeutralForeground1);
     font-family: var(--fontFamilyBase);
@@ -87,6 +87,20 @@
         margin-inline-start: var(--spacingHorizontalXXS);
     }
 
+    &:not(.fui-PaginationItem-disabled) {
+        .fui-PaginationLink {
+            &:hover {
+                color: var(--colorBrandForegroundLinkHover);
+                background-color: var(--colorNeutralBackground1Hover);
+            }
+
+            &:active {
+                color: var(--colorBrandForegroundLinkPressed);
+                background-color: var(--colorNeutralBackground1Pressed);
+            }
+        }
+    }
+
     &.fui-PaginationItem-active {
         .fui-PaginationLink.fui-PaginationLink-active {
             z-index: 3;
@@ -96,7 +110,7 @@
         }
     }
 
-    &.fui-PaginationItem-disabled {
+    &.fui-PaginationItem-disabled:not(.fui-PaginationItem-active) {
         .fui-PaginationLink.fui-PaginationLink-disabled {
             z-index: 3;
             color: var(--colorNeutralForegroundDisabled);

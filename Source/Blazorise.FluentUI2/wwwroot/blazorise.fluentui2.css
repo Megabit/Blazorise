@@ -14257,7 +14257,7 @@ input::file-selector-button {
   vertical-align: middle;
   margin: 0px;
   padding: 0px;
-  overflow: hidden;
+  overflow: visible;
   background-color: var(--colorNeutralBackground1);
   color: var(--colorNeutralForeground1);
   font-family: var(--fontFamilyBase);
@@ -14298,13 +14298,21 @@ input::file-selector-button {
 .fui-PaginationItem + .fui-PaginationItem {
   margin-inline-start: var(--spacingHorizontalXXS);
 }
+.fui-PaginationItem:not(.fui-PaginationItem-disabled) .fui-PaginationLink:hover {
+  color: var(--colorBrandForegroundLinkHover);
+  background-color: var(--colorNeutralBackground1Hover);
+}
+.fui-PaginationItem:not(.fui-PaginationItem-disabled) .fui-PaginationLink:active {
+  color: var(--colorBrandForegroundLinkPressed);
+  background-color: var(--colorNeutralBackground1Pressed);
+}
 .fui-PaginationItem.fui-PaginationItem-active .fui-PaginationLink.fui-PaginationLink-active {
   z-index: 3;
   color: var(--colorNeutralForegroundOnBrand);
   background-color: var(--colorBrandBackground);
   border-color: var(--colorBrandBackground);
 }
-.fui-PaginationItem.fui-PaginationItem-disabled .fui-PaginationLink.fui-PaginationLink-disabled {
+.fui-PaginationItem.fui-PaginationItem-disabled:not(.fui-PaginationItem-active) .fui-PaginationLink.fui-PaginationLink-disabled {
   z-index: 3;
   color: var(--colorNeutralForegroundDisabled);
   border-bottom-color: var(--colorNeutralStrokeDisabled);

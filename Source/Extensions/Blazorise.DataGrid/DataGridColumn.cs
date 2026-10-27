@@ -719,6 +719,19 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     internal IFluentGap AggregateCellGap
         => AggregateGap ?? Gap;
 
+    /// <summary>
+    /// Gets the sort direction for the header's aria-sort attribute.
+    /// </summary>
+    internal string SortDirectionString
+        => ParentDataGrid.Sortable && Sortable
+            ? CurrentSortDirection switch
+            {
+                SortDirection.Ascending => "ascending",
+                SortDirection.Descending => "descending",
+                _ => "none",
+            }
+            : null;
+
     internal bool IsDisplayable => ( ColumnType == DataGridColumnType.Command && ParentDataGrid.EditMode == DataGridEditMode.Inline );
 
     internal bool IsRegularColumn => !( ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect );
