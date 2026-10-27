@@ -17,6 +17,10 @@ static class Constants
     internal static readonly IFluentDisplay DisplayNoneOnMobileInlineFlexRowOnDesktop = Display.None.OnMobile.InlineFlex.Row.OnDesktop;
 
     // Margins
+    internal static readonly IFluentSpacing MarginIs0 = Margin.Is0;
+
+    internal static readonly IFluentSpacing MarginIs3FromBottom = Margin.Is3.FromBottom;
+
     internal static readonly IFluentSpacing MarginIsAutoOnX = Margin.IsAuto.OnX;
     internal static readonly IFluentSpacing MarginIsAutoFromStart = Margin.IsAuto.FromStart;
     internal static readonly IFluentSpacing MarginIs1FromStart = Margin.Is1.FromStart;
@@ -39,6 +43,7 @@ static class Constants
     internal static readonly IFluentFlex FlexRowAlignItemsCenter = Flex.AlignItems.Center;
 
     // Padding
+    internal static readonly IFluentSpacing PaddingIs1OnXIs0OnY = Padding.Is1.OnX.Is0.OnY;
     internal static readonly IFluentSpacing PaddingIs2OnXIs2OnY = Padding.Is2.OnX.Is2.OnY;
     internal static readonly IFluentSpacing PaddingIs3 = Padding.Is3;
     internal static readonly IFluentSpacing PaddingIs2 = Padding.Is2;

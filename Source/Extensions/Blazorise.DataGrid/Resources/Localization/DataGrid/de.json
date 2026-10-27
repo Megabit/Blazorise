@@ -12,6 +12,7 @@
     "Last": "Ende",
     "Prev": "Zurück",
     "Next": "Weiter",
+    "Page": "Seite",
     "items": "Zeilen",
     "items per page": "Zeilen pro Seite",
     "{0} - {1} of {2} items": "Zeilen {0} - {1} von {2}",

@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @inherits BaseComponent
-<Row class="@ClassNames" style="@StyleNames" Flex="FlexJustifyContentBetween" @attributes="@Attributes">
+<Row class="@ClassNames" style="@StyleNames" Flex="FlexJustifyContentBetween" Margin="MarginIs3FromBottom" @attributes="@Attributes">
     <Column ColumnSize="ColumnSizeIsAuto" Flex="FlexRow">
         @if ( GetButtonRowPosition() == PagerElementPosition.Start || GetButtonRowPosition() == PagerElementPosition.Default )
         {
@@ -185,7 +185,7 @@
     {
         @if ( ShowPager && !ParentDataGrid.Virtualize )
         {
-            <Pagination Size="@GetSize()">
+            <Pagination Size="@GetSize()" Margin="MarginIs0">
                 <PaginationItem Disabled="@(PaginationContext.Page <= 1)">
                     <PaginationLink Page="first" Clicked="@OnPaginationItemClick">
                         @if ( FirstPageButtonTemplate is not null )
@@ -236,7 +236,7 @@
                     }
                     else
                     {
-                        <Select @bind-Value="@PaginationContext.Page" Size="GetSize()">
+                        <Select @bind-Value="@PaginationContext.Page" Size="GetSize()" aria-label="@Localizer.Localize( ParentDataGrid.Localizers?.PageSelectorLocalizer, "Page" )">
                             @for ( int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i )
                             {
                                 var pageNumber = i;
@@ -278,7 +278,7 @@
                         }
                         else
                         {
-                            <Select Size="@GetSize()" @bind-Value="@PaginationContext.PageSize">
+                            <Select Size="@GetSize()" @bind-Value="@PaginationContext.PageSize" aria-label="@Localizer.Localize( ParentDataGrid.Localizers?.ItemsPerPageLocalizer, "items per page" )">
                                 @foreach ( var curPageSize in PaginationContext.PageSizes )
                                 {
                                     <SelectItem Value="@curPageSize">@curPageSize</SelectItem>
@@ -286,7 +286,7 @@
                             </Select>
                         }
                     </PaginationItem>
-                    <Field Margin="MarginIsAutoOnYIs2FromStart" Flex="FlexRowAlignItemsCenter" Display="DisplayNoneOnMobileInlineFlexRowOnDesktop">
+                    <PaginationItem Margin="MarginIsAutoOnYIs2FromStart" Flex="FlexRowAlignItemsCenter" Display="DisplayNoneOnMobileInlineFlexRowOnDesktop">
                         @if ( ItemsPerPageTemplate is not null )
                         {
                             @ItemsPerPageTemplate
@@ -295,7 +295,7 @@
                         {
                             <Text>@Localizer.Localize( ParentDataGrid.Localizers?.ItemsPerPageLocalizer, "items per page" )</Text>
                         }
-                    </Field>
+                    </PaginationItem>
                 }
             </Pagination>
         }

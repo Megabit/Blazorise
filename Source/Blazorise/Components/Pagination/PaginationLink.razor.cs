@@ -60,6 +60,11 @@ public partial class PaginationLink : BaseComponent
     #region Properties
 
     /// <summary>
+    /// Gets the link destination when the pagination item is enabled.
+    /// </summary>
+    protected string HrefString => ParentPaginationItemState.Disabled ? null : "#";
+
+    /// <summary>
     /// Specifies the page name.
     /// </summary>
     [Parameter] public string Page { get; set; }

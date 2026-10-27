@@ -61,6 +61,20 @@
             margin-inline-end: 0;
         }
 
+        &.ant-pagination-item:not(:has(.ant-pagination-link)) {
+            cursor: default;
+            user-select: text;
+
+            &,
+            &:hover,
+            &:active,
+            &:focus-visible {
+                background-color: transparent;
+                border-color: transparent;
+                box-shadow: none;
+            }
+        }
+
         > .ant-pagination-link {
             display: flex;
             align-items: center;

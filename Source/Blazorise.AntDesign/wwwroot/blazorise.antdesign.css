@@ -8891,6 +8891,15 @@ a.ant-typography-disabled[aria-disabled=true] {
 .ant-pagination > li:last-child {
   margin-inline-end: 0;
 }
+.ant-pagination > li.ant-pagination-item:not(:has(.ant-pagination-link)) {
+  cursor: default;
+  user-select: text;
+}
+.ant-pagination > li.ant-pagination-item:not(:has(.ant-pagination-link)), .ant-pagination > li.ant-pagination-item:not(:has(.ant-pagination-link)):hover, .ant-pagination > li.ant-pagination-item:not(:has(.ant-pagination-link)):active, .ant-pagination > li.ant-pagination-item:not(:has(.ant-pagination-link)):focus-visible {
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
 .ant-pagination > li > .ant-pagination-link {
   display: flex;
   align-items: center;
