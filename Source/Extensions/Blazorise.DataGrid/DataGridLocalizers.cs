@@ -75,6 +75,11 @@ public class DataGridLocalizers
     public TextLocalizerHandler NextPageButtonLocalizer { get; set; }
 
     /// <summary>
+    /// Custom localization handler for the page selector's accessible label.
+    /// </summary>
+    public TextLocalizerHandler PageSelectorLocalizer { get; set; }
+
+    /// <summary>
     /// Custom localization handler for 'items' text.
     /// </summary>
     public TextLocalizerHandler ItemsLocalizer { get; set; }
