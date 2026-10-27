@@ -83,6 +83,12 @@
         border-radius: var(--borderRadiusMedium);
     }
 
+    &:not(:has(.fui-PaginationLink)) {
+        font-weight: var(--fontWeightRegular);
+        background-color: transparent;
+        cursor: default;
+    }
+
     + .fui-PaginationItem {
         margin-inline-start: var(--spacingHorizontalXXS);
     }
