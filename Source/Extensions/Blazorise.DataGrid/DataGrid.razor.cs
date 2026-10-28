@@ -323,6 +323,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             if ( dataGridState.ColumnFilterStates.IsNullOrEmpty() )
             {
                 ResetFiltering();
+                CommitFilters();
             }
             else
             {
@@ -340,6 +341,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     }
                 }
 
+                CommitFilters();
                 FilterData();
             }
 
@@ -504,6 +506,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         Columns.Add( column );
+
+        if ( FilterApplyMode == DataGridFilterApplyMode.Deferred )
+        {
+            column.ApplyFilter();
+        }
 
         if ( column.Grouping )
             AddGroupColumn( column, true );
@@ -683,6 +690,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         var dataChanged = false;
         var totalItemsChanged = parameters.TryGetValue<int?>( nameof( TotalItems ), out var paramTotalItems ) && paramTotalItems != TotalItems;
         var expandedRowsChanged = parameters.TryGetValue<IList<TItem>>( nameof( ExpandedRows ), out var changedExpandedRows );
+
+        var filterApplyModeChanged = parameters.TryGetValue<DataGridFilterApplyMode>( nameof( FilterApplyMode ), out var paramFilterApplyMode ) && paramFilterApplyMode != FilterApplyMode;
+
+        if ( filterApplyModeChanged )
+        {
+            CommitFilters();
+            SetDirty();
+        }
 
         if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) )
         {
@@ -2161,7 +2176,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             column.Filter.SearchValue = null;
         }
 
-        return Reload();
+        return FilterApplyMode == DataGridFilterApplyMode.Deferred ? InvokeAsync( StateHasChanged ) : Reload();
     }
 
     /// <summary>
@@ -2181,7 +2196,49 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             }
         }
 
-        return Reload();
+        return FilterApplyMode == DataGridFilterApplyMode.Deferred ? InvokeAsync( StateHasChanged ) : Reload();
+    }
+
+    /// <summary>
+    /// Applies all pending column filters and reloads the grid from the first page.
+    /// </summary>
+    /// <remarks>
+    /// Like <see cref="Reload"/>, this method does nothing while the grid is loading.
+    /// </remarks>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task ApplyFilters()
+    {
+        if ( IsLoading )
+        {
+            return;
+        }
+
+        ResetFilterCts();
+        CommitFilters();
+
+        var pageChanged = Page != 1;
+        paginationContext.ResetPage();
+        virtualizeFilterChanged = true;
+
+        if ( pageChanged )
+        {
+            await PageChanged.InvokeAsync( Page );
+        }
+
+        if ( Virtualize && !VirtualizeManualReadMode )
+        {
+            await VirtualizeScrollToTop();
+        }
+
+        await Reload( filterCancellationTokenSource.Token );
+    }
+
+    private void CommitFilters()
+    {
+        foreach ( var column in Columns )
+        {
+            column.ApplyFilter();
+        }
     }
 
     /// <summary>
@@ -3076,16 +3133,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 {
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
-                            where column.CustomFilter( cellRealValue, column.Filter.SearchValue )
+                            where column.CustomFilter( cellRealValue, column.EffectiveSearchValue )
                             select item;
                 }
                 else
                 {
-                    var currentFilterMode = column.GetFilterMethod() ?? column.GetDataGridFilterMethodAsColumn();
+                    var currentFilterMode = column.EffectiveFilterMethod;
 
                     if ( currentFilterMode == DataGridColumnFilterMethod.Between )
                     {
-                        var rangeSearchValues = column.Filter.SearchValue as object[];
+                        var rangeSearchValues = column.EffectiveSearchValue as object[];
 
                         if ( rangeSearchValues is null || rangeSearchValues.Length < 2 )
                             continue;
@@ -3102,7 +3159,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                         continue;
                     }
 
-                    var stringSearchValue = column.Filter.SearchValue?.ToString();
+                    var stringSearchValue = column.EffectiveSearchValue?.ToString();
 
                     if ( string.IsNullOrEmpty( stringSearchValue ) )
                         continue;
@@ -3161,10 +3218,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     protected internal Task OnFilterChanged( DataGridColumn<TItem> column, object value )
     {
+        column.Filter.SearchValue = value;
+
+        if ( FilterApplyMode == DataGridFilterApplyMode.Deferred )
+        {
+            return Task.CompletedTask;
+        }
+
         ResetFilterCts();
 
         virtualizeFilterChanged = true;
-        column.Filter.SearchValue = value;
         return Reload( filterCancellationTokenSource.Token );
     }
 
@@ -4515,6 +4578,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Specifies the filter mode.
     /// </summary>
     [Parameter] public DataGridFilterMode FilterMode { get; set; }
+
+    /// <summary>
+    /// Determines when column filter changes are applied. Defaults to <see cref="DataGridFilterApplyMode.Immediate"/>.
+    /// </summary>
+    /// <remarks>
+    /// In deferred mode, editing or clearing column filters does not reload data. Call <see cref="ApplyFilters"/>
+    /// to apply pending values and operators. Paging, sorting, and <see cref="Reload"/> use the last applied filters.
+    /// </remarks>
+    [Parameter] public DataGridFilterApplyMode FilterApplyMode { get; set; }
 
     /// <summary>
     /// Determines whether the data will be grouped. Column groups need to be configured.

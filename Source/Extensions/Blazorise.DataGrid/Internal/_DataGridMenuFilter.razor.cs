@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
@@ -31,6 +32,18 @@ public partial class _DataGridMenuFilter<TItem> : ComponentBase, IDisposable
     private async void OnLocalizationChanged( object sender, EventArgs e )
     {
         await InvokeAsync( StateHasChanged );
+    }
+
+    private Task OnFilterClickedHandler()
+    {
+        if ( ParentDataGrid.FilterApplyMode == DataGridFilterApplyMode.Deferred )
+        {
+            return ParentDataGrid.ApplyFilters();
+        }
+
+        ParentDataGrid.FilterData();
+
+        return Task.CompletedTask;
     }
 
     private object GetFilterValue1()

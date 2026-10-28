@@ -6,10 +6,15 @@
                 <CardTitle>Datagrid: Custom Filter</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph>
+                    Type part of an employee's first name in the search box to filter the rows as you type, regardless of letter casing.
+                    A custom filter lets you provide your own search rules and place the search input outside the grid.
+                </Paragraph>
                 <Field>
-                    Custom Filter: <TextInput @bind-Value="@customFilterValue"></TextInput>
+                    Custom Filter: <TextInput Value="@customFilterValue" ValueChanged="OnCustomFilterValueChangedHandler" Immediate />
                 </Field>
-                <DataGrid TItem="Employee"
+                <DataGrid @ref="dataGrid"
+                          TItem="Employee"
                           Data="inMemoryData"
                           ShowPager
                           ShowPageSizes
@@ -50,8 +55,18 @@
 
     [Inject] EmployeeData EmployeeData { get; set; }
 
+    private DataGrid<Employee> dataGrid;
+
     private IEnumerable<Employee> inMemoryData;
+
     private string customFilterValue;
+
+    private async Task OnCustomFilterValueChangedHandler( string value )
+    {
+        customFilterValue = value;
+
+        await dataGrid.Reload();
+    }
 
     private bool OnCustomFilter( Employee model )
     {

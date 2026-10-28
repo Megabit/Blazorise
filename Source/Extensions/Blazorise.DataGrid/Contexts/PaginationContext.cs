@@ -88,6 +88,11 @@ public class PaginationContext<TItem>
     }
 
     /// <summary>
+    /// Resets the page without triggering a separate data reload.
+    /// </summary>
+    internal void ResetPage() => page = 1;
+
+    /// <summary>
     /// Subscribes a listener to page size changed notifications.
     /// </summary>
     public void SubscribeOnPageSizeChanged( PageSizeChangedEventHandler listener )

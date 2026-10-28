@@ -71,6 +71,39 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Deferred filtering" AddedVersion="2.5" AddedDate="2026-10-28">
+        <Paragraph>
+            When a search combines several columns, users often need to finish entering all their criteria before seeing new results.
+            Deferred filtering lets them prepare the whole search and apply it once, keeping the displayed rows stable while they work.
+        </Paragraph>
+        <Paragraph>
+            This is especially useful for large datasets loaded through <Code>ReadData</Code>.
+            Editing each filter no longer starts another request, reducing unnecessary server work and repeated loading interruptions.
+            Users decide when their search is ready with an <Strong>Apply filters</Strong> button.
+        </Paragraph>
+        <Paragraph>
+            Set <Code>FilterApplyMode="DataGridFilterApplyMode.Deferred"</Code> and call <Code>ApplyFilters()</Code> from your own button.
+            Deferred filtering works with both the default filter row and <Code>FilterMode="DataGridFilterMode.Menu"</Code>.
+            Without this setting, the grid keeps its existing filtering behavior.
+        </Paragraph>
+        <Paragraph>
+            Paging, sorting, and <Code>Reload()</Code> continue using the last applied filters, so unfinished edits do not change the search.
+            Applying filters commits all pending column values and operators and returns to the first page.
+        </Paragraph>
+        <Paragraph>
+            In deferred mode, <Code>ClearFilter()</Code> only clears the pending filters.
+            The <Strong>Clear filters</Strong> button in this example also calls <Code>ApplyFilters()</Code>, so it restores the unfiltered results immediately.
+        </Paragraph>
+        <Paragraph>
+            Try entering <Strong>John</Strong> in First Name and <Strong>London</Strong> in City, then select <Strong>Apply filters</Strong> to see the matching employee.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="DataGridDeferredFilteringExample" FullWidth Outlined AdditionalCodes="@DocsCodeSources.DataGridSharedData" CopyFullExample>
+        <DataGridDeferredFilteringExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Filter template">
         <Paragraph>
             When using Menu Mode Filtering you may also use the <Code>FilterTemplate</Code> to customize the filter input to your liking.
