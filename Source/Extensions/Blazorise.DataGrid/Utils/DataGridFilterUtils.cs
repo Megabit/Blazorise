@@ -13,6 +13,31 @@ namespace Blazorise.DataGrid.Utils;
 internal static class DataGridFilterUtils
 {
     /// <summary>
+    /// Determines whether a filter compares date values rather than their text representation.
+    /// </summary>
+    internal static bool IsDateComparisonMethod( DataGridColumnFilterMethod? filterMethod )
+        => filterMethod is DataGridColumnFilterMethod.Equals
+            or DataGridColumnFilterMethod.NotEquals
+            or DataGridColumnFilterMethod.LessThan
+            or DataGridColumnFilterMethod.LessThanOrEqual
+            or DataGridColumnFilterMethod.GreaterThan
+            or DataGridColumnFilterMethod.GreaterThanOrEqual
+            or DataGridColumnFilterMethod.Between;
+
+    /// <summary>
+    /// Normalizes a date filter operand to midnight on its calendar date without converting time zones.
+    /// </summary>
+    internal static object NormalizeDateFilterValue( object value )
+        => value switch
+        {
+            DateTime dateTime => dateTime.Date,
+            DateTimeOffset dateTimeOffset => dateTimeOffset.Date,
+            DateOnly dateOnly => dateOnly.ToDateTime( TimeOnly.MinValue ),
+            string text when DateTimeOffset.TryParse( text, out var parsedDateTimeOffset ) => parsedDateTimeOffset.Date,
+            _ => value,
+        };
+
+    /// <summary>
     /// Coerces the supplied filter search value to the column underlying value type.
     /// </summary>
     /// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>

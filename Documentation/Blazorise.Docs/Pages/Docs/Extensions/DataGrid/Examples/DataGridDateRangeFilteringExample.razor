@@ -1,0 +1,99 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<DataGrid @ref="dataGrid"
+          TItem="ActivityEntry"
+          Data="@entries"
+          Filterable
+          Responsive>
+    <DataGridColumn Field="@nameof( ActivityEntry.Description )" Caption="Activity" Filterable="false" />
+    <DataGridDateColumn Field="@nameof( ActivityEntry.RecordedAt )"
+                        Caption="Recorded at"
+                        DisplayFormat="dd MMM yyyy HH:mm:ss"
+                        Filter="@dateFilter"
+                        FilterMethod="DataGridColumnFilterMethod.Between"
+                        FilterComparisonMode="DateComparisonMode.DateOnly">
+        <FilterTemplate>
+            <Row>
+                <Column ColumnSize="ColumnSize.Is6">
+                    <Field>
+                        <FieldLabel>Start date</FieldLabel>
+                        <DatePicker TValue="DateTime?" Value="@startDate" ValueChanged="@OnStartDateChangedHandler" Max="@endDate" />
+                    </Field>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is6">
+                    <Field>
+                        <FieldLabel>End date</FieldLabel>
+                        <DatePicker TValue="DateTime?" Value="@endDate" ValueChanged="@OnEndDateChangedHandler" Min="@startDate" />
+                    </Field>
+                </Column>
+            </Row>
+            <Button Color="Color.Secondary" Clicked="@OnClearDatesClickedHandler">Clear dates</Button>
+        </FilterTemplate>
+    </DataGridDateColumn>
+</DataGrid>
+
+@code {
+    private DataGrid<ActivityEntry> dataGrid;
+
+    private DateTime? startDate = new( 2026, 10, 26 );
+
+    private DateTime? endDate = new( 2026, 10, 28 );
+
+    private FilterContext<ActivityEntry> dateFilter = new();
+
+    private List<ActivityEntry> entries = new()
+    {
+        new() { Description = "Account created", RecordedAt = new DateTime( 2026, 10, 25, 16, 45, 0 ) },
+        new() { Description = "Order received", RecordedAt = new DateTime( 2026, 10, 26, 0, 0, 0 ) },
+        new() { Description = "Payment confirmed", RecordedAt = new DateTime( 2026, 10, 26, 14, 20, 0 ) },
+        new() { Description = "Order packed", RecordedAt = new DateTime( 2026, 10, 27, 10, 15, 0 ) },
+        new() { Description = "Shipment collected", RecordedAt = new DateTime( 2026, 10, 28, 9, 30, 0 ) },
+        new() { Description = "Tracking updated", RecordedAt = new DateTime( 2026, 10, 28, 23, 59, 59 ) },
+        new() { Description = "Order delivered", RecordedAt = new DateTime( 2026, 10, 29, 0, 0, 0 ) },
+    };
+
+    protected override void OnInitialized()
+    {
+        dateFilter.SearchValue = new object[] { startDate, endDate };
+
+        base.OnInitialized();
+    }
+
+    private Task OnStartDateChangedHandler( DateTime? value )
+    {
+        startDate = value;
+
+        return ApplyDateRange();
+    }
+
+    private Task OnEndDateChangedHandler( DateTime? value )
+    {
+        endDate = value;
+
+        return ApplyDateRange();
+    }
+
+    private Task OnClearDatesClickedHandler()
+    {
+        startDate = null;
+        endDate = null;
+
+        return ApplyDateRange();
+    }
+
+    private Task ApplyDateRange()
+    {
+        dateFilter.SearchValue = startDate.HasValue && endDate.HasValue
+            ? new object[] { startDate.Value, endDate.Value }
+            : null;
+
+        return dataGrid.Reload();
+    }
+
+    public class ActivityEntry
+    {
+        public string Description { get; set; }
+
+        public DateTime RecordedAt { get; set; }
+    }
+}

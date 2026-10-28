@@ -100,7 +100,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
             ColumnType,
             GetFieldToSort(),
             EffectiveFilterMethod,
-            GetValueType( default ) );
+            GetValueType( default ) )
+        {
+            FilterComparisonMode = this is DataGridDateColumn<TItem> dateColumn ? dateColumn.FilterComparisonMode : DateComparisonMode.DateTime,
+        };
     }
 
     private Func<TItem, Type> ExpandoObjectTypeGetter()

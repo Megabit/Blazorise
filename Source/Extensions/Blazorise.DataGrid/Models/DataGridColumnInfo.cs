@@ -68,6 +68,11 @@ public class DataGridColumnInfo
     public DataGridColumnFilterMethod? FilterMethod { get; }
 
     /// <summary>
+    /// Gets the comparison mode used by date column filters.
+    /// </summary>
+    public DateComparisonMode FilterComparisonMode { get; init; } = DateComparisonMode.DateTime;
+
+    /// <summary>
     /// Gets the column determined value type.
     /// </summary>
     public Type ValueType { get; }

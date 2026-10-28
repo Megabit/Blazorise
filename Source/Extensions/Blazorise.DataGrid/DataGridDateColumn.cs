@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -11,9 +12,29 @@ namespace Blazorise.DataGrid;
 /// </summary>
 public class DataGridDateColumn<TItem> : DataGridColumn<TItem>
 {
+    #region Methods
+
+    /// <inheritdoc />
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        var comparisonModeChanged = parameters.TryGetValue<DateComparisonMode>( nameof( FilterComparisonMode ), out var paramFilterComparisonMode ) && paramFilterComparisonMode != FilterComparisonMode;
+        var shouldReload = Rendered && comparisonModeChanged;
+
+        await base.SetParametersAsync( parameters );
+
+        if ( shouldReload && ParentDataGrid is not null )
+        {
+            await ParentDataGrid.Reload();
+        }
+    }
+
     /// <inheritdoc/>
     internal override DataGridColumnFilterMethod GetDefaultFilterMethod()
         => DataGridColumnFilterMethod.Equals;
+
+    #endregion
+
+    #region Properties
 
     /// <inheritdoc/>
     public override DataGridColumnType ColumnType
@@ -23,6 +44,15 @@ public class DataGridDateColumn<TItem> : DataGridColumn<TItem>
     /// Hints at the type of data that might be entered by the user while editing the element or its contents.
     /// </summary>
     [Parameter] public DateInputMode InputMode { get; set; }
+
+    /// <summary>
+    /// Specifies whether date filters compare the full value or only its calendar date.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <see cref="DateComparisonMode.DateTime"/>. Date-only comparisons ignore time without converting time zones.
+    /// Applies to equality, ordering, and range filters. Custom filters receive the original values.
+    /// </remarks>
+    [Parameter] public DateComparisonMode FilterComparisonMode { get; set; } = DateComparisonMode.DateTime;
 
     /// <summary>
     /// The earliest date to accept.
@@ -78,4 +108,6 @@ public class DataGridDateColumn<TItem> : DataGridColumn<TItem>
     /// Renders the native based input <see cref="Blazorise.DateInput{TValue}"/> instead of the <see cref="Blazorise.DatePicker{TValue}"/>.
     /// </summary>
     [Parameter] public bool NativeInputMode { get; set; }
+
+    #endregion
 }
