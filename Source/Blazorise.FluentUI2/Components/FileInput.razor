@@ -17,9 +17,9 @@ else
 @code {
     private RenderFragment InputElement => __builder =>
     {
-        <Span Class="@($"{ClassNames} fui-FileInput-content")" Style="@StyleNames" aria-hidden="true">
-            <Span Class="fui-FileInput-button">@BrowseButtonString</Span>
-            <Span Class="fui-FileInput-selection">@SelectionTextString</Span>
+        <Span Class="@ContentClassNames" Style="@StyleNames" aria-hidden="true">
+            <Span Class="@BrowseButtonClassNames">@BrowseButtonString</Span>
+            <Span Class="@SelectionClassNames">@SelectionTextString</Span>
         </Span>
         <input @ref="@ElementRef" id="@ElementId" type="file" class="@ClassNames" webkitdirectory="@Directory" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" multiple="@Multiple" accept="@Filter" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" placeholder="@Placeholder" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
     };

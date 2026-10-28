@@ -1,8 +1,8 @@
 @inherits Blazorise.FileInput
-<Div Class="@($"mui-file {WrapperClassNames}")" Style="@WrapperStyleNames">
-    <Span Class="@($"{ClassNames} mui-file-content")" Style="@StyleNames" aria-hidden="true">
-        <Span Class="mui-file-button">@BrowseButtonString</Span>
-        <Span Class="mui-file-selection">@SelectionTextString</Span>
+<Div Class="@WrapperClassNames" Style="@WrapperStyleNames">
+    <Span Class="@ContentClassNames" Style="@StyleNames" aria-hidden="true">
+        <Span Class="@BrowseButtonClassNames">@BrowseButtonString</Span>
+        <Span Class="@SelectionClassNames">@SelectionTextString</Span>
     </Span>
     <input @ref="@ElementRef" id="@ElementId" type="file" class="@ClassNames" webkitdirectory="@Directory" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" multiple="@Multiple" accept="@Filter" tabindex="@TabIndex" placeholder="@Placeholder" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ExplicitAriaLabelledBy" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
     @ChildContent

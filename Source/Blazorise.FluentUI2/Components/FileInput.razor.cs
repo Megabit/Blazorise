@@ -12,19 +12,14 @@ public partial class FileInput
     {
         InputClassBuilder = new ClassBuilder( BuildInputClasses );
         AddonClassBuilder = new ClassBuilder( BuildAddonClasses );
+        ContentClassBuilder = new( BuildContentClasses );
+        BrowseButtonClassBuilder = new( BuildBrowseButtonClasses );
+        SelectionClassBuilder = new( BuildSelectionClasses );
     }
 
     #endregion
 
     #region Methods
-
-    protected internal override void DirtyClasses()
-    {
-        InputClassBuilder.Dirty();
-        AddonClassBuilder.Dirty();
-
-        base.DirtyClasses();
-    }
 
     private void BuildInputClasses( ClassBuilder builder )
     {
@@ -64,6 +59,28 @@ public partial class FileInput
         builder.Append( WrapperClassNames );
     }
 
+    private void BuildContentClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassNames );
+        builder.Append( "fui-FileInput-content" );
+    }
+
+    private void BuildBrowseButtonClasses( ClassBuilder builder ) => builder.Append( "fui-FileInput-button" );
+
+    private void BuildSelectionClasses( ClassBuilder builder ) => builder.Append( "fui-FileInput-selection" );
+
+    /// <inheritdoc />
+    protected internal override void DirtyClasses()
+    {
+        InputClassBuilder.Dirty();
+        AddonClassBuilder.Dirty();
+        ContentClassBuilder.Dirty();
+        BrowseButtonClassBuilder.Dirty();
+        SelectionClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
     #endregion
 
     #region Properties
@@ -72,9 +89,21 @@ public partial class FileInput
 
     protected ClassBuilder AddonClassBuilder { get; private set; }
 
+    protected ClassBuilder ContentClassBuilder { get; private set; }
+
+    protected ClassBuilder BrowseButtonClassBuilder { get; private set; }
+
+    protected ClassBuilder SelectionClassBuilder { get; private set; }
+
     protected string InputClassNames => InputClassBuilder.Class;
 
     protected string AddonClassNames => AddonClassBuilder.Class;
+
+    protected string ContentClassNames => ContentClassBuilder.Class;
+
+    protected string BrowseButtonClassNames => BrowseButtonClassBuilder.Class;
+
+    protected string SelectionClassNames => SelectionClassBuilder.Class;
 
     #endregion
 }
