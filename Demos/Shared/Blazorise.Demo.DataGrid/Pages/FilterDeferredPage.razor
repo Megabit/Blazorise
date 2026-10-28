@@ -1,0 +1,78 @@
+@page "/tests/datagrid/filter/deferred"
+
+<Row>
+    <Column>
+        @if ( employees is not null )
+        {
+            <Card Margin="Margin.Is4.OnY">
+                <CardHeader>
+                    <CardTitle>Filter Row: Local Data</CardTitle>
+                </CardHeader>
+                <CardBody>
+                    <Paragraph>
+                        Edit the first name, last name, or city filters. The rows stay unchanged until you apply the filters.
+                    </Paragraph>
+                    <Div Flex="Flex.Wrap.AlignItems.Center" Display="Display.Flex" Gap="Gap.Is2" Margin="Margin.Is3.FromBottom">
+                        <Button Color="Color.Primary" Clicked="OnApplyLocalFiltersClickedHandler" Disabled="@(localGrid is null)">Apply filters</Button>
+                        <Button Color="Color.Secondary" Clicked="OnClearLocalFiltersClickedHandler" Disabled="@(localGrid is null)">Clear filters</Button>
+                    </Div>
+                    <DataGrid @ref="localGrid"
+                              TItem="Employee"
+                              Data="employees"
+                              Filterable
+                              FilterMode="DataGridFilterMode.Default"
+                              FilterApplyMode="DataGridFilterApplyMode.Deferred"
+                              ShowPager
+                              Responsive>
+                        <DataGridColumns>
+                            <DataGridColumn TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Filterable="false" />
+                            <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" />
+                            <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" />
+                            <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" />
+                            <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" DisplayFormat="N2" NativeInputMode />
+                        </DataGridColumns>
+                    </DataGrid>
+                </CardBody>
+            </Card>
+
+            <Card Margin="Margin.Is4.OnY">
+                <CardHeader>
+                    <CardTitle>Filter Menus: Data on Demand</CardTitle>
+                </CardHeader>
+                <CardBody>
+                    <Paragraph>
+                        Open several column menus and set values or operators, including a salary range with <Strong>Between</Strong>.
+                        Editing filters does not increase the request count. Applying them makes one request with all the selected filters.
+                    </Paragraph>
+                    <Paragraph>
+                        This example handles <Code>ReadData</Code> using the sample employee data to simulate an external source.
+                        Initial loading, sorting, and paging also count as requests.
+                    </Paragraph>
+                    <Div Flex="Flex.Wrap.AlignItems.Center" Display="Display.Flex" Gap="Gap.Is2" Margin="Margin.Is3.FromBottom">
+                        <Button Color="Color.Primary" Clicked="OnApplyRemoteFiltersClickedHandler" Disabled="@(remoteGrid is null)">Apply filters</Button>
+                        <Button Color="Color.Secondary" Clicked="OnClearRemoteFiltersClickedHandler" Disabled="@(remoteGrid is null)">Clear filters</Button>
+                        <Badge Color="Color.Info">Data requests: @readDataCount</Badge>
+                    </Div>
+                    <DataGrid @ref="remoteGrid"
+                              TItem="Employee"
+                              Data="remoteEmployees"
+                              ReadData="OnReadDataHandler"
+                              TotalItems="totalEmployees"
+                              Filterable
+                              FilterMode="DataGridFilterMode.Menu"
+                              FilterApplyMode="DataGridFilterApplyMode.Deferred"
+                              ShowPager
+                              Responsive>
+                        <DataGridColumns>
+                            <DataGridColumn TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Filterable="false" />
+                            <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" />
+                            <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" />
+                            <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" />
+                            <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" DisplayFormat="N2" NativeInputMode />
+                        </DataGridColumns>
+                    </DataGrid>
+                </CardBody>
+            </Card>
+        }
+    </Column>
+</Row>

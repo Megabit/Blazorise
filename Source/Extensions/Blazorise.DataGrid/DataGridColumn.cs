@@ -47,6 +47,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     private DataGridColumnFilterMethod? currentFilterMethod;
 
+    private object appliedSearchValue;
+
+    private DataGridColumnFilterMethod? appliedFilterMethod;
+
     private bool displayingInitialized;
 
     private bool? defaultDisplaying;
@@ -90,12 +94,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     {
         return new DataGridColumnInfo(
             Field,
-            Filter?.SearchValue,
+            EffectiveSearchValue,
             CurrentSortDirection,
             sortByColumns?.FirstOrDefault( sortCol => sortCol.IsEqual( this ) )?.SortOrder ?? -1,
             ColumnType,
             GetFieldToSort(),
-            GetFilterMethod() ?? GetDataGridFilterMethodAsColumn(),
+            EffectiveFilterMethod,
             GetValueType( default ) );
     }
 
@@ -469,6 +473,13 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         currentFilterMethod = filterMethod;
     }
 
+    internal void ApplyFilter()
+    {
+        // Range editors mutate their arrays in place, so retain an independent copy.
+        appliedSearchValue = Filter?.SearchValue is Array searchValues ? searchValues.Clone() : Filter?.SearchValue;
+        appliedFilterMethod = GetFilterMethod() ?? GetDataGridFilterMethodAsColumn();
+    }
+
     internal DataGridColumnFilterMethod? GetFilterMethod()
     {
         return currentFilterMethod;
@@ -494,6 +505,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     #endregion
 
     #region Properties
+
+    internal object EffectiveSearchValue
+        => ParentDataGrid?.FilterApplyMode == DataGridFilterApplyMode.Deferred ? appliedSearchValue : Filter?.SearchValue;
+
+    internal DataGridColumnFilterMethod? EffectiveFilterMethod
+        => ParentDataGrid?.FilterApplyMode == DataGridFilterApplyMode.Deferred ? appliedFilterMethod : GetFilterMethod() ?? GetDataGridFilterMethodAsColumn();
 
     /// <summary>
     /// Specifies the default visibility of the column.

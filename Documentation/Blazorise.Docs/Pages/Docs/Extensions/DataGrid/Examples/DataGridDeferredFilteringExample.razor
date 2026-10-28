@@ -1,0 +1,41 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is2" Margin="Margin.Is3.FromBottom">
+    <Button Color="Color.Primary" Clicked="OnApplyFiltersClickedHandler">Apply filters</Button>
+    <Button Color="Color.Secondary" Clicked="OnClearFiltersClickedHandler">Clear filters</Button>
+</Div>
+
+<DataGrid @ref="dataGrid"
+          TItem="Employee"
+          Data="employeeList"
+          Filterable
+          FilterApplyMode="DataGridFilterApplyMode.Deferred"
+          ShowPager
+          PageSize="5"
+          Responsive>
+    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" />
+    <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" />
+    <DataGridColumn Field="@nameof( Employee.City )" Caption="City" />
+</DataGrid>
+
+@code {
+    private DataGrid<Employee> dataGrid;
+
+    private List<Employee> employeeList = new()
+    {
+        new() { FirstName = "John", LastName = "Smith", City = "London" },
+        new() { FirstName = "John", LastName = "Doe", City = "Zagreb" },
+        new() { FirstName = "Ana", LastName = "Smith", City = "Zagreb" },
+        new() { FirstName = "Ana", LastName = "Jones", City = "London" },
+        new() { FirstName = "David", LastName = "Moreira", City = "Porto" },
+        new() { FirstName = "Jessica", LastName = "Winston", City = "London" },
+    };
+
+    private Task OnApplyFiltersClickedHandler() => dataGrid.ApplyFilters();
+
+    private async Task OnClearFiltersClickedHandler()
+    {
+        await dataGrid.ClearFilter();
+        await dataGrid.ApplyFilters();
+    }
+}
