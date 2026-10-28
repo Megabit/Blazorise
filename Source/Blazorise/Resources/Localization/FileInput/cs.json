@@ -1,6 +1,7 @@
 {
   "culture": "cs-CZ",
   "translations": {
+    "No file selected": "Není vybrán žádný soubor",
     "Choose file": "Vyberte soubor",
     "Choose files": "Vyberte soubory",
     "Choose folder": "Vyberte složku",

@@ -1,6 +1,7 @@
 {
   "culture": "ru",
   "translations": {
+    "No file selected": "Файл не выбран",
     "Choose file": "Выбрать файл",
     "Choose files": "Выбрать файлы",
     "Choose folder": "Выберите папку",

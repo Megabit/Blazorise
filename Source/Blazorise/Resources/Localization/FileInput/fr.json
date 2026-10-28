@@ -1,6 +1,7 @@
 {
   "culture": "fr",
   "translations": {
+    "No file selected": "Aucun fichier sélectionné",
     "Choose file": "Choisir un fichier",
     "Choose files": "Choisir des fichiers",
     "Choose folder": "Choisir le dossier",

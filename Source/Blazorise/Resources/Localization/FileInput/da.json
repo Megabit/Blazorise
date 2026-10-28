@@ -1,6 +1,7 @@
 {
   "culture": "da",
   "translations": {
+    "No file selected": "Ingen fil valgt",
     "Choose file": "Vælg fil",
     "Choose files": "Vælg filer",
     "Choose folder": "Vælg mappe",

@@ -1,6 +1,7 @@
 {
   "culture": "sk",
   "translations": {
+    "No file selected": "Nie je vybraný žiadny súbor",
     "Choose file": "Vybrať súbor",
     "Choose files": "Vybrať súbory",
     "Choose folder": "Vyberte priečinok",

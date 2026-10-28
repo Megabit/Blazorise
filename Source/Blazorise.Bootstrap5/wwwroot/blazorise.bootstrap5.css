@@ -3598,16 +3598,43 @@ input[type=color].form-control-color,
   display: none;
 }
 
-.form-file input[type=file] {
-  margin-left: -2px !important;
+.form-file {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
 }
-
-.form-file input[type=file]::-webkit-file-upload-button {
+.form-file > .input-group-text {
+  grid-area: 1/1;
+}
+.form-file > input[type=file],
+.form-file > .form-file-text {
+  grid-area: 1/2;
+  width: 100%;
+  min-width: 0;
+  margin-inline-start: -2px !important;
+}
+.form-file > input[type=file] {
+  color: transparent !important;
+}
+.form-file > input[type=file]::-webkit-file-upload-button {
   display: none;
 }
-
-.form-file input[type=file]::file-selector-button {
+.form-file > input[type=file]::file-selector-button {
   display: none;
+}
+.form-file > .form-file-text {
+  z-index: 6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+  background: none !important;
+  border-color: transparent !important;
+}
+.form-file > .valid-feedback,
+.form-file > .warning-feedback,
+.form-file > .invalid-feedback,
+.form-file > .none-feedback {
+  grid-column: 1/-1;
 }
 
 .form-label-required:after {

@@ -1,6 +1,7 @@
 {
   "culture": "pl",
   "translations": {
+    "No file selected": "Nie wybrano pliku",
     "Choose file": "Wybierz plik",
     "Choose files": "Wybierz pliki",
     "Choose folder": "Wybierz folder",

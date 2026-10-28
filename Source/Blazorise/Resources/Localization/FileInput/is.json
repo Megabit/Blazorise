@@ -1,6 +1,7 @@
 ﻿{
   "culture": "is",
   "translations": {
+    "No file selected": "Engin skrá valin",
     "Choose file": "Veldu skrá",
     "Choose files": "Veldu skrár",
     "Choose folder": "Veldu möppu",
