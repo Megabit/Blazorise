@@ -21,15 +21,17 @@ public class TailwindClassProvider : ClassProvider
         ? $"{classNames} text-gray-900 border-none rounded-lg focus:ring-primary-500 focus:border-primary-500 {display} [:where(&)]:w-full dark:bg-gray-800 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75"
         : $"{classNames} bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 {display} [:where(&)]:w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75";
 
-    public override string TextInputSize( Size size )
+    public override string TextInputSize( Size size ) => TextInputSize( size, "b-input" );
+
+    private static string TextInputSize( Size size, string classNames )
     {
         return size switch
         {
-            Size.ExtraSmall => "b-input-xs px-2 py-1.5 text-xs",
-            Size.Small => "b-input-sm px-2.5 py-2 text-sm",
-            Size.Medium => "b-input-md px-3.5 py-3 text-base",
-            Size.Large => "b-input-lg px-4 py-3.5 text-base",
-            Size.ExtraLarge => "b-input-xl px-5 py-4 text-base",
+            Size.ExtraSmall => $"{classNames}-xs px-2 py-1.5 text-xs",
+            Size.Small => $"{classNames}-sm px-2.5 py-2 text-sm",
+            Size.Medium => $"{classNames}-md px-3.5 py-3 text-base",
+            Size.Large => $"{classNames}-lg px-4 py-3.5 text-base",
+            Size.ExtraLarge => $"{classNames}-xl px-5 py-4 text-base",
             _ => "px-3 py-2.5 text-sm"
         };
     }
@@ -421,9 +423,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region FileInput
 
-    public override string FileInput() => "block w-full text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-hidden dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400";
+    public override string FileInput() => $"{TextInput( false, "tw-file-input" )} cursor-pointer";
 
-    public override string FileInputSize( Size size ) => TextInputSize( size );
+    public override string FileInputSize( Size size ) => TextInputSize( size, "tw-file-input" );
 
     public override string FileInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 

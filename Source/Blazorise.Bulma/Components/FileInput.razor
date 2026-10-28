@@ -9,10 +9,10 @@
             </span>
         </span>
         <span class="file-name">
-            @if ( !HasSelectedFileNames && Placeholder != null )
+            @if ( !HasSelectedFileNames )
             {
                 <Span TextColor="TextColor.Muted">
-                    @Placeholder
+                    @SelectionTextString
                 </Span>
             }
             else

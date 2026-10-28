@@ -1,38 +1,54 @@
 .mui-file {
-    &-input[type=file] {
-        --mui-file-selector-offset-y: calc(var(--mui-input-size) * -0.05);
-        display: flex;
-        align-items: center;
+    display: grid;
+    min-inline-size: 0;
+    inline-size: 100%;
+
+    > .mui-file-input {
+        grid-area: 1 / 1;
+        min-inline-size: 0;
         block-size: var(--mui-input-size);
         line-height: var(--mui-input-size);
         padding-block: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
         padding-inline: 0.375rem;
         cursor: pointer;
     }
 
-    &-input[type=file]:focus {
-        border-width: 0.0625rem;
-        padding-inline: 0.375rem;
-        border-color: var(--mui-primary);
-    }
-}
+    > input[type=file] {
+        color: transparent !important;
 
-.mui-file {
-    &-input[type=file]::-webkit-file-upload-button,
-    &-input[type=file]::file-selector-button {
+        &::-webkit-file-upload-button {
+            display: none;
+        }
+
+        &::file-selector-button {
+            display: none;
+        }
+
+        &:focus {
+            border-width: 0.0625rem;
+            padding-inline: 0.375rem;
+            border-color: var(--mui-primary);
+        }
+    }
+
+    > .mui-file-content {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        z-index: 2;
+        pointer-events: none;
+        background: none !important;
+        border-color: transparent !important;
+    }
+
+    .mui-file-button {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        vertical-align: middle;
-        inline-size: auto;
+        flex-shrink: 0;
         block-size: calc(var(--mui-input-size) - 0.5rem);
-        border: 0;
+        max-block-size: 100%;
         border-radius: 999rem;
-        margin-block: 0;
-        transform: translateY(var(--mui-file-selector-offset-y));
         margin-inline-end: 0.75rem;
         padding-inline: 0.875rem;
         line-height: 1;
@@ -41,47 +57,43 @@
         font-family: inherit;
         font-size: 0.75rem;
         font-weight: 500;
-        cursor: pointer;
+        white-space: nowrap;
         transition: background-color var(--mui-duration-normal), color var(--mui-duration-normal), opacity var(--mui-duration-normal);
     }
-}
 
-.mui-file {
-    &-input[type=file]:hover::-webkit-file-upload-button,
-    &-input[type=file]:hover::file-selector-button {
-        background-color: color-mix(in srgb, var(--mui-secondary) 24%, var(--mui-secondary-container));
-        color: var(--mui-on-secondary-container);
+    .mui-file-selection {
+        min-inline-size: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
-}
 
-.mui-file {
-    &-input[type=file]:focus::-webkit-file-upload-button,
-    &-input[type=file]:focus::file-selector-button {
+    &:has(> input:hover) .mui-file-button {
+        background-color: color-mix(in srgb, var(--mui-secondary) 24%, var(--mui-secondary-container));
+    }
+
+    &:has(> input:focus) .mui-file-button {
         background-color: color-mix(in srgb, var(--mui-primary) 20%, var(--mui-secondary-container));
         color: var(--mui-on-primary-container);
     }
-}
 
-.mui-file {
-    &-input[type=file].is-valid::-webkit-file-upload-button,
-    &-input[type=file].is-valid::file-selector-button {
+    &:has(> input.is-valid) .mui-file-button {
         background-color: color-mix(in srgb, var(--mui-success) 16%, var(--mui-success-container));
         color: var(--mui-on-success-container);
     }
-}
 
-.mui-file {
-    &-input[type=file].is-invalid::-webkit-file-upload-button,
-    &-input[type=file].is-invalid::file-selector-button {
+    &:has(> input.is-invalid) .mui-file-button {
         background-color: color-mix(in srgb, var(--mui-error) 14%, var(--mui-error-container));
         color: var(--mui-on-error-container);
     }
-}
 
-.mui-file {
-    &-input[type=file]:disabled::-webkit-file-upload-button,
-    &-input[type=file]:disabled::file-selector-button {
-        cursor: not-allowed;
-        opacity: 0.62;
+    &:has(> input:disabled) {
+        .mui-file-content {
+            opacity: 0.5;
+        }
+
+        .mui-file-button {
+            opacity: 0.62;
+        }
     }
 }

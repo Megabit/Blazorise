@@ -29,6 +29,7 @@ public partial class FileInput
     private void BuildInputClasses( ClassBuilder builder )
     {
         builder.Append( "fui-Input" );
+        builder.Append( "fui-FileInput" );
 
         if ( ParentValidation?.Status == ValidationStatus.Error )
         {
@@ -59,6 +60,7 @@ public partial class FileInput
     private void BuildAddonClasses( ClassBuilder builder )
     {
         builder.Append( "fui-Input__content" );
+        builder.Append( "fui-FileInput" );
         builder.Append( WrapperClassNames );
     }
 

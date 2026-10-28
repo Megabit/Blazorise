@@ -169,6 +169,7 @@ body:before {
 
 .b-addons > .b-addon-body:not(:last-child) > input,
 .b-addons > .b-addon-body:not(:last-child) > div.tw-datepicker > input,
+.b-addons > .b-addon-body:not(:last-child) > div.tw-file-control > input,
 .b-addons > .b-addon-body:not(:last-child) > div.tw-numeric > input,
 .b-addons > .b-addon-body:not(:last-child) > div.tw-numeric > .tw-numeric-buttons,
 .b-addons > .b-addon-body:not(:last-child) > div.tw-timepicker > input {
@@ -181,6 +182,7 @@ body:before {
 }
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-datepicker > input,
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-file-control > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-numeric > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-color-picker-container > button {
@@ -203,6 +205,7 @@ body:before {
 }
 .b-addons > .b-addon-body > input,
 .b-addons > .b-addon-body > div.tw-datepicker,
+.b-addons > .b-addon-body > div.tw-file-control,
 .b-addons > .b-addon-body > div.tw-numeric,
 .b-addons > .b-addon-body > div.tw-timepicker,
 .b-addons > .b-addon-body > div.tw-color-picker-container {
@@ -213,6 +216,7 @@ body:before {
 }
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-datepicker > input,
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-file-control > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-numeric > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-timepicker > input,
 .b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.tw-color-picker-container > button {
@@ -1440,24 +1444,31 @@ body:before {
   }
 }
 
-.b-input {
+.b-input,
+.tw-file-input {
   height: calc(var(--spacing) * 10);
 }
-.b-input-xs {
+.b-input-xs,
+.tw-file-input-xs {
   height: calc(var(--spacing) * 8);
 }
-.b-input-sm {
+.b-input-sm,
+.tw-file-input-sm {
   height: calc(var(--spacing) * 9);
 }
-.b-input-md {
+.b-input-md,
+.tw-file-input-md {
   height: calc(var(--spacing) * 12);
 }
-.b-input-lg {
+.b-input-lg,
+.tw-file-input-lg {
   height: calc(var(--spacing) * 13);
 }
-.b-input-xl {
+.b-input-xl,
+.tw-file-input-xl {
   height: calc(var(--spacing) * 14);
 }
+
 .b-input[multiple] {
   height: auto;
 }
@@ -1466,6 +1477,49 @@ textarea[data-autosize=true] {
   field-sizing: content;
   height: auto;
   min-block-size: calc(var(--tw-textarea-min-block-size) + 1.25rem + 2px);
+}
+
+.tw-file-control {
+  display: grid;
+  min-inline-size: 0;
+  inline-size: 100%;
+}
+.tw-file-control > .tw-file-input {
+  grid-area: 1/1;
+  min-inline-size: 0;
+}
+.tw-file-control > input[type=file] {
+  color: transparent !important;
+}
+.tw-file-control > input[type=file]::-webkit-file-upload-button {
+  display: none;
+}
+.tw-file-control > input[type=file]::file-selector-button {
+  display: none;
+}
+.tw-file-control > .tw-file-content {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+  background: none !important;
+  border-color: transparent !important;
+}
+.tw-file-control .tw-file-button {
+  flex-shrink: 0;
+  margin-inline-end: calc(var(--spacing) * 4);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+.tw-file-control .tw-file-selection {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tw-file-control:has(> input:disabled) .tw-file-content {
+  opacity: 0.75;
 }
 
 .tw-dock-layout {
