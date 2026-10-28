@@ -3145,34 +3145,43 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 {
                     var currentFilterMode = column.EffectiveFilterMethod;
 
+                    var shouldCompareDates = column is DataGridDateColumn<TItem> { FilterComparisonMode: DateComparisonMode.DateOnly }
+                        && DataGridFilterUtils.IsDateComparisonMethod( currentFilterMode );
+
                     if ( currentFilterMode == DataGridColumnFilterMethod.Between )
                     {
                         var rangeSearchValues = column.EffectiveSearchValue as object[];
 
                         if ( rangeSearchValues is null || rangeSearchValues.Length < 2 )
+                        {
                             continue;
+                        }
 
-                        var stringSearchValue1 = rangeSearchValues[0]?.ToString();
-                        var stringSearchValue2 = rangeSearchValues[1]?.ToString();
+                        var stringSearchValue1 = ( shouldCompareDates ? DataGridFilterUtils.NormalizeDateFilterValue( rangeSearchValues[0] ) : rangeSearchValues[0] )?.ToString();
+                        var stringSearchValue2 = ( shouldCompareDates ? DataGridFilterUtils.NormalizeDateFilterValue( rangeSearchValues[1] ) : rangeSearchValues[1] )?.ToString();
 
                         query = from item in query
                                 let cellRealValue = column.GetValue( item )
-                                let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                                where CompareFilterRangeValues( cellStringValue, stringSearchValue1, stringSearchValue2, currentFilterMode, column.ColumnType, column.GetValueType( item ) )
+                                let cellFilterValue = shouldCompareDates ? DataGridFilterUtils.NormalizeDateFilterValue( cellRealValue ) : cellRealValue
+                                let cellStringValue = cellFilterValue == null ? string.Empty : cellFilterValue.ToString()
+                                where CompareFilterRangeValues( cellStringValue, stringSearchValue1, stringSearchValue2, currentFilterMode, column.ColumnType, shouldCompareDates ? typeof( DateTime ) : column.GetValueType( item ) )
                                 select item;
 
                         continue;
                     }
 
-                    var stringSearchValue = column.EffectiveSearchValue?.ToString();
+                    var stringSearchValue = ( shouldCompareDates ? DataGridFilterUtils.NormalizeDateFilterValue( column.EffectiveSearchValue ) : column.EffectiveSearchValue )?.ToString();
 
                     if ( string.IsNullOrEmpty( stringSearchValue ) )
+                    {
                         continue;
+                    }
 
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
-                            let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                            where CompareFilterValues( cellStringValue, stringSearchValue, currentFilterMode, column.ColumnType, column.GetValueType( item ) )
+                            let cellFilterValue = shouldCompareDates ? DataGridFilterUtils.NormalizeDateFilterValue( cellRealValue ) : cellRealValue
+                            let cellStringValue = cellFilterValue == null ? string.Empty : cellFilterValue.ToString()
+                            where CompareFilterValues( cellStringValue, stringSearchValue, currentFilterMode, column.ColumnType, shouldCompareDates ? typeof( DateTime ) : column.GetValueType( item ) )
                             select item;
                 }
             }

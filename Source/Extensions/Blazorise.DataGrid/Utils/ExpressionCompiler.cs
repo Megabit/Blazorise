@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Blazorise.Extensions;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components.Forms;
 #endregion
 
@@ -43,6 +44,16 @@ public static class ExpressionCompiler
         foreach ( var column in dataGridColumns.Where( x => !string.IsNullOrWhiteSpace( x.SearchValue?.ToString() ) ) )
         {
             var filterMethod = column.FilterMethod ?? DataGridColumnFilterMethod.Contains;
+
+            if ( column.ColumnType == DataGridColumnType.Date
+                && column.FilterComparisonMode == DateComparisonMode.DateOnly
+                && column.ValueType is not null
+                && TypeHelper.IsDate( column.ValueType )
+                && DataGridFilterUtils.IsDateComparisonMethod( filterMethod ) )
+            {
+                data = data.Where( GetWhereDateOnlyExpression<TItem>( column.Field, column.SearchValue, filterMethod ) );
+                continue;
+            }
 
             switch ( filterMethod )
             {
@@ -291,6 +302,11 @@ public static class ExpressionCompiler
             {
                 var valueGetterExpression = string.IsNullOrWhiteSpace( sortByColumn.SortField ) ? CreateValueGetterExpression<TItem>( sortByColumn.Field ) : CreateValueGetterExpression<TItem>( sortByColumn.SortField );
 
+                if ( sortByColumn.ColumnType == DataGridColumnType.Date && sortByColumn.SortComparisonMode == DateComparisonMode.DateOnly )
+                {
+                    valueGetterExpression = NormalizeDateSortExpression( valueGetterExpression );
+                }
+
                 if ( firstSort )
                 {
                     if ( sortByColumn.SortDirection == SortDirection.Ascending )
@@ -451,6 +467,31 @@ public static class ExpressionCompiler
     /// </summary>
     public static Expression<Func<TItem, object>> CreateValueGetterExpression<TItem>( string fieldName )
         => MemberExpressionCompiler.CreateValueGetterExpression<TItem>( fieldName );
+
+    /// <summary>
+    /// Normalizes date sort keys while preserving nullable and nested member access.
+    /// </summary>
+    private static Expression<Func<TItem, object>> NormalizeDateSortExpression<TItem>( Expression<Func<TItem, object>> getter )
+    {
+        var property = ( (UnaryExpression)getter.Body ).Operand;
+        var underlyingType = Nullable.GetUnderlyingType( property.Type );
+        var valueType = underlyingType ?? property.Type;
+
+        if ( valueType != typeof( DateTime ) && valueType != typeof( DateTimeOffset ) )
+        {
+            return getter;
+        }
+
+        var value = underlyingType is null ? property : Expression.Property( property, nameof( Nullable<DateTime>.Value ) );
+        Expression date = Expression.Convert( Expression.Property( value, nameof( DateTime.Date ) ), typeof( object ) );
+
+        if ( underlyingType is not null )
+        {
+            date = Expression.Condition( Expression.Property( property, nameof( Nullable<DateTime>.HasValue ) ), date, Expression.Constant( null, typeof( object ) ) );
+        }
+
+        return Expression.Lambda<Func<TItem, object>>( date, getter.Parameters );
+    }
 
     private static Expression ConvertToStringExpression( Expression property )
     {
@@ -739,6 +780,69 @@ public static class ExpressionCompiler
         return Expression.Lambda<Func<TItem, bool>>( Expression.MakeBinary( ExpressionType.AndAlso, value1GreaterThanOrEqualExpression, value2LessThanOrEqualExpression ), sourceParameterExpression );
     }
 
+
+    /// <summary>
+    /// Builds a date-only comparison with a null guard for nullable date fields.
+    /// </summary>
+    private static Expression<Func<TItem, bool>> GetWhereDateOnlyExpression<TItem>( string sourceProperty, object searchValue, DataGridColumnFilterMethod filterMethod )
+    {
+        var parameter = GetParameterExpression<TItem>();
+        var property = GetPropertyOrFieldExpression( parameter, sourceProperty );
+        var underlyingType = Nullable.GetUnderlyingType( property.Type );
+        var valueType = underlyingType ?? property.Type;
+        var value = underlyingType is null ? property : Expression.Property( property, nameof( Nullable<DateTime>.Value ) );
+        var date = valueType == typeof( DateOnly ) ? value : Expression.Property( value, nameof( DateTime.Date ) );
+
+        if ( filterMethod == DataGridColumnFilterMethod.Between
+            && ( searchValue is not object[] range || range.Length < 2 ) )
+        {
+            return Expression.Lambda<Func<TItem, bool>>( Expression.Constant( true ), parameter );
+        }
+
+        var searchValues = filterMethod == DataGridColumnFilterMethod.Between ? (object[])searchValue : new[] { searchValue };
+
+        if ( DataGridFilterUtils.NormalizeDateFilterValue( searchValues[0] ) is not DateTime firstDate )
+        {
+            return Expression.Lambda<Func<TItem, bool>>( Expression.Constant( false ), parameter );
+        }
+
+        var first = Expression.Constant( valueType == typeof( DateOnly ) ? (object)DateOnly.FromDateTime( firstDate ) : firstDate );
+        Expression comparison;
+
+        if ( filterMethod == DataGridColumnFilterMethod.Between )
+        {
+            if ( DataGridFilterUtils.NormalizeDateFilterValue( searchValues[1] ) is not DateTime lastDate )
+            {
+                return Expression.Lambda<Func<TItem, bool>>( Expression.Constant( false ), parameter );
+            }
+
+            var last = Expression.Constant( valueType == typeof( DateOnly ) ? (object)DateOnly.FromDateTime( lastDate ) : lastDate );
+
+            comparison = Expression.AndAlso( Expression.GreaterThanOrEqual( date, first ), Expression.LessThanOrEqual( date, last ) );
+        }
+        else
+        {
+            var comparisonType = filterMethod switch
+            {
+                DataGridColumnFilterMethod.Equals => ExpressionType.Equal,
+                DataGridColumnFilterMethod.NotEquals => ExpressionType.NotEqual,
+                DataGridColumnFilterMethod.LessThan => ExpressionType.LessThan,
+                DataGridColumnFilterMethod.LessThanOrEqual => ExpressionType.LessThanOrEqual,
+                DataGridColumnFilterMethod.GreaterThan => ExpressionType.GreaterThan,
+                DataGridColumnFilterMethod.GreaterThanOrEqual => ExpressionType.GreaterThanOrEqual,
+                _ => throw new ArgumentOutOfRangeException( nameof( filterMethod ) ),
+            };
+
+            comparison = Expression.MakeBinary( comparisonType, date, first );
+        }
+
+        if ( underlyingType is not null )
+        {
+            comparison = Expression.AndAlso( Expression.Property( property, nameof( Nullable<DateTime>.HasValue ) ), comparison );
+        }
+
+        return Expression.Lambda<Func<TItem, bool>>( comparison, parameter );
+    }
 
     /// <summary>
     /// Checks if requested type can bu nullable.

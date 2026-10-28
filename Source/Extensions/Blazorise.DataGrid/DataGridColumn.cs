@@ -92,6 +92,8 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     internal DataGridColumnInfo ToColumnInfo( IList<DataGridColumn<TItem>> sortByColumns )
     {
+        var dateColumn = this as DataGridDateColumn<TItem>;
+
         return new DataGridColumnInfo(
             Field,
             EffectiveSearchValue,
@@ -100,7 +102,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
             ColumnType,
             GetFieldToSort(),
             EffectiveFilterMethod,
-            GetValueType( default ) );
+            GetValueType( default ) )
+        {
+            FilterComparisonMode = dateColumn?.FilterComparisonMode ?? DateComparisonMode.DateTime,
+            SortComparisonMode = dateColumn?.SortComparisonMode ?? DateComparisonMode.DateTime,
+            GroupComparisonMode = dateColumn?.GroupComparisonMode ?? DateComparisonMode.DateTime,
+        };
     }
 
     private Func<TItem, Type> ExpandoObjectTypeGetter()
@@ -330,7 +337,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Gets the GroupBy Func to be applied.
     /// </summary>
     /// <returns></returns>
-    internal Func<TItem, object> GetGroupByFunc()
+    internal virtual Func<TItem, object> GetGroupByFunc()
         => GroupBy is not null ? GroupBy : valueGetter.Value;
 
     /// <summary>

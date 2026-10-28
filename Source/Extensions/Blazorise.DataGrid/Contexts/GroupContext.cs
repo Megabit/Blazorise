@@ -21,7 +21,7 @@ public class GroupContext<TItem>
     /// </summary>
     public GroupContext( IGrouping<object, TItem> group )
     {
-        Key = group.Key.ToString();
+        Key = group.Key?.ToString() ?? string.Empty;
         Items = group.AsEnumerable();
     }
 
