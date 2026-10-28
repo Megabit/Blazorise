@@ -1,6 +1,7 @@
 @mixin make-addon-size($name, $size, $font-size) {
     .mui-addon-#{$name} > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
     .mui-addon-#{$name} > .mui-numeric > :is(.mui-input, .mui-input-plaintext),
+    .mui-addon-#{$name} > .mui-file > .mui-file-input,
     .mui-addon-#{$name} > .mui-color-picker-container > .mui-color-picker {
         --mui-input-size: #{$size};
         --mui-input-font-size: #{$font-size};
@@ -42,9 +43,11 @@
     > .mui-input,
     > .mui-select,
     > .mui-numeric,
+    > .mui-file,
     > .mui-addon-body > .mui-input,
     > .mui-addon-body > .mui-select,
-    > .mui-addon-body > .mui-numeric {
+    > .mui-addon-body > .mui-numeric,
+    > .mui-addon-body > .mui-file {
         position: relative;
         flex: 1 1 auto;
         inline-size: 1%;
@@ -96,6 +99,21 @@
     > :first-child:is(.mui-numeric) {
         --mui-numeric-input-border-radius-start: var(--mui-addon-border-radius);
         @include border-start-radius(var(--mui-addon-border-radius));
+    }
+
+    > :is(.mui-addon-start, .mui-addon-body, .mui-addon-end) > .mui-file > .mui-file-input,
+    > .mui-file > .mui-file-input {
+        --mui-input-border-radius: var(--mui-addon-gap-radius);
+    }
+
+    > :first-child > .mui-file > .mui-file-input,
+    > .mui-file:first-child > .mui-file-input {
+        @include border-start-radius(var(--mui-addon-border-radius));
+    }
+
+    > :last-child > .mui-file > .mui-file-input,
+    > .mui-file:last-child > .mui-file-input {
+        @include border-end-radius(var(--mui-addon-border-radius));
     }
 
     > :last-child > :is(.mui-input, .mui-select, .mui-addon-text),

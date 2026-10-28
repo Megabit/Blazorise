@@ -19,10 +19,10 @@
                 </span>
             </button>
         </span>
-        @if ( !HasSelectedFileNames && Placeholder != null )
+        @if ( !HasSelectedFileNames )
         {
             <Span Class="ant-upload-hint" TextColor="TextColor.Muted" Margin="Blazorise.Margin.Is2.FromStart">
-                @Placeholder
+                @SelectionTextString
             </Span>
         }
     </div>

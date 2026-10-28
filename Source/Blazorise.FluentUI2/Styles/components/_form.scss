@@ -12,3 +12,54 @@ input::file-selector-button {
     line-height: var(--lineHeightBase300);
     cursor: pointer;
 }
+
+.fui-FileInput.fui-Input,
+.fui-FileInput.fui-Input__content {
+    display: inline-grid;
+    min-inline-size: 0;
+
+    > input[type=file],
+    > .fui-FileInput-content {
+        grid-area: 1 / 1;
+        inline-size: 100%;
+        min-inline-size: 0;
+    }
+
+    > input[type=file] {
+        color: transparent !important;
+
+        &::-webkit-file-upload-button {
+            display: none;
+        }
+
+        &::file-selector-button {
+            display: none;
+        }
+    }
+
+    > .fui-FileInput-content {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        z-index: 1;
+        pointer-events: none;
+
+        &:has(+ input:disabled) {
+            color: var(--colorNeutralForegroundDisabled);
+        }
+    }
+
+    .fui-FileInput-button {
+        flex-shrink: 0;
+        margin-inline-end: var(--spacingHorizontalS);
+        font-weight: var(--fontWeightSemibold);
+        white-space: nowrap;
+    }
+
+    .fui-FileInput-selection {
+        min-inline-size: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}

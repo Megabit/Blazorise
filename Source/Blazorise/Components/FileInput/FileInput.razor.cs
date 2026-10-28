@@ -115,10 +115,6 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
     /// <param name="eventArgs">Data about the localization event.</param>
     private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
     {
-        // no need to refresh if we're using custom localization
-        if ( BrowseButtonLocalizer is not null )
-            return;
-
         await InvokeAsync( StateHasChanged );
     }
 
@@ -464,6 +460,14 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
     /// Gets the list is selected filename
     /// </summary>
     protected IEnumerable<string> SelectedFileNames => Value?.Select( x => x.Name ) ?? Enumerable.Empty<string>();
+
+    /// <summary>
+    /// Gets the selected filenames or the localized empty selection text.
+    /// </summary>
+    protected string SelectionTextString
+        => Files is { Length: > 0 }
+            ? string.Join( ", ", SelectedFileNames )
+            : Placeholder ?? Localizer["No file selected"];
 
     /// <summary>
     /// Enables the multiple file selection.

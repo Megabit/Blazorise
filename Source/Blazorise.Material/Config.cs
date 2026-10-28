@@ -50,6 +50,7 @@ public static class Config
         [typeof( Blazorise._TimePickerMenu<> )] = typeof( Components._TimePickerMenu<> ),
         [typeof( Blazorise.DropdownToggle )] = typeof( Components.DropdownToggle ),
         [typeof( Blazorise.Field )] = typeof( Components.Field ),
+        [typeof( Blazorise.FileInput )] = typeof( Components.FileInput ),
         [typeof( Blazorise.NumericPicker<> )] = typeof( Components.NumericPicker<> ),
         [typeof( Blazorise.Progress )] = typeof( Components.Progress ),
         [typeof( Blazorise.ProgressBar )] = typeof( Components.ProgressBar ),

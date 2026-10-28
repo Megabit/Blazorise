@@ -12679,6 +12679,58 @@ input::file-selector-button {
   cursor: pointer;
 }
 
+.fui-FileInput.fui-Input,
+.fui-FileInput.fui-Input__content {
+  display: inline-grid;
+  min-inline-size: 0;
+}
+.fui-FileInput.fui-Input > input[type=file],
+.fui-FileInput.fui-Input > .fui-FileInput-content,
+.fui-FileInput.fui-Input__content > input[type=file],
+.fui-FileInput.fui-Input__content > .fui-FileInput-content {
+  grid-area: 1/1;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+.fui-FileInput.fui-Input > input[type=file],
+.fui-FileInput.fui-Input__content > input[type=file] {
+  color: transparent !important;
+}
+.fui-FileInput.fui-Input > input[type=file]::-webkit-file-upload-button,
+.fui-FileInput.fui-Input__content > input[type=file]::-webkit-file-upload-button {
+  display: none;
+}
+.fui-FileInput.fui-Input > input[type=file]::file-selector-button,
+.fui-FileInput.fui-Input__content > input[type=file]::file-selector-button {
+  display: none;
+}
+.fui-FileInput.fui-Input > .fui-FileInput-content,
+.fui-FileInput.fui-Input__content > .fui-FileInput-content {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+.fui-FileInput.fui-Input > .fui-FileInput-content:has(+ input:disabled),
+.fui-FileInput.fui-Input__content > .fui-FileInput-content:has(+ input:disabled) {
+  color: var(--colorNeutralForegroundDisabled);
+}
+.fui-FileInput.fui-Input .fui-FileInput-button,
+.fui-FileInput.fui-Input__content .fui-FileInput-button {
+  flex-shrink: 0;
+  margin-inline-end: var(--spacingHorizontalS);
+  font-weight: var(--fontWeightSemibold);
+  white-space: nowrap;
+}
+.fui-FileInput.fui-Input .fui-FileInput-selection,
+.fui-FileInput.fui-Input__content .fui-FileInput-selection {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .fui-Image {
   display: inline-block;
   box-sizing: border-box;

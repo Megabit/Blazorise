@@ -83,6 +83,7 @@ public static class Config
         { typeof( Blazorise.DropdownToggle ), typeof( Components.DropdownToggle ) },
         { typeof( Blazorise.Button ), typeof( Components.Button ) },
         { typeof( Blazorise.Field ), typeof( Components.Field ) },
+        { typeof( Blazorise.FileInput ), typeof( Components.FileInput ) },
         { typeof( Blazorise.Modal ), typeof( Components.Modal ) },
         { typeof( Blazorise.ModalContent ), typeof( Components.ModalContent ) },
         { typeof( Blazorise.NumericPicker<> ), typeof( Components.NumericPicker<> ) },

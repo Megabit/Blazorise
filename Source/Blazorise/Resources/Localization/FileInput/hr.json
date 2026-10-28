@@ -1,6 +1,7 @@
 {
   "culture": "hr",
   "translations": {
+    "No file selected": "Nijedna datoteka nije odabrana",
     "Choose file": "Odaberi dokument",
     "Choose files": "Odaberi dokumente",
     "Choose folder": "Odaberite mapu",

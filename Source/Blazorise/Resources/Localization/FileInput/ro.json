@@ -1,6 +1,7 @@
 {
   "culture": "ro",
   "translations": {
+    "No file selected": "Niciun fișier selectat",
     "Choose file": "Alege fișier",
     "Choose files": "Alege fișiere",
     "Choose folder": "Alege folder",

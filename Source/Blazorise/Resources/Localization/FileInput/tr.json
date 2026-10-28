@@ -1,6 +1,7 @@
 {
   "culture": "tr",
   "translations": {
+    "No file selected": "Dosya seçilmedi",
     "Choose file": "Dosya seçin",
     "Choose files": "Dosyaları seçin",
     "Choose folder": "Klasör seçin",

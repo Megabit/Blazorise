@@ -1,4 +1,5 @@
-.b-input {
+.b-input,
+.tw-file-input {
     height: calc(var(--spacing) * 10);
 
     @each $name, $properties in $button-sizes {
@@ -6,14 +7,65 @@
             height: map-get($properties, height);
         }
     }
+}
 
-    &[multiple] {
-        height: auto;
-    }
+.b-input[multiple] {
+    height: auto;
 }
 
 textarea[data-autosize='true'] {
     field-sizing: content;
     height: auto;
     min-block-size: calc(var(--tw-textarea-min-block-size) + 1.25rem + 2px);
+}
+
+.tw-file-control {
+    display: grid;
+    min-inline-size: 0;
+    inline-size: 100%;
+
+    > .tw-file-input {
+        grid-area: 1 / 1;
+        min-inline-size: 0;
+    }
+
+    > input[type=file] {
+        color: transparent !important;
+
+        &::-webkit-file-upload-button {
+            display: none;
+        }
+
+        &::file-selector-button {
+            display: none;
+        }
+    }
+
+    > .tw-file-content {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        z-index: 1;
+        pointer-events: none;
+        background: none !important;
+        border-color: transparent !important;
+    }
+
+    .tw-file-button {
+        flex-shrink: 0;
+        margin-inline-end: calc(var(--spacing) * 4);
+        font-weight: var(--font-weight-medium);
+        white-space: nowrap;
+    }
+
+    .tw-file-selection {
+        min-inline-size: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &:has(> input:disabled) .tw-file-content {
+        opacity: 0.75;
+    }
 }

@@ -656,16 +656,50 @@ input[type="color"].form-control-color,
     }
 }
 
-.form-file input[type=file] {
-    margin-left: -2px !important;
-}
+.form-file {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
 
-.form-file input[type=file]::-webkit-file-upload-button {
-    display: none;
-}
+    > .input-group-text {
+        grid-area: 1 / 1;
+    }
 
-.form-file input[type=file]::file-selector-button {
-    display: none;
+    > input[type=file],
+    > .form-file-text {
+        grid-area: 1 / 2;
+        width: 100%;
+        min-width: 0;
+        margin-inline-start: -2px !important;
+    }
+
+    > input[type=file] {
+        color: transparent !important;
+
+        &::-webkit-file-upload-button {
+            display: none;
+        }
+
+        &::file-selector-button {
+            display: none;
+        }
+    }
+
+    > .form-file-text {
+        z-index: 6;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        pointer-events: none;
+        background: none !important;
+        border-color: transparent !important;
+    }
+
+    > .valid-feedback,
+    > .warning-feedback,
+    > .invalid-feedback,
+    > .none-feedback {
+        grid-column: 1 / -1;
+    }
 }
 
 .form-label-required:after {

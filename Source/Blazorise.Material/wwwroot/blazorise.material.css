@@ -352,9 +352,11 @@ body {
 .mui-addons > .mui-input,
 .mui-addons > .mui-select,
 .mui-addons > .mui-numeric,
+.mui-addons > .mui-file,
 .mui-addons > .mui-addon-body > .mui-input,
 .mui-addons > .mui-addon-body > .mui-select,
-.mui-addons > .mui-addon-body > .mui-numeric {
+.mui-addons > .mui-addon-body > .mui-numeric,
+.mui-addons > .mui-addon-body > .mui-file {
   position: relative;
   flex: 1 1 auto;
   inline-size: 1%;
@@ -404,6 +406,20 @@ body {
   --mui-numeric-input-border-radius-start: var(--mui-addon-border-radius);
   border-top-left-radius: var(--mui-addon-border-radius);
   border-bottom-left-radius: var(--mui-addon-border-radius);
+}
+.mui-addons > :is(.mui-addon-start, .mui-addon-body, .mui-addon-end) > .mui-file > .mui-file-input,
+.mui-addons > .mui-file > .mui-file-input {
+  --mui-input-border-radius: var(--mui-addon-gap-radius);
+}
+.mui-addons > :first-child > .mui-file > .mui-file-input,
+.mui-addons > .mui-file:first-child > .mui-file-input {
+  border-top-left-radius: var(--mui-addon-border-radius);
+  border-bottom-left-radius: var(--mui-addon-border-radius);
+}
+.mui-addons > :last-child > .mui-file > .mui-file-input,
+.mui-addons > .mui-file:last-child > .mui-file-input {
+  border-top-right-radius: var(--mui-addon-border-radius);
+  border-bottom-right-radius: var(--mui-addon-border-radius);
 }
 .mui-addons > :last-child > :is(.mui-input, .mui-select, .mui-addon-text),
 .mui-addons > :last-child:is(.mui-input, .mui-select, .mui-addon-text) {
@@ -469,6 +485,7 @@ body {
 
 .mui-addon-xs > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
 .mui-addon-xs > .mui-numeric > :is(.mui-input, .mui-input-plaintext),
+.mui-addon-xs > .mui-file > .mui-file-input,
 .mui-addon-xs > .mui-color-picker-container > .mui-color-picker {
   --mui-input-size: 1.5rem;
   --mui-input-font-size: 0.625rem;
@@ -480,6 +497,7 @@ body {
 
 .mui-addon-sm > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
 .mui-addon-sm > .mui-numeric > :is(.mui-input, .mui-input-plaintext),
+.mui-addon-sm > .mui-file > .mui-file-input,
 .mui-addon-sm > .mui-color-picker-container > .mui-color-picker {
   --mui-input-size: 2rem;
   --mui-input-font-size: 0.75rem;
@@ -491,6 +509,7 @@ body {
 
 .mui-addon-md > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
 .mui-addon-md > .mui-numeric > :is(.mui-input, .mui-input-plaintext),
+.mui-addon-md > .mui-file > .mui-file-input,
 .mui-addon-md > .mui-color-picker-container > .mui-color-picker {
   --mui-input-size: 2.75rem;
   --mui-input-font-size: 1.125rem;
@@ -502,6 +521,7 @@ body {
 
 .mui-addon-lg > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
 .mui-addon-lg > .mui-numeric > :is(.mui-input, .mui-input-plaintext),
+.mui-addon-lg > .mui-file > .mui-file-input,
 .mui-addon-lg > .mui-color-picker-container > .mui-color-picker {
   --mui-input-size: 3rem;
   --mui-input-font-size: 1.25rem;
@@ -513,6 +533,7 @@ body {
 
 .mui-addon-xl > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
 .mui-addon-xl > .mui-numeric > :is(.mui-input, .mui-input-plaintext),
+.mui-addon-xl > .mui-file > .mui-file-input,
 .mui-addon-xl > .mui-color-picker-container > .mui-color-picker {
   --mui-input-size: 3.5rem;
   --mui-input-font-size: 1.5rem;
@@ -5686,23 +5707,23 @@ fieldset.mui-row > legend.mui-field-label-horizontal {
   margin-inline: calc(var(--_gap, 1rem) * 0.5);
 }
 
-.mui-field:has(> :is(.mui-input-xs, .mui-select-xs, .mui-addons-xs), > .mui-field-body > :is(.mui-input-xs, .mui-select-xs, .mui-addons-xs), > :is(.mui-numeric, .b-numeric) .mui-input-xs, > .mui-field-body > :is(.mui-numeric, .b-numeric) .mui-input-xs) {
+.mui-field:has(> :is(.mui-input-xs, .mui-select-xs, .mui-addons-xs), > .mui-field-body > :is(.mui-input-xs, .mui-select-xs, .mui-addons-xs), > :is(.mui-numeric, .b-numeric, .mui-file) .mui-input-xs, > .mui-field-body > :is(.mui-numeric, .b-numeric, .mui-file) .mui-input-xs) {
   --mui-field-input-size: 1.5rem;
 }
 
-.mui-field:has(> :is(.mui-input-sm, .mui-select-sm, .mui-addons-sm), > .mui-field-body > :is(.mui-input-sm, .mui-select-sm, .mui-addons-sm), > :is(.mui-numeric, .b-numeric) .mui-input-sm, > .mui-field-body > :is(.mui-numeric, .b-numeric) .mui-input-sm) {
+.mui-field:has(> :is(.mui-input-sm, .mui-select-sm, .mui-addons-sm), > .mui-field-body > :is(.mui-input-sm, .mui-select-sm, .mui-addons-sm), > :is(.mui-numeric, .b-numeric, .mui-file) .mui-input-sm, > .mui-field-body > :is(.mui-numeric, .b-numeric, .mui-file) .mui-input-sm) {
   --mui-field-input-size: 2rem;
 }
 
-.mui-field:has(> :is(.mui-input-md, .mui-select-md, .mui-addons-md), > .mui-field-body > :is(.mui-input-md, .mui-select-md, .mui-addons-md), > :is(.mui-numeric, .b-numeric) .mui-input-md, > .mui-field-body > :is(.mui-numeric, .b-numeric) .mui-input-md) {
+.mui-field:has(> :is(.mui-input-md, .mui-select-md, .mui-addons-md), > .mui-field-body > :is(.mui-input-md, .mui-select-md, .mui-addons-md), > :is(.mui-numeric, .b-numeric, .mui-file) .mui-input-md, > .mui-field-body > :is(.mui-numeric, .b-numeric, .mui-file) .mui-input-md) {
   --mui-field-input-size: 2.75rem;
 }
 
-.mui-field:has(> :is(.mui-input-lg, .mui-select-lg, .mui-addons-lg), > .mui-field-body > :is(.mui-input-lg, .mui-select-lg, .mui-addons-lg), > :is(.mui-numeric, .b-numeric) .mui-input-lg, > .mui-field-body > :is(.mui-numeric, .b-numeric) .mui-input-lg) {
+.mui-field:has(> :is(.mui-input-lg, .mui-select-lg, .mui-addons-lg), > .mui-field-body > :is(.mui-input-lg, .mui-select-lg, .mui-addons-lg), > :is(.mui-numeric, .b-numeric, .mui-file) .mui-input-lg, > .mui-field-body > :is(.mui-numeric, .b-numeric, .mui-file) .mui-input-lg) {
   --mui-field-input-size: 3rem;
 }
 
-.mui-field:has(> :is(.mui-input-xl, .mui-select-xl, .mui-addons-xl), > .mui-field-body > :is(.mui-input-xl, .mui-select-xl, .mui-addons-xl), > :is(.mui-numeric, .b-numeric) .mui-input-xl, > .mui-field-body > :is(.mui-numeric, .b-numeric) .mui-input-xl) {
+.mui-field:has(> :is(.mui-input-xl, .mui-select-xl, .mui-addons-xl), > .mui-field-body > :is(.mui-input-xl, .mui-select-xl, .mui-addons-xl), > :is(.mui-numeric, .b-numeric, .mui-file) .mui-input-xl, > .mui-field-body > :is(.mui-numeric, .b-numeric, .mui-file) .mui-input-xl) {
   --mui-field-input-size: 3.5rem;
 }
 
@@ -5822,12 +5843,14 @@ fieldset.mui-row > legend.mui-field-label-horizontal {
   margin-inline-start: 0.25rem;
 }
 
-.mui-field:has(> :disabled, > .mui-field-body > :disabled) {
+.mui-field:has(> :disabled, > .mui-field-body > :disabled, > .mui-file > input:disabled, > .mui-field-body > .mui-file > input:disabled) {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
 .mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ :is(.mui-input, .mui-select),
+.mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ .mui-file > .mui-file-input,
+.mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ .mui-field-body > .mui-file > .mui-file-input,
 .mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ .mui-field-body > :is(.mui-input, .mui-select) {
   padding-block-start: 1rem;
 }
@@ -5851,7 +5874,7 @@ fieldset.mui-row > legend.mui-field-label-horizontal {
 }
 
 .mui-field.mui-field-floating:focus-within > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown), > .mui-field-body > :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown), > textarea.mui-input[placeholder]:not(:placeholder-shown), > .mui-field-body > textarea.mui-input[placeholder]:not(:placeholder-shown), > :is(.mui-select, .mui-color-input, .mui-color-picker, .mui-color-picker-container), > .mui-field-body > :is(.mui-select, .mui-color-input, .mui-color-picker, .mui-color-picker-container)) > .mui-field-label:not(.mui-field-label-horizontal) {
+.mui-field.mui-field-floating:has(> :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown), > .mui-field-body > :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown), > textarea.mui-input[placeholder]:not(:placeholder-shown), > .mui-field-body > textarea.mui-input[placeholder]:not(:placeholder-shown), > :is(.mui-select, .mui-color-input, .mui-color-picker, .mui-color-picker-container, .mui-file), > .mui-field-body > :is(.mui-select, .mui-color-input, .mui-color-picker, .mui-color-picker-container, .mui-file)) > .mui-field-label:not(.mui-field-label-horizontal) {
   block-size: 2.5rem;
   line-height: 2.5rem;
   font-size: 0.75rem;
@@ -5861,15 +5884,15 @@ fieldset.mui-row > legend.mui-field-label-horizontal {
   color: var(--mui-primary);
 }
 
-.mui-field:has(> :is(.mui-input, .mui-select).is-invalid, > .mui-field-body > :is(.mui-input, .mui-select).is-invalid) > .mui-field-label:not(.mui-field-label-horizontal) {
+.mui-field:has(> :is(.mui-input, .mui-select).is-invalid, > .mui-field-body > :is(.mui-input, .mui-select).is-invalid, > .mui-file > .mui-input.is-invalid, > .mui-field-body > .mui-file > .mui-input.is-invalid) > .mui-field-label:not(.mui-field-label-horizontal) {
   color: var(--mui-error);
 }
 
-.mui-field:has(> :is(.mui-input, .mui-select).is-valid, > .mui-field-body > :is(.mui-input, .mui-select).is-valid) > .mui-field-label:not(.mui-field-label-horizontal) {
+.mui-field:has(> :is(.mui-input, .mui-select).is-valid, > .mui-field-body > :is(.mui-input, .mui-select).is-valid, > .mui-file > .mui-input.is-valid, > .mui-field-body > .mui-file > .mui-input.is-valid) > .mui-field-label:not(.mui-field-label-horizontal) {
   color: var(--mui-success);
 }
 
-.mui-field:has(> :is(.mui-input, .mui-select).is-warning, > .mui-field-body > :is(.mui-input, .mui-select).is-warning) > .mui-field-label:not(.mui-field-label-horizontal) {
+.mui-field:has(> :is(.mui-input, .mui-select).is-warning, > .mui-field-body > :is(.mui-input, .mui-select).is-warning, > .mui-file > .mui-input.is-warning, > .mui-field-body > .mui-file > .mui-input.is-warning) > .mui-field-label:not(.mui-field-label-horizontal) {
   color: var(--mui-warning);
 }
 
@@ -6546,36 +6569,51 @@ textarea.mui-input[data-autosize=true] {
   --mui-numeric-icon-size: 1.25rem;
 }
 
-.mui-file-input[type=file] {
-  --mui-file-selector-offset-y: calc(var(--mui-input-size) * -0.05);
-  display: flex;
-  align-items: center;
+.mui-file {
+  display: grid;
+  min-inline-size: 0;
+  inline-size: 100%;
+}
+.mui-file > .mui-file-input {
+  grid-area: 1/1;
+  min-inline-size: 0;
   block-size: var(--mui-input-size);
   line-height: var(--mui-input-size);
   padding-block: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   padding-inline: 0.375rem;
   cursor: pointer;
 }
-.mui-file-input[type=file]:focus {
+.mui-file > input[type=file] {
+  color: transparent !important;
+}
+.mui-file > input[type=file]::-webkit-file-upload-button {
+  display: none;
+}
+.mui-file > input[type=file]::file-selector-button {
+  display: none;
+}
+.mui-file > input[type=file]:focus {
   border-width: 0.0625rem;
   padding-inline: 0.375rem;
   border-color: var(--mui-primary);
 }
-
-.mui-file-input[type=file]::-webkit-file-upload-button, .mui-file-input[type=file]::file-selector-button {
+.mui-file > .mui-file-content {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  z-index: 2;
+  pointer-events: none;
+  background: none !important;
+  border-color: transparent !important;
+}
+.mui-file .mui-file-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  vertical-align: middle;
-  inline-size: auto;
+  flex-shrink: 0;
   block-size: calc(var(--mui-input-size) - 0.5rem);
-  border: 0;
+  max-block-size: 100%;
   border-radius: 999rem;
-  margin-block: 0;
-  transform: translateY(var(--mui-file-selector-offset-y));
   margin-inline-end: 0.75rem;
   padding-inline: 0.875rem;
   line-height: 1;
@@ -6584,32 +6622,34 @@ textarea.mui-input[data-autosize=true] {
   font-family: inherit;
   font-size: 0.75rem;
   font-weight: 500;
-  cursor: pointer;
+  white-space: nowrap;
   transition: background-color var(--mui-duration-normal), color var(--mui-duration-normal), opacity var(--mui-duration-normal);
 }
-
-.mui-file-input[type=file]:hover::-webkit-file-upload-button, .mui-file-input[type=file]:hover::file-selector-button {
-  background-color: color-mix(in srgb, var(--mui-secondary) 24%, var(--mui-secondary-container));
-  color: var(--mui-on-secondary-container);
+.mui-file .mui-file-selection {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-
-.mui-file-input[type=file]:focus::-webkit-file-upload-button, .mui-file-input[type=file]:focus::file-selector-button {
+.mui-file:has(> input:hover) .mui-file-button {
+  background-color: color-mix(in srgb, var(--mui-secondary) 24%, var(--mui-secondary-container));
+}
+.mui-file:has(> input:focus) .mui-file-button {
   background-color: color-mix(in srgb, var(--mui-primary) 20%, var(--mui-secondary-container));
   color: var(--mui-on-primary-container);
 }
-
-.mui-file-input[type=file].is-valid::-webkit-file-upload-button, .mui-file-input[type=file].is-valid::file-selector-button {
+.mui-file:has(> input.is-valid) .mui-file-button {
   background-color: color-mix(in srgb, var(--mui-success) 16%, var(--mui-success-container));
   color: var(--mui-on-success-container);
 }
-
-.mui-file-input[type=file].is-invalid::-webkit-file-upload-button, .mui-file-input[type=file].is-invalid::file-selector-button {
+.mui-file:has(> input.is-invalid) .mui-file-button {
   background-color: color-mix(in srgb, var(--mui-error) 14%, var(--mui-error-container));
   color: var(--mui-on-error-container);
 }
-
-.mui-file-input[type=file]:disabled::-webkit-file-upload-button, .mui-file-input[type=file]:disabled::file-selector-button {
-  cursor: not-allowed;
+.mui-file:has(> input:disabled) .mui-file-content {
+  opacity: 0.5;
+}
+.mui-file:has(> input:disabled) .mui-file-button {
   opacity: 0.62;
 }
 

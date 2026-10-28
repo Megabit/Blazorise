@@ -2,6 +2,7 @@
     > .b-addon-body:not(:last-child) {
         > input,
         > div.tw-datepicker > input,
+        > div.tw-file-control > input,
         > div.tw-numeric > input,
         > div.tw-numeric > .tw-numeric-buttons,
         > div.tw-timepicker > input {
@@ -18,6 +19,7 @@
     > .b-addon-body:not(:first-child):not(.b-dropdown-menu) {
         > input,
         > div.tw-datepicker > input,
+        > div.tw-file-control > input,
         > div.tw-numeric > input,
         > div.tw-timepicker > input,
         > div.tw-color-picker-container > button {
@@ -50,6 +52,7 @@
     > .b-addon-body {
         > input,
         > div.tw-datepicker,
+        > div.tw-file-control,
         > div.tw-numeric,
         > div.tw-timepicker,
         > div.tw-color-picker-container {
@@ -63,6 +66,7 @@
     > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) {
         > input,
         > div.tw-datepicker > input,
+        > div.tw-file-control > input,
         > div.tw-numeric > input,
         > div.tw-timepicker > input,
         > div.tw-color-picker-container > button {
