@@ -17,8 +17,10 @@ public class DataGridDateColumn<TItem> : DataGridColumn<TItem>
     /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        var comparisonModeChanged = parameters.TryGetValue<DateComparisonMode>( nameof( FilterComparisonMode ), out var paramFilterComparisonMode ) && paramFilterComparisonMode != FilterComparisonMode;
-        var shouldReload = Rendered && comparisonModeChanged;
+        var filterComparisonModeChanged = parameters.TryGetValue<DateComparisonMode>( nameof( FilterComparisonMode ), out var paramFilterComparisonMode ) && paramFilterComparisonMode != FilterComparisonMode;
+        var sortComparisonModeChanged = parameters.TryGetValue<DateComparisonMode>( nameof( SortComparisonMode ), out var paramSortComparisonMode ) && paramSortComparisonMode != SortComparisonMode;
+        var groupComparisonModeChanged = parameters.TryGetValue<DateComparisonMode>( nameof( GroupComparisonMode ), out var paramGroupComparisonMode ) && paramGroupComparisonMode != GroupComparisonMode;
+        var shouldReload = Rendered && ( filterComparisonModeChanged || sortComparisonModeChanged || groupComparisonModeChanged );
 
         await base.SetParametersAsync( parameters );
 
@@ -31,6 +33,24 @@ public class DataGridDateColumn<TItem> : DataGridColumn<TItem>
     /// <inheritdoc/>
     internal override DataGridColumnFilterMethod GetDefaultFilterMethod()
         => DataGridColumnFilterMethod.Equals;
+
+    /// <inheritdoc />
+    protected internal override object NormalizeValueForSort( object value )
+        => base.NormalizeValueForSort( SortComparisonMode == DateComparisonMode.DateOnly ? NormalizeDateValue( value ) : value );
+
+    /// <inheritdoc />
+    internal override Func<TItem, object> GetGroupByFunc()
+        => GroupBy is not null || GroupComparisonMode != DateComparisonMode.DateOnly
+            ? base.GetGroupByFunc()
+            : item => NormalizeDateValue( GetValue( item ) );
+
+    private static object NormalizeDateValue( object value )
+        => value switch
+        {
+            DateTime dateTime => DateOnly.FromDateTime( dateTime ),
+            DateTimeOffset dateTimeOffset => DateOnly.FromDateTime( dateTimeOffset.Date ),
+            _ => value,
+        };
 
     #endregion
 
@@ -53,6 +73,24 @@ public class DataGridDateColumn<TItem> : DataGridColumn<TItem>
     /// Applies to equality, ordering, and range filters. Custom filters receive the original values.
     /// </remarks>
     [Parameter] public DateComparisonMode FilterComparisonMode { get; set; } = DateComparisonMode.DateTime;
+
+    /// <summary>
+    /// Specifies whether sorting compares the full value or only its calendar date.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <see cref="DateComparisonMode.DateTime"/>. Date-only sorting ignores time without converting time zones.
+    /// Values on the same day compare equally. A custom <see cref="DataGridColumn{TItem}.SortComparer"/> takes precedence.
+    /// </remarks>
+    [Parameter] public DateComparisonMode SortComparisonMode { get; set; } = DateComparisonMode.DateTime;
+
+    /// <summary>
+    /// Specifies whether grouping uses the full value or only its calendar date.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <see cref="DateComparisonMode.DateTime"/>. Date-only grouping uses <see cref="DateOnly"/> keys without converting time zones.
+    /// A custom <see cref="DataGridColumn{TItem}.GroupBy"/> takes precedence.
+    /// </remarks>
+    [Parameter] public DateComparisonMode GroupComparisonMode { get; set; } = DateComparisonMode.DateTime;
 
     /// <summary>
     /// The earliest date to accept.

@@ -302,6 +302,11 @@ public static class ExpressionCompiler
             {
                 var valueGetterExpression = string.IsNullOrWhiteSpace( sortByColumn.SortField ) ? CreateValueGetterExpression<TItem>( sortByColumn.Field ) : CreateValueGetterExpression<TItem>( sortByColumn.SortField );
 
+                if ( sortByColumn.ColumnType == DataGridColumnType.Date && sortByColumn.SortComparisonMode == DateComparisonMode.DateOnly )
+                {
+                    valueGetterExpression = NormalizeDateSortExpression( valueGetterExpression );
+                }
+
                 if ( firstSort )
                 {
                     if ( sortByColumn.SortDirection == SortDirection.Ascending )
@@ -462,6 +467,31 @@ public static class ExpressionCompiler
     /// </summary>
     public static Expression<Func<TItem, object>> CreateValueGetterExpression<TItem>( string fieldName )
         => MemberExpressionCompiler.CreateValueGetterExpression<TItem>( fieldName );
+
+    /// <summary>
+    /// Normalizes date sort keys while preserving nullable and nested member access.
+    /// </summary>
+    private static Expression<Func<TItem, object>> NormalizeDateSortExpression<TItem>( Expression<Func<TItem, object>> getter )
+    {
+        var property = ( (UnaryExpression)getter.Body ).Operand;
+        var underlyingType = Nullable.GetUnderlyingType( property.Type );
+        var valueType = underlyingType ?? property.Type;
+
+        if ( valueType != typeof( DateTime ) && valueType != typeof( DateTimeOffset ) )
+        {
+            return getter;
+        }
+
+        var value = underlyingType is null ? property : Expression.Property( property, nameof( Nullable<DateTime>.Value ) );
+        Expression date = Expression.Convert( Expression.Property( value, nameof( DateTime.Date ) ), typeof( object ) );
+
+        if ( underlyingType is not null )
+        {
+            date = Expression.Condition( Expression.Property( property, nameof( Nullable<DateTime>.HasValue ) ), date, Expression.Constant( null, typeof( object ) ) );
+        }
+
+        return Expression.Lambda<Func<TItem, object>>( date, getter.Parameters );
+    }
 
     private static Expression ConvertToStringExpression( Expression property )
     {
