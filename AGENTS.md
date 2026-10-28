@@ -75,6 +75,7 @@ Use the relevant repository skills before implementing or reviewing work in thes
 | Blazorise library component behavior, state, parameters, events, rendering, provider overrides, or interop contracts | [blazorise-components](.agents/skills/blazorise-components/SKILL.md) |
 | CSS provider SCSS, native tokens, class names, styling hooks, or runtime theming | [blazorise-provider-styling](.agents/skills/blazorise-provider-styling/SKILL.md) |
 | Documentation pages, handwritten examples, snippets, or API explanations | [blazorise-documentation](.agents/skills/blazorise-documentation/SKILL.md) |
+| Playwright E2E tests, CI timing failures, or related BasicTestApp Razor fixtures | [blazorise-e2e-tests](.agents/skills/blazorise-e2e-tests/SKILL.md) |
 
 For C# changes, read the shared [formatting examples](.agents/skills/blazorise-components/references/csharp-formatting.md) alongside the coding rules below. Skill invocation does not authorize command execution; the execution policy above applies to all skills.
 

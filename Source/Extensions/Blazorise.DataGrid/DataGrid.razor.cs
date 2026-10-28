@@ -2666,9 +2666,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     internal async Task OnMultiSelectCommand( DataGridMultiSelectionChangedEventArgs<TItem> eventArgs )
     {
-        if ( MultiSelectColumn is null )
-            return;
-
         SelectedAllRows = false;
         UnSelectAllRows = false;
 
@@ -2679,12 +2676,20 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
         {
             SelectedRows.Add( eventArgs.Item );
-            await MultiSelectColumn.SelectionChanged.InvokeAsync( eventArgs );
+
+            if ( MultiSelectColumn is not null )
+            {
+                await MultiSelectColumn.SelectionChanged.InvokeAsync( eventArgs );
+            }
         }
         else if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
         {
             SelectedRows.Remove( eventArgs.Item );
-            await MultiSelectColumn.SelectionChanged.InvokeAsync( eventArgs );
+
+            if ( MultiSelectColumn is not null )
+            {
+                await MultiSelectColumn.SelectionChanged.InvokeAsync( eventArgs );
+            }
 
             if ( SelectedRow.IsEqual( eventArgs.Item ) )
             {
