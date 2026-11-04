@@ -34,7 +34,7 @@ public class SvgChartValueAxis : SvgChartComponentBase
 
     private ComponentParameterInfo<SvgChartAxisLabelsOptions> paramLabelsOptions;
 
-    private ComponentParameterInfo<string> paramTitle;
+    private ComponentParameterInfo<SvgChartAxisTitleOptions> paramTitle;
 
     #endregion
 
@@ -87,7 +87,7 @@ public class SvgChartValueAxis : SvgChartComponentBase
             TickFormatter = paramTickFormatter.GetValueOrDefault( fallback.TickFormatter ),
             GridLines = SvgChartOptionsMapper.CreateGridLinesOptions( fallback.GridLines, paramGridLines ),
             Labels = SvgChartOptionsMapper.CreateLabelsOptions( fallback.Labels, paramLabelsOptions ),
-            Title = paramTitle.GetValueOrDefault( fallback.Title )
+            Title = SvgChartOptionsMapper.CreateAxisTitleOptions( fallback.Title, paramTitle ),
         };
     }
 
@@ -156,10 +156,10 @@ public class SvgChartValueAxis : SvgChartComponentBase
     [Parameter] public SvgChartAxisLabelsOptions LabelsOptions { get; set; }
 
     /// <summary>
-    /// Defines the axis title.
+    /// Defines the axis title text and appearance. A string is implicitly converted to title options.
     /// </summary>
     /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
-    [Parameter] public string Title { get; set; }
+    [Parameter] public SvgChartAxisTitleOptions Title { get; set; }
 
     #endregion
 }

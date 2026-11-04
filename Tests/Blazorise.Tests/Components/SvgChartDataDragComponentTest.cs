@@ -14,12 +14,7 @@ public class SvgChartDataDragComponentTest : BunitContext
     public SvgChartDataDragComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider();
-        JSInterop.AddBlazoriseUtilities();
-        JSInterop.AddBlazoriseDocumentObserver();
-
-        var module = JSInterop.SetupModule( "./_content/Blazorise.Charts.Svg/svgChart.js" );
-        module.SetupVoid( "initializeDataDrag", _ => true ).SetVoidResult();
-        module.SetupVoid( "destroyDataDrag", _ => true ).SetVoidResult();
+        JSInterop.AddBlazoriseSvgChart();
     }
 
     [Fact]

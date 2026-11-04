@@ -3,6 +3,46 @@ const dataDragHandlers = new WeakMap();
 const animationObservers = new WeakMap();
 const animationStates = new WeakMap();
 const streamingAnimationStates = new WeakMap();
+const tooltipObservers = new WeakMap();
+
+export function updateTooltip(element) {
+    destroyTooltip(element);
+
+    const tooltip = element?.querySelector(".svg-chart-tooltip");
+    const container = tooltip?.parentElement;
+
+    if (!tooltip || !container) {
+        return;
+    }
+
+    const position = () => {
+        if (!element.isConnected || !tooltip.isConnected) {
+            destroyTooltip(element);
+            return;
+        }
+
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        const anchorX = Number(tooltip.dataset.anchorX) * width;
+        const anchorY = Number(tooltip.dataset.anchorY) * height;
+        const x = Math.max(0, Math.min(anchorX + Number(tooltip.dataset.offsetX), width - tooltip.offsetWidth));
+        const y = Math.max(0, Math.min(anchorY - Number(tooltip.dataset.offsetY) - tooltip.offsetHeight, height - tooltip.offsetHeight));
+
+        tooltip.style.left = `${x}px`;
+        tooltip.style.top = `${y}px`;
+    };
+
+    const observer = new ResizeObserver(position);
+    tooltipObservers.set(element, observer);
+    observer.observe(container);
+    observer.observe(tooltip);
+    position();
+}
+
+export function destroyTooltip(element) {
+    tooltipObservers.get(element)?.disconnect();
+    tooltipObservers.delete(element);
+}
 
 export function initializeZoomWheel(element) {
     if (!element || zoomWheelHandlers.has(element)) {

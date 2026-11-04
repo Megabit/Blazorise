@@ -7,8 +7,8 @@
     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
     <SvgChartTooltip Enabled />
     <SvgChartCategoryAxis Id="months" Value="@( item => item.Month )" />
-    <SvgChartValueAxis Id="revenue" Position="SvgChartAxisPosition.Left" BeginAtZero TickCount="6" Title="Revenue" />
-    <SvgChartValueAxis Id="growth" Position="SvgChartAxisPosition.Right" Min="-5" Max="25" TickCount="7" Title="Growth %" />
+    <SvgChartValueAxis Id="revenue" Position="SvgChartAxisPosition.Left" BeginAtZero TickCount="6" Title='@("Revenue")' />
+    <SvgChartValueAxis Id="growth" Position="SvgChartAxisPosition.Right" Min="-5" Max="25" TickCount="7" Title='@("Growth %")' />
 
     <SvgColumnSeries Name="Revenue"
                      CategoryAxisId="months"

@@ -62,9 +62,9 @@ public class SvgChartAxisOptions
     public SvgChartAxisLabelsOptions Labels { get; set; } = new();
 
     /// <summary>
-    /// Defines the axis title.
+    /// Defines the axis title text and appearance. A string is implicitly converted to title options.
     /// </summary>
-    public string Title { get; set; }
+    public SvgChartAxisTitleOptions Title { get; set; }
 
     #endregion
 }

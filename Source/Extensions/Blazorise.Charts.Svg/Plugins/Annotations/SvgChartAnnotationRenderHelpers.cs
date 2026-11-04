@@ -66,7 +66,7 @@ internal static class SvgChartAnnotationRenderHelpers
         var font = CreateFontOptions( context.Options.Font, label.Font ) ?? new();
         var fontSize = font.Size ?? context.Options.Font?.Size ?? 11;
         var padding = label.Padding ?? new();
-        var textWidth = SvgChartRenderHelpers.EstimateTextWidth( label.Text, fontSize );
+        var textWidth = SvgChartRenderHelpers.EstimateTextWidth( label.Text, fontSize, context.Options, font );
         var width = textWidth + padding.Start + padding.End;
         var height = fontSize + padding.Top + padding.Bottom;
         var anchor = ResolveLabelAnchor( bounds, label.Position, label.Offset, width, height );

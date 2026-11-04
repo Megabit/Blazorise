@@ -1,8 +1,10 @@
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Charts.Svg;
+#endregion
 
 namespace Blazorise.Demo.Pages.Tests;
 

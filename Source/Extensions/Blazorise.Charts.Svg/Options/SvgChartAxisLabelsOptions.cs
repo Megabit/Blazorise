@@ -43,9 +43,13 @@ public class SvgChartAxisLabelsOptions
     public double MaxRotation { get; set; } = 50;
 
     /// <summary>
-    /// Defines the label offset from the axis line.
+    /// Defines the distance from the axis line to the label anchor, in SVG units.
     /// </summary>
-    public double Offset { get; set; } = 24;
+    /// <remarks>
+    /// When null, inherits the parent setting or defaults to 24 for horizontal axes and 10 for vertical axes.
+    /// Horizontal labels use their text baseline as the anchor.
+    /// </remarks>
+    public double? Offset { get; set; }
 
     /// <summary>
     /// Defines the maximum label width in SVG units. Longer labels are shortened.

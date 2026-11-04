@@ -103,13 +103,10 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Label density" AddedVersion="2.3" AddedDate="2026-08-03">
-        Use label options to limit crowded category and time axes while preserving readable labels.
+        Keep busy category and time axes readable with automatic label skipping and rotation. Set <Code>AutoSkip</Code> to <Code>false</Code> when every label needs to remain visible.
     </DocsPageSectionHeader>
     <DocsPageParagraph>
-        Automatic skipping is enabled by default. Use <Code>MaxTicksLimit</Code>, <Code>AutoRotate</Code>, and <Code>MaxRotation</Code> to tune label density, or set <Code>AutoSkip</Code> to <Code>false</Code> when every label should be rendered. The <Code>Step</Code> option still acts as a manual minimum interval.
-    </DocsPageParagraph>
-    <DocsPageParagraph>
-        Set <Code>Font</Code> on the axis <Code>LabelsOptions</Code> to style that axis independently. Unspecified font values inherit from <Code>SvgChartOptions.Font</Code>. Font sizes use SVG units and scale with the chart when <Code>Responsive</Code> is enabled; set <Code>Responsive</Code> to <Code>false</Code> for fixed-size rendering.
+        Axis spacing adapts to formatted values, fonts, and titles, helping larger labels and multiple value axes fit without overlapping. Label and title spacing can still be customized when your chart needs a different balance.
     </DocsPageParagraph>
     <DocsPageSectionContent Code="SvgAxisLabelDensityChartExample" Outlined FullWidth>
         <SvgAxisLabelDensityChartExample />
@@ -156,13 +153,10 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Chart features">
-        Combine stacked series, grouped tooltip interaction, axis tick callbacks, and time-formatted category labels.
+        Show how each series contributes to a total with stacked charts, and make values easier to interpret with currency and date labels.
     </DocsPageSectionHeader>
     <DocsPageParagraph>
-        Set the tooltip <Code>InteractionMode</Code> to <Code>SvgChartInteractionMode.Index</Code> to show every visible series at the same category. Set <Code>Intersect</Code> to <Code>false</Code> to activate the nearest category anywhere inside the plot area instead of requiring the pointer to intersect a rendered point.
-    </DocsPageParagraph>
-    <DocsPageParagraph>
-        <Code>SvgChartTimeAxis</Code> uses ordinal spacing by default. Set <Code>Scale</Code> to <Code>SvgChartTimeScale.Continuous</Code> on line, area, scatter, and bubble charts when irregular time values should be spaced by elapsed time.
+        Grouped tooltips make it easier to compare series at the same category. Tooltips grow to fit their content, including custom templates, while legends adapt to larger fonts and additional rows.
     </DocsPageParagraph>
     <DocsPageSectionContent Code="SvgAdvancedChartExample" Outlined FullWidth>
         <SvgAdvancedChartExample />

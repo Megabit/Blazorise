@@ -17,7 +17,7 @@ internal sealed class SvgChartRenderValueAxis
 
     public SvgChartAxisLabelsOptions Labels { get; init; }
 
-    public string Title { get; init; }
+    public SvgChartAxisTitleOptions Title { get; init; }
 
     public Func<SvgChartAxisTickContext, string> TickFormatter { get; init; }
 
