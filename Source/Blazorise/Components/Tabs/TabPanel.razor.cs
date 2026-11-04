@@ -37,12 +37,16 @@ public partial class TabPanel : BaseComponent, IDisposable
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool nameChanged = parameters.TryGetValue<string>( nameof( Name ), out string name ) && Name != name;
+        var previousName = Name;
+        var nameChanged = ParentTabs is not null && parameters.TryGetValue<string>( nameof( Name ), out var paramName ) && Name != paramName;
 
         await base.SetParametersAsync( parameters );
 
         if ( nameChanged )
-            ParentTabs?.NotifyTabParametersChanged();
+        {
+            ParentTabs?.NotifyTabPanelParametersChanged( previousName );
+            ParentTabs?.NotifyTabPanelParametersChanged( Name );
+        }
     }
 
     /// <inheritdoc/>
@@ -84,6 +88,11 @@ public partial class TabPanel : BaseComponent, IDisposable
 
         base.Dispose( disposing );
     }
+
+    /// <summary>
+    /// Requests a render of the panel.
+    /// </summary>
+    internal void Refresh() => InvokeAsync( StateHasChanged );
 
     #endregion
 

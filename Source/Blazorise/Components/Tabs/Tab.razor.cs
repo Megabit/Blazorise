@@ -53,12 +53,16 @@ public partial class Tab : BaseComponent<TabClasses, TabStyles>, IDisposable
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        bool nameChanged = parameters.TryGetValue<string>( nameof( Name ), out string name ) && Name != name;
+        var previousName = Name;
+        var nameChanged = ParentTabs is not null && parameters.TryGetValue<string>( nameof( Name ), out var paramName ) && Name != paramName;
 
         await base.SetParametersAsync( parameters );
 
         if ( nameChanged )
-            ParentTabs?.NotifyTabParametersChanged();
+        {
+            ParentTabs?.NotifyTabParametersChanged( previousName );
+            ParentTabs?.NotifyTabParametersChanged( Name );
+        }
     }
 
     /// <inheritdoc/>
@@ -100,6 +104,11 @@ public partial class Tab : BaseComponent<TabClasses, TabStyles>, IDisposable
 
         base.DirtyClasses();
     }
+
+    /// <summary>
+    /// Requests a render of the tab.
+    /// </summary>
+    internal void Refresh() => InvokeAsync( StateHasChanged );
 
     /// <summary>
     /// Handles the item onclick event.
