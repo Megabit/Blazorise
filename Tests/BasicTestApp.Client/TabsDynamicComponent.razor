@@ -1,0 +1,19 @@
+<Tabs SelectedTab="first">
+    <Items>
+        @{
+            ItemsRenderCount++;
+        }
+        <TabsConditionalContent>
+            <Tab Name="first">First tab</Tab>
+        </TabsConditionalContent>
+    </Items>
+    <Content>
+        <TabsConditionalContent>
+            <TabPanel Name="first">First panel</TabPanel>
+        </TabsConditionalContent>
+    </Content>
+</Tabs>
+
+@code {
+    public int ItemsRenderCount { get; private set; }
+}

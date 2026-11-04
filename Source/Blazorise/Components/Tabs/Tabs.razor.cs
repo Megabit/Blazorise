@@ -109,7 +109,8 @@ public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>, IAsyncDispos
         if ( !tabItems.Contains( tab ) )
         {
             tabItems.Add( tab );
-            InvokeAsync( StateHasChanged );
+
+            NotifyTabParametersChanged( tab.Name );
         }
     }
 
@@ -120,7 +121,9 @@ public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>, IAsyncDispos
     internal void NotifyTabRemoved( Tab tab )
     {
         if ( tabItems.Remove( tab ) )
-            InvokeAsync( StateHasChanged );
+        {
+            NotifyTabParametersChanged( tab.Name );
+        }
     }
 
     /// <summary>
@@ -132,7 +135,8 @@ public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>, IAsyncDispos
         if ( !tabPanels.Contains( panel ) )
         {
             tabPanels.Add( panel );
-            InvokeAsync( StateHasChanged );
+
+            NotifyTabPanelParametersChanged( panel.Name );
         }
     }
 
@@ -143,7 +147,9 @@ public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>, IAsyncDispos
     internal void NotifyTabPanelRemoved( TabPanel panel )
     {
         if ( tabPanels.Remove( panel ) )
-            InvokeAsync( StateHasChanged );
+        {
+            NotifyTabPanelParametersChanged( panel.Name );
+        }
     }
 
     /// <summary>
@@ -163,10 +169,18 @@ public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>, IAsyncDispos
         => tabPanels.Find( panel => panel.Name == name )?.ElementId;
 
     /// <summary>
-    /// Refreshes tab and panel associations after their names change.
+    /// Updates panels whose associated tab may have changed.
     /// </summary>
-    internal void NotifyTabParametersChanged()
-        => InvokeAsync( StateHasChanged );
+    /// <param name="name">The shared tab and panel name.</param>
+    internal void NotifyTabParametersChanged( string name )
+        => tabPanels.Find( panel => panel.Name == name )?.RefreshTabAssociation();
+
+    /// <summary>
+    /// Updates tabs whose associated panel may have changed.
+    /// </summary>
+    /// <param name="name">The shared tab and panel name.</param>
+    internal void NotifyTabPanelParametersChanged( string name )
+        => tabItems.Find( tab => tab.Name == name )?.RefreshPanelAssociation();
 
     /// <summary>
     /// Sets the active tab by the name.
