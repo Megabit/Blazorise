@@ -103,22 +103,10 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Label density" AddedVersion="2.3" AddedDate="2026-08-03">
-        Use label options to limit crowded category and time axes while preserving readable labels.
+        Keep busy category and time axes readable with automatic label skipping and rotation. Set <Code>AutoSkip</Code> to <Code>false</Code> when every label needs to remain visible.
     </DocsPageSectionHeader>
     <DocsPageParagraph>
-        Automatic skipping is enabled by default. Use <Code>MaxTicksLimit</Code>, <Code>AutoRotate</Code>, and <Code>MaxRotation</Code> to tune label density, or set <Code>AutoSkip</Code> to <Code>false</Code> when every label should be rendered. The <Code>Step</Code> option still acts as a manual minimum interval.
-    </DocsPageParagraph>
-    <DocsPageParagraph>
-        Set <Code>Font</Code> on the axis <Code>LabelsOptions</Code> to style that axis independently. Unspecified font values inherit from <Code>SvgChartOptions.Font</Code>. Font sizes use SVG units and scale with the chart when <Code>Responsive</Code> is enabled; set <Code>Responsive</Code> to <Code>false</Code> for fixed-size rendering.
-    </DocsPageParagraph>
-    <DocsPageParagraph>
-        Set <Code>LabelsOptions.Offset</Code> to control the distance between an axis and its labels. A <Code>null</Code> offset inherits the corresponding chart axis setting, falling back to 24 SVG units for horizontal axes and 10 for vertical axes. An explicit zero removes the offset. Axis <Code>Title</Code> accepts <Code>SvgChartAxisTitleOptions</Code> with <Code>Text</Code>, <Code>Font</Code>, and <Code>Padding</Code>. Strings convert implicitly in C#; in Razor, use a string expression such as <Code>Title='@@("Revenue")'</Code>.
-    </DocsPageParagraph>
-    <DocsPageParagraph>
-        Title padding defaults to 4 SVG units on each side. Use <Code>Title.Padding.Top</Code> and <Code>Title.Padding.Bottom</Code> for asymmetric spacing in the title's local orientation. Top separates horizontal titles from their labels; Bottom separates vertical titles from their labels. Start and End are unused. Unspecified title font and padding options inherit from the corresponding chart axis options.
-    </DocsPageParagraph>
-    <DocsPageParagraph>
-        Value axes on the left and right automatically reserve space for their formatted labels, including font size, label offset, and truncation. Hidden labels reserve no label space. Explicit <Code>PlotAreaPadding.Start</Code> and <Code>PlotAreaPadding.End</Code> values override the automatic label spacing; title space and title padding are reserved separately.
+        Axis spacing adapts to formatted values, fonts, and titles, helping larger labels and multiple value axes fit without overlapping. Label and title spacing can still be customized when your chart needs a different balance.
     </DocsPageParagraph>
     <DocsPageSectionContent Code="SvgAxisLabelDensityChartExample" Outlined FullWidth>
         <SvgAxisLabelDensityChartExample />
@@ -165,13 +153,10 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Chart features">
-        Combine stacked series, grouped tooltip interaction, axis tick callbacks, and time-formatted category labels.
+        Show how each series contributes to a total with stacked charts, and make values easier to interpret with currency and date labels.
     </DocsPageSectionHeader>
     <DocsPageParagraph>
-        Set the tooltip <Code>InteractionMode</Code> to <Code>SvgChartInteractionMode.Index</Code> to show every visible series at the same category. Set <Code>Intersect</Code> to <Code>false</Code> to activate the nearest category anywhere inside the plot area instead of requiring the pointer to intersect a rendered point.
-    </DocsPageParagraph>
-    <DocsPageParagraph>
-        <Code>SvgChartTimeAxis</Code> uses ordinal spacing by default. Set <Code>Scale</Code> to <Code>SvgChartTimeScale.Continuous</Code> on line, area, scatter, and bubble charts when irregular time values should be spaced by elapsed time.
+        Grouped tooltips make it easier to compare series at the same category. Tooltips grow to fit their content, including custom templates, while legends adapt to larger fonts and additional rows.
     </DocsPageParagraph>
     <DocsPageSectionContent Code="SvgAdvancedChartExample" Outlined FullWidth>
         <SvgAdvancedChartExample />

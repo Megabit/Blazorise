@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Components.Rendering;
 #endregion
@@ -50,7 +51,8 @@ internal static class SvgChartAxesRenderer
 
                 builder.OpenElement( sequence++, "text" );
                 builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Left - ( primaryLabels.Offset ?? 10 ) ) );
-                builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
+                builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y ) );
+                builder.AddAttribute( sequence++, "dominant-baseline", "central" );
                 builder.AddAttribute( sequence++, "text-anchor", "end" );
                 SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, primaryLabels.Font, opacity: 0.68 );
                 builder.AddContent( sequence++, FormatAxisLabel( FormatValueTick( primaryAxis, tick, i ), primaryLabels, model.Options ) );
@@ -93,15 +95,9 @@ internal static class SvgChartAxesRenderer
         if ( labels.Visible == false )
             return;
 
-        var labelCount = Math.Max( model.Labels.Count, model.CategorySlotCount );
-
-        var labelPlacement = ResolveHorizontalAxisLabelPlacement( model, plot, labels, labelCount, index =>
-        {
-            var labelIndex = index < model.CategoryLabelIndexes.Count ? model.CategoryLabelIndexes[index] : index;
-            var label = index < model.Labels.Count ? model.Labels[index] : index + 1;
-
-            return FormatCategoryTick( model, label, labelIndex );
-        } );
+        var horizontalLabels = ResolveHorizontalCategoryLabels( model );
+        var labelCount = horizontalLabels.Count;
+        var labelPlacement = ResolveHorizontalAxisLabelPlacement( model, plot, labels, labelCount, horizontalLabels.Formatter );
 
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-axis-labels svg-chart-category-axis-labels" );
@@ -207,10 +203,11 @@ internal static class SvgChartAxesRenderer
 
                 builder.OpenElement( sequence++, "text" );
                 builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Left - ( categoryLabels.Offset ?? 10 ) ) );
-                builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
+                builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y ) );
+                builder.AddAttribute( sequence++, "dominant-baseline", "central" );
                 builder.AddAttribute( sequence++, "text-anchor", "end" );
                 SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, categoryLabels.Font, opacity: 0.72 );
-                builder.AddContent( sequence++, FormatAxisLabel( FormatCategoryTick( model, model.Labels[i], labelIndex ), categoryLabels, model.Options, Math.Max( 1, plot.Left - ( categoryLabels.Offset ?? 10 ) - 4 ) ) );
+                builder.AddContent( sequence++, FormatAxisLabel( FormatCategoryTick( model, model.Labels[i], labelIndex ), categoryLabels, model.Options ) );
                 builder.CloseElement();
             }
         }
@@ -354,7 +351,25 @@ internal static class SvgChartAxesRenderer
         return (x, "middle");
     }
 
-    private static (int Step, double Rotation, string TextAnchor) ResolveHorizontalAxisLabelPlacement( SvgChartRenderModel model, SvgChartPlotArea plot, SvgChartAxisLabelsOptions labels, int labelCount, Func<int, string> labelFormatter )
+    internal static (int Count, Func<int, string> Formatter) ResolveHorizontalCategoryLabels( SvgChartRenderModel model )
+    {
+        var scale = SvgChartGeometry.ResolvePointXScale( model );
+
+        if ( scale is not null )
+        {
+            return (scale.Ticks.Count, index => FormatCategoryTick( model, scale.Ticks[index], index ));
+        }
+
+        return (Math.Max( model.Labels.Count, model.CategorySlotCount ), index =>
+        {
+            var labelIndex = index < model.CategoryLabelIndexes.Count ? model.CategoryLabelIndexes[index] : index;
+            var label = index < model.Labels.Count ? model.Labels[index] : index + 1;
+
+            return FormatCategoryTick( model, label, labelIndex );
+        });
+    }
+
+    internal static (int Step, double Rotation, string TextAnchor) ResolveHorizontalAxisLabelPlacement( SvgChartRenderModel model, SvgChartPlotArea plot, SvgChartAxisLabelsOptions labels, int labelCount, Func<int, string> labelFormatter )
     {
         var baseStep = ResolveBaseLabelStep( labels, labelCount );
 
@@ -366,7 +381,7 @@ internal static class SvgChartAxesRenderer
         var labelWidth = Enumerable.Range( 0, labelCount )
             .Select( labelFormatter )
             .DefaultIfEmpty( string.Empty )
-            .Max( label => EstimateAxisLabelWidth( label, labels, fontSize ) );
+            .Max( label => SvgChartRenderHelpers.EstimateTextWidth( FormatAxisLabel( label, labels, model.Options ), fontSize, model.Options, labels.Font ) );
 
         var padding = Math.Max( 0, labels.AutoSkipPadding );
         var unrotatedStep = Math.Max( baseStep, ResolveCollisionLabelStep( labelCount, plot.Width, labelWidth + padding ) );
@@ -421,15 +436,6 @@ internal static class SvgChartAxesRenderer
         return Math.Max( 1, (int)Math.Ceiling( labelCount * labelSize / availableSize ) );
     }
 
-    private static double EstimateAxisLabelWidth( string label, SvgChartAxisLabelsOptions labels, double fontSize )
-    {
-        var width = SvgChartRenderHelpers.EstimateTextWidth( label, fontSize );
-
-        return labels?.MaxWidth is null
-            ? width
-            : Math.Min( width, Math.Max( 1, labels.MaxWidth.Value ) );
-    }
-
     private static void AddHorizontalAxisLabelPlacementAttributes( RenderTreeBuilder builder, ref int sequence, double x, double y, (int Step, double Rotation, string TextAnchor) placement, string fallbackTextAnchor )
     {
         var textAnchor = placement.Rotation == 0
@@ -444,6 +450,8 @@ internal static class SvgChartAxesRenderer
 
     private static void RenderRightValueAxes( RenderTreeBuilder builder, ref int sequence, SvgChartRenderModel model, SvgChartPlotArea plot, SvgChartRenderValueAxis primaryAxis )
     {
+        var axisX = plot.Right;
+
         foreach ( var axis in model.ValueAxes.Where( x => x != primaryAxis && x.Position == SvgChartAxisPosition.Right ) )
         {
             var labels = axis.Labels ?? new();
@@ -452,8 +460,8 @@ internal static class SvgChartAxesRenderer
             builder.AddAttribute( sequence++, "class", "svg-chart-axis svg-chart-value-axis-right" );
 
             builder.OpenElement( sequence++, "line" );
-            builder.AddAttribute( sequence++, "x1", SvgChartRenderHelpers.Format( plot.Right ) );
-            builder.AddAttribute( sequence++, "x2", SvgChartRenderHelpers.Format( plot.Right ) );
+            builder.AddAttribute( sequence++, "x1", SvgChartRenderHelpers.Format( axisX ) );
+            builder.AddAttribute( sequence++, "x2", SvgChartRenderHelpers.Format( axisX ) );
             builder.AddAttribute( sequence++, "y1", SvgChartRenderHelpers.Format( plot.Top ) );
             builder.AddAttribute( sequence++, "y2", SvgChartRenderHelpers.Format( plot.Bottom ) );
             builder.AddAttribute( sequence++, "stroke", "currentColor" );
@@ -468,19 +476,32 @@ internal static class SvgChartAxesRenderer
                     var y = SvgChartGeometry.GetY( tick, plot, axis );
 
                     builder.OpenElement( sequence++, "text" );
-                    builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Right + ( labels.Offset ?? 10 ) ) );
-                    builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
+                    builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( axisX + ( labels.Offset ?? 10 ) ) );
+                    builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y ) );
                     builder.AddAttribute( sequence++, "text-anchor", "start" );
+                    builder.AddAttribute( sequence++, "dominant-baseline", "central" );
                     SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, labels.Font, opacity: 0.68 );
                     builder.AddContent( sequence++, FormatAxisLabel( FormatValueTick( axis, tick, i ), labels, model.Options ) );
                     builder.CloseElement();
                 }
             }
 
-            RenderVerticalAxisTitle( builder, ref sequence, model, plot, axis.Title, true, "svg-chart-value-axis-title" );
+            var labelPadding = SvgChartTextRenderer.ResolveRightAxisLabelPadding( model.Options, model, axis );
+            RenderVerticalAxisTitle( builder, ref sequence, model, plot, axis.Title, true, "svg-chart-value-axis-title", axisX + labelPadding );
+            axisX += labelPadding + SvgChartTextRenderer.ResolveAxisTitleReservedSize( model.Options, axis.Title ) + ResolveRightAxisSpacing( model );
 
             builder.CloseElement();
         }
+    }
+
+    internal static double ResolveRightAxisSpacing( SvgChartRenderModel model )
+    {
+        var spacing = Math.Max( 0, model.Options.Layout?.AxisSpacing ?? 8 );
+        var count = model.ValueAxes.Count( axis => axis != model.PrimaryValueAxis && axis.Position == SvgChartAxisPosition.Right );
+
+        return model.Options.PlotAreaPadding?.End is double padding && count > 1
+            ? Math.Min( spacing, Math.Max( 0, padding ) / ( count - 1 ) )
+            : spacing;
     }
 
     private static void RenderHorizontalAxisTitle( RenderTreeBuilder builder, ref int sequence, SvgChartRenderModel model, SvgChartPlotArea plot, SvgChartAxisTitleOptions title, string className )
@@ -492,7 +513,7 @@ internal static class SvgChartAxesRenderer
 
         var options = model.Options ?? new();
         var fontSize = SvgChartTextRenderer.ResolveFontSize( options, title.Font );
-        var bottomPadding = SvgChartTextRenderer.ResolveBottomPadding( options, model, options.PlotAreaPadding?.Bottom );
+        var bottomPadding = SvgChartTextRenderer.ResolveBottomPadding( options, model, options.PlotAreaPadding?.Bottom, plot );
         var x = plot.Left + plot.Width / 2;
         var y = plot.Bottom + bottomPadding + title.EffectiveTopPadding + fontSize / 2;
 
@@ -508,7 +529,7 @@ internal static class SvgChartAxesRenderer
         builder.CloseElement();
     }
 
-    private static void RenderVerticalAxisTitle( RenderTreeBuilder builder, ref int sequence, SvgChartRenderModel model, SvgChartPlotArea plot, SvgChartAxisTitleOptions title, bool right, string className )
+    private static void RenderVerticalAxisTitle( RenderTreeBuilder builder, ref int sequence, SvgChartRenderModel model, SvgChartPlotArea plot, SvgChartAxisTitleOptions title, bool right, string className, double? titleStart = null )
     {
         if ( string.IsNullOrWhiteSpace( title?.Text ) )
         {
@@ -519,7 +540,7 @@ internal static class SvgChartAxesRenderer
         var titleOffset = title.EffectiveBottomPadding + SvgChartTextRenderer.ResolveFontSize( options, title.Font ) / 2;
 
         var x = right
-            ? plot.Right + SvgChartTextRenderer.ResolveEndPadding( options, model, options.PlotAreaPadding?.End ) + titleOffset
+            ? titleStart.GetValueOrDefault( plot.Right ) + titleOffset
             : plot.Left - SvgChartTextRenderer.ResolveStartPadding( options, model, options.PlotAreaPadding?.Start ) - titleOffset;
 
         var y = plot.Top + plot.Height / 2;
@@ -584,7 +605,7 @@ internal static class SvgChartAxesRenderer
         return axis.Ticks
             .Select( ( tick, index ) => FormatAxisLabel( FormatValueTick( axis, tick, index ), axis.Labels, options ) )
             .DefaultIfEmpty( string.Empty )
-            .Max( label => SvgChartRenderHelpers.EstimateTextWidth( label, fontSize ) );
+            .Max( label => SvgChartRenderHelpers.EstimateTextWidth( label, fontSize, options, axis.Labels?.Font ) );
     }
 
     private static string FormatValueTick( SvgChartRenderValueAxis axis, double value, int index )
@@ -598,26 +619,61 @@ internal static class SvgChartAxesRenderer
         } ) ?? SvgChartRenderHelpers.FormatTick( value );
     }
 
-    private static string FormatAxisLabel( string label, SvgChartAxisLabelsOptions labels, SvgChartOptions options, double? autoMaxWidth = null )
+    internal static string FormatAxisLabel( string label, SvgChartAxisLabelsOptions labels, SvgChartOptions options )
     {
-        var maxWidth = labels?.MaxWidth ?? autoMaxWidth;
-
-        if ( string.IsNullOrEmpty( label ) || !maxWidth.HasValue )
+        if ( string.IsNullOrEmpty( label ) || labels?.MaxWidth is not double maxWidth )
+        {
             return label;
+        }
 
-        var fontSize = SvgChartTextRenderer.ResolveFontSize( options, labels?.Font );
+        return TruncateLabel( label, maxWidth, SvgChartTextRenderer.ResolveFontSize( options, labels.Font ), options, labels.Font );
+    }
 
-        if ( SvgChartRenderHelpers.EstimateTextWidth( label, fontSize ) <= maxWidth.Value )
+    internal static string TruncateLabel( string label, double maxWidth, double fontSize, SvgChartOptions options, SvgChartFontOptions font )
+    {
+        if ( string.IsNullOrEmpty( label ) || SvgChartRenderHelpers.EstimateTextWidth( label, fontSize, options, font ) <= maxWidth )
+        {
             return label;
+        }
 
-        var maxCharacters = Math.Max( 1, (int)Math.Floor( maxWidth.Value / ( fontSize * 0.58 ) ) );
+        var starts = StringInfo.ParseCombiningCharacters( label );
+        var low = 0;
+        var high = starts.Length;
 
-        if ( label.Length <= maxCharacters )
-            return label;
+        while ( low < high )
+        {
+            var middle = ( low + high + 1 ) / 2;
+            var end = middle < starts.Length ? starts[middle] : label.Length;
+            var candidate = label[..end];
 
-        return maxCharacters <= 3
-            ? label[..maxCharacters]
-            : label[..( maxCharacters - 3 )] + "...";
+            if ( SvgChartRenderHelpers.EstimateTextWidth( candidate, fontSize, options, font ) <= maxWidth )
+            {
+                low = middle;
+            }
+            else
+            {
+                high = middle - 1;
+            }
+        }
+
+        if ( low <= 3 )
+        {
+            return low == 0 ? string.Empty : label[..starts[low]];
+        }
+
+        while ( low > 0 )
+        {
+            var candidate = label[..starts[low]] + "...";
+
+            if ( SvgChartRenderHelpers.EstimateTextWidth( candidate, fontSize, options, font ) <= maxWidth )
+            {
+                return candidate;
+            }
+
+            low--;
+        }
+
+        return string.Empty;
     }
 
     #endregion

@@ -494,7 +494,7 @@ public class SvgChartDataLabels : SvgChartPluginBase
         var font = CreateFontOptions( defaultOptions.Font, Font ) ?? new();
         var fontSize = font.Size ?? 11;
         var padding = Padding ?? defaultOptions.Padding ?? new();
-        var textWidth = SvgChartRenderHelpers.EstimateTextWidth( text, fontSize );
+        var textWidth = SvgChartRenderHelpers.EstimateTextWidth( text, fontSize, context.Options, font );
         var width = textWidth + padding.Start + padding.End;
         var height = fontSize + padding.Top + padding.Bottom;
         var anchor = ResolveDataLabelAnchor( point.Bounds, ResolveDataLabelPosition( Position, chartType ), Offset, width, height );

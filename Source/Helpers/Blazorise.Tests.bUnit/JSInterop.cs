@@ -360,6 +360,25 @@ public static class JSInterop
         return jsInterop;
     }
 
+    public static BunitJSInterop AddBlazoriseSvgChart( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+        AddBlazoriseDocumentObserver( jsInterop );
+
+        var module = jsInterop.SetupModule( "./_content/Blazorise.Charts.Svg/svgChart.js" );
+        module.SetupVoid( "updateTooltip", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroyTooltip", _ => true ).SetVoidResult();
+        module.SetupVoid( "initializeZoomWheel", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroyZoomWheel", _ => true ).SetVoidResult();
+        module.SetupVoid( "initializeDataDrag", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroyDataDrag", _ => true ).SetVoidResult();
+        module.SetupVoid( "runAnimations", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroyAnimations", _ => true ).SetVoidResult();
+        module.SetupVoid( "runStreamingAnimations", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
     public static BunitJSInterop AddBlazoriseCharts( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );

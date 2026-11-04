@@ -32,6 +32,16 @@ public class SvgChartOptions
     public SvgChartFontOptions Font { get; set; } = new();
 
     /// <summary>
+    /// Defines text width measurement used by labels, legends, and annotations.
+    /// </summary>
+    public SvgChartTextMeasurementOptions TextMeasurement { get; set; } = new();
+
+    /// <summary>
+    /// Defines automatic chart layout options.
+    /// </summary>
+    public SvgChartLayoutOptions Layout { get; set; } = new();
+
+    /// <summary>
     /// Defines custom plot area padding. When null, the chart uses its default plot padding.
     /// </summary>
     public SvgChartPlotAreaPadding PlotAreaPadding { get; set; }

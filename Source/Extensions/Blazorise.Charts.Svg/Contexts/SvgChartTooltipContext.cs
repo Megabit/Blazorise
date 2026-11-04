@@ -72,12 +72,12 @@ public sealed class SvgChartTooltipContext
     public double Y { get; init; }
 
     /// <summary>
-    /// Gets the tooltip width in SVG viewport units at the unscaled chart size. The rendered width is unaffected by chart scaling.
+    /// Gets the configured tooltip width in CSS pixels. This is a minimum when automatic sizing is enabled.
     /// </summary>
     public double Width { get; init; }
 
     /// <summary>
-    /// Gets the tooltip height in SVG viewport units at the unscaled chart size. The rendered height is unaffected by chart scaling.
+    /// Gets the configured tooltip height in CSS pixels. This is a minimum when automatic sizing is enabled.
     /// </summary>
     public double Height { get; init; }
 

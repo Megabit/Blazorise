@@ -14,11 +14,7 @@ public class SvgChartAnimationComponentTest : BunitContext
     public SvgChartAnimationComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider();
-        JSInterop.AddBlazoriseUtilities();
-
-        var module = JSInterop.SetupModule( "./_content/Blazorise.Charts.Svg/svgChart.js" );
-        module.SetupVoid( "runAnimations", _ => true ).SetVoidResult();
-        module.SetupVoid( "destroyAnimations", _ => true ).SetVoidResult();
+        JSInterop.AddBlazoriseSvgChart();
     }
 
     [Fact]

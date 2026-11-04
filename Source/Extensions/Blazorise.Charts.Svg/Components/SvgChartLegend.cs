@@ -17,6 +17,10 @@ public class SvgChartLegend : SvgChartComponentBase
 
     private ComponentParameterInfo<SvgChartLegendPosition> paramPosition;
 
+    private ComponentParameterInfo<SvgChartLegendLabelsOptions> paramLabels;
+
+    private ComponentParameterInfo<SvgChartSpacing> paramPadding;
+
     #endregion
 
     #region Methods
@@ -26,6 +30,8 @@ public class SvgChartLegend : SvgChartComponentBase
     {
         parameters.TryGetParameter( Visible, out paramVisible );
         parameters.TryGetParameter( Position, out paramPosition );
+        parameters.TryGetParameter( Labels, out paramLabels );
+        parameters.TryGetParameter( Padding, out paramPadding );
 
         return base.SetParametersAsync( parameters );
     }
@@ -50,7 +56,11 @@ public class SvgChartLegend : SvgChartComponentBase
         return new()
         {
             Visible = paramVisible.GetValueOrDefault( fallback.Visible ),
-            Position = paramPosition.GetValueOrDefault( fallback.Position )
+            Position = paramPosition.GetValueOrDefault( fallback.Position ),
+            Labels = paramLabels.Defined && paramLabels.Value is null
+                ? null
+                : SvgChartOptionsMapper.CreateLegendLabelsOptions( fallback.Labels, paramLabels.GetValueOrDefault( null ) ),
+            Padding = paramPadding.GetValueOrDefault( fallback.Padding ),
         };
     }
 
@@ -69,6 +79,18 @@ public class SvgChartLegend : SvgChartComponentBase
     /// </summary>
     /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public SvgChartLegendPosition Position { get; set; } = SvgChartLegendPosition.Bottom;
+
+    /// <summary>
+    /// Defines legend label styling, color boxes, and item spacing.
+    /// </summary>
+    /// <remarks>Unspecified label settings inherit the corresponding chart options.</remarks>
+    [Parameter] public SvgChartLegendLabelsOptions Labels { get; set; }
+
+    /// <summary>
+    /// Defines space around the legend, in SVG units.
+    /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
+    [Parameter] public SvgChartSpacing Padding { get; set; }
 
     #endregion
 }

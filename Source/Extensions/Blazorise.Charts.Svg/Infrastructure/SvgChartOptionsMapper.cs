@@ -121,6 +121,18 @@ internal static class SvgChartOptionsMapper
             : CreateLabelsOptions( options, overrides.Value );
     }
 
+    public static SvgChartLegendLabelsOptions CreateLegendLabelsOptions( SvgChartLegendLabelsOptions options, SvgChartLegendLabelsOptions overrides = null )
+    {
+        return new()
+        {
+            Font = CreateFontOptions( options?.Font, overrides?.Font ),
+            BoxWidth = overrides?.BoxWidth ?? options?.BoxWidth,
+            BoxHeight = overrides?.BoxHeight ?? options?.BoxHeight,
+            Padding = overrides?.Padding ?? options?.Padding,
+            LabelGap = overrides?.LabelGap ?? options?.LabelGap,
+        };
+    }
+
     public static SvgChartGridLinesOptions CreateGridLinesOptions( SvgChartGridLinesOptions gridLines )
     {
         if ( gridLines is null )
