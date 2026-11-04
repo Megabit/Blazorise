@@ -173,14 +173,14 @@ public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>, IAsyncDispos
     /// </summary>
     /// <param name="name">The shared tab and panel name.</param>
     internal void NotifyTabParametersChanged( string name )
-        => tabPanels.Find( panel => panel.Name == name )?.RefreshTabAssociation();
+        => tabPanels.Find( panel => panel.Name == name )?.Refresh();
 
     /// <summary>
     /// Updates tabs whose associated panel may have changed.
     /// </summary>
     /// <param name="name">The shared tab and panel name.</param>
     internal void NotifyTabPanelParametersChanged( string name )
-        => tabItems.Find( tab => tab.Name == name )?.RefreshPanelAssociation();
+        => tabItems.Find( tab => tab.Name == name )?.Refresh();
 
     /// <summary>
     /// Sets the active tab by the name.

@@ -106,9 +106,9 @@ public partial class Tab : BaseComponent<TabClasses, TabStyles>, IDisposable
     }
 
     /// <summary>
-    /// Refreshes the tab's association with its panel.
+    /// Requests a render of the tab.
     /// </summary>
-    internal void RefreshPanelAssociation() => InvokeAsync( StateHasChanged );
+    internal void Refresh() => InvokeAsync( StateHasChanged );
 
     /// <summary>
     /// Handles the item onclick event.

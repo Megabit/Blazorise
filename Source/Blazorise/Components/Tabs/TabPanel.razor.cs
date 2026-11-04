@@ -90,9 +90,9 @@ public partial class TabPanel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Refreshes the panel's association with its tab.
+    /// Requests a render of the panel.
     /// </summary>
-    internal void RefreshTabAssociation() => InvokeAsync( StateHasChanged );
+    internal void Refresh() => InvokeAsync( StateHasChanged );
 
     #endregion
 
