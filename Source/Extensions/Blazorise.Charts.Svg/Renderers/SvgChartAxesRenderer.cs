@@ -49,7 +49,7 @@ internal static class SvgChartAxesRenderer
                 var y = SvgChartGeometry.GetY( tick, plot, primaryAxis );
 
                 builder.OpenElement( sequence++, "text" );
-                builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Left - 10 ) );
+                builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Left - ( primaryLabels.Offset ?? 10 ) ) );
                 builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
                 builder.AddAttribute( sequence++, "text-anchor", "end" );
                 SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, primaryLabels.Font, opacity: 0.68 );
@@ -127,7 +127,7 @@ internal static class SvgChartAxesRenderer
                 continue;
 
             var x = SvgChartGeometry.GetCategoryX( i, plot, model );
-            var y = plot.Bottom + labels.Offset;
+            var y = plot.Bottom + ( labels.Offset ?? 24 );
             var label = i < model.Labels.Count ? model.Labels[i] : i + 1;
 
             builder.OpenElement( sequence++, "text" );
@@ -173,7 +173,7 @@ internal static class SvgChartAxesRenderer
             {
                 builder.OpenElement( sequence++, "text" );
                 builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
-                builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( plot.Bottom + valueLabels.Offset ) );
+                builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( plot.Bottom + ( valueLabels.Offset ?? 24 ) ) );
                 builder.AddAttribute( sequence++, "text-anchor", "middle" );
                 SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, valueLabels.Font, opacity: 0.68 );
                 builder.AddContent( sequence++, FormatAxisLabel( FormatValueTick( model.PrimaryValueAxis, tick, i ), valueLabels, model.Options ) );
@@ -206,11 +206,11 @@ internal static class SvgChartAxesRenderer
                 var y = plot.Top + plot.Height * ( i + 0.5 ) / Math.Max( model.Labels.Count, 1 );
 
                 builder.OpenElement( sequence++, "text" );
-                builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Left - 10 ) );
+                builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Left - ( categoryLabels.Offset ?? 10 ) ) );
                 builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
                 builder.AddAttribute( sequence++, "text-anchor", "end" );
                 SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, categoryLabels.Font, opacity: 0.72 );
-                builder.AddContent( sequence++, FormatAxisLabel( FormatCategoryTick( model, model.Labels[i], labelIndex ), categoryLabels, model.Options, Math.Max( 1, plot.Left - 14 ) ) );
+                builder.AddContent( sequence++, FormatAxisLabel( FormatCategoryTick( model, model.Labels[i], labelIndex ), categoryLabels, model.Options, Math.Max( 1, plot.Left - ( categoryLabels.Offset ?? 10 ) - 4 ) ) );
                 builder.CloseElement();
             }
         }
@@ -327,7 +327,7 @@ internal static class SvgChartAxesRenderer
                 continue;
 
             var pointLabelPlacement = ResolvePointXAxisLabelPlacement( x, plot );
-            var y = plot.Bottom + labels.Offset;
+            var y = plot.Bottom + ( labels.Offset ?? 24 );
 
             builder.OpenElement( sequence++, "text" );
             builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( pointLabelPlacement.X ) );
@@ -468,7 +468,7 @@ internal static class SvgChartAxesRenderer
                     var y = SvgChartGeometry.GetY( tick, plot, axis );
 
                     builder.OpenElement( sequence++, "text" );
-                    builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Right + 10 ) );
+                    builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Right + ( labels.Offset ?? 10 ) ) );
                     builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
                     builder.AddAttribute( sequence++, "text-anchor", "start" );
                     SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, labels.Font, opacity: 0.68 );
@@ -483,39 +483,44 @@ internal static class SvgChartAxesRenderer
         }
     }
 
-    private static void RenderHorizontalAxisTitle( RenderTreeBuilder builder, ref int sequence, SvgChartRenderModel model, SvgChartPlotArea plot, string title, string className )
+    private static void RenderHorizontalAxisTitle( RenderTreeBuilder builder, ref int sequence, SvgChartRenderModel model, SvgChartPlotArea plot, SvgChartAxisTitleOptions title, string className )
     {
-        if ( string.IsNullOrWhiteSpace( title ) )
+        if ( string.IsNullOrWhiteSpace( title?.Text ) )
+        {
             return;
+        }
 
         var options = model.Options ?? new();
-        var fontSize = options.Font?.Size ?? 11;
+        var fontSize = SvgChartTextRenderer.ResolveFontSize( options, title.Font );
         var bottomPadding = SvgChartTextRenderer.ResolveBottomPadding( options, model, options.PlotAreaPadding?.Bottom );
         var x = plot.Left + plot.Width / 2;
-        var y = plot.Bottom + bottomPadding + fontSize;
+        var y = plot.Bottom + bottomPadding + title.EffectiveTopPadding + fontSize / 2;
 
         builder.OpenElement( sequence++, "text" );
         builder.AddAttribute( sequence++, "class", $"svg-chart-axis-title {className}" );
         builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
         builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y ) );
         builder.AddAttribute( sequence++, "text-anchor", "middle" );
-        SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, options, opacity: 0.84 );
-        builder.AddAttribute( sequence++, "font-weight", "600" );
-        builder.AddContent( sequence++, title );
+        builder.AddAttribute( sequence++, "dominant-baseline", "central" );
+        SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, options, title.Font, opacity: 0.84 );
+        builder.AddAttribute( sequence++, "font-weight", title.Font?.Weight ?? "600" );
+        builder.AddContent( sequence++, title.Text );
         builder.CloseElement();
     }
 
-    private static void RenderVerticalAxisTitle( RenderTreeBuilder builder, ref int sequence, SvgChartRenderModel model, SvgChartPlotArea plot, string title, bool right, string className )
+    private static void RenderVerticalAxisTitle( RenderTreeBuilder builder, ref int sequence, SvgChartRenderModel model, SvgChartPlotArea plot, SvgChartAxisTitleOptions title, bool right, string className )
     {
-        if ( string.IsNullOrWhiteSpace( title ) )
+        if ( string.IsNullOrWhiteSpace( title?.Text ) )
+        {
             return;
+        }
 
         var options = model.Options ?? new();
-        var axisTitleSize = SvgChartTextRenderer.ResolveAxisTitleReservedSize( options );
+        var titleOffset = title.EffectiveBottomPadding + SvgChartTextRenderer.ResolveFontSize( options, title.Font ) / 2;
 
         var x = right
-            ? plot.Right + SvgChartTextRenderer.ResolveEndPadding( options.PlotAreaPadding?.End ) + axisTitleSize / 2
-            : plot.Left - SvgChartTextRenderer.ResolveStartPadding( options, model, options.PlotAreaPadding?.Start ) - axisTitleSize / 2;
+            ? plot.Right + SvgChartTextRenderer.ResolveEndPadding( options, model, options.PlotAreaPadding?.End ) + titleOffset
+            : plot.Left - SvgChartTextRenderer.ResolveStartPadding( options, model, options.PlotAreaPadding?.Start ) - titleOffset;
 
         var y = plot.Top + plot.Height / 2;
         var rotation = right ? 90 : -90;
@@ -525,10 +530,11 @@ internal static class SvgChartAxesRenderer
         builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
         builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y ) );
         builder.AddAttribute( sequence++, "text-anchor", "middle" );
+        builder.AddAttribute( sequence++, "dominant-baseline", "central" );
         builder.AddAttribute( sequence++, "transform", $"rotate({rotation} {SvgChartRenderHelpers.Format( x )} {SvgChartRenderHelpers.Format( y )})" );
-        SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, options, opacity: 0.84 );
-        builder.AddAttribute( sequence++, "font-weight", "600" );
-        builder.AddContent( sequence++, title );
+        SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, options, title.Font, opacity: 0.84 );
+        builder.AddAttribute( sequence++, "font-weight", title.Font?.Weight ?? "600" );
+        builder.AddContent( sequence++, title.Text );
         builder.CloseElement();
     }
 
@@ -569,6 +575,16 @@ internal static class SvgChartAxesRenderer
             CategoryAxis = true,
             AxisId = model.CategoryAxis?.Id
         } ) ?? SvgChartRenderHelpers.FormatDataLabelValue( value );
+    }
+
+    internal static double EstimateValueAxisLabelsWidth( SvgChartOptions options, SvgChartRenderValueAxis axis )
+    {
+        var fontSize = SvgChartTextRenderer.ResolveFontSize( options, axis.Labels?.Font );
+
+        return axis.Ticks
+            .Select( ( tick, index ) => FormatAxisLabel( FormatValueTick( axis, tick, index ), axis.Labels, options ) )
+            .DefaultIfEmpty( string.Empty )
+            .Max( label => SvgChartRenderHelpers.EstimateTextWidth( label, fontSize ) );
     }
 
     private static string FormatValueTick( SvgChartRenderValueAxis axis, double value, int index )

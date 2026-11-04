@@ -20,7 +20,7 @@ internal static class SvgChartOptionsMapper
             TickFormatter = axis.TickFormatter,
             GridLines = CreateGridLinesOptions( axis.GridLines ),
             Labels = CreateLabelsOptions( axis.Labels ),
-            Title = axis.Title
+            Title = CreateAxisTitleOptions( axis.Title ),
         };
     }
 
@@ -40,10 +40,39 @@ internal static class SvgChartOptionsMapper
         return axis.ResolveOptions( options );
     }
 
+    public static SvgChartAxisTitleOptions CreateAxisTitleOptions( SvgChartAxisTitleOptions options, SvgChartAxisTitleOptions overrides = null )
+    {
+        if ( options is null && overrides is null )
+        {
+            return null;
+        }
+
+        var padding = overrides?.Padding ?? options?.Padding;
+
+        return new()
+        {
+            Text = overrides?.Text ?? options?.Text,
+            Padding = padding is null ? null : CreateSpacing( padding ),
+            Font = CreateFontOptions( options?.Font, overrides?.Font ),
+        };
+    }
+
+    public static SvgChartAxisTitleOptions CreateAxisTitleOptions( SvgChartAxisTitleOptions options, ComponentParameterInfo<SvgChartAxisTitleOptions> overrides )
+    {
+        if ( !overrides.Defined )
+        {
+            return CreateAxisTitleOptions( options );
+        }
+
+        return overrides.Value is null ? null : CreateAxisTitleOptions( options, overrides.Value );
+    }
+
     public static SvgChartAxisLabelsOptions CreateLabelsOptions( SvgChartAxisLabelsOptions labels )
     {
         if ( labels is null )
+        {
             return null;
+        }
 
         return new()
         {
@@ -56,14 +85,16 @@ internal static class SvgChartOptionsMapper
             MaxRotation = labels.MaxRotation,
             Offset = labels.Offset,
             MaxWidth = labels.MaxWidth,
-            Font = CreateFontOptions( labels.Font )
+            Font = CreateFontOptions( labels.Font ),
         };
     }
 
     public static SvgChartAxisLabelsOptions CreateLabelsOptions( SvgChartAxisLabelsOptions options, SvgChartAxisLabelsOptions overrides )
     {
         if ( overrides is null )
+        {
             return CreateLabelsOptions( options );
+        }
 
         return new()
         {
@@ -74,9 +105,9 @@ internal static class SvgChartOptionsMapper
             AutoSkipPadding = overrides.AutoSkipPadding,
             AutoRotate = overrides.AutoRotate,
             MaxRotation = overrides.MaxRotation,
-            Offset = overrides.Offset,
+            Offset = overrides.Offset ?? options?.Offset,
             MaxWidth = overrides.MaxWidth ?? options?.MaxWidth,
-            Font = CreateFontOptions( options?.Font, overrides.Font )
+            Font = CreateFontOptions( options?.Font, overrides.Font ),
         };
     }
 
