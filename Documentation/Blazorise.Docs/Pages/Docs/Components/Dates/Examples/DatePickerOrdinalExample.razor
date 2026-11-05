@@ -1,0 +1,13 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <DatePicker TValue="DateTime?"
+                @bind-Value="@value"
+                InputFormat="dd.MM.yyyy"
+                DisplayFormat="dddd {day:ordinal} MMMM yyyy"
+                DisableMobile />
+</Field>
+
+@code {
+    DateTime? value = new DateTime( 2026, 11, 3 );
+}
