@@ -18,4 +18,8 @@
     <EmbeddedResource Include="Resources\Localization\Video\*.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\vendors\videojs\**\*.map;wwwroot\vendors\videojs\**\*.map.br;wwwroot\vendors\videojs\**\*.map.gz" CopyToPublishDirectory="Never" />
+  </ItemGroup>
+
 </Project>
