@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -192,6 +192,29 @@ public class TextLocalizer<T> : ITextLocalizer<T>
             value = string.Format( culture, value, arguments );
 
         return value;
+    }
+
+    /// <inheritdoc/>
+    public virtual bool TryGetString( CultureInfo culture, string name, out string value )
+    {
+        for ( var resourceCulture = culture; resourceCulture is not null; resourceCulture = resourceCulture.Parent )
+        {
+            var cultureName = resourceCulture.Equals( CultureInfo.InvariantCulture ) ? "en" : resourceCulture.Name;
+
+            if ( translationsByCulture.TryGetValue( cultureName, out var translations )
+                && translations.TryGetValue( name, out value ) )
+            {
+                return true;
+            }
+
+            if ( resourceCulture.Parent.Equals( CultureInfo.InvariantCulture ) )
+            {
+                break;
+            }
+        }
+
+        value = null;
+        return false;
     }
 
     /// <inheritdoc/>

@@ -1,5 +1,5 @@
 {
-  "culture": "cs-CZ",
+  "culture": "cs",
   "translations": {
     "Mon": "Po",
     "Tue": "Út",
@@ -59,6 +59,7 @@
     "PreviousDecade": "Předchozí desetiletí",
     "NextDecade": "Následující desetiletí",
     "PreviousCentury": "Předchozí století",
-    "NextCentury": "Následující století"
+    "NextCentury": "Následující století",
+    "OrdinalDayOther": "{0}."
   }
 }

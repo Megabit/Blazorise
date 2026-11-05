@@ -504,20 +504,24 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         return FormatValueWithFormat( value, EffectiveDisplayFormat );
     }
 
-    private string FormatValueWithFormat( TValue value, string format )
+    private string FormatValueWithFormat( TValue value, string format, CultureInfo culture = null )
     {
         if ( value is null )
+        {
             return null;
+        }
+
+        culture ??= Localizer.SelectedCulture ?? CultureInfo.CurrentCulture;
 
         if ( SelectionMode != DateInputSelectionMode.Single )
         {
-            List<string> results = new();
+            var results = new List<string>();
 
             if ( value is IEnumerable values )
             {
-                foreach ( object item in values )
+                foreach ( var item in values )
                 {
-                    results.Add( FormatDateValue( item, format ) );
+                    results.Add( FormatDateValue( item, format, culture ) );
                 }
             }
 
@@ -535,18 +539,18 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
                 }
             }
 
-            string delimiter = SelectionMode == DateInputSelectionMode.Multiple ? MULTIPLE_DELIMITER : CurrentRangeSeparator;
+            var delimiter = SelectionMode == DateInputSelectionMode.Multiple ? MULTIPLE_DELIMITER : CurrentRangeSeparator;
 
             return string.Join( delimiter, results );
         }
 
-        return FormatDateValue( value, format );
+        return FormatDateValue( value, format, culture );
     }
 
-    private string FormatDateValue( object value, string format )
+    private string FormatDateValue( object value, string format, CultureInfo culture )
         => InputMode == DateInputMode.Week
-            ? WeekDateFormat.FormatValue( value, format, CultureInfo.CurrentCulture )
-            : Formaters.FormatDateValueAsString( value, format );
+            ? WeekDateFormat.FormatValue( value, format, culture, Localizer )
+            : PickerDateTimeFormat.FormatDateValue( value, format, culture, Localizer );
 
     /// <inheritdoc/>
     protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
@@ -897,11 +901,13 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             value,
             SelectionMode,
             SelectionMode == DateInputSelectionMode.Multiple ? MULTIPLE_DELIMITER : CurrentRangeSeparator,
-            InputFormat,
-            DisplayFormat,
+            UseNativeMobilePicker ? null : InputFormat,
+            UseNativeMobilePicker ? null : DisplayFormat,
             DateFormat,
             InputMode,
-            out normalizedValue ) )
+            out normalizedValue,
+            UseNativeMobilePicker ? null : Localizer,
+            UseNativeMobilePicker ? CultureInfo.InvariantCulture : Localizer.SelectedCulture ) )
         {
             return false;
         }
@@ -1922,7 +1928,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     protected string VisibleInputText => UseNativeMobilePicker
         ? InputMode == DateInputMode.Week
             ? WeekDateFormat.FormatNativeValue( Value )
-            : FormatValueWithFormat( Value, DateFormat )
+            : FormatValueWithFormat( Value, DateFormat, CultureInfo.InvariantCulture )
         : InputText;
 
     /// <summary>
@@ -2099,6 +2105,8 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// Specifies the display format of the date input using the picker format syntax supported by earlier versions. Defaults to <c>yyyy-MM-dd</c>.
     /// </summary>
     /// <remarks>
+    /// Weekday names, month names, and <c>{day:ordinal}</c> use the selected DatePicker language's localization resources.
+    /// Missing ordinal translations use the day number without an affix. Quote the extension to display it literally.
     /// Week mode additionally supports <c>w</c>, <c>ww</c>, and <c>wo</c> for the week number and its English ordinal form.
     /// <para>When omitted, resolves the display format from InputMode and DateFormat.</para>
     /// </remarks>

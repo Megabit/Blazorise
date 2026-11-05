@@ -59,6 +59,7 @@
     "PreviousDecade": "Предыдущее десятилетие",
     "NextDecade": "Следующее десятилетие",
     "PreviousCentury": "Предыдущий век",
-    "NextCentury": "Следующий век"
+    "NextCentury": "Следующий век",
+    "OrdinalDayOther": "{0}"
   }
 }

@@ -1,12 +1,17 @@
+#region Using directives
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using AngleSharp.Dom;
+using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+#endregion
 
 namespace Blazorise.Tests.Components;
 
@@ -77,6 +82,32 @@ public class DatePickerComponentTest : BunitContext
         Assert.Equal( new DateTime( 2026, 7, 28 ), comp.Instance.Value );
         Assert.False( input.HasAttribute( "role" ) );
         Assert.Empty( comp.FindAll( "[role='dialog']" ) );
+    }
+
+    [Fact]
+    public async Task MobileDateValuesRemainInvariantAfterLanguageChange()
+    {
+        // setup
+        var localizerService = Services.GetRequiredService<ITextLocalizerService>();
+        localizerService.ChangeLanguage( "en-US", false );
+        var comp = Render<DatePicker<DateTime>>( parameters => parameters
+            .Add( x => x.Value, new DateTime( 2026, 11, 4 ) )
+            .Add( x => x.DisplayFormat, "dddd {day:ordinal} MMMM yyyy" )
+            .Add( x => x.DisableMobile, false ) );
+
+        // test
+        await comp.InvokeAsync( () => localizerService.ChangeLanguage( "ar-SA", false ) );
+
+        // validate
+        Assert.Equal( "date", comp.Find( "input" ).GetAttribute( "type" ) );
+        Assert.Equal( "2026-11-04", comp.Find( "input" ).GetAttribute( "value" ) );
+
+        // test
+        await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "2026-11-05" } );
+
+        // validate
+        Assert.Equal( new DateTime( 2026, 11, 5 ), comp.Instance.Value );
+        Assert.Equal( "2026-11-05", comp.Find( "input" ).GetAttribute( "value" ) );
     }
 
     [Fact]
@@ -896,6 +927,217 @@ public class DatePickerComponentTest : BunitContext
         JSInterop.VerifyInvoke( "setTextValue", 1 );
         Assert.Equal( new DateTime( 2025, 7, 27 ), comp.Instance.Value );
         Assert.Equal( "2025-07-27", comp.Find( "input" ).GetAttribute( "value" ) );
+    }
+
+    [Fact]
+    public async Task OrdinalDisplayParsesTypedDatesAndRejectsIncorrectSuffixes()
+    {
+        // setup
+        var originalCulture = CultureInfo.CurrentCulture;
+
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo( "en-US" );
+            Services.GetRequiredService<ITextLocalizerService>().ChangeLanguage( "en-US", false );
+            DateTime? changedValue = null;
+
+            // test
+            var comp = Render<DatePicker<DateTime?>>( parameters => parameters
+                .Add( x => x.Value, new DateTime( 2026, 11, 3 ) )
+                .Add( x => x.ValueChanged, value => changedValue = value )
+                .Add( x => x.DisplayFormat, "dddd {day:ordinal} MMMM yyyy" )
+                .Add( x => x.DisableMobile, true ) );
+
+            // validate
+            Assert.Equal( "Tuesday 3rd November 2026", comp.Find( "input" ).GetAttribute( "value" ) );
+
+            // test
+            await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "Wednesday 11th November 2026" } );
+
+            // validate
+            Assert.Equal( new DateTime( 2026, 11, 11 ), comp.Instance.Value );
+            Assert.Equal( comp.Instance.Value, changedValue );
+
+            // test
+            await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "Thursday 12nd November 2026" } );
+
+            // validate
+            Assert.Equal( new DateTime( 2026, 11, 11 ), comp.Instance.Value );
+            Assert.Equal( comp.Instance.Value, changedValue );
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = originalCulture;
+        }
+    }
+
+    [Theory]
+    [InlineData( "cs-CZ", "Středa", "Čtvrtek", "Listopad", "." )]
+    [InlineData( "da-DK", "Onsdag", "Torsdag", "November", "." )]
+    [InlineData( "de-DE", "Mittwoch", "Donnerstag", "November", "." )]
+    [InlineData( "en-GB", "Wednesday", "Thursday", "November", "th" )]
+    [InlineData( "es-ES", "Miércoles", "Jueves", "Noviembre", "" )]
+    [InlineData( "fr-FR", "mercredi", "jeudi", "novembre", "" )]
+    [InlineData( "hr-HR", "Srijeda", "Četvrtak", "Studeni", "." )]
+    [InlineData( "is-IS", "Miðvikudagur", "Fimmtudagur", "Nóvember", "." )]
+    [InlineData( "it-IT", "Mercoledì", "Giovedì", "Novembre", "" )]
+    [InlineData( "nl-NL", "woensdag", "donderdag", "november", "" )]
+    [InlineData( "pl-PL", "Środa", "Czwartek", "Listopad", "" )]
+    [InlineData( "pt-BR", "Quarta-feira", "Quinta-feira", "Novembro", "" )]
+    [InlineData( "ro-RO", "miercuri", "joi", "noiembrie", "" )]
+    [InlineData( "ru-RU", "Среда", "Четверг", "Ноябрь", "" )]
+    [InlineData( "sk-SK", "Streda", "Štvrtok", "November", "." )]
+    [InlineData( "tr-TR", "Çarşamba", "Perşembe", "Kasım", "" )]
+    [InlineData( "zh-CN", "星期三", "星期四", "十一月", "" )]
+    public async Task LanguageChangeLocalizesDisplayedAndTypedDates( string cultureName, string wednesday, string thursday, string november, string suffix )
+    {
+        // setup
+        var originalCulture = CultureInfo.CurrentCulture;
+
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo( "en-US" );
+            var localizerService = Services.GetRequiredService<ITextLocalizerService>();
+            localizerService.ChangeLanguage( "en-US", false );
+
+            var comp = Render<DatePicker<DateTime?>>( parameters => parameters
+                .Add( x => x.Value, new DateTime( 2026, 11, 4 ) )
+                .Add( x => x.DisplayFormat, "dddd {day:ordinal}, MMMM yyyy" )
+                .Add( x => x.DisableMobile, true ) );
+
+            Assert.Equal( "Wednesday 4th, November 2026", comp.Find( "input" ).GetAttribute( "value" ) );
+
+            // test
+            await comp.InvokeAsync( () => localizerService.ChangeLanguage( cultureName, false ) );
+
+            // validate
+            Assert.Equal( "en-US", CultureInfo.CurrentCulture.Name );
+            Assert.Equal( $"{wednesday} 4{suffix}, {november} 2026", comp.Find( "input" ).GetAttribute( "value" ) );
+
+            // test
+            await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = $"{thursday} 5{suffix}, {november} 2026" } );
+
+            // validate
+            Assert.Equal( new DateTime( 2026, 11, 5 ), comp.Instance.Value );
+            Assert.Equal( $"{thursday} 5{suffix}, {november} 2026", comp.Find( "input" ).GetAttribute( "value" ) );
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = originalCulture;
+        }
+    }
+
+    [Theory]
+    [InlineData( "fr-FR", "2026-11-1er" )]
+    [InlineData( "de-DE", "2026-11-1." )]
+    [InlineData( "ja-JP", "2026-11-1" )]
+    public async Task OrdinalInputDoesNotFallBackToEnglish( string cultureName, string inputText )
+    {
+        // setup
+        var originalCulture = CultureInfo.CurrentCulture;
+        var originalUICulture = CultureInfo.CurrentUICulture;
+
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo( cultureName );
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo( "en-US" );
+            Services.GetRequiredService<ITextLocalizerService>().ChangeLanguage( cultureName, false );
+            var comp = Render<DatePicker<DateTime?>>( parameters => parameters
+                .Add( x => x.DisplayFormat, "yyyy-MM-{day:ordinal}" )
+                .Add( x => x.DisableMobile, true ) );
+
+            // test
+            await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = inputText } );
+
+            // validate
+            Assert.Equal( new DateTime( 2026, 11, 1 ), comp.Instance.Value );
+            Assert.Equal( inputText, comp.Find( "input" ).GetAttribute( "value" ) );
+
+            // test
+            await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = "2026-11-2nd" } );
+
+            // validate
+            Assert.Equal( new DateTime( 2026, 11, 1 ), comp.Instance.Value );
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = originalCulture;
+            CultureInfo.CurrentUICulture = originalUICulture;
+        }
+    }
+
+    [Fact]
+    public async Task NumericMaskReturnsToOrdinalDisplayAfterEditing()
+    {
+        // setup
+        var originalCulture = CultureInfo.CurrentCulture;
+
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo( "en-US" );
+            Services.GetRequiredService<ITextLocalizerService>().ChangeLanguage( "en-US", false );
+            var comp = Render<DatePicker<DateTime?>>( parameters => parameters
+                .Add( x => x.Value, new DateTime( 2026, 11, 3 ) )
+                .Add( x => x.InputFormat, "dd.MM.yyyy" )
+                .Add( x => x.DisplayFormat, "dddd {day:ordinal} MMMM yyyy" )
+                .Add( x => x.DisableMobile, true ) );
+            var input = comp.Find( "input" );
+
+            // test
+            await input.FocusAsync( new FocusEventArgs() );
+
+            // validate
+            Assert.Equal( "03.11.2026", comp.Find( "input" ).GetAttribute( "value" ) );
+
+            // test
+            await input.ChangeAsync( new ChangeEventArgs { Value = "21.11.2026" } );
+            await input.BlurAsync( new FocusEventArgs() );
+
+            // validate
+            Assert.Equal( new DateTime( 2026, 11, 21 ), comp.Instance.Value );
+            Assert.Equal( "Saturday 21st November 2026", comp.Find( "input" ).GetAttribute( "value" ) );
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = originalCulture;
+        }
+    }
+
+    [Theory]
+    [InlineData( DateInputSelectionMode.Range, " to " )]
+    [InlineData( DateInputSelectionMode.Multiple, ", " )]
+    public async Task OrdinalDisplayFormatsAndParsesEachSelectedDate( DateInputSelectionMode selectionMode, string delimiter )
+    {
+        // setup
+        var originalCulture = CultureInfo.CurrentCulture;
+
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo( "en-US" );
+            Services.GetRequiredService<ITextLocalizerService>().ChangeLanguage( "en-US", false );
+            var dates = new[] { new DateTime( 2026, 11, 3 ), new DateTime( 2026, 11, 11 ) };
+
+            // test
+            var comp = Render<DatePicker<DateTime[]>>( parameters => parameters
+                .Add( x => x.Value, dates )
+                .Add( x => x.SelectionMode, selectionMode )
+                .Add( x => x.RangeSeparator, " to " )
+                .Add( x => x.DisplayFormat, "{day:ordinal} MMMM yyyy" )
+                .Add( x => x.DisableMobile, true ) );
+
+            // validate
+            Assert.Equal( $"3rd November 2026{delimiter}11th November 2026", comp.Find( "input" ).GetAttribute( "value" ) );
+
+            // test
+            await comp.Find( "input" ).ChangeAsync( new ChangeEventArgs { Value = $"21st November 2026{delimiter}22nd November 2026" } );
+
+            // validate
+            Assert.Equal( new[] { new DateTime( 2026, 11, 21 ), new DateTime( 2026, 11, 22 ) }, comp.Instance.Value );
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = originalCulture;
+        }
     }
 
     [Fact]

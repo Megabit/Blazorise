@@ -59,6 +59,7 @@
     "PreviousDecade": "Önceki on yıl",
     "NextDecade": "Sonraki on yıl",
     "PreviousCentury": "Önceki yüzyıl",
-    "NextCentury": "Sonraki yüzyıl"
+    "NextCentury": "Sonraki yüzyıl",
+    "OrdinalDayOther": "{0}"
   }
 }

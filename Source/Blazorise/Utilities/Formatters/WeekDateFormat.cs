@@ -3,6 +3,7 @@ using System;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Blazorise.Localization;
 #endregion
 
 namespace Blazorise.Utilities;
@@ -72,8 +73,9 @@ internal static class WeekDateFormat
     /// <param name="value">Date value to format.</param>
     /// <param name="format">Week-aware display format.</param>
     /// <param name="culture">Culture used for literals and ordinal suffixes.</param>
+    /// <param name="localizer">Resources used for ordinal day extensions.</param>
     /// <returns>The formatted week, or <see langword="null"/> when the value is null.</returns>
-    public static string FormatValue( object value, string format, CultureInfo culture )
+    public static string FormatValue( object value, string format, CultureInfo culture, ITextLocalizer localizer = null )
     {
         if ( value is null )
             return null;
@@ -86,7 +88,7 @@ internal static class WeekDateFormat
             _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
         };
 
-        return Format( date, format, culture );
+        return Format( date, format, culture, localizer );
     }
 
     /// <summary>
@@ -95,8 +97,9 @@ internal static class WeekDateFormat
     /// <param name="date">Date contained by the week.</param>
     /// <param name="format">Week-aware format.</param>
     /// <param name="culture">Culture used for ordinal suffixes.</param>
+    /// <param name="localizer">Resources used for ordinal day extensions.</param>
     /// <returns>The formatted ISO week.</returns>
-    public static string Format( DateTime date, string format, CultureInfo culture )
+    public static string Format( DateTime date, string format, CultureInfo culture, ITextLocalizer localizer = null )
     {
         date = GetWeekStart( date );
         format = string.IsNullOrWhiteSpace( format ) ? DefaultDisplayFormat : format;
@@ -104,7 +107,7 @@ internal static class WeekDateFormat
 
         if ( !IsWeekFormat( format ) )
         {
-            return date.ToString( PickerDateTimeFormat.Normalize( format ), culture );
+            return PickerDateTimeFormat.FormatDateValue( date, PickerDateTimeFormat.Normalize( format ), culture, localizer );
         }
 
         int weekYear = GetWeekYear( date );
