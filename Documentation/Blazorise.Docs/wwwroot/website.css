@@ -114,11 +114,12 @@
 .b-visual-hero-grid { position: relative; isolation: isolate; display: grid; grid-template-columns: 1.6fr 1fr; gap: 2rem; }
 /* Shared hero dimensions reserve space without clipping longer or enlarged copy. */
 .b-visual-hero-grid { min-height: var(--b-visual-hero-min-height); align-items: start; padding-block: var(--b-visual-hero-padding-top) var(--b-visual-hero-padding-bottom); }
-.b-visual .b-visual-hero-copy > .b-visual-eyebrow { margin: 0 0 1.5rem; line-height: 1.6; }
+.b-visual .b-visual-hero-copy > .b-visual-eyebrow { display: inline-block; max-width: 100%; margin: 0 0 1.5rem; padding: .4rem .75rem; border: 1px solid color-mix(in srgb, var(--b-visual-lilac) 20%, transparent); border-radius: .375rem; background: color-mix(in srgb, var(--b-visual-lilac) 10%, transparent); letter-spacing: .08em; line-height: 1.6; text-wrap: balance; }
 .b-visual-hero h1 { font-size: var(--b-visual-display); line-height: 1.04; font-weight: 700; letter-spacing: -.065em; margin: 0; text-wrap: initial; }
 .b-visual-hero h1 span { color: #dda8ff; }
 .b-visual-hero .b-visual-eyebrow { color: #e3c4f6; }
-.b-visual-hero-description { max-width: 35rem; color: #d0cbd5; margin-block: 1.75rem; font-size: 1.125rem; }
+.b-visual-hero-tagline { margin: 1.5rem 0 .75rem; font-size: clamp(1.125rem, 1.6vw, 1.375rem); font-weight: 500; line-height: 1.5; text-wrap: balance; }
+.b-visual-hero-description { max-width: 35rem; color: #d0cbd5; margin: 0 0 1.75rem; font-size: 1.125rem; }
 .b-visual-hero-note { margin: 1.25rem 0 0; color: #bcb5c5; font-size: .875rem; }
 .b-visual-hero-copy { position: relative; z-index: 1; }
 /* Let the translucent brand mark extend below the hero copy, behind the statistics. */
