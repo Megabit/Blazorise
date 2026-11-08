@@ -96,6 +96,10 @@
         min-width: 0;
     }
 
+    &-item-multiline > .tw-property-grid-item-label {
+        align-self: start;
+    }
+
     &-item-selected {
         background: var(--color-gray-100, var(--btw-color-gray-100));
     }

@@ -29,6 +29,7 @@ public sealed class PropertyGridTextProperty : PropertyGridProperty<string>
         owner.AddAtomicComponentParameters( builder, this, selected, ariaDescribedBy );
         builder.AddAttribute( 15, nameof( PropertyGridTextItem.ReadOnly ), ReadOnly );
         builder.AddAttribute( 16, nameof( PropertyGridTextItem.Immediate ), Immediate );
+        builder.AddAttribute( 17, nameof( PropertyGridTextItem.Multiline ), Multiline );
         builder.CloseComponent();
     }
 
@@ -42,6 +43,11 @@ public sealed class PropertyGridTextProperty : PropertyGridProperty<string>
     /// Gets or sets whether the text editor is read-only.
     /// </summary>
     public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the text editor supports multiple lines.
+    /// </summary>
+    public bool Multiline { get; set; }
 
     /// <summary>
     /// Gets or sets whether changes are reported immediately.

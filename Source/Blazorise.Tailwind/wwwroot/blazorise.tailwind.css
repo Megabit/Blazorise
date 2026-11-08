@@ -14112,6 +14112,9 @@ textarea[data-autosize=true] {
   align-items: center;
   min-width: 0;
 }
+.tw-property-grid-item-multiline > .tw-property-grid-item-label {
+  align-self: start;
+}
 .tw-property-grid-item-selected {
   background: var(--color-gray-100, var(--btw-color-gray-100));
 }
