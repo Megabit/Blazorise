@@ -101,6 +101,10 @@
         align-items: center;
         min-width: 0;
 
+        &-multiline > .property-grid-item-label {
+            align-self: start;
+        }
+
         &-selected {
             background: $background;
         }

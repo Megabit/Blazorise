@@ -14,9 +14,23 @@
                   ActionContent="@ActionContent"
                   data-property-grid-editor="text"
                   @attributes="@Attributes">
-    <TextInput Value="@DisplayValue"
-               ValueChanged="@ValueChanged"
-               ReadOnly="@ReadOnly"
-               Immediate="@EffectiveImmediate"
-               Size="@Size" />
+    @if ( Multiline )
+    {
+        <MemoInput Value="@DisplayValue"
+                   ValueChanged="@ValueChanged"
+                   ReadOnly="@ReadOnly"
+                   Immediate="@EffectiveImmediate"
+                   Debounce="true"
+                   Rows="3"
+                   Size="@Size" />
+    }
+    else
+    {
+        <TextInput Value="@DisplayValue"
+                   ValueChanged="@ValueChanged"
+                   ReadOnly="@ReadOnly"
+                   Immediate="@EffectiveImmediate"
+                   Debounce="true"
+                   Size="@Size" />
+    }
 </PropertyGridItem>

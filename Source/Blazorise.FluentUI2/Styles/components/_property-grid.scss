@@ -114,6 +114,10 @@
 }
 
 .fui-PropertyGridItem {
+    &-multiline > .fui-PropertyGridItem__label {
+        align-self: start;
+    }
+
     &-selected {
         background: var(--colorSubtleBackgroundSelected);
     }

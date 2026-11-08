@@ -759,6 +759,8 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string PropertyGridItemSelected( bool selected ) => selected ? "fui-PropertyGridItem-selected" : null;
 
+    public override string PropertyGridItemMultiline( bool multiline ) => multiline ? "fui-PropertyGridItem-multiline" : null;
+
     public override string PropertyGridItemLabel() => "fui-PropertyGridItem__label";
 
     public override string PropertyGridItemBody() => "fui-PropertyGridItem__body";

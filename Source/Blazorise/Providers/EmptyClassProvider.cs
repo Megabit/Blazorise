@@ -685,6 +685,8 @@ class EmptyClassProvider : IClassProvider
 
     public string PropertyGridItemSelected( bool selected ) => null;
 
+    public string PropertyGridItemMultiline( bool multiline ) => null;
+
     public string PropertyGridItemLabel() => null;
 
     public string PropertyGridItemBody() => null;

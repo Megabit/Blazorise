@@ -682,6 +682,8 @@ public interface IClassProvider
 
     string PropertyGridItemSelected( bool selected );
 
+    string PropertyGridItemMultiline( bool multiline ) => null;
+
     string PropertyGridItemLabel();
 
     string PropertyGridItemBody();

@@ -683,6 +683,8 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string PropertyGridItemSelected( bool selected ) => null;
 
+    public virtual string PropertyGridItemMultiline( bool multiline ) => null;
+
     public virtual string PropertyGridItemLabel() => null;
 
     public virtual string PropertyGridItemBody() => null;

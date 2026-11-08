@@ -117,6 +117,10 @@
         min-width: 0;
     }
 
+    &-grid-item-multiline > .mui-property-grid-item-label {
+        align-self: start;
+    }
+
     &-grid-item-selected {
         background: var(--mui-surface-container);
     }
