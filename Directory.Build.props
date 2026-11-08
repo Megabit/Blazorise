@@ -6,9 +6,8 @@
 
   <PropertyGroup Condition="'$(Configuration)' == 'DebugNet11'">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>portable</DebugType>
     <Optimize>false</Optimize>
-    <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
+    <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
     <DebuggerSupport>true</DebuggerSupport>
     <MetadataUpdaterSupport>true</MetadataUpdaterSupport>
     <EnableHotReloadInRuntimeConfigDevFile>true</EnableHotReloadInRuntimeConfigDevFile>
