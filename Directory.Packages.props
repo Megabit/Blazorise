@@ -28,37 +28,37 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.3.0" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="11.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.15" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.4.0" />
     <PackageVersion Include="Microsoft.Playwright.NUnit" Version="1.59.0" />
     <PackageVersion Include="MimeKit" Version="4.18.2" />
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="ModelContextProtocol" Version="1.2.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="6.2.0" />
-    <PackageVersion Include="System.Text.Encoding.CodePages" Version="10.0.5" />
+    <PackageVersion Include="System.Text.Encoding.CodePages" Version="10.0.15" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
   </ItemGroup>
   <ItemGroup Label="AspNetCore Components">
-    <PackageVersion Include="Microsoft.AspNetCore.Components" Version="8.0.29" Condition="'$(TargetFramework)' == 'net8.0'" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components" Version="9.0.14" Condition="'$(TargetFramework)' == 'net9.0'" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components" Version="10.0.10" Condition="'$(TargetFramework)' == 'net10.0'" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components" Version="8.0.34" Condition="'$(TargetFramework)' == 'net8.0'" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components" Version="9.0.23" Condition="'$(TargetFramework)' == 'net9.0'" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components" Version="10.0.15" Condition="'$(TargetFramework)' == 'net10.0'" />
     <PackageVersion Include="Microsoft.AspNetCore.Components" Version="11.0.0" Condition="'$(TargetFramework)' == 'net11.0'" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="8.0.29" Condition="'$(TargetFramework)' == 'net8.0'" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="9.0.14" Condition="'$(TargetFramework)' == 'net9.0'" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="10.0.10" Condition="'$(TargetFramework)' == 'net10.0'" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="8.0.34" Condition="'$(TargetFramework)' == 'net8.0'" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="9.0.23" Condition="'$(TargetFramework)' == 'net9.0'" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="10.0.15" Condition="'$(TargetFramework)' == 'net10.0'" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="11.0.0" Condition="'$(TargetFramework)' == 'net11.0'" />
   </ItemGroup>
   <ItemGroup Label="Logging">
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" Condition="'$(TargetFramework)' == 'net8.0'" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.14" Condition="'$(TargetFramework)' == 'net9.0'" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" Condition="'$(TargetFramework)' == 'net10.0'" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.23" Condition="'$(TargetFramework)' == 'net9.0'" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.15" Condition="'$(TargetFramework)' == 'net10.0'" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="11.0.0" Condition="'$(TargetFramework)' == 'net11.0'" />
   </ItemGroup>
   <ItemGroup Label="Http">
     <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.1" Condition="'$(TargetFramework)' == 'net8.0'" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.10" Condition="'$(TargetFramework)' == 'net9.0'" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.5" Condition="'$(TargetFramework)' == 'net10.0'" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.23" Condition="'$(TargetFramework)' == 'net9.0'" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.15" Condition="'$(TargetFramework)' == 'net10.0'" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="11.0.0" Condition="'$(TargetFramework)' == 'net11.0'" />
   </ItemGroup>
 </Project>
