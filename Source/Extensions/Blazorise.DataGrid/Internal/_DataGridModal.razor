@@ -27,6 +27,10 @@
                     {
                         <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Display="DisplayNone" Clicked="@Save"></Button>
                     }
+						  else
+						  {
+							  <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Disabled Display="DisplayNone"></Button>
+						  }
                     @if ( ParentDataGrid.ShowValidationsSummary )
                     {
                         <Field Display="@(ParentDataGrid.HasValidationsSummary || isInvalid ? DisplayAlways : DisplayNone)">

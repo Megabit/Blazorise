@@ -4283,7 +4283,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private bool PreventDefaultSubmitBehavior =>
         ( IsCellEdit && ( CommandColumn is null || !CommandColumn.SaveCommandAllowed ) )
-        || ( Filterable && !SubmitFormOnEnter ); //prevents submits on Enter within Filter input
+        || !SubmitFormOnEnter;
 
     /// <summary>
     /// Specifies the size of popup dialog.
