@@ -16,7 +16,7 @@ public class SvgChartTimeAxisComponentTest : BunitContext
     public SvgChartTimeAxisComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider();
-        JSInterop.AddBlazoriseUtilities();
+        JSInterop.AddBlazoriseSvgChart();
     }
 
     [Fact]

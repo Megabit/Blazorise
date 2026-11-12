@@ -781,6 +781,8 @@ public class MaterialClassProvider : ClassProvider
 
     public override string PropertyGridItemSelected( bool selected ) => selected ? "mui-property-grid-item-selected" : null;
 
+    public override string PropertyGridItemMultiline( bool multiline ) => multiline ? "mui-property-grid-item-multiline" : null;
+
     public override string PropertyGridItemLabel() => "mui-property-grid-item-label";
 
     public override string PropertyGridItemBody() => "mui-property-grid-item-body";

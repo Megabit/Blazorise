@@ -70,6 +70,8 @@ public class SvgChart<TItem> : SvgChartBase
 
     private SvgChartTooltipContext activeTooltip;
 
+    private bool tooltipInitialized;
+
     private string activeTooltipKey;
 
     private IReadOnlyDictionary<string, SvgChartPointBounds> previousAnimationPointBounds = new Dictionary<string, SvgChartPointBounds>();
@@ -229,7 +231,7 @@ public class SvgChart<TItem> : SvgChartBase
         var subtitle = ResolveSubtitleOptions( options, titleComponents );
         var hasTopLegend = legend.Visible && legend.Position == SvgChartLegendPosition.Top;
         var hasBottomLegend = legend.Visible && legend.Position == SvgChartLegendPosition.Bottom;
-        var plot = BuildPlotArea( options, title, subtitle, hasTopLegend, hasBottomLegend, model );
+        var plot = BuildPlotArea( options, title, subtitle, legend, model );
         var streamingAnimation = ResolveStreamingAnimation( model, plot );
         var chartAnimation = dataDragState is null ? ResolveAnimation( options, streamingAnimation.Enabled ) : new SvgChartResolvedAnimation();
         var currentAnimationPointBounds = new Dictionary<string, SvgChartPointBounds>();
@@ -313,7 +315,7 @@ public class SvgChart<TItem> : SvgChartBase
         SvgChartTextRenderer.Render( builder, ref sequence, options, title, subtitle );
 
         if ( hasTopLegend )
-            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, legend.Position, 48, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
+            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, legend, title, subtitle, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
 
         if ( IsBarChart( model ) )
             SvgChartAxesRenderer.RenderHorizontalGridAndAxes( builder, ref sequence, model, plot );
@@ -338,7 +340,7 @@ public class SvgChart<TItem> : SvgChartBase
             RenderCartesianSeries( builder, ref sequence, model, streamingAnimation, pluginContext, seriesRendererContext );
 
         if ( hasBottomLegend )
-            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, legend.Position, options.Height - 30, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
+            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, legend, title, subtitle, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
 
         RenderPlugins( builder, ref sequence, pluginContext, SvgChartRenderLayer.InteractionOverlay );
         RenderPlugins( builder, ref sequence, pluginContext, SvgChartRenderLayer.Tooltip );
@@ -399,6 +401,18 @@ public class SvgChart<TItem> : SvgChartBase
             await jsModule.InvokeVoidAsync( "runStreamingAnimations", ElementRef );
         }
 
+        if ( activeTooltip is not null )
+        {
+            jsModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>( "import", "./_content/Blazorise.Charts.Svg/svgChart.js" );
+            await jsModule.InvokeVoidAsync( "updateTooltip", ElementRef );
+            tooltipInitialized = true;
+        }
+        else if ( tooltipInitialized )
+        {
+            await jsModule.InvokeVoidAsync( "destroyTooltip", ElementRef );
+            tooltipInitialized = false;
+        }
+
         renderedOnce = true;
 
         await base.OnAfterRenderAsync( firstRender );
@@ -416,6 +430,12 @@ public class SvgChart<TItem> : SvgChartBase
             {
                 try
                 {
+                    if ( tooltipInitialized )
+                    {
+                        await jsModule.InvokeVoidAsync( "destroyTooltip", ElementRef );
+                        tooltipInitialized = false;
+                    }
+
                     await jsModule.InvokeVoidAsync( "destroyAnimations", ElementRef );
                     await jsModule.DisposeAsync();
                 }
@@ -755,13 +775,25 @@ public class SvgChart<TItem> : SvgChartBase
         var left = $"clamp(0px, calc({Format( anchorX )}% + {Format( tooltip.OffsetX )}px), calc(100% - {Format( context.Width )}px))";
         var top = $"clamp(0px, calc({Format( anchorY )}% - {Format( context.Height + tooltip.OffsetY )}px), calc(100% - {Format( context.Height )}px))";
 
+        var size = tooltip.AutoSize
+            ? $"width:max-content;min-width:min(100%,{Format( context.Width )}px);min-height:{Format( context.Height )}px;"
+            : $"width:{Format( context.Width )}px;height:{Format( context.Height )}px;";
+
+        var textStyle = tooltip.AutoSize
+            ? "white-space:normal;overflow-wrap:anywhere;"
+            : "white-space:nowrap;overflow:hidden;text-overflow:ellipsis;";
+
         builder.OpenElement( sequence++, "div" );
         builder.AddAttribute( sequence++, "class", "svg-chart-tooltip" );
-        builder.AddAttribute( sequence++, "style", $"position:absolute;left:{left};top:{top};width:{Format( context.Width )}px;max-width:100%;height:{Format( context.Height )}px;pointer-events:none;z-index:1;" );
+        builder.AddAttribute( sequence++, "style", $"position:absolute;left:{left};top:{top};{size}max-width:100%;pointer-events:none;z-index:1;" );
+        builder.AddAttribute( sequence++, "data-anchor-x", Format( anchorX / 100 ) );
+        builder.AddAttribute( sequence++, "data-anchor-y", Format( anchorY / 100 ) );
+        builder.AddAttribute( sequence++, "data-offset-x", Format( tooltip.OffsetX ) );
+        builder.AddAttribute( sequence++, "data-offset-y", Format( tooltip.OffsetY ) );
 
         builder.OpenElement( sequence++, "div" );
         builder.AddAttribute( sequence++, "class", "svg-chart-tooltip-content" );
-        builder.AddAttribute( sequence++, "style", ResolveTooltipStyle( model.Options, context ) );
+        builder.AddAttribute( sequence++, "style", ResolveTooltipStyle( model.Options, tooltip, context ) );
 
         if ( tooltip.Template is not null )
         {
@@ -770,14 +802,14 @@ public class SvgChart<TItem> : SvgChartBase
         else
         {
             builder.OpenElement( sequence++, "div" );
-            builder.AddAttribute( sequence++, "style", "font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" );
+            builder.AddAttribute( sequence++, "style", $"font-weight:600;line-height:1.2;{textStyle}" );
             builder.AddContent( sequence++, context.Items.Count > 1 ? FormatCategory( model, context.Category, context.PointIndex ) : context.SeriesName );
             builder.CloseElement();
 
             if ( tooltip.Formatter is not null || context.Items.Count <= 1 )
             {
                 builder.OpenElement( sequence++, "div" );
-                builder.AddAttribute( sequence++, "style", "line-height:1.35;opacity:.86;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" );
+                builder.AddAttribute( sequence++, "style", $"line-height:1.35;opacity:.86;{textStyle}" );
                 builder.AddContent( sequence++, tooltip.Formatter?.Invoke( context ) ?? context.Text );
                 builder.CloseElement();
             }
@@ -786,13 +818,16 @@ public class SvgChart<TItem> : SvgChartBase
                 foreach ( var item in context.Items )
                 {
                     builder.OpenElement( sequence++, "div" );
-                    builder.AddAttribute( sequence++, "style", "display:flex;align-items:center;gap:.35rem;line-height:1.35;opacity:.86;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" );
+                    builder.AddAttribute( sequence++, "style", $"display:flex;align-items:center;gap:.35rem;line-height:1.35;opacity:.86;{textStyle}" );
 
                     builder.OpenElement( sequence++, "span" );
                     builder.AddAttribute( sequence++, "style", $"display:inline-block;width:.55rem;height:.55rem;border-radius:50%;background:{item.Color};flex:0 0 auto;" );
                     builder.CloseElement();
 
+                    builder.OpenElement( sequence++, "span" );
+                    builder.AddAttribute( sequence++, "style", $"min-width:0;{textStyle}" );
                     builder.AddContent( sequence++, $"{item.SeriesName}: {item.Value}" );
+                    builder.CloseElement();
                     builder.CloseElement();
                 }
             }
@@ -1378,7 +1413,7 @@ public class SvgChart<TItem> : SvgChartBase
         var anchorY = point.Bounds.Y;
         var items = ResolveTooltipItems( point, color, model, tooltip.InteractionMode );
         var width = Math.Max( 1, tooltip.Width );
-        var height = Math.Max( Math.Max( 1, tooltip.Height ), items.Count > 1 ? 28 + items.Count * 18 : 1 );
+        var height = Math.Max( 1, tooltip.Height );
         var x = Math.Min( Math.Max( anchorX + tooltip.OffsetX, 0 ), Math.Max( options.Width - width, 0 ) );
         var y = Math.Min( Math.Max( anchorY - height - tooltip.OffsetY, 0 ), Math.Max( options.Height - height, 0 ) );
 
@@ -1547,9 +1582,9 @@ public class SvgChart<TItem> : SvgChartBase
             : series.RenderColor;
     }
 
-    private static string ResolveTooltipStyle( SvgChartOptions options, SvgChartTooltipContext context )
+    private static string ResolveTooltipStyle( SvgChartOptions options, SvgChartTooltipOptions tooltip, SvgChartTooltipContext context )
     {
-        var font = options?.Font;
+        var font = CreateFontOptions( options?.Font, tooltip.Font );
 
         var color = SvgChartRenderHelpers.IsDefaultColor( font?.Color )
             ? "var(--b-tooltip-color,#fff)"
@@ -1563,7 +1598,14 @@ public class SvgChart<TItem> : SvgChartBase
             ? null
             : $"font-family:{font.Family};";
 
-        return $"height:100%;box-sizing:border-box;overflow:hidden;border-left:3px solid {context.Color};background:rgba(var(--b-tooltip-background-color-r,33),var(--b-tooltip-background-color-g,37),var(--b-tooltip-background-color-b,41),var(--b-tooltip-background-opacity,.94));color:{color};border-radius:var(--b-tooltip-border-radius,.375rem);padding:var(--b-tooltip-padding,.5rem .75rem);font-size:{fontSize};{fontFamily}box-shadow:0 .35rem 1rem rgba(0,0,0,.18);";
+        var padding = tooltip.Padding is null
+            ? "var(--b-tooltip-padding,.5rem .75rem)"
+            : $"{Format( Math.Max( 0, tooltip.Padding.Top ) )}px {Format( Math.Max( 0, tooltip.Padding.End ) )}px {Format( Math.Max( 0, tooltip.Padding.Bottom ) )}px {Format( Math.Max( 0, tooltip.Padding.Start ) )}px";
+
+        var size = tooltip.AutoSize ? $"min-height:{Format( context.Height )}px;" : "height:100%;overflow:hidden;";
+        var fontWeight = string.IsNullOrWhiteSpace( font?.Weight ) ? null : $"font-weight:{font.Weight};";
+
+        return $"{size}box-sizing:border-box;border-left:3px solid {context.Color};background:rgba(var(--b-tooltip-background-color-r,33),var(--b-tooltip-background-color-g,37),var(--b-tooltip-background-color-b,41),var(--b-tooltip-background-opacity,.94));color:{color};border-radius:var(--b-tooltip-border-radius,.375rem);padding:{padding};font-size:{fontSize};{fontFamily}{fontWeight}box-shadow:0 .35rem 1rem rgba(0,0,0,.18);";
     }
 
     private static string Format( double value )
@@ -1651,7 +1693,7 @@ public class SvgChart<TItem> : SvgChartBase
         var title = ResolveTitleOptions( options, titleComponents );
         var subtitle = ResolveSubtitleOptions( options, titleComponents );
 
-        return BuildPlotArea( options, title, subtitle, legend.Visible && legend.Position == SvgChartLegendPosition.Top, legend.Visible && legend.Position == SvgChartLegendPosition.Bottom, model );
+        return BuildPlotArea( options, title, subtitle, legend, model );
     }
 
     private static bool IsInsidePlot( double x, double y, SvgChartPlotArea plot )

@@ -1,17 +1,30 @@
+import { getRequiredElement } from "../Blazorise/utilities.js?v=__BLAZORISE_VERSION__";
 import "./vendors/qr-code-styling.js?v=__BLAZORISE_VERSION__";
 
-let _instances = [];
+const _instances = new WeakMap();
 
 export function initialize(element, elementId, options) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element) {
+        return;
+    }
+
     const qrCode = new QRCodeStyling(toQrCodeOptions(options));
 
     qrCode.append(element);
 
-    _instances[elementId] = qrCode;
+    _instances.set(element, qrCode);
 }
 
 export function update(element, elementId, options) {
-    const instance = _instances[elementId];
+    element = getRequiredElement(element, elementId);
+
+    if (!element) {
+        return;
+    }
+
+    const instance = _instances.get(element);
 
     if (instance) {
         instance.update(toQrCodeOptions(options));

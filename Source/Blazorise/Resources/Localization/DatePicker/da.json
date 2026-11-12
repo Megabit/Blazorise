@@ -59,6 +59,7 @@
     "PreviousDecade": "Forrige årti",
     "NextDecade": "Næste årti",
     "PreviousCentury": "Forrige århundrede",
-    "NextCentury": "Næste århundrede"
+    "NextCentury": "Næste århundrede",
+    "OrdinalDayOther": "{0}."
   }
 }

@@ -1134,6 +1134,7 @@ public partial class _ReportDesignerPropertiesPanel
             case ReportTextElementDefinition textElement:
                 properties.Add( new PropertyGridTextProperty( "element.text", Localize( "Text" ), textElement.Text )
                 {
+                    Multiline = true,
                     Mixed = IsSelectedElementValueMixed( element => ( (ReportTextElementDefinition)element ).Text ),
                 } );
                 break;

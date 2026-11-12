@@ -14,9 +14,29 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'DebugNet11'">
-    <TargetFrameworks>$(PrimaryTargetFramework)</TargetFrameworks>
-  </PropertyGroup>
+  <!-- Keep TargetFrameworks independent of Configuration so Visual Studio restores every framework:
+       https://github.com/dotnet/project-system/issues/8185
+       Restrict only the build dispatch for the fast development build. -->
+  <Target Name="SelectBlazoriseDebugTargetFramework"
+          BeforeTargets="DispatchToInnerBuilds"
+          Condition="'$(Configuration)' == 'DebugNet11'">
+    <ItemGroup>
+      <_BlazoriseDebugInnerBuildProjects Include="@(_InnerBuildProjects)" />
+      <_InnerBuildProjects Remove="@(_InnerBuildProjects)"
+                           Condition="'%(_InnerBuildProjects.AdditionalProperties)' != 'TargetFramework=$(PrimaryTargetFramework)'" />
+    </ItemGroup>
+  </Target>
+
+  <!-- Later framework negotiation in the same project instance must still see every framework. -->
+  <Target Name="RestoreBlazoriseTargetFrameworkBuildItems"
+          AfterTargets="DispatchToInnerBuilds"
+          Condition="'@(_BlazoriseDebugInnerBuildProjects)' != ''">
+    <ItemGroup>
+      <_InnerBuildProjects Remove="@(_InnerBuildProjects)" />
+      <_InnerBuildProjects Include="@(_BlazoriseDebugInnerBuildProjects)" />
+      <_BlazoriseDebugInnerBuildProjects Remove="@(_BlazoriseDebugInnerBuildProjects)" />
+    </ItemGroup>
+  </Target>
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />

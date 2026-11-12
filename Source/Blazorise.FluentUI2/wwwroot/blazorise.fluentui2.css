@@ -14478,6 +14478,9 @@ input::file-selector-button {
   min-width: 0;
 }
 
+.fui-PropertyGridItem-multiline > .fui-PropertyGridItem__label {
+  align-self: start;
+}
 .fui-PropertyGridItem-selected {
   background: var(--colorSubtleBackgroundSelected);
 }

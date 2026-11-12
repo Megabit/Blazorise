@@ -59,6 +59,7 @@
     "PreviousDecade": "上一个十年",
     "NextDecade": "下一个十年",
     "PreviousCentury": "上一个世纪",
-    "NextCentury": "下一个世纪"
+    "NextCentury": "下一个世纪",
+    "OrdinalDayOther": "{0}"
   }
 }

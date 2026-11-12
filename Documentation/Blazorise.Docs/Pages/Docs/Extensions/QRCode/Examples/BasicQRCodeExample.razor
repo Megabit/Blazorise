@@ -1,3 +1,11 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<QRCode Value="https://blazorise.com" Text="QRCode image" />
+<Field>
+    <TextInput @bind-Value="@value" />
+</Field>
+
+<QRCode Value="@value" Text="QRCode image" />
+
+@code {
+    string value = "https://blazorise.com";
+}

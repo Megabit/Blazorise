@@ -759,6 +759,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string PropertyGridItemSelected( bool selected ) => selected ? "ant-property-grid-item-selected" : null;
 
+    public override string PropertyGridItemMultiline( bool multiline ) => multiline ? "ant-property-grid-item-multiline" : null;
+
     public override string PropertyGridItemLabel() => "ant-property-grid-item-label";
 
     public override string PropertyGridItemBody() => "ant-property-grid-item-body";

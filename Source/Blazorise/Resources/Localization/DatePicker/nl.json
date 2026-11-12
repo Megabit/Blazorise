@@ -59,6 +59,7 @@
     "PreviousDecade": "Vorig decennium",
     "NextDecade": "Volgend decennium",
     "PreviousCentury": "Vorige eeuw",
-    "NextCentury": "Volgende eeuw"
+    "NextCentury": "Volgende eeuw",
+    "OrdinalDayOther": "{0}"
   }
 }

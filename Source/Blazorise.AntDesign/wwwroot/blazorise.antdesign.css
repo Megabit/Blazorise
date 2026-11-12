@@ -9032,6 +9032,9 @@ a.ant-typography-disabled[aria-disabled=true] {
   align-items: center;
   min-width: 0;
 }
+.ant-property-grid-item-multiline > .ant-property-grid-item-label {
+  align-self: start;
+}
 .ant-property-grid-item-selected {
   background: var(--ant-control-item-bg-active);
 }

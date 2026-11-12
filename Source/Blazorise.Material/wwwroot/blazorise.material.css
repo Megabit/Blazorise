@@ -7688,6 +7688,9 @@ body.modal-open {
   align-items: center;
   min-width: 0;
 }
+.mui-property-grid-item-multiline > .mui-property-grid-item-label {
+  align-self: start;
+}
 .mui-property-grid-item-selected {
   background: var(--mui-surface-container);
 }

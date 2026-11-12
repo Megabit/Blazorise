@@ -59,6 +59,7 @@
     "PreviousDecade": "Prethodno desetljeće",
     "NextDecade": "Sljedeće desetljeće",
     "PreviousCentury": "Prethodno stoljeće",
-    "NextCentury": "Sljedeće stoljeće"
+    "NextCentury": "Sljedeće stoljeće",
+    "OrdinalDayOther": "{0}."
   }
 }

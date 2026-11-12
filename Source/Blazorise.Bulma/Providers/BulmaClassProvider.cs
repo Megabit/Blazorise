@@ -745,6 +745,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string PropertyGridItemSelected( bool selected ) => selected ? "property-grid-item-selected" : null;
 
+    public override string PropertyGridItemMultiline( bool multiline ) => multiline ? "property-grid-item-multiline" : null;
+
     public override string PropertyGridItemLabel() => "property-grid-item-label";
 
     public override string PropertyGridItemBody() => "property-grid-item-body";

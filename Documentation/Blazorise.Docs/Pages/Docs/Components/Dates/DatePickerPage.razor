@@ -224,17 +224,88 @@
 <DocsPageSubsectionTitle Title="Display Format" />
 
 <DocsPageParagraph>
-    <Code>DisplayFormat</Code> and <Code>InputFormat</Code> retain the .NET-style picker format syntax supported by earlier DatePicker versions.
-    <Code>InputFormat</Code> is converted to the existing InputMask datetime format and used as the caret-aware typing mask.
-    After the mask is completed, the committed value is presented using <Code>DisplayFormat</Code>.
+    Separate display and input formats make dates easy to read and quick to enter.
+    Users can read full month names while entering short numeric dates.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    For example, <Code>dd.MM.yyyy</Code> renders and accepts values such as <Code>27.07.2026</Code>.
+    For example, <Code>dd.MM.yyyy</Code> shows and accepts dates such as <Code>27.07.2026</Code>.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Ordinal days">
+        <Paragraph>
+            Ordinal day numbers, such as <Code>1st</Code>, <Code>2nd</Code>, and <Code>3rd</Code>, give dates a familiar written form.
+            Appointments and bookings can show the full date, such as <Code>Tuesday 3rd November 2026</Code>, with day and month names in the user's selected language.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="DatePickerOrdinalExample" Outlined FullWidth>
+        <DatePickerOrdinalExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSubsectionTitle Title="Day numbers and languages" />
+
+<DocsPageParagraph>
+    In <Code>DisplayFormat</Code>, <Code>{day:ordinal}</Code> shows the day number in the selected language, such as <Code>3rd</Code> in English or <Code>3.</Code> in Croatian.
+    It works with date formats such as <Code>dddd</Code> for the weekday and <Code>MMMM</Code> for the month name.
+    Ordinal formatting is currently available for the day number only.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Display output and parsing preserve the format-token behavior from earlier DatePicker versions.
+    Weekday names, month names, and day numbers update when the selected Blazorise language changes.
+    Each language has its own way of writing dates. Some add letters to the day number, some add a period, and others use just the number.
+</DocsPageParagraph>
+
+<Table>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>Language</TableHeaderCell>
+            <TableHeaderCell>Day examples</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell>English</TableRowCell>
+            <TableRowCell><Code>1st</Code>, <Code>2nd</Code>, <Code>3rd</Code>, <Code>11th</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>French</TableRowCell>
+            <TableRowCell><Code>1er</Code>, <Code>2</Code>, <Code>3</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Spanish</TableRowCell>
+            <TableRowCell><Code>1.º</Code>, <Code>2</Code>, <Code>3</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Italian and Portuguese</TableRowCell>
+            <TableRowCell><Code>1º</Code>, <Code>2</Code>, <Code>3</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Croatian, Czech, Danish, German, Icelandic, and Slovak</TableRowCell>
+            <TableRowCell><Code>1.</Code>, <Code>2.</Code>, <Code>3.</Code></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Chinese, Dutch, Polish, Romanian, Russian, and Turkish</TableRowCell>
+            <TableRowCell><Code>1</Code>, <Code>2</Code>, <Code>3</Code></TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<DocsPageParagraph>
+    These day forms are included for all supported DatePicker languages.
+    If an ordinal translation is missing, DatePicker shows just the day number.
+    For languages such as Croatian and German, <Code>{day:ordinal}</Code> already includes the period after the number.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <Code>InputFormat</Code> supports numeric date entry, such as <Code>dd.MM.yyyy</Code>, while <Code>{day:ordinal}</Code> is supported only in <Code>DisplayFormat</Code>.
+    Without an <Code>InputFormat</Code>, users can also type the date as displayed, including its translated names and day number.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Mobile browsers normally use their own date display.
+    The example uses <Code>DisableMobile</Code> so dates keep the same display format on desktop and mobile.
 </DocsPageParagraph>
 
 @*

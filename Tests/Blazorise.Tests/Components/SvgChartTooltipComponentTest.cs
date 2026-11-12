@@ -14,7 +14,7 @@ public class SvgChartTooltipComponentTest : BunitContext
     public SvgChartTooltipComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider();
-        JSInterop.AddBlazoriseUtilities();
+        JSInterop.AddBlazoriseSvgChart();
     }
 
     [Fact]
@@ -45,7 +45,47 @@ public class SvgChartTooltipComponentTest : BunitContext
         Assert.Empty( component.FindAll( ".svg-chart-tooltip-hit-region" ) );
     }
 
-    private IRenderedComponent<SvgLineChart<TooltipSample>> RenderChart( bool intersect )
+    [Theory]
+    [InlineData( true )]
+    [InlineData( false )]
+    public void Tooltip_InheritsSizingFontAndPaddingForTemplates( bool autoSize )
+    {
+        var component = RenderChart( false, new()
+        {
+            AutoSize = autoSize,
+            Width = 240,
+            Height = 80,
+            Font = new() { Size = 28 },
+            Padding = new() { Top = 2, End = 4, Bottom = 6, Start = 8 },
+            Template = context => builder => builder.AddContent( 0, $"Custom {context.Items.Count} items" ),
+        } );
+
+        component.Find( ".svg-chart-tooltip-hit-region" ).MouseEnter();
+
+        component.WaitForAssertion( () =>
+        {
+            var tooltip = component.Find( ".svg-chart-tooltip" );
+            var content = component.Find( ".svg-chart-tooltip-content" );
+            Assert.Contains( "Custom 2 items", content.TextContent );
+            Assert.Contains( "font-size:28px", content.GetAttribute( "style" ) );
+            Assert.Contains( "padding:2px 4px 6px 8px", content.GetAttribute( "style" ) );
+
+            if ( autoSize )
+            {
+                Assert.Contains( "width:max-content", tooltip.GetAttribute( "style" ) );
+                Assert.Contains( "min-height:80px", tooltip.GetAttribute( "style" ) );
+                Assert.DoesNotContain( "overflow:hidden", content.GetAttribute( "style" ) );
+            }
+            else
+            {
+                Assert.Contains( "width:240px", tooltip.GetAttribute( "style" ) );
+                Assert.Contains( "height:80px", tooltip.GetAttribute( "style" ) );
+                Assert.Contains( "overflow:hidden", content.GetAttribute( "style" ) );
+            }
+        } );
+    }
+
+    private IRenderedComponent<SvgLineChart<TooltipSample>> RenderChart( bool intersect, SvgChartTooltipOptions tooltip = null )
     {
         List<TooltipSample> samples =
         [
@@ -55,6 +95,7 @@ public class SvgChartTooltipComponentTest : BunitContext
 
         return Render<SvgLineChart<TooltipSample>>( parameters => parameters
             .Add( chart => chart.Items, samples )
+            .Add( chart => chart.Options, new SvgChartOptions { Tooltip = tooltip ?? new() } )
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<SvgChartTooltip>( 0 );

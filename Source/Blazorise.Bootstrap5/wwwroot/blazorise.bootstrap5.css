@@ -4573,6 +4573,9 @@ li.list-group-item-action {
   align-items: center;
   min-width: 0;
 }
+.property-grid-item-multiline > .property-grid-item-label {
+  align-self: start;
+}
 .property-grid-item-selected {
   background: var(--bs-tertiary-bg, #f8f9fa);
 }

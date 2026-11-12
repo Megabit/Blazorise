@@ -32,6 +32,12 @@ public class SvgChartTooltip : SvgChartComponentBase
 
     private ComponentParameterInfo<double> paramOffsetY;
 
+    private ComponentParameterInfo<bool> paramAutoSize;
+
+    private ComponentParameterInfo<SvgChartFontOptions> paramFont;
+
+    private ComponentParameterInfo<SvgChartSpacing> paramPadding;
+
     #endregion
 
     #region Methods
@@ -48,6 +54,10 @@ public class SvgChartTooltip : SvgChartComponentBase
         parameters.TryGetParameter( Height, out paramHeight );
         parameters.TryGetParameter( OffsetX, out paramOffsetX );
         parameters.TryGetParameter( OffsetY, out paramOffsetY );
+
+        parameters.TryGetParameter( AutoSize, out paramAutoSize );
+        parameters.TryGetParameter( Font, out paramFont );
+        parameters.TryGetParameter( Padding, out paramPadding );
 
         return base.SetParametersAsync( parameters );
     }
@@ -79,7 +89,10 @@ public class SvgChartTooltip : SvgChartComponentBase
             Width = paramWidth.GetValueOrDefault( fallback.Width ),
             Height = paramHeight.GetValueOrDefault( fallback.Height ),
             OffsetX = paramOffsetX.GetValueOrDefault( fallback.OffsetX ),
-            OffsetY = paramOffsetY.GetValueOrDefault( fallback.OffsetY )
+            OffsetY = paramOffsetY.GetValueOrDefault( fallback.OffsetY ),
+            AutoSize = paramAutoSize.GetValueOrDefault( fallback.AutoSize ),
+            Font = SvgChartOptionsMapper.CreateFontOptions( fallback.Font, paramFont.GetValueOrDefault( null ) ),
+            Padding = paramPadding.GetValueOrDefault( fallback.Padding ),
         };
     }
 
@@ -119,13 +132,13 @@ public class SvgChartTooltip : SvgChartComponentBase
     [Parameter] public RenderFragment<SvgChartTooltipContext> Template { get; set; }
 
     /// <summary>
-    /// Defines the tooltip width in SVG viewport units at the unscaled chart size. The rendered width is unaffected by chart scaling.
+    /// Defines the configured tooltip width in CSS pixels. This is a minimum when automatic sizing is enabled.
     /// </summary>
     /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public double Width { get; set; } = 180;
 
     /// <summary>
-    /// Defines the tooltip height in SVG viewport units at the unscaled chart size. The rendered height is unaffected by chart scaling.
+    /// Defines the configured tooltip height in CSS pixels. This is a minimum when automatic sizing is enabled.
     /// </summary>
     /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public double Height { get; set; } = 56;
@@ -141,6 +154,24 @@ public class SvgChartTooltip : SvgChartComponentBase
     /// </summary>
     /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
     [Parameter] public double OffsetY { get; set; } = 8;
+
+    /// <summary>
+    /// Defines whether the tooltip grows to fit its content. Width and Height become minimum sizes.
+    /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
+    [Parameter] public bool AutoSize { get; set; } = true;
+
+    /// <summary>
+    /// Defines font options. Unspecified values inherit the chart font.
+    /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
+    [Parameter] public SvgChartFontOptions Font { get; set; }
+
+    /// <summary>
+    /// Defines space around the content.
+    /// </summary>
+    /// <remarks>When omitted, inherits the corresponding chart option.</remarks>
+    [Parameter] public SvgChartSpacing Padding { get; set; }
 
     #endregion
 }

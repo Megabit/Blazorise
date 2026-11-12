@@ -59,6 +59,10 @@
     "PreviousDecade": "Previous decade",
     "NextDecade": "Next decade",
     "PreviousCentury": "Previous century",
-    "NextCentury": "Next century"
+    "NextCentury": "Next century",
+    "OrdinalDayOne": "{0}st",
+    "OrdinalDayTwo": "{0}nd",
+    "OrdinalDayFew": "{0}rd",
+    "OrdinalDayOther": "{0}th"
   }
 }

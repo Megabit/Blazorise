@@ -19,7 +19,15 @@
     private readonly SvgChartOptions options = new()
     {
         Height = 360,
-        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        Legend = new()
+        {
+            Position = SvgChartLegendPosition.Bottom,
+            Labels = new()
+            {
+                BoxWidth = 16,
+                Padding = 12,
+            },
+        },
         Tooltip = new() { InteractionMode = SvgChartInteractionMode.Index, Width = 220 },
     };
 
@@ -29,6 +37,7 @@
         MaxTicksLimit = 8,
         AutoRotate = true,
         MaxRotation = 45,
+        Offset = 16,
     };
 
     private readonly List<DailyTraffic> traffic =

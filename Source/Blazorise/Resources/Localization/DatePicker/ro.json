@@ -59,6 +59,7 @@
     "PreviousDecade": "Deceniul precedent",
     "NextDecade": "Deceniul următor",
     "PreviousCentury": "Secolul precedent",
-    "NextCentury": "Secolul următor"
+    "NextCentury": "Secolul următor",
+    "OrdinalDayOther": "{0}"
   }
 }

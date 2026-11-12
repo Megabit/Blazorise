@@ -1185,6 +1185,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string PropertyGridItemSelected( bool selected ) => selected ? "tw-property-grid-item-selected" : null;
 
+    public override string PropertyGridItemMultiline( bool multiline ) => multiline ? "tw-property-grid-item-multiline" : null;
+
     public override string PropertyGridItemLabel() => "tw-property-grid-item-label";
 
     public override string PropertyGridItemBody() => "tw-property-grid-item-body";

@@ -117,6 +117,48 @@ public class TabsComponentTest : BunitContext
         } );
     }
 
+    [Fact]
+    public void Associations_ShouldUpdateWithoutRenderingParentWhenChildrenChangeIndependently()
+    {
+        var component = Render<TabsDynamicComponent>();
+        var itemsRenderCount = component.Instance.ItemsRenderCount;
+        var content = component.FindComponents<TabsConditionalContent>();
+        var tabContent = content[0];
+        var panelContent = content[1];
+
+        panelContent.Render( parameters => parameters.Add( child => child.Visible, true ) );
+        tabContent.Render( parameters => parameters.Add( child => child.Visible, true ) );
+
+        component.WaitForAssertion( () =>
+        {
+            var tab = component.Find( "[role=tab]" );
+            var panel = component.Find( "[role=tabpanel]" );
+
+            Assert.Equal( panel.Id, tab.GetAttribute( "aria-controls" ) );
+            Assert.Equal( tab.Id, panel.GetAttribute( "aria-labelledby" ) );
+            Assert.Equal( itemsRenderCount, component.Instance.ItemsRenderCount );
+        } );
+
+        tabContent.Render( parameters => parameters.Add( child => child.Visible, false ) );
+
+        component.WaitForAssertion( () =>
+        {
+            Assert.Empty( component.FindAll( "[role=tab]" ) );
+            Assert.Null( component.Find( "[role=tabpanel]" ).GetAttribute( "aria-labelledby" ) );
+            Assert.Equal( itemsRenderCount, component.Instance.ItemsRenderCount );
+        } );
+
+        tabContent.Render( parameters => parameters.Add( child => child.Visible, true ) );
+        panelContent.Render( parameters => parameters.Add( child => child.Visible, false ) );
+
+        component.WaitForAssertion( () =>
+        {
+            Assert.Empty( component.FindAll( "[role=tabpanel]" ) );
+            Assert.Null( component.Find( "[role=tab]" ).GetAttribute( "aria-controls" ) );
+            Assert.Equal( itemsRenderCount, component.Instance.ItemsRenderCount );
+        } );
+    }
+
     [Theory]
     [InlineData( TabsRenderMode.Default, true )]
     [InlineData( TabsRenderMode.Default, false )]

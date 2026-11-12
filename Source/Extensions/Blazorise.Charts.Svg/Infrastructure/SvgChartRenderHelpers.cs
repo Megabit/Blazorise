@@ -87,9 +87,28 @@ internal static class SvgChartRenderHelpers
         };
     }
 
-    public static double EstimateTextWidth( string text, double fontSize )
+    public static double EstimateTextWidth( string text, double fontSize, SvgChartOptions options = null, SvgChartFontOptions font = null )
     {
-        return Math.Max( 1, ( text?.Length ?? 0 ) * fontSize * 0.58 );
+        if ( string.IsNullOrEmpty( text ) )
+        {
+            return 0;
+        }
+
+        var measurement = options?.TextMeasurement ?? new();
+
+        if ( measurement.Measure is not null )
+        {
+            var resolvedFont = SvgChartOptionsMapper.CreateFontOptions( options?.Font, font ) ?? new();
+            resolvedFont.Size = fontSize;
+            var width = measurement.Measure( text, resolvedFont );
+
+            if ( double.IsFinite( width ) && width >= 0 )
+            {
+                return width;
+            }
+        }
+
+        return new StringInfo( text ).LengthInTextElements * Math.Max( 0, fontSize ) * Math.Max( 0, measurement.AverageCharacterWidth );
     }
 
     private static string ResolveColorFallback( string name, int index )

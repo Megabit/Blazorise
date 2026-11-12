@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Globalization;
 #endregion
@@ -56,6 +56,24 @@ public interface ITextLocalizer
     /// <param name="arguments">An object array that contains zero or more objects to format.</param>
     /// <returns>Localized string.</returns>
     string GetString( CultureInfo culture, string name, params object[] arguments );
+
+    /// <summary>
+    /// Attempts to get an unformatted resource from the specified culture or its parents only.
+    /// </summary>
+    /// <param name="culture">The culture whose resources to search.</param>
+    /// <param name="name">The resource name.</param>
+    /// <param name="value">The resource text when found, otherwise <see langword="null"/>.</param>
+    /// <returns>Whether a matching resource was found.</returns>
+    /// <remarks>
+    /// The invariant culture uses English resources. Named cultures never fall back to English unless it is their parent.
+    /// Custom localizers can implement this method to support culture-specific formatting resources.
+    /// The default implementation reports a missing resource rather than using a different language.
+    /// </remarks>
+    bool TryGetString( CultureInfo culture, string name, out string value )
+    {
+        value = null;
+        return false;
+    }
 
     /// <summary>
     /// Gets the localized string for each key in the localization object.
