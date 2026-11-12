@@ -1,0 +1,93 @@
+<Div>
+	 @foreach ( var mode in editModes )
+	 {
+		  <Button ElementId="@( $"mode-{mode}" )" Clicked="@( () => SetEditMode( mode ) )">@mode</Button>
+	 }
+</Div>
+
+<DataGrid TItem="AutocompleteSubmitRow"
+			 ElementId="dataGrid"
+			 Data="@rows"
+			 Editable
+			 EditMode="@editMode"
+			 EditModeOptions="new() { CellEditOnSingleClick = true }"
+			 SubmitFormOnEnter="false"
+			 CommandMode="DataGridCommandMode.Commands">
+	 <DataGridColumns>
+		  @if ( editMode != DataGridEditMode.Cell )
+		  {
+				<DataGridCommandColumn TItem="AutocompleteSubmitRow" NewCommandAllowed="false" DeleteCommandAllowed="false">
+					 <EditCommandTemplate>
+						  <Button ElementId="editButton" Clicked="@context.Clicked">@context.LocalizationString</Button>
+					 </EditCommandTemplate>
+				</DataGridCommandColumn>
+		  }
+		  <DataGridColumn TItem="AutocompleteSubmitRow"
+								Field="@nameof( AutocompleteSubmitRow.Option )"
+								Caption="Option"
+								Editable>
+				<EditTemplate Context="context">
+					 <Autocomplete TItem="AutocompleteSubmitOption"
+										TValue="string"
+										Data="@options"
+										MinSearchLength="0"
+										AutoPreSelect="false"
+										Autofocus="@(editMode == DataGridEditMode.Popup)"
+										TextField="@(( option ) => option.Name)"
+										ValueField="@(( option ) => option.Value)"
+										SelectedValue="@(context.CellValue as string)"
+										SelectedValueChanged="@( ( value ) => { context.CellValue = value; selectedValue = value; } )"
+										Placeholder="Type to search..." />
+				</EditTemplate>
+		  </DataGridColumn>
+	 </DataGridColumns>
+</DataGrid>
+
+<Paragraph ElementId="pageInstance">@pageInstanceId</Paragraph>
+<Paragraph ElementId="selectedValue">@selectedValue</Paragraph>
+
+@code {
+	 private readonly DataGridEditMode[] editModes = new[]
+	 {
+		  DataGridEditMode.Form,
+		  DataGridEditMode.Inline,
+		  DataGridEditMode.Popup,
+		  DataGridEditMode.Cell,
+	 };
+
+	 private readonly string pageInstanceId = System.Guid.NewGuid().ToString( "N" );
+
+	 private readonly List<AutocompleteSubmitRow> rows = new()
+	 {
+		  new() { Option = "alpha" },
+	 };
+
+	 private readonly List<AutocompleteSubmitOption> options = new()
+	 {
+		  new() { Name = "Alpha", Value = "alpha" },
+		  new() { Name = "Beta", Value = "beta" },
+		  new() { Name = "Bravo", Value = "bravo" },
+	 };
+
+	 private DataGridEditMode editMode = DataGridEditMode.Form;
+
+	 private string selectedValue = "alpha";
+
+	 private Task SetEditMode( DataGridEditMode value )
+	 {
+		  editMode = value;
+		  return Task.CompletedTask;
+	 }
+
+	 private sealed class AutocompleteSubmitRow
+	 {
+		  public string Option { get; set; }
+	 }
+
+	 private sealed class AutocompleteSubmitOption
+	 {
+		  public string Name { get; set; }
+
+		  public string Value { get; set; }
+	 }
+}
