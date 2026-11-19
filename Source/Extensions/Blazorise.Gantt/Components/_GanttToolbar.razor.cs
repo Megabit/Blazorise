@@ -1,7 +1,6 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Threading.Tasks;
 using Blazorise.Gantt.Extensions;
 using Blazorise.Localization;
@@ -96,20 +95,20 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
                 var start = SelectedDate.StartOfWeek( FirstDayOfWeek );
                 var end = start.AddDays( 6 );
 
-                return $"{start.ToString( "MMM dd", CultureInfo.InvariantCulture )} - {end.ToString( "MMM dd, yyyy", CultureInfo.InvariantCulture )}";
+                return Localizer.Localize( Gantt.Localizers?.ToolbarRangeLocalizer, "{0:MMM dd} - {1:MMM dd, yyyy}", start, end );
             }
 
             if ( SelectedView == GanttView.Month )
             {
-                return SelectedDate.ToString( "MMMM yyyy", CultureInfo.InvariantCulture );
+                return Localizer.Localize( Gantt.Localizers?.ToolbarRangeLocalizer, "{0:MMMM yyyy}", SelectedDate );
             }
 
             if ( SelectedView == GanttView.Year )
             {
-                return SelectedDate.ToString( "yyyy", CultureInfo.InvariantCulture );
+                return Localizer.Localize( Gantt.Localizers?.ToolbarRangeLocalizer, "{0:yyyy}", SelectedDate );
             }
 
-            return SelectedDate.ToString( "MMMM dd, yyyy", CultureInfo.InvariantCulture );
+            return Localizer.Localize( Gantt.Localizers?.ToolbarRangeLocalizer, "{0:MMMM dd, yyyy}", SelectedDate );
         }
     }
 
@@ -123,7 +122,7 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
                 ? rangeEnd.AddHours( -1 )
                 : rangeEnd;
 
-            return $"{rangeStart.ToString( "MMM dd, yyyy HH:mm", CultureInfo.InvariantCulture )} - {displayEnd.ToString( "MMM dd, yyyy HH:mm", CultureInfo.InvariantCulture )}";
+            return Localizer.Localize( Gantt.Localizers?.ToolbarRangeLocalizer, "{0:MMM dd, yyyy HH:mm} - {1:MMM dd, yyyy HH:mm}", rangeStart, displayEnd );
         }
 
         if ( SelectedView == GanttView.Year )
@@ -143,15 +142,15 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
                 : displayEnd.Year;
 
             return rangeStartYear == displayEndYear
-                ? rangeStartYear.ToString( CultureInfo.InvariantCulture )
-                : $"{rangeStartYear.ToString( CultureInfo.InvariantCulture )} - {displayEndYear.ToString( CultureInfo.InvariantCulture )}";
+                ? Localizer.Localize( Gantt.Localizers?.ToolbarRangeLocalizer, "{0}", rangeStartYear )
+                : Localizer.Localize( Gantt.Localizers?.ToolbarRangeLocalizer, "{0} - {1}", rangeStartYear, displayEndYear );
         }
 
         var end = rangeEnd > rangeStart
             ? rangeEnd.AddDays( -1 )
             : rangeEnd;
 
-        return $"{rangeStart.ToString( "MMM dd", CultureInfo.InvariantCulture )} - {end.ToString( "MMM dd, yyyy", CultureInfo.InvariantCulture )}";
+        return Localizer.Localize( Gantt.Localizers?.ToolbarRangeLocalizer, "{0:MMM dd} - {1:MMM dd, yyyy}", rangeStart, end );
     }
 
     private int GetWeekYear( DateTime value )

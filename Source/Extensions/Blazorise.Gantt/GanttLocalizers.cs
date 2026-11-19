@@ -140,6 +140,21 @@ public class GanttLocalizers
     public TextLocalizerHandler TodayLocalizer { get; set; }
 
     /// <summary>
+    /// Localizer for timeline header cell labels.
+    /// </summary>
+    public TextLocalizerHandler TimelineHeaderCellLocalizer { get; set; }
+
+    /// <summary>
+    /// Localizer for grouped timeline header labels.
+    /// </summary>
+    public TextLocalizerHandler TimelineHeaderGroupLocalizer { get; set; }
+
+    /// <summary>
+    /// Localizer for the toolbar date or range label.
+    /// </summary>
+    public TextLocalizerHandler ToolbarRangeLocalizer { get; set; }
+
+    /// <summary>
     /// Localizer for the "Title is required." validation message.
     /// </summary>
     public TextLocalizerHandler TitleRequiredLocalizer { get; set; }

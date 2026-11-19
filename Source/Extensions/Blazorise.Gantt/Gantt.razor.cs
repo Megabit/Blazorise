@@ -184,6 +184,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
         if ( JSModule is null )
         {
             DotNetObjectRef ??= DotNetObjectReference.Create( this );
@@ -234,6 +236,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         if ( disposing )
         {
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+
             if ( readDataCancellationTokenSource is not null )
             {
                 readDataCancellationTokenSource.Cancel();
@@ -250,6 +254,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         if ( disposing )
         {
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+
             if ( Rendered && JSModule is not null )
             {
                 await JSModule.SafeDestroy( ganttDivRef.ElementRef, ElementId );
@@ -265,6 +271,11 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         }
 
         await base.DisposeAsync( disposing );
+    }
+
+    private async void OnLocalizationChanged( object sender, EventArgs e )
+    {
+        await InvokeAsync( StateHasChanged );
     }
 
     internal void NotifyGanttToolbar( GanttToolbar<TItem> ganttToolbar )
@@ -4074,7 +4085,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 var next = current.AddDays( 1 );
                 slots.Add( new GanttTimeSlot(
                     key: $"week-{index.ToString( CultureInfo.InvariantCulture )}",
-                    label: current.ToString( "ddd dd", CultureInfo.InvariantCulture ),
+                    label: Localizer.Localize( Localizers?.TimelineHeaderCellLocalizer, "{0:ddd dd}", current ),
                     start: current,
                     end: next ) );
 
@@ -4095,7 +4106,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 var next = current.AddDays( 1 );
                 slots.Add( new GanttTimeSlot(
                     key: $"month-{index.ToString( CultureInfo.InvariantCulture )}",
-                    label: current.ToString( "dd", CultureInfo.InvariantCulture ),
+                    label: Localizer.Localize( Localizers?.TimelineHeaderCellLocalizer, "{0:dd}", current ),
                     start: current,
                     end: next ) );
 
@@ -4121,7 +4132,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
                     slots.Add( new GanttTimeSlot(
                         key: $"year-week-{weekYear.ToString( CultureInfo.InvariantCulture )}-{weekNumber.ToString( CultureInfo.InvariantCulture )}",
-                        label: weekNumber.ToString( CultureInfo.InvariantCulture ),
+                        label: Localizer.Localize( Localizers?.TimelineHeaderCellLocalizer, "{0}", weekNumber ),
                         start: current,
                         end: next ) );
 
@@ -4136,7 +4147,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                     var next = current.AddMonths( 1 );
                     slots.Add( new GanttTimeSlot(
                         key: $"year-{index.ToString( CultureInfo.InvariantCulture )}",
-                        label: current.ToString( "MMM", CultureInfo.InvariantCulture ),
+                        label: Localizer.Localize( Localizers?.TimelineHeaderCellLocalizer, "{0:MMM}", current ),
                         start: current,
                         end: next ) );
 
@@ -4157,7 +4168,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 var next = current.AddHours( 1 );
                 slots.Add( new GanttTimeSlot(
                     key: $"day-{index.ToString( CultureInfo.InvariantCulture )}",
-                    label: current.ToString( "HH:mm", CultureInfo.InvariantCulture ),
+                    label: Localizer.Localize( Localizers?.TimelineHeaderCellLocalizer, "{0:HH:mm}", current ),
                     start: current,
                     end: next ) );
 
@@ -4215,7 +4226,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         {
             return new GanttTimeHeaderGroup(
                 key: slot.Start.ToString( "yyyy-MM-dd", CultureInfo.InvariantCulture ),
-                label: slot.Start.ToString( "ddd dd MMM", CultureInfo.InvariantCulture ),
+                label: Localizer.Localize( Localizers?.TimelineHeaderGroupLocalizer, "{0:ddd dd MMM}", slot.Start ),
                 slotCount: 0 );
         }
 
@@ -4227,19 +4238,19 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
                 return new GanttTimeHeaderGroup(
                     key: weekYear.ToString( CultureInfo.InvariantCulture ),
-                    label: weekYear.ToString( CultureInfo.InvariantCulture ),
+                    label: Localizer.Localize( Localizers?.TimelineHeaderGroupLocalizer, "{0}", weekYear ),
                     slotCount: 0 );
             }
 
             return new GanttTimeHeaderGroup(
                 key: slot.Start.ToString( "yyyy", CultureInfo.InvariantCulture ),
-                label: slot.Start.ToString( "yyyy", CultureInfo.InvariantCulture ),
+                label: Localizer.Localize( Localizers?.TimelineHeaderGroupLocalizer, "{0:yyyy}", slot.Start ),
                 slotCount: 0 );
         }
 
         return new GanttTimeHeaderGroup(
             key: slot.Start.ToString( "yyyy-MM", CultureInfo.InvariantCulture ),
-            label: slot.Start.ToString( "MMMM yyyy", CultureInfo.InvariantCulture ),
+            label: Localizer.Localize( Localizers?.TimelineHeaderGroupLocalizer, "{0:MMMM yyyy}", slot.Start ),
             slotCount: 0 );
     }
 
@@ -4791,6 +4802,11 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     /// Gets text localizer used by this component.
     /// </summary>
     [Inject] protected ITextLocalizer<Gantt<TItem>> Localizer { get; set; }
+
+    /// <summary>
+    /// Gets the localization service used to react to culture changes.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
     /// Gets message service used for delete confirmations.
