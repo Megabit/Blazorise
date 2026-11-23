@@ -1,0 +1,20 @@
+<Project>
+  <!-- Shared libraries must remain compatible with Mono/WebAssembly consumers. -->
+  <PropertyGroup Condition="'$(UsingMicrosoftNETSdkWeb)' == 'true'
+                            and '$(IsPackable)' != 'true'
+                            and $([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net11.0'))
+                            and '$(UseRuntimeAsync)' != 'false'
+                            and '$(TargetOS)' != 'browser'
+                            and !$(RuntimeIdentifier.StartsWith('browser-'))">
+    <Features>$(Features);runtime-async=on</Features>
+  </PropertyGroup>
+
+  <!-- Also enable runtime async for compatible test projects. -->
+  <PropertyGroup Condition="'$(IsTestProject)' == 'true'
+                            and $([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net11.0'))
+                            and '$(UseRuntimeAsync)' != 'false'
+                            and '$(TargetOS)' != 'browser'
+                            and !$(RuntimeIdentifier.StartsWith('browser-'))">
+    <Features>$(Features);runtime-async=on</Features>
+  </PropertyGroup>
+</Project>
