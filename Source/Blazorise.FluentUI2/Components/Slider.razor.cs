@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
+using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.FluentUI2.Components;
@@ -20,6 +21,18 @@ public partial class Slider<TValue>
     #endregion
 
     #region Methods
+
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.IsParameterChanged( Value )
+            || parameters.IsParameterChanged( Min )
+            || parameters.IsParameterChanged( Max ) )
+        {
+            DirtyStyles();
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
 
     protected internal override void DirtyClasses()
     {
