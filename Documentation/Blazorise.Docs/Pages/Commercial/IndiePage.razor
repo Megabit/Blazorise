@@ -48,13 +48,13 @@
             </Column>
             <Column ColumnSize="ColumnSize.Is12.Is5.OnDesktop">
                 <Div ElementId="purchase-indie">
-                    <PricingCard PlanName="Indie" PlanDescription="One developer. One independently owned project." Quantity="1" QuantityUnit="project" PlanPrice="@CommercialLicensePrices.IndieAnnualPerProject" PlanUnit="year" CurrencySymbol="€" CurrencyCode="EUR" ShowPlan TextAccentColor="TextColor.Default">
+                    <PricingCard PlanName="Indie" PlanDescription="One developer. One independently owned project." Quantity="1" QuantityUnit="project" PlanPrice="@CommercialPriceList.IndieAnnual.Price" ReferencePrice="@CommercialPriceList.IndieAnnual" PlanUnit="year" CurrencySymbol="€" CurrencyCode="EUR" ShowPlan TextAccentColor="TextColor.Default">
                         <ChildContent>
                             <Paragraph>
                                 Annual project revenue below €25,000. No client or agency work, dedicated support, or premium benefits.
                             </Paragraph>
                             <Paragraph TextSize="TextSize.Small" TextColor="TextColor.Muted">
-                                Billed annually per registered project. Local taxes may apply.
+                                Billed annually per registered project. Checkout taxes depend on your location and tax status. <Anchor To="/pricing/price-list">Price list</Anchor>.
                             </Paragraph>
                         </ChildContent>
                         <ButtonContent>

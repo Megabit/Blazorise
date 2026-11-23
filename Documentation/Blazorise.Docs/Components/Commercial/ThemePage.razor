@@ -30,6 +30,7 @@
                                 {
                                     <Radio TValue="string" Value="@product.PriceId">
                                         <ThemePrice @key="@product.PriceId" Name="@product.LicenseName" Description="@product.LicenseDescription" Price="@product.Price" Currency="@product.Currency" />
+                                        <PriceReference Price="@Blazorise.Docs.Models.CommercialPriceList.FindByProductId( product.PriceId )" />
                                     </Radio>
                                 }
                             </RadioGroup>
@@ -45,6 +46,9 @@
                             </Button>
                         </Field>
                     </Form>
+                    <Paragraph TextSize="TextSize.Small">
+                        Prices exclude VAT unless marked otherwise. <Anchor To="/pricing/price-list">Price list</Anchor>.
+                    </Paragraph>
                 </Column>
             </Row>
         </Container>

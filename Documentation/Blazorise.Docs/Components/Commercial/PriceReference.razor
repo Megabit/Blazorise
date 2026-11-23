@@ -1,0 +1,26 @@
+@using System.Globalization
+@using Blazorise.Docs.Models
+
+@if ( Price?.BasePriceIncludingVat is not null )
+{
+    <Div TextSize="TextSize.ExtraSmall" TextColor="TextColor.Muted" Margin="Margin.Is2.FromTop">
+        <Span>@LabelString: €@BasePriceString</Span>
+        <Tooltip Text="@Explanation" Inline Multiline Margin="Margin.Is1.FromStart">
+            <Span tabindex="0" aria-label="About the base price">
+                <Icon Name="IconName.InfoCircle" IconSize="IconSize.Small" TextColor="TextColor.Muted" />
+            </Span>
+        </Tooltip>
+    </Div>
+}
+
+@code {
+    private string BasePriceString => ( Price.BasePriceExcludingVat.Value * Quantity ).ToString( "N2", CultureInfo.InvariantCulture );
+
+    private string LabelString => Price.BasePriceDate is { } date ? $"Base price ({date.ToString( "dd MMM yyyy", CultureInfo.InvariantCulture )})" : "Base price";
+
+    private string Explanation => "The base price is the price on the reference date, or at first offer for newer products. Croatian price transparency rules require this comparison to help you see price changes. Excludes VAT, like the main price.";
+
+    [Parameter] public CommercialPrice Price { get; set; }
+
+    [Parameter] public decimal Quantity { get; set; } = 1;
+}

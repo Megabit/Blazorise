@@ -30,7 +30,7 @@
 
     <Row Class="b-pricing-plan-grid" Margin="Margin.Is3.FromBottom" Gutter="Gutter.Is3">
         <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is3.OnWidescreen" Margin="Margin.Is4.FromBottom">
-            <PricingCard PlanName="Indie" PlanDescription="For one developer building an independently owned project." Quantity="1" QuantityUnit="project" PlanPrice="@CommercialLicensePrices.IndieAnnualPerProject" PlanUnit="year" BillingNote="Billed annually only" CurrencySymbol="€" CurrencyCode="EUR" ShowPlan TextAccentColor="TextColor.Default">
+            <PricingCard PlanName="Indie" PlanDescription="For one developer building an independently owned project." Quantity="1" QuantityUnit="project" PlanPrice="@CommercialPriceList.IndieAnnual.Price" ReferencePrice="@CommercialPriceList.IndieAnnual" PlanUnit="year" BillingNote="Billed annually only" CurrencySymbol="€" CurrencyCode="EUR" ShowPlan TextAccentColor="TextColor.Default">
                 <ButtonContent>
                     <PurchaseButton Color="Color.Primary" ProductId="@PaddlePrices.IndieYearlySubscriptionPerProject" Quantity="1" ProductName="Blazorise Indie">
                         Buy Indie
@@ -67,14 +67,14 @@
                         </UnorderedListItem>
                     </UnorderedList>
                     <Paragraph TextSize="TextSize.Small" TextColor="TextColor.Muted" Margin="Margin.Is3.FromTop.Is0.FromBottom">
-                        If project revenue exceeds €25,000/year, upgrade to Professional at the next renewal. <Anchor To="indie">Read Indie eligibility</Anchor>.
+                        <Anchor To="indie">View Indie eligibility</Anchor>
                     </Paragraph>
                 </ChildContent>
             </PricingCard>
         </Column>
 
         <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is3.OnWidescreen" Margin="Margin.Is4.FromBottom">
-            <PricingCard PlanName="Professional" PlanDescription="Product support for commercial applications." Quantity="@Quantity" PlanPrice="@ProfessionalPrices[Plan].Price" PlanUnit="@ProfessionalPrices[Plan].Unit" ShowPlan ShowHigherPlan="@(Plan == "annually")" CurrencySymbol="@ProfessionalPrices[Plan].CurrencySymbol" CurrencyCode="@ProfessionalPrices[Plan].CurrencyCode" ShowDiscount TextAccentColor="TextColor.Default">
+            <PricingCard PlanName="Professional" PlanDescription="Product support for commercial applications." Quantity="@Quantity" PlanPrice="@ProfessionalPrices[Plan].Price" ReferencePrice="@ProfessionalPrices[Plan]" PlanUnit="@ProfessionalPrices[Plan].Unit" ShowPlan ShowHigherPlan="@(Plan == "annually")" CurrencySymbol="@ProfessionalPrices[Plan].CurrencySymbol" CurrencyCode="@ProfessionalPrices[Plan].CurrencyCode" ShowDiscount TextAccentColor="TextColor.Default">
                 <ButtonContent>
                     <PurchaseButton Color="Color.Primary" ProductId="@ProfessionalPrices[Plan].ProductId" Quantity="@Quantity" ProductName="Blazorise Professional">
                         Buy Professional
@@ -108,7 +108,7 @@
 
         <Column Class="b-background-glow-host" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is3.OnWidescreen" Margin="Margin.Is4.FromBottom">
             <BackgroundGlow Variant="BackgroundGlowVariant.Halo" Spread="clamp(32px, 4vw, 56px)" Intensity="0.28" DarkIntensity="0.20" />
-            <PricingCard PlanName="Enterprise" PlanDescription="More tools and priority support for your team." Quantity="@Quantity" PlanPrice="@EnterprisePrices[Plan].Price" PlanUnit="@EnterprisePrices[Plan].Unit" ShowPlan ShowHigherPlan="@(Plan == "annually")" CurrencySymbol="@EnterprisePrices[Plan].CurrencySymbol" CurrencyCode="@EnterprisePrices[Plan].CurrencyCode" ShowDiscount TextAccentColor="TextColor.Primary">
+            <PricingCard PlanName="Enterprise" PlanDescription="More tools and priority support for your team." Quantity="@Quantity" PlanPrice="@EnterprisePrices[Plan].Price" ReferencePrice="@EnterprisePrices[Plan]" PlanUnit="@EnterprisePrices[Plan].Unit" ShowPlan ShowHigherPlan="@(Plan == "annually")" CurrencySymbol="@EnterprisePrices[Plan].CurrencySymbol" CurrencyCode="@EnterprisePrices[Plan].CurrencyCode" ShowDiscount TextAccentColor="TextColor.Primary">
                 <ButtonContent>
                     <PurchaseButton Color="Color.Primary" ProductId="@EnterprisePrices[Plan].ProductId" Quantity="@Quantity" ProductName="Blazorise Enterprise">
                         Buy Enterprise
@@ -168,7 +168,7 @@
                         </UnorderedListItem>
                         <UnorderedListItem Padding="Padding.Is2.OnY">
                             <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
-                            <Anchor To="enterprise-plus" Title="Link to enterprise plus page">Expert on Demand</Anchor> – the Blazorise team helping you hands-on (30 hours)
+                            <Anchor To="enterprise-plus" Title="Link to enterprise plus page">Expert on Demand</Anchor>, the Blazorise team helping you hands-on (30 hours)
                         </UnorderedListItem>
                         <UnorderedListItem Padding="Padding.Is2.OnY">
                             <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
@@ -193,7 +193,7 @@
     </Row>
 
     <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" TextAlignment="TextAlignment.Center" Margin="Margin.Is3.FromTop.Is0.FromBottom">
-        All prices are in EUR. Indie is billed annually per project. Professional and Enterprise are billed per developer. Local taxes may apply.
+        Prices are in EUR, excluding VAT. Indie is billed annually per project; Professional and Enterprise are billed per developer. Applicable taxes are calculated at checkout.
     </Paragraph>
     <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromTop">
         <Anchor To="/pricing#compare-plans">Compare all features and support limits</Anchor>

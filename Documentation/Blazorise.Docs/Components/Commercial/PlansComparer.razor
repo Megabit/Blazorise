@@ -1,13 +1,8 @@
-@using System.Globalization
-@using Blazorise.Docs.Models
 <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
     <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">Compare plans in detail</Heading>
     <Lead TextColor="TextColor.Muted">
         See which components, support channels, and service limits are included in each plan.
     </Lead>
-    <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small">
-        Indie covers one eligible project for one developer, billed annually. Professional and Enterprise prices below are totals for @Quantity @( Quantity == 1 ? "developer" : "developers" ) on @( Plan == "monthly" ? "monthly" : "annual" ) billing.
-    </Paragraph>
 </Div>
 
 <Div Class="b-pricing-table-region" role="region" aria-label="Plan feature comparison, scroll horizontally to view all plans" tabindex="0">
@@ -15,56 +10,10 @@
     <TableHeader Background="Background.Light">
         <TableRow>
             <TableHeaderCell Width="Width.Percent( 40 )" TextAlignment="TextAlignment.Start">Features and support</TableHeaderCell>
-            <TableHeaderCell Width="Width.Percent( 15 )">
-                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
-                    <Div>
-                        Indie
-                    </Div>
-                    <Div Padding="Padding.Is2.OnY">
-                        <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">€@CommercialLicensePrices.IndieAnnualPerProject/year per project</Small>
-                    </Div>
-                </Div>
-            </TableHeaderCell>
-            <TableHeaderCell Width="Width.Percent( 15 )">
-                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
-                    <Div>
-                        Professional
-                    </Div>
-                    <Div Padding="Padding.Is2.OnY">
-                        <Span>
-                            @($"{ProfessionalPrices[Plan].CurrencySymbol}{( ProfessionalPrices[Plan].Price * Quantity ):n0}")
-                        </Span>
-                        <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">
-                            /@ProfessionalPrices[Plan].Unit
-                        </Small>
-                    </Div>
-                </Div>
-            </TableHeaderCell>
-            <TableHeaderCell Width="Width.Percent( 15 )">
-                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
-                    <Div>
-                        Enterprise
-                    </Div>
-                    <Div Padding="Padding.Is2.OnY">
-                        <Span>
-                            @($"{EnterprisePrices[Plan].CurrencySymbol}{( EnterprisePrices[Plan].Price * Quantity ):n0}")
-                        </Span>
-                        <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">
-                            /@EnterprisePrices[Plan].Unit
-                        </Small>
-                    </Div>
-                </Div>
-            </TableHeaderCell>
-            <TableHeaderCell Width="Width.Percent( 15 )">
-                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
-                    <Div>
-                        Enterprise Plus
-                    </Div>
-                    <Div Padding="Padding.Is2.OnY">
-                        <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">Custom pricing</Small>
-                    </Div>
-                </Div>
-            </TableHeaderCell>
+            <TableHeaderCell Width="Width.Percent( 15 )">Indie</TableHeaderCell>
+            <TableHeaderCell Width="Width.Percent( 15 )">Professional</TableHeaderCell>
+            <TableHeaderCell Width="Width.Percent( 15 )">Enterprise</TableHeaderCell>
+            <TableHeaderCell Width="Width.Percent( 15 )">Enterprise Plus</TableHeaderCell>
         </TableRow>
     </TableHeader>
     <TableBody>

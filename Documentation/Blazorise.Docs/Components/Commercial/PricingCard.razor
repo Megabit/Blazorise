@@ -1,4 +1,5 @@
 ﻿@using System.Globalization
+@using Blazorise.Docs.Models
 
 <Card Class="b-pricing-card" Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100" TextAlignment="TextAlignment.Start">
     <CardBody Padding="Padding.Is4" Display="Display.Flex" Flex="Flex.Column">
@@ -39,6 +40,7 @@
                             <Badge Color="Color.Success" Subtle Pill>Save @PercentageDiscountString annually</Badge>
                         </Div>
                     }
+                    <PriceReference Price="@ReferencePrice" Quantity="@Quantity" />
                 }
                 else
                 {
@@ -95,6 +97,8 @@
     [Parameter] public string QuantityUnit { get; set; } = "developer";
 
     [Parameter] public decimal PlanPrice { get; set; }
+
+    [Parameter] public CommercialPrice ReferencePrice { get; set; }
 
     [Parameter] public string PlanUnit { get; set; }
 
