@@ -36,5 +36,18 @@ public class DataGridAutocompleteSubmitTests : BlazorisePageTest
 
         await Expect( Page.Locator( "#selectedValue" ) ).ToHaveTextAsync( "beta" );
         await Expect( Page.Locator( "#pageInstance" ) ).ToHaveTextAsync( pageInstance );
+
+        if ( editMode != Blazorise.DataGrid.DataGridEditMode.Cell )
+        {
+            await Expect( autocomplete ).ToBeVisibleAsync();
+            await Expect( autocomplete ).ToHaveValueAsync( "Beta" );
+            await Expect( Page.Locator( "#rowUpdatedCount" ) ).ToHaveTextAsync( "0" );
+
+            await Page.GetByRole( AriaRole.Button, new() { Name = "Save", Exact = true } ).ClickAsync();
+
+            await Expect( autocomplete ).ToHaveCountAsync( 0 );
+            await Expect( Page.Locator( "#rowUpdatedCount" ) ).ToHaveTextAsync( "1" );
+            await Expect( Page.Locator( "#pageInstance" ) ).ToHaveTextAsync( pageInstance );
+        }
     }
 }
