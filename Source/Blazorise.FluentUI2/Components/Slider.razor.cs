@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
+using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.FluentUI2.Components;
