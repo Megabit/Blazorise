@@ -22,13 +22,16 @@ public partial class Slider<TValue>
 
     #region Methods
 
-    public override Task SetParametersAsync(ParameterView parameters)
+    public override Task SetParametersAsync( ParameterView parameters )
     {
-        if (parameters.TryGetValue(nameof(Value), out TValue _)) {
+        if ( parameters.IsParameterChanged( Value )
+            || parameters.IsParameterChanged( Min )
+            || parameters.IsParameterChanged( Max ) )
+        {
             DirtyStyles();
         }
-        
-        return base.SetParametersAsync(parameters);
+
+        return base.SetParametersAsync( parameters );
     }
 
     protected internal override void DirtyClasses()
