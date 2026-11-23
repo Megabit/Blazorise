@@ -1,0 +1,73 @@
+@page "/indie"
+@using Blazorise.Docs.Models
+
+<Seo Canonical="/indie" Title="Blazorise Indie | Project licensing" Description="Indie covers one developer and one independently owned project with annual revenue below €25,000. No client or agency work, dedicated support, or premium benefits." />
+
+<Div Class="b-visual b-marketing b-expanded-page">
+    <MarketingPageHeader Variant="BrandBackdropVariant.CircleScatter" Counterpoint="BrandBackdropVariant.CircleScatter">
+        <Title>Your project.<br /><Span>Your next step.</Span></Title>
+        <Description>Blazorise Indie covers one developer building one independently owned project. Start small, with a clear path to Professional as your project grows.</Description>
+        <Actions>
+            <Anchor To="#purchase-indie" Class="b-visual-button b-visual-button-primary">Get Indie</Anchor>
+            <Anchor To="docs/start" Class="b-visual-button b-visual-button-outline">Get started</Anchor>
+        </Actions>
+    </MarketingPageHeader>
+
+    <Container Padding="Padding.Is5.OnY">
+        <Row Gutter="Gutter.Is4">
+            <Column ColumnSize="ColumnSize.Is12.Is7.OnDesktop">
+                <Heading Size="HeadingSize.Is2">Who Indie is for</Heading>
+                <Paragraph>
+                    Indie is a license for one registered project, with one developer. It is for an independently owned product or application, including personal and commercial projects that meet these requirements:
+                </Paragraph>
+                <UnorderedList>
+                    <UnorderedListItem>One developer working on one independently owned project.</UnorderedListItem>
+                    <UnorderedListItem>Annual project revenue below €25,000.</UnorderedListItem>
+                    <UnorderedListItem>No client or agency work.</UnorderedListItem>
+                </UnorderedList>
+                <Paragraph>
+                    The license covers the registered project. It cannot be reused as a personal license across other projects.
+                </Paragraph>
+
+                <Heading Size="HeadingSize.Is2">What is included</Heading>
+                <Paragraph>
+                    Use Blazorise components in the eligible registered project without evaluation component limits or the licensing banner. The annual subscription includes component updates.
+                </Paragraph>
+                <Paragraph>
+                    Indie does not include dedicated support, private repositories, Themes, Blocks, or other premium benefits. Documentation and examples are available to help you build.
+                </Paragraph>
+
+                <Heading Size="HeadingSize.Is2">When your project grows</Heading>
+                <Paragraph>
+                    If annual project revenue exceeds €25,000, an upgrade to Professional is required at the next renewal. Professional covers unlimited projects per licensed developer and includes dedicated support.
+                </Paragraph>
+                <Paragraph>
+                    Choose Professional if you need additional developers, client or agency work, or dedicated support. <Anchor To="mailto:sales@blazorise.com">Contact sales</Anchor> to arrange an upgrade for your existing project.
+                </Paragraph>
+
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.Is5.OnDesktop">
+                <Div ElementId="purchase-indie">
+                    <PricingCard PlanName="Indie" PlanDescription="One developer. One independently owned project." Quantity="1" QuantityUnit="project" PlanPrice="@CommercialLicensePrices.IndieAnnualPerProject" PlanUnit="year" CurrencySymbol="€" CurrencyCode="EUR" ShowPlan TextAccentColor="TextColor.Default">
+                        <ChildContent>
+                            <Paragraph>
+                                Annual project revenue below €25,000. No client or agency work, dedicated support, or premium benefits.
+                            </Paragraph>
+                            <Paragraph TextSize="TextSize.Small" TextColor="TextColor.Muted">
+                                Billed annually per registered project. Local taxes may apply.
+                            </Paragraph>
+                        </ChildContent>
+                        <ButtonContent>
+                            <PurchaseButton Color="Color.Primary" ProductId="@PaddlePrices.IndieYearlySubscriptionPerProject" Quantity="1" ProductName="Blazorise Indie">
+                                Buy Indie
+                            </PurchaseButton>
+                        </ButtonContent>
+                    </PricingCard>
+                </Div>
+            </Column>
+        </Row>
+        <Paragraph Margin="Margin.Is4.FromTop">
+            <Anchor To="pricing">Compare all plans</Anchor> or read the <Anchor To="docs/usage/licensing">licensing guide</Anchor>.
+        </Paragraph>
+    </Container>
+</Div>

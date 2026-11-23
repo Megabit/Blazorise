@@ -8,7 +8,7 @@
                 A plan for your team. Support for your application.
             </Heading>
             <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted">
-                Professional and Enterprise plans combine commercial licensing with direct product support. Compare the included components, support channels, and response-time targets to find the right fit.
+                Professional and Enterprise combine per-developer licensing for unlimited projects with direct product support. Compare the included components, support channels, and response-time targets to find the right fit. Individual developers building their own product can also explore <Anchor To="indie">Indie project licensing</Anchor>.
             </Paragraph>
             <Div Flex="Flex.Column.Row.OnTablet" Gap="Gap.Is3">
                 <Button Type="ButtonType.Link" To="pricing" Color="Color.Primary" Size="Size.Large">
@@ -44,9 +44,9 @@
 @code {
     private static readonly LicenseBenefit[] LicenseBenefits =
     [
-        new( IconName.Users, "Per-developer licensing", "Choose the number of developers using Blazorise, with monthly or annual billing." ),
+        new( IconName.Users, "Project or developer licensing", "Professional and Enterprise cover unlimited projects per licensed developer. Indie covers one eligible project for one developer." ),
         new( IconName.Key, "Royalty-free deployment", "Deploy your applications without per-application royalties, subject to the license terms." ),
-        new( IconName.Headset, "Direct product support", "Get help with product questions and issues through the support channels included in your plan." ),
+        new( IconName.Headset, "Direct product support", "Get help with product questions and issues through the dedicated support included with Professional and Enterprise." ),
         new( IconName.LayerGroup, "A consistent UI foundation", "Use Blazorise components, theming, and utilities across your team's applications." ),
     ];
 

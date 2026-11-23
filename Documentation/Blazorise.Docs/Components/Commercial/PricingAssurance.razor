@@ -5,7 +5,7 @@
                 Clear license terms before you buy
             </Heading>
             <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is2.FromTop.Is0.FromBottom">
-                Commercial plans are priced per developer, include support during the subscription, and can be purchased online, through Azure Marketplace, or by purchase order.
+                Professional and Enterprise are licensed per developer and include dedicated support. Choose monthly or annual billing and purchase online, through Azure Marketplace, or by purchase order. Indie is billed annually per registered project and does not include dedicated support.
             </Paragraph>
         </Column>
     </Row>
@@ -48,10 +48,10 @@
 @code {
     private static readonly AssuranceItem[] AssuranceItems =
     {
-        new( IconName.Users, TextColor.Primary, "Per developer", "Prices are calculated by the number of developers who use Blazorise, with royalty-free application deployment." ),
-        new( IconName.CalendarCheck, TextColor.Info, "Flexible billing", "Choose monthly or annual billing, with annual pricing discounted in the plan selector." ),
-        new( IconName.Headset, TextColor.Success, "Support included", "Professional and Enterprise plans include premium support with published response-time targets." ),
-        new( IconName.Receipt, TextColor.Secondary, "Procurement ready", "Use online checkout, Azure Marketplace, or a signed quote with NET 30 invoice terms." ),
+        new( IconName.Users, TextColor.Primary, "Project or developer", "Professional and Enterprise cover unlimited projects per licensed developer. Indie covers one eligible project for one developer." ),
+        new( IconName.CalendarCheck, TextColor.Info, "Flexible billing", "Professional and Enterprise offer monthly or annual billing. Indie is billed annually." ),
+        new( IconName.Headset, TextColor.Success, "Dedicated support", "Professional and Enterprise plans include premium support with published response-time targets." ),
+        new( IconName.Receipt, TextColor.Secondary, "Procurement ready", "Professional and Enterprise offer online checkout, Azure Marketplace, or a signed quote with NET 30 invoice terms." ),
     };
 
     private sealed record AssuranceItem( IconName Icon, TextColor TextColor, string Title, string Description );

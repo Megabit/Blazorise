@@ -19,4 +19,9 @@ public enum BlazoriseLicenseType
     /// A community license.
     /// </summary>
     Community,
+
+    /// <summary>
+    /// A commercial license restricted to one registered project and its application assemblies.
+    /// </summary>
+    Indie,
 }

@@ -25,6 +25,7 @@ public static class Config
             .AddBlazorise( options =>
             {
                 options.ProductToken = licenseKey;
+                options.ProductAssembly = typeof( App ).Assembly;
                 options.Immediate = true;
                 options.AccessibilityOptions.OnScreenKeyboard.Enabled = false;
                 options.AccessibilityOptions.OnScreenKeyboard.ShowSpecialCharactersKey = true;

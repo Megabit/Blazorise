@@ -24,8 +24,14 @@
                 @if ( PlanPrice > 0 )
                 {
                     <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" Margin="Margin.Is0">
-                        @CurrencyCode / @PlanUnit for @Quantity @( Quantity == 1 ? "developer" : "developers" )
+                        @CurrencyCode / @PlanUnit for @Quantity @( Quantity == 1 ? QuantityUnit : $"{QuantityUnit}s" )
                     </Paragraph>
+                    @if ( !string.IsNullOrWhiteSpace( BillingNote ) )
+                    {
+                        <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" Margin="Margin.Is1.FromTop.Is0.FromBottom">
+                            @BillingNote
+                        </Paragraph>
+                    }
                     @if ( ShowHigherPlan && ShowDiscount )
                     {
                         <Div Flex="Flex.AlignItems.Center.Wrap" Gap="Gap.Is2" Margin="Margin.Is2.FromTop">
@@ -86,9 +92,13 @@
 
     [Parameter] public decimal Quantity { get; set; }
 
+    [Parameter] public string QuantityUnit { get; set; } = "developer";
+
     [Parameter] public decimal PlanPrice { get; set; }
 
     [Parameter] public string PlanUnit { get; set; }
+
+    [Parameter] public string BillingNote { get; set; }
 
     [Parameter] public string CurrencySymbol { get; set; }
 

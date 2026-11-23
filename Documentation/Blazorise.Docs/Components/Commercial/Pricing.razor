@@ -1,10 +1,12 @@
+@using Blazorise.Docs.Models
+
 <Div>
     <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
         <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold" Margin="Margin.Is3.FromBottom">
             Choose your plan
         </Heading>
         <Lead TextColor="TextColor.Muted">
-            Commercial plans build on the free Blazorise core with additional tools, components, and support, backed by up to 15 years of maintenance.
+            Choose Indie for one eligible project, Professional for unlimited projects and dedicated support, or Enterprise for premium benefits.
         </Lead>
     </Div>
 
@@ -12,7 +14,7 @@
         <CardBody Padding="Padding.Is4">
             <Div Flex="Flex.Column.Row.OnDesktop.JustifyContent.Center.AlignItems.Center" Gap="Gap.Is4">
                 <Div Flex="Flex.Column.AlignItems.Center" Gap="Gap.Is2">
-                    <Strong>Billing frequency</Strong>
+                    <Strong>Professional &amp; Enterprise billing</Strong>
                     <PlanSwitch SelectedValue="@Plan" SelectedValueChanged="@PlanChanged" />
                 </Div>
                 <Div Flex="Flex.Column.AlignItems.Center" Gap="Gap.Is2">
@@ -21,18 +23,18 @@
                 </Div>
             </Div>
             <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" TextAlignment="TextAlignment.Center" Margin="Margin.Is3.FromTop.Is0.FromBottom">
-                Professional and Enterprise prices are totals for @Quantity @DevLabel. Choose annual billing to save compared with paying monthly.
+                These controls apply to Professional and Enterprise. Their prices are totals for @Quantity @DevLabel. Indie is always billed annually for one registered project.
             </Paragraph>
         </CardBody>
     </Card>
 
     <Row Class="b-pricing-plan-grid" Margin="Margin.Is3.FromBottom" Gutter="Gutter.Is3">
         <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is3.OnWidescreen" Margin="Margin.Is4.FromBottom">
-            <PricingCard PlanName="Community" PlanDescription="Core components for individual developers." PlanPrice="0" ShowPlan TextAccentColor="TextColor.Default">
+            <PricingCard PlanName="Indie" PlanDescription="For one developer building an independently owned project." Quantity="1" QuantityUnit="project" PlanPrice="@CommercialLicensePrices.IndieAnnualPerProject" PlanUnit="year" BillingNote="Billed annually only" CurrencySymbol="€" CurrencyCode="EUR" ShowPlan TextAccentColor="TextColor.Default">
                 <ButtonContent>
-                    <Button Type="ButtonType.Link" To="https://blazorise.com/account/login" Color="Color.Primary" Size="Size.Large" Outline Block>
-                        Claim license
-                    </Button>
+                    <PurchaseButton Color="Color.Primary" ProductId="@PaddlePrices.IndieYearlySubscriptionPerProject" Quantity="1" ProductName="Blazorise Indie">
+                        Buy Indie
+                    </PurchaseButton>
                 </ButtonContent>
                 <IncludesContent>
                     Includes
@@ -40,26 +42,33 @@
                 <ChildContent>
                     <UnorderedList Unstyled Margin="Margin.Is0.FromBottom">
                         <UnorderedListItem Padding="Padding.Is2.OnY">
-                            <Icon TextColor="TextColor.Muted" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
+                            <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
                             <Anchor To="https://github.com/Megabit/Blazorise" Title="Link to GitHub">90+ Core UI Components</Anchor>
                         </UnorderedListItem>
                         <UnorderedListItem Padding="Padding.Is2.OnY">
-                            <Icon TextColor="TextColor.Muted" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
-                            Free for <Anchor To="community" Title="Learn more">individuals</Anchor>
+                            <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
+                            One developer, one registered project
                         </UnorderedListItem>
                         <UnorderedListItem Padding="Padding.Is2.OnY">
-                            <Icon TextColor="TextColor.Muted" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
-                            <Anchor To="https://github.com/Megabit/Blazorise/issues" Title="Link to GitHub">Community support</Anchor>
+                            <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
+                            Annual project revenue below €25,000
                         </UnorderedListItem>
                         <UnorderedListItem Padding="Padding.Is2.OnY">
-                            <Icon TextColor="TextColor.Muted" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
-                            Regular updates
+                            <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
+                            No evaluation component limits or licensing banner
                         </UnorderedListItem>
                         <UnorderedListItem Padding="Padding.Is2.OnY">
-                            <Icon TextColor="TextColor.Muted" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
-                            Unlimited applications
+                            <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
+                            No client or agency work
+                        </UnorderedListItem>
+                        <UnorderedListItem Padding="Padding.Is2.OnY">
+                            <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Times" IconSize="IconSize.Small" />
+                            No dedicated support or premium benefits
                         </UnorderedListItem>
                     </UnorderedList>
+                    <Paragraph TextSize="TextSize.Small" TextColor="TextColor.Muted" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+                        If project revenue exceeds €25,000/year, upgrade to Professional at the next renewal. <Anchor To="indie">Read Indie eligibility</Anchor>.
+                    </Paragraph>
                 </ChildContent>
             </PricingCard>
         </Column>
@@ -68,11 +77,11 @@
             <PricingCard PlanName="Professional" PlanDescription="Product support for commercial applications." Quantity="@Quantity" PlanPrice="@ProfessionalPrices[Plan].Price" PlanUnit="@ProfessionalPrices[Plan].Unit" ShowPlan ShowHigherPlan="@(Plan == "annually")" CurrencySymbol="@ProfessionalPrices[Plan].CurrencySymbol" CurrencyCode="@ProfessionalPrices[Plan].CurrencyCode" ShowDiscount TextAccentColor="TextColor.Default">
                 <ButtonContent>
                     <PurchaseButton Color="Color.Primary" ProductId="@ProfessionalPrices[Plan].ProductId" Quantity="@Quantity" ProductName="Blazorise Professional">
-                        Buy now
+                        Buy Professional
                     </PurchaseButton>
                 </ButtonContent>
                 <IncludesContent>
-                    Everything in Community
+                    Unlimited projects per licensed developer
                 </IncludesContent>
                 <ChildContent>
                     <UnorderedList Unstyled Margin="Margin.Is0.FromBottom">
@@ -102,7 +111,7 @@
             <PricingCard PlanName="Enterprise" PlanDescription="More tools and priority support for your team." Quantity="@Quantity" PlanPrice="@EnterprisePrices[Plan].Price" PlanUnit="@EnterprisePrices[Plan].Unit" ShowPlan ShowHigherPlan="@(Plan == "annually")" CurrencySymbol="@EnterprisePrices[Plan].CurrencySymbol" CurrencyCode="@EnterprisePrices[Plan].CurrencyCode" ShowDiscount TextAccentColor="TextColor.Primary">
                 <ButtonContent>
                     <PurchaseButton Color="Color.Primary" ProductId="@EnterprisePrices[Plan].ProductId" Quantity="@Quantity" ProductName="Blazorise Enterprise">
-                        Buy now
+                        Buy Enterprise
                     </PurchaseButton>
                 </ButtonContent>
                 <IncludesContent>
@@ -184,7 +193,7 @@
     </Row>
 
     <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small" TextAlignment="TextAlignment.Center" Margin="Margin.Is3.FromTop.Is0.FromBottom">
-        All prices are in EUR. Paid licenses are billed per developer on a royalty-free subscription basis. Local taxes may apply.
+        All prices are in EUR. Indie is billed annually per project. Professional and Enterprise are billed per developer. Local taxes may apply.
     </Paragraph>
     <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromTop">
         <Anchor To="/pricing#compare-plans">Compare all features and support limits</Anchor>

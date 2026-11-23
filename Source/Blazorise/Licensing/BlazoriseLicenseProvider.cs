@@ -1,7 +1,7 @@
 #region Using directives
 using System;
-using System.ComponentModel;
 using System.Reflection;
+using System.Threading.Tasks;
 using Blazorise.Licensing.Signing;
 using Microsoft.JSInterop;
 #endregion
@@ -78,11 +78,7 @@ public sealed class BlazoriseLicenseProvider
 
     private readonly IVersionProvider versionProvider;
 
-    private readonly BackgroundWorker backgroundWorker;
-
     private static readonly string PublicKey = "MIGJAoGBAKp0j2x3tjZdwyrL9RD291u2ZQtpq86ggwx1aofZ8Bm3z0RjEaqInKZZQP1eGwlV8u6XOjfYMp2gxUWWziN5t+QikN77GvZcf28EFSvhgIjpXoHzhrDzIAZmJOLOkLft4/XEe3CI0tMVtqmjf5jQbGqY5M/ApqjF1LmDnTWuyFI5AgMBAAE=";
-
-    private static bool initialized = false;
 
     private int? limitsDataGridMaxRows;
 
@@ -118,30 +114,15 @@ public sealed class BlazoriseLicenseProvider
         this.jsRuntime = jsRuntime;
         this.versionProvider = versionProvider;
 
-        if ( !initialized )
-        {
-            backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += BackgroundWorker_DoWork;
-            backgroundWorker.RunWorkerAsync();
-        }
+        Initialization = Task.Run( InitializeAsync );
     }
 
     #endregion
 
     #region Methods
 
-    private async void BackgroundWorker_DoWork( object sender, DoWorkEventArgs e )
+    private async Task InitializeAsync()
     {
-        if ( initialized )
-        {
-            if ( backgroundWorker is not null )
-            {
-                backgroundWorker.DoWork -= BackgroundWorker_DoWork;
-                backgroundWorker.Dispose();
-            }
-            return;
-        }
-
         if ( string.IsNullOrWhiteSpace( options.ProductToken ) )
         {
             Result = BlazoriseLicenseResult.Unlicensed;
@@ -155,44 +136,71 @@ public sealed class BlazoriseLicenseProvider
                 var wasmLicenseVerifier = LicenseVerifier.Create().WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, options, PublicKey );
                 var license = await wasmLicenseVerifier.Load( options.ProductToken, true );
 
-                if ( wasmLicenseVerifier.Verify( license, new Assembly[] { CurrentAssembly } ) )
-                {
-                    License = license;
-                    Result = ResolveBlazoriseLicenseResult( license );
-                }
-                else
-                {
-                    Result = BlazoriseLicenseResult.Unlicensed;
-                }
-
-                PrintResult = ResolveBlazoriseLicensePrintResult( license );
+                ApplyLicense( license, wasmLicenseVerifier.Verify( license, new Assembly[] { CurrentAssembly } ) );
             }
             else
             {
                 var licenseVerifier = LicenseVerifier.Create().WithRsaPublicKey( PublicKey );
                 var license = await licenseVerifier.Load( options.ProductToken, true );
 
-                if ( licenseVerifier.Verify( license, new Assembly[] { CurrentAssembly } ) )
-                {
-                    License = license;
-                    Result = ResolveBlazoriseLicenseResult( license );
-                }
-                else
-                {
-                    Result = BlazoriseLicenseResult.Unlicensed;
-                }
-
-                PrintResult = ResolveBlazoriseLicensePrintResult( license );
+                ApplyLicense( license, licenseVerifier.Verify( license, new Assembly[] { CurrentAssembly } ) );
             }
         }
         catch
         {
-            Result = BlazoriseLicenseResult.Trial;
+            License = null;
+            ProjectName = null;
+            Result = BlazoriseLicenseResult.Unlicensed;
+            PrintResult = BlazoriseLicensePrintResult.InvalidProductToken;
         }
-        finally
+    }
+
+    /// <summary>
+    /// Applies a token only after signature and date verification, and checks Indie project restrictions.
+    /// </summary>
+    internal void ApplyLicense( License license, bool verified )
+    {
+        License = null;
+        ProjectName = null;
+        Result = BlazoriseLicenseResult.Unlicensed;
+
+        limitsDataGridMaxRows = null;
+        limitsAutocompleteMaxRows = null;
+        limitsChartsMaxRows = null;
+        limitsListViewMaxRows = null;
+        limitsTreeViewMaxRows = null;
+        limitsPivotGridMaxRows = null;
+        limitsGanttMaxRows = null;
+        limitsReportingMaxRows = null;
+        limitsTransferListMaxRows = null;
+
+        if ( !verified || license is null )
         {
-            initialized = true;
+            PrintResult = ResolveBlazoriseLicensePrintResult( license );
+            return;
         }
+
+        var isIndie = license.Properties.TryGetValue( Constants.Properties.LICENSE_TYPE, out var licenseType )
+            && Enum.TryParse<BlazoriseLicenseType>( licenseType, true, out var parsedLicenseType )
+            && parsedLicenseType == BlazoriseLicenseType.Indie;
+
+        if ( isIndie )
+        {
+            license.Properties.TryGetValue( BlazoriseProjectLicenseValidator.ProjectNameProperty, out var projectName );
+            license.Properties.TryGetValue( BlazoriseProjectLicenseValidator.ApplicationAssembliesProperty, out var applicationAssemblies );
+
+            ProjectName = projectName;
+
+            if ( !BlazoriseProjectLicenseValidator.IsValid( projectName, applicationAssemblies, options.ProductAssembly ) )
+            {
+                PrintResult = BlazoriseLicensePrintResult.InvalidProject;
+                return;
+            }
+        }
+
+        License = license;
+        Result = ResolveBlazoriseLicenseResult( license );
+        PrintResult = ResolveBlazoriseLicensePrintResult( license );
     }
 
     /// <summary>
@@ -200,12 +208,14 @@ public sealed class BlazoriseLicenseProvider
     /// </summary>
     /// <param name="license"></param>
     /// <returns></returns>
-    private static BlazoriseLicensePrintResult ResolveBlazoriseLicensePrintResult( License license )
+    private BlazoriseLicensePrintResult ResolveBlazoriseLicensePrintResult( License license )
     {
         var licenseResult = ResolveBlazoriseLicenseResult( license );
 
         if ( licenseResult == BlazoriseLicenseResult.Unlicensed )
+        {
             return BlazoriseLicensePrintResult.InvalidProductToken;
+        }
 
         if ( licenseResult == BlazoriseLicenseResult.Community )
         {
@@ -218,7 +228,9 @@ public sealed class BlazoriseLicenseProvider
         }
 
         if ( licenseResult == BlazoriseLicenseResult.Trial )
+        {
             return Result == BlazoriseLicenseResult.Trial ? BlazoriseLicensePrintResult.Trial : BlazoriseLicensePrintResult.TrialExpired;
+        }
 
         return BlazoriseLicensePrintResult.None;
     }
@@ -226,7 +238,9 @@ public sealed class BlazoriseLicenseProvider
     private static BlazoriseLicenseResult ResolveBlazoriseLicenseResult( License license )
     {
         if ( license is null )
+        {
             return BlazoriseLicenseResult.Unlicensed;
+        }
 
         if ( license.Properties.TryGetValue( Constants.Properties.LICENSE_TYPE, out var licenseType ) && Enum.TryParse<BlazoriseLicenseType>( licenseType, true, out var licenseTypeAsEnum ) )
         {
@@ -235,6 +249,7 @@ public sealed class BlazoriseLicenseProvider
                 case BlazoriseLicenseType.Community:
                     return BlazoriseLicenseResult.Community;
                 case BlazoriseLicenseType.Regular:
+                case BlazoriseLicenseType.Indie:
                     return BlazoriseLicenseResult.Licensed;
                 case BlazoriseLicenseType.Trial:
                     return BlazoriseLicenseResult.Trial;
@@ -249,11 +264,14 @@ public sealed class BlazoriseLicenseProvider
     internal int? GetDataGridRowsLimit()
     {
         if ( limitsDataGridMaxRows.HasValue )
+        {
             return limitsDataGridMaxRows;
+        }
 
         if ( Result == BlazoriseLicenseResult.Initializing )
+        {
             return null;
-
+        }
 
         if ( License is not null )
         {
@@ -277,11 +295,14 @@ public sealed class BlazoriseLicenseProvider
     internal int? GetAutocompleteRowsLimit()
     {
         if ( limitsAutocompleteMaxRows.HasValue )
+        {
             return limitsAutocompleteMaxRows;
+        }
 
         if ( Result == BlazoriseLicenseResult.Initializing )
+        {
             return null;
-
+        }
 
         if ( License is not null )
         {
@@ -305,11 +326,14 @@ public sealed class BlazoriseLicenseProvider
     internal int? GetChartsRowsLimit()
     {
         if ( limitsChartsMaxRows.HasValue )
+        {
             return limitsChartsMaxRows;
+        }
 
         if ( Result == BlazoriseLicenseResult.Initializing )
+        {
             return null;
-
+        }
 
         if ( License is not null )
         {
@@ -333,11 +357,14 @@ public sealed class BlazoriseLicenseProvider
     internal int? GetListViewRowsLimit()
     {
         if ( limitsListViewMaxRows.HasValue )
+        {
             return limitsListViewMaxRows;
+        }
 
         if ( Result == BlazoriseLicenseResult.Initializing )
+        {
             return null;
-
+        }
 
         if ( License is not null )
         {
@@ -361,11 +388,14 @@ public sealed class BlazoriseLicenseProvider
     internal int? GetTreeViewRowsLimit()
     {
         if ( limitsTreeViewMaxRows.HasValue )
+        {
             return limitsTreeViewMaxRows;
+        }
 
         if ( Result == BlazoriseLicenseResult.Initializing )
+        {
             return null;
-
+        }
 
         if ( License is not null )
         {
@@ -389,11 +419,14 @@ public sealed class BlazoriseLicenseProvider
     internal int? GetPivotGridRowsLimit()
     {
         if ( limitsPivotGridMaxRows.HasValue )
+        {
             return limitsPivotGridMaxRows;
+        }
 
         if ( Result == BlazoriseLicenseResult.Initializing )
+        {
             return null;
-
+        }
 
         if ( License is not null )
         {
@@ -417,11 +450,14 @@ public sealed class BlazoriseLicenseProvider
     internal int? GetGanttRowsLimit()
     {
         if ( limitsGanttMaxRows.HasValue )
+        {
             return limitsGanttMaxRows;
+        }
 
         if ( Result == BlazoriseLicenseResult.Initializing )
+        {
             return null;
-
+        }
 
         if ( License is not null )
         {
@@ -445,10 +481,14 @@ public sealed class BlazoriseLicenseProvider
     internal int? GetReportingRowsLimit()
     {
         if ( limitsReportingMaxRows.HasValue )
+        {
             return limitsReportingMaxRows;
+        }
 
         if ( Result == BlazoriseLicenseResult.Initializing )
+        {
             return null;
+        }
 
         if ( License is not null )
         {
@@ -472,11 +512,14 @@ public sealed class BlazoriseLicenseProvider
     internal int? GetTransferListRowsLimit()
     {
         if ( limitsTransferListMaxRows.HasValue )
+        {
             return limitsTransferListMaxRows;
+        }
 
         if ( Result == BlazoriseLicenseResult.Initializing )
+        {
             return null;
-
+        }
 
         if ( License is not null )
         {
@@ -497,13 +540,17 @@ public sealed class BlazoriseLicenseProvider
         return limitsTransferListMaxRows;
     }
 
-    private static bool TryGetRowsLimit( string primaryPropertyName, string fallbackPropertyName, out int rowsLimit )
+    private bool TryGetRowsLimit( string primaryPropertyName, string fallbackPropertyName, out int rowsLimit )
     {
         if ( License.Properties.TryGetValue( primaryPropertyName, out var rowsLimitString ) && int.TryParse( rowsLimitString, out rowsLimit ) )
+        {
             return true;
+        }
 
         if ( License.Properties.TryGetValue( fallbackPropertyName, out rowsLimitString ) && int.TryParse( rowsLimitString, out rowsLimit ) )
+        {
             return true;
+        }
 
         rowsLimit = default;
         return false;
@@ -516,17 +563,27 @@ public sealed class BlazoriseLicenseProvider
     /// <summary>
     /// Gets the license.
     /// </summary>
-    internal static License License { get; private set; }
+    internal License License { get; private set; }
 
     /// <summary>
     /// Gets the result of the license validation.
     /// </summary>
-    internal static BlazoriseLicenseResult Result { get; private set; } = BlazoriseLicenseResult.Initializing;
+    internal BlazoriseLicenseResult Result { get; private set; } = BlazoriseLicenseResult.Initializing;
 
     /// <summary>
     /// Gets the print result of the license validation.
     /// </summary>
-    internal static BlazoriseLicensePrintResult PrintResult { get; private set; } = BlazoriseLicensePrintResult.None;
+    internal BlazoriseLicensePrintResult PrintResult { get; private set; } = BlazoriseLicensePrintResult.None;
+
+    /// <summary>
+    /// Gets the project name from an authenticated Indie token, including one rejected for an assembly mismatch.
+    /// </summary>
+    internal string ProjectName { get; private set; }
+
+    /// <summary>
+    /// Gets the completion of token verification for this provider.
+    /// </summary>
+    internal Task Initialization { get; }
 
     /// <summary>
     /// Indicates if the current app is running in WebAssembly mode.

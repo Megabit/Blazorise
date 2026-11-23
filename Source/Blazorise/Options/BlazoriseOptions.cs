@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 #endregion
 
 namespace Blazorise;
@@ -37,6 +38,16 @@ public class BlazoriseOptions
     /// Defines the product token issued by the Blazorise licensing system.
     /// </summary>
     public string ProductToken { get; set; }
+
+    /// <summary>
+    /// Gets or sets the application assembly checked against the registered assemblies in an Indie ProductToken.
+    /// </summary>
+    /// <remarks>
+    /// Set this to an assembly containing an application type, such as <c>typeof( App ).Assembly</c>.
+    /// The assembly's simple name must exactly match a registered name; its version is not checked.
+    /// This option is not required for evaluation or existing commercial, trial, and Community tokens.
+    /// </remarks>
+    public Assembly ProductAssembly { get; set; }
 
     /// <summary>
     /// If true the text in <see cref="TextInput"/> will be changed after each key press.

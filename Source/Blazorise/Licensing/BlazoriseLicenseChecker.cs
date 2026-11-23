@@ -34,14 +34,16 @@ public sealed class BlazoriseLicenseChecker
     /// <returns>True if the license warning should be displayed.</returns>
     internal bool ShouldPrint()
     {
-        if ( BlazoriseLicenseProvider.Result == BlazoriseLicenseResult.Initializing )
+        if ( IsInitializing )
+        {
             return false;
+        }
 
         if ( !rendered )
         {
             rendered = true;
 
-            return BlazoriseLicenseProvider.Result != BlazoriseLicenseResult.Licensed;
+            return blazoriseLicenseProvider.Result != BlazoriseLicenseResult.Licensed;
         }
 
         return false;
@@ -49,46 +51,55 @@ public sealed class BlazoriseLicenseChecker
 
     internal bool ShowBanner()
     {
-        return !( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Licensed
-            || BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Community
-            || BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.CommunityExpired
-            || BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Trial );
+        return !( blazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Licensed
+            || blazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Community
+            || blazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.CommunityExpired
+            || blazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Trial );
     }
 
     internal bool ShowCompactBanner()
     {
-        return BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Community
-            || BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.CommunityExpired;
+        return blazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Community
+            || blazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.CommunityExpired;
     }
 
     internal string GetPrintMessage()
     {
-        if ( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Community )
+        if ( blazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.InvalidProject )
+        {
+            var projectDescription = string.IsNullOrWhiteSpace( blazoriseLicenseProvider.ProjectName )
+                ? "the registered project"
+                : $"project '{blazoriseLicenseProvider.ProjectName}'";
+
+            return $"The Indie ProductToken for {projectDescription} does not cover this application or has invalid project metadata. Set BlazoriseOptions.ProductAssembly to a registered application assembly and check the token's project name and application assemblies. Evaluation limits apply. See https://blazorise.com/docs/usage/licensing/register-product-token.";
+        }
+
+        if ( blazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Community )
         {
             return "Thank you for using the Blazorise component library with a Community License, which is free for individual use. For additional features and commercial use, consider upgrading your license at https://blazorise.com/commercial. We appreciate your support!";
         }
 
-        if ( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.CommunityExpired )
+        if ( blazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.CommunityExpired )
         {
             return "Your Community License for the Blazorise component library has expired. To continue using our library and receive updates, please renew your license at https://blazorise.com/acount. Thank you for your continued interest in Blazorise!";
         }
 
-        if ( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.TrialExpired )
+        if ( blazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.TrialExpired )
         {
             return "Your trial period for the Blazorise component library has expired. To continue using our library and access premium features, please consider purchasing a commercial license at https://blazorise.com/commercial. We appreciate your interest in Blazorise and look forward to serving you!";
         }
 
-        if ( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.LicensedExpired )
+        if ( blazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.LicensedExpired )
         {
-            return "Your Commercial License for the Blazorise component library has expired. Please renew your license at https://blazorise.com/account to maintain access to premium features and support. We appreciate your business and look forward to continuing our partnership!";
+            return "Your commercial ProductToken for the Blazorise component library has expired. Visit https://blazorise.com/account to check your license and update your ProductToken.";
         }
 
-        if ( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.InvalidProductToken )
+        if ( blazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.InvalidProductToken )
         {
             return "We've detected an invalid product token for your Blazorise component library. Please make sure your token is correct or visit https://blazorise.com/support for help. Protecting your software investment is important to us!";
         }
 
-        return "Thank you for using the free version of the Blazorise component library! We're happy to offer it to you for personal use. If you'd like to remove this message, consider purchasing a commercial license from https://blazorise.com/commercial. We appreciate your support!";
+        return "You are evaluating the Blazorise component library. Evaluation is free with no time limit and requires no registration or approval. Evaluation component limits and licensing notices apply. Choose Indie for an eligible project, Professional, or Enterprise at https://blazorise.com/pricing.";
     }
 
     /// <summary>
@@ -180,6 +191,12 @@ public sealed class BlazoriseLicenseChecker
     {
         return blazoriseLicenseProvider.GetTransferListRowsLimit();
     }
+
+    #endregion
+
+    #region Properties
+
+    private bool IsInitializing => blazoriseLicenseProvider.Result == BlazoriseLicenseResult.Initializing;
 
     #endregion
 }
