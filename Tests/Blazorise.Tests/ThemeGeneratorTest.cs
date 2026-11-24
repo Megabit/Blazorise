@@ -62,6 +62,35 @@ public class ThemeGeneratorTest
     }
 
 
+    [Theory]
+    [InlineData( 0 )]
+    [InlineData( 10 )]
+    public void GenerateVariables_DarkToLight_DoesNotRetainDarkVariables( int cacheSize )
+    {
+        var themeCache = new ThemeCache( new( null, options => options.ThemeCacheSize = cacheSize ) );
+        var themeGenerator = new MockThemeGenerator( themeCache );
+        var darkTheme = new Theme
+        {
+            BodyOptions = new ThemeBodyOptions
+            {
+                BackgroundColor = "#1e293b",
+                TextColor = "#e5e7eb",
+            },
+        };
+        var lightTheme = new Theme();
+        var freshGenerator = new MockThemeGenerator( new ThemeCache( new( null, options => options.ThemeCacheSize = cacheSize ) ) );
+        var expectedLightVariables = freshGenerator.GenerateVariables( lightTheme );
+
+        var darkVariables = themeGenerator.GenerateVariables( darkTheme );
+        var lightVariables = themeGenerator.GenerateVariables( lightTheme );
+
+        Assert.NotEqual( darkVariables, lightVariables );
+        Assert.Equal( expectedLightVariables, lightVariables );
+
+        Assert.Equal( darkVariables, themeGenerator.GenerateVariables( darkTheme ) );
+        Assert.Equal( expectedLightVariables, themeGenerator.GenerateVariables( lightTheme ) );
+    }
+
     public class MockThemeGenerator : ThemeGenerator
     {
         public MockThemeGenerator( IThemeCache themeCache ) : base( themeCache )

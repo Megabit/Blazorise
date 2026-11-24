@@ -37,6 +37,8 @@ public abstract class ThemeGenerator : IThemeGenerator
             return cachedVariables;
         }
 
+        Variables.Clear();
+
         var sb = new StringBuilder();
 
         if ( !string.IsNullOrEmpty( theme.White ) )

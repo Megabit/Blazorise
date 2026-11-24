@@ -29,7 +29,7 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
         GenerateBarFontVariableAliases( barOptions, "--fui-navigation" );
     }
 
-    public override string GenerateVariables( Theme theme )
+    protected override void GenerateBodyVariables( Theme theme )
     {
         // Polarity-aware state generator: lighten dark colors, darken light colors.
         (string hover, string pressed, string selected) StatesFrom( string hex )
@@ -340,7 +340,7 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
             SetVar( "--borderRadius6XLarge", "40px" );
         }
 
-        return base.GenerateVariables( theme );
+        base.GenerateBodyVariables( theme );
     }
 
     private void ApplyFluentTypeRampFromBase400( string baseSizeLiteral )
