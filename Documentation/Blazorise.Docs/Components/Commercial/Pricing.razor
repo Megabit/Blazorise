@@ -30,7 +30,7 @@
 
     <Row Class="b-pricing-plan-grid" Margin="Margin.Is3.FromBottom" Gutter="Gutter.Is3">
         <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is3.OnWidescreen" Margin="Margin.Is4.FromBottom">
-            <PricingCard PlanName="Indie" PlanDescription="For one developer building an independently owned project." Quantity="1" QuantityUnit="project" PlanPrice="@CommercialPriceList.IndieAnnual.Price" ReferencePrice="@CommercialPriceList.IndieAnnual" PlanUnit="year" BillingNote="Billed annually only" CurrencySymbol="€" CurrencyCode="EUR" ShowPlan TextAccentColor="TextColor.Default">
+            <PricingCard PlanName="Indie" PlanDescription="For solo developers building their own product." Quantity="1" QuantityUnit="project" PlanPrice="@CommercialPriceList.IndieAnnual.Price" ReferencePrice="@CommercialPriceList.IndieAnnual" PlanUnit="year" BillingNote="Billed annually only" CurrencySymbol="€" CurrencyCode="EUR" ShowPlan TextAccentColor="TextColor.Default">
                 <ButtonContent>
                     <PurchaseButton Color="Color.Primary" ProductId="@PaddlePrices.IndieYearlySubscriptionPerProject" Quantity="1" ProductName="Blazorise Indie">
                         Buy Indie
@@ -47,26 +47,27 @@
                         </UnorderedListItem>
                         <UnorderedListItem Padding="Padding.Is2.OnY">
                             <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
-                            One developer, one registered project
+                            Commercial use for one registered project
                         </UnorderedListItem>
                         <UnorderedListItem Padding="Padding.Is2.OnY">
                             <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
-                            Annual project revenue below €25,000
+                            Full component usage
                         </UnorderedListItem>
                         <UnorderedListItem Padding="Padding.Is2.OnY">
                             <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
-                            No evaluation component limits or licensing banner
+                            License banner removed
                         </UnorderedListItem>
                         <UnorderedListItem Padding="Padding.Is2.OnY">
                             <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
-                            No client or agency work
+                            Community support
                         </UnorderedListItem>
                         <UnorderedListItem Padding="Padding.Is2.OnY">
-                            <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Times" IconSize="IconSize.Small" />
-                            No dedicated support or premium benefits
+                            <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
+                            Regular updates
                         </UnorderedListItem>
                     </UnorderedList>
                     <Paragraph TextSize="TextSize.Small" TextColor="TextColor.Muted" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+                        For independently owned projects earning below €25,000/year.
                         <Anchor To="indie">View Indie eligibility</Anchor>
                     </Paragraph>
                 </ChildContent>
@@ -81,10 +82,22 @@
                     </PurchaseButton>
                 </ButtonContent>
                 <IncludesContent>
-                    Unlimited projects per licensed developer
+                    Everything in Indie
                 </IncludesContent>
                 <ChildContent>
                     <UnorderedList Unstyled Margin="Margin.Is0.FromBottom">
+                        <UnorderedListItem Padding="Padding.Is2.OnY">
+                            <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
+                            Unlimited projects per licensed developer
+                        </UnorderedListItem>
+                        <UnorderedListItem Padding="Padding.Is2.OnY">
+                            <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
+                            Business, client, and agency use
+                        </UnorderedListItem>
+                        <UnorderedListItem Padding="Padding.Is2.OnY">
+                            <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
+                            No project revenue limit
+                        </UnorderedListItem>
                         <UnorderedListItem Padding="Padding.Is2.OnY">
                             <Icon TextColor="TextColor.Primary" Padding="Padding.Is2.FromEnd" Name="IconName.Check" IconSize="IconSize.Small" />
                             Premium forum support
