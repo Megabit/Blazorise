@@ -150,7 +150,7 @@ public partial class _ReportDesignerElement
         if ( DesignMode )
             return ReportExpressionFormatter.FormatFieldExpression( Definition, fieldElement );
 
-        return ReportDataResolver.FormatValue( ReportExpressionResolver.ResolveFieldValue( Definition, Data, Item, fieldElement, RunningTotals ), fieldElement.Format );
+        return ReportDataResolver.FormatValue( ReportExpressionResolver.ResolveFieldValue( Definition, Data, Item, fieldElement, RunningTotals ), ReportFormatResolver.ResolveFieldFormat( fieldElement ) );
     }
 
     private string GetText()

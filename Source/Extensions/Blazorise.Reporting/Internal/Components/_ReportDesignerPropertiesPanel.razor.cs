@@ -819,9 +819,9 @@ public partial class _ReportDesignerPropertiesPanel
 
     private Task OpenFormatDialog()
     {
-        bool mixed = IsSelectedElementValueMixed( element => ReportFormatResolver.GetDisplayText( ( element as ReportFieldElementDefinition )?.Format ) );
+        var mixed = IsSelectedElementValueMixed( element => ReportFormatResolver.GetDisplayText( ReportFormatResolver.ResolveFieldFormat( element as ReportFieldElementDefinition ) ) );
 
-        return formatDialogRef?.Show( mixed ? null : ( SelectedElement as ReportFieldElementDefinition )?.Format ) ?? Task.CompletedTask;
+        return formatDialogRef?.Show( mixed ? null : ReportFormatResolver.ResolveFieldFormat( SelectedElement as ReportFieldElementDefinition ) ) ?? Task.CompletedTask;
     }
 
     private Task OnFormatDialogConfirmed( ReportFormatDefinition format )
@@ -1164,7 +1164,7 @@ public partial class _ReportDesignerPropertiesPanel
                 properties.Add( new PropertyGridTextProperty(
                     "element.format",
                     Localize( "Format" ),
-                    GetSharedSelectedElementValue( element => ReportFormatResolver.GetDisplayText( ( (ReportFieldElementDefinition)element ).Format ) ) )
+                    GetSharedSelectedElementValue( element => ReportFormatResolver.GetDisplayText( ReportFormatResolver.ResolveFieldFormat( (ReportFieldElementDefinition)element ) ) ) )
                 {
                     ReadOnly = true,
                     Action = new PropertyGridAction( "edit-format" )

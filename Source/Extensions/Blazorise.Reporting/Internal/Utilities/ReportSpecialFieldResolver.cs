@@ -51,6 +51,23 @@ internal static class ReportSpecialFieldResolver
             && fields.Any( field => string.Equals( field.Name, fieldName.Trim(), StringComparison.OrdinalIgnoreCase ) );
     }
 
+    internal static ReportFormatDefinition ResolveDefaultFormat( string fieldName )
+    {
+        var normalizedFieldName = fieldName?.Trim();
+
+        if ( string.Equals( normalizedFieldName, PrintDateFieldName, StringComparison.OrdinalIgnoreCase ) )
+        {
+            return ReportFormats.Date();
+        }
+
+        if ( string.Equals( normalizedFieldName, PrintTimeFieldName, StringComparison.OrdinalIgnoreCase ) )
+        {
+            return ReportFormats.Time();
+        }
+
+        return null;
+    }
+
     internal static bool TryResolve( string dataSourceName, string fieldName, ReportDefinition definition, out object value )
     {
         value = null;
