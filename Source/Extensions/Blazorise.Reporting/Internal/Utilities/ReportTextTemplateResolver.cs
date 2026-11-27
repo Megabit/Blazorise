@@ -63,10 +63,10 @@ internal static class ReportTextTemplateResolver
     {
         var value = ReportExpressionResolver.ResolveValue( definition, data, item, expression, dataSource, runningTotals );
 
-        return FormatTemplateValue( value );
+        return FormatTemplateValue( value, ReportSpecialFieldResolver.ResolveDefaultFormat( expression ) );
     }
 
-    private static string FormatTemplateValue( object value )
+    private static string FormatTemplateValue( object value, ReportFormatDefinition format )
     {
         if ( value is IEnumerable enumerable and not string and not IDictionary )
         {
@@ -74,13 +74,13 @@ internal static class ReportTextTemplateResolver
 
             foreach ( var item in enumerable )
             {
-                values.Add( ReportDataResolver.FormatValue( item, null ) );
+                values.Add( ReportDataResolver.FormatValue( item, format ) );
             }
 
             return string.Join( ", ", values );
         }
 
-        return ReportDataResolver.FormatValue( value, null );
+        return ReportDataResolver.FormatValue( value, format );
     }
 
     #endregion

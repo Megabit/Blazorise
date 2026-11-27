@@ -34,6 +34,9 @@ internal static class ReportFormatResolver
         };
     }
 
+    internal static ReportFormatDefinition ResolveFieldFormat( ReportFieldElementDefinition element )
+        => element?.Format ?? ( element?.Aggregate is null ? ReportSpecialFieldResolver.ResolveDefaultFormat( element?.Field ) : null );
+
     internal static string GetDisplayText( ReportFormatDefinition format )
     {
         if ( format is null || format.Category == ReportFormatCategory.Text )
