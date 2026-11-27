@@ -18,6 +18,7 @@ internal static class SvgChartAxesRenderer
 
         var primaryAxis = model.PrimaryValueAxis;
         var primaryGridLines = primaryAxis.GridLines;
+        var hasValueGridGroup = SvgChartRenderHelpers.OpenStyledGroup( builder, ref sequence, primaryAxis.Component );
 
         if ( primaryGridLines?.Visible == true )
         {
@@ -35,12 +36,22 @@ internal static class SvgChartAxesRenderer
             }
         }
 
+        if ( hasValueGridGroup )
+        {
+            builder.CloseElement();
+        }
+
         if ( model.CategoryScaleKind == SvgChartAxisScaleKind.Continuous || model.Series.Any( x => !x.Hidden && SvgChartGeometry.IsPointChart( x.Type ) ) )
+        {
             RenderPointXAxisGridAndLabels( builder, ref sequence, model, plot, plotClipPathId, categoryAxisLabelsClipPathId );
+        }
         else
+        {
             RenderCategoryAxisGridLines( builder, ref sequence, model, plot, streamingAnimation, plotClipPathId );
+        }
 
         var primaryLabels = primaryAxis.Labels ?? new();
+        var hasValueAxisGroup = SvgChartRenderHelpers.OpenStyledGroup( builder, ref sequence, primaryAxis.Component );
 
         if ( primaryLabels.Visible != false )
         {
@@ -69,6 +80,15 @@ internal static class SvgChartAxesRenderer
         builder.AddAttribute( sequence++, "stroke-opacity", "0.22" );
         builder.CloseElement();
 
+        RenderVerticalAxisTitle( builder, ref sequence, model, plot, primaryAxis.Title, false, "svg-chart-value-axis-title" );
+
+        if ( hasValueAxisGroup )
+        {
+            builder.CloseElement();
+        }
+
+        var hasCategoryAxisGroup = SvgChartRenderHelpers.OpenStyledGroup( builder, ref sequence, model.CategoryAxisComponent );
+
         builder.OpenElement( sequence++, "line" );
         builder.AddAttribute( sequence++, "x1", SvgChartRenderHelpers.Format( plot.Left ) );
         builder.AddAttribute( sequence++, "x2", SvgChartRenderHelpers.Format( plot.Right ) );
@@ -78,12 +98,19 @@ internal static class SvgChartAxesRenderer
         builder.AddAttribute( sequence++, "stroke-opacity", "0.22" );
         builder.CloseElement();
 
+        RenderHorizontalAxisTitle( builder, ref sequence, model, plot, model.CategoryAxis?.Title, "svg-chart-category-axis-title" );
+
+        if ( hasCategoryAxisGroup )
+        {
+            builder.CloseElement();
+        }
+
         if ( !streamingAnimation.Enabled && model.CategoryScaleKind != SvgChartAxisScaleKind.Continuous && !model.Series.Any( x => !x.Hidden && SvgChartGeometry.IsPointChart( x.Type ) ) )
+        {
             RenderCategoryAxisLabels( builder, ref sequence, model, plot, streamingAnimation, categoryAxisLabelsClipPathId );
+        }
 
         RenderRightValueAxes( builder, ref sequence, model, plot, primaryAxis );
-        RenderVerticalAxisTitle( builder, ref sequence, model, plot, primaryAxis.Title, false, "svg-chart-value-axis-title" );
-        RenderHorizontalAxisTitle( builder, ref sequence, model, plot, model.CategoryAxis?.Title, "svg-chart-category-axis-title" );
 
         builder.CloseElement();
     }
@@ -100,7 +127,7 @@ internal static class SvgChartAxesRenderer
         var labelPlacement = ResolveHorizontalAxisLabelPlacement( model, plot, labels, labelCount, horizontalLabels.Formatter );
 
         builder.OpenElement( sequence++, "g" );
-        builder.AddAttribute( sequence++, "class", "svg-chart-axis-labels svg-chart-category-axis-labels" );
+        SvgChartRenderHelpers.AddClassAndStyleAttributes( builder, ref sequence, model.CategoryAxisComponent, "svg-chart-axis-labels svg-chart-category-axis-labels" );
 
         if ( streamingAnimation.Enabled || model.Zoom?.Enabled == true )
         {
@@ -147,6 +174,7 @@ internal static class SvgChartAxesRenderer
         builder.AddAttribute( sequence++, "class", "svg-chart-grid" );
 
         var valueLabels = model.PrimaryValueAxis.Labels ?? new();
+        var hasValueAxisGroup = SvgChartRenderHelpers.OpenStyledGroup( builder, ref sequence, model.PrimaryValueAxis.Component );
 
         for ( var i = 0; i < model.Ticks.Count; i++ )
         {
@@ -186,7 +214,15 @@ internal static class SvgChartAxesRenderer
         builder.AddAttribute( sequence++, "stroke-opacity", "0.22" );
         builder.CloseElement();
 
+        RenderHorizontalAxisTitle( builder, ref sequence, model, plot, model.PrimaryValueAxis.Title, "svg-chart-value-axis-title" );
+
+        if ( hasValueAxisGroup )
+        {
+            builder.CloseElement();
+        }
+
         var categoryLabels = model.CategoryAxis?.Labels ?? new();
+        var hasCategoryAxisGroup = SvgChartRenderHelpers.OpenStyledGroup( builder, ref sequence, model.CategoryAxisComponent );
 
         if ( categoryLabels.Visible != false )
         {
@@ -212,8 +248,12 @@ internal static class SvgChartAxesRenderer
             }
         }
 
-        RenderHorizontalAxisTitle( builder, ref sequence, model, plot, model.PrimaryValueAxis.Title, "svg-chart-value-axis-title" );
         RenderVerticalAxisTitle( builder, ref sequence, model, plot, model.CategoryAxis?.Title, false, "svg-chart-category-axis-title" );
+
+        if ( hasCategoryAxisGroup )
+        {
+            builder.CloseElement();
+        }
 
         builder.CloseElement();
     }
@@ -239,7 +279,7 @@ internal static class SvgChartAxesRenderer
             : (Step: ResolveManualLabelStep( labels ), Rotation: 0d, TextAnchor: "middle");
 
         builder.OpenElement( sequence++, "g" );
-        builder.AddAttribute( sequence++, "class", "svg-chart-grid svg-chart-category-grid" );
+        SvgChartRenderHelpers.AddClassAndStyleAttributes( builder, ref sequence, model.CategoryAxisComponent, "svg-chart-grid svg-chart-category-grid" );
         builder.AddAttribute( sequence++, "clip-path", $"url(#{plotClipPathId})" );
 
         if ( streamingAnimation.Enabled )
@@ -285,7 +325,7 @@ internal static class SvgChartAxesRenderer
         var labels = model.CategoryAxis.Labels ?? new();
 
         builder.OpenElement( sequence++, "g" );
-        builder.AddAttribute( sequence++, "class", "svg-chart-grid svg-chart-point-xaxis-grid" );
+        SvgChartRenderHelpers.AddClassAndStyleAttributes( builder, ref sequence, model.CategoryAxisComponent, "svg-chart-grid svg-chart-point-xaxis-grid" );
         builder.AddAttribute( sequence++, "clip-path", $"url(#{plotClipPathId})" );
 
         foreach ( var tick in scale.Ticks )
@@ -310,7 +350,7 @@ internal static class SvgChartAxesRenderer
             return;
 
         builder.OpenElement( sequence++, "g" );
-        builder.AddAttribute( sequence++, "class", "svg-chart-axis-labels svg-chart-point-xaxis-labels" );
+        SvgChartRenderHelpers.AddClassAndStyleAttributes( builder, ref sequence, model.CategoryAxisComponent, "svg-chart-axis-labels svg-chart-point-xaxis-labels" );
         builder.AddAttribute( sequence++, "clip-path", $"url(#{categoryAxisLabelsClipPathId})" );
 
         var axisLabelPlacement = ResolveHorizontalAxisLabelPlacement( model, plot, labels, scale.Ticks.Count, index => FormatCategoryTick( model, scale.Ticks[index], index ) );
@@ -457,7 +497,7 @@ internal static class SvgChartAxesRenderer
             var labels = axis.Labels ?? new();
 
             builder.OpenElement( sequence++, "g" );
-            builder.AddAttribute( sequence++, "class", "svg-chart-axis svg-chart-value-axis-right" );
+            SvgChartRenderHelpers.AddClassAndStyleAttributes( builder, ref sequence, axis.Component, "svg-chart-axis svg-chart-value-axis-right" );
 
             builder.OpenElement( sequence++, "line" );
             builder.AddAttribute( sequence++, "x1", SvgChartRenderHelpers.Format( axisX ) );

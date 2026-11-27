@@ -254,7 +254,8 @@ public class SvgChart<TItem> : SvgChartBase
             model.Tooltip?.Enabled == true && !model.Tooltip.Intersect,
             dataDrag,
             ResolveCategoryFormatterKey( model ),
-            ( value, index ) => FormatCategory( model, value, index ) );
+            ( value, index ) => FormatCategory( model, value, index ),
+            model.PrimaryValueAxis.Component );
 
         var zoom = model.Zoom;
 
@@ -312,10 +313,19 @@ public class SvgChart<TItem> : SvgChartBase
         RenderFocusStyles( builder, ref sequence );
         RenderPlugins( builder, ref sequence, pluginContext, SvgChartRenderLayer.Background );
 
+        var hasTitleGroup = SvgChartRenderHelpers.OpenStyledGroup( builder, ref sequence, titleComponents.LastOrDefault() );
+
         SvgChartTextRenderer.Render( builder, ref sequence, options, title, subtitle );
 
+        if ( hasTitleGroup )
+        {
+            builder.CloseElement();
+        }
+
         if ( hasTopLegend )
-            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, legend, title, subtitle, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
+        {
+            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, legend, title, subtitle, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden, legendComponents.LastOrDefault() );
+        }
 
         if ( IsBarChart( model ) )
             SvgChartAxesRenderer.RenderHorizontalGridAndAxes( builder, ref sequence, model, plot );
@@ -340,7 +350,9 @@ public class SvgChart<TItem> : SvgChartBase
             RenderCartesianSeries( builder, ref sequence, model, streamingAnimation, pluginContext, seriesRendererContext );
 
         if ( hasBottomLegend )
-            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, legend, title, subtitle, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden );
+        {
+            SvgChartLegendRenderer.Render( builder, ref sequence, model, options, legend, title, subtitle, this, ToggleSeries, ToggleDataPoint, IsDataPointHidden, legendComponents.LastOrDefault() );
+        }
 
         RenderPlugins( builder, ref sequence, pluginContext, SvgChartRenderLayer.InteractionOverlay );
         RenderPlugins( builder, ref sequence, pluginContext, SvgChartRenderLayer.Tooltip );
@@ -543,6 +555,8 @@ public class SvgChart<TItem> : SvgChartBase
             model.Series.Select( x => new SvgChartPluginSeries
             {
                 Name = x.Name,
+                Class = x.Class,
+                Style = x.Style,
                 Type = x.Type,
                 Values = x.Values,
                 XValues = x.XValues,
@@ -620,7 +634,16 @@ public class SvgChart<TItem> : SvgChartBase
         builder.AddAttribute( sequence++, "class", $"svg-chart-plugins svg-chart-plugins-{layer.ToString().ToLowerInvariant()}" );
 
         foreach ( var plugin in plugins )
+        {
+            var hasPluginGroup = SvgChartRenderHelpers.OpenStyledGroup( builder, ref sequence, plugin as SvgChartPluginBase );
+
             plugin.Render( context, builder, ref sequence );
+
+            if ( hasPluginGroup )
+            {
+                builder.CloseElement();
+            }
+        }
 
         builder.CloseElement();
     }
@@ -784,8 +807,7 @@ public class SvgChart<TItem> : SvgChartBase
             : "white-space:nowrap;overflow:hidden;text-overflow:ellipsis;";
 
         builder.OpenElement( sequence++, "div" );
-        builder.AddAttribute( sequence++, "class", "svg-chart-tooltip" );
-        builder.AddAttribute( sequence++, "style", $"position:absolute;left:{left};top:{top};{size}max-width:100%;pointer-events:none;z-index:1;" );
+        SvgChartRenderHelpers.AddClassAndStyleAttributes( builder, ref sequence, tooltipComponents.LastOrDefault(), "svg-chart-tooltip", $"position:absolute;left:{left};top:{top};{size}max-width:100%;pointer-events:none;z-index:1;" );
         builder.AddAttribute( sequence++, "data-anchor-x", Format( anchorX / 100 ) );
         builder.AddAttribute( sequence++, "data-anchor-y", Format( anchorY / 100 ) );
         builder.AddAttribute( sequence++, "data-offset-x", Format( tooltip.OffsetX ) );
@@ -3191,6 +3213,8 @@ public class SvgChart<TItem> : SvgChartBase
             Series = model.Series.Select( x => new SvgChartSeriesData<double?>
             {
                 Name = x.Name,
+                Class = x.Class,
+                Style = x.Style,
                 Values = x.Values.ToList(),
                 XValues = x.XValues.ToList(),
                 YValues = x.YValues.ToList(),

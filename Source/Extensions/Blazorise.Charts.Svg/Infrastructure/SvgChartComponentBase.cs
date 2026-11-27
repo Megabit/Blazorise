@@ -1,4 +1,6 @@
 #region Using directives
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 #endregion
@@ -8,7 +10,7 @@ namespace Blazorise.Charts.Svg;
 /// <summary>
 /// Base class for native SVG chart child configuration components.
 /// </summary>
-public abstract class SvgChartComponentBase : ComponentBase, System.IDisposable
+public abstract class SvgChartComponentBase : BaseStyledComponent, System.IDisposable
 {
     #region Members
 
@@ -19,9 +21,37 @@ public abstract class SvgChartComponentBase : ComponentBase, System.IDisposable
     #region Methods
 
     /// <inheritdoc />
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        var shouldRefresh = parameters.IsParameterChanged( Class )
+            || parameters.IsParameterChanged( Style );
+
+        await base.SetParametersAsync( parameters );
+
+        if ( shouldRefresh )
+        {
+            RegisteredParent?.Refresh();
+        }
+    }
+
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
+        base.OnInitialized();
+
         Register();
+    }
+
+    /// <inheritdoc />
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing && registeredParent is not null )
+        {
+            Unregister();
+            registeredParent = null;
+        }
+
+        base.Dispose( disposing );
     }
 
     /// <summary>
@@ -46,18 +76,6 @@ public abstract class SvgChartComponentBase : ComponentBase, System.IDisposable
     /// <inheritdoc />
     protected override void BuildRenderTree( RenderTreeBuilder builder )
     {
-    }
-
-    /// <summary>
-    /// Unregisters the component from its chart owner.
-    /// </summary>
-    public void Dispose()
-    {
-        if ( registeredParent is not null )
-        {
-            Unregister();
-            registeredParent = null;
-        }
     }
 
     #endregion

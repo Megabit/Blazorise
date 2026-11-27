@@ -11,6 +11,8 @@ internal sealed class SvgChartRenderValueAxis
 
     public string Id { get; init; }
 
+    public SvgChartValueAxis Component { get; init; }
+
     public SvgChartAxisPosition Position { get; init; }
 
     public SvgChartGridLinesOptions GridLines { get; init; }

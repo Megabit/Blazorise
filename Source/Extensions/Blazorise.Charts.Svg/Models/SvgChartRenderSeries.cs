@@ -10,6 +10,10 @@ internal sealed class SvgChartRenderSeries
 
     public string Name { get; init; }
 
+    public string Class { get; init; }
+
+    public string Style { get; init; }
+
     public SvgChartType Type { get; init; }
 
     public List<double?> Values { get; init; } = [];

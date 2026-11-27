@@ -121,6 +121,7 @@ internal sealed class SvgChartModelBuilder<TItem>
             CategoryScaleKind = categoryScale is null ? SvgChartAxisScaleKind.Ordinal : SvgChartAxisScaleKind.Continuous,
             CategoryScale = categoryScale,
             CategoryAxis = categoryAxisOptions,
+            CategoryAxisComponent = categoryAxis,
             CategoryTickFormatter = ResolveCategoryTickFormatter( categoryAxis, categoryAxisOptions ),
             CategoryValueFormatter = ResolveCategoryValueFormatter( categoryAxis ),
             Series = series,
@@ -200,6 +201,8 @@ internal sealed class SvgChartModelBuilder<TItem>
                 series.Add( new()
                 {
                     Name = name,
+                    Class = dataSeries.Class,
+                    Style = dataSeries.Style,
                     Type = Type,
                     Values = values,
                     Color = dataSeries.Color,
@@ -246,6 +249,8 @@ internal sealed class SvgChartModelBuilder<TItem>
             series.Add( new()
             {
                 Name = name,
+                Class = child.ClassNames,
+                Style = child.StyleNames,
                 Type = child.ChartType,
                 Values = NormalizeValues( values, labelCount ),
                 XValues = xValues,
@@ -892,7 +897,7 @@ internal sealed class SvgChartModelBuilder<TItem>
 
         var defaultAxis = axes.Last();
 
-        return axes.Select( axis =>
+        return axes.Select( ( axis, index ) =>
         {
             var values = series.Where( x => !x.Hidden && BelongsToAxis( x, axis, defaultAxis ) )
                 .SelectMany( x => axis.Stacked && x.StackEndValues.Count > 0 ? x.StackEndValues : IsPointChart( x.Type ) ? x.YValues : x.Values )
@@ -905,6 +910,7 @@ internal sealed class SvgChartModelBuilder<TItem>
             return new SvgChartRenderValueAxis
             {
                 Id = axis.Id,
+                Component = index < valueAxisComponents.Count ? valueAxisComponents[index] : null,
                 Position = axis.Position,
                 GridLines = axis.GridLines,
                 Labels = axis.Labels,

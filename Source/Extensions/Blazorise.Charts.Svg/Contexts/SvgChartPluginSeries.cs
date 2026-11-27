@@ -17,6 +17,16 @@ public sealed class SvgChartPluginSeries
     public string Name { get; init; }
 
     /// <summary>
+    /// Gets the CSS classes applied to the series group.
+    /// </summary>
+    public string Class { get; init; }
+
+    /// <summary>
+    /// Gets the inline styles applied to the series group.
+    /// </summary>
+    public string Style { get; init; }
+
+    /// <summary>
     /// Gets the series chart type.
     /// </summary>
     public SvgChartType Type { get; init; }
