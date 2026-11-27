@@ -44,4 +44,9 @@ public enum BlazoriseLicensePrintResult
     /// License was unable to be validated.
     /// </summary>
     InvalidProductToken,
+
+    /// <summary>
+    /// An Indie license has missing or invalid project metadata, or does not cover the application assembly.
+    /// </summary>
+    InvalidProject,
 }

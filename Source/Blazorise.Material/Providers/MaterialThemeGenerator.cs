@@ -23,7 +23,7 @@ public class MaterialThemeGenerator : ThemeGenerator
     protected override string GetDockLayoutVariableName( string name )
         => $"--mui-dock-{name}";
 
-    public override string GenerateVariables( Theme theme )
+    protected override void GenerateBodyVariables( Theme theme )
     {
         string background = ResolveThemeColor(
             "#FFFBFF",
@@ -164,7 +164,7 @@ public class MaterialThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( theme?.SpacingOptions?.Is3 ) )
             SetVar( "--mui-spacing", theme.SpacingOptions.Is3 );
 
-        return base.GenerateVariables( theme );
+        base.GenerateBodyVariables( theme );
     }
 
     protected override void GenerateBarVariables( Theme theme, ThemeBarOptions barOptions )

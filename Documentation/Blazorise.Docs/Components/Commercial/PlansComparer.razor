@@ -1,13 +1,8 @@
-@using System.Globalization
-@using Blazorise.Licensing
 <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
     <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">Compare plans in detail</Heading>
     <Lead TextColor="TextColor.Muted">
         See which components, support channels, and service limits are included in each plan.
     </Lead>
-    <Paragraph TextColor="TextColor.Muted" TextSize="TextSize.Small">
-        Paid plan prices below are totals for @Quantity @( Quantity == 1 ? "developer" : "developers" ) on @( Plan == "monthly" ? "monthly" : "annual" ) billing.
-    </Paragraph>
 </Div>
 
 <Div Class="b-pricing-table-region" role="region" aria-label="Plan feature comparison, scroll horizontally to view all plans" tabindex="0">
@@ -15,59 +10,20 @@
     <TableHeader Background="Background.Light">
         <TableRow>
             <TableHeaderCell Width="Width.Percent( 40 )" TextAlignment="TextAlignment.Start">Features and support</TableHeaderCell>
-            <TableHeaderCell Width="Width.Percent( 15 )">
-                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
-                    <Div>
-                        Community
-                    </Div>
-                    <Div Padding="Padding.Is2.OnY">
-                        <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">Free</Small>
-                    </Div>
-                </Div>
-            </TableHeaderCell>
-            <TableHeaderCell Width="Width.Percent( 15 )">
-                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
-                    <Div>
-                        Professional
-                    </Div>
-                    <Div Padding="Padding.Is2.OnY">
-                        <Span>
-                            @($"{ProfessionalPrices[Plan].CurrencySymbol}{( ProfessionalPrices[Plan].Price * Quantity ):n0}")
-                        </Span>
-                        <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">
-                            /@ProfessionalPrices[Plan].Unit
-                        </Small>
-                    </Div>
-                </Div>
-            </TableHeaderCell>
-            <TableHeaderCell Width="Width.Percent( 15 )">
-                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
-                    <Div>
-                        Enterprise
-                    </Div>
-                    <Div Padding="Padding.Is2.OnY">
-                        <Span>
-                            @($"{EnterprisePrices[Plan].CurrencySymbol}{( EnterprisePrices[Plan].Price * Quantity ):n0}")
-                        </Span>
-                        <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">
-                            /@EnterprisePrices[Plan].Unit
-                        </Small>
-                    </Div>
-                </Div>
-            </TableHeaderCell>
-            <TableHeaderCell Width="Width.Percent( 15 )">
-                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
-                    <Div>
-                        Enterprise Plus
-                    </Div>
-                    <Div Padding="Padding.Is2.OnY">
-                        <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">Custom pricing</Small>
-                    </Div>
-                </Div>
-            </TableHeaderCell>
+            <TableHeaderCell Width="Width.Percent( 15 )">Indie</TableHeaderCell>
+            <TableHeaderCell Width="Width.Percent( 15 )">Professional</TableHeaderCell>
+            <TableHeaderCell Width="Width.Percent( 15 )">Enterprise</TableHeaderCell>
+            <TableHeaderCell Width="Width.Percent( 15 )">Enterprise Plus</TableHeaderCell>
         </TableRow>
     </TableHeader>
     <TableBody>
+        <TableRow>
+            <TableRowHeader TextAlignment="TextAlignment.Start">License basis</TableRowHeader>
+            <TableRowCell>Per project; one developer</TableRowCell>
+            <TableRowCell>Per developer</TableRowCell>
+            <TableRowCell>Per developer</TableRowCell>
+            <TableRowCell>Custom agreement</TableRowCell>
+        </TableRow>
         <TableRow>
             <TableRowHeader TextAlignment="TextAlignment.Start">Core UI</TableRowHeader>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
@@ -94,7 +50,7 @@
             <TableRowHeader TextAlignment="TextAlignment.Start">
                 Commercial Use
             </TableRowHeader>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
+            <TableRowCell><Anchor To="indie">Eligible projects only</Anchor></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
@@ -110,15 +66,15 @@
         </TableRow>
         <TableRow>
             <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
-                Unlimited number of applications
-                <Tooltip Multiline Text="No restrictions on a number of applications or deployment! You can deploy to as many servers as you want, including the cloud services or on-premises.">
+                Projects covered
+                <Tooltip Multiline Text="Indie covers one independently owned project. Professional and Enterprise cover unlimited projects per licensed developer.">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
-            <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
-            <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
-            <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
-            <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
+            <TableRowCell>1 registered project</TableRowCell>
+            <TableRowCell>Unlimited</TableRowCell>
+            <TableRowCell>Unlimited</TableRowCell>
+            <TableRowCell>Unlimited</TableRowCell>
         </TableRow>
         <TableRow>
             <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
@@ -283,7 +239,7 @@
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
-            <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
+            <TableRowCell>1 year</TableRowCell>
             <TableRowCell>1 year</TableRowCell>
             <TableRowCell>1 year</TableRowCell>
             <TableRowCell>1 year</TableRowCell>
@@ -292,7 +248,7 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 Access to new releases
             </TableRowHeader>
-            <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
+            <TableRowCell>1 year</TableRowCell>
             <TableRowCell>1 year</TableRowCell>
             <TableRowCell>1 year</TableRowCell>
             <TableRowCell>1 year</TableRowCell>
@@ -315,7 +271,7 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 DataGrid
             </TableRowHeader>
-            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_DATAGRID_MAX_ROWS rows</TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
@@ -324,7 +280,7 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 Autocomplete
             </TableRowHeader>
-            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_AUTOCOMPLETE_MAX_ROWS items</TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
@@ -333,7 +289,7 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 Charts
             </TableRowHeader>
-            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_CHARTS_MAX_ROWS points</TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
@@ -342,7 +298,7 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 PivotGrid
             </TableRowHeader>
-            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_PIVOTGRID_MAX_ROWS rows</TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
@@ -351,7 +307,7 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 Gantt
             </TableRowHeader>
-            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_GANTT_MAX_ROWS rows</TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
@@ -360,7 +316,7 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 ListView
             </TableRowHeader>
-            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_LISTVIEW_MAX_ROWS items</TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
@@ -369,7 +325,7 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 TransferList
             </TableRowHeader>
-            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_TRANSFERVIEW_MAX_ROWS items</TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
@@ -378,7 +334,16 @@
             <TableRowHeader Flex="Flex.JustifyContent.Between">
                 TreeView
             </TableRowHeader>
-            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_TREEVIEW_MAX_ROWS nodes</TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader Flex="Flex.JustifyContent.Between">
+                Reporting
+            </TableRowHeader>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>

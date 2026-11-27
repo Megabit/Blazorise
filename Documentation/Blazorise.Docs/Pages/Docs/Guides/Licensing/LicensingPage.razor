@@ -1,14 +1,26 @@
 ﻿@page "/docs/usage/licensing"
 
-<Seo Canonical="/docs/usage/licensing" Title="Blazorise License Key and ProductToken" Description="Understand the difference between a Blazorise License Key and ProductToken and where each value should be used." />
+<Seo Canonical="/docs/usage/licensing" Title="Blazorise Licensing and ProductTokens" Description="Explore Professional and Enterprise plans, Indie project licensing, and how License Keys and ProductTokens are used." />
 
 <DocsPageTitle Path="Usage/Licensing">
     Blazorise licensing
 </DocsPageTitle>
 
 <DocsPageLead>
-    Understand the difference between a License Key and ProductToken before configuring an application.
+    Choose the right license for your project and understand how License Keys and ProductTokens apply to your application.
 </DocsPageLead>
+
+<DocsPageSectionTitle>
+    Professional and Enterprise licensing
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    <Strong>Professional</Strong> and <Strong>Enterprise</Strong> are licensed per developer. Each developer working on Blazorise front-end code needs a license, which covers their work across unlimited projects, including internal business applications and client work. Both plans include dedicated support; Enterprise adds premium benefits. Compare <Anchor To="pricing">plans and purchasing options</Anchor>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The <Anchor To="community">Community license</Anchor> is closed to applications and renewals. Existing licenses remain valid under their original terms until their current expiration date.
+</DocsPageParagraph>
 
 <DocsPageSectionTitle>
     License Key and ProductToken
@@ -74,7 +86,7 @@
 </DocsPageSectionTitle>
 
 <DocsPageParagraph>
-    A valid commercial ProductToken removes licensing warnings and licensed component limits. A Community ProductToken applies the Community license and displays a compact <Strong>Community License</Strong> button in the bottom-right corner. Select the button to open the full license notice.
+    A valid commercial ProductToken removes licensing warnings and licensed component limits. An existing Community ProductToken applies the original Community license and displays a compact <Strong>Community License</Strong> button in the bottom-right corner. Select the button to open the full license notice.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -88,3 +100,33 @@
 <DocsPageParagraph>
     Follow the <Anchor To="docs/usage/licensing/register-product-token" Title="Configure a ProductToken">ProductToken configuration guide</Anchor> to get a ProductToken from your Blazorise account and configure your application.
 </DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Indie project licensing
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    <Strong>Indie</Strong> covers one developer building one registered product they own, with annual project revenue below €25,000. Personal and commercial products can qualify. Client projects, agency work, and internal company applications require Professional or Enterprise.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    A valid Indie ProductToken removes evaluation component limits and the licensing banner for the registered project. Indie does not include dedicated support, private repositories, Themes, Blocks, or other premium benefits.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    If your project earns €25,000 or more in a year, upgrade to Professional at your next renewal. See <Anchor To="indie">Indie eligibility</Anchor> for details.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Your Indie ProductToken contains the registered project name and its permitted application assemblies. Set <Code>BlazoriseOptions.ProductAssembly</Code> to an assembly from your application so Blazorise can match it to the token. See the Indie section of the <Anchor To="docs/usage/licensing/register-product-token">ProductToken configuration guide</Anchor> for setup, assembly naming, and applications with multiple hosts.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Component limits
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    Evaluation limits apply without a valid ProductToken. The paid plans below remove these limits within their licensed scope. Existing Community tokens retain their original terms and limits.
+</DocsPageParagraph>
+
+<LimitsGrid />

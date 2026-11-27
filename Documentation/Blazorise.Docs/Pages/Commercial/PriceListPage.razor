@@ -1,0 +1,58 @@
+@page "/pricing/price-list"
+@using System.Globalization
+@using Blazorise.Docs.Models
+
+<Seo Canonical="/pricing/price-list" Title="Blazorise Price List" Description="Current Croatian consumer prices, base prices and downloadable price lists for Blazorise." />
+
+<Container Padding="Padding.Is5.OnY">
+    <Heading Size="HeadingSize.Is1">Price list</Heading>
+    <Paragraph>Megabit d.o.o., OIB 11987636635, Hrvojeva 11, 21204 Dugopolje, Croatia</Paragraph>
+    <Paragraph>
+        We publish this price list to meet Croatian price transparency requirements and help you compare prices over time. The base price provides a historical reference so you can see whether the current price has changed.
+    </Paragraph>
+    <Paragraph>
+        All amounts are in EUR. Prices including VAT use the Croatian rate of 25%.
+    </Paragraph>
+    <Paragraph>
+        <Anchor To="/pricing/price-list.csv">Download current price list (CSV)</Anchor>
+    </Paragraph>
+
+    <Table Responsive Striped>
+        <TableHeader>
+            <TableRow>
+                <TableHeaderCell>Product</TableHeaderCell>
+                <TableHeaderCell>Current price (excluding VAT)</TableHeaderCell>
+                <TableHeaderCell>Current price (including VAT)</TableHeaderCell>
+                <TableHeaderCell>Base price (including VAT)</TableHeaderCell>
+                <TableHeaderCell>Reference date</TableHeaderCell>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            @foreach ( var price in CommercialPriceList.PublishedPrices )
+            {
+                <TableRow @key="price.ProductId">
+                    <TableRowCell>@price.Name</TableRowCell>
+                    <TableRowCell>€@price.Price.ToString( "N2", CultureInfo.InvariantCulture )</TableRowCell>
+                    <TableRowCell>€@price.PriceIncludingVat.ToString( "N2", CultureInfo.InvariantCulture )</TableRowCell>
+                    <TableRowCell>€@price.BasePriceIncludingVat.Value.ToString( "N2", CultureInfo.InvariantCulture )</TableRowCell>
+                    <TableRowCell>@( price.BasePriceDate?.ToString( "dd MMM yyyy", CultureInfo.InvariantCulture ) ?? "First offer" )</TableRowCell>
+                </TableRow>
+            }
+        </TableBody>
+    </Table>
+
+    @if ( CommercialPriceList.Previous.Count > 0 )
+    {
+        <Heading Size="HeadingSize.Is2" Margin="Margin.Is4.FromTop">Previous price lists</Heading>
+        <Paragraph>Publication times are shown in Croatian local time. Earlier price lists remain available below.</Paragraph>
+        <UnorderedList>
+            @foreach ( var publication in CommercialPriceList.Previous )
+            {
+                <UnorderedListItem @key="publication.FileName">
+                    <Anchor To="@($"/pricing/price-lists/{publication.FileName}")">@publication.PublishedAt?.ToString( "dd MMM yyyy HH:mm", CultureInfo.InvariantCulture ) (CSV)</Anchor>
+                </UnorderedListItem>
+            }
+        </UnorderedList>
+    }
+    <Paragraph><Anchor To="/pricing">Compare plans</Anchor></Paragraph>
+</Container>

@@ -43,7 +43,7 @@
             Title = "How does Blazorise license software?",
             Body = (__builder) => {
                 <Paragraph>
-                    We license on a per-developer basis. All members of a development team using Blazorise need a license. We do not charge runtime, royalty, server, or deployment fees.
+                    Professional and Enterprise are licensed on a per-developer basis. Each developer contributing to the Blazorise front-end code needs a license, which covers their work across unlimited projects. We do not charge runtime, royalty, server, or deployment fees.
                 </Paragraph>
             }
         },
@@ -55,7 +55,7 @@
                     Companies, non-profit organizations, government entities, agencies, and other organizations need a commercial license when Blazorise is used for work, internal systems, client work, or commercial products.
                 </Paragraph>
                 <Paragraph>
-                    Individual developers can use the Community License when they meet the Community License eligibility requirements.
+                    Professional and Enterprise cover these uses. Solo developers building their own products may qualify for <Anchor To="indie">Indie</Anchor>.
                 </Paragraph>
             }
         },
@@ -64,7 +64,7 @@
             Title = "How many licenses do I need?",
             Body = (__builder) => {
                 <Paragraph>
-                    The number of licenses purchased must match the maximum number of concurrent developers contributing changes to the front-end code of projects that use Blazorise.
+                    For Professional and Enterprise, the number of licenses purchased must match the maximum number of concurrent developers contributing changes to the front-end code of projects that use Blazorise.
                 </Paragraph>
                 <Paragraph>
                     <Strong>Example 1.</Strong> A team has 5 front-end developers and 10 back-end developers on an app that uses Blazorise. Only the front-end developers work on Blazorise-related UI code, so the company purchases 5 licenses.
@@ -79,7 +79,7 @@
             Title = "Do freelancers and contractors need a license?",
             Body = (__builder) => {
                 <Paragraph>
-                    <Strong>Yes.</Strong> Freelancers and contractors using Blazorise for client work need a commercial license. Whether the freelancer or client purchases it depends on the project agreement.
+                    <Strong>Yes.</Strong> Freelancers and contractors using Blazorise for client or agency work need Professional or Enterprise; Indie does not cover that work. Whether the freelancer or client purchases it depends on the project agreement.
                 </Paragraph>
             }
         },
@@ -97,13 +97,13 @@
             Title = "What is included while my subscription is active?",
             Body = (__builder) => {
                 <Paragraph>
-                    An active commercial subscription includes updates, access to licensed packages and private repositories available for your plan, and support during the subscription period.
+                    An active Professional or Enterprise subscription includes updates, access to licensed packages and private repositories available for your plan, and dedicated support during the subscription period. The <Anchor To="pricing">plan comparison</Anchor> lists the benefits included with each plan.
                 </Paragraph>
             }
         },
 
         new FaqInfo {
-            Title = "Can I keep using Blazorise after my subscription expires?",
+            Title = "Can I keep using Blazorise after my Professional or Enterprise subscription expires?",
             Body = (__builder) => {
                 <Paragraph>
                     <Strong>Yes.</Strong> You may continue to use the last version available to you in production after the subscription expires. An active subscription is required to keep developing with new versions, receive updates, access support, or access private repositories.
@@ -127,7 +127,7 @@
             Title = "Does the license include support?",
             Body = (__builder) => {
                 <Paragraph>
-                    <Strong>Yes.</Strong> Blazorise Professional and Blazorise Enterprise include dedicated support via our <Anchor To="https://blazorise.com/support" Title="Support forum">support forum</Anchor> during the subscription period. Response-time targets depend on the selected plan.
+                    Blazorise Professional and Blazorise Enterprise include dedicated support via our <Anchor To="https://blazorise.com/support" Title="Support forum">support forum</Anchor> during the subscription period. Response-time targets depend on the selected plan.
                 </Paragraph>
             }
         },
@@ -145,13 +145,13 @@
         },
 
         new FaqInfo {
-            Title = "Do unlicensed and Community versions have component limits?",
+            Title = "Does free evaluation have component limits?",
             Body = (__builder) => {
                 <Paragraph>
-                    <Strong>Yes.</Strong> Some advanced components have record, row, item, node, or point limits when used without a commercial license. Licensed and trial versions remove those limits.
+                    <Strong>Yes.</Strong> Some advanced components limit the number of records, rows, items, nodes, or data points during evaluation. A valid commercial ProductToken removes these evaluation limits and the licensing banner within the scope of your license.
                 </Paragraph>
                 <Paragraph>
-                    The full limits are shown in the plan comparison table above.
+                    See the <Anchor To="docs/usage/licensing">licensing guide</Anchor> for the component limits. Existing Community licenses retain their original terms and limits.
                 </Paragraph>
             }
         },
@@ -161,15 +161,6 @@
             Body = (__builder) => {
                 <Paragraph>
                     <Strong>No.</Strong> Blazorise Themes and Blazorise Blocks are commercial resources available on the plans shown in the comparison table. Choose Enterprise or Enterprise Plus when your team needs those assets.
-                </Paragraph>
-            }
-        },
-
-        new FaqInfo {
-            Title = "Why do you require LinkedIn for the Community License?",
-            Body = (__builder) => {
-                <Paragraph>
-                    To offer a Community License at no cost, we confirm eligibility using LinkedIn. We verify your profile in read-only mode; LinkedIn does not receive information about your Blazorise activity.
                 </Paragraph>
             }
         },
@@ -206,6 +197,51 @@
             Body = (__builder) => {
                 <Paragraph>
                     You can download the latest software license agreement from our <Anchor To="license">license page</Anchor>.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "Who qualifies for Indie?",
+            Body = (__builder) => {
+                <Paragraph>
+                    Indie covers one developer building one independently owned product with annual project revenue below €25,000. For example, a SaaS application you own and sell can qualify. For client projects, agency work, or an internal tool for your employer, choose Professional or Enterprise, even if you write all the code.
+                </Paragraph>
+                <Paragraph>
+                    Each annual license covers one registered project. See the <Anchor To="indie">Indie eligibility requirements</Anchor> for details.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "What does an Indie license include?",
+            Body = (__builder) => {
+                <Paragraph>
+                    Indie includes licensed component use and updates for the registered project during the annual subscription. A valid Indie ProductToken removes evaluation component limits and the licensing banner for that project.
+                </Paragraph>
+                <Paragraph>
+                    You can report bugs and request improvements through <Anchor To="https://github.com/Megabit/Blazorise/issues">GitHub Issues</Anchor>. For dedicated technical support, choose Professional or Enterprise. The <Anchor To="/pricing#compare-plans">plan comparison</Anchor> lists the premium benefits for each plan.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "When do I need to upgrade from Indie?",
+            Body = (__builder) => {
+                <Paragraph>
+                    If your project earns €25,000 or more in a year, upgrade to Professional at your next renewal.
+                </Paragraph>
+                <Paragraph>
+                    Choose Professional when you need additional developers, multiple projects, client or agency work, or dedicated support. It covers unlimited projects per licensed developer. Contact <Anchor To="mailto:sales@blazorise.com">sales</Anchor> for help with the upgrade.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "What happened to the Community license?",
+            Body = (__builder) => {
+                <Paragraph>
+                    We no longer accept Community applications or renewals. Your approved license remains valid under its original terms until its current expiration date. To continue without evaluation limits after that date, choose <Anchor To="indie">Indie</Anchor> if your project qualifies, or <Anchor To="pricing">compare the other plans</Anchor>.
                 </Paragraph>
             }
         },

@@ -1,0 +1,6 @@
+builder.Services
+    .AddBlazorise( options =>
+    {
+        options.ProductToken = builder.Configuration["Licensing:ProductToken"];
+        options.ProductAssembly = typeof( App ).Assembly;
+    } );

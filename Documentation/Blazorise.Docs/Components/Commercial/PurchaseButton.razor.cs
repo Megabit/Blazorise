@@ -14,8 +14,13 @@ public partial class PurchaseButton
 
     #region Methods
 
-    async Task OnPurchaseClicked()
+    async Task OnPurchaseClickedHandler()
     {
+        if ( string.IsNullOrWhiteSpace( ProductId ) )
+        {
+            return;
+        }
+
         await JSRuntime.InvokeVoidAsync( "blazorisePRO.paddle.openCheckout", ProductId, Quantity, Upsell );
     }
 

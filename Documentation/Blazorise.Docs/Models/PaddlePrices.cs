@@ -2,6 +2,8 @@
 
 public static class PaddlePrices
 {
+    public const string IndieYearlySubscriptionPerProject = "pri_01m65zqyd5w3q0dax82qjd377m";
+
     public const string ProfessionalMonthlySubscriptionPerDeveloper = "pri_01k6039sg09pwcb01m94hz7tf0";
     public const string ProfessionalYearlySubscriptionPerDeveloper = "pri_01h7dyt5fe716vbk4706573zdk";
     public const string EnterpriseMonthlySubscriptionPerDeveloper = "pri_01k603dnngg74r79hxnxpdnabc";

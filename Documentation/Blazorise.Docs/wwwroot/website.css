@@ -114,7 +114,7 @@
 .b-visual-hero-grid { position: relative; isolation: isolate; display: grid; grid-template-columns: 1.6fr 1fr; gap: 2rem; }
 /* Shared hero dimensions reserve space without clipping longer or enlarged copy. */
 .b-visual-hero-grid { min-height: var(--b-visual-hero-min-height); align-items: start; padding-block: var(--b-visual-hero-padding-top) var(--b-visual-hero-padding-bottom); }
-.b-visual .b-visual-hero-copy > .b-visual-eyebrow { display: inline-block; max-width: 100%; margin: 0 0 1.5rem; padding: .4rem .75rem; border: 1px solid color-mix(in srgb, var(--b-visual-lilac) 20%, transparent); border-radius: .375rem; background: color-mix(in srgb, var(--b-visual-lilac) 10%, transparent); letter-spacing: .08em; line-height: 1.6; text-wrap: balance; }
+.b-visual .b-visual-hero-copy > .b-visual-eyebrow { margin: 0 0 1.5rem; letter-spacing: .08em; text-wrap: balance; }
 .b-visual-hero h1 { font-size: var(--b-visual-display); line-height: 1.04; font-weight: 700; letter-spacing: -.065em; margin: 0; text-wrap: initial; }
 .b-visual-hero h1 span { color: #dda8ff; }
 .b-visual-hero .b-visual-eyebrow { color: #e3c4f6; }
@@ -469,6 +469,7 @@
 .b-pricing-plans .b-pricing-card { border-top: 4px solid #71667d; }
 .b-pricing-plan-grid { position: relative; isolation: isolate; }
 .b-pricing-plan-grid .b-pricing-card { position: relative; z-index: 2; }
+.b-pricing-plan-grid .b-pricing-card:hover, .b-pricing-plan-grid .b-pricing-card:focus-within { z-index: 3; }
 .b-pricing-plans .b-pricing-card .card-body { padding: 1.35rem !important; font-size: 1rem; }
 .b-pricing-plans .b-pricing-card .card-body > p:first-of-type { min-height: 3em; }
 .b-pricing-plans .b-pricing-card .btn { font-size: 1rem; padding-inline: .5rem; }

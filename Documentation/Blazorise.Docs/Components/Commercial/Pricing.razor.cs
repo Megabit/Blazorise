@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Docs.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using static Blazorise.Docs.Pages.Commercial.PricingPage;
+#endregion
 
 namespace Blazorise.Docs.Components.Commercial;
 
@@ -30,7 +32,7 @@ public partial class Pricing
 
     [Parameter] public EventCallback<string> PlanChanged { get; set; }
 
-    [Parameter] public Dictionary<string, PriceInfo> ProfessionalPrices { get; set; }
+    [Parameter] public Dictionary<string, CommercialPrice> ProfessionalPrices { get; set; }
 
-    [Parameter] public Dictionary<string, PriceInfo> EnterprisePrices { get; set; }
+    [Parameter] public Dictionary<string, CommercialPrice> EnterprisePrices { get; set; }
 }

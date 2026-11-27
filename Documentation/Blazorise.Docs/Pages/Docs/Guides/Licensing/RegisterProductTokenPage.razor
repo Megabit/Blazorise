@@ -7,8 +7,12 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Get the ProductToken from your Blazorise account and configure it for your application's hosting model.
+    Configure a purchased license using the ProductToken from your Blazorise account.
 </DocsPageLead>
+
+<DocsPageParagraph>
+    Professional and Enterprise cover unlimited projects per licensed developer. If you hold a <Anchor To="community">Community license</Anchor>, its token remains valid under the original terms until the license expires. See the <Anchor To="docs/usage/licensing">licensing overview</Anchor> for plan details.
+</DocsPageParagraph>
 
 <DocsPageSectionTitle>
     Get your ProductToken
@@ -178,4 +182,37 @@
 
 <DocsPageParagraph>
     ProductTokens have limited validity and can change over time. Update the deployed ProductToken when required. Avoid publishing it in public repositories, documentation, sample code, logs, and other locations where it is not needed.
+</DocsPageParagraph>
+
+<DocsPageSectionTitle>
+    Indie project registration
+</DocsPageSectionTitle>
+
+<DocsPageParagraph>
+    An Indie ProductToken identifies one registered project by name and lists the application assemblies belonging to that project. A single product can include multiple assemblies, such as <Code>MyProduct.Server</Code> and <Code>MyProduct.Client</Code>. These are parts of the same registered project, not licenses for additional products.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Configure the application assembly">
+        <Paragraph>
+            Set <Code>ProductAssembly</Code> to an assembly containing a type from your application. In this example, <Code>App</Code> must be defined in a registered application assembly.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="LicensingGuideIndieExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    Configure each host separately in applications with Server and Client projects. Use a type defined in that host's registered assembly, such as <Code>typeof( Program ).Assembly</Code> when <Code>App</Code> is defined in a different project. For WebAssembly, configure <Code>ProductToken</Code> using the browser guidance above and set <Code>ProductAssembly</Code> in the client application's Blazorise registration.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The assembly's simple name must exactly match an entry in the signed token, including case. Do not register file paths, <Code>.dll</Code> extensions, wildcard patterns, or version-qualified assembly names. Assembly versions are not compared, so normal version updates do not require registration changes. Renaming an assembly or adding another application assembly requires an updated signed ProductToken.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The project name comes from the signed token; you do not configure a second project-name string in the application. A missing <Code>ProductAssembly</Code>, invalid project metadata, or an unmatched assembly displays an Indie project notice and keeps evaluation component limits. Existing Professional, Enterprise, trial, and Community tokens do not require this setting.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Assembly matching helps prevent accidental token reuse. It does not verify project ownership, developer count, revenue, or client and agency work. Those remain license eligibility requirements.
 </DocsPageParagraph>

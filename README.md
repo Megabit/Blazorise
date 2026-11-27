@@ -183,9 +183,13 @@ Add a page such as `Profile.razor` to your application's pages folder. This exam
 
 ## Licensing
 
-Blazorise is dual-licensed. Use is governed by [LICENSE.md](LICENSE.md) or a commercial license, depending on your scenario.
+Use is governed by [LICENSE.md](LICENSE.md) and the applicable license agreement.
 
-Commercial plans provide support and additional benefits according to the selected tier. [Themes](https://blazorise.com/themes) and [Blocks](https://blazorise.com/blocks) are available with Enterprise and Enterprise Plus. See [pricing and plan details](https://blazorise.com/pricing) for the current features and support terms.
+Professional and Enterprise are licensed per developer for unlimited projects, including internal business applications and client work. They include dedicated support and additional benefits according to the selected tier. [Themes](https://blazorise.com/themes) and [Blocks](https://blazorise.com/blocks) are available with Enterprise and Enterprise Plus. See [pricing and plan details](https://blazorise.com/pricing) for included features, support, and purchasing options.
+
+[Indie](https://blazorise.com/indie) is an annual license for one developer building one independently owned, registered project with annual project revenue below €25,000. It excludes client and agency work, dedicated support, and premium benefits. If project revenue exceeds the threshold, an upgrade to Professional is required at the next renewal.
+
+Community is closed to new applicants. Existing Community licenses remain supported under their original terms.
 
 ## Local development
 
