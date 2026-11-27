@@ -30,10 +30,10 @@
 
     <Row Class="b-pricing-plan-grid" Margin="Margin.Is3.FromBottom" Gutter="Gutter.Is3">
         <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is3.OnWidescreen" Margin="Margin.Is4.FromBottom">
-            <PricingCard PlanName="Indie" PlanDescription="For solo developers building their own product." Quantity="1" QuantityUnit="project" PlanPrice="@CommercialPriceList.IndieAnnual.Price" ReferencePrice="@CommercialPriceList.IndieAnnual" PlanUnit="year" BillingNote="Billed annually only" CurrencySymbol="€" CurrencyCode="EUR" ShowPlan TextAccentColor="TextColor.Default">
+            <PricingCard PlanName="Indie" PlanDescription="For solo developers building their own product." Quantity="1" QuantityUnit="project" PlanPrice="@CommercialPriceList.IndieAnnual.Price" ReferencePrice="@CommercialPriceList.IndieAnnual" PlanUnit="year" BillingNote="@( Plan == "monthly" ? "Annual plan only" : "Billed annually only" )" CurrencySymbol="€" CurrencyCode="EUR" ShowPlan TextAccentColor="TextColor.Default">
                 <ButtonContent>
                     <PurchaseButton Color="Color.Primary" ProductId="@PaddlePrices.IndieYearlySubscriptionPerProject" Quantity="1" ProductName="Blazorise Indie">
-                        Buy Indie
+                        @( Plan == "monthly" ? "Buy Indie annually" : "Buy Indie" )
                     </PurchaseButton>
                 </ButtonContent>
                 <IncludesContent>
