@@ -403,6 +403,8 @@ internal sealed class SvgChartRadarSeriesRenderer : ISvgChartSeriesRenderer
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-radar" );
 
+        var hasValueAxisGroup = SvgChartRenderHelpers.OpenStyledGroup( builder, ref sequence, context.PrimaryValueAxisComponent );
+
         for ( var i = 1; i <= 4; i++ )
         {
             builder.OpenElement( sequence++, "polygon" );
@@ -410,6 +412,11 @@ internal sealed class SvgChartRadarSeriesRenderer : ISvgChartSeriesRenderer
             builder.AddAttribute( sequence++, "fill", "none" );
             builder.AddAttribute( sequence++, "stroke", "currentColor" );
             builder.AddAttribute( sequence++, "stroke-opacity", "0.12" );
+            builder.CloseElement();
+        }
+
+        if ( hasValueAxisGroup )
+        {
             builder.CloseElement();
         }
 

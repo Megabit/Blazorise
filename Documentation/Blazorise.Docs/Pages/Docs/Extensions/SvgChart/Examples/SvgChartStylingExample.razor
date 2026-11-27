@@ -1,0 +1,49 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgLineChart TItem="MonthlyRevenue"
+              Items="@revenue"
+              Options="@options">
+    <SvgChartTitle Title='@("Revenue outlook")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value="@( item => item.Month )" />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgLineSeries Name="Recorded"
+                   Value="@( item => item.Recorded )"
+                   Color="Color.Primary"
+                   StrokeWidth="3"
+                   MarkerRadius="4" />
+    <SvgLineSeries Name="Forecast"
+                   Value="@( item => item.Forecast )"
+                   Color="Color.Primary"
+                   StrokeWidth="3"
+                   MarkerRadius="0"
+                   Style="stroke-dasharray:6 4;opacity:0.65;" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+    };
+
+    private readonly List<MonthlyRevenue> revenue =
+    [
+        new() { Month = "Jan", Recorded = 42 },
+        new() { Month = "Feb", Recorded = 51 },
+        new() { Month = "Mar", Recorded = 48, Forecast = 48 },
+        new() { Month = "Apr", Forecast = 56 },
+        new() { Month = "May", Forecast = 63 },
+        new() { Month = "Jun", Forecast = 70 },
+    ];
+
+    private sealed class MonthlyRevenue
+    {
+        public string Month { get; set; }
+
+        public double? Recorded { get; set; }
+
+        public double? Forecast { get; set; }
+    }
+}

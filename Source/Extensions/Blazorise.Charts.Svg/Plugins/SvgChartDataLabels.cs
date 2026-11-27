@@ -189,6 +189,8 @@ public class SvgChartDataLabels : SvgChartPluginBase
         return new()
         {
             Visible = component.paramVisible.GetValueOrDefault( options.Visible ),
+            Class = component.ClassNames,
+            Style = component.StyleNames,
             Interactive = component.paramInteractive.GetValueOrDefault( options.Interactive ),
             Position = component.paramPosition.GetValueOrDefault( options.Position ),
             Offset = component.paramOffset.GetValueOrDefault( options.Offset ),

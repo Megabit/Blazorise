@@ -87,7 +87,8 @@ internal sealed class SvgChartSeriesRendererContext
         bool passThroughSeriesPaths,
         SvgChartDataDragOptions dataDrag,
         object categoryFormatterKey,
-        Func<object, int, string> categoryFormatter )
+        Func<object, int, string> categoryFormatter,
+        SvgChartValueAxis primaryValueAxisComponent )
     {
         Chart = chart;
         Animation = animation ?? new();
@@ -101,6 +102,7 @@ internal sealed class SvgChartSeriesRendererContext
         DataDrag = dataDrag ?? new();
         CategoryFormatterKey = categoryFormatterKey;
         this.categoryFormatter = categoryFormatter;
+        PrimaryValueAxisComponent = primaryValueAxisComponent;
     }
 
     #endregion
@@ -350,7 +352,8 @@ internal sealed class SvgChartSeriesRendererContext
 
         builder.OpenElement( sequence++, "g" );
         builder.SetKey( seriesKey );
-        builder.AddAttribute( sequence++, "class", className );
+        builder.AddAttribute( sequence++, "class", string.IsNullOrWhiteSpace( series.Class ) ? className : $"{className} {series.Class}" );
+        builder.AddAttribute( sequence++, "style", series.Style );
         var visibilitySequence = sequence++;
         var ariaHiddenSequence = sequence++;
 
@@ -475,6 +478,8 @@ internal sealed class SvgChartSeriesRendererContext
     #region Properties
 
     public SvgChartPluginRenderContext Chart { get; }
+
+    public SvgChartValueAxis PrimaryValueAxisComponent { get; }
 
     public SvgChartResolvedAnimation Animation { get; }
 

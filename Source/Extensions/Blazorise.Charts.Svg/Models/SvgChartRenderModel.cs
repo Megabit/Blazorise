@@ -33,6 +33,8 @@ internal sealed class SvgChartRenderModel
 
     public SvgChartAxisOptions CategoryAxis { get; init; }
 
+    public SvgChartComponentBase CategoryAxisComponent { get; init; }
+
     public Func<SvgChartAxisTickContext, string> CategoryTickFormatter { get; init; }
 
     public Func<SvgChartAxisTickContext, string> CategoryValueFormatter { get; init; }

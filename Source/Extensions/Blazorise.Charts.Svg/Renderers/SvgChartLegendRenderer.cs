@@ -42,7 +42,8 @@ internal static class SvgChartLegendRenderer
         object eventReceiver,
         Func<string, Task> toggleSeries,
         Func<string, int, Task> toggleDataPoint,
-        Func<string, int, bool> isDataPointHidden )
+        Func<string, int, bool> isDataPointHidden,
+        SvgChartLegend component )
     {
         var legendItems = ResolveItems( model, toggleSeries, toggleDataPoint, isDataPointHidden );
 
@@ -60,7 +61,7 @@ internal static class SvgChartLegendRenderer
             : options.Height - SvgChartTextRenderer.GetBottomTextHeight( title ) - SvgChartTextRenderer.GetBottomTextHeight( subtitle ) - ResolveReservedHeight( model, options, legend );
 
         builder.OpenElement( sequence++, "g" );
-        builder.AddAttribute( sequence++, "class", "svg-chart-legend" );
+        SvgChartRenderHelpers.AddClassAndStyleAttributes( builder, ref sequence, component, "svg-chart-legend" );
 
         for ( var rowIndex = 0; rowIndex < rows.Count; rowIndex++ )
         {

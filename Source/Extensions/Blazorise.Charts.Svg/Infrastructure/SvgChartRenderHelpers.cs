@@ -25,6 +25,39 @@ internal static class SvgChartRenderHelpers
 
     #region Methods
 
+    public static void AddClassAndStyleAttributes( RenderTreeBuilder builder, ref int sequence, SvgChartComponentBase component, string defaultClass = null, string defaultStyle = null )
+    {
+        var classNames = component?.ClassNames;
+        var styleNames = component?.StyleNames;
+
+        if ( !string.IsNullOrWhiteSpace( defaultClass ) )
+        {
+            classNames = string.IsNullOrWhiteSpace( classNames ) ? defaultClass : $"{defaultClass} {classNames}";
+        }
+
+        if ( !string.IsNullOrWhiteSpace( defaultStyle ) )
+        {
+            styleNames = $"{defaultStyle}{styleNames}";
+        }
+
+        builder.AddAttribute( sequence++, "class", classNames );
+        builder.AddAttribute( sequence++, "style", styleNames );
+    }
+
+    public static bool OpenStyledGroup( RenderTreeBuilder builder, ref int sequence, SvgChartComponentBase component )
+    {
+        if ( component is null
+            || ( string.IsNullOrWhiteSpace( component.ClassNames ) && string.IsNullOrWhiteSpace( component.StyleNames ) ) )
+        {
+            return false;
+        }
+
+        builder.OpenElement( sequence++, "g" );
+        AddClassAndStyleAttributes( builder, ref sequence, component );
+
+        return true;
+    }
+
     public static void AddFontFamilyAttribute( RenderTreeBuilder builder, ref int sequence, string fontFamily )
     {
         if ( !string.IsNullOrWhiteSpace( fontFamily ) )

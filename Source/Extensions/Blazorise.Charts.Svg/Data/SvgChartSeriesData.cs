@@ -18,6 +18,16 @@ public class SvgChartSeriesData<TValue>
     public string Name { get; set; }
 
     /// <summary>
+    /// Defines custom CSS classes applied to the series group.
+    /// </summary>
+    public string Class { get; set; }
+
+    /// <summary>
+    /// Defines custom inline styles applied to the series group.
+    /// </summary>
+    public string Style { get; set; }
+
+    /// <summary>
     /// Defines the series values.
     /// </summary>
     public List<TValue> Values { get; set; } = [];
